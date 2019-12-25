@@ -88,8 +88,7 @@ public final class AnnotationProcessor {
                     // TODO: 26/12/2019
                     break;
             }
-        }
-        else if (languages != null) {
+        } else if (languages != null) {
 
         }
 
