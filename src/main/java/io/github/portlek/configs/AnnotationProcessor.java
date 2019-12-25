@@ -2,6 +2,7 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.Languages;
+import io.github.portlek.configs.annotations.sections.Section;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -47,12 +48,14 @@ public final class AnnotationProcessor {
             }
 
             final String resourcePath = resourcePathBuilder.toString();
-            final String directoryPath = plugin.getDataFolder().getAbsolutePath() +
-                File.separator +
-                resourcePath;
-            final String fileName = basicFile.fileName().endsWith(basicFile.fileType().getSuffix())
-                ? basicFile.fileName()
-                : basicFile.fileName() + basicFile.fileType().getSuffix();
+            final String directoryPath = plugin.getDataFolder().getAbsolutePath() + File.separator + resourcePath;
+            final String fileName;
+
+            if (basicFile.fileName().endsWith(basicFile.fileType().getSuffix())) {
+                fileName = basicFile.fileName();
+            } else {
+                fileName = basicFile.fileName() + basicFile.fileType().getSuffix();
+            }
 
             final File file;
 
@@ -88,12 +91,27 @@ public final class AnnotationProcessor {
                     // TODO: 26/12/2019
                     break;
             }
+
+            for (Class<?> innerClass : tClass.getDeclaredClasses()) {
+                final Section section = innerClass.getAnnotation(Section.class);
+
+                if (section != null) {
+                    final String path;
+
+                    if (section.path().isEmpty()) {
+                        path = innerClass.getSimpleName().replace("_", section.separator());
+                    } else {
+                        path = section.path();
+                    }
+
+                    System.out.println(path);
+                }
+            }
+
         } else if (languages != null) {
             final File directory = new File(plugin.getDataFolder(), languages.path());
 
             directory.mkdirs();
-
-
         }
 
         return t;

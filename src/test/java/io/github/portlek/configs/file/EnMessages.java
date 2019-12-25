@@ -31,7 +31,7 @@ public final class EnMessages {
     public static General.ItemTest itemTest;
 
     @Section(path = "error")
-    public final class Error {
+    public static final class Error {
 
         @Value(stringValue = "%prefix% &cPlayer not found! &8(%player_name%)")
         public String player_not_found;
@@ -39,7 +39,7 @@ public final class EnMessages {
     }
 
     @Section(path = "general")
-    public final class General {
+    public static final class General {
 
         @Value(stringValue = "%prefix% &aReload complete! &8Took (%ms%ms)")
         public Sendable reload_complete;
@@ -65,7 +65,7 @@ public final class EnMessages {
         public ItemStack item_test;
 
         @Section(path = "item-test-section", sectionType = SectionType.ITEM_STACK)
-        public final class ItemTest {
+        public static final class ItemTest {
 
             @Value(materialValue = XMaterial.DIAMOND)
             public Material material;

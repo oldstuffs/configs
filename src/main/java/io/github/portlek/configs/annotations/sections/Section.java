@@ -16,6 +16,9 @@ public @interface Section {
     String path() default "";
 
     @NotNull
+    String separator() default "-";
+
+    @NotNull
     SectionType sectionType() default SectionType.NORMAL;
 
 }
