@@ -1,4 +1,4 @@
-package io.github.portlek.configs;
+package io.github.portlek.configs.file;
 
 import io.github.portlek.configs.annotations.Languages;
 

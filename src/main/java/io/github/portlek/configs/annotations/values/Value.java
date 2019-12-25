@@ -22,6 +22,9 @@ public @interface Value {
     String stringValue() default "";
 
     @NotNull
+    String prefixValue() default "";
+
+    @NotNull
     String[] stringArrayValue() default "";
 
     int intValue() default 0;

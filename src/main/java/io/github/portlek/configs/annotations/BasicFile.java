@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface File {
+public @interface BasicFile {
 
     @NotNull
     String fileName();
@@ -21,6 +21,6 @@ public @interface File {
     @NotNull
     String resourcePath() default "";
 
-    boolean copyDefault() default true;
+    boolean copyDefault() default false;
 
 }

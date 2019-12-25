@@ -1,6 +1,11 @@
-package io.github.portlek.configs;
+package io.github.portlek.configs.file;
 
-import io.github.portlek.configs.annotations.LanguageFile;
+import io.github.portlek.configs.FileType;
+import io.github.portlek.configs.SectionType;
+import io.github.portlek.configs.Sendable;
+import io.github.portlek.configs.SendableTitle;
+import io.github.portlek.configs.annotations.BasicFile;
+import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.sections.Section;
 import io.github.portlek.configs.annotations.values.EnchantmentValue;
 import io.github.portlek.configs.annotations.values.ItemStackValue;
@@ -13,11 +18,20 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-@LanguageFile(fileName = "en", fileType = FileType.YAML)
+@BasicFile(fileName = "en", fileType = FileType.YAML)
 public final class EnMessages {
 
+    @Instance
+    public static Error error;
+
+    @Instance
+    public static General general;
+
+    @Instance
+    public static General.ItemTest itemTest;
+
     @Section(path = "error")
-    public static final class Error {
+    public final class Error {
 
         @Value(stringValue = "%prefix% &cPlayer not found! &8(%player_name%)")
         public String player_not_found;
@@ -25,7 +39,7 @@ public final class EnMessages {
     }
 
     @Section(path = "general")
-    public static final class General {
+    public final class General {
 
         @Value(stringValue = "%prefix% &aReload complete! &8Took (%ms%ms)")
         public Sendable reload_complete;
@@ -51,7 +65,7 @@ public final class EnMessages {
         public ItemStack item_test;
 
         @Section(path = "item-test-section", sectionType = SectionType.ITEM_STACK)
-        public static final class ItemTest {
+        public final class ItemTest {
 
             @Value(materialValue = XMaterial.DIAMOND)
             public Material material;
