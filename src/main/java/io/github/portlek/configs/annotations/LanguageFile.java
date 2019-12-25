@@ -1,5 +1,6 @@
 package io.github.portlek.configs.annotations;
 
+import io.github.portlek.configs.FileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -13,6 +14,9 @@ public @interface LanguageFile {
 
     @NotNull
     String fileName() default "";
+
+    @NotNull
+    FileType fileType() default FileType.YAML;
 
     boolean copyDefault() default false;
 

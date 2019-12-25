@@ -1,5 +1,6 @@
 package io.github.portlek.configs.annotations;
 
+import io.github.portlek.configs.FileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -12,7 +13,10 @@ import java.lang.annotation.Target;
 public @interface File {
 
     @NotNull
-    String fileName() default "config.yml";
+    String fileName();
+
+    @NotNull
+    FileType fileType() default FileType.YAML;
 
     @NotNull
     String resourcePath() default "";

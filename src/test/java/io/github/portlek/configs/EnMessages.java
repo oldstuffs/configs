@@ -10,7 +10,7 @@ import io.github.portlek.itemstack.util.XEnchantment;
 import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.inventory.ItemStack;
 
-@LanguageFile(fileName = "en.yml")
+@LanguageFile(fileName = "en", fileType = FileType.YAML)
 public final class EnMessages {
 
     @ConfigSection(path = "error")
