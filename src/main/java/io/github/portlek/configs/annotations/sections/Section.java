@@ -1,5 +1,6 @@
-package io.github.portlek.configs.annotations;
+package io.github.portlek.configs.annotations.sections;
 
+import io.github.portlek.configs.SectionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -9,9 +10,12 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ConfigSection {
+public @interface Section {
 
     @NotNull
     String path() default "";
+
+    @NotNull
+    SectionType sectionType() default SectionType.NORMAL;
 
 }

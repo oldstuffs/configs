@@ -1,6 +1,6 @@
 package io.github.portlek.configs.annotations.values;
 
-import io.github.portlek.itemstack.util.XEnchantment;
+import io.github.portlek.configs.MagicConstants;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 public @interface EnchantmentValue {
 
     @NotNull
-    XEnchantment enchantment() default XEnchantment.DAMAGE_ALL;
+    String enchantment() default MagicConstants.NULL_STRING;
 
     int level() default 0;
 

@@ -1,5 +1,6 @@
 package io.github.portlek.configs.annotations.values;
 
+import io.github.portlek.itemstack.util.XMaterial;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -20,15 +21,21 @@ public @interface Value {
     @NotNull
     String stringValue() default "";
 
+    @NotNull
+    String[] stringArrayValue() default "";
+
     int intValue() default 0;
 
     @NotNull
-    EnchantmentValue enchantmentValue() default @EnchantmentValue();
+    EnchantmentValue[] enchantmentValue() default @EnchantmentValue();
 
     @NotNull
     ItemStackValue itemStackValue() default @ItemStackValue();
 
     @NotNull
     TitleValue titleValue() default @TitleValue();
+
+    @NotNull
+    XMaterial materialValue() default XMaterial.AIR;
 
 }
