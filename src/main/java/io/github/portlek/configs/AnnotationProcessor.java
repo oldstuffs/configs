@@ -17,7 +17,7 @@ import java.util.Map;
 
 public final class AnnotationProcessor {
 
-    private static final Map<String, Object> CONSTANTS = new HashMap<>();
+    private final Map<String, Object> CONSTANTS = new HashMap<>();
 
     @NotNull
     private final Plugin plugin;
@@ -89,6 +89,10 @@ public final class AnnotationProcessor {
                     break;
             }
         } else if (languages != null) {
+            final File directory = new File(plugin.getDataFolder(), languages.path());
+
+            directory.mkdirs();
+
 
         }
 
