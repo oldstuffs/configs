@@ -123,15 +123,19 @@ public final class AnnotationProcessor {
 
                     final Object tempValue = fileConfiguration.get(path);
 
-                    try {
-                        if (tempValue == null) {
-                            fileConfiguration.set(path, defaultValue);
-                            fileConfiguration.save(file);
-                        } else {
-                            field.set(t, tempValue);
+                    if (isPrimitive) {
+                        try {
+                            if (tempValue == null) {
+                                fileConfiguration.set(path, defaultValue);
+                                fileConfiguration.save(file);
+                            } else {
+                                field.set(t, tempValue);
+                            }
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
                         }
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
+                    } else {
+
                     }
 
                 } else if (instance != null) {
