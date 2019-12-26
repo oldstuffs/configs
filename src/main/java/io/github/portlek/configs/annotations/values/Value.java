@@ -1,6 +1,5 @@
 package io.github.portlek.configs.annotations.values;
 
-import io.github.portlek.configs.MagicConstants;
 import io.github.portlek.itemstack.util.XMaterial;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,23 +19,31 @@ public @interface Value {
     String separator() default "-";
 
     @NotNull
-    String stringValue() default MagicConstants.NULL_STRING;
+    String[] stringValue() default {};
 
     @NotNull
-    String[] stringArrayValue() default MagicConstants.NULL_STRING;
+    String[] stringArrayValue() default {};
 
-    int intValue() default 0;
+    int[] intValue() default {};
 
-    @NotNull
-    EnchantmentValue[] enchantmentValue() default @EnchantmentValue();
-
-    @NotNull
-    ItemStackValue itemStackValue() default @ItemStackValue();
+    int[] intArrayValue() default {};
 
     @NotNull
-    TitleValue titleValue() default @TitleValue();
+    String[] enchantmentValue() default {};
 
     @NotNull
-    XMaterial materialValue() default XMaterial.AIR;
+    String[] enchantmentArrayValue() default {};
+
+    @NotNull
+    ItemStackValue[] itemStackValue() default {};
+
+    @NotNull
+    TitleValue[] titleValue() default {};
+
+    @NotNull
+    XMaterial[] materialValue() default {};
+
+    @NotNull
+    XMaterial[] materialArrayValue() default {};
 
 }

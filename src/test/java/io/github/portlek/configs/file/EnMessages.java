@@ -7,7 +7,6 @@ import io.github.portlek.configs.SendableTitle;
 import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.sections.Section;
-import io.github.portlek.configs.annotations.values.EnchantmentValue;
 import io.github.portlek.configs.annotations.values.ItemStackValue;
 import io.github.portlek.configs.annotations.values.TitleValue;
 import io.github.portlek.configs.annotations.values.Value;
@@ -56,7 +55,7 @@ public final class EnMessages {
             itemStackValue = @ItemStackValue(
                 material = XMaterial.DIAMOND,
                 displayName = "&aExample Item Name",
-                enchantmentStrings = {
+                enchantments = {
                     "DAMAGE_ALL:1",
                     "DAMAGE_ALL:1"
                 },
@@ -88,8 +87,8 @@ public final class EnMessages {
 
             @Value(
                 enchantmentValue = {
-                    @EnchantmentValue(enchantment = "DAMAGE_ALL", level = 1),
-                    @EnchantmentValue(enchantment = "DAMAGE_ALL", level = 1)
+                    "DAMAGE_ALL:1",
+                    "DAMAGE_ALL:1"
                 }
             )
             public List<Enchantment> enchantments;

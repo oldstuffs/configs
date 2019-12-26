@@ -1,6 +1,5 @@
 package io.github.portlek.configs.annotations.values;
 
-import io.github.portlek.configs.MagicConstants;
 import io.github.portlek.itemstack.util.XMaterial;
 import org.jetbrains.annotations.NotNull;
 
@@ -14,20 +13,17 @@ import java.lang.annotation.Target;
 public @interface ItemStackValue {
 
     @NotNull
-    XMaterial material() default XMaterial.AIR;
+    XMaterial material();
 
-    int data() default 0;
+    int[] data() default {};
 
     @NotNull
-    String displayName() default MagicConstants.NULL_STRING;
+    String[] displayName() default {};
 
     @NotNull
     String[] lore() default {};
 
     @NotNull
-    EnchantmentValue[] enchantments() default @EnchantmentValue();
-
-    @NotNull
-    String[] enchantmentStrings() default {};
+    String[] enchantments() default {};
 
 }

@@ -13,10 +13,12 @@ import org.bukkit.plugin.Plugin;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.InputStreamOf;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -113,7 +115,30 @@ public final class AnnotationProcessor {
                         path = value.path();
                     }
 
-                    
+                    if (value.stringValue().length == 1) {
+                        if (basicFile.copyDefault() && fileConfiguration.get(finalPath)) {
+
+                        }
+                    } else if (value.stringArrayValue().length != 0) {
+
+                    } else if (value.intValue().length == 1) {
+
+                    } else if (value.intArrayValue().length != 0) {
+
+                    } else if (value.enchantmentValue().length == 1) {
+
+                    } else if (value.enchantmentArrayValue().length != 0) {
+
+                    } else if (value.itemStackValue().length == 1) {
+
+                    } else if (value.titleValue().length == 1) {
+
+                    } else if (value.materialValue().length == 1) {
+
+                    } else if (value.materialArrayValue().length != 0) {
+
+                    }
+
                 } else if (instance != null) {
                     for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
                         final boolean accessibleCtor = constructor.isAccessible();
