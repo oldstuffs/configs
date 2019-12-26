@@ -11,7 +11,9 @@ import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.List;
 
 @BasicFile(fileName = "en", fileType = FileType.YAML)
@@ -30,6 +32,7 @@ public final class EnMessages {
     public static final class Error {
 
         @Value
+        @NotNull
         public String player_not_found = "%prefix% &cPlayer not found! &8(%player_name%)";
 
     }
@@ -38,6 +41,7 @@ public final class EnMessages {
     public static final class General {
 
         @Value
+        @NotNull
         public Sendable reload_complete = new BasicSendable(
             new BasicReplaceable(
                 "%prefix% &aReload complete! &8Took (%ms%ms)"
@@ -72,25 +76,28 @@ public final class EnMessages {
         public static final class ItemTest {
 
             @Value
+            @NotNull
             public String material = "DIAMOND";
 
             @Value
             public int data = 0;
 
             @Value
+            @NotNull
             public String display_name = "&aExample Item Name";
 
             @Value
-            public String[] lore = {
+            @NotNull
+            public List<String> lore = Arrays.asList(
                 "",
                 "&7Example item lore"
-            };
+            );
 
             @Value
-            public String[] enchantments = {
+            public List<String> enchantments = Arrays.asList(
                 "DAMAGE_ALL:1",
                 "DAMAGE_ALL:1"
-            };
+            );
 
         }
 
