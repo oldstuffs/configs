@@ -1,8 +1,10 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.BasicFile;
+import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Languages;
 import io.github.portlek.configs.annotations.sections.Section;
+import io.github.portlek.configs.annotations.values.Value;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -13,6 +15,7 @@ import org.cactoos.io.InputStreamOf;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,6 +93,18 @@ public final class AnnotationProcessor {
                 case JSON:
                     // TODO: 26/12/2019
                     break;
+            }
+
+            for (Field field : tClass.getDeclaredFields()) {
+                final Value value = field.getAnnotation(Value.class);
+                final Instance instance = field.getAnnotation(Instance.class);
+
+                if (value != null) {
+
+                } else if (instance != null) {
+
+                }
+
             }
 
             for (Class<?> innerClass : tClass.getDeclaredClasses()) {

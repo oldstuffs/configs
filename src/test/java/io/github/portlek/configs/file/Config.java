@@ -1,8 +1,10 @@
 package io.github.portlek.configs.file;
 
 import io.github.portlek.configs.FileType;
+import io.github.portlek.configs.SendableTitle;
 import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.sections.Section;
+import io.github.portlek.configs.annotations.values.TitleValue;
 import io.github.portlek.configs.annotations.values.Value;
 
 @BasicFile(fileName = "config", fileType = FileType.YAML)
