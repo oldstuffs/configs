@@ -4,14 +4,13 @@ import io.github.portlek.configs.Replaceable;
 import io.github.portlek.configs.SendableTitle;
 import io.github.portlek.title.base.TitlePlayerOf;
 import org.bukkit.entity.Player;
-import org.cactoos.collection.CollectionOf;
+import org.cactoos.iterable.IterableOf;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public final class BasicTitleValue implements SendableTitle {
+public final class BasicSendableTitle implements SendableTitle {
 
     @NotNull
     private final Replaceable replaceableTitle;
@@ -25,8 +24,8 @@ public final class BasicTitleValue implements SendableTitle {
 
     private final int fadeOut;
 
-    public BasicTitleValue(@NotNull Replaceable replaceableTitle, @NotNull Replaceable replaceableSubTitle, int fadeIn,
-                           int showTime, int fadeOut) {
+    public BasicSendableTitle(@NotNull Replaceable replaceableTitle, @NotNull Replaceable replaceableSubTitle, int fadeIn,
+                              int showTime, int fadeOut) {
         this.replaceableTitle = replaceableTitle;
         this.replaceableSubTitle = replaceableSubTitle;
         this.fadeIn = fadeIn;
@@ -80,12 +79,12 @@ public final class BasicTitleValue implements SendableTitle {
     @Override
     public void sendTitle(@NotNull Player... players) {
         sendTitle(
-            new CollectionOf<>(players)
+            new IterableOf<>(players)
         );
     }
 
     @Override
-    public void sendTitle(@NotNull Collection<Player> players) {
+    public void sendTitle(@NotNull Iterable<Player> players) {
         players.forEach(player ->
             new TitlePlayerOf(player).sendTitle(
                 replaceableTitle.build(),
@@ -145,7 +144,7 @@ public final class BasicTitleValue implements SendableTitle {
     }
 
     @Override
-    public void sendMessage(@NotNull Collection<Player> players) {
+    public void sendMessage(@NotNull Iterable<Player> players) {
         throw new UnsupportedOperationException();
     }
 
@@ -155,7 +154,7 @@ public final class BasicTitleValue implements SendableTitle {
     }
 
     @Override
-    public void sendActionbar(@NotNull Collection<Player> players) {
+    public void sendActionbar(@NotNull Iterable<Player> players) {
         throw new UnsupportedOperationException();
     }
 

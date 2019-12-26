@@ -7,7 +7,6 @@ import org.bukkit.entity.Player;
 import org.cactoos.collection.CollectionOf;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public final class BasicSendable implements Sendable {
     }
 
     @Override
-    public void sendMessage(@NotNull Collection<Player> players) {
+    public void sendMessage(@NotNull Iterable<Player> players) {
         players.forEach(player ->
             player.sendMessage(replaceable.build())
         );
@@ -42,7 +41,7 @@ public final class BasicSendable implements Sendable {
     }
 
     @Override
-    public void sendActionbar(@NotNull Collection<Player> players) {
+    public void sendActionbar(@NotNull Iterable<Player> players) {
         players.forEach(player ->
             new ActionBarPlayerOf(player).sendActionBar(
                 replaceable.build()
@@ -96,7 +95,7 @@ public final class BasicSendable implements Sendable {
 
     @Override
     @Deprecated
-    public void sendTitle(@NotNull Collection<Player> players) {
+    public void sendTitle(@NotNull Iterable<Player> players) {
         throw new UnsupportedOperationException();
     }
 

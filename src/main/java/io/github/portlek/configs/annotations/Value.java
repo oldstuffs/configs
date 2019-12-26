@@ -20,7 +20,4 @@ public @interface Value {
     @NotNull
     ItemStackValue[] itemStackValue() default {};
 
-    @NotNull
-    TitleValue[] titleValue() default {};
-
 }

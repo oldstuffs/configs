@@ -4,12 +4,15 @@ import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.SectionType;
 import io.github.portlek.configs.Sendable;
 import io.github.portlek.configs.SendableTitle;
-import io.github.portlek.configs.annotations.*;
+import io.github.portlek.configs.annotations.BasicFile;
+import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.util.ItemBuilder;
 import io.github.portlek.configs.values.BasicReplaceable;
 import io.github.portlek.configs.values.BasicSendable;
+import io.github.portlek.configs.values.BasicSendableTitle;
 import io.github.portlek.itemstack.util.XMaterial;
-import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,29 +51,25 @@ public final class EnMessages {
             )
         );
 
-        @Value(
-            titleValue = @TitleValue(
-                title = "&eExample Title",
-                subTitle = "&eExample Sub Title"
-            )
-        )
-        public SendableTitle title_test;
+        @Value
+        public SendableTitle title_test = new BasicSendableTitle(
+            new BasicReplaceable("&eExample Title"),
+            new BasicReplaceable("&eExample Sub Title"),
+            20,
+            20,
+            20
+        );
 
-        @Value(
-            itemStackValue = @ItemStackValue(
-                material = XMaterial.DIAMOND,
-                displayName = "&aExample Item Name",
-                enchantments = {
-                    "DAMAGE_ALL:1",
-                    "DAMAGE_ALL:1"
-                },
-                lore = {
-                    "",
-                    "&7Example item lore"
-                }
-            )
-        )
-        public ItemStack item_test;
+        @Value
+        public ItemStack item_test = ItemBuilder.of(XMaterial.DIAMOND)
+            .name("&aExample Item Name")
+            .lore(
+                "",
+                "&7Example item lore"
+            ).enchantments(
+                "DAMAGE_ALL:1",
+                "DAMAGE_ALL:1"
+            );
 
         @Section(path = "item-test-section", sectionType = SectionType.ITEM_STACK)
         public static final class ItemTest {

@@ -5,6 +5,7 @@ import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.InputStreamOf;
@@ -129,9 +130,9 @@ public final class AnnotationProcessor {
                         exception.printStackTrace();
                     }
 
-                    if (value.itemStackValue().length == 1) {
+                    if (value.itemStackValue().length == 1 && field.getType().equals(ItemStack.class)) {
 
-                    } else if (value.titleValue().length == 1) {
+                    } else if (value.titleValue().length == 1 && field.getType().equals(SendableTitle.class)) {
 
                     }
 

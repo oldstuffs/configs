@@ -7,7 +7,6 @@ import io.github.portlek.configs.annotations.Value;
 import org.cactoos.list.ListOf;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.List;
 
 @BasicFile(fileName = "config")
