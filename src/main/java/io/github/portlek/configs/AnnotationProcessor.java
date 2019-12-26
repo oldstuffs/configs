@@ -98,6 +98,7 @@ public final class AnnotationProcessor {
 
             for (Field field : tClass.getDeclaredFields()) {
                 final boolean accessible = field.isAccessible();
+
                 field.setAccessible(true);
 
                 final Value value = field.getDeclaredAnnotation(Value.class);
@@ -112,8 +113,13 @@ public final class AnnotationProcessor {
                         path = value.path();
                     }
 
+                    
                 } else if (instance != null) {
                     for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
+                        final boolean accessibleCtor = constructor.isAccessible();
+
+                        constructor.setAccessible(true);
+
                         if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
                             try {
                                 field.set(t, load(constructor.newInstance(t)));
@@ -123,16 +129,16 @@ public final class AnnotationProcessor {
                             break;
                         } else if (constructor.getParameterCount() == 0) {
                             try {
-                                System.out.println(constructor.getName());
                                 final Object object = load(constructor.newInstance());
 
-                                System.out.println(object);
                                 field.set(t, object);
                             } catch (Exception ignored) {
                                 // ignored
                             }
                             break;
                         }
+
+                        constructor.setAccessible(accessibleCtor);
                     }
                 }
 
@@ -150,6 +156,8 @@ public final class AnnotationProcessor {
                     } else {
                         path = section.path();
                     }
+
+
                 }
             }
 
