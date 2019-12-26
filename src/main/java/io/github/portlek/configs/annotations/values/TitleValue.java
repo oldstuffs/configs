@@ -1,5 +1,6 @@
 package io.github.portlek.configs.annotations.values;
 
+import io.github.portlek.configs.MagicConstants;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -12,10 +13,10 @@ import java.lang.annotation.Target;
 public @interface TitleValue {
 
     @NotNull
-    String title() default "";
+    String title() default MagicConstants.NULL_STRING;
 
     @NotNull
-    String subTitle() default "";
+    String subTitle() default MagicConstants.NULL_STRING;
 
     int fadeIn() default 20;
 

@@ -15,6 +15,7 @@ import org.cactoos.io.InputStreamOf;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -96,15 +97,46 @@ public final class AnnotationProcessor {
             }
 
             for (Field field : tClass.getDeclaredFields()) {
-                final Value value = field.getAnnotation(Value.class);
-                final Instance instance = field.getAnnotation(Instance.class);
+                final boolean accessible = field.isAccessible();
+                field.setAccessible(true);
+
+                final Value value = field.getDeclaredAnnotation(Value.class);
+                final Instance instance = field.getDeclaredAnnotation(Instance.class);
 
                 if (value != null) {
+                    final String path;
+
+                    if (value.path().isEmpty()) {
+                        path = field.getName().replace("_", value.separator());
+                    } else {
+                        path = value.path();
+                    }
 
                 } else if (instance != null) {
+                    for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
+                        if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
+                            try {
+                                field.set(t, load(constructor.newInstance(t)));
+                            } catch (Exception ignored) {
+                                // ignored
+                            }
+                            break;
+                        } else if (constructor.getParameterCount() == 0) {
+                            try {
+                                System.out.println(constructor.getName());
+                                final Object object = load(constructor.newInstance());
 
+                                System.out.println(object);
+                                field.set(t, object);
+                            } catch (Exception ignored) {
+                                // ignored
+                            }
+                            break;
+                        }
+                    }
                 }
 
+                field.setAccessible(accessible);
             }
 
             for (Class<?> innerClass : tClass.getDeclaredClasses()) {
@@ -118,8 +150,6 @@ public final class AnnotationProcessor {
                     } else {
                         path = section.path();
                     }
-
-                    System.out.println(path);
                 }
             }
 

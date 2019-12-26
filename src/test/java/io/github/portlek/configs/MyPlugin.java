@@ -28,7 +28,6 @@ public final class MyPlugin extends JavaPlugin {
         );
 
         annotationProcessor.define("%prefix%", config.plugin_prefix);
-
         annotationProcessor.load(
             new Messages()
         );

@@ -44,23 +44,27 @@ public final class EnMessages {
         @Value(stringValue = "%prefix% &aReload complete! &8Took (%ms%ms)")
         public Sendable reload_complete;
 
-        @TitleValue(
-            title = "&eExample Title",
-            subTitle = "&eExample Sub Title"
+        @Value(
+            titleValue = @TitleValue(
+                title = "&eExample Title",
+                subTitle = "&eExample Sub Title"
+            )
         )
         public SendableTitle title_test;
 
-        @ItemStackValue(
-            material = XMaterial.DIAMOND,
-            displayName = "&aExample Item Name",
-            enchantmentStrings = {
-                "DAMAGE_ALL:1",
-                "DAMAGE_ALL:1"
-            },
-            lore = {
-                "",
-                "&7Example item lore"
-            }
+        @Value(
+            itemStackValue = @ItemStackValue(
+                material = XMaterial.DIAMOND,
+                displayName = "&aExample Item Name",
+                enchantmentStrings = {
+                    "DAMAGE_ALL:1",
+                    "DAMAGE_ALL:1"
+                },
+                lore = {
+                    "",
+                    "&7Example item lore"
+                }
+            )
         )
         public ItemStack item_test;
 

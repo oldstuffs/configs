@@ -1,14 +1,18 @@
 package io.github.portlek.configs.file;
 
-import io.github.portlek.configs.FileType;
-import io.github.portlek.configs.SendableTitle;
 import io.github.portlek.configs.annotations.BasicFile;
+import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.sections.Section;
-import io.github.portlek.configs.annotations.values.TitleValue;
 import io.github.portlek.configs.annotations.values.Value;
 
-@BasicFile(fileName = "config", fileType = FileType.YAML)
+@BasicFile(fileName = "config")
 public final class Config {
+
+    @Instance
+    public test_1 test_1;
+
+    @Instance
+    public test_2 test_2;
 
     @Value(stringValue = "&6[&eExamplePlugin&6]")
     public String plugin_prefix;
