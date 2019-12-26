@@ -4,6 +4,11 @@ import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
+import org.cactoos.list.ListOf;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Arrays;
+import java.util.List;
 
 @BasicFile(fileName = "config")
 public final class Config {
@@ -14,14 +19,20 @@ public final class Config {
     @Instance
     public test_2 test_2;
 
-    @Value(stringValue = "&6[&eExamplePlugin&6]")
-    public String plugin_prefix;
+    @Value
+    @NotNull
+    public String plugin_prefix = "&6[&eExamplePlugin&6]";
 
-    @Value(stringValue = "en")
-    public String plugin_language;
+    @Value
+    @NotNull
+    public String plugin_language = "en";
 
-    @Value(stringArrayValue = {"test-1", "test-2"})
-    public String[] test_array;
+    @Value
+    @NotNull
+    public List<String> test_list = new ListOf<>("test-1", "test-2");
+
+    @Value
+    public int test_integer = 0;
 
     @Section
     public static final class test_1 {

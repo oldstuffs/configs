@@ -31,7 +31,7 @@ public final class MyPlugin extends JavaPlugin {
             config.plugin_language
         );
         System.out.println(
-            Arrays.toString(config.test_array)
+            config.test_list
         );
         System.out.println(
             config.test_1

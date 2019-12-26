@@ -1,10 +1,6 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.BasicFile;
-import io.github.portlek.configs.annotations.Instance;
-import io.github.portlek.configs.annotations.Languages;
-import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,14 +8,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.InputStreamOf;
-import org.cactoos.list.ListOf;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class AnnotationProcessor {
@@ -110,71 +104,34 @@ public final class AnnotationProcessor {
                         path = value.path();
                     }
 
-                    if (value.stringValue().length == 1) {
-                        final Object tempValue = fileConfiguration.get(path);
-                        final Object finalValue;
+                    final Object defaultValue;
 
-                        if (tempValue instanceof String) {
-                            finalValue = tempValue;
+                    try {
+                        defaultValue = field.get(t);
+                    } catch (Exception exception) {
+                        continue;
+                    }
+
+                    if (defaultValue == null) {
+                        continue;
+                    }
+
+                    final Object tempValue = fileConfiguration.get(path);
+
+                    try {
+                        if (tempValue == null) {
+                            fileConfiguration.set(path, defaultValue);
+                            fileConfiguration.save(file);
                         } else {
-                            fileConfiguration.set(path, value.stringValue()[0]);
-                            try {
-                                fileConfiguration.save(file);
-                            } catch (Exception exception) {
-                                exception.printStackTrace();
-                            }
-                            finalValue = value.stringValue()[0];
+                            field.set(t, tempValue);
                         }
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
 
-                        try {
-                            field.set(t, finalValue);
-                        } catch (Exception exception) {
-                            exception.printStackTrace();
-                        }
-                    } else if (value.stringArrayValue().length != 0) {
-                        final Object tempValue = fileConfiguration.get(path);
-                        final Object finalValue;
-
-                        if (tempValue instanceof List<?> || tempValue instanceof String[]) {
-                            finalValue = tempValue;
-                        } else {
-                            fileConfiguration.set(path, value.stringArrayValue());
-                            try {
-                                fileConfiguration.save(file);
-                            } catch (Exception exception) {
-                                exception.printStackTrace();
-                            }
-                            finalValue = value.stringArrayValue();
-                        }
-
-                        try {
-                            if (field.getType().equals(finalValue.getClass())) {
-                                field.set(t, finalValue);
-                            } else if (field.getType().equals(String[].class) &&
-                                List.class.isAssignableFrom(finalValue.getClass())) {
-                                field.set(t, ((List<?>)finalValue).toArray(new String[0]));
-                            } else if (List.class.isAssignableFrom(field.getType()) &&
-                                finalValue.getClass().equals(String[].class)) {
-                                field.set(t, new ListOf<>((String[])finalValue));
-                            }
-                        } catch (Exception exception) {
-                            exception.printStackTrace();
-                        }
-                    } else if (value.intValue().length == 1) {
-
-                    } else if (value.intArrayValue().length != 0) {
-
-                    } else if (value.enchantmentValue().length == 1) {
-
-                    } else if (value.enchantmentArrayValue().length != 0) {
-
-                    } else if (value.itemStackValue().length == 1) {
+                    if (value.itemStackValue().length == 1) {
 
                     } else if (value.titleValue().length == 1) {
-
-                    } else if (value.materialValue().length == 1) {
-
-                    } else if (value.materialArrayValue().length != 0) {
 
                     }
 

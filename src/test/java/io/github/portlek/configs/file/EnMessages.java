@@ -4,12 +4,9 @@ import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.SectionType;
 import io.github.portlek.configs.Sendable;
 import io.github.portlek.configs.SendableTitle;
-import io.github.portlek.configs.annotations.BasicFile;
-import io.github.portlek.configs.annotations.Instance;
-import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.annotations.ItemStackValue;
-import io.github.portlek.configs.annotations.TitleValue;
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.annotations.*;
+import io.github.portlek.configs.values.BasicReplaceable;
+import io.github.portlek.configs.values.BasicSendable;
 import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -32,16 +29,20 @@ public final class EnMessages {
     @Section(path = "error")
     public static final class Error {
 
-        @Value(stringValue = "%prefix% &cPlayer not found! &8(%player_name%)")
-        public String player_not_found;
+        @Value
+        public String player_not_found = "%prefix% &cPlayer not found! &8(%player_name%)";
 
     }
 
     @Section(path = "general")
     public static final class General {
 
-        @Value(stringValue = "%prefix% &aReload complete! &8Took (%ms%ms)")
-        public Sendable reload_complete;
+        @Value
+        public Sendable reload_complete = new BasicSendable(
+            new BasicReplaceable(
+                "%prefix% &aReload complete! &8Took (%ms%ms)"
+            )
+        );
 
         @Value(
             titleValue = @TitleValue(
@@ -70,28 +71,26 @@ public final class EnMessages {
         @Section(path = "item-test-section", sectionType = SectionType.ITEM_STACK)
         public static final class ItemTest {
 
-            @Value(materialValue = XMaterial.DIAMOND)
-            public Material material;
+            @Value
+            public String material = "DIAMOND";
 
-            @Value(intValue = 0)
-            public int data;
+            @Value
+            public int data = 0;
 
-            @Value(stringValue = "&aExample Item Name")
-            public String display_name;
+            @Value
+            public String display_name = "&aExample Item Name";
 
-            @Value(stringArrayValue = {
+            @Value
+            public String[] lore = {
                 "",
                 "&7Example item lore"
-            })
-            public List<String> lore;
+            };
 
-            @Value(
-                enchantmentValue = {
-                    "DAMAGE_ALL:1",
-                    "DAMAGE_ALL:1"
-                }
-            )
-            public List<Enchantment> enchantments;
+            @Value
+            public String[] enchantments = {
+                "DAMAGE_ALL:1",
+                "DAMAGE_ALL:1"
+            };
 
         }
 
