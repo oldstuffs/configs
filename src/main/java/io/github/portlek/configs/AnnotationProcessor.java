@@ -3,8 +3,8 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Languages;
-import io.github.portlek.configs.annotations.sections.Section;
-import io.github.portlek.configs.annotations.values.Value;
+import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,14 +12,14 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.InputStreamOf;
+import org.cactoos.list.ListOf;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class AnnotationProcessor {
@@ -87,14 +87,9 @@ public final class AnnotationProcessor {
             }
 
             switch (basicFile.fileType()) {
-                case YAML:
+                // TODO: 26/12/2019
+                default:
                     fileConfiguration = YamlConfiguration.loadConfiguration(file);
-                    break;
-                case XML:
-                    // TODO: 26/12/2019
-                    break;
-                case JSON:
-                    // TODO: 26/12/2019
                     break;
             }
 
@@ -116,11 +111,55 @@ public final class AnnotationProcessor {
                     }
 
                     if (value.stringValue().length == 1) {
-                        if (basicFile.copyDefault() && fileConfiguration.get(finalPath)) {
+                        final Object tempValue = fileConfiguration.get(path);
+                        final Object finalValue;
 
+                        if (tempValue instanceof String) {
+                            finalValue = tempValue;
+                        } else {
+                            fileConfiguration.set(path, value.stringValue()[0]);
+                            try {
+                                fileConfiguration.save(file);
+                            } catch (Exception exception) {
+                                exception.printStackTrace();
+                            }
+                            finalValue = value.stringValue()[0];
+                        }
+
+                        try {
+                            field.set(t, finalValue);
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
                         }
                     } else if (value.stringArrayValue().length != 0) {
+                        final Object tempValue = fileConfiguration.get(path);
+                        final Object finalValue;
 
+                        if (tempValue instanceof List<?> || tempValue instanceof String[]) {
+                            finalValue = tempValue;
+                        } else {
+                            fileConfiguration.set(path, value.stringArrayValue());
+                            try {
+                                fileConfiguration.save(file);
+                            } catch (Exception exception) {
+                                exception.printStackTrace();
+                            }
+                            finalValue = value.stringArrayValue();
+                        }
+
+                        try {
+                            if (field.getType().equals(finalValue.getClass())) {
+                                field.set(t, finalValue);
+                            } else if (field.getType().equals(String[].class) &&
+                                List.class.isAssignableFrom(finalValue.getClass())) {
+                                field.set(t, ((List<?>)finalValue).toArray(new String[0]));
+                            } else if (List.class.isAssignableFrom(field.getType()) &&
+                                finalValue.getClass().equals(String[].class)) {
+                                field.set(t, new ListOf<>((String[])finalValue));
+                            }
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
                     } else if (value.intValue().length == 1) {
 
                     } else if (value.intArrayValue().length != 0) {

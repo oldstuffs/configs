@@ -2,8 +2,8 @@ package io.github.portlek.configs.file;
 
 import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.Instance;
-import io.github.portlek.configs.annotations.sections.Section;
-import io.github.portlek.configs.annotations.values.Value;
+import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.annotations.Value;
 
 @BasicFile(fileName = "config")
 public final class Config {
@@ -19,6 +19,9 @@ public final class Config {
 
     @Value(stringValue = "en")
     public String plugin_language;
+
+    @Value(stringArrayValue = {"test-1", "test-2"})
+    public String[] test_array;
 
     @Section
     public static final class test_1 {

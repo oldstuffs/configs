@@ -1,4 +1,4 @@
-package io.github.portlek.configs.annotations.sections;
+package io.github.portlek.configs.annotations;
 
 import io.github.portlek.configs.SectionType;
 import org.jetbrains.annotations.NotNull;

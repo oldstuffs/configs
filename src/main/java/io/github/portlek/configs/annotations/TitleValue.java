@@ -1,4 +1,4 @@
-package io.github.portlek.configs.annotations.values;
+package io.github.portlek.configs.annotations;
 
 import io.github.portlek.configs.MagicConstants;
 import org.jetbrains.annotations.NotNull;

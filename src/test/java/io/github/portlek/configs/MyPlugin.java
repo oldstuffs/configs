@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
+import java.util.Arrays;
 
 public final class MyPlugin extends JavaPlugin {
 
@@ -21,7 +22,23 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        annotationProcessor.load(new Config());
+        final Config config = annotationProcessor.load(new Config());
+
+        System.out.println(
+            config.plugin_prefix
+        );
+        System.out.println(
+            config.plugin_language
+        );
+        System.out.println(
+            Arrays.toString(config.test_array)
+        );
+        System.out.println(
+            config.test_1
+        );
+        System.out.println(
+            config.test_2
+        );
     }
 
 }
