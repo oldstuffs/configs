@@ -17,7 +17,4 @@ public @interface Value {
     @NotNull
     String separator() default "-";
 
-    @NotNull
-    ItemStackValue[] itemStackValue() default {};
-
 }

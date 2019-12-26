@@ -9,6 +9,7 @@ import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
 import org.cactoos.list.Mapped;
@@ -78,6 +79,19 @@ public final class ItemBuilder extends ItemStack {
         } else {
             getItemMeta().setDisplayName(displayName.build());
         }
+
+        return this;
+    }
+
+    public ItemBuilder data(int data) {
+        return data((byte) data);
+    }
+
+    public ItemBuilder data(byte data) {
+        final MaterialData materialData = getData();
+
+        materialData.setData(data);
+        setData(materialData);
 
         return this;
     }

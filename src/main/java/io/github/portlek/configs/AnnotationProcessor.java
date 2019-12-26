@@ -3,18 +3,21 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
+import org.apache.commons.lang.text.StrTokenizer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.InputStreamOf;
+import org.cactoos.list.ListOf;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class AnnotationProcessor {
@@ -97,6 +100,7 @@ public final class AnnotationProcessor {
                 final Instance instance = field.getDeclaredAnnotation(Instance.class);
 
                 if (value != null) {
+                    final boolean isPrimitive = isPrimitive(field.getType());
                     final String path;
 
                     if (value.path().isEmpty()) {
@@ -128,12 +132,6 @@ public final class AnnotationProcessor {
                         }
                     } catch (Exception exception) {
                         exception.printStackTrace();
-                    }
-
-                    if (value.itemStackValue().length == 1 && field.getType().equals(ItemStack.class)) {
-
-                    } else if (value.titleValue().length == 1 && field.getType().equals(SendableTitle.class)) {
-
                     }
 
                 } else if (instance != null) {
@@ -194,6 +192,14 @@ public final class AnnotationProcessor {
 
     public void define(@NotNull String regex, @NotNull Object object) {
         CONSTANTS.put(regex, object);
+    }
+
+    private boolean isPrimitive(@NotNull Class<?> clazz) {
+        return new ListOf<>(
+            String.class,
+            List.class,
+            Number.class
+        ).stream().anyMatch(aClass -> aClass.isAssignableFrom(clazz));
     }
 
 }

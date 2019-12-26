@@ -63,6 +63,7 @@ public final class EnMessages {
         @Value
         public ItemStack item_test = ItemBuilder.of(XMaterial.DIAMOND)
             .name("&aExample Item Name")
+            .data(0)
             .lore(
                 "",
                 "&7Example item lore"
