@@ -18,13 +18,13 @@ import java.util.List;
 public final class EnMessages {
 
     @Instance
-    public static Error error;
+    public Error error;
 
     @Instance
-    public static General general;
+    public General general;
 
     @Instance
-    public static General.ItemTest itemTest;
+    public General.ItemTest itemTest;
 
     @Section(path = "error")
     public static final class Error {
