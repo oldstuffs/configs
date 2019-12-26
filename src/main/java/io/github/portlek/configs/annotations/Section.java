@@ -1,6 +1,5 @@
 package io.github.portlek.configs.annotations;
 
-import io.github.portlek.configs.SectionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
@@ -17,8 +16,5 @@ public @interface Section {
 
     @NotNull
     String separator() default "-";
-
-    @NotNull
-    SectionType sectionType() default SectionType.NORMAL;
 
 }

@@ -1,7 +1,6 @@
 package io.github.portlek.configs.file;
 
 import io.github.portlek.configs.FileType;
-import io.github.portlek.configs.SectionType;
 import io.github.portlek.configs.Sendable;
 import io.github.portlek.configs.SendableTitle;
 import io.github.portlek.configs.annotations.BasicFile;
@@ -72,7 +71,7 @@ public final class EnMessages {
                 "DAMAGE_ALL:1"
             );
 
-        @Section(path = "item-test-section", sectionType = SectionType.ITEM_STACK)
+        @Section(path = "item-test-section")
         public static final class ItemTest {
 
             @Value

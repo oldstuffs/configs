@@ -3,10 +3,8 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
-import org.apache.commons.lang.text.StrTokenizer;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.cactoos.io.InputOf;
 import org.cactoos.io.InputStreamOf;
@@ -137,7 +135,6 @@ public final class AnnotationProcessor {
                     } else {
 
                     }
-
                 } else if (instance != null) {
                     for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
                         final boolean accessibleCtor = constructor.isAccessible();
