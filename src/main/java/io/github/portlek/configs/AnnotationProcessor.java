@@ -124,7 +124,11 @@ public final class AnnotationProcessor {
                     if (isPrimitive) {
                         try {
                             if (tempValue == null) {
-                                fileConfiguration.set(path, defaultValue);
+                                if (defaultValue instanceof Object[]) {
+                                    fileConfiguration.set(path, new ListOf<>((Object[]) defaultValue));
+                                } else {
+                                    fileConfiguration.set(path, defaultValue);
+                                }
                                 fileConfiguration.save(file);
                             } else {
                                 field.set(t, tempValue);
@@ -198,6 +202,7 @@ public final class AnnotationProcessor {
     private boolean isPrimitive(@NotNull Class<?> clazz) {
         return new ListOf<>(
             String.class,
+            Object[].class,
             List.class,
             Number.class
         ).stream().anyMatch(aClass -> aClass.isAssignableFrom(clazz));

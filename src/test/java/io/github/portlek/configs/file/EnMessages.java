@@ -87,16 +87,10 @@ public final class EnMessages {
 
             @Value
             @NotNull
-            public List<String> lore = Arrays.asList(
-                "",
-                "&7Example item lore"
-            );
+            public String[] lore = {"", "&7Example item lore"};
 
             @Value
-            public List<String> enchantments = Arrays.asList(
-                "DAMAGE_ALL:1",
-                "DAMAGE_ALL:1"
-            );
+            public String[] enchantments = {"DAMAGE_ALL:1", "DAMAGE_ALL:1"};
 
         }
 

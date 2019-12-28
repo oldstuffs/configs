@@ -28,7 +28,7 @@ public final class Config {
 
     @Value
     @NotNull
-    public List<String> test_list = new ListOf<>("test-1", "test-2");
+    public String[] test_list = {"test-1", "test-2"};
 
     @Value
     public int test_integer = 0;
