@@ -3,6 +3,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.util.Copied;
 import io.github.portlek.configs.util.CreateStorage;
+import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -99,6 +100,7 @@ public final class AnnotationProcessor {
 
                 if (value != null) {
                     final boolean isPrimitive = isPrimitive(field.getType());
+                    final boolean isAllow = isAllow(field.getType());
                     final String path;
 
                     if (value.path().isEmpty()) {
@@ -119,16 +121,11 @@ public final class AnnotationProcessor {
                         continue;
                     }
 
-                    final Object tempValue = fileConfiguration.get(path);
-
                     if (isPrimitive) {
+                        final Object tempValue = fileConfiguration.get(path);
                         try {
                             if (tempValue == null) {
-                                if (defaultValue instanceof Object[]) {
-                                    fileConfiguration.set(path, new ListOf<>((Object[]) defaultValue));
-                                } else {
-                                    fileConfiguration.set(path, defaultValue);
-                                }
+                                fileConfiguration.set(path, defaultValue);
                                 fileConfiguration.save(file);
                             } else {
                                 field.set(t, tempValue);
@@ -136,8 +133,18 @@ public final class AnnotationProcessor {
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
-                    } else {
+                    } else if (isAllow) {
+                        if (defaultValue instanceof SendableTitle) {
 
+                        } else if (defaultValue instanceof Sendable) {
+
+                        } else if (defaultValue instanceof Replaceable) {
+
+                        } else if (defaultValue instanceof XMaterial) {
+
+                        } else if (defaultValue instanceof Object[]) {
+
+                        }
                     }
                 } else if (instance != null) {
                     for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
@@ -202,9 +209,18 @@ public final class AnnotationProcessor {
     private boolean isPrimitive(@NotNull Class<?> clazz) {
         return new ListOf<>(
             String.class,
-            Object[].class,
             List.class,
             Number.class
+        ).stream().anyMatch(aClass -> aClass.isAssignableFrom(clazz));
+    }
+
+    private boolean isAllow(@NotNull Class<?> clazz) {
+        return new ListOf<>(
+            Replaceable.class,
+            Sendable.class,
+            SendableTitle.class,
+            XMaterial.class,
+            Object[].class
         ).stream().anyMatch(aClass -> aClass.isAssignableFrom(clazz));
     }
 
