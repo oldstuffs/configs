@@ -1,7 +1,6 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.file.Config;
-import io.github.portlek.configs.file.Messages;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
@@ -22,8 +21,7 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        annotationProcessor.load(new Config());
-        annotationProcessor.load(new Messages());
+        final Config config = annotationProcessor.load(new Config());
     }
 
 }

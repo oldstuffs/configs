@@ -15,9 +15,6 @@ public final class Config {
     @Instance
     public test_1 test_1;
 
-    @Instance
-    public test_2 test_2;
-
     @Value
     @NotNull
     public String plugin_prefix = "&6[&eExamplePlugin&6]";
@@ -46,7 +43,7 @@ public final class Config {
     public static final class test_1 {
 
         @Instance
-        public test_3 test_3;
+        public test_2 test_2;
 
         @Value
         public SendableTitle test_title = new BasicSendableTitle(
@@ -58,10 +55,10 @@ public final class Config {
         );
 
         @Section
-        public static final class test_3 {
+        public static final class test_2 {
 
             @Instance
-            public test_4 test_4;
+            public test_3 test_3;
 
             @Value
             public SendableTitle test_title = new BasicSendableTitle(
@@ -73,7 +70,7 @@ public final class Config {
             );
 
             @Section
-            public static final class test_4 {
+            public static final class test_3 {
 
                 @Value
                 public SendableTitle test_title = new BasicSendableTitle(
@@ -87,11 +84,6 @@ public final class Config {
             }
 
         }
-    }
-
-    @Section
-    private static final class test_2 {
-
     }
 
 }
