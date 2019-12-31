@@ -103,6 +103,16 @@ public final class ItemBuilder extends ItemStack {
         );
     }
 
+    public ItemBuilder lore(@NotNull List<String> lore) {
+        return lore(
+            new Mapped<>(
+                BasicReplaceable::new,
+                lore
+            ),
+            true
+        );
+    }
+
     public ItemBuilder lore(boolean colored, @NotNull String... lore) {
         return lore(
             new Mapped<>(

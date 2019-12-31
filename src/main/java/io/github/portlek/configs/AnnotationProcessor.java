@@ -7,6 +7,10 @@ import io.github.portlek.configs.util.ItemBuilder;
 import io.github.portlek.configs.values.BasicReplaceable;
 import io.github.portlek.configs.values.BasicSendable;
 import io.github.portlek.configs.values.BasicSendableTitle;
+import io.github.portlek.itemstack.item.get.*;
+import io.github.portlek.itemstack.item.meta.get.DisplayOf;
+import io.github.portlek.itemstack.item.meta.get.LoreOf;
+import io.github.portlek.itemstack.util.XEnchantment;
 import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -270,12 +274,66 @@ public final class AnnotationProcessor {
                                 ((ConfigurationSection) section).getString("display-name")
                             ).ifPresent(itemBuilder::name);
 
+                            final List<String> lore = ((ConfigurationSection) section).getStringList("lore");
+
+                            if (!lore.isEmpty()) {
+                                itemBuilder.lore(lore);
+                            }
+
+                            final int amount = ((ConfigurationSection) section).getInt("amount");
+
+                            if (amount > 0) {
+                                itemBuilder.setAmount(amount);
+                            }
+
+                            final int data = ((ConfigurationSection) section).getInt("data");
+
+                            if (data != 0) {
+                                itemBuilder.data(data);
+                            }
+
+                            final short damage = (short) ((ConfigurationSection) section).getInt("damage", -1);
+
+                            if (damage != -1) {
+                                itemBuilder.setDurability(damage);
+                            }
+
+                            final ConfigurationSection enchantmentSection =
+                                ((ConfigurationSection) section).getConfigurationSection("enchantments");
+
+                            if (enchantmentSection != null) {
+                                enchantmentSection.getKeys(false).forEach(s ->
+                                    XEnchantment.matchXEnchantment(s).ifPresent(xEnchantment ->
+                                        itemBuilder.enchantments(
+                                            xEnchantment,
+                                            enchantmentSection.getInt(s)
+                                        )
+                                    )
+                                );
+                            }
+
                             field.set(
                                 t,
                                 itemBuilder
                             );
                         } else {
-                            fileConfiguration.set(path + ".material", ((ItemStack) defaultValue).getType().name());
+                            final ItemStack itemStack = (ItemStack) defaultValue;
+
+                            fileConfiguration.set(path + ".material", itemStack.getType().name());
+                            fileConfiguration.set(path + ".amount", itemStack.getAmount());
+                            fileConfiguration.set(path + ".data", itemStack.getData().getData());
+                            fileConfiguration.set(path + ".damage", itemStack.getDurability());
+                            Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
+                                Optional.ofNullable(itemMeta.getDisplayName()).ifPresent(s ->
+                                    fileConfiguration.set(path + ".display-name", s)
+                                );
+                                Optional.ofNullable(itemMeta.getLore()).ifPresent(list ->
+                                    fileConfiguration.set(path + ".lore", list)
+                                );
+                                itemMeta.getEnchants().forEach((enchantment, integer) ->
+                                    fileConfiguration.set(path + ".enchantments." + enchantment.getName(), integer)
+                                );
+                            });
                         }
                     }
                 }
