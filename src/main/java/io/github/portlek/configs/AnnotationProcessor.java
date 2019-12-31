@@ -340,17 +340,22 @@ public final class AnnotationProcessor {
             } else if (instance != null) {
                 for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
                     final boolean accessibleCtor = constructor.isAccessible();
-
+                    boolean breakable = false;
                     constructor.setAccessible(true);
 
                     if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
                         field.set(t, load(constructor.newInstance(t)));
-                        break;
+
+                        breakable = true;
                     } else if (constructor.getParameterCount() == 0) {
                         final Object object = load(constructor.newInstance());
 
                         field.set(t, object);
 
+                        breakable = true;
+                    }
+
+                    if (breakable) {
                         break;
                     }
 
