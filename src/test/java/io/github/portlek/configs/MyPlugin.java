@@ -21,23 +21,7 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final Config config = annotationProcessor.load(new Config());
-
-        System.out.println(
-            config.plugin_prefix
-        );
-        System.out.println(
-            config.plugin_language
-        );
-        System.out.println(
-            config.test_list
-        );
-        System.out.println(
-            config.test_1
-        );
-        System.out.println(
-            config.test_2
-        );
+        annotationProcessor.load(new Config());
     }
 
 }

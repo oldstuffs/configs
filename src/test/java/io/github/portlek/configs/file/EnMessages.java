@@ -15,9 +15,6 @@ import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
-
 @BasicFile(fileName = "en", fileType = FileType.YAML)
 public final class EnMessages {
 

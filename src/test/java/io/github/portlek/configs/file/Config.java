@@ -1,13 +1,13 @@
 package io.github.portlek.configs.file;
 
+import io.github.portlek.configs.SendableTitle;
 import io.github.portlek.configs.annotations.BasicFile;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
-import org.cactoos.list.ListOf;
+import io.github.portlek.configs.values.BasicReplaceable;
+import io.github.portlek.configs.values.BasicSendableTitle;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 @BasicFile(fileName = "config")
 public final class Config {
@@ -31,7 +31,16 @@ public final class Config {
     public String[] test_list = {"test-1", "test-2"};
 
     @Value
-    public int test_integer = 0;
+    public Integer test_integer = 0;
+
+    @Value
+    public SendableTitle test_title = new BasicSendableTitle(
+        new BasicReplaceable("test-title"),
+        new BasicReplaceable("test-sub-title"),
+        20,
+        20,
+        20
+    );
 
     @Section
     public static final class test_1 {

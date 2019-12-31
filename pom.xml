@@ -103,13 +103,13 @@
         <dependency>
             <groupId>org.llorllale</groupId>
             <artifactId>cactoos-matchers</artifactId>
-            <version>0.17</version>
+            <version>0.18</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.5.1</version>
+            <version>5.5.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -118,10 +118,6 @@
             <version>0.2.1</version>
             <scope>test</scope>
             <exclusions>
-                <exclusion>
-                    <artifactId>junit</artifactId>
-                    <groupId>junit</groupId>
-                </exclusion>
                 <exclusion>
                     <artifactId>bukkit</artifactId>
                     <groupId>org.bukkit</groupId>
