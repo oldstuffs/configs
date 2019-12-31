@@ -114,7 +114,6 @@ public final class AnnotationProcessor {
             directory.mkdirs();
 
             // TODO: 31/12/2019
-
         }
 
         return t;
