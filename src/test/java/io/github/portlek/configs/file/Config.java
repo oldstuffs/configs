@@ -45,6 +45,15 @@ public final class Config {
     @Section
     public static final class test_1 {
 
+        @Value
+        public SendableTitle test_title = new BasicSendableTitle(
+            new BasicReplaceable("test-title"),
+            new BasicReplaceable("test-sub-title"),
+            20,
+            20,
+            20
+        );
+
     }
 
     @Section

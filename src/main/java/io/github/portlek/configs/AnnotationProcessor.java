@@ -7,9 +7,6 @@ import io.github.portlek.configs.util.ItemBuilder;
 import io.github.portlek.configs.values.BasicReplaceable;
 import io.github.portlek.configs.values.BasicSendable;
 import io.github.portlek.configs.values.BasicSendableTitle;
-import io.github.portlek.itemstack.item.get.*;
-import io.github.portlek.itemstack.item.meta.get.DisplayOf;
-import io.github.portlek.itemstack.item.meta.get.LoreOf;
 import io.github.portlek.itemstack.util.XEnchantment;
 import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.Material;
@@ -122,7 +119,13 @@ public final class AnnotationProcessor {
                     }
 
                     try {
-                        loadFields(t, innerClass, fileConfiguration, path);
+                        getInstance(t, tClass, innerClass).ifPresent(object -> {
+                            try {
+                                loadFields(object, innerClass, fileConfiguration, path);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
                     } catch (Exception exception) {
                         exception.printStackTrace();
                     }
@@ -252,7 +255,7 @@ public final class AnnotationProcessor {
                         if (object instanceof List<?>) {
                             field.set(
                                 t,
-                                ((List<?>) object).toArray(new Object[0])
+                                defaultValue.getClass().cast(((List<?>) object).toArray((Object[]) defaultValue))
                             );
                         } else {
                             fileConfiguration.set(path, new ListOf<>((Object[])defaultValue));
@@ -338,33 +341,61 @@ public final class AnnotationProcessor {
                     }
                 }
             } else if (instance != null) {
-                for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
-                    final boolean accessibleCtor = constructor.isAccessible();
-                    boolean breakable = false;
-                    constructor.setAccessible(true);
-
-                    if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
-                        field.set(t, load(constructor.newInstance(t)));
-
-                        breakable = true;
-                    } else if (constructor.getParameterCount() == 0) {
-                        final Object object = load(constructor.newInstance());
-
-                        field.set(t, object);
-
-                        breakable = true;
-                    }
-
-                    if (breakable) {
-                        break;
-                    }
-
-                    constructor.setAccessible(accessibleCtor);
-                }
+                setInstance(t, tClass, field);
             }
 
             field.setAccessible(accessible);
         }
+    }
+
+    private <T> void setInstance(@NotNull T t, @NotNull Class<?> tClass, @NotNull Field field) throws Exception {
+        for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
+            final boolean accessibleCtor = constructor.isAccessible();
+            boolean breakable = false;
+
+            constructor.setAccessible(true);
+
+            if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
+                field.set(t, load(constructor.newInstance(t)));
+
+                breakable = true;
+            } else if (constructor.getParameterCount() == 0) {
+                final Object object = load(constructor.newInstance());
+
+                field.set(t, object);
+
+                breakable = true;
+            }
+
+            if (breakable) {
+                break;
+            }
+
+            constructor.setAccessible(accessibleCtor);
+        }
+    }
+
+    private Optional<Object> getInstance(@NotNull Object object, @NotNull Class<?> tClass, @NotNull Class<?> type)
+        throws Exception {
+        for (Constructor<?> constructor : type.getDeclaredConstructors()) {
+            final boolean accessibleCtor = constructor.isAccessible();
+
+            constructor.setAccessible(true);
+
+            if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
+                return Optional.of(
+                    constructor.newInstance(object)
+                );
+            } else if (constructor.getParameterCount() == 0) {
+                return Optional.of(
+                    constructor.newInstance()
+                );
+            }
+
+            constructor.setAccessible(accessibleCtor);
+        }
+
+        return Optional.empty();
     }
 
     public void define(@NotNull String regex, @NotNull Object object) {
@@ -374,7 +405,8 @@ public final class AnnotationProcessor {
     private boolean isPrimitive(@NotNull Class<?> clazz) {
         return clazz.isPrimitive() || new ListOf<>(
             String.class,
-            List.class
+            List.class,
+            Number.class
         ).stream().anyMatch(aClass -> aClass.isAssignableFrom(clazz));
     }
 
