@@ -24,9 +24,6 @@ public final class EnMessages {
     @Instance
     public General general;
 
-    @Instance
-    public General.ItemTest itemTest;
-
     @Section(path = "error")
     public static final class Error {
 
@@ -38,6 +35,9 @@ public final class EnMessages {
 
     @Section(path = "general")
     public static final class General {
+
+        @Instance
+        public ItemTest itemTest;
 
         @Value
         @NotNull

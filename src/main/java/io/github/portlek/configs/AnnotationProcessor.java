@@ -106,31 +106,7 @@ public final class AnnotationProcessor {
                 exception.printStackTrace();
             }
 
-            for (Class<?> innerClass : tClass.getDeclaredClasses()) {
-                final Section section = innerClass.getAnnotation(Section.class);
-
-                if (section != null) {
-                    final String path;
-
-                    if (section.path().isEmpty()) {
-                        path = innerClass.getSimpleName().replace("_", section.separator());
-                    } else {
-                        path = section.path();
-                    }
-
-                    try {
-                        getInstance(t, tClass, innerClass).ifPresent(object -> {
-                            try {
-                                loadFields(object, innerClass, fileConfiguration, path);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    } catch (Exception exception) {
-                        exception.printStackTrace();
-                    }
-                }
-            }
+            loadSections(t, tClass, fileConfiguration, "");
 
             try {
                 fileConfiguration.save(file);
@@ -141,9 +117,43 @@ public final class AnnotationProcessor {
             final File directory = new File(plugin.getDataFolder(), languages.path());
 
             directory.mkdirs();
+
+            // TODO: 31/12/2019
+            
         }
 
         return t;
+    }
+
+    private <T> void loadSections(@NotNull T t, @NotNull Class<?> tClass, @NotNull FileConfiguration fileConfiguration,
+                                  @NotNull String before) {
+        for (Class<?> innerClass : tClass.getDeclaredClasses()) {
+            final Section section = innerClass.getAnnotation(Section.class);
+
+            if (section != null) {
+                final String path;
+                before = before.isEmpty() ? before : before + ".";
+
+                if (section.path().isEmpty()) {
+                    path = before + innerClass.getSimpleName().replace("_", section.separator());
+                } else {
+                    path = before + section.path();
+                }
+
+                try {
+                    final Optional<Object> objectOptional = getInstance(t, tClass, innerClass);
+
+                    if (!objectOptional.isPresent()) {
+                        continue;
+                    }
+
+                    loadFields(objectOptional.get(), innerClass, fileConfiguration, path);
+                    loadSections(objectOptional.get(), innerClass, fileConfiguration, path);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
     }
 
     private <T> void loadFields(@NotNull T t, Class<?> tClass, @NotNull FileConfiguration fileConfiguration,

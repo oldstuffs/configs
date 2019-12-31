@@ -45,6 +45,9 @@ public final class Config {
     @Section
     public static final class test_1 {
 
+        @Instance
+        public test_3 test_3;
+
         @Value
         public SendableTitle test_title = new BasicSendableTitle(
             new BasicReplaceable("test-title"),
@@ -54,6 +57,36 @@ public final class Config {
             20
         );
 
+        @Section
+        public static final class test_3 {
+
+            @Instance
+            public test_4 test_4;
+
+            @Value
+            public SendableTitle test_title = new BasicSendableTitle(
+                new BasicReplaceable("test-title"),
+                new BasicReplaceable("test-sub-title"),
+                20,
+                20,
+                20
+            );
+
+            @Section
+            public static final class test_4 {
+
+                @Value
+                public SendableTitle test_title = new BasicSendableTitle(
+                    new BasicReplaceable("test-title"),
+                    new BasicReplaceable("test-sub-title"),
+                    20,
+                    20,
+                    20
+                );
+
+            }
+
+        }
     }
 
     @Section
