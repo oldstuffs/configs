@@ -101,6 +101,7 @@ public final class AnnotationProcessor {
             }
 
             loadFields(t, tClass, fileConfiguration, "");
+            loadSections(t, tClass, fileConfiguration, "");
             fileConfiguration.save(file);
         } else if (languages != null) {
             final File directory = new File(plugin.getDataFolder(), languages.path());
