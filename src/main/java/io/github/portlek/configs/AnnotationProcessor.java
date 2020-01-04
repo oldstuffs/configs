@@ -40,7 +40,7 @@ public final class AnnotationProcessor {
     }
 
     @NotNull
-    public <T> T load(@NotNull T t) throws Exception {
+    public <T> T load(@NotNull T t) {
         final Class<?> tClass = t.getClass();
         final BasicFile basicFile = tClass.getAnnotation(BasicFile.class);
         final Languages languages = tClass.getAnnotation(Languages.class);
@@ -100,9 +100,13 @@ public final class AnnotationProcessor {
                     break;
             }
 
-            loadFields(t, tClass, fileConfiguration, "");
-            loadSections(t, tClass, fileConfiguration, "");
-            fileConfiguration.save(file);
+            try {
+                loadFields(t, tClass, fileConfiguration, "");
+                loadSections(t, tClass, fileConfiguration, "");
+                fileConfiguration.save(file);
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
         } else if (languages != null) {
             final File directory = new File(plugin.getDataFolder(), languages.path());
 
