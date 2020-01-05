@@ -9,12 +9,14 @@ public interface Sendable extends Replaceable {
 
     void sendMessage(@NotNull Iterable<Player> players);
 
-    void sendTitle(@NotNull Player... players);
-
-    void sendTitle(@NotNull Iterable<Player> players);
-
     void sendActionbar(@NotNull Player... players);
 
     void sendActionbar(@NotNull Iterable<Player> players);
+
+    @Deprecated
+    void sendTitle(@NotNull Player... players);
+
+    @Deprecated
+    void sendTitle(@NotNull Iterable<Player> players);
 
 }

@@ -101,8 +101,7 @@ public final class AnnotationProcessor {
             }
 
             try {
-                loadFields(t, tClass, fileConfiguration, "");
-                loadSections(t, tClass, fileConfiguration, "");
+                load(t, tClass, fileConfiguration, "");
                 fileConfiguration.save(file);
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -118,9 +117,9 @@ public final class AnnotationProcessor {
         return t;
     }
 
-    private <T> void loadSections(@NotNull T t, @NotNull Class<?> tClass, @NotNull FileConfiguration fileConfiguration,
-                                  @NotNull String before) throws Exception {
-        for (Class<?> innerClass : tClass.getDeclaredClasses()) {
+    private void loadSections(@NotNull Object fieldValue, @NotNull Object ownClass,
+                              @NotNull FileConfiguration fileConfiguration, @NotNull String before) throws Exception {
+        for (Class<?> innerClass : ownClass.getClass().getDeclaredClasses()) {
             final Section section = innerClass.getAnnotation(Section.class);
 
             if (section != null) {
@@ -133,20 +132,13 @@ public final class AnnotationProcessor {
                     path = before + section.path();
                 }
 
-                final Optional<Object> objectOptional = getInstance(t, tClass, innerClass);
-
-                if (!objectOptional.isPresent()) {
-                    continue;
-                }
-
-                loadFields(objectOptional.get(), innerClass, fileConfiguration, path);
-                loadSections(objectOptional.get(), innerClass, fileConfiguration, path);
+                load(fieldValue, innerClass, fileConfiguration, path);
             }
         }
     }
 
-    private <T> void loadFields(@NotNull T t, Class<?> tClass, @NotNull FileConfiguration fileConfiguration,
-                                @NotNull String before) throws Exception {
+    private <T> void load(@NotNull T t, Class<?> tClass, @NotNull FileConfiguration fileConfiguration,
+                          @NotNull String before) throws Exception {
         for (Field field : tClass.getDeclaredFields()) {
             final boolean accessible = field.isAccessible();
 
@@ -154,6 +146,8 @@ public final class AnnotationProcessor {
 
             final Value value = field.getDeclaredAnnotation(Value.class);
             final Instance instance = field.getDeclaredAnnotation(Instance.class);
+
+            final Object defaultValue = field.get(t);
 
             if (value != null) {
                 final boolean isPrimitive = isPrimitive(field.getType());
@@ -166,8 +160,6 @@ public final class AnnotationProcessor {
                 } else {
                     path = before + value.path();
                 }
-
-                final Object defaultValue = field.get(t);
 
                 if (defaultValue == null) {
                     continue;
@@ -339,66 +331,12 @@ public final class AnnotationProcessor {
                         }
                     }
                 }
-            } else if (instance != null) {
-                setInstance(t, tClass, field);
+            } else if (instance != null && defaultValue != null) {
+                loadSections(defaultValue, t, fileConfiguration, before);
             }
 
             field.setAccessible(accessible);
         }
-    }
-
-    private <T> void setInstance(@NotNull T t, @NotNull Class<?> tClass, @NotNull Field field) throws Exception {
-        for (Constructor<?> constructor : field.getType().getDeclaredConstructors()) {
-            final boolean accessibleCtor = constructor.isAccessible();
-            boolean breakable = false;
-
-            constructor.setAccessible(true);
-
-            if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
-                field.set(t, constructor.newInstance(t));
-
-                breakable = true;
-            } else if (constructor.getParameterCount() == 0) {
-                final Object object = constructor.newInstance();
-
-                field.set(t, object);
-
-                breakable = true;
-            }
-
-            if (breakable) {
-                break;
-            }
-
-            constructor.setAccessible(accessibleCtor);
-        }
-    }
-
-    private Optional<Object> getInstance(@NotNull Object object, @NotNull Class<?> tClass, @NotNull Class<?> type)
-        throws Exception {
-        for (Constructor<?> constructor : type.getDeclaredConstructors()) {
-            final boolean accessibleCtor = constructor.isAccessible();
-
-            constructor.setAccessible(true);
-
-            if (constructor.getParameterCount() == 1 && constructor.getParameterTypes()[0].equals(tClass)) {
-                return Optional.of(
-                    constructor.newInstance(object)
-                );
-            } else if (constructor.getParameterCount() == 0) {
-                return Optional.of(
-                    constructor.newInstance()
-                );
-            }
-
-            constructor.setAccessible(accessibleCtor);
-        }
-
-        return Optional.empty();
-    }
-
-    public void define(@NotNull String regex, @NotNull Object object) {
-        CONSTANTS.put(regex, object);
     }
 
     private boolean isPrimitive(@NotNull Class<?> clazz) {

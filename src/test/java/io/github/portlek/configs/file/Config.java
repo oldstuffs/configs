@@ -9,11 +9,14 @@ import io.github.portlek.configs.values.BasicReplaceable;
 import io.github.portlek.configs.values.BasicSendableTitle;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.List;
+
 @BasicFile(fileName = "config")
 public final class Config {
 
     @Instance
-    public test_1 test_1;
+    public test_1 test_1 = new test_1();
 
     @Value
     @NotNull
@@ -25,7 +28,7 @@ public final class Config {
 
     @Value
     @NotNull
-    public String[] test_list = {"test-1", "test-2"};
+    public List<String> test_list = Arrays.asList("test-1", "test-2");
 
     @Value
     public Integer test_integer = 0;
@@ -43,7 +46,7 @@ public final class Config {
     public static final class test_1 {
 
         @Instance
-        public test_2 test_2;
+        public test_2 test_2 = new test_2();
 
         @Value
         public SendableTitle test_title = new BasicSendableTitle(
@@ -58,7 +61,7 @@ public final class Config {
         public static final class test_2 {
 
             @Instance
-            public test_3 test_3;
+            public test_3 test_3 = new test_3();
 
             @Value
             public SendableTitle test_title = new BasicSendableTitle(
