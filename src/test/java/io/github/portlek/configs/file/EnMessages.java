@@ -19,10 +19,10 @@ import org.jetbrains.annotations.NotNull;
 public final class EnMessages {
 
     @Instance
-    public Error error;
+    public Error error = new Error();
 
     @Instance
-    public General general;
+    public General general = new General();
 
     @Section(path = "error")
     public static final class Error {
