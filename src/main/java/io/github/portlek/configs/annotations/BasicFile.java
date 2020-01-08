@@ -23,4 +23,7 @@ public @interface BasicFile {
 
     boolean copyDefault() default false;
 
+    @NotNull
+    String header() default "";
+
 }

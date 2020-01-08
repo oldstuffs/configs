@@ -21,7 +21,6 @@ import org.cactoos.list.ListOf;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +42,7 @@ public final class AnnotationProcessor {
     public <T> T load(@NotNull T t) {
         final Class<?> tClass = t.getClass();
         final BasicFile basicFile = tClass.getAnnotation(BasicFile.class);
-        final Languages languages = tClass.getAnnotation(Languages.class);
+        final LinkedFile linkedFile = tClass.getAnnotation(LinkedFile.class);
         final FileConfiguration fileConfiguration;
 
         if (basicFile != null) {
@@ -100,14 +99,18 @@ public final class AnnotationProcessor {
                     break;
             }
 
+            if (!basicFile.header().isEmpty()) {
+                fileConfiguration.options().header(basicFile.header());
+            }
+
             try {
                 load(t, tClass, fileConfiguration, "");
                 fileConfiguration.save(file);
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-        } else if (languages != null) {
-            final File directory = new File(plugin.getDataFolder(), languages.path());
+        } else if (linkedFile != null) {
+            final File directory = new File(plugin.getDataFolder(), linkedFile.path());
 
             directory.mkdirs();
 

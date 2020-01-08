@@ -17,4 +17,7 @@ public @interface Section {
     @NotNull
     String separator() default "-";
 
+    @NotNull
+    String header() default "";
+
 }

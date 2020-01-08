@@ -1,11 +1,13 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.file.Config;
+import io.github.portlek.configs.file.Messages;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
+import java.util.Locale;
 
 public final class MyPlugin extends JavaPlugin {
 
@@ -21,23 +23,18 @@ public final class MyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final Config config = annotationProcessor.load(new Config());
+        final Config config = annotationProcessor.load(
+            new Config()
+        );
+        final Messages messages = annotationProcessor.load(
+            new Messages(
+                new Locale(config.plugin_language)
+            )
+        );
 
-        System.out.println(config.plugin_prefix);
-        System.out.println(config.plugin_language);
-        System.out.println(config.test_integer);
-        System.out.println(config.test_list);
-        System.out.println(config.test_title.title().build());
-        System.out.println(config.test_title.subTitle().build());
-        System.out.println("******");
-        System.out.println(config.test_1.test_title.title().build());
-        System.out.println(config.test_1.test_title.subTitle().build());
-        System.out.println("******");
-        System.out.println(config.test_1.test_2.test_title.title().build());
-        System.out.println(config.test_1.test_2.test_title.subTitle().build());
-        System.out.println("******");
-        System.out.println(config.test_1.test_2.test_3.test_title.title().build());
-        System.out.println(config.test_1.test_2.test_3.test_title.subTitle().build());
+        System.out.println(
+            messages.error.player_not_found
+        );
     }
 
 }

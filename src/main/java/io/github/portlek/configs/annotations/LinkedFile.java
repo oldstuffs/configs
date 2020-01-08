@@ -9,12 +9,12 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Languages {
+public @interface LinkedFile {
 
     @NotNull
     String path() default "";
 
     @NotNull
-    Class<?>[] files() default {};
+    String[] languages() default {};
 
 }

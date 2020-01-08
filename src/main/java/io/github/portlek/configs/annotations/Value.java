@@ -17,4 +17,7 @@ public @interface Value {
     @NotNull
     String separator() default "-";
 
+    @NotNull
+    String comment() default "";
+
 }
