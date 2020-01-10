@@ -17,7 +17,8 @@ import java.util.List;
 @BasicFile(
     fileName = "config",
     header = "Test for header\n" +
-        "Test header for new line"
+        "Test header for new line",
+    configVersion = "1.2"
 )
 public final class Config {
 

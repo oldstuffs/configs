@@ -26,4 +26,7 @@ public @interface BasicFile {
     @NotNull
     String header() default "";
 
+    @NotNull
+    String configVersion() default "1.0";
+
 }
