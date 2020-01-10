@@ -82,5 +82,5 @@ public final class Migrate {
     public boolean isRemove() {
         return remove;
     }
-    
+
 }

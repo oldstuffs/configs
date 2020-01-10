@@ -26,8 +26,10 @@ public final class Config {
     public test_1 test_1 = new test_1();
 
     @Value(
-        comment = "Test for comment\n" +
+        comment = {
+            "Test for comment",
             "Test comment for new line"
+        }
     )
     @NotNull
     public String plugin_prefix = "&6[&eExamplePlugin&6]";

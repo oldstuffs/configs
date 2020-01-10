@@ -18,6 +18,6 @@ public @interface Value {
     String separator() default "-";
 
     @NotNull
-    String comment() default "";
+    String[] comment() default {};
 
 }
