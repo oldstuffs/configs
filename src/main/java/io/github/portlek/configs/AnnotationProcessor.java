@@ -42,7 +42,6 @@ public final class AnnotationProcessor {
     public <T> T load(@NotNull T t) {
         final Class<?> tClass = t.getClass();
         final BasicFile basicFile = tClass.getAnnotation(BasicFile.class);
-        final LinkedFile linkedFile = tClass.getAnnotation(LinkedFile.class);
         final FileConfiguration fileConfiguration;
 
         if (basicFile != null) {
@@ -109,12 +108,6 @@ public final class AnnotationProcessor {
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
-        } else if (linkedFile != null) {
-            final File directory = new File(plugin.getDataFolder(), linkedFile.path());
-
-            directory.mkdirs();
-
-            // TODO: 31/12/2019
         }
 
         return t;
