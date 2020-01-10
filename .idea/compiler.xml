@@ -6,18 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="core" />
-        <module name="configs-bukkit" />
-        <module name="example" />
         <module name="configs-core" />
+        <module name="configs-bukkit" />
+        <module name="core" />
+        <module name="example" />
         <module name="bukkit" />
+        <module name="example-plugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="configs" target="1.8" />
       <module name="configs-bukkit" target="1.8" />
       <module name="configs-core" target="1.8" />
       <module name="configs-parent" target="1.8" />
-      <module name="configs-example" target="1.8" />
+      <module name="example-plugin" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
