@@ -23,46 +23,34 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.annotations;
 
-import org.cactoos.Scalar;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.IOException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public final class CreateStorage implements Scalar<File> {
-
-    @NotNull
-    private final String path;
-
-    @NotNull
-    private final String fileName;
-
-    public CreateStorage(@NotNull String path, @NotNull String fileName) {
-        this.path = path;
-        this.fileName = fileName;
-    }
+@Target(ElementType.ANNOTATION_TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Migrate {
 
     @NotNull
-    public File value() {
-        final File storage = new File(path, fileName);
+    String path();
 
-        if (!storage.exists()) {
-            storage.getParentFile().mkdirs();
+    @NotNull
+    String only() default "";
 
-            try {
-                storage.createNewFile();
-            } catch (IOException exception) {
-                throw new IllegalStateException(exception);
-            }
-        }
+    @NotNull
+    String until() default "";
 
-        if (!storage.exists()) {
-            throw new IllegalStateException(storage.getName() + " cannot be created, please check file permissions!");
-        }
+    @NotNull
+    String before() default "";
 
-        return storage;
-    }
+    @NotNull
+    String after() default "";
+
+    boolean remove() default false;
 
 }
