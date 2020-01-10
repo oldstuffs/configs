@@ -7,7 +7,7 @@
     <groupId>io.github.portlek</groupId>
     <artifactId>configs-parent</artifactId>
     <version>1.0</version>
-    <name>Configs</name>
+    <name>configs-parent</name>
     <packaging>pom</packaging>
 
     <modules>
