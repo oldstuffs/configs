@@ -1,4 +1,12 @@
-.idea
 target
 *.iml
-build
+.idea/dictionaries
+.idea/libraries
+.idea/sonarlint
+.idea/workspace.xml
+.idea/misc.xml
+.idea/uiDesigner.xml
+.idea/kotlinc.xml
+.idea/modules.xml
+.idea/usage.statistics.xml
+.idea/checkstyle-idea.xml

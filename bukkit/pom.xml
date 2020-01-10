@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>configs</artifactId>
+        <artifactId>configs-parent</artifactId>
         <groupId>io.github.portlek</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bukkit</artifactId>
+    <artifactId>configs-bukkit</artifactId>
 
     <repositories>
         <repository>
@@ -19,6 +19,11 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>io.github.portlek</groupId>
+            <artifactId>configs-core</artifactId>
+            <version>1.0</version>
+        </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>

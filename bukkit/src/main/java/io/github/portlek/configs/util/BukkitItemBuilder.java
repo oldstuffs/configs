@@ -1,4 +1,4 @@
-package io.github.portlek.configs.bukkit.util;
+package io.github.portlek.configs.util;
 
 import io.github.portlek.itemstack.util.Colored;
 import io.github.portlek.itemstack.util.ColoredList;
@@ -18,39 +18,39 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public final class ItemBuilder extends ItemStack {
+public final class BukkitItemBuilder extends ItemStack {
 
-    private ItemBuilder(@NotNull ItemStack itemStack) {
+    private BukkitItemBuilder(@NotNull ItemStack itemStack) {
         super(itemStack);
     }
 
-    public static ItemBuilder of(@NotNull XMaterial xMaterial) {
+    public static BukkitItemBuilder of(@NotNull XMaterial xMaterial) {
         final Material material = xMaterial.parseMaterial();
 
         if (material == null) {
             throw new IllegalStateException("Material of the " + xMaterial.name() + " cannot be null!");
         }
 
-        return new ItemBuilder(
+        return new BukkitItemBuilder(
             new ItemStack(material)
         );
     }
 
-    public static ItemBuilder of(@NotNull Material material) {
-        return new ItemBuilder(
+    public static BukkitItemBuilder of(@NotNull Material material) {
+        return new BukkitItemBuilder(
             new ItemStack(material)
         );
     }
 
-    public static ItemBuilder of(@NotNull ItemStack itemStack) {
-        return new ItemBuilder(itemStack);
+    public static BukkitItemBuilder of(@NotNull ItemStack itemStack) {
+        return new BukkitItemBuilder(itemStack);
     }
 
-    public ItemBuilder name(@NotNull String displayName) {
+    public BukkitItemBuilder name(@NotNull String displayName) {
         return name(displayName, true);
     }
 
-    public ItemBuilder name(@NotNull String displayName, boolean colored) {
+    public BukkitItemBuilder name(@NotNull String displayName, boolean colored) {
         if (getItemMeta() == null) {
             return this;
         }
@@ -68,11 +68,11 @@ public final class ItemBuilder extends ItemStack {
         return this;
     }
 
-    public ItemBuilder data(int data) {
+    public BukkitItemBuilder data(int data) {
         return data((byte) data);
     }
 
-    public ItemBuilder data(byte data) {
+    public BukkitItemBuilder data(byte data) {
         final MaterialData materialData = getData();
 
         materialData.setData(data);
@@ -81,7 +81,7 @@ public final class ItemBuilder extends ItemStack {
         return this;
     }
 
-    public ItemBuilder lore(@NotNull String... lore) {
+    public BukkitItemBuilder lore(@NotNull String... lore) {
         return lore(
             new ListOf<>(
                 lore
@@ -90,7 +90,7 @@ public final class ItemBuilder extends ItemStack {
         );
     }
 
-    public ItemBuilder lore(@NotNull List<String> lore, boolean colored) {
+    public BukkitItemBuilder lore(@NotNull List<String> lore, boolean colored) {
         if (getItemMeta() == null) {
             return this;
         }
@@ -110,7 +110,7 @@ public final class ItemBuilder extends ItemStack {
         return this;
     }
 
-    public ItemBuilder enchantments(@NotNull String... enchantments) {
+    public BukkitItemBuilder enchantments(@NotNull String... enchantments) {
         final Map<Enchantment, Integer> enchantmentLevelMap = new HashMap<>();
 
         for (String s : enchantments) {
@@ -136,7 +136,7 @@ public final class ItemBuilder extends ItemStack {
         return enchantments(enchantmentLevelMap);
     }
 
-    public ItemBuilder enchantments(@NotNull XEnchantment enchantment, int level) {
+    public BukkitItemBuilder enchantments(@NotNull XEnchantment enchantment, int level) {
         Optional.ofNullable(enchantment.parseEnchantment()).ifPresent(enchant ->
             addUnsafeEnchantments(
                 new MapOf<>(
@@ -148,7 +148,7 @@ public final class ItemBuilder extends ItemStack {
         return this;
     }
 
-    public ItemBuilder enchantments(@NotNull Enchantment enchantment, int level) {
+    public BukkitItemBuilder enchantments(@NotNull Enchantment enchantment, int level) {
         addUnsafeEnchantments(
             new MapOf<>(
                 new MapEntry<>(enchantment, level)
@@ -158,7 +158,7 @@ public final class ItemBuilder extends ItemStack {
         return this;
     }
 
-    public ItemBuilder enchantments(@NotNull Map<Enchantment, Integer> enchantments) {
+    public BukkitItemBuilder enchantments(@NotNull Map<Enchantment, Integer> enchantments) {
         addUnsafeEnchantments(enchantments);
 
         return this;

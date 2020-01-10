@@ -16,6 +16,9 @@ public @interface File {
     String fileName();
 
     @NotNull
+    String configVersion();
+
+    @NotNull
     FileType fileType() default FileType.YAML;
 
     @NotNull
@@ -25,8 +28,5 @@ public @interface File {
 
     @NotNull
     String header() default "";
-
-    @NotNull
-    String configVersion() default "1.0";
 
 }
