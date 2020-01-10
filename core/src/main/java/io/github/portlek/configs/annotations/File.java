@@ -27,6 +27,6 @@ public @interface File {
     boolean copyDefault() default false;
 
     @NotNull
-    String header() default "";
+    String[] comment() default {};
 
 }

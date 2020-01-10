@@ -18,6 +18,6 @@ public @interface Section {
     String separator() default "-";
 
     @NotNull
-    String header() default "";
+    String[] comment() default {};
 
 }
