@@ -4,7 +4,9 @@ import org.jetbrains.annotations.NotNull;
 
 public enum FileType {
 
-    YAML(".yml");
+    YAML(".yml"),
+    JSON(".json"),
+    XML(".xml");
 
     @NotNull
     private final String suffix;
