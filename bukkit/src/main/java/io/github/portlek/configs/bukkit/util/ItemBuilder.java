@@ -1,7 +1,5 @@
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.bukkit.util;
 
-import io.github.portlek.configs.Replaceable;
-import io.github.portlek.configs.values.BasicReplaceable;
 import io.github.portlek.itemstack.util.Colored;
 import io.github.portlek.itemstack.util.ColoredList;
 import io.github.portlek.itemstack.util.XEnchantment;
@@ -10,9 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-import org.cactoos.iterable.IterableOf;
 import org.cactoos.list.ListOf;
-import org.cactoos.list.Mapped;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 import org.jetbrains.annotations.NotNull;
@@ -55,17 +51,6 @@ public final class ItemBuilder extends ItemStack {
     }
 
     public ItemBuilder name(@NotNull String displayName, boolean colored) {
-        return name(
-            new BasicReplaceable(displayName),
-            colored
-        );
-    }
-
-    public ItemBuilder name(@NotNull Replaceable displayName) {
-        return name(displayName, true);
-    }
-
-    public ItemBuilder name(@NotNull Replaceable displayName, boolean colored) {
         if (getItemMeta() == null) {
             return this;
         }
@@ -73,11 +58,11 @@ public final class ItemBuilder extends ItemStack {
         if (colored) {
             getItemMeta().setDisplayName(
                 new Colored(
-                    displayName.build()
+                    displayName
                 ).value()
             );
         } else {
-            getItemMeta().setDisplayName(displayName.build());
+            getItemMeta().setDisplayName(displayName);
         }
 
         return this;
@@ -98,41 +83,14 @@ public final class ItemBuilder extends ItemStack {
 
     public ItemBuilder lore(@NotNull String... lore) {
         return lore(
-            true,
-            lore
-        );
-    }
-
-    public ItemBuilder lore(@NotNull List<String> lore) {
-        return lore(
-            new Mapped<>(
-                BasicReplaceable::new,
+            new ListOf<>(
                 lore
             ),
             true
         );
     }
 
-    public ItemBuilder lore(boolean colored, @NotNull String... lore) {
-        return lore(
-            new Mapped<>(
-                BasicReplaceable::new,
-                new IterableOf<>(lore)
-            ),
-            colored
-        );
-    }
-
-    public ItemBuilder lore(@NotNull Replaceable... replaceables) {
-        return lore(
-            new ListOf<>(
-                replaceables
-            ),
-            true
-        );
-    }
-
-    public ItemBuilder lore(@NotNull List<Replaceable> lore, boolean colored) {
+    public ItemBuilder lore(@NotNull List<String> lore, boolean colored) {
         if (getItemMeta() == null) {
             return this;
         }
@@ -140,18 +98,12 @@ public final class ItemBuilder extends ItemStack {
         if (colored) {
             getItemMeta().setLore(
                 new ColoredList(
-                    new Mapped<>(
-                        Replaceable::build,
-                        lore
-                    )
+                    lore
                 ).value()
             );
         } else {
             getItemMeta().setLore(
-                new Mapped<>(
-                    Replaceable::build,
-                    lore
-                )
+                lore
             );
         }
 

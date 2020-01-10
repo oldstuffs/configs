@@ -6,7 +6,8 @@ public enum FileType {
 
     YAML(".yml"),
     JSON(".json"),
-    XML(".xml");
+    XML(".xml"),
+    TOML(".toml");
 
     @NotNull
     private final String suffix;
