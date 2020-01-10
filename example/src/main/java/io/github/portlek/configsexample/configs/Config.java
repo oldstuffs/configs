@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 portlek
+ * Copyright (c) 2019 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.example.configs;
+package io.github.portlek.configsexample.configs;
 
 import io.github.portlek.configs.annotations.File;
 import io.github.portlek.configs.annotations.Value;
