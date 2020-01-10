@@ -29,7 +29,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>io.github.portlek.configs</pattern>
-                                    <shadedPattern>io.github.portlek.configs.example.configs</shadedPattern>
+                                    <shadedPattern>io.github.portlek.example.configs</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -1,4 +1,4 @@
-package io.github.portlek.configs.example.configs;
+package io.github.portlek.example.configs;
 
 import io.github.portlek.configs.annotations.File;
 
@@ -7,7 +7,6 @@ import io.github.portlek.configs.annotations.File;
     configVersion = "1.0"
 )
 public final class Config {
-
 
 
 }
