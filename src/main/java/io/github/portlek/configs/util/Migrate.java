@@ -19,6 +19,8 @@ public final class Migrate {
     @NotNull
     private String after = "";
 
+    private boolean remove = false;
+
     private Migrate(@NotNull String path) {
         this.path = path;
     }
@@ -47,6 +49,11 @@ public final class Migrate {
         return this;
     }
 
+    public Migrate remove(boolean remove) {
+        this.remove = remove;
+        return this;
+    }
+
     @NotNull
     public String getPath() {
         return path;
@@ -72,4 +79,8 @@ public final class Migrate {
         return after;
     }
 
+    public boolean isRemove() {
+        return remove;
+    }
+    
 }
