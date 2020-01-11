@@ -11,7 +11,6 @@
         <module name="core" />
         <module name="example" />
         <module name="bukkit" />
-        <module name="example-plugin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

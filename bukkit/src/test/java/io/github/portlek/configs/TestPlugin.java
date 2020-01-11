@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Hasan Demirtaş
+ * Copyright (c) 2020 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,18 +23,27 @@
  *
  */
 
-package io.github.portlek.configsexample.configs;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.File;
-import io.github.portlek.configs.annotations.Value;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
-@File(
-    fileName = "config",
-    fileVersion = "1.0"
-)
-public final class Config {
+import java.io.File;
 
-    @Value
-    public String test_string = "test_string";
+public class TestPlugin extends JavaPlugin {
+
+    public TestPlugin() {
+        super();
+    }
+
+    protected TestPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, new File("build"), file);
+    }
+
+    @Override
+    public void onEnable() {
+        
+    }
 
 }
