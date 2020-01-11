@@ -23,18 +23,24 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.configuration;
 
-import io.github.portlek.configs.annotations.File;
-import io.github.portlek.configs.annotations.Value;
+import org.jetbrains.annotations.NotNull;
 
-@File(
-    fileName = "config",
-    fileVersion = "1.0"
-)
-public final class Config {
+import java.util.Optional;
 
-    @Value
-    public String test_string = "Test String";
+public interface ConfigurationSection {
+
+    @NotNull
+    Configuration getRoot();
+
+    @NotNull
+    String getName();
+
+    @NotNull
+    Optional<ConfigurationSection> getParent();
+
+    @NotNull
+    String getCurrentPath();
 
 }

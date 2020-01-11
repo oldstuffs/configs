@@ -33,19 +33,7 @@
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>itemstack</artifactId>
-            <version>1.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.5.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.14</artifactId>
-            <version>0.2.1</version>
-            <scope>test</scope>
+            <version>1.6</version>
         </dependency>
     </dependencies>
 

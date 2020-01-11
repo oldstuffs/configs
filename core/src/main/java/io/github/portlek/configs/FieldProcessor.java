@@ -25,25 +25,27 @@
 
 package io.github.portlek.configs;
 
-import org.bukkit.plugin.PluginDescriptionFile;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.plugin.java.JavaPluginLoader;
+import io.github.portlek.configs.annotations.Value;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
+import java.lang.reflect.Field;
 
-public class TestPlugin extends JavaPlugin {
+public final class FieldProcessor extends Processor {
 
-    public TestPlugin() {
-        super();
-    }
+    @NotNull
+    private final Object instance;
 
-    protected TestPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
-        super(loader, description, new File("build"), file);
+    @NotNull
+    private final Field field;
+
+    public FieldProcessor(@NotNull Object instance, @NotNull Field field) {
+        this.instance = instance;
+        this.field = field;
     }
 
     @Override
-    public void onEnable() {
-        
+    public void load() {
+        final Value value = field.getDeclaredAnnotation(Value.class);
     }
 
 }

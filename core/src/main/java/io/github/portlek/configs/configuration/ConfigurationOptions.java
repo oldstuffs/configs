@@ -23,18 +23,44 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.configuration;
 
-import be.seeseemelk.mockbukkit.MockBukkit;
-import org.junit.jupiter.api.Test;
+import org.jetbrains.annotations.NotNull;
 
-public class StartServer {
+public class ConfigurationOptions {
 
-    @Test
-    void create() {
-        MockBukkit.mock();
-        MockBukkit.load(TestPlugin.class);
-        MockBukkit.unload();
+    private char pathSeparator = '.';
+
+    private boolean copyDefaults = false;
+
+    @NotNull
+    private final Configuration configuration;
+
+    protected ConfigurationOptions(@NotNull Configuration configuration) {
+        this.configuration = configuration;
+    }
+
+    public char pathSeparator() {
+        return pathSeparator;
+    }
+
+    @NotNull
+    public Configuration configuration() {
+        return configuration;
+    }
+
+    public ConfigurationOptions pathSeparator(char pathSeparator) {
+        this.pathSeparator = pathSeparator;
+        return this;
+    }
+
+    public boolean copyDefaults() {
+        return copyDefaults;
+    }
+
+    public ConfigurationOptions copyDefaults(boolean copyDefaults) {
+        this.copyDefaults = copyDefaults;
+        return this;
     }
 
 }
