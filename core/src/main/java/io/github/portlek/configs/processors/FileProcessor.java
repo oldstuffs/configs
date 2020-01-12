@@ -23,24 +23,15 @@
  *
  */
 
-package io.github.portlek.configs.configuration;
+package io.github.portlek.configs.processors;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
+public final class FileProcessor extends Processor {
 
-public interface ConfigurationSection {
-
-    @NotNull
-    Configuration getRoot();
-
-    @NotNull
-    String getName();
-
-    @NotNull
-    Optional<ConfigurationSection> getParent();
-
-    @NotNull
-    String getCurrentPath();
+    @Override
+    public void load(@NotNull Object instance) {
+        
+    }
 
 }

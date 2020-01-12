@@ -23,15 +23,29 @@
  *
  */
 
-package io.github.portlek.configs.configuration.serialization;
+package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
+import java.lang.reflect.Field;
 
-public interface ConfigurationSerializable {
+public final class ValueProcessor extends Processor {
 
     @NotNull
-    Map<String, Object> serialize();
+    private final Field field;
+
+    @NotNull
+    private final Value value;
+
+    public ValueProcessor(@NotNull Field field, @NotNull Value value) {
+        this.field = field;
+        this.value = value;
+    }
+
+    @Override
+    public void load(@NotNull Object instance) {
+
+    }
 
 }

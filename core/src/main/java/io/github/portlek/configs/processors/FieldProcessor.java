@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
@@ -33,19 +33,20 @@ import java.lang.reflect.Field;
 public final class FieldProcessor extends Processor {
 
     @NotNull
-    private final Object instance;
-
-    @NotNull
     private final Field field;
 
-    public FieldProcessor(@NotNull Object instance, @NotNull Field field) {
-        this.instance = instance;
+    public FieldProcessor(@NotNull Field field) {
         this.field = field;
     }
 
     @Override
-    public void load() {
+    public void load(@NotNull Object instance) {
         final Value value = field.getDeclaredAnnotation(Value.class);
+
+        if (value != null) {
+            new ValueProcessor(field, value).load(instance);
+        }
+
     }
 
 }

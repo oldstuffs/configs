@@ -26,6 +26,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.File;
+import io.github.portlek.configs.annotations.Value;
 
 @File(
     fileName = "config",
@@ -33,5 +34,7 @@ import io.github.portlek.configs.annotations.File;
 )
 public final class TestConfig {
 
+    @Value
+    public String test_string = "Test String";
 
 }

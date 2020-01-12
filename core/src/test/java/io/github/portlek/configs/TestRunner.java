@@ -25,8 +25,18 @@
 
 package io.github.portlek.configs;
 
-public abstract class Processor {
+import io.github.portlek.configs.processors.FileProcessor;
+import org.junit.jupiter.api.Test;
 
-    public abstract void load();
+public final class TestRunner {
+
+    private final FileProcessor fileProcessor = new FileProcessor();
+
+    @Test
+    void run() {
+        final TestConfig testConfig = fileProcessor.load(new TestConfig());
+
+
+    }
 
 }

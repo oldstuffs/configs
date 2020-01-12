@@ -23,44 +23,12 @@
  *
  */
 
-package io.github.portlek.configs.configuration;
+package io.github.portlek.configs.processors;
 
 import org.jetbrains.annotations.NotNull;
 
-public class ConfigurationOptions {
+public abstract class Processor {
 
-    private char pathSeparator = '.';
-
-    private boolean copyDefaults = false;
-
-    @NotNull
-    private final Configuration configuration;
-
-    protected ConfigurationOptions(@NotNull Configuration configuration) {
-        this.configuration = configuration;
-    }
-
-    public char pathSeparator() {
-        return pathSeparator;
-    }
-
-    @NotNull
-    public Configuration configuration() {
-        return configuration;
-    }
-
-    public ConfigurationOptions pathSeparator(char pathSeparator) {
-        this.pathSeparator = pathSeparator;
-        return this;
-    }
-
-    public boolean copyDefaults() {
-        return copyDefaults;
-    }
-
-    public ConfigurationOptions copyDefaults(boolean copyDefaults) {
-        this.copyDefaults = copyDefaults;
-        return this;
-    }
+    public abstract void load(@NotNull Object instance);
 
 }
