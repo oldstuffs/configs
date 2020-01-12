@@ -25,28 +25,21 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.annotations.LinkedFile;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
-
-public final class FieldProcessor extends Processor {
+public final class LinkedFileProceed implements Proceed {
 
     @NotNull
-    private final Field field;
+    private final LinkedFile file;
 
-    public FieldProcessor(@NotNull Field field) {
-        this.field = field;
+    public LinkedFileProceed(@NotNull LinkedFile file) {
+        this.file = file;
     }
 
     @Override
     public void load(@NotNull Object instance) {
-        final Value value = field.getDeclaredAnnotation(Value.class);
-
-        if (value != null) {
-            new ValueProcessor(field, value).load(instance);
-        }
 
     }
-
 }

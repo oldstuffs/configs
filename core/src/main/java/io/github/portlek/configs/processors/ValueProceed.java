@@ -25,12 +25,13 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 
-public final class ValueProcessor extends Processor {
+public final class ValueProceed implements Proceed {
 
     @NotNull
     private final Field field;
@@ -38,7 +39,7 @@ public final class ValueProcessor extends Processor {
     @NotNull
     private final Value value;
 
-    public ValueProcessor(@NotNull Field field, @NotNull Value value) {
+    public ValueProceed(@NotNull Field field, @NotNull Value value) {
         this.field = field;
         this.value = value;
     }

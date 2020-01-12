@@ -23,12 +23,37 @@
  *
  */
 
-package io.github.portlek.configs.processors;
+package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotations.File;
+import io.github.portlek.configs.annotations.LinkedFile;
+import io.github.portlek.configs.processors.FileProceed;
+import io.github.portlek.configs.processors.LinkedFileProceed;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class Processor {
+public interface Proceed {
 
-    public abstract void load(@NotNull Object instance);
+    void load(@NotNull Object instance);
+
+    @NotNull
+    static <T> T of(@NotNull T object) {
+        final File file = object.getClass().getDeclaredAnnotation(File.class);
+
+        if (file != null) {
+            new FileProceed(file).load(object);
+
+            return object;
+        }
+
+        final LinkedFile linkedFile = object.getClass().getDeclaredAnnotation(LinkedFile.class);
+
+        if (linkedFile != null) {
+            new LinkedFileProceed(linkedFile).load(object);
+
+            return object;
+        }
+
+        throw new UnsupportedOperationException();
+    }
 
 }

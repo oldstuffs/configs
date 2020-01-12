@@ -23,19 +23,24 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.processors;
 
-import org.junit.jupiter.api.Test;
+import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.annotations.File;
+import org.jetbrains.annotations.NotNull;
 
-public final class TestRunner {
+public final class FileProceed implements Proceed {
 
-    @Test
-    void run() {
-        final TestConfig testConfig = Proceed.of(new TestConfig());
+    @NotNull
+    private final File file;
 
-        System.out.println(
-            testConfig.test_string
-        );
+    public FileProceed(@NotNull File file) {
+        this.file = file;
+    }
+
+    @Override
+    public void load(@NotNull Object instance) {
+
     }
 
 }
