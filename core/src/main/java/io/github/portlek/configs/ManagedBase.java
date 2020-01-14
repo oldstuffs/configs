@@ -25,31 +25,34 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.File;
-import io.github.portlek.configs.processors.FileProceed;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
-public interface Proceed {
+import java.io.File;
 
-    void load(@NotNull Object instance);
+public abstract class ManagedBase implements Managed {
 
-    @NotNull
-    static <T> T of(@NotNull T object) {
-        if (!ManagedBase.class.isAssignableFrom(object.getClass())) {
-            throw new UnsupportedOperationException(
-                "You have to extend 'io.github.portlek.configs.ManagedBase' class for a class that you want to load!"
-            );
+    @Nullable
+    private FileConfiguration fileConfiguration;
+
+    @Nullable
+    private File file;
+
+    private boolean autoSave = false;
+
+    @Override
+    public void setAutoSave(boolean autoSave) {
+        this.autoSave = autoSave;
+    }
+
+    @Override
+    public void setFileConfiguration(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
+        if (this.fileConfiguration != null || this.file != null) {
+            throw new IllegalStateException("You cannot use #setFileConfigutaion after it's set!");
         }
 
-        final File file = object.getClass().getDeclaredAnnotation(File.class);
-
-        if (file != null) {
-            new FileProceed(file).load(object);
-
-            return object;
-        }
-
-        throw new UnsupportedOperationException();
+        this.fileConfiguration = fileConfiguration;
     }
 
 }

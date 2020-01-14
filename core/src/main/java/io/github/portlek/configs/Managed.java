@@ -25,31 +25,15 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.File;
-import io.github.portlek.configs.processors.FileProceed;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
-public interface Proceed {
+import java.io.File;
 
-    void load(@NotNull Object instance);
+public interface Managed {
 
-    @NotNull
-    static <T> T of(@NotNull T object) {
-        if (!ManagedBase.class.isAssignableFrom(object.getClass())) {
-            throw new UnsupportedOperationException(
-                "You have to extend 'io.github.portlek.configs.ManagedBase' class for a class that you want to load!"
-            );
-        }
+    void setAutoSave(boolean autoSave);
 
-        final File file = object.getClass().getDeclaredAnnotation(File.class);
-
-        if (file != null) {
-            new FileProceed(file).load(object);
-
-            return object;
-        }
-
-        throw new UnsupportedOperationException();
-    }
+    void setFileConfiguration(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
 }

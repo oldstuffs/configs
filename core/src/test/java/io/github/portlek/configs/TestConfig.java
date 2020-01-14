@@ -32,7 +32,7 @@ import io.github.portlek.configs.annotations.Value;
     fileName = "config",
     fileVersion = "1.0"
 )
-public final class TestConfig {
+public final class TestConfig extends ManagedBase {
 
     @Value
     public String test_string = "Test String";
