@@ -32,7 +32,6 @@ import org.simpleyaml.configuration.ConfigurationSection;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,6 +59,21 @@ public abstract class ManagedBase implements Managed {
         validate();
 
         return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).get(path, def));
+    }
+
+    @NotNull
+    @Override
+    @SuppressWarnings("unchecked")
+    public <T> T getOrSet(@NotNull String path, @NotNull T fallback) {
+        final Optional<T> object = (Optional<T>) get(path);
+
+        if (object.isPresent()) {
+            return object.get();
+        }
+
+        set(path, fallback);
+
+        return fallback;
     }
 
     @Override
@@ -233,11 +247,6 @@ public abstract class ManagedBase implements Managed {
         this.fileConfiguration = fileConfiguration;
     }
 
-    private void validate() {
-        Validate.isNull(fileConfiguration, "You must load your class with the 'io.github.portlek.configs.Proceed'");
-        Validate.isNull(file, "You must load your class with the 'io.github.portlek.configs.Proceed'");
-    }
-
     private void autoSave() {
         if (autoSave) {
             validate();
@@ -248,6 +257,11 @@ public abstract class ManagedBase implements Managed {
                 Logger.getGlobal().severe(exception.getMessage());
             }
         }
+    }
+
+    private void validate() {
+        Validate.isNull(fileConfiguration, "You must load your class with the 'io.github.portlek.configs.Proceed'");
+        Validate.isNull(file, "You must load your class with the 'io.github.portlek.configs.Proceed'");
     }
 
 }

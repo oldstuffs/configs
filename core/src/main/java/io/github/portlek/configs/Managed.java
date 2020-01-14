@@ -32,7 +32,6 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public interface Managed {
@@ -42,6 +41,10 @@ public interface Managed {
 
     @NotNull
     Optional<Object> get(@NotNull String path, @Nullable Object def);
+
+    @NotNull
+    @SuppressWarnings("unchecked")
+    <T> T getOrSet(@NotNull String pat, @NotNull T fallback);
 
     void set(@NotNull String path, @Nullable Object object);
 
