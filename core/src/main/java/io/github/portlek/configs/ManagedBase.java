@@ -25,11 +25,18 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.util.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.logging.Logger;
 
 public abstract class ManagedBase implements Managed {
 
@@ -41,6 +48,174 @@ public abstract class ManagedBase implements Managed {
 
     private boolean autoSave = false;
 
+    @NotNull
+    @Override
+    public Optional<Object> get(@NotNull String path) {
+        return get(path, null);
+    }
+
+    @NotNull
+    @Override
+    public Optional<Object> get(@NotNull String path, @Nullable Object def) {
+        validate();
+
+        return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).get(path, def));
+    }
+
+    @Override
+    public void set(@NotNull String path, @Nullable Object object) {
+        validate();
+        Objects.requireNonNull(fileConfiguration).set(path, object);
+        autoSave();
+    }
+
+    @NotNull
+    @Override
+    public Optional<ConfigurationSection> getSection(@NotNull String path) {
+        validate();
+
+        return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).getConfigurationSection(path));
+    }
+
+    @NotNull
+    @Override
+    public Optional<ConfigurationSection> getOrCreateSection(@NotNull String path) {
+        final Optional<ConfigurationSection> sectionOptional = getSection(path);
+
+        if (sectionOptional.isPresent()) {
+            return sectionOptional;
+        }
+
+        createSection(path);
+
+        return getSection(path);
+    }
+
+    @Override
+    public void createSection(@NotNull String path) {
+        validate();
+        Objects.requireNonNull(fileConfiguration).createSection(path);
+        autoSave();
+    }
+
+    @NotNull
+    @Override
+    public Optional<String> getString(@NotNull String path) {
+        return getString(path, null);
+    }
+
+    @NotNull
+    @Override
+    public Optional<String> getString(@NotNull String path, @Nullable String def) {
+        validate();
+        return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).getString(path, def));
+    }
+
+    @Override
+    public int getInt(@NotNull String path) {
+        return getInt(path, 0);
+    }
+
+    @Override
+    public int getInt(@NotNull String path, int def) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getInt(path, def);
+    }
+
+    @Override
+    public boolean getBoolean(@NotNull String path) {
+        return getBoolean(path, false);
+    }
+
+    @Override
+    public boolean getBoolean(@NotNull String path, boolean def) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getBoolean(path, def);
+    }
+
+    @Override
+    public double getDouble(@NotNull String path) {
+        return 0;
+    }
+
+    @Override
+    public double getDouble(@NotNull String path, double def) {
+        return 0;
+    }
+
+    @Override
+    public long getLong(@NotNull String path) {
+        return 0;
+    }
+
+    @Override
+    public long getLong(@NotNull String path, long def) {
+        return 0;
+    }
+
+    @NotNull
+    @Override
+    public List<String> getStringList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getStringList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Integer> getIntegerList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getIntegerList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Boolean> getBooleanList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getBooleanList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Double> getDoubleList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getDoubleList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Float> getFloatList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getFloatList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Long> getLongList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getLongList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Byte> getByteList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getByteList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Character> getCharacterList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getCharacterList(path);
+    }
+
+    @NotNull
+    @Override
+    public List<Short> getShortList(@NotNull String path) {
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getShortList(path);
+    }
+
     @Override
     public void setAutoSave(boolean autoSave) {
         this.autoSave = autoSave;
@@ -48,11 +223,29 @@ public abstract class ManagedBase implements Managed {
 
     @Override
     public void setFileConfiguration(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
-        if (this.fileConfiguration != null || this.file != null) {
+        if (this.file != null || this.fileConfiguration != null) {
             throw new IllegalStateException("You cannot use #setFileConfigutaion after it's set!");
         }
 
+        this.file = file;
         this.fileConfiguration = fileConfiguration;
+    }
+
+    private void validate() {
+        Validate.isNull(fileConfiguration, "You must load your class with the 'io.github.portlek.configs.Proceed'");
+        Validate.isNull(file, "You must load your class with the 'io.github.portlek.configs.Proceed'");
+    }
+
+    private void autoSave() {
+        if (autoSave) {
+            validate();
+
+            try {
+                Objects.requireNonNull(fileConfiguration).save(Objects.requireNonNull(file));
+            } catch (Exception exception) {
+                Logger.getGlobal().severe(exception.getMessage());
+            }
+        }
     }
 
 }

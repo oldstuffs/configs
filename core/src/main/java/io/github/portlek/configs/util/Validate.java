@@ -23,17 +23,24 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.util;
 
-import org.junit.jupiter.api.Test;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public final class TestRunner {
+public final class Validate {
 
-    @Test
-    void run() {
-        final TestConfig testConfig = Proceed.of(new TestConfig());
+    private Validate() {
+    }
 
-        testConfig.createSection("test");
+    public static void isNull(@Nullable Object object) {
+        isNull(object, object + " can't be null!");
+    }
+
+    public static void isNull(@Nullable Object object, @NotNull String message) {
+        if (object == null) {
+            throw new IllegalStateException(message);
+        }
     }
 
 }
