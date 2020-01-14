@@ -135,22 +135,24 @@ public abstract class ManagedBase implements Managed {
 
     @Override
     public double getDouble(@NotNull String path) {
-        return 0;
+        return getDouble(path, 0);
     }
 
     @Override
     public double getDouble(@NotNull String path, double def) {
-        return 0;
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getDouble(path, def);
     }
 
     @Override
     public long getLong(@NotNull String path) {
-        return 0;
+        return getLong(path, 0);
     }
 
     @Override
     public long getLong(@NotNull String path, long def) {
-        return 0;
+        validate();
+        return Objects.requireNonNull(fileConfiguration).getLong(path, def);
     }
 
     @NotNull
