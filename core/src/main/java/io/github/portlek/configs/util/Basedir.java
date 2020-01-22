@@ -23,19 +23,23 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Value;
+import org.cactoos.Scalar;
 
-@Config(
-    fileName = "config",
-    fileVersion = "1.0",
-    fileLocation = "%basedir%/configs"
-)
-public final class TestConfig extends ManagedBase {
+import java.io.File;
+import java.net.URISyntaxException;
 
-    @Value
-    public String test_string = "Test String";
+public final class Basedir implements Scalar<File> {
 
+    @Override
+    public File value() {
+        try {
+            return new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+
+        return new File(".");
+    }
 }

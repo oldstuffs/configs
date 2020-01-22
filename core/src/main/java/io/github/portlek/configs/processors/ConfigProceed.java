@@ -25,10 +25,16 @@
 
 package io.github.portlek.configs.processors;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.util.Basedir;
+import io.github.portlek.configs.util.Copied;
+import io.github.portlek.configs.util.CreateStorage;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
 
 public final class ConfigProceed implements Proceed {
 
@@ -41,14 +47,48 @@ public final class ConfigProceed implements Proceed {
 
     @Override
     public void load(@NotNull Object instance) {
-        final String fileName = config.fileName();
-        final String fileVersion = config.fileVersion();
         final FileType fileType = config.fileType();
-        final String resourcePath = config.resourcePath();
-        final boolean copyDefault = config.copyDefault();
-        final String[] comment = config.comment();
-        
+        final String fileName;
 
+        if (config.fileName().endsWith(fileType.getSuffix())) {
+            fileName = config.fileName();
+        } else {
+            fileName = config.fileName() + fileType.getSuffix();
+        }
+
+        final String fileVersion = config.fileVersion();
+        final String fileLocation = addSeparatorIfHasNot(
+            config.fileLocation()
+                .replace("%basedir%", new Basedir().value().getAbsolutePath())
+                .replace("/", File.separator)
+        );
+        final String[] comment = config.comment();
+        final File file = new File(fileLocation, fileName);
+
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+
+            try {
+                file.createNewFile();
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        // TODO: 22/01/2020
+    }
+
+    @NotNull
+    private String addSeparatorIfHasNot(@NotNull String rawFileLocation) {
+        final String fileLocation;
+
+        if (rawFileLocation.endsWith(File.separator)) {
+            fileLocation = rawFileLocation;
+        } else {
+            fileLocation = rawFileLocation + File.separator;
+        }
+
+        return fileLocation;
     }
 
 }

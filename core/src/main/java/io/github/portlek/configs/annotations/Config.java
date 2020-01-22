@@ -44,12 +44,10 @@ public @interface Config {
     String fileVersion();
 
     @NotNull
-    FileType fileType() default FileType.YAML;
+    String fileLocation() default "%basedir%";
 
     @NotNull
-    String resourcePath() default "";
-
-    boolean copyDefault() default false;
+    FileType fileType() default FileType.YAML;
 
     @NotNull
     String[] comment() default {};
