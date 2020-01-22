@@ -25,21 +25,30 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.LinkedFile;
+import io.github.portlek.configs.annotations.Config;
 import org.jetbrains.annotations.NotNull;
 
-public final class LinkedFileProceed implements Proceed {
+public final class ConfigProceed implements Proceed {
 
     @NotNull
-    private final LinkedFile file;
+    private final Config config;
 
-    public LinkedFileProceed(@NotNull LinkedFile file) {
-        this.file = file;
+    public ConfigProceed(@NotNull Config config) {
+        this.config = config;
     }
 
     @Override
     public void load(@NotNull Object instance) {
+        final String fileName = config.fileName();
+        final String fileVersion = config.fileVersion();
+        final FileType fileType = config.fileType();
+        final String resourcePath = config.resourcePath();
+        final boolean copyDefault = config.copyDefault();
+        final String[] comment = config.comment();
+        
 
     }
+
 }

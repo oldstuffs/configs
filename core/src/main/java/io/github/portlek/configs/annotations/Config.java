@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface File {
+public @interface Config {
 
     @NotNull
     String fileName();

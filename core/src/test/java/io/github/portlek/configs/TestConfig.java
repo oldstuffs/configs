@@ -25,10 +25,10 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.File;
+import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Value;
 
-@File(
+@Config(
     fileName = "config",
     fileVersion = "1.0"
 )

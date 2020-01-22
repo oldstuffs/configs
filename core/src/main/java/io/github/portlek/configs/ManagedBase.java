@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.util.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -245,6 +247,19 @@ public abstract class ManagedBase implements Managed {
 
         this.file = file;
         this.fileConfiguration = fileConfiguration;
+    }
+
+    @Override
+    public Managed load() {
+        final Config config = getClass().getDeclaredAnnotation(Config.class);
+
+        if (config != null) {
+            new ConfigProceed(config).load(this);
+
+            return this;
+        }
+
+        throw new UnsupportedOperationException();
     }
 
     private void autoSave() {

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Hasan Demirtaş
+ * Copyright (c) 2020 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,23 +23,23 @@
  *
  */
 
-package io.github.portlek.configs.annotations;
+package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.annotations.LinkedConfig;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface LinkedFile {
+public final class LinkedConfigProceed implements Proceed {
 
     @NotNull
-    String language() default "";
+    private final LinkedConfig file;
 
-    @NotNull
-    File file();
+    public LinkedConfigProceed(@NotNull LinkedConfig file) {
+        this.file = file;
+    }
 
+    @Override
+    public void load(@NotNull Object instance) {
+
+    }
 }

@@ -31,9 +31,9 @@ public final class TestRunner {
 
     @Test
     void run() {
-        final TestConfig testConfig = Proceed.of(new TestConfig());
+        final TestConfig testConfig = new TestConfig();
 
-        testConfig.createSection("test");
+        testConfig.load();
     }
 
 }

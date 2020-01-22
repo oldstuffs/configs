@@ -109,4 +109,6 @@ public interface Managed {
 
     void setFileConfiguration(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
+    Managed load();
+
 }

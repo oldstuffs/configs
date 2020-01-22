@@ -63,7 +63,7 @@ public final class Version {
         try {
             return new Version(
                 Integer.parseInt(split[0]),
-                Integer.parseInt(split[0])
+                Integer.parseInt(split[1])
             );
         } catch (Exception exception) {
             throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
