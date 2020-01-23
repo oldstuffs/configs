@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import org.jetbrains.annotations.NotNull;
@@ -39,7 +40,7 @@ public final class LinkedConfigProceed implements Proceed {
     }
 
     @Override
-    public void load(@NotNull Object instance) {
+    public void load(@NotNull Managed managed) {
 
     }
 }

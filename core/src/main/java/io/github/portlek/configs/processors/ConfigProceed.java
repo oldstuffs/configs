@@ -25,13 +25,12 @@
 
 package io.github.portlek.configs.processors;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader;
 import io.github.portlek.configs.FileType;
+import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.Basedir;
-import io.github.portlek.configs.util.Copied;
-import io.github.portlek.configs.util.CreateStorage;
+import io.github.portlek.configs.util.Version;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -46,23 +45,22 @@ public final class ConfigProceed implements Proceed {
     }
 
     @Override
-    public void load(@NotNull Object instance) {
-        final FileType fileType = config.fileType();
+    public void load(@NotNull Managed managed) {
+        final FileType fileType = config.type();
         final String fileName;
 
-        if (config.fileName().endsWith(fileType.getSuffix())) {
-            fileName = config.fileName();
+        if (config.name().endsWith(fileType.getSuffix())) {
+            fileName = config.name();
         } else {
-            fileName = config.fileName() + fileType.getSuffix();
+            fileName = config.name() + fileType.getSuffix();
         }
 
-        final String fileVersion = config.fileVersion();
+        final Version version = Version.of(config.version());
         final String fileLocation = addSeparatorIfHasNot(
-            config.fileLocation()
+            config.location()
                 .replace("%basedir%", new Basedir().value().getAbsolutePath())
                 .replace("/", File.separator)
         );
-        final String[] comment = config.comment();
         final File file = new File(fileLocation, fileName);
 
         if (!file.exists()) {
@@ -75,7 +73,7 @@ public final class ConfigProceed implements Proceed {
             }
         }
 
-        // TODO: 22/01/2020
+
     }
 
     @NotNull

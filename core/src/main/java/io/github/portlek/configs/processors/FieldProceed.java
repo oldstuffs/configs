@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
@@ -41,11 +42,11 @@ public final class FieldProceed implements Proceed {
     }
 
     @Override
-    public void load(@NotNull Object instance) {
+    public void load(@NotNull Managed managed) {
         final Value value = field.getDeclaredAnnotation(Value.class);
 
         if (value != null) {
-            new ValueProceed(field, value).load(instance);
+            new ValueProceed(field, value).load(managed);
         }
 
     }

@@ -42,7 +42,4 @@ public @interface Section {
     @NotNull
     String separator() default "-";
 
-    @NotNull
-    String[] comment() default {};
-
 }

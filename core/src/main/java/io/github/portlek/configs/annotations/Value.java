@@ -43,9 +43,6 @@ public @interface Value {
     String separator() default "-";
 
     @NotNull
-    String[] comment() default {};
-
-    @NotNull
     Migrate[] migrate() default {};
 
 }

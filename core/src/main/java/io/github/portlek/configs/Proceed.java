@@ -29,6 +29,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Proceed {
 
-    void load(@NotNull Object instance);
+    void load(@NotNull Managed managed);
 
 }

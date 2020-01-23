@@ -38,18 +38,15 @@ import java.lang.annotation.Target;
 public @interface Config {
 
     @NotNull
-    String fileName();
+    String name();
 
     @NotNull
-    String fileVersion();
+    String version();
 
     @NotNull
-    String fileLocation() default "%basedir%";
+    String location() default "%basedir%";
 
     @NotNull
-    FileType fileType() default FileType.YAML;
-
-    @NotNull
-    String[] comment() default {};
+    FileType type() default FileType.YAML;
 
 }

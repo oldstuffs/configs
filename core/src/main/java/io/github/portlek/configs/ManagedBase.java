@@ -277,11 +277,11 @@ public abstract class ManagedBase implements Managed {
     private void validate() {
         Validate.isNull(
             fileConfiguration,
-            "You have to load your class with the 'io.github.portlek.configs.Proceed#load(yourClass)'"
+            "You have to load your class with '#load(yourClass)'"
         );
         Validate.isNull(
             file,
-            "You have to load your class with 'io.github.portlek.configs.Proceed#load(yourClass)'"
+            "You have to load your class with '#load(yourClass)'"
         );
     }
 
