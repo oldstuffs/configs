@@ -11,4 +11,12 @@
 
     <artifactId>configs-core</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.dumptruckman.minecraft</groupId>
+            <artifactId>JsonConfiguration</artifactId>
+            <version>1.3-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>

@@ -107,7 +107,7 @@ public interface Managed {
 
     void setAutoSave(boolean autoSave);
 
-    void setFileConfiguration(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
+    void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
     Managed load();
 

@@ -73,7 +73,7 @@ public final class ConfigProceed implements Proceed {
             }
         }
 
-
+        managed.setup(file, fileType.load(file));
     }
 
     @NotNull

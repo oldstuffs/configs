@@ -240,9 +240,9 @@ public abstract class ManagedBase implements Managed {
     }
 
     @Override
-    public void setFileConfiguration(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
+    public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
         if (this.file != null || this.fileConfiguration != null) {
-            throw new IllegalStateException("You can't use #setFileConfigutaion after it's set!");
+            throw new IllegalStateException("You can't use #setup after it's set!");
         }
 
         this.file = file;
