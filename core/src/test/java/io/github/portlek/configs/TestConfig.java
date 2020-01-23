@@ -31,7 +31,8 @@ import io.github.portlek.configs.annotations.Value;
 @Config(
     name = "config",
     version = "1.0",
-    location = "%basedir%/configs"
+    location = "%basedir%/configs",
+    type = FileType.JSON
 )
 public final class TestConfig extends ManagedBase {
 
