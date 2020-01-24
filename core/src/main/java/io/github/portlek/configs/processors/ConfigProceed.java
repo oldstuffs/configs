@@ -111,6 +111,8 @@ public final class ConfigProceed implements Proceed<Managed> {
 
             field.setAccessible(isAccessible);
         }
+
+        managed.save();
     }
 
     @NotNull

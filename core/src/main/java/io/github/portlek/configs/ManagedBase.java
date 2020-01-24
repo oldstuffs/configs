@@ -74,6 +74,7 @@ public abstract class ManagedBase implements Managed {
         }
 
         set(path, fallback);
+        autoSave();
 
         return fallback;
     }
@@ -266,15 +267,19 @@ public abstract class ManagedBase implements Managed {
         throw new UnsupportedOperationException();
     }
 
+    @Override
+    public void save() {
+        validate();
+        try {
+            Objects.requireNonNull(fileConfiguration).save(Objects.requireNonNull(file));
+        } catch (Exception exception) {
+            // ignored
+        }
+    }
+
     private void autoSave() {
         if (autoSave) {
-            validate();
-
-            try {
-                Objects.requireNonNull(fileConfiguration).save(Objects.requireNonNull(file));
-            } catch (Exception exception) {
-                Logger.getGlobal().severe(exception.getMessage());
-            }
+            save();
         }
     }
 

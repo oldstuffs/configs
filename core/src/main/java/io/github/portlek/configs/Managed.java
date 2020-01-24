@@ -111,4 +111,6 @@ public interface Managed {
 
     Managed load();
 
+    void save();
+
 }

@@ -78,6 +78,10 @@ public final class SectionProceed implements Proceed<Field> {
         } else {
             path = parent + "." + fieldPath;
         }
+
+        fileConfiguration.createSection(path);
+
+
     }
 
 }
