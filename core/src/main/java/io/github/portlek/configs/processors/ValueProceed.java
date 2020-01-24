@@ -30,10 +30,7 @@ import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Migrate;
 import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
-import java.lang.reflect.AnnotatedType;
 import java.lang.reflect.Field;
 
 public final class ValueProceed implements Proceed<Field> {
@@ -47,17 +44,12 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private final Value value;
 
-    @NotNull
-    private final FileConfiguration fileConfiguration;
-
     private final boolean deprecated;
 
-    public ValueProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Value value,
-                        @NotNull FileConfiguration fileConfiguration, boolean deprecated) {
+    public ValueProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Value value, boolean deprecated) {
         this.managed = managed;
         this.parent = parent;
         this.value = value;
-        this.fileConfiguration = fileConfiguration;
         this.deprecated = deprecated;
     }
 

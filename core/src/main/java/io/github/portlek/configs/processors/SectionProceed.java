@@ -29,7 +29,6 @@ import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
 
@@ -44,17 +43,13 @@ public final class SectionProceed implements Proceed<Field> {
     @NotNull
     private final Section section;
 
-    @NotNull
-    private final FileConfiguration fileConfiguration;
-
     private final boolean deprecated;
 
     public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section,
-                          @NotNull FileConfiguration fileConfiguration, boolean deprecated) {
+                          boolean deprecated) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;
-        this.fileConfiguration = fileConfiguration;
         this.deprecated = deprecated;
     }
 
@@ -79,9 +74,7 @@ public final class SectionProceed implements Proceed<Field> {
             path = parent + "." + fieldPath;
         }
 
-        fileConfiguration.createSection(path);
-
-
+        managed.createSection(path);
     }
 
 }

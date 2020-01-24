@@ -96,7 +96,6 @@ public final class ConfigProceed implements Proceed<Managed> {
                     managed,
                     "",
                     section,
-                    fileConfiguration,
                     deprecated
                 ).load(field);
             } else if (value != null) {
@@ -104,7 +103,6 @@ public final class ConfigProceed implements Proceed<Managed> {
                     managed,
                     "",
                     value,
-                    fileConfiguration,
                     deprecated
                 ).load(field);
             }
