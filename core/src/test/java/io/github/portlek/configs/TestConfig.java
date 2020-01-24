@@ -25,18 +25,42 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.annotations.*;
 
 @Config(
     name = "config",
     version = "1.0",
     location = "%basedir%/configs",
-    type = FileType.JSON
+    type = FileType.YAML
 )
 public final class TestConfig extends ManagedBase {
 
     @Value
     public String test_string = "Test String";
+
+    /**
+     * @deprecated migrated.
+     */
+    @Value
+    @Deprecated
+    public String foo = "Old Value.";
+
+    @Value(
+        migrate = @Migrate(path = "foo", before = "1.0")
+    )
+    public String new_string = "New String that's migrated.";
+
+    @Section
+    private final Child test_section = new Child() {
+
+        @Value
+        public String test_section_string = "Test Section String";
+
+        @Section
+        private final Child child = new Child() {
+
+        };
+
+    };
 
 }

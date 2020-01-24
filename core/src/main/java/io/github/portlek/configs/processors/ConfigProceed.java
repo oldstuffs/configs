@@ -25,11 +25,12 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Child;
 import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.Version;
@@ -49,7 +50,7 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     @Override
-    public void load(@NotNull Managed managed) {
+    public void load(@NotNull Managed managed) throws Exception {
         final FileType fileType = config.type();
         final String fileName;
 
@@ -82,37 +83,43 @@ public final class ConfigProceed implements Proceed<Managed> {
         managed.setup(file, fileConfiguration);
 
         for (Field field : managed.getClass().getDeclaredFields()) {
-            final Value value = field.getDeclaredAnnotation(Value.class);
-            final Instance instance = field.getDeclaredAnnotation(Instance.class);
+            final boolean isAccessible = field.isAccessible();
 
-            if (instance != null) {
-                new InstanceProceed(
+            field.setAccessible(true);
+
+            final Value value = field.getDeclaredAnnotation(Value.class);
+            final Section section = field.getDeclaredAnnotation(Section.class);
+            final boolean deprecated = field.getDeclaredAnnotation(Deprecated.class) != null;
+
+            if (section != null && field.getType().equals(Child.class)) {
+                new SectionProceed(
                     managed,
-                    instance,
-                    fileConfiguration
+                    "",
+                    section,
+                    fileConfiguration,
+                    deprecated
                 ).load(field);
             } else if (value != null) {
                 new ValueProceed(
                     managed,
+                    "",
                     value,
-                    fileConfiguration
+                    fileConfiguration,
+                    deprecated
                 ).load(field);
             }
-        }
 
+            field.setAccessible(isAccessible);
+        }
     }
 
     @NotNull
     private String addSeparatorIfHasNot(@NotNull String raw) {
-        final String edited;
-
         if (raw.endsWith(File.separator)) {
-            edited = raw;
-        } else {
-            edited = raw + File.separator;
+            return raw;
         }
 
-        return edited;
+        return raw + File.separator;
     }
 
 }

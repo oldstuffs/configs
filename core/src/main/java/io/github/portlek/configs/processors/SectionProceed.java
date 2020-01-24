@@ -27,33 +27,57 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.Section;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
 
-public final class InstanceProceed implements Proceed<Field> {
+public final class SectionProceed implements Proceed<Field> {
 
     @NotNull
     private final Managed managed;
 
     @NotNull
-    private final Instance field;
+    private final String parent;
+
+    @NotNull
+    private final Section section;
 
     @NotNull
     private final FileConfiguration fileConfiguration;
 
-    public InstanceProceed(@NotNull Managed managed, @NotNull Instance field,
-                           @NotNull FileConfiguration fileConfiguration) {
+    private final boolean deprecated;
+
+    public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section,
+                          @NotNull FileConfiguration fileConfiguration, boolean deprecated) {
         this.managed = managed;
-        this.field = field;
+        this.parent = parent;
+        this.section = section;
         this.fileConfiguration = fileConfiguration;
+        this.deprecated = deprecated;
     }
 
     @Override
-    public void load(@NotNull Field field) {
+    public void load(@NotNull Field field) throws Exception {
+        final String separator = section.separator();
+        final String fieldPath;
 
+        if (section.path().isEmpty()) {
+            fieldPath = field.getName().replace("_", separator);
+        } else {
+            fieldPath = section.path();
+        }
+
+        final String path;
+
+        if (parent.isEmpty()) {
+            path = fieldPath;
+        } else if (parent.endsWith(".")) {
+            path = parent + fieldPath;
+        } else {
+            path = parent + "." + fieldPath;
+        }
     }
 
 }

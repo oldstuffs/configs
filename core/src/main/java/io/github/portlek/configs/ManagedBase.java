@@ -254,7 +254,11 @@ public abstract class ManagedBase implements Managed {
         final Config config = getClass().getDeclaredAnnotation(Config.class);
 
         if (config != null) {
-            new ConfigProceed(config).load(this);
+            try {
+                new ConfigProceed(config).load(this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             return this;
         }

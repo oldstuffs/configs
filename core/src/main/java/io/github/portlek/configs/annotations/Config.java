@@ -49,4 +49,9 @@ public @interface Config {
     @NotNull
     FileType type() default FileType.YAML;
 
+    @NotNull
+    String resourcePath() default "";
+
+    boolean copyDefault() default false;
+
 }
