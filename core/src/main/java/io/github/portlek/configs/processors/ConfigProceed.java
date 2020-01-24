@@ -103,16 +103,16 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     @NotNull
-    private String addSeparatorIfHasNot(@NotNull String rawFileLocation) {
-        final String fileLocation;
+    private String addSeparatorIfHasNot(@NotNull String raw) {
+        final String edited;
 
-        if (rawFileLocation.endsWith(File.separator)) {
-            fileLocation = rawFileLocation;
+        if (raw.endsWith(File.separator)) {
+            edited = raw;
         } else {
-            fileLocation = rawFileLocation + File.separator;
+            edited = raw + File.separator;
         }
 
-        return fileLocation;
+        return edited;
     }
 
 }
