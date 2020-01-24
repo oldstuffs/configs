@@ -29,13 +29,17 @@ import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.Version;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.lang.reflect.Field;
 
-public final class ConfigProceed implements Proceed {
+public final class ConfigProceed implements Proceed<Managed> {
 
     @NotNull
     private final Config config;
@@ -73,7 +77,29 @@ public final class ConfigProceed implements Proceed {
             }
         }
 
-        managed.setup(file, fileType.load(file));
+        final FileConfiguration fileConfiguration = fileType.load(file);
+
+        managed.setup(file, fileConfiguration);
+
+        for (Field field : managed.getClass().getDeclaredFields()) {
+            final Value value = field.getDeclaredAnnotation(Value.class);
+            final Instance instance = field.getDeclaredAnnotation(Instance.class);
+
+            if (instance != null) {
+                new InstanceProceed(
+                    managed,
+                    instance,
+                    fileConfiguration
+                ).load(field);
+            } else if (value != null) {
+                new ValueProceed(
+                    managed,
+                    value,
+                    fileConfiguration
+                ).load(field);
+            }
+        }
+
     }
 
     @NotNull

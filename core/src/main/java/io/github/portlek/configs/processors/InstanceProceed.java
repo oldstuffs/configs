@@ -27,27 +27,32 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.annotations.Instance;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
 
-public final class FieldProceed implements Proceed {
+public final class InstanceProceed implements Proceed<Field> {
 
     @NotNull
-    private final Field field;
+    private final Managed managed;
 
-    public FieldProceed(@NotNull Field field) {
+    @NotNull
+    private final Instance field;
+
+    @NotNull
+    private final FileConfiguration fileConfiguration;
+
+    public InstanceProceed(@NotNull Managed managed, @NotNull Instance field,
+                           @NotNull FileConfiguration fileConfiguration) {
+        this.managed = managed;
         this.field = field;
+        this.fileConfiguration = fileConfiguration;
     }
 
     @Override
-    public void load(@NotNull Managed managed) {
-        final Value value = field.getDeclaredAnnotation(Value.class);
-
-        if (value != null) {
-            new ValueProceed(field, value).load(managed);
-        }
+    public void load(@NotNull Field field) {
 
     }
 

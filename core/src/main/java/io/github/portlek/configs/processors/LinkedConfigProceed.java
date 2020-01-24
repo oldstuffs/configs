@@ -30,7 +30,7 @@ import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import org.jetbrains.annotations.NotNull;
 
-public final class LinkedConfigProceed implements Proceed {
+public final class LinkedConfigProceed implements Proceed<Managed> {
 
     @NotNull
     private final LinkedConfig file;

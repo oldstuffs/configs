@@ -27,8 +27,8 @@ package io.github.portlek.configs;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface Proceed {
+public interface Proceed<T> {
 
-    void load(@NotNull Managed managed);
+    void load(@NotNull T t);
 
 }

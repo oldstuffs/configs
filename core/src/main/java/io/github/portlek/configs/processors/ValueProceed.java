@@ -29,24 +29,31 @@ import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.lang.reflect.Field;
 
-public final class ValueProceed implements Proceed {
+public final class ValueProceed implements Proceed<Field> {
 
     @NotNull
-    private final Field field;
+    private final Managed managed;
 
     @NotNull
     private final Value value;
 
-    public ValueProceed(@NotNull Field field, @NotNull Value value) {
-        this.field = field;
+    @NotNull
+    private final FileConfiguration fileConfiguration;
+
+    public ValueProceed(@NotNull Managed managed, @NotNull Value value,
+                        @NotNull FileConfiguration fileConfiguration) {
+        this.managed = managed;
         this.value = value;
+        this.fileConfiguration = fileConfiguration;
     }
 
     @Override
-    public void load(@NotNull Managed managed) {
+    public void load(@NotNull Field field) {
 
     }
+
 }
