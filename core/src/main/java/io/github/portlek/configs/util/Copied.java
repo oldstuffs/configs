@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.util;
 
-import org.cactoos.Scalar;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -33,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-public final class Copied implements Scalar<File> {
+public final class Copied {
 
     @NotNull
     private final File file;
@@ -46,7 +45,6 @@ public final class Copied implements Scalar<File> {
         this.inputStream = inputStream;
     }
 
-    @Override
     @NotNull
     public File value() {
         try (final OutputStream out = new FileOutputStream(file)) {

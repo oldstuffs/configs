@@ -25,13 +25,12 @@
 
 package io.github.portlek.configs.util;
 
-import org.cactoos.Scalar;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
 
-public final class CreateStorage implements Scalar<File> {
+public final class CreateStorage {
 
     @NotNull
     private final String path;

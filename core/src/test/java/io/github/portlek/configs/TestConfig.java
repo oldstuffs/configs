@@ -25,7 +25,10 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.*;
+import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Migrate;
+import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.annotations.Value;
 
 @Config(
     name = "config",

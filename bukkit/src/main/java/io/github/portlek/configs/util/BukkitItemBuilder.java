@@ -33,15 +33,9 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-import org.cactoos.list.ListOf;
-import org.cactoos.map.MapEntry;
-import org.cactoos.map.MapOf;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public final class BukkitItemBuilder extends ItemStack {
 
@@ -108,7 +102,7 @@ public final class BukkitItemBuilder extends ItemStack {
 
     public BukkitItemBuilder lore(@NotNull String... lore) {
         return lore(
-            new ListOf<>(
+            Arrays.asList(
                 lore
             ),
             true
@@ -136,8 +130,6 @@ public final class BukkitItemBuilder extends ItemStack {
     }
 
     public BukkitItemBuilder enchantments(@NotNull String... enchantments) {
-        final Map<Enchantment, Integer> enchantmentLevelMap = new HashMap<>();
-
         for (String s : enchantments) {
             final String[] split = s.split(":");
             final String enchantment;
@@ -151,36 +143,28 @@ public final class BukkitItemBuilder extends ItemStack {
                 level = getInt(split[1]);
             }
 
-            XEnchantment.matchXEnchantment(enchantment).flatMap(xEnchantment ->
-                Optional.ofNullable(xEnchantment.parseEnchantment())
-            ).ifPresent(enchant ->
-                enchantmentLevelMap.put(enchant, level)
-            );
+            XEnchantment.matchXEnchantment(enchantment).ifPresent(xEnchantment -> enchantments(xEnchantment, level));
         }
 
-        return enchantments(enchantmentLevelMap);
+        return this;
     }
 
     public BukkitItemBuilder enchantments(@NotNull XEnchantment enchantment, int level) {
-        Optional.ofNullable(enchantment.parseEnchantment()).ifPresent(enchant ->
-            addUnsafeEnchantments(
-                new MapOf<>(
-                    new MapEntry<>(enchant, level)
-                )
-            )
-        );
+        final Optional<Enchantment> enchantmentOptional = Optional.ofNullable(enchantment.parseEnchantment());
+
+        if (enchantmentOptional.isPresent()) {
+            return enchantments(enchantmentOptional.get(), level);
+        }
 
         return this;
     }
 
     public BukkitItemBuilder enchantments(@NotNull Enchantment enchantment, int level) {
-        addUnsafeEnchantments(
-            new MapOf<>(
-                new MapEntry<>(enchantment, level)
-            )
-        );
+        final Map<Enchantment, Integer> map = new HashMap<>();
 
-        return this;
+        map.put(enchantment, level);
+
+        return enchantments(map);
     }
 
     public BukkitItemBuilder enchantments(@NotNull Map<Enchantment, Integer> enchantments) {

@@ -25,14 +25,11 @@
 
 package io.github.portlek.configs.util;
 
-import org.cactoos.Scalar;
-
 import java.io.File;
 import java.net.URISyntaxException;
 
-public final class Basedir implements Scalar<File> {
+public final class Basedir {
 
-    @Override
     public File value() {
         try {
             return new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
