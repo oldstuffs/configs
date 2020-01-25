@@ -25,14 +25,12 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.itemstack.util.Colored;
-import io.github.portlek.itemstack.util.ColoredList;
-import io.github.portlek.itemstack.util.XEnchantment;
-import io.github.portlek.itemstack.util.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.cryptomorin.xseries.XEnchantment;
+import org.cryptomorin.xseries.XMaterial;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -76,9 +74,7 @@ public final class BukkitItemBuilder extends ItemStack {
 
         if (colored) {
             getItemMeta().setDisplayName(
-                new Colored(
-                    displayName
-                ).value()
+                ColorUtil.colored(displayName)
             );
         } else {
             getItemMeta().setDisplayName(displayName);
@@ -116,9 +112,7 @@ public final class BukkitItemBuilder extends ItemStack {
 
         if (colored) {
             getItemMeta().setLore(
-                new ColoredList(
-                    lore
-                ).value()
+                ColorUtil.colored(lore)
             );
         } else {
             getItemMeta().setLore(
@@ -182,5 +176,6 @@ public final class BukkitItemBuilder extends ItemStack {
 
         return 0;
     }
+
 
 }

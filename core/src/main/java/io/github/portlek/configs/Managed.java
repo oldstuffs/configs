@@ -43,7 +43,6 @@ public interface Managed {
     Optional<Object> get(@NotNull String path, @Nullable Object def);
 
     @NotNull
-    @SuppressWarnings("unchecked")
     <T> T getOrSet(@NotNull String pat, @NotNull T fallback);
 
     void set(@NotNull String path, @Nullable Object object);
@@ -109,7 +108,7 @@ public interface Managed {
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
-    Managed load();
+    void load();
 
     void save();
 

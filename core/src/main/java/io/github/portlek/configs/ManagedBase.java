@@ -250,20 +250,18 @@ public abstract class ManagedBase implements Managed {
     }
 
     @Override
-    public Managed load() {
+    public void load() {
         final Config config = getClass().getDeclaredAnnotation(Config.class);
 
-        if (config != null) {
-            try {
-                new ConfigProceed(config).load(this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return this;
+        if (config == null) {
+            throw new UnsupportedOperationException();
         }
 
-        throw new UnsupportedOperationException();
+        try {
+            new ConfigProceed(config).load(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
