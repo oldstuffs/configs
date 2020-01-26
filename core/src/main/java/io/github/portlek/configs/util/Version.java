@@ -25,7 +25,11 @@
 
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.Managed;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class Version {
 
@@ -44,6 +48,10 @@ public final class Version {
 
     public boolean beforeThan(@NotNull Version version) {
         return major < version.major || (major == version.major && minor < version.minor);
+    }
+
+    public void write(@NotNull String path, @NotNull Managed managed) {
+        managed.set(path, major + "." + minor);
     }
 
     @NotNull

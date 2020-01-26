@@ -49,15 +49,12 @@ public final class SectionProceed implements Proceed<Field> {
     @NotNull
     private final Section section;
 
-    private final boolean deprecated;
-
     public SectionProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
-                          @NotNull Section section, boolean deprecated) {
+                          @NotNull Section section) {
         this.managed = managed;
         this.instance = instance;
         this.parent = parent;
         this.section = section;
-        this.deprecated = deprecated;
     }
 
     @Override
@@ -83,10 +80,9 @@ public final class SectionProceed implements Proceed<Field> {
 
         final Optional<ConfigurationSection> configurationSectionOptional = managed.getSection(path);
 
-        if (configurationSectionOptional.isPresent()) {
-            final ConfigurationSection section = configurationSectionOptional.get();
+        if (!configurationSectionOptional.isPresent()) {
 
-        } else {
+
             managed.createSection(path);
         }
 

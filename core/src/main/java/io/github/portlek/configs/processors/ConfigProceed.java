@@ -61,6 +61,7 @@ public final class ConfigProceed implements Proceed<Managed> {
         }
 
         final Version version = Version.of(config.version());
+        final String versionPath = config.versionPath();
         final String fileLocation = addSeparatorIfHasNot(
             config.location()
                 .replace("%basedir%", new Basedir().value().getAbsolutePath())
@@ -81,9 +82,8 @@ public final class ConfigProceed implements Proceed<Managed> {
         final FileConfiguration fileConfiguration = fileType.load(file);
 
         managed.setup(file, fileConfiguration);
-
         new FieldsProceed(managed, "").load(managed);
-
+        version.write(versionPath, managed);
         managed.save();
     }
 

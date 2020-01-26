@@ -47,15 +47,12 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private final Value value;
 
-    private final boolean deprecated;
-
     public ValueProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
-                        @NotNull Value value, boolean deprecated) {
+                        @NotNull Value value) {
         this.managed = managed;
         this.instance = instance;
         this.parent = parent;
         this.value = value;
-        this.deprecated = deprecated;
     }
 
     @Override

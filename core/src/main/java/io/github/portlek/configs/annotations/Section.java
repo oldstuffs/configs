@@ -42,4 +42,7 @@ public @interface Section {
     @NotNull
     String separator() default "-";
 
+    @NotNull
+    Migrate[] migrate() default {};
+
 }

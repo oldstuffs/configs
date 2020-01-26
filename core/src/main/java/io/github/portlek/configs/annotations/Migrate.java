@@ -40,10 +40,7 @@ public @interface Migrate {
     String path();
 
     @NotNull
-    String only() default "";
-
-    @NotNull
-    String until() default "";
+    String[] only() default {};
 
     @NotNull
     String before() default "";
@@ -51,6 +48,6 @@ public @interface Migrate {
     @NotNull
     String after() default "";
 
-    boolean remove() default false;
+    boolean remove() default true;
 
 }

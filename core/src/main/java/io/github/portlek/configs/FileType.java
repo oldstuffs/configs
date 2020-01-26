@@ -39,7 +39,7 @@ public enum FileType {
     JSON(".json", JsonConfiguration::loadConfiguration);
 
     @NotNull
-    private final String suffix;
+    public final String suffix;
 
     @NotNull
     private final Function<File, FileConfiguration> consumer;
@@ -47,11 +47,6 @@ public enum FileType {
     FileType(@NotNull String suffix, @NotNull Function<File, FileConfiguration> consumer) {
         this.suffix = suffix;
         this.consumer = consumer;
-    }
-
-    @NotNull
-    public String getSuffix() {
-        return suffix;
     }
 
     @NotNull

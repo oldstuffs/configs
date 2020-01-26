@@ -33,22 +33,22 @@ public final class FieldsProceed implements Proceed<Managed> {
             final Section section = field.getDeclaredAnnotation(Section.class);
             final boolean deprecated = field.getDeclaredAnnotation(Deprecated.class) != null;
 
-            if (section != null && field.getType().equals(Child.class)) {
-                new SectionProceed(
-                    managed,
-                    instance,
-                    parent,
-                    section,
-                    deprecated
-                ).load(field);
-            } else if (value != null) {
-                new ValueProceed(
-                    managed,
-                    instance,
-                    parent,
-                    value,
-                    deprecated
-                ).load(field);
+            if (!deprecated) {
+                if (section != null && field.getType().equals(Child.class)) {
+                    new SectionProceed(
+                        managed,
+                        instance,
+                        parent,
+                        section
+                    ).load(field);
+                } else if (value != null) {
+                    new ValueProceed(
+                        managed,
+                        instance,
+                        parent,
+                        value
+                    ).load(field);
+                }
             }
 
             field.setAccessible(isAccessible);

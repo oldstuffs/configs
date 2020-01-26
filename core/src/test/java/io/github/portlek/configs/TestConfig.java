@@ -42,7 +42,7 @@ public final class TestConfig extends ManagedBase {
     public String test_string = "Test String";
 
     /**
-     * @deprecated migrated.
+     * @deprecated migrated to {@link #new_string}
      */
     @Value
     @Deprecated
@@ -53,7 +53,18 @@ public final class TestConfig extends ManagedBase {
     )
     public String new_string = "New String that's migrated.";
 
+    /**
+     * @deprecated migrated to {@link #test_section}
+     */
     @Section
+    @Deprecated
+    private final Child migrated_section = new Child() {
+
+    };
+
+    @Section(
+        migrate = @Migrate(path = "migrated-section")
+    )
     private final Child test_section = new Child() {
 
         @Value
