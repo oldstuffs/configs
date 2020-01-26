@@ -81,8 +81,6 @@ public final class SectionProceed implements Proceed<Field> {
         final Optional<ConfigurationSection> configurationSectionOptional = managed.getSection(path);
 
         if (!configurationSectionOptional.isPresent()) {
-
-
             managed.createSection(path);
         }
 

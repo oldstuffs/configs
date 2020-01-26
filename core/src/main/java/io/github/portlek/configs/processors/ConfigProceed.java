@@ -54,10 +54,10 @@ public final class ConfigProceed implements Proceed<Managed> {
         final FileType fileType = config.type();
         final String fileName;
 
-        if (config.name().endsWith(fileType.getSuffix())) {
+        if (config.name().endsWith(fileType.suffix)) {
             fileName = config.name();
         } else {
-            fileName = config.name() + fileType.getSuffix();
+            fileName = config.name() + fileType.suffix;
         }
 
         final Version version = Version.of(config.version());
@@ -82,8 +82,8 @@ public final class ConfigProceed implements Proceed<Managed> {
         final FileConfiguration fileConfiguration = fileType.load(file);
 
         managed.setup(file, fileConfiguration);
-        new FieldsProceed(managed, "").load(managed);
         version.write(versionPath, managed);
+        new FieldsProceed(managed, "").load(managed);
         managed.save();
     }
 
