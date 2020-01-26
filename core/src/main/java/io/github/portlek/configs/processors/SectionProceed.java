@@ -27,15 +27,21 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.annotations.Migrate;
 import io.github.portlek.configs.annotations.Section;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 public final class SectionProceed implements Proceed<Field> {
 
     @NotNull
     private final Managed managed;
+
+    @NotNull
+    private final Object instance;
 
     @NotNull
     private final String parent;
@@ -45,9 +51,10 @@ public final class SectionProceed implements Proceed<Field> {
 
     private final boolean deprecated;
 
-    public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section,
-                          boolean deprecated) {
+    public SectionProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
+                          @NotNull Section section, boolean deprecated) {
         this.managed = managed;
+        this.instance = instance;
         this.parent = parent;
         this.section = section;
         this.deprecated = deprecated;
@@ -74,7 +81,16 @@ public final class SectionProceed implements Proceed<Field> {
             path = parent + "." + fieldPath;
         }
 
-        managed.createSection(path);
+        final Optional<ConfigurationSection> configurationSectionOptional = managed.getSection(path);
+
+        if (configurationSectionOptional.isPresent()) {
+            final ConfigurationSection section = configurationSectionOptional.get();
+
+        } else {
+            managed.createSection(path);
+        }
+
+        new FieldsProceed(field.get(instance), path).load(managed);
     }
 
 }

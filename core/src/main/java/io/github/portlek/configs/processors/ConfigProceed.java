@@ -82,33 +82,7 @@ public final class ConfigProceed implements Proceed<Managed> {
 
         managed.setup(file, fileConfiguration);
 
-        for (Field field : managed.getClass().getDeclaredFields()) {
-            final boolean isAccessible = field.isAccessible();
-
-            field.setAccessible(true);
-
-            final Value value = field.getDeclaredAnnotation(Value.class);
-            final Section section = field.getDeclaredAnnotation(Section.class);
-            final boolean deprecated = field.getDeclaredAnnotation(Deprecated.class) != null;
-
-            if (section != null && field.getType().equals(Child.class)) {
-                new SectionProceed(
-                    managed,
-                    "",
-                    section,
-                    deprecated
-                ).load(field);
-            } else if (value != null) {
-                new ValueProceed(
-                    managed,
-                    "",
-                    value,
-                    deprecated
-                ).load(field);
-            }
-
-            field.setAccessible(isAccessible);
-        }
+        new FieldsProceed(managed, "").load(managed);
 
         managed.save();
     }

@@ -62,6 +62,21 @@ public final class TestConfig extends ManagedBase {
         @Section
         private final Child child = new Child() {
 
+            @Section
+            private final Child child = new Child() {
+
+                @Section
+                private final Child child = new Child() {
+
+                    @Section
+                    private final Child child = new Child() {
+
+                    };
+
+                };
+
+            };
+
         };
 
     };

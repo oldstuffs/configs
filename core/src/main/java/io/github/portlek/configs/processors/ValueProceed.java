@@ -39,6 +39,9 @@ public final class ValueProceed implements Proceed<Field> {
     private final Managed managed;
 
     @NotNull
+    private final Object instance;
+
+    @NotNull
     private final String parent;
 
     @NotNull
@@ -46,8 +49,10 @@ public final class ValueProceed implements Proceed<Field> {
 
     private final boolean deprecated;
 
-    public ValueProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Value value, boolean deprecated) {
+    public ValueProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
+                        @NotNull Value value, boolean deprecated) {
         this.managed = managed;
+        this.instance = instance;
         this.parent = parent;
         this.value = value;
         this.deprecated = deprecated;
