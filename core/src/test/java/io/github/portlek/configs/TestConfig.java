@@ -37,22 +37,8 @@ public final class TestConfig extends ManagedBase {
     @Value
     public String test_string = "Test String";
 
-    /**
-     * @deprecated migrated to {@link #new_string}
-     */
-    @Value
-    public String foo = "Old Value.";
-
     @Value
     public String new_string = "New String that's migrated.";
-
-    /**
-     * @deprecated migrated to {@link #test_section}
-     */
-    @Section
-    private final Child migrated_section = new Child() {
-
-    };
 
     @Section
     private final Child test_section = new Child() {
