@@ -27,7 +27,6 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Migrate;
 import io.github.portlek.configs.annotations.Value;
 import org.jetbrains.annotations.NotNull;
 
@@ -59,9 +58,8 @@ public final class ValueProceed implements Proceed<Field> {
     public void load(@NotNull Field field) throws Exception {
         final String path = value.path();
         final String separator = value.separator();
-        final Migrate[] migrates = value.migrate();
 
-
+        
     }
 
 }

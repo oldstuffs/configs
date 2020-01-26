@@ -42,7 +42,4 @@ public @interface Value {
     @NotNull
     String separator() default "-";
 
-    @NotNull
-    Migrate[] migrate() default {};
-
 }

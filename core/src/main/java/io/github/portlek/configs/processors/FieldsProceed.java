@@ -31,24 +31,21 @@ public final class FieldsProceed implements Proceed<Managed> {
 
             final Value value = field.getDeclaredAnnotation(Value.class);
             final Section section = field.getDeclaredAnnotation(Section.class);
-            final boolean deprecated = field.getDeclaredAnnotation(Deprecated.class) != null;
 
-            if (!deprecated) {
-                if (section != null && field.getType().equals(Child.class)) {
-                    new SectionProceed(
-                        managed,
-                        instance,
-                        parent,
-                        section
-                    ).load(field);
-                } else if (value != null) {
-                    new ValueProceed(
-                        managed,
-                        instance,
-                        parent,
-                        value
-                    ).load(field);
-                }
+            if (section != null && field.getType().equals(Child.class)) {
+                new SectionProceed(
+                    managed,
+                    instance,
+                    parent,
+                    section
+                ).load(field);
+            } else if (value != null) {
+                new ValueProceed(
+                    managed,
+                    instance,
+                    parent,
+                    value
+                ).load(field);
             }
 
             field.setAccessible(isAccessible);

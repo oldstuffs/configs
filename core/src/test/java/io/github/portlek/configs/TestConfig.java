@@ -26,13 +26,11 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Migrate;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
 
 @Config(
-    name = "config",
-    version = "1.0"
+    name = "config"
 )
 public final class TestConfig extends ManagedBase {
 
@@ -43,26 +41,20 @@ public final class TestConfig extends ManagedBase {
      * @deprecated migrated to {@link #new_string}
      */
     @Value
-    @Deprecated
     public String foo = "Old Value.";
 
-    @Value(
-        migrate = @Migrate(path = "foo", before = "1.0")
-    )
+    @Value
     public String new_string = "New String that's migrated.";
 
     /**
      * @deprecated migrated to {@link #test_section}
      */
     @Section
-    @Deprecated
     private final Child migrated_section = new Child() {
 
     };
 
-    @Section(
-        migrate = @Migrate(path = "migrated-section")
-    )
+    @Section
     private final Child test_section = new Child() {
 
         @Value
