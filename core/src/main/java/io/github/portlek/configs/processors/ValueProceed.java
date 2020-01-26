@@ -59,7 +59,6 @@ public final class ValueProceed implements Proceed<Field> {
         final String path = value.path();
         final String separator = value.separator();
 
-        
     }
 
 }
