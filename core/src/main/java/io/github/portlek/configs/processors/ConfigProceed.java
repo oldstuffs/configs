@@ -25,20 +25,16 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.Child;
 import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.Version;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
-import java.lang.reflect.Field;
 
 public final class ConfigProceed implements Proceed<Managed> {
 

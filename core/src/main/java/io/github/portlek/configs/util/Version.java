@@ -28,9 +28,6 @@ package io.github.portlek.configs.util;
 import io.github.portlek.configs.Managed;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public final class Version {
 
     private final int major;

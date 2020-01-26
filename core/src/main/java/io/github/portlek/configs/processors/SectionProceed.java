@@ -27,7 +27,6 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Migrate;
 import io.github.portlek.configs.annotations.Section;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;

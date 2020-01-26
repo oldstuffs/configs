@@ -50,7 +50,7 @@ public @interface Config {
      * @return The file version which will use on migrating system.
      */
     @NotNull
-    String version();
+    String version() default "1.0";
 
     /**
      * @return The version path where will write.
