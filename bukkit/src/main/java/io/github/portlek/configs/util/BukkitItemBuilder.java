@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.util;
 
-import com.cryptomorin.XEnchantment;
-import com.cryptomorin.XMaterial;
+import com.cryptomorin.xseries.XEnchantment;
+import com.cryptomorin.xseries.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
