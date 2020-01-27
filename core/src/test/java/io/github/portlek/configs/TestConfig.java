@@ -26,6 +26,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
 
@@ -40,32 +41,59 @@ public final class TestConfig extends ManagedBase {
     @Value
     public String new_string = "New String that's migrated.";
 
-    @Section
-    private final Child test_section = new Child() {
+    @Instance
+    public test_section test_section = new test_section();
+
+    @Section(path = "test-section")
+    public static class test_section {
 
         @Value
         public String test_section_string = "Test Section String";
 
-        @Section
-        private final Child child = new Child() {
+        @Instance
+        public child1 child = new child1();
 
-            @Section
-            private final Child child = new Child() {
+        @Section(path = "child")
+        public static class child1 {
 
-                @Section
-                private final Child child = new Child() {
+            @Value
+            public String test_section_string = "Test Section String";
 
-                    @Section
-                    private final Child child = new Child() {
+            @Instance
+            public child2 child = new child2();
 
-                    };
+            @Section(path = "child")
+            public static class child2 {
 
-                };
+                @Value
+                public String test_section_string = "Test Section String";
 
-            };
+                @Instance
+                public child3 child = new child3();
 
-        };
+                @Section(path = "child")
+                public static class child3 {
 
-    };
+                    @Value
+                    public String test_section_string = "Test Section String";
+
+                    @Instance
+                    public child4 child = new child4();
+
+                    @Section(path = "child")
+                    public static class child4 {
+
+                        @Value
+                        public String test_section_string = "Test Section String";
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
 
 }

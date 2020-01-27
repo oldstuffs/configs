@@ -28,19 +28,17 @@ package io.github.portlek.configs.processors;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.util.PathCalc;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
 
-public final class SectionProceed implements Proceed<Field> {
+public final class SectionProceed implements Proceed<Object> {
 
     @NotNull
     private final Managed managed;
-
-    @NotNull
-    private final Object instance;
 
     @NotNull
     private final String parent;
@@ -48,42 +46,29 @@ public final class SectionProceed implements Proceed<Field> {
     @NotNull
     private final Section section;
 
-    public SectionProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
+    public SectionProceed(@NotNull Managed managed, @NotNull String parent,
                           @NotNull Section section) {
         this.managed = managed;
-        this.instance = instance;
         this.parent = parent;
         this.section = section;
     }
 
     @Override
-    public void load(@NotNull Field field) throws Exception {
-        final String separator = section.separator();
-        final String fieldPath;
-
-        if (section.path().isEmpty()) {
-            fieldPath = field.getName().replace("_", separator);
-        } else {
-            fieldPath = section.path();
-        }
-
-        final String path;
-
-        if (parent.isEmpty()) {
-            path = fieldPath;
-        } else if (parent.endsWith(".")) {
-            path = parent + fieldPath;
-        } else {
-            path = parent + "." + fieldPath;
-        }
-
+    public void load(@NotNull Object object) throws Exception {
+        final String path = new PathCalc(
+            "",
+            "",
+            section.path(),
+            parent,
+            object.getClass().getName()
+        ).value();
         final Optional<ConfigurationSection> configurationSectionOptional = managed.getSection(path);
 
         if (!configurationSectionOptional.isPresent()) {
             managed.createSection(path);
         }
 
-        new FieldsProceed(field.get(instance), path).load(managed);
+        new FieldsProceed(object, path).load(managed);
     }
 
 }

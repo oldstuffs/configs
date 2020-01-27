@@ -32,14 +32,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Section {
 
     @NotNull
-    String path() default "";
-
-    @NotNull
-    String separator() default "-";
+    String path();
 
 }

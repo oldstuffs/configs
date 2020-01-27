@@ -27,57 +27,46 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Value;
-import io.github.portlek.configs.util.PathCalc;
+import io.github.portlek.configs.annotations.Section;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
 
-public final class ValueProceed implements Proceed<Field> {
+public final class InstanceProceed implements Proceed<Field> {
 
     @NotNull
     private final Managed managed;
 
     @NotNull
-    private final Object instance;
+    private final Object object;
 
     @NotNull
     private final String parent;
 
-    @NotNull
-    private final Value value;
-
-    public ValueProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
-                        @NotNull Value value) {
+    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent) {
         this.managed = managed;
-        this.instance = instance;
+        this.object = object;
         this.parent = parent;
-        this.value = value;
     }
 
     @Override
     public void load(@NotNull Field field) throws Exception {
-        final String path = new PathCalc(
-            value.regex(),
-            value.separator(),
-            value.path(),
-            parent,
-            field
-        ).value();
-        final Optional<Object> defaultValueOptional = Optional.ofNullable(field.get(instance));
-        final Optional<Object> fileValueOptional = managed.get(path);
+        final Optional<Object> fieldObjectOptional = Optional.ofNullable(field.get(object));
 
-        if (fileValueOptional.isPresent() && defaultValueOptional.isPresent() &&
-            fileValueOptional.get().getClass().equals(defaultValueOptional.get().getClass())) {
-            field.set(instance, fileValueOptional.get());
-        } else if (defaultValueOptional.isPresent()) {
-            managed.set(path, defaultValueOptional.get());
-        } else {
-            return;
+        if (fieldObjectOptional.isPresent()) {
+            final Optional<Section> sectionOptional = Optional.ofNullable(
+                fieldObjectOptional.get().getClass().getDeclaredAnnotation(Section.class)
+            );
+
+            if (sectionOptional.isPresent()) {
+                new SectionProceed(
+                    managed,
+                    parent,
+                    sectionOptional.get()
+                ).load(fieldObjectOptional.get());
+            }
         }
-
-
     }
 
 }

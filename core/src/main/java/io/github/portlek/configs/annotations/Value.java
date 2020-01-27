@@ -40,6 +40,9 @@ public @interface Value {
     String path() default "";
 
     @NotNull
+    String regex() default "_";
+
+    @NotNull
     String separator() default "-";
 
 }

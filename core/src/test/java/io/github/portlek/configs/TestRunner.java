@@ -34,6 +34,14 @@ public final class TestRunner {
         final TestConfig testConfig = new TestConfig();
 
         testConfig.load();
+
+        System.out.println(testConfig.new_string);
+        System.out.println(testConfig.test_string);
+        System.out.println(testConfig.test_section.test_section_string);
+        System.out.println(testConfig.test_section.child.test_section_string);
+        System.out.println(testConfig.test_section.child.child.test_section_string);
+        System.out.println(testConfig.test_section.child.child.child.test_section_string);
+        System.out.println(testConfig.test_section.child.child.child.child.test_section_string);
     }
 
 }
