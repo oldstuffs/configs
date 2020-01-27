@@ -34,6 +34,7 @@ public final class FieldsProceed implements Proceed<Managed> {
             if (instance != null) {
                 new InstanceProceed(
                     managed,
+                    object,
                     parent
                 ).load(field);
             } else if (value != null) {

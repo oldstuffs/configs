@@ -2,8 +2,6 @@ package io.github.portlek.configs.util;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Field;
-
 public final class PathCalc {
 
     @NotNull

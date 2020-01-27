@@ -32,7 +32,6 @@ import io.github.portlek.configs.util.PathCalc;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;
 
-import java.lang.reflect.Field;
 import java.util.Optional;
 
 public final class SectionProceed implements Proceed<Object> {
