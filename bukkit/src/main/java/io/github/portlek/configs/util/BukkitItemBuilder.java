@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.util;
 
+import com.cryptomorin.XEnchantment;
+import com.cryptomorin.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-import org.cryptomorin.xseries.XEnchantment;
-import org.cryptomorin.xseries.XMaterial;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
