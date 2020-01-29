@@ -47,6 +47,10 @@ public final class Version {
         return major < version.major || (major == version.major && minor < version.minor);
     }
 
+    public boolean is(@NotNull Version version) {
+        return this.minor == version.minor && this.major == version.major;
+    }
+
     public void write(@NotNull String path, @NotNull Managed managed) {
         managed.set(path, major + "." + minor);
     }

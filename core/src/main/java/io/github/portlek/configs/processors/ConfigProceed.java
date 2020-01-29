@@ -35,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.util.Optional;
 
 public final class ConfigProceed implements Proceed<Managed> {
 
@@ -78,7 +79,19 @@ public final class ConfigProceed implements Proceed<Managed> {
         final FileConfiguration fileConfiguration = fileType.load(file);
 
         managed.setup(file, fileConfiguration);
-        version.write(versionPath, managed);
+
+        final Optional<String> fileVersionOptional = managed.getString(versionPath);
+
+        if (!fileVersionOptional.isPresent()) {
+            version.write(versionPath, managed);
+        } else {
+            final Version fileVersion = Version.of(fileVersionOptional.get());
+
+            if (!version.is(fileVersion)) {
+
+            }
+        }
+
         new FieldsProceed(managed, "").load(managed);
         managed.save();
     }

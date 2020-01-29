@@ -234,6 +234,14 @@ public abstract class ManagedBase implements Managed {
         return Objects.requireNonNull(fileConfiguration).getShortList(path);
     }
 
+    @NotNull
+    @Override
+    public List<?> getList(@NotNull String path) {
+        validate();
+
+        return Objects.requireNonNull(fileConfiguration).getList(path);
+    }
+
     @Override
     public void setAutoSave(boolean autoSave) {
         this.autoSave = autoSave;

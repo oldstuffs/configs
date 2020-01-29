@@ -31,7 +31,9 @@ import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.PathCalc;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.text.html.Option;
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Optional;
 
 public final class ValueProceed implements Proceed<Field> {
@@ -63,21 +65,41 @@ public final class ValueProceed implements Proceed<Field> {
             value.separator(),
             value.path(),
             parent,
-            field
+            field.getName()
         ).value();
         final Optional<Object> defaultValueOptional = Optional.ofNullable(field.get(instance));
-        final Optional<Object> fileValueOptional = managed.get(path);
 
-        if (fileValueOptional.isPresent() && defaultValueOptional.isPresent() &&
-            fileValueOptional.get().getClass().equals(defaultValueOptional.get().getClass())) {
-            field.set(instance, fileValueOptional.get());
-        } else if (defaultValueOptional.isPresent()) {
-            managed.set(path, defaultValueOptional.get());
-        } else {
+        if (!defaultValueOptional.isPresent()) {
             return;
         }
 
+        final Object fieldValue = defaultValueOptional.get();
+        final Optional<?> fileValueOptional = get(fieldValue, path);
 
+        if (fileValueOptional.isPresent()) {
+            field.set(instance, fileValueOptional.get());
+        } else {
+            managed.set(path, fieldValue);
+        }
+    }
+
+    @NotNull
+    private Optional<?> get(@NotNull Object fieldValue, @NotNull String path) {
+        if (fieldValue instanceof String) {
+            return managed.getString(path);
+        } else if (fieldValue instanceof Integer) {
+            return Optional.of(managed.getInt(path));
+        } else if (fieldValue instanceof List) {
+            return Optional.of(managed.getList(path));
+        } else if (fieldValue instanceof Boolean) {
+            return Optional.of(managed.getBoolean(path));
+        } else if (fieldValue instanceof Long) {
+            return Optional.of(managed.getLong(path));
+        } else if (fieldValue instanceof Double) {
+            return Optional.of(managed.getDouble(path));
+        }
+
+        return managed.get(path);
     }
 
 }

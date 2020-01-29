@@ -104,6 +104,9 @@ public interface Managed {
     @NotNull
     List<Short> getShortList(@NotNull String path);
 
+    @NotNull
+    List<?> getList(@NotNull String path);
+
     void setAutoSave(boolean autoSave);
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);

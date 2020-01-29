@@ -35,6 +35,7 @@ public final class TestRunner {
 
         testConfig.load();
 
+        System.out.println(testConfig.getString("file-version"));
         System.out.println(testConfig.new_string);
         System.out.println(testConfig.test_string);
         System.out.println(testConfig.test_section.test_section_string);
