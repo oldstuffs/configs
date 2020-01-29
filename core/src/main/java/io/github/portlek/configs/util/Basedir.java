@@ -25,18 +25,24 @@
 
 package io.github.portlek.configs.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 import java.net.URISyntaxException;
+import java.util.Optional;
 
 public final class Basedir {
 
-    public File value() {
+    @NotNull
+    public Optional<File> value() {
         try {
-            return new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+            return Optional.of(
+                new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI())
+            );
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
 
-        return new File(".");
+        return Optional.empty();
     }
 }

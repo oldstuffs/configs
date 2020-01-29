@@ -59,9 +59,16 @@ public final class ConfigProceed implements Proceed<Managed> {
 
         final Version version = Version.of(config.version());
         final String versionPath = config.versionPath();
+        final Optional<File> baseDirOptional = new Basedir().value();
+
+        if (!baseDirOptional.isPresent()) {
+            return;
+        }
+
+        final File baseDir = baseDirOptional.get();
         final String fileLocation = addSeparatorIfHasNot(
             config.location()
-                .replace("%basedir%", new Basedir().value().getAbsolutePath())
+                .replace("%basedir%", baseDir.getAbsolutePath())
                 .replace("/", File.separator)
         );
         final File file = new File(fileLocation, fileName);
