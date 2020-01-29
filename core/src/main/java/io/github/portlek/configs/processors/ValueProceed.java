@@ -31,7 +31,6 @@ import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.PathCalc;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.text.html.Option;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
