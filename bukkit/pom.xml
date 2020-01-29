@@ -45,6 +45,12 @@
             <groupId>io.github.portlek</groupId>
             <artifactId>configs-core</artifactId>
             <version>1.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>snakeyaml</artifactId>
+                    <groupId>org.yaml</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.bukkit</groupId>
