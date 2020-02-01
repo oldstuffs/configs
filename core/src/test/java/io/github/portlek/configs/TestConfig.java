@@ -29,6 +29,8 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.util.Replaceable;
+import org.jetbrains.annotations.NotNull;
 
 @Config(
     name = "config"
@@ -36,10 +38,25 @@ import io.github.portlek.configs.annotations.Value;
 public final class TestConfig extends ManagedBase {
 
     @Value
+    public String language = "en";
+
+    @Value
     public String test_string = "Test String";
 
     @Value
     public String new_string = "New String that's migrated.";
+
+    @Value
+    public Replaceable replaceable_test = Replaceable.of("%test% test %language% player name = %player_name%")
+        .replaces("%player_name%", "%language%")
+        .replace("%test%", "test_result")
+        .replace(s -> {
+            if (s.equals("%language%")) {
+                return Replaceable.Response.text(language);
+            }
+
+            return Replaceable.Response.none();
+        });
 
     @Instance
     public test_section test_section = new test_section();

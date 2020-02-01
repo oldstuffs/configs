@@ -29,6 +29,7 @@ import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.PathCalc;
+import io.github.portlek.configs.util.Replaceable;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -78,7 +79,7 @@ public final class ValueProceed implements Proceed<Field> {
         if (fileValueOptional.isPresent()) {
             field.set(instance, fileValueOptional.get());
         } else {
-            managed.set(path, fieldValue);
+            managed.set(path, set(fieldValue));
         }
     }
 
@@ -96,9 +97,31 @@ public final class ValueProceed implements Proceed<Field> {
             return Optional.of(managed.getLong(path));
         } else if (fieldValue instanceof Double) {
             return Optional.of(managed.getDouble(path));
+        } else if (fieldValue instanceof Replaceable) {
+            final Replaceable replaceable = (Replaceable) fieldValue;
+            final Optional<String> stringOptional = managed.getString(path);
+
+            if (stringOptional.isPresent()) {
+                return Optional.of(
+                    Replaceable.of(
+                        stringOptional.get()
+                    ).replaces(
+                        replaceable.getRegex()
+                    ).replace(replaceable.getFunctions())
+                );
+            }
         }
 
         return managed.get(path);
+    }
+
+    @NotNull
+    private Object set(@NotNull Object fieldValue) {
+        if (fieldValue instanceof Replaceable) {
+            return ((Replaceable) fieldValue).build();
+        }
+
+        return fieldValue;
     }
 
 }

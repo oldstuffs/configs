@@ -35,14 +35,11 @@ public final class TestRunner {
 
         testConfig.load();
 
-        System.out.println(testConfig.getString("file-version"));
-        System.out.println(testConfig.new_string);
-        System.out.println(testConfig.test_string);
-        System.out.println(testConfig.test_section.test_section_string);
-        System.out.println(testConfig.test_section.child.test_section_string);
-        System.out.println(testConfig.test_section.child.child.test_section_string);
-        System.out.println(testConfig.test_section.child.child.child.test_section_string);
-        System.out.println(testConfig.test_section.child.child.child.child.test_section_string);
+        final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(
+            testConfig.language
+        );
+
+        testLinkedConfig.load();
     }
 
 }

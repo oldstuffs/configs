@@ -27,7 +27,6 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
-import io.github.portlek.configs.util.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
@@ -46,7 +45,7 @@ public abstract class ManagedBase implements Managed {
     @Nullable
     private File file;
 
-    private boolean autoSave = false;
+    private boolean autoSave = true;
 
     @NotNull
     @Override
@@ -289,11 +288,11 @@ public abstract class ManagedBase implements Managed {
     }
 
     private void validate() {
-        Validate.isNull(
+        Objects.requireNonNull(
             fileConfiguration,
             "You have to load your class with '#load(yourClass)'"
         );
-        Validate.isNull(
+        Objects.requireNonNull(
             file,
             "You have to load your class with '#load(yourClass)'"
         );

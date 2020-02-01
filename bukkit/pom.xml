@@ -50,6 +50,10 @@
                     <artifactId>snakeyaml</artifactId>
                     <groupId>org.yaml</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>Simple-YAML</artifactId>
+                    <groupId>com.github.Carleslc</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
