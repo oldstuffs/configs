@@ -79,7 +79,7 @@ Also you have to make relocation for the library with;
 )
 public final class TestConfig extends ManagedBase {
 
-  @value
+  @Value
   public String test = "test";
 
   @Instance
