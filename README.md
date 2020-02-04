@@ -6,13 +6,13 @@
   <url>https://repo.infumia.com.tr</url>
 </repository>
 
-<--!For the all project type-->
+<!-- For the all project type -->
 <dependency>
   <groupId>io.github.portlek</groupId>
   <artifactId>configs-core</artifactId>
   <version>1.0</version>
 </dependency>
-<--!For the bukkit projects-->
+<!-- For the bukkit projects -->
 <dependency>
   <groupId>io.github.portlek</groupId>
   <artifactId>configs-bukkit</artifactId>
@@ -48,11 +48,11 @@ Also you have to make relocation for the library with;
             <artifactId>maven-shade-plugin</artifactId>
             <version>3.2.0</version>
             <configuration>
-                <!--Other settings...-->
+                <!-- Other settings -->
                 <relocations>
                     <relocation>
                         <pattern>io.github.portlek.configs</pattern>
-                        <!--Replace this-->
+                        <!-- Replace this -->
                         <shadedPattern>[YOUR PACKAGE].file</shadedPattern>
                     </relocation>
                 </relocations>
