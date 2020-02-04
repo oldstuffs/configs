@@ -1,7 +1,4 @@
-# configs
-Config library with annotations.
-
-## Dependencies
+## Setup
 
 ```xml
 <repository>
