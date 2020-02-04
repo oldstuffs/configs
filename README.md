@@ -56,7 +56,7 @@ Also you have to make relocation for the library with;
                     <relocation>
                         <pattern>io.github.portlek.configs</pattern>
                         <!-- Replace this -->
-                        <shadedPattern>[YOUR PACKAGE].file</shadedPattern>
+                        <shadedPattern>[YOUR PACKAGE].configs</shadedPattern>
                     </relocation>
                 </relocations>
             </configuration>
