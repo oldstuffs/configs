@@ -21,6 +21,7 @@
 ```
 
 If you are making a project for a thing that has not `snakeyaml` you have to add;
+
 ```xml
 <dependency>
   <groupId>org.yaml</groupId>
@@ -28,9 +29,11 @@ If you are making a project for a thing that has not `snakeyaml` you have to add
   <version>1.25</version>
 </dependency>
 ```
+
 If not(like bukkit plugins) you don't have to add this dependency to your project.
 
 Also you have to make relocation for the library with;
+
 ```xml
 <build>
     <plugins>
@@ -73,6 +76,7 @@ Also you have to make relocation for the library with;
 ## Usage
 
 ### Config Example
+
 ```java
 @Config(
   name = "config"
@@ -97,6 +101,7 @@ public final class TestConfig extends ManagedBase {
 ```
 
 ### LinkedConfig Example
+
 ```java
 @LinkedConfig(configs = {
   @Config(
@@ -131,6 +136,7 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 ```
 
 The result of the config example will be like that;
+
 ```yml
 test: 'test'
 test-section:
@@ -138,6 +144,7 @@ test-section:
 ```
 
 The result of the linked config example will be like that;
+
 (en.yml file)
 ```yml
 test: 'English words!'
