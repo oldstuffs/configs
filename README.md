@@ -124,13 +124,9 @@ public final class TestLinkedConfig extends LinkedManagedBase {
   @Value
   public String test = match(s -> {
     if (s.equals("en")) {
-      return Optional.of(
-        Response.of("English words!")
-      );
+      return Optional.of("English words!");
     } else if (s.equals("tr")) {
-      return Optional.of(
-        Response.of("Türkçe kelimeler!")
-      );
+      return Optional.of("Türkçe kelimeler!");
     }
     
     return Response.empty();
