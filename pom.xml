@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xmla7a523553bf574429419af69691a6e414695b5ab version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -48,5 +48,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray-portlek-maven</id>
+            <name>portlek-maven</name>
+            <url>https://api.bintray.com/maven/portlek/maven/configs/;publish=1</url>
+        </repository>
+    </distributionManagement>
 
 </project>
