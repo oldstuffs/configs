@@ -35,42 +35,29 @@ If not(like bukkit plugins) you don't have to add this dependency to your projec
 Also you have to make relocation for the library with;
 
 ```xml
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.8.1</version>
-            <configuration>
-                <source>1.8</source>
-                <target>1.8</target>
-            </configuration>
-        </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.0</version>
-            <configuration>
-                <!-- Other settings -->
-                <relocations>
-                    <relocation>
-                        <pattern>io.github.portlek.configs</pattern>
-                        <!-- Replace this -->
-                        <shadedPattern>[YOUR PACKAGE].configs</shadedPattern>
-                    </relocation>
-                </relocations>
-            </configuration>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>3.2.1</version>
+    <configuration>
+        <!-- Other settings -->
+        <relocations>
+            <relocation>
+                <pattern>io.github.portlek.configs</pattern>
+                <!-- Replace this -->
+                <shadedPattern>[YOUR PACKAGE].configs</shadedPattern>
+            </relocation>
+        </relocations>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
 ```
 
 ## Usage
