@@ -24,14 +24,14 @@ public class SerializationHelper {
             value = new ArrayList<>(Arrays.asList((Object[]) value));
         }
         if (value instanceof Set && !(value instanceof SerializableSet)) {
-            value = new SerializableSet((Set) value);
+            value = new SerializableSet((Set<?>) value);
         }
         if (value instanceof ConfigurationSection) {
             return buildMap(((ConfigurationSection) value).getValues(false));
         } else if (value instanceof Map) {
-            return buildMap((Map) value);
+            return buildMap((Map<?, ?>) value);
         } else if (value instanceof List) {
-            return buildList((List) value);
+            return buildList((List<?>) value);
         } else if (value instanceof ConfigurationSerializable) {
             ConfigurationSerializable serializable = (ConfigurationSerializable) value;
             Map<String, Object> values = new LinkedHashMap<>();
@@ -85,7 +85,7 @@ public class SerializationHelper {
      *   for Everything else: stores it as is in the returned List.
      */
     private static List<Object> buildList(@NotNull final Collection<?> collection) {
-        final List<Object> result = new ArrayList<Object>(collection.size());
+        final List<Object> result = new ArrayList<>(collection.size());
         try {
             for (Object o : collection) {
                 result.add(serialize(o));
@@ -104,7 +104,7 @@ public class SerializationHelper {
      * the most nested objects FIRST and the top level object LAST.
      */
     public static Object deserialize(@NotNull final Map<?, ?> input) {
-        final Map<String, Object> output = new LinkedHashMap<String, Object>(input.size());
+        final Map<String, Object> output = new LinkedHashMap<>(input.size());
         for (final Map.Entry<?, ?> e : input.entrySet()) {
             if (e.getValue() instanceof Map) {
                 output.put(e.getKey().toString(), deserialize((Map<?, ?>) e.getValue()));
@@ -131,7 +131,7 @@ public class SerializationHelper {
      * lists and maps within lists.
      */
     private static Object deserialize(@NotNull final List<?> input) {
-        final List<Object> output = new ArrayList<Object>(input.size());
+        final List<Object> output = new ArrayList<>(input.size());
         for (final Object o : input) {
             if (o instanceof Map) {
                 output.add(deserialize((Map<?, ?>) o));
