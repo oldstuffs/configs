@@ -2,8 +2,8 @@
 
 ```xml
 <repository>
-  <name>infumia</name>
-  <url>https://repo.infumia.com.tr</url>
+  <name>jcenter</name>
+  <url>https://jcenter.bintray.com</url>
 </repository>
 
 <!-- For the all project type -->
@@ -124,9 +124,13 @@ public final class TestLinkedConfig extends LinkedManagedBase {
   @Value
   public String test = match(s -> {
     if (s.equals("en")) {
-      return Response.of("English words!");
+      return Optional.of(
+        Response.of("English words!")
+      );
     } else if (s.equals("tr")) {
-      return Response.of("Türkçe kelimeler!");
+      return Optional.of(
+        Response.of("Türkçe kelimeler!")
+      );
     }
     
     return Response.empty();
