@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.util;
 
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import org.jetbrains.annotations.NotNull;
