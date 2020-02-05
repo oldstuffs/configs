@@ -10,6 +10,19 @@
     <name>configs-parent</name>
     <packaging>pom</packaging>
 
+    <developers>
+        <developer>
+            <id>1</id>
+            <name>Hasan Demirtaş</name>
+            <email>utsukushihito@outlook.com</email>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+            <timezone>+3</timezone>
+        </developer>
+    </developers>
+
     <modules>
         <module>core</module>
         <module>bukkit</module>
