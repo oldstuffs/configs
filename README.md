@@ -2,8 +2,8 @@
 
 ```xml
 <repository>
-  <name>jcenter</name>
-  <url>https://jcenter.bintray.com</url>
+  <name>infumia</name>
+  <url>https://repo.infumia.com.tr/</url>
 </repository>
 
 <!-- For the all project type -->
