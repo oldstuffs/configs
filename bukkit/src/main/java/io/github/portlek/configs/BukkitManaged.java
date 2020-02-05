@@ -11,8 +11,30 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public abstract class BukkitManaged extends ManagedBase {
+
+    @NotNull
+    protected final BiFunction<Object, String, Optional<?>> get = (o, s) -> {
+        if (o instanceof ItemStack) {
+            return getItemStack(s);
+        }
+
+        return Optional.empty();
+    };
+
+    @NotNull
+    protected final BiPredicate<Object, String> set = (o, s) -> {
+        if (o instanceof ItemStack) {
+            setItemStack(s, (ItemStack) o);
+
+            return true;
+        }
+
+        return false;
+    };
 
     @Override
     public void load() {
@@ -22,22 +44,8 @@ public abstract class BukkitManaged extends ManagedBase {
             try {
                 new ConfigProceed(
                     config,
-                    (o, s) -> {
-                        if (o instanceof ItemStack) {
-                            return getItemStack(s);
-                        }
-
-                        return Optional.empty();
-                    },
-                    (o, s) -> {
-                        if (o instanceof ItemStack) {
-                            setItemStack(s, (ItemStack) o);
-
-                            return true;
-                        }
-
-                        return false;
-                    }
+                    get,
+                    set
                 ).load(this);
 
                 return;

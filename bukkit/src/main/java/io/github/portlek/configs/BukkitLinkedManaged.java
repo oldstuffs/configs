@@ -1,5 +1,8 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.processors.LinkedConfigProceed;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
@@ -17,6 +20,27 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
         this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {};
     }
 
+    @Override
+    public void load() {
+        final LinkedConfig linkedConfig = getClass().getDeclaredAnnotation(LinkedConfig.class);
+
+        if (linkedConfig != null) {
+            try {
+                new LinkedConfigProceed(
+                    linkedConfig,
+                    get,
+                    set
+                ).load(this);
+
+                return;
+            } catch (Exception ignored) {
+                // ignored
+            }
+        }
+
+        throw new UnsupportedOperationException();
+    }
+
     @Nullable
     @Override
     public <T> T match(@NotNull Function<String, Optional<T>> function) {
@@ -27,11 +51,6 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
     @Override
     public String getChosenFileName() {
         return linkedManagedBase.getChosenFileName();
-    }
-
-    @Override
-    public void load() {
-        linkedManagedBase.load();
     }
 
     @Override

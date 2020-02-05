@@ -58,10 +58,6 @@ public final class ConfigProceed implements Proceed<Managed> {
         this.set = set;
     }
 
-    public ConfigProceed(@NotNull Config config) {
-        this(config, (o, s) -> Optional.empty(), (o, s) -> false);
-    }
-
     @Override
     public void load(@NotNull Managed managed) throws Exception {
         final FileType fileType = config.type();

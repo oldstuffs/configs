@@ -8,14 +8,30 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
 
     @NotNull
     private final LinkedConfig linkedConfig;
 
-    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig) {
+    @NotNull
+    private final BiFunction<Object, String, Optional<?>> get;
+
+    @NotNull
+    private final BiPredicate<Object, String> set;
+
+    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig,
+                               @NotNull BiFunction<Object, String, Optional<?>> get,
+                               @NotNull BiPredicate<Object, String> set) {
         this.linkedConfig = linkedConfig;
+        this.get = get;
+        this.set = set;
+    }
+
+    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig) {
+        this(linkedConfig, (o, s) -> Optional.empty(), (o, s) -> false);
     }
 
     @Override
@@ -40,7 +56,11 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
             .findFirst();
 
         if (configOptional.isPresent()) {
-            new ConfigProceed(configOptional.get()).load(linkedManaged);
+            new ConfigProceed(
+                configOptional.get(),
+                get,
+                set
+            ).load(linkedManaged);
         }
     }
 
