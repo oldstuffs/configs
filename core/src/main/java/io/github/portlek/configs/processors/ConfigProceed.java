@@ -36,7 +36,6 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.util.Optional;
-import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
@@ -56,6 +55,10 @@ public final class ConfigProceed implements Proceed<Managed> {
         this.config = config;
         this.get = get;
         this.set = set;
+    }
+
+    public ConfigProceed(@NotNull Config config) {
+        this(config, (o, s) -> Optional.empty(), (o, s) -> false);
     }
 
     @Override

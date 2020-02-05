@@ -2,7 +2,6 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
