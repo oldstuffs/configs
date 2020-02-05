@@ -42,11 +42,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>me.carleslc</groupId>
-            <artifactId>Simple-YAML</artifactId>
-            <version>1.4.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.eclipsesource.minimal-json</groupId>
             <artifactId>minimal-json</artifactId>
             <version>0.9.5</version>
@@ -55,7 +50,7 @@
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.25</version>
-            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

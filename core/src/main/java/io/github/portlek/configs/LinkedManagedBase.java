@@ -3,7 +3,6 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
 import io.github.portlek.configs.util.MapEntry;
-import io.github.portlek.configs.util.Response;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
@@ -11,6 +10,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 
 public abstract class LinkedManagedBase extends ManagedBase implements LinkedManaged {
@@ -27,8 +27,8 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
 
     @NotNull
     @Override
-    public <T> T match(@NotNull Function<String, Response<T>> function) {
-        return function.apply(chosenFileName).getResponse().orElseThrow(() ->
+    public <T> T match(@NotNull Function<String, Optional<T>> function) {
+        return function.apply(chosenFileName).orElseThrow(() ->
             new IllegalStateException("Cannot found match with the file id > " + chosenFileName)
         );
     }
