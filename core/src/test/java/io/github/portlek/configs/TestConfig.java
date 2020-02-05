@@ -29,6 +29,7 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.util.FileType;
 import org.jetbrains.annotations.NotNull;
 
 @Config(

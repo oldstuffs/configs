@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.annotations;
 
-import io.github.portlek.configs.FileType;
+import io.github.portlek.configs.util.FileType;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.ElementType;
