@@ -32,6 +32,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public final class InstanceProceed implements Proceed<Field> {
 
@@ -44,10 +46,19 @@ public final class InstanceProceed implements Proceed<Field> {
     @NotNull
     private final String parent;
 
-    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent) {
+    @NotNull
+    private final BiFunction<Object, String, Optional<?>> get;
+
+    @NotNull
+    private final BiPredicate<Object, String> set;
+
+    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent,
+                           @NotNull BiFunction<Object, String, Optional<?>> get, @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.object = object;
         this.parent = parent;
+        this.get = get;
+        this.set = set;
     }
 
     @Override
@@ -63,7 +74,9 @@ public final class InstanceProceed implements Proceed<Field> {
                 new SectionProceed(
                     managed,
                     parent,
-                    sectionOptional.get()
+                    sectionOptional.get(),
+                    get,
+                    set
                 ).load(fieldObjectOptional.get());
             }
         }

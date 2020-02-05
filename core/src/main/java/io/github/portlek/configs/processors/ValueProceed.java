@@ -35,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public final class ValueProceed implements Proceed<Field> {
 
@@ -50,12 +52,21 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private final Value value;
 
+    @NotNull
+    private final BiFunction<Object, String, Optional<?>> get;
+
+    @NotNull
+    private final BiPredicate<Object, String> set;
+
     public ValueProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
-                        @NotNull Value value) {
+                        @NotNull Value value, @NotNull BiFunction<Object, String, Optional<?>> get,
+                        @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.instance = instance;
         this.parent = parent;
         this.value = value;
+        this.get = get;
+        this.set = set;
     }
 
     @Override
@@ -79,7 +90,7 @@ public final class ValueProceed implements Proceed<Field> {
         if (fileValueOptional.isPresent()) {
             field.set(instance, fileValueOptional.get());
         } else {
-            managed.set(path, set(fieldValue));
+            set(fieldValue, path);
         }
     }
 
@@ -118,16 +129,23 @@ public final class ValueProceed implements Proceed<Field> {
             }
         }
 
+        final Optional<?> optional = get.apply(fieldValue, path);
+
+        if (optional.isPresent()) {
+            return optional;
+        }
+
         return managed.get(path);
     }
 
-    @NotNull
-    private Object set(@NotNull Object fieldValue) {
+    private void set(@NotNull Object fieldValue, @NotNull String path) {
         if (fieldValue instanceof Replaceable<?>) {
-            return ((Replaceable<?>) fieldValue).getValue();
+            managed.set(path, ((Replaceable<?>) fieldValue).getValue());
         }
 
-        return fieldValue;
+        if (!set.test(fieldValue, path)) {
+            managed.set(path, fieldValue);
+        }
     }
 
 }

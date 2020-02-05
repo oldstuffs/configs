@@ -33,6 +33,8 @@ import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;
 
 import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public final class SectionProceed implements Proceed<Object> {
 
@@ -45,11 +47,20 @@ public final class SectionProceed implements Proceed<Object> {
     @NotNull
     private final Section section;
 
-    public SectionProceed(@NotNull Managed managed, @NotNull String parent,
-                          @NotNull Section section) {
+    @NotNull
+    private final BiFunction<Object, String, Optional<?>> get;
+
+    @NotNull
+    private final BiPredicate<Object, String> set;
+
+    public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section,
+                          @NotNull BiFunction<Object, String, Optional<?>> get,
+                          @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;
+        this.get = get;
+        this.set = set;
     }
 
     @Override
@@ -67,7 +78,7 @@ public final class SectionProceed implements Proceed<Object> {
             managed.createSection(path);
         }
 
-        new FieldsProceed(object, path).load(managed);
+        new FieldsProceed(object, path, get, set).load(managed);
     }
 
 }

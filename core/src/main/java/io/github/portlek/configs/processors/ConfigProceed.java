@@ -36,14 +36,30 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 public final class ConfigProceed implements Proceed<Managed> {
 
     @NotNull
     private final Config config;
 
-    public ConfigProceed(@NotNull Config config) {
+    @NotNull
+    private final BiFunction<Object, String, Optional<?>> get;
+
+    @NotNull
+    private final BiPredicate<Object, String> set;
+
+    public ConfigProceed(@NotNull Config config, @NotNull BiFunction<Object, String, Optional<?>> get,
+                         @NotNull BiPredicate<Object, String> set) {
         this.config = config;
+        this.get = get;
+        this.set = set;
+    }
+
+    public ConfigProceed(@NotNull Config config) {
+        this(config, (o, s) -> Optional.empty(), (o, s) -> false);
     }
 
     @Override
@@ -94,7 +110,7 @@ public final class ConfigProceed implements Proceed<Managed> {
             }
         }
 
-        new FieldsProceed(managed, "").load(managed);
+        new FieldsProceed(managed, "", get, set).load(managed);
         managed.save();
     }
 
