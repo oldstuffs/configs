@@ -41,25 +41,15 @@
     </repositories>
 
     <dependencies>
-        <!-- Copyright (C) dumptruckman 2013
-        This Source Code Form is subject to the terms of the Mozilla Public License,
-        v. 2.0. If a copy of the MPL was not distributed with this file,
-        You can obtain one at http://mozilla.org/MPL/2.0/ -->
-        <dependency>
-            <groupId>com.dumptruckman.minecraft</groupId>
-            <artifactId>JsonConfiguration</artifactId>
-            <version>1.3-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>Simple-YAML</artifactId>
-                    <groupId>com.github.Carleslc</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
         <dependency>
             <groupId>me.carleslc</groupId>
             <artifactId>Simple-YAML</artifactId>
             <version>1.4.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.eclipsesource.minimal-json</groupId>
+            <artifactId>minimal-json</artifactId>
+            <version>0.9.5</version>
         </dependency>
         <dependency>
             <groupId>org.yaml</groupId>
