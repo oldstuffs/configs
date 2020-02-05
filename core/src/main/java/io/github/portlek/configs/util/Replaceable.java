@@ -1,130 +1,176 @@
 package io.github.portlek.configs.util;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
+import javax.swing.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
-public final class Replaceable {
+public final class Replaceable<X> {
 
     @NotNull
-    private String text;
+    private final X value;
 
     @NotNull
     private final List<String> regex = new ArrayList<>();
 
     @NotNull
-    private final List<Function<String, Response>> functions = new ArrayList<>();
+    private final Map<String, Supplier<String>> replaces = new HashMap<>();
 
-    private Replaceable(@NotNull String text) {
-        this.text = text;
+    @NotNull
+    private final List<UnaryOperator<X>> maps = new ArrayList<>();
+
+    private Replaceable(@NotNull X value) {
+        this.value = value;
     }
 
     @NotNull
-    public Replaceable replace(@NotNull String regex, @NotNull Object object) {
-        return replace(regex, () -> object);
+    public Replaceable<X> replace(@NotNull String regex, @NotNull Supplier<String> replace) {
+        return replace(Collections.singletonMap(regex, replace));
     }
 
     @NotNull
-    public Replaceable replace(@NotNull String regex, @NotNull Supplier<Object> object) {
-        text = text.replace(regex, String.valueOf(object.get()));
+    public Replaceable<X> replace(@NotNull Map<String, Supplier<String>> replaces) {
+        this.replaces.putAll(replaces);
 
         return this;
     }
 
     @NotNull
-    public Replaceable replace(@NotNull Function<String, Response> functions) {
-        return replace(Collections.singletonList(functions));
-    }
-
-    @NotNull
-    public Replaceable replace(@NotNull List<Function<String, Response>> functions) {
-        this.functions.addAll(functions);
-
-        return this;
-    }
-
-    @NotNull
-    public Replaceable replaces(@NotNull String... regex) {
+    public Replaceable<X> replaces(@NotNull String... regex) {
         return replaces(Arrays.asList(regex));
     }
 
     @NotNull
-    public Replaceable replaces(@NotNull List<String> regex) {
+    public Replaceable<X> replaces(@NotNull List<String> regex) {
         this.regex.addAll(regex);
 
         return this;
     }
 
     @NotNull
-    public String build() {
-        return text;
+    public Replaceable<X> map(@NotNull UnaryOperator<X> map) {
+        return map(Collections.singletonList(map));
     }
 
     @NotNull
-    public String build(@NotNull Function<String, Response> regexFunction) {
-        String finalText = text;
+    public Replaceable<X> map(@NotNull List<UnaryOperator<X>> map) {
+        this.maps.addAll(map);
 
-        for (String r : this.regex) {
-            final Optional<String> optionalString = regexFunction.apply(r).getResponse();
+        return this;
+    }
 
-            if (optionalString.isPresent()) {
-                finalText = finalText.replace(r, optionalString.get());
-            }
+    @NotNull
+    public X build(@NotNull String regex, @NotNull Supplier<String> replace) {
+        return build(
+            MapEntry.of(regex, replace)
+        );
+    }
 
-            for (Function<String, Response> function : functions) {
-                final Optional<String> functionOptional = function.apply(r).getResponse();
+    @SafeVarargs
+    @NotNull
+    public final X build(@NotNull Map.Entry<String, Supplier<String>>... entries) {
+        return build(
+            Arrays.asList(entries)
+        );
+    }
 
-                if (functionOptional.isPresent()) {
-                    finalText = finalText.replace(r, functionOptional.get());
-                }
-            }
-        }
+    @NotNull
+    public X build(@NotNull List<Map.Entry<String, Supplier<String>>> entries) {
+        final Map<String, Supplier<String>> map = new HashMap<>();
 
-        return finalText;
+        entries.forEach(entry ->
+            map.put(entry.getKey(), entry.getValue())
+        );
+
+        return build(map);
+    }
+
+    @NotNull
+    public <Y> Y buildMap(@NotNull Function<X, Y> function) {
+        final X built = build();
+
+        return function.apply(built);
+    }
+
+    @NotNull
+    public X build() {
+        return build(
+            Collections.emptyMap()
+        );
+    }
+
+    @NotNull
+    public <Y> Y buildMap(@NotNull Function<X, Y> function, @NotNull Map<String, Supplier<String>> replaces) {
+        final X built = build(replaces);
+
+        return function.apply(built);
+    }
+
+    @NotNull
+    public X build(@NotNull Map<String, Supplier<String>> replaces) {
+        final AtomicReference<X> finalValue = new AtomicReference<>(value);
+
+        this.replaces.forEach((s, replace) ->
+            replace(finalValue, s, replace.get())
+        );
+        regex.forEach(r ->
+            Optional.ofNullable(replaces.get(r)).ifPresent(s ->
+                replace(finalValue, r, s.get())
+            )
+        );
+        maps.forEach(operator ->
+            finalValue.set(operator.apply(finalValue.get()))
+        );
+
+        return finalValue.get();
+    }
+
+    @NotNull
+    public X getValue() {
+        return value;
     }
 
     @NotNull
     public List<String> getRegex() {
-        return regex;
+        return Collections.unmodifiableList(regex);
     }
 
     @NotNull
-    public List<Function<String, Response>> getFunctions() {
-        return functions;
+    public Map<String, Supplier<String>> getReplaces() {
+        return Collections.unmodifiableMap(replaces);
     }
 
     @NotNull
-    public static Replaceable of(@NotNull String text) {
-        return new Replaceable(text);
+    public List<UnaryOperator<X>> getMaps() {
+        return Collections.unmodifiableList(maps);
     }
 
-    public static class Response {
+    @NotNull
+    public static Replaceable<String> of(@NotNull String text) {
+        return new Replaceable<>(text);
+    }
 
-        @Nullable
-        private final String optionalString;
+    @NotNull
+    public static Replaceable<List<String>> of(@NotNull String... texts) {
+        return of(Arrays.asList(texts));
+    }
 
-        public Response(@Nullable String optionalString) {
-            this.optionalString = optionalString;
+    @NotNull
+    public static Replaceable<List<String>> of(@NotNull List<String> list) {
+        return new Replaceable<>(list);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void replace(@NotNull AtomicReference<X> finalValue, @NotNull String regex, @NotNull String replace) {
+        if (value instanceof String) {
+            finalValue.set((X) ((String)finalValue.get()).replace(regex, replace));
+        } else if (value instanceof List<?>) {
+            finalValue.set((X) new ListReplace(((List<String>)finalValue.get())).apply(regex, replace));
         }
-
-        @NotNull
-        public static Response text(@NotNull String text) {
-            return new Response(text);
-        }
-
-        @NotNull
-        public static Response none() {
-            return new Response(null);
-        }
-
-        @NotNull
-        public Optional<String> getResponse() {
-            return Optional.ofNullable(optionalString);
-        }
-
     }
 
 }

@@ -34,12 +34,6 @@ public final class TestRunner {
         final TestConfig testConfig = new TestConfig();
 
         testConfig.load();
-
-        final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(
-            testConfig.language
-        );
-
-        testLinkedConfig.load();
     }
 
 }

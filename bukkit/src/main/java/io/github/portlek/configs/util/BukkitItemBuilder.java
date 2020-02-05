@@ -41,28 +41,6 @@ public final class BukkitItemBuilder extends ItemStack {
         super(itemStack);
     }
 
-    public static BukkitItemBuilder of(@NotNull XMaterial xMaterial) {
-        final Material material = xMaterial.parseMaterial();
-
-        if (material == null) {
-            throw new IllegalStateException("Material of the " + xMaterial.name() + " cannot be null!");
-        }
-
-        return new BukkitItemBuilder(
-            new ItemStack(material)
-        );
-    }
-
-    public static BukkitItemBuilder of(@NotNull Material material) {
-        return new BukkitItemBuilder(
-            new ItemStack(material)
-        );
-    }
-
-    public static BukkitItemBuilder of(@NotNull ItemStack itemStack) {
-        return new BukkitItemBuilder(itemStack);
-    }
-
     public BukkitItemBuilder name(@NotNull String displayName) {
         return name(displayName, true);
     }
@@ -177,5 +155,26 @@ public final class BukkitItemBuilder extends ItemStack {
         return 0;
     }
 
+    public static BukkitItemBuilder of(@NotNull XMaterial xMaterial) {
+        final Material material = xMaterial.parseMaterial();
+
+        if (material == null) {
+            throw new IllegalStateException("Material of the " + xMaterial.name() + " cannot be null!");
+        }
+
+        return new BukkitItemBuilder(
+            new ItemStack(material)
+        );
+    }
+
+    public static BukkitItemBuilder of(@NotNull Material material) {
+        return new BukkitItemBuilder(
+            new ItemStack(material)
+        );
+    }
+
+    public static BukkitItemBuilder of(@NotNull ItemStack itemStack) {
+        return new BukkitItemBuilder(itemStack);
+    }
 
 }

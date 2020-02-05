@@ -45,20 +45,18 @@ public abstract class ManagedBase implements Managed {
     @Nullable
     private File file;
 
-    private boolean autoSave = true;
+    private boolean autoSave = false;
 
     @NotNull
     @Override
     public Optional<Object> get(@NotNull String path) {
-        return get(path, null);
+        return Optional.ofNullable(getFileConfiguration().get(path));
     }
 
     @NotNull
     @Override
     public Optional<Object> get(@NotNull String path, @Nullable Object def) {
-        validate();
-
-        return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).get(path, def));
+        return Optional.ofNullable(getFileConfiguration().get(path, def));
     }
 
     @NotNull
@@ -79,17 +77,14 @@ public abstract class ManagedBase implements Managed {
 
     @Override
     public void set(@NotNull String path, @Nullable Object object) {
-        validate();
-        Objects.requireNonNull(fileConfiguration).set(path, object);
+        getFileConfiguration().set(path, object);
         autoSave();
     }
 
     @NotNull
     @Override
     public Optional<ConfigurationSection> getSection(@NotNull String path) {
-        validate();
-
-        return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).getConfigurationSection(path));
+        return Optional.ofNullable(getFileConfiguration().getConfigurationSection(path));
     }
 
     @NotNull
@@ -108,137 +103,120 @@ public abstract class ManagedBase implements Managed {
 
     @Override
     public void createSection(@NotNull String path) {
-        validate();
-        Objects.requireNonNull(fileConfiguration).createSection(path);
+        getFileConfiguration().createSection(path);
         autoSave();
     }
 
     @NotNull
     @Override
     public Optional<String> getString(@NotNull String path) {
-        return getString(path, null);
+        return Optional.ofNullable(getFileConfiguration().getString(path));
     }
 
     @NotNull
     @Override
     public Optional<String> getString(@NotNull String path, @Nullable String def) {
-        validate();
-        return Optional.ofNullable(Objects.requireNonNull(fileConfiguration).getString(path, def));
+        return Optional.ofNullable(getFileConfiguration().getString(path, def));
     }
 
     @Override
     public int getInt(@NotNull String path) {
-        return getInt(path, 0);
+        return getFileConfiguration().getInt(path);
     }
 
     @Override
     public int getInt(@NotNull String path, int def) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getInt(path, def);
+        return getFileConfiguration().getInt(path, def);
     }
 
     @Override
     public boolean getBoolean(@NotNull String path) {
-        return getBoolean(path, false);
+        return getFileConfiguration().getBoolean(path);
     }
 
     @Override
     public boolean getBoolean(@NotNull String path, boolean def) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getBoolean(path, def);
+        return getFileConfiguration().getBoolean(path, def);
     }
 
     @Override
     public double getDouble(@NotNull String path) {
-        return getDouble(path, 0);
+        return getFileConfiguration().getDouble(path);
     }
 
     @Override
     public double getDouble(@NotNull String path, double def) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getDouble(path, def);
+        return getFileConfiguration().getDouble(path, def);
     }
 
     @Override
     public long getLong(@NotNull String path) {
-        return getLong(path, 0);
+        return getFileConfiguration().getLong(path);
     }
 
     @Override
     public long getLong(@NotNull String path, long def) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getLong(path, def);
+        return getFileConfiguration().getLong(path, def);
     }
 
     @NotNull
     @Override
     public List<String> getStringList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getStringList(path);
+        return getFileConfiguration().getStringList(path);
     }
 
     @NotNull
     @Override
     public List<Integer> getIntegerList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getIntegerList(path);
+        return getFileConfiguration().getIntegerList(path);
     }
 
     @NotNull
     @Override
     public List<Boolean> getBooleanList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getBooleanList(path);
+        return getFileConfiguration().getBooleanList(path);
     }
 
     @NotNull
     @Override
     public List<Double> getDoubleList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getDoubleList(path);
+        return getFileConfiguration().getDoubleList(path);
     }
 
     @NotNull
     @Override
     public List<Float> getFloatList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getFloatList(path);
+        return getFileConfiguration().getFloatList(path);
     }
 
     @NotNull
     @Override
     public List<Long> getLongList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getLongList(path);
+        return getFileConfiguration().getLongList(path);
     }
 
     @NotNull
     @Override
     public List<Byte> getByteList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getByteList(path);
+        return getFileConfiguration().getByteList(path);
     }
 
     @NotNull
     @Override
     public List<Character> getCharacterList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getCharacterList(path);
+        return getFileConfiguration().getCharacterList(path);
     }
 
     @NotNull
     @Override
     public List<Short> getShortList(@NotNull String path) {
-        validate();
-        return Objects.requireNonNull(fileConfiguration).getShortList(path);
+        return getFileConfiguration().getShortList(path);
     }
 
     @NotNull
     @Override
     public List<?> getList(@NotNull String path) {
-        validate();
-
-        return Objects.requireNonNull(fileConfiguration).getList(path);
+        return getFileConfiguration().getList(path);
     }
 
     @Override
@@ -247,55 +225,57 @@ public abstract class ManagedBase implements Managed {
     }
 
     @Override
+    public void load() {
+        final Config config = getClass().getDeclaredAnnotation(Config.class);
+
+        if (config != null) {
+            try {
+                new ConfigProceed(config).load(this);
+
+                return;
+            } catch (Exception ignored) {
+                // ignored
+            }
+        }
+
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void save() {
+        try {
+            getFileConfiguration().save(getFile());
+        } catch (Exception exception) {
+            // ignored
+        }
+    }
+
+    @Override
     public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
         if (this.file != null || this.fileConfiguration != null) {
-            throw new IllegalStateException("You can't use #setup after it's set!");
+            throw new IllegalStateException("You can't use #setup(File, FileConfiguration) method twice!");
         }
 
         this.file = file;
         this.fileConfiguration = fileConfiguration;
     }
 
+    @NotNull
     @Override
-    public void load() {
-        final Config config = getClass().getDeclaredAnnotation(Config.class);
-
-        if (config == null) {
-            throw new UnsupportedOperationException();
-        }
-
-        try {
-            new ConfigProceed(config).load(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public File getFile() {
+        return Objects.requireNonNull(file, "You have to load your class with '#load()' method");
     }
 
+    @NotNull
     @Override
-    public void save() {
-        validate();
-        try {
-            Objects.requireNonNull(fileConfiguration).save(Objects.requireNonNull(file));
-        } catch (Exception exception) {
-            // ignored
-        }
+    public FileConfiguration getFileConfiguration() {
+        return Objects.requireNonNull(fileConfiguration, "You have to load your class with '#load()' method");
     }
 
     private void autoSave() {
         if (autoSave) {
             save();
         }
-    }
-
-    private void validate() {
-        Objects.requireNonNull(
-            fileConfiguration,
-            "You have to load your class with '#load(yourClass)'"
-        );
-        Objects.requireNonNull(
-            file,
-            "You have to load your class with '#load(yourClass)'"
-        );
     }
 
 }

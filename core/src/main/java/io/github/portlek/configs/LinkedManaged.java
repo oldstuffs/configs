@@ -23,26 +23,20 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs;
 
+import io.github.portlek.configs.util.Response;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
-import java.net.URISyntaxException;
-import java.util.Optional;
+import java.util.function.Function;
 
-public final class Basedir {
+public interface LinkedManaged extends Managed {
+
+    @Nullable
+    <T> T match(@NotNull Function<String, Response<T>> function);
 
     @NotNull
-    public Optional<File> value() {
-        try {
-            return Optional.of(
-                new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
-            );
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    String getChosenFileName();
 
-        return Optional.empty();
-    }
 }

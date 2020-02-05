@@ -75,12 +75,7 @@ public final class ConfigProceed implements Proceed<Managed> {
 
         if (!file.exists()) {
             file.getParentFile().mkdirs();
-
-            try {
-                file.createNewFile();
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
+            file.createNewFile();
         }
 
         final FileConfiguration fileConfiguration = fileType.load(file);

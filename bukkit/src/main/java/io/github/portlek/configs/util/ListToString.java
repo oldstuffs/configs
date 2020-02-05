@@ -15,7 +15,7 @@ public final class ListToString {
     }
 
     public ListToString(@NotNull String... array) {
-        this.list = Arrays.asList(array);
+        this(Arrays.asList(array));
     }
 
     @NotNull

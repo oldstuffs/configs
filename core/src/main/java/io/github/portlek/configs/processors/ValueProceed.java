@@ -83,31 +83,37 @@ public final class ValueProceed implements Proceed<Field> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @NotNull
     private Optional<?> get(@NotNull Object fieldValue, @NotNull String path) {
         if (fieldValue instanceof String) {
             return managed.getString(path);
-        } else if (fieldValue instanceof Integer) {
-            return Optional.of(managed.getInt(path));
         } else if (fieldValue instanceof List) {
             return Optional.of(managed.getList(path));
-        } else if (fieldValue instanceof Boolean) {
-            return Optional.of(managed.getBoolean(path));
-        } else if (fieldValue instanceof Long) {
-            return Optional.of(managed.getLong(path));
-        } else if (fieldValue instanceof Double) {
-            return Optional.of(managed.getDouble(path));
-        } else if (fieldValue instanceof Replaceable) {
-            final Replaceable replaceable = (Replaceable) fieldValue;
-            final Optional<String> stringOptional = managed.getString(path);
+        } else if (fieldValue instanceof Replaceable<?>) {
+            final Replaceable<?> replaceable = (Replaceable<?>) fieldValue;
 
-            if (stringOptional.isPresent()) {
+            if (replaceable.getValue() instanceof String) {
+                final Optional<String> stringOptional = managed.getString(path);
+                final Replaceable<String> genericReplaceable = (Replaceable<String>) replaceable;
+
+                if (stringOptional.isPresent()) {
+                    return Optional.of(
+                        Replaceable.of(stringOptional.get())
+                            .replaces(replaceable.getRegex())
+                            .replace(replaceable.getReplaces())
+                            .map(genericReplaceable.getMaps())
+                    );
+                }
+            } else if (replaceable.getValue() instanceof List<?>) {
+                final List<String> list = (List<String>) managed.getList(path);
+                final Replaceable<List<String>> genericReplaceable = (Replaceable<List<String>>) replaceable;
+
                 return Optional.of(
-                    Replaceable.of(
-                        stringOptional.get()
-                    ).replaces(
-                        replaceable.getRegex()
-                    ).replace(replaceable.getFunctions())
+                    Replaceable.of(list)
+                        .replaces(genericReplaceable.getRegex())
+                        .replace(genericReplaceable.getReplaces())
+                        .map(genericReplaceable.getMaps())
                 );
             }
         }
@@ -117,8 +123,8 @@ public final class ValueProceed implements Proceed<Field> {
 
     @NotNull
     private Object set(@NotNull Object fieldValue) {
-        if (fieldValue instanceof Replaceable) {
-            return ((Replaceable) fieldValue).build();
+        if (fieldValue instanceof Replaceable<?>) {
+            return ((Replaceable<?>) fieldValue).getValue();
         }
 
         return fieldValue;

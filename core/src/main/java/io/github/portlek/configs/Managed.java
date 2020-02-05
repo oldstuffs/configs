@@ -109,10 +109,16 @@ public interface Managed {
 
     void setAutoSave(boolean autoSave);
 
-    void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
-
     void load();
 
     void save();
+
+    void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
+
+    @NotNull
+    File getFile();
+
+    @NotNull
+    FileConfiguration getFileConfiguration();
 
 }
