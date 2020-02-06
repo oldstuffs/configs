@@ -74,7 +74,7 @@ public final class ConfigProceed implements Proceed<Managed> {
 
         final Version version = Version.of(config.version());
         final String versionPath = config.versionPath();
-        final Optional<File> baseDirOptional = new Basedir().value();
+        final Optional<File> baseDirOptional = new Basedir(managed.getClass()).value();
 
         if (!baseDirOptional.isPresent()) {
             return;

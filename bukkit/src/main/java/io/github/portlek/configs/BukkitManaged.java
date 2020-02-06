@@ -49,8 +49,8 @@ public abstract class BukkitManaged extends ManagedBase {
                 ).load(this);
 
                 return;
-            } catch (Exception ignored) {
-                // ignored
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
 

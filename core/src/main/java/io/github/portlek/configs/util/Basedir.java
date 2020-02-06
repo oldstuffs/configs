@@ -34,10 +34,17 @@ import java.util.Optional;
 public final class Basedir {
 
     @NotNull
+    private final Class<?> aClass;
+
+    public Basedir(@NotNull Class<?> aClass) {
+        this.aClass = aClass;
+    }
+
+    @NotNull
     public Optional<File> value() {
         try {
             return Optional.of(
-                new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
+                new File(aClass.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
             );
         } catch (URISyntaxException e) {
             e.printStackTrace();

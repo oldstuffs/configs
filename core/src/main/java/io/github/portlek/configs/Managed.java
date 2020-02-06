@@ -105,7 +105,7 @@ public interface Managed {
     List<Short> getShortList(@NotNull String path);
 
     @NotNull
-    List<?> getList(@NotNull String path);
+    Optional<List<?>> getList(@NotNull String path);
 
     void setAutoSave(boolean autoSave);
 

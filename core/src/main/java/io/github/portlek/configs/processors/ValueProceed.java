@@ -100,7 +100,7 @@ public final class ValueProceed implements Proceed<Field> {
         if (fieldValue instanceof String) {
             return managed.getString(path);
         } else if (fieldValue instanceof List) {
-            return Optional.of(managed.getList(path));
+            return managed.getList(path);
         } else if (fieldValue instanceof Replaceable<?>) {
             final Replaceable<?> replaceable = (Replaceable<?>) fieldValue;
 
@@ -117,15 +117,18 @@ public final class ValueProceed implements Proceed<Field> {
                     );
                 }
             } else if (replaceable.getValue() instanceof List<?>) {
-                final List<String> list = (List<String>) managed.getList(path);
-                final Replaceable<List<String>> genericReplaceable = (Replaceable<List<String>>) replaceable;
+                final Optional<List<?>> listOptional = managed.getList(path);
 
-                return Optional.of(
-                    Replaceable.of(list)
-                        .replaces(genericReplaceable.getRegex())
-                        .replace(genericReplaceable.getReplaces())
-                        .map(genericReplaceable.getMaps())
-                );
+                if (listOptional.isPresent()) {
+                    final Replaceable<List<String>> genericReplaceable = (Replaceable<List<String>>) replaceable;
+
+                    return Optional.of(
+                        Replaceable.of((List<String>) listOptional.get())
+                            .replaces(genericReplaceable.getRegex())
+                            .replace(genericReplaceable.getReplaces())
+                            .map(genericReplaceable.getMaps())
+                    );
+                }
             }
         }
 
@@ -139,8 +142,9 @@ public final class ValueProceed implements Proceed<Field> {
     }
 
     private void set(@NotNull Object fieldValue, @NotNull String path) {
-        if (fieldValue instanceof Replaceable<?>) {
+        if (fieldValue instanceof Replaceable) {
             managed.set(path, ((Replaceable<?>) fieldValue).getValue());
+            return;
         }
 
         if (!set.test(fieldValue, path)) {

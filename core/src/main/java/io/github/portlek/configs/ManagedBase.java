@@ -215,8 +215,8 @@ public abstract class ManagedBase implements Managed {
 
     @NotNull
     @Override
-    public List<?> getList(@NotNull String path) {
-        return getFileConfiguration().getList(path);
+    public Optional<List<?>> getList(@NotNull String path) {
+        return Optional.ofNullable(getFileConfiguration().getList(path));
     }
 
     @Override
