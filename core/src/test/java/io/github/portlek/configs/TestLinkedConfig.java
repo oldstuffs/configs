@@ -31,7 +31,11 @@ import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Replaceable;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 @LinkedConfig(configs = {
     @Config(
@@ -43,9 +47,38 @@ import java.util.Optional;
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 
+    @NotNull
+    private final Map<String, Supplier<String>> prefix = new HashMap<>();
+
     public TestLinkedConfig(@NotNull TestConfig testConfig) {
         super(testConfig.plugin_language);
     }
+
+    @NotNull
+    public Map<String, Supplier<String>> getPrefix() {
+        if (!prefix.containsKey("%prefix%")) {
+            prefix.put("%prefix%", () -> "Test");
+        }
+
+        return prefix;
+    }
+
+    @Value
+    public Replaceable<String> test_2 = match(s -> {
+        if (s.equals("en")) {
+            return Optional.of(
+                Replaceable.of("%prefix% English words!")
+                    .replace(getPrefix())
+            );
+        } else if (s.equals("tr")) {
+            return Optional.of(
+                Replaceable.of("%prefix% Turkish words!")
+                    .replace(getPrefix())
+            );
+        }
+
+        return Optional.empty();
+    });
 
     @Value
     public Replaceable<String> test = match(s -> {
