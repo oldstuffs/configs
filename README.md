@@ -1,3 +1,5 @@
+![](https://api.travis-ci.com/portlek/configs.svg?branch=master)
+
 ## Setup
 
 ```xml
