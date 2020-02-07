@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs) [![codecov](https://codecov.io/gh/portlek/configs/branch/master/graph/badge.svg)](https://codecov.io/gh/portlek/configs)
-
+[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ## Setup
 
 ```xml
