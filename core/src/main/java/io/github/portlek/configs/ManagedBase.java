@@ -261,14 +261,20 @@ public abstract class ManagedBase implements Managed {
     }
 
     @Override
-    public void addCustomValue(@NotNull Class<?> aClass, @NotNull Provided<?> provided) {
+    public <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided) {
         customValues.put(aClass, provided);
     }
 
     @NotNull
     @Override
-    public Map<Class<?>, Provided<?>> getCustomValues() {
-        return customValues;
+    public Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass) {
+        final Optional<Class<?>> first = customValues
+            .keySet()
+            .stream()
+            .filter(clazz -> clazz.isAssignableFrom(aClass))
+            .findFirst();
+
+        return first.map(customValues::get);
     }
 
     @NotNull

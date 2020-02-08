@@ -27,6 +27,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.PathCalc;
 import io.github.portlek.configs.util.Replaceable;
@@ -34,6 +35,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -97,9 +99,11 @@ public final class ValueProceed implements Proceed<Field> {
     @SuppressWarnings("unchecked")
     @NotNull
     private Optional<?> get(@NotNull Object fieldValue, @NotNull String path) {
-        if (managed.getCustomValues().containsKey(fieldValue.getClass())) {
+        final Optional<Provided<?>> customValueOptional = managed.getCustomValue(fieldValue.getClass());
+
+        if (customValueOptional.isPresent()) {
             return Optional.of(
-                managed.getCustomValues().get(fieldValue.getClass()).get(managed, path)
+                customValueOptional.get().get(managed, path)
             );
         }
 
@@ -148,8 +152,10 @@ public final class ValueProceed implements Proceed<Field> {
     }
 
     private void set(@NotNull Object fieldValue, @NotNull String path) {
-        if (managed.getCustomValues().containsKey(fieldValue.getClass())) {
-            managed.getCustomValues().get(fieldValue.getClass()).set(managed, path);
+        final Optional<Provided<?>> customValueOptional = managed.getCustomValue(fieldValue.getClass());
+
+        if (customValueOptional.isPresent()) {
+            customValueOptional.get().set(fieldValue, managed, path);
             return;
         }
 

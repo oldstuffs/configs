@@ -116,10 +116,10 @@ public interface Managed {
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
-    void addCustomValue(@NotNull Class<?> aClass, @NotNull Provided<?> provided);
+    <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided);
 
     @NotNull
-    Map<Class<?>, Provided<?>> getCustomValues();
+    Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass);
 
     @NotNull
     File getFile();
