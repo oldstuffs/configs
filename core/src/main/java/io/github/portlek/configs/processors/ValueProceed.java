@@ -97,6 +97,12 @@ public final class ValueProceed implements Proceed<Field> {
     @SuppressWarnings("unchecked")
     @NotNull
     private Optional<?> get(@NotNull Object fieldValue, @NotNull String path) {
+        if (managed.getCustomValues().containsKey(fieldValue.getClass())) {
+            return Optional.of(
+                managed.getCustomValues().get(fieldValue.getClass()).get(managed, path)
+            );
+        }
+
         if (fieldValue instanceof String) {
             return managed.getString(path);
         } else if (fieldValue instanceof List) {
@@ -142,6 +148,11 @@ public final class ValueProceed implements Proceed<Field> {
     }
 
     private void set(@NotNull Object fieldValue, @NotNull String path) {
+        if (managed.getCustomValues().containsKey(fieldValue.getClass())) {
+            managed.getCustomValues().get(fieldValue.getClass()).set(managed, path);
+            return;
+        }
+
         if (fieldValue instanceof Replaceable) {
             managed.set(path, ((Replaceable<?>) fieldValue).getValue());
             return;

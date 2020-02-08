@@ -32,6 +32,7 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface Managed {
@@ -114,6 +115,11 @@ public interface Managed {
     void save();
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
+
+    void addCustomValue(@NotNull Class<?> aClass, @NotNull Provided<?> provided);
+
+    @NotNull
+    Map<Class<?>, Provided<?>> getCustomValues();
 
     @NotNull
     File getFile();

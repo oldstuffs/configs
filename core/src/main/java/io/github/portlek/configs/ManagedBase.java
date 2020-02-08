@@ -33,11 +33,11 @@ import org.simpleyaml.configuration.ConfigurationSection;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public abstract class ManagedBase implements Managed {
+
+    private final Map<Class<?>, Provided<?>> customValues = new HashMap<>();
 
     @Nullable
     private FileConfiguration fileConfiguration;
@@ -258,6 +258,17 @@ public abstract class ManagedBase implements Managed {
 
         this.file = file;
         this.fileConfiguration = fileConfiguration;
+    }
+
+    @Override
+    public void addCustomValue(@NotNull Class<?> aClass, @NotNull Provided<?> provided) {
+        customValues.put(aClass, provided);
+    }
+
+    @NotNull
+    @Override
+    public Map<Class<?>, Provided<?>> getCustomValues() {
+        return customValues;
     }
 
     @NotNull
