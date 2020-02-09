@@ -31,7 +31,6 @@ import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Replaceable;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

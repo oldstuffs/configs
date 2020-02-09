@@ -35,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -102,9 +101,7 @@ public final class ValueProceed implements Proceed<Field> {
         final Optional<Provided<?>> customValueOptional = managed.getCustomValue(fieldValue.getClass());
 
         if (customValueOptional.isPresent()) {
-            return Optional.of(
-                customValueOptional.get().get(managed, path)
-            );
+            return customValueOptional.get().get(managed, path);
         }
 
         if (fieldValue instanceof String) {

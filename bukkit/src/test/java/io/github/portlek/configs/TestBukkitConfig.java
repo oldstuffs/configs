@@ -4,11 +4,8 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
-import io.github.portlek.configs.util.BukkitItemBuilder;
 import io.github.portlek.configs.util.ColorUtil;
 import io.github.portlek.configs.util.Replaceable;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Collections;
