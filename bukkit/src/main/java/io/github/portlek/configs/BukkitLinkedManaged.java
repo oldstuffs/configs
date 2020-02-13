@@ -32,8 +32,8 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
                 ).load(this);
 
                 return;
-            } catch (Exception ignored) {
-                // ignored
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
 

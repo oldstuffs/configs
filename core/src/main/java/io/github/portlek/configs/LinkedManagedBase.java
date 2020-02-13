@@ -48,8 +48,8 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
                 new LinkedConfigProceed(linkedConfig).load(this);
 
                 return;
-            } catch (Exception ignored) {
-                // ignored
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
         }
 
@@ -58,10 +58,6 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
 
     @Override
     public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
-        if (linkedFiles.containsKey(chosenFileName)) {
-            throw new IllegalStateException("You can't use #setup(File, FileConfiguration) method twice!");
-        }
-
         linkedFiles.put(
             chosenFileName,
             MapEntry.of(file, fileConfiguration)

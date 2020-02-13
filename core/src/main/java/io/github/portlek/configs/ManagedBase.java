@@ -246,16 +246,12 @@ public abstract class ManagedBase implements Managed {
         try {
             getFileConfiguration().save(getFile());
         } catch (Exception exception) {
-            // ignored
+            exception.printStackTrace();
         }
     }
 
     @Override
     public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
-        if (this.file != null || this.fileConfiguration != null) {
-            throw new IllegalStateException("You can't use #setup(File, FileConfiguration) method twice!");
-        }
-
         this.file = file;
         this.fileConfiguration = fileConfiguration;
     }
