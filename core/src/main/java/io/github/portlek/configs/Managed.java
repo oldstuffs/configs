@@ -37,6 +37,9 @@ import java.util.Optional;
 public interface Managed {
 
     @NotNull
+    Optional<Object> pull(@NotNull String id);
+
+    @NotNull
     Optional<Object> get(@NotNull String path);
 
     @NotNull

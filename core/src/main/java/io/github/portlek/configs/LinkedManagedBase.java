@@ -21,7 +21,9 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     @NotNull
     private final String chosenFileName;
 
-    public LinkedManagedBase(@NotNull String chosenFileName) {
+    @SafeVarargs
+    public LinkedManagedBase(@NotNull String chosenFileName, @NotNull Map.Entry<String, Object>... objects) {
+        super(objects);
         this.chosenFileName = chosenFileName;
     }
 

@@ -37,6 +37,8 @@ import java.util.*;
 
 public abstract class ManagedBase implements Managed {
 
+    private final Map<String, Object> objects = new HashMap<>();
+
     private final Map<Class<?>, Provided<?>> customValues = new HashMap<>();
 
     @Nullable
@@ -46,6 +48,21 @@ public abstract class ManagedBase implements Managed {
     private File file;
 
     private boolean autoSave = false;
+
+    public ManagedBase(@NotNull Map.Entry<String, Object>... objects) {
+        Arrays.asList(objects).forEach(entry ->
+            this.objects.put(entry.getKey(), entry.getValue())
+        );
+    }
+
+    public ManagedBase() {
+    }
+
+    @NotNull
+    @Override
+    public Optional<Object> pull(@NotNull String id) {
+        return Optional.ofNullable(objects.get(id));
+    }
 
     @NotNull
     @Override

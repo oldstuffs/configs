@@ -13,12 +13,12 @@ import java.util.List;
 
 @Config(
     name = "config",
-    location = "%basedir%/AGUI"
+    location = "%basedir%/TestBukkitPlugin"
 )
 public final class TestBukkitConfig extends BukkitManaged {
 
     @Value
-    public Replaceable<String> plugin_prefix = Replaceable.of("&6[&eAGUI&6]")
+    public Replaceable<String> plugin_prefix = Replaceable.of("&6[&eTestBukkitPlugin&6]")
         .map(ColorUtil::colored);
 
     @Value

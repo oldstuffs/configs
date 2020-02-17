@@ -10,11 +10,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
 public abstract class BukkitManaged extends ManagedBase {
+
+    @SafeVarargs
+    public BukkitManaged(@NotNull Map.Entry<String, Object>... objects) {
+        super(objects);
+    }
 
     @NotNull
     protected final BiFunction<Object, String, Optional<?>> get = (o, s) -> {

@@ -7,6 +7,7 @@ import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -15,7 +16,9 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
     @NotNull
     private final LinkedManagedBase linkedManagedBase;
 
-    public BukkitLinkedManaged(@NotNull String chosenFileName) {
+    @SafeVarargs
+    public BukkitLinkedManaged(@NotNull String chosenFileName, @NotNull Map.Entry<String, Object>... objects) {
+        super(objects);
         this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {};
     }
 
