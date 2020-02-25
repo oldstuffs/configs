@@ -5,6 +5,7 @@ import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.JsonValue;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
 
 import java.util.*;
@@ -21,7 +22,7 @@ public final class JsonHelper {
 		if (value.isBoolean()) {
 			object = value.asBoolean();
 		} else if (value.isNumber()) {
-			object = value.asInt();
+			object = parseNumber(value);
 		} else if (value.isString()) {
 			object = value.asString();
 		} else if (value.isArray()) {
@@ -115,4 +116,30 @@ public final class JsonHelper {
 
 		return object;
 	}
+
+	@Nullable
+	private static Object parseNumber(@NotNull JsonValue number) {
+		try {
+			Integer.parseInt(number.toString());
+			return number.asInt();
+		} catch (Exception e) {
+			try {
+				Long.parseLong(number.toString());
+				return number.asLong();
+			} catch (Exception e1) {
+				try {
+					Float.parseFloat(number.toString());
+					return number.asFloat();
+				} catch (Exception e2) {
+					try {
+						Double.parseDouble(number.toString());
+						return number.asDouble();
+					} catch (Exception ignored) {
+					}
+				}
+			}
+		}
+		return null;
+	}
+
 } 
