@@ -1,11 +1,10 @@
 package io.github.portlek.configs.util;
 
-import org.bukkit.ChatColor;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.bukkit.ChatColor;
+import org.jetbrains.annotations.NotNull;
 
 public final class ColorUtil {
 

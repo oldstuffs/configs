@@ -40,7 +40,7 @@ public final class JsonHelper {
 		final List<Object> list = new ArrayList<>(array.size());
 
 		for(JsonValue element:array) {
-			list.add(jsonValueAsObject(element));
+			jsonValueAsObject(element).ifPresent(list::add);
 		}
 
 		return list;
@@ -51,9 +51,8 @@ public final class JsonHelper {
 		if (!(value instanceof JsonObject)) {
 			return new HashMap<>();
 		}
-
 		final JsonObject jsonObject = (JsonObject) value;
-		final Map<String,Object> map = new HashMap<>(jsonObject.size(), 1.f);
+		final Map<String,Object> map = new HashMap<>();
 
 		jsonObject.forEach(member ->
 			jsonValueAsObject(member.getValue()).ifPresent(o ->
@@ -97,9 +96,9 @@ public final class JsonHelper {
 	public static JsonArray collectionAsJsonArray(@NotNull Collection<?> collection) {
 		final JsonArray array = new JsonArray();
 
-		collection.forEach(o ->
-			objectAsJsonValue(o).ifPresent(array::add)
-		);
+		collection.forEach(o -> {
+			objectAsJsonValue(o).ifPresent(array::add);
+		});
 
 		return array;
 	}

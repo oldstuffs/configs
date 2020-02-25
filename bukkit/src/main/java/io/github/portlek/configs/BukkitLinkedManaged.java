@@ -2,14 +2,13 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.file.FileConfiguration;
-
 import java.io.File;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public abstract class BukkitLinkedManaged extends BukkitManaged implements LinkedManaged {
 
@@ -19,7 +18,8 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
     @SafeVarargs
     public BukkitLinkedManaged(@NotNull String chosenFileName, @NotNull Map.Entry<String, Object>... objects) {
         super(objects);
-        this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {};
+        this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {
+        };
     }
 
     @Override

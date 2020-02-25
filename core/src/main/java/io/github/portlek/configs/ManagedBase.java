@@ -27,13 +27,12 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
+import java.io.File;
+import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
 import org.simpleyaml.configuration.file.FileConfiguration;
-
-import java.io.File;
-import java.util.*;
 
 public abstract class ManagedBase implements Managed {
 
@@ -49,6 +48,7 @@ public abstract class ManagedBase implements Managed {
 
     private boolean autoSave = false;
 
+    @SafeVarargs
     public ManagedBase(@NotNull Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
             this.objects.put(entry.getKey(), entry.getValue())
@@ -81,14 +81,11 @@ public abstract class ManagedBase implements Managed {
     @SuppressWarnings("unchecked")
     public <T> T getOrSet(@NotNull String path, @NotNull T fallback) {
         final Optional<T> object = (Optional<T>) get(path);
-
         if (object.isPresent()) {
             return object.get();
         }
-
         set(path, fallback);
         autoSave();
-
         return fallback;
     }
 
@@ -108,13 +105,10 @@ public abstract class ManagedBase implements Managed {
     @Override
     public Optional<ConfigurationSection> getOrCreateSection(@NotNull String path) {
         final Optional<ConfigurationSection> sectionOptional = getSection(path);
-
         if (sectionOptional.isPresent()) {
             return sectionOptional;
         }
-
         createSection(path);
-
         return getSection(path);
     }
 
@@ -244,17 +238,14 @@ public abstract class ManagedBase implements Managed {
     @Override
     public void load() {
         final Config config = getClass().getDeclaredAnnotation(Config.class);
-
         if (config != null) {
             try {
                 new ConfigProceed(config).load(this);
-
                 return;
             } catch (Exception ignored) {
                 // ignored
             }
         }
-
         throw new UnsupportedOperationException();
     }
 
@@ -281,13 +272,10 @@ public abstract class ManagedBase implements Managed {
     @NotNull
     @Override
     public Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass) {
-        final Optional<Class<?>> first = customValues
-            .keySet()
-            .stream()
+        return customValues.keySet().stream()
             .filter(clazz -> clazz.isAssignableFrom(aClass))
-            .findFirst();
-
-        return first.map(customValues::get);
+            .findFirst()
+            .map(customValues::get);
     }
 
     @NotNull
