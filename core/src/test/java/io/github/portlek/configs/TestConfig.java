@@ -33,23 +33,22 @@ import io.github.portlek.configs.util.FileType;
 import org.jetbrains.annotations.NotNull;
 
 @Config(
-    name = "config",
-    type = FileType.JSON,
-    version = "1.1"
+        name = "config",
+        type = FileType.JSON,
+        version = "1.1"
 )
 public final class TestConfig extends ManagedBase {
 
-    @Value
-    public String plugin_prefix = "&6[&eExamplePlugin&6]";
-
-    @Value
-    public String plugin_language = "en";
-
-    @Value
-    public boolean check_for_update = true;
-
     @Instance
     public final Hooks hooks = new Hooks();
+    @Instance
+    public final Saving saving = new Saving();
+    @Value
+    public String plugin_prefix = "&6[&eExamplePlugin&6]";
+    @Value
+    public String plugin_language = "en";
+    @Value
+    public boolean check_for_update = true;
 
     @Section(path = "hooks")
     public static class Hooks {
@@ -74,27 +73,20 @@ public final class TestConfig extends ManagedBase {
 
     }
 
-    @Instance
-    public final Saving saving = new Saving();
-
     @Section(path = "saving")
     public static class Saving {
 
+        @Instance
+        public final MySQL mysql = new MySQL();
         @Value
         public boolean save_when_plugin_disable = true;
-
         @Value
         public boolean auto_save = true;
-
         @Value
         public int auto_save_time = 60;
-
         @NotNull
         @Value
         private String storage_type = "sqlite";
-
-        @Instance
-        public final MySQL mysql = new MySQL();
 
         @Section(path = "mysql")
         public static class MySQL {

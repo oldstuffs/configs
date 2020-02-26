@@ -4,12 +4,11 @@ import io.github.portlek.configs.LinkedManaged;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import org.jetbrains.annotations.NotNull;
 
 public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
 
@@ -22,16 +21,16 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
     @NotNull
     private final BiPredicate<Object, String> set;
 
+    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig) {
+        this(linkedConfig, (o, s) -> Optional.empty(), (o, s) -> false);
+    }
+
     public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig,
-                               @NotNull BiFunction<Object, String, Optional<?>> get,
-                               @NotNull BiPredicate<Object, String> set) {
+        @NotNull BiFunction<Object, String, Optional<?>> get,
+        @NotNull BiPredicate<Object, String> set) {
         this.linkedConfig = linkedConfig;
         this.get = get;
         this.set = set;
-    }
-
-    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig) {
-        this(linkedConfig, (o, s) -> Optional.empty(), (o, s) -> false);
     }
 
     @Override

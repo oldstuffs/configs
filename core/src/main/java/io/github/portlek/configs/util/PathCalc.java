@@ -20,7 +20,7 @@ public final class PathCalc {
     private final String fallbackName;
 
     public PathCalc(@NotNull String regex, @NotNull String separator, @NotNull String rawPath, @NotNull String parent,
-                    @NotNull String fallbackName) {
+        @NotNull String fallbackName) {
         this.regex = regex;
         this.separator = separator;
         this.rawPath = rawPath;

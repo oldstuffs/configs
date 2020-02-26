@@ -26,12 +26,11 @@
 package io.github.portlek.configs.annotations;
 
 import io.github.portlek.configs.util.FileType;
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This annotation is for creating basic file

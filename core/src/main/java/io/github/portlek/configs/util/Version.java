@@ -39,22 +39,6 @@ public final class Version {
         this.minor = minor;
     }
 
-    public boolean afterThan(@NotNull Version version) {
-        return major > version.major || (major == version.major && minor > version.minor);
-    }
-
-    public boolean beforeThan(@NotNull Version version) {
-        return major < version.major || (major == version.major && minor < version.minor);
-    }
-
-    public boolean is(@NotNull Version version) {
-        return this.minor == version.minor && this.major == version.major;
-    }
-
-    public void write(@NotNull String path, @NotNull Managed managed) {
-        managed.set(path, major + "." + minor);
-    }
-
     @NotNull
     public static Version of(@NotNull String versionString) {
         if (!versionString.contains(".")) {
@@ -78,6 +62,22 @@ public final class Version {
             throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
         }
+    }
+
+    public boolean afterThan(@NotNull Version version) {
+        return major > version.major || (major == version.major && minor > version.minor);
+    }
+
+    public boolean beforeThan(@NotNull Version version) {
+        return major < version.major || (major == version.major && minor < version.minor);
+    }
+
+    public boolean is(@NotNull Version version) {
+        return this.minor == version.minor && this.major == version.major;
+    }
+
+    public void write(@NotNull String path, @NotNull Managed managed) {
+        managed.set(path, major + "." + minor);
     }
 
 }

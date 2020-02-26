@@ -1,12 +1,17 @@
 package io.github.portlek.configs.util;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import org.jetbrains.annotations.NotNull;
 
 public final class Replaceable<X> {
 
@@ -24,6 +29,21 @@ public final class Replaceable<X> {
 
     private Replaceable(@NotNull X value) {
         this.value = value;
+    }
+
+    @NotNull
+    public static Replaceable<String> of(@NotNull String text) {
+        return new Replaceable<>(text);
+    }
+
+    @NotNull
+    public static Replaceable<List<String>> of(@NotNull String... texts) {
+        return of(Arrays.asList(texts));
+    }
+
+    @NotNull
+    public static Replaceable<List<String>> of(@NotNull List<String> list) {
+        return new Replaceable<>(list);
     }
 
     @NotNull
@@ -89,6 +109,34 @@ public final class Replaceable<X> {
     }
 
     @NotNull
+    public X build(@NotNull Map<String, Supplier<String>> replaces) {
+        final AtomicReference<X> finalValue = new AtomicReference<>(value);
+
+        this.replaces.forEach((s, replace) ->
+            replace(finalValue, s, replace.get())
+        );
+        regex.forEach(r ->
+            Optional.ofNullable(replaces.get(r)).ifPresent(s ->
+                replace(finalValue, r, s.get())
+            )
+        );
+        maps.forEach(operator ->
+            finalValue.set(operator.apply(finalValue.get()))
+        );
+
+        return finalValue.get();
+    }
+
+    @SuppressWarnings("unchecked")
+    private void replace(@NotNull AtomicReference<X> finalValue, @NotNull String regex, @NotNull String replace) {
+        if (value instanceof String) {
+            finalValue.set((X) ((String) finalValue.get()).replace(regex, replace));
+        } else if (value instanceof List<?>) {
+            finalValue.set((X) new ListReplace(((List<String>) finalValue.get())).apply(regex, replace));
+        }
+    }
+
+    @NotNull
     public <Y> Y buildMap(@NotNull Function<X, Y> function) {
         final X built = build();
 
@@ -110,25 +158,6 @@ public final class Replaceable<X> {
     }
 
     @NotNull
-    public X build(@NotNull Map<String, Supplier<String>> replaces) {
-        final AtomicReference<X> finalValue = new AtomicReference<>(value);
-
-        this.replaces.forEach((s, replace) ->
-            replace(finalValue, s, replace.get())
-        );
-        regex.forEach(r ->
-            Optional.ofNullable(replaces.get(r)).ifPresent(s ->
-                replace(finalValue, r, s.get())
-            )
-        );
-        maps.forEach(operator ->
-            finalValue.set(operator.apply(finalValue.get()))
-        );
-
-        return finalValue.get();
-    }
-
-    @NotNull
     public X getValue() {
         return value;
     }
@@ -146,30 +175,6 @@ public final class Replaceable<X> {
     @NotNull
     public List<UnaryOperator<X>> getMaps() {
         return Collections.unmodifiableList(maps);
-    }
-
-    @NotNull
-    public static Replaceable<String> of(@NotNull String text) {
-        return new Replaceable<>(text);
-    }
-
-    @NotNull
-    public static Replaceable<List<String>> of(@NotNull String... texts) {
-        return of(Arrays.asList(texts));
-    }
-
-    @NotNull
-    public static Replaceable<List<String>> of(@NotNull List<String> list) {
-        return new Replaceable<>(list);
-    }
-
-    @SuppressWarnings("unchecked")
-    private void replace(@NotNull AtomicReference<X> finalValue, @NotNull String regex, @NotNull String replace) {
-        if (value instanceof String) {
-            finalValue.set((X) ((String)finalValue.get()).replace(regex, replace));
-        } else if (value instanceof List<?>) {
-            finalValue.set((X) new ListReplace(((List<String>)finalValue.get())).apply(regex, replace));
-        }
     }
 
 }

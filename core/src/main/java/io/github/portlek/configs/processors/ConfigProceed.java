@@ -31,13 +31,12 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.Version;
-import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
-
 import java.io.File;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public final class ConfigProceed implements Proceed<Managed> {
 
@@ -50,15 +49,15 @@ public final class ConfigProceed implements Proceed<Managed> {
     @NotNull
     private final BiPredicate<Object, String> set;
 
+    public ConfigProceed(@NotNull Config config) {
+        this(config, (o, s) -> Optional.empty(), (o, s) -> false);
+    }
+
     public ConfigProceed(@NotNull Config config, @NotNull BiFunction<Object, String, Optional<?>> get,
-                         @NotNull BiPredicate<Object, String> set) {
+        @NotNull BiPredicate<Object, String> set) {
         this.config = config;
         this.get = get;
         this.set = set;
-    }
-
-    public ConfigProceed(@NotNull Config config) {
-        this(config, (o, s) -> Optional.empty(), (o, s) -> false);
     }
 
     @Override

@@ -1,15 +1,14 @@
 package org.simpleyaml.configuration;
 
-import org.simpleyaml.utils.Validate;
-
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.utils.Validate;
 
 /**
  * This is a {@link Configuration} implementation that does not save or load
  * from any source, and stores all values in memory only.
  * This is useful for temporary Configurations for providing defaults.
- * 
- * @author Bukkit <https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/MemoryConfiguration.java>
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
     protected Configuration defaults;
@@ -18,7 +17,8 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     /**
      * Creates an empty {@link MemoryConfiguration} with no default values.
      */
-    public MemoryConfiguration() {}
+    public MemoryConfiguration() {
+    }
 
     /**
      * Creates an empty {@link MemoryConfiguration} using the specified {@link
@@ -27,12 +27,18 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * @param defaults Default value provider
      * @throws IllegalArgumentException Thrown if defaults is null
      */
-    public MemoryConfiguration(Configuration defaults) {
+    public MemoryConfiguration(@Nullable Configuration defaults) {
         this.defaults = defaults;
     }
 
+    @Nullable
     @Override
-    public void addDefault(String path, Object value) {
+    public ConfigurationSection getParent() {
+        return null;
+    }
+
+    @Override
+    public void addDefault(@NotNull String path, @Nullable Object value) {
         Validate.notNull(path, "Path may not be null");
 
         if (defaults == null) {
@@ -40,9 +46,8 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
         }
 
         defaults.set(path, value);
-    }
-
-    public void addDefaults(Map<String, Object> defaults) {
+    }    @Override
+    public void addDefaults(@NotNull Map<String, Object> defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         for (Map.Entry<String, Object> entry : defaults.entrySet()) {
@@ -50,27 +55,30 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
         }
     }
 
-    public void addDefaults(Configuration defaults) {
+    @Override
+    public void addDefaults(@NotNull Configuration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         addDefaults(defaults.getValues(true));
     }
 
-    public void setDefaults(Configuration defaults) {
-        Validate.notNull(defaults, "Defaults may not be null");
-
-        this.defaults = defaults;
-    }
-
+    @Override
+    @Nullable
     public Configuration getDefaults() {
         return defaults;
     }
 
     @Override
-    public ConfigurationSection getParent() {
-        return null;
+    public void setDefaults(@NotNull Configuration defaults) {
+        Validate.notNull(defaults, "Defaults may not be null");
+
+        this.defaults = defaults;
     }
 
+
+
+    @Override
+    @NotNull
     public MemoryConfigurationOptions options() {
         if (options == null) {
             options = new MemoryConfigurationOptions(this);

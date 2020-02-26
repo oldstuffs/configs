@@ -1,9 +1,8 @@
 package io.github.portlek.configs.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 public final class ListReplace {
 

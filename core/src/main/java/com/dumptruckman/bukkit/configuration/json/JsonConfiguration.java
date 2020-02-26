@@ -8,21 +8,20 @@ import com.dumptruckman.bukkit.configuration.util.SerializationHelper;
 import com.eclipsesource.json.Json;
 import com.eclipsesource.json.JsonObject;
 import com.eclipsesource.json.WriterConfig;
-import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.ConfigurationSection;
-import org.simpleyaml.configuration.file.FileConfiguration;
-import org.simpleyaml.exceptions.InvalidConfigurationException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.ConfigurationSection;
+import org.simpleyaml.configuration.InvalidConfigurationException;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 /**
  * A JSON Configuration for Bukkit based on {@link FileConfiguration}.
- *
+ * <p>
  * Able to store all the things you'd expect from a Bukkit configuration.
  */
 public class JsonConfiguration extends FileConfiguration {
@@ -30,6 +29,30 @@ public class JsonConfiguration extends FileConfiguration {
     protected static final String BLANK_CONFIG = "{}\n";
 
     private static final Logger LOG = Logger.getLogger(JsonConfiguration.class.getName());
+
+    /**
+     * Loads up a configuration from a json formatted file.
+     * <p>
+     * If the file does not exist, it will be created.  This will attempt to use UTF-8 encoding for the file, if it fails
+     * to do so, the system default will be used instead.
+     *
+     * @param file The file to load the configuration from.
+     * @return The configuration loaded from the file contents.
+     */
+    public static JsonConfiguration loadConfiguration(@NotNull final File file) {
+        return loadConfiguration(new JsonConfiguration(), file);
+    }
+
+    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {
+        try {
+            config.load(file);
+        } catch (FileNotFoundException ex) {
+            LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
+        } catch (IOException | InvalidConfigurationException ex) {
+            LOG.log(Level.SEVERE, "Cannot load " + file, ex);
+        }
+        return config;
+    }
 
     @NotNull
     @Override
@@ -58,6 +81,20 @@ public class JsonConfiguration extends FileConfiguration {
         );
     }
 
+    @Override
+    protected @NotNull String buildHeader() {
+        return "";
+    }
+
+    @Override
+    public @NotNull JsonConfigurationOptions options() {
+        if (options == null) {
+            options = new JsonConfigurationOptions(this);
+        }
+
+        return (JsonConfigurationOptions) options;
+    }
+
     private void convertMapsToSections(@NotNull Map<?, ?> input, @NotNull final ConfigurationSection section) {
         final Object result = SerializationHelper.deserialize(input);
 
@@ -76,44 +113,6 @@ public class JsonConfiguration extends FileConfiguration {
         } else {
             section.set("", result);
         }
-    }
-
-    @Override
-    protected String buildHeader() {
-        return "";
-    }
-
-    @Override
-    public JsonConfigurationOptions options() {
-        if (options == null) {
-            options = new JsonConfigurationOptions(this);
-        }
-
-        return (JsonConfigurationOptions) options;
-    }
-
-    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {
-        try {
-            config.load(file);
-        } catch (FileNotFoundException ex) {
-            LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
-        } catch (IOException | InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + file, ex);
-        }
-        return config;
-    }
-
-    /**
-     * Loads up a configuration from a json formatted file.
-     *
-     * If the file does not exist, it will be created.  This will attempt to use UTF-8 encoding for the file, if it fails
-     * to do so, the system default will be used instead.
-     *
-     * @param file The file to load the configuration from.
-     * @return The configuration loaded from the file contents.
-     */
-    public static JsonConfiguration loadConfiguration(@NotNull final File file) {
-        return loadConfiguration(new JsonConfiguration(), file);
     }
 
 }

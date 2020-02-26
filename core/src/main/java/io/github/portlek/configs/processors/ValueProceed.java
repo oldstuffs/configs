@@ -31,13 +31,12 @@ import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.PathCalc;
 import io.github.portlek.configs.util.Replaceable;
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import org.jetbrains.annotations.NotNull;
 
 public final class ValueProceed implements Proceed<Field> {
 
@@ -60,8 +59,8 @@ public final class ValueProceed implements Proceed<Field> {
     private final BiPredicate<Object, String> set;
 
     public ValueProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
-                        @NotNull Value value, @NotNull BiFunction<Object, String, Optional<?>> get,
-                        @NotNull BiPredicate<Object, String> set) {
+        @NotNull Value value, @NotNull BiFunction<Object, String, Optional<?>> get,
+        @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.instance = instance;
         this.parent = parent;

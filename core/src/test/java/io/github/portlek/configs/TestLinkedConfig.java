@@ -37,17 +37,47 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @LinkedConfig(configs = {
-    @Config(
-        name = "en"
-    ),
-    @Config(
-        name = "tr"
-    )
+        @Config(
+                name = "en"
+        ),
+        @Config(
+                name = "tr"
+        )
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 
     @NotNull
     private final Map<String, Supplier<String>> prefix = new HashMap<>();
+    @Value
+    public Replaceable<String> test_2 = match(s -> {
+        if (s.equals("en")) {
+            return Optional.of(
+                    Replaceable.of("%prefix% English words!")
+                            .replace(getPrefix())
+            );
+        } else if (s.equals("tr")) {
+            return Optional.of(
+                    Replaceable.of("%prefix% Turkish words!")
+                            .replace(getPrefix())
+            );
+        }
+
+        return Optional.empty();
+    });
+    @Value
+    public Replaceable<String> test = match(s -> {
+        if (s.equals("en")) {
+            return Optional.of(
+                    Replaceable.of("English words!")
+            );
+        } else if (s.equals("tr")) {
+            return Optional.of(
+                    Replaceable.of("Turkish words!")
+            );
+        }
+
+        return Optional.empty();
+    });
 
     public TestLinkedConfig(@NotNull TestConfig testConfig) {
         super(testConfig.plugin_language);
@@ -61,37 +91,5 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 
         return prefix;
     }
-
-    @Value
-    public Replaceable<String> test_2 = match(s -> {
-        if (s.equals("en")) {
-            return Optional.of(
-                Replaceable.of("%prefix% English words!")
-                    .replace(getPrefix())
-            );
-        } else if (s.equals("tr")) {
-            return Optional.of(
-                Replaceable.of("%prefix% Turkish words!")
-                    .replace(getPrefix())
-            );
-        }
-
-        return Optional.empty();
-    });
-
-    @Value
-    public Replaceable<String> test = match(s -> {
-        if (s.equals("en")) {
-            return Optional.of(
-                Replaceable.of("English words!")
-            );
-        } else if (s.equals("tr")) {
-            return Optional.of(
-                Replaceable.of("Turkish words!")
-            );
-        }
-
-        return Optional.empty();
-    });
 
 }

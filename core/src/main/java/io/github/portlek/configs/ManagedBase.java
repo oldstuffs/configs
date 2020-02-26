@@ -28,7 +28,12 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
@@ -62,6 +67,66 @@ public abstract class ManagedBase implements Managed {
     @Override
     public Optional<Object> pull(@NotNull String id) {
         return Optional.ofNullable(objects.get(id));
+    }
+
+    @Override
+    public void setAutoSave(boolean autoSave) {
+        this.autoSave = autoSave;
+    }
+
+    @Override
+    public void load() {
+        final Config config = getClass().getDeclaredAnnotation(Config.class);
+        if (config != null) {
+            try {
+                new ConfigProceed(config).load(this);
+                return;
+            } catch (Exception ignored) {
+                // ignored
+            }
+        }
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void save() {
+        try {
+            getFileConfiguration().save(getFile());
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @Override
+    public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
+        this.file = file;
+        this.fileConfiguration = fileConfiguration;
+    }
+
+    @Override
+    public <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided) {
+        customValues.put(aClass, provided);
+    }
+
+    @NotNull
+    @Override
+    public Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass) {
+        return customValues.keySet().stream()
+            .filter(clazz -> clazz.isAssignableFrom(aClass))
+            .findFirst()
+            .map(customValues::get);
+    }
+
+    @NotNull
+    @Override
+    public File getFile() {
+        return Objects.requireNonNull(file, "You have to load your class with '#load()' method");
+    }
+
+    @NotNull
+    @Override
+    public FileConfiguration getFileConfiguration() {
+        return Objects.requireNonNull(fileConfiguration, "You have to load your class with '#load()' method");
     }
 
     @NotNull
@@ -228,66 +293,6 @@ public abstract class ManagedBase implements Managed {
     @Override
     public Optional<List<?>> getList(@NotNull String path) {
         return Optional.ofNullable(getFileConfiguration().getList(path));
-    }
-
-    @Override
-    public void setAutoSave(boolean autoSave) {
-        this.autoSave = autoSave;
-    }
-
-    @Override
-    public void load() {
-        final Config config = getClass().getDeclaredAnnotation(Config.class);
-        if (config != null) {
-            try {
-                new ConfigProceed(config).load(this);
-                return;
-            } catch (Exception ignored) {
-                // ignored
-            }
-        }
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void save() {
-        try {
-            getFileConfiguration().save(getFile());
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-    }
-
-    @Override
-    public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
-        this.file = file;
-        this.fileConfiguration = fileConfiguration;
-    }
-
-    @Override
-    public <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided) {
-        customValues.put(aClass, provided);
-    }
-
-    @NotNull
-    @Override
-    public Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass) {
-        return customValues.keySet().stream()
-            .filter(clazz -> clazz.isAssignableFrom(aClass))
-            .findFirst()
-            .map(customValues::get);
-    }
-
-    @NotNull
-    @Override
-    public File getFile() {
-        return Objects.requireNonNull(file, "You have to load your class with '#load()' method");
-    }
-
-    @NotNull
-    @Override
-    public FileConfiguration getFileConfiguration() {
-        return Objects.requireNonNull(fileConfiguration, "You have to load your class with '#load()' method");
     }
 
     private void autoSave() {

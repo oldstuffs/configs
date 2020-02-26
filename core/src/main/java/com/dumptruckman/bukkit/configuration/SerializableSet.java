@@ -1,13 +1,21 @@
 package com.dumptruckman.bukkit.configuration;
 
-import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import org.simpleyaml.configuration.serialization.SerializableAs;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import org.simpleyaml.configuration.serialization.SerializableAs;
 
 @SerializableAs("set")
 public class SerializableSet implements Set, ConfigurationSerializable {
@@ -111,10 +119,9 @@ public class SerializableSet implements Set, ConfigurationSerializable {
         backingSet.clear();
     }
 
-    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
-    public boolean equals(Object o) {
-        return backingSet.equals(o);
+    public Spliterator spliterator() {
+        return backingSet.spliterator();
     }
 
     @Override
@@ -122,9 +129,10 @@ public class SerializableSet implements Set, ConfigurationSerializable {
         return backingSet.hashCode();
     }
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
-    public Spliterator spliterator() {
-        return backingSet.spliterator();
+    public boolean equals(Object o) {
+        return backingSet.equals(o);
     }
 
     @SuppressWarnings("unchecked")

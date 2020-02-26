@@ -1,11 +1,11 @@
 package io.github.portlek.configs.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Immutable Entry
+ *
  * @param <X> the key
  * @param <Y> the value
  */
@@ -20,6 +20,11 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     public MapEntry(@NotNull X key, @NotNull Y value) {
         this.key = key;
         this.value = value;
+    }
+
+    @NotNull
+    public static <X, Y> Map.Entry<X, Y> of(@NotNull X key, @NotNull Y value) {
+        return new MapEntry<>(key, value);
     }
 
     @NotNull
@@ -40,6 +45,14 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     }
 
     @Override
+    public int hashCode() {
+        int hash;
+        hash = key.hashCode();
+        hash ^= value.hashCode();
+        return hash;
+    }
+
+    @Override
     public boolean equals(final Object obj) {
         return obj instanceof Map.Entry
             && ((Map.Entry<?, ?>) obj).getKey().equals(key)
@@ -49,19 +62,6 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     @Override
     public String toString() {
         return key + "=" + value;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash;
-        hash = key.hashCode();
-        hash ^= value.hashCode();
-        return hash;
-    }
-
-    @NotNull
-    public static <X, Y>  Map.Entry<X, Y> of(@NotNull X key, @NotNull Y value) {
-        return new MapEntry<>(key, value);
     }
 
 }

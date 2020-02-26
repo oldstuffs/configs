@@ -2,14 +2,19 @@ package com.dumptruckman.bukkit.configuration.util;
 
 import com.dumptruckman.bukkit.configuration.SerializableSet;
 import com.dumptruckman.bukkit.configuration.YAMLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;
 import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
 import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
-
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author Jeremy Wood
@@ -46,16 +51,16 @@ public class SerializationHelper {
     /**
      * Takes a Map and parses through the values, to ensure that, before saving, all objects are as appropriate as
      * possible for storage in most data formats.
-     *
+     * <p>
      * Specifically it does the following:
-     *   for Map: calls this method recursively on the Map before putting it in the returned Map.
-     *   for List: calls {@link #buildList(java.util.Collection)} which functions similar to this method.
-     *   for ConfigurationSection: gets the values as a map and calls this method recursively on the Map before putting
-     *       it in the returned Map.
-     *   for ConfigurationSerializable: add the {@link ConfigurationSerialization#SERIALIZED_TYPE_KEY} to a new Map
-     *       along with the Map given by {@link ConfigurationSerializable#serialize()}
-     *       and calls this method recursively on the new Map before putting it in the returned Map.
-     *   for Everything else: stores it as is in the returned Map.
+     * for Map: calls this method recursively on the Map before putting it in the returned Map.
+     * for List: calls {@link #buildList(java.util.Collection)} which functions similar to this method.
+     * for ConfigurationSection: gets the values as a map and calls this method recursively on the Map before putting
+     * it in the returned Map.
+     * for ConfigurationSerializable: add the {@link ConfigurationSerialization#SERIALIZED_TYPE_KEY} to a new Map
+     * along with the Map given by {@link ConfigurationSerializable#serialize()}
+     * and calls this method recursively on the new Map before putting it in the returned Map.
+     * for Everything else: stores it as is in the returned Map.
      */
     @NotNull
     private static Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
@@ -73,16 +78,16 @@ public class SerializationHelper {
     /**
      * Takes a Collection and parses through the values, to ensure that, before saving, all objects are as appropriate
      * as possible for storage in most data formats.
-     *
+     * <p>
      * Specifically it does the following:
-     *   for Map: calls {@link #buildMap(java.util.Map)} on the Map before adding to the returned list.
-     *   for List: calls this method recursively on the List.
-     *   for ConfigurationSection: gets the values as a map and calls {@link #buildMap(java.util.Map)} on the Map
-     *       before adding to the returned list.
-     *   for ConfigurationSerializable: add the {@link ConfigurationSerialization#SERIALIZED_TYPE_KEY} to a new Map
-     *       along with the Map given by {@link ConfigurationSerializable#serialize()}
-     *       and calls {@link #buildMap(java.util.Map)} on the new Map before adding to the returned list.
-     *   for Everything else: stores it as is in the returned List.
+     * for Map: calls {@link #buildMap(java.util.Map)} on the Map before adding to the returned list.
+     * for List: calls this method recursively on the List.
+     * for ConfigurationSection: gets the values as a map and calls {@link #buildMap(java.util.Map)} on the Map
+     * before adding to the returned list.
+     * for ConfigurationSerializable: add the {@link ConfigurationSerialization#SERIALIZED_TYPE_KEY} to a new Map
+     * along with the Map given by {@link ConfigurationSerializable#serialize()}
+     * and calls {@link #buildMap(java.util.Map)} on the new Map before adding to the returned list.
+     * for Everything else: stores it as is in the returned List.
      */
     private static List<Object> buildList(@NotNull final Collection<?> collection) {
         final List<Object> result = new ArrayList<>(collection.size());
@@ -98,7 +103,7 @@ public class SerializationHelper {
 
     /**
      * Parses through the input map to deal with serialized objects a la {@link ConfigurationSerializable}.
-     *
+     * <p>
      * Called recursively first on Maps and Lists before passing the parsed input over to
      * {@link ConfigurationSerialization#deserializeObject(java.util.Map)}.  Basically this means it will deserialize
      * the most nested objects FIRST and the top level object LAST.
@@ -108,7 +113,7 @@ public class SerializationHelper {
         for (final Map.Entry<?, ?> e : input.entrySet()) {
             if (e.getValue() instanceof Map) {
                 output.put(e.getKey().toString(), deserialize((Map<?, ?>) e.getValue()));
-            }  else if (e.getValue() instanceof List) {
+            } else if (e.getValue() instanceof List) {
                 output.put(e.getKey().toString(), deserialize((List<?>) e.getValue()));
             } else {
                 output.put(e.getKey().toString(), e.getValue());
@@ -126,7 +131,7 @@ public class SerializationHelper {
 
     /**
      * Parses through the input list to deal with serialized objects a la {@link ConfigurationSerializable}.
-     *
+     * <p>
      * Functions similarly to {@link #deserialize(java.util.Map)} but only for detecting lists within
      * lists and maps within lists.
      */

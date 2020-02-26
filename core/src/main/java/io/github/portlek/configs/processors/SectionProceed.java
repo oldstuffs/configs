@@ -29,12 +29,11 @@ import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.util.PathCalc;
-import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.ConfigurationSection;
-
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 public final class SectionProceed implements Proceed<Object> {
 
@@ -54,8 +53,8 @@ public final class SectionProceed implements Proceed<Object> {
     private final BiPredicate<Object, String> set;
 
     public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section,
-                          @NotNull BiFunction<Object, String, Optional<?>> get,
-                          @NotNull BiPredicate<Object, String> set) {
+        @NotNull BiFunction<Object, String, Optional<?>> get,
+        @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;

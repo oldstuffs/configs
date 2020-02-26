@@ -28,12 +28,11 @@ package io.github.portlek.configs.processors;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
-import org.jetbrains.annotations.NotNull;
-
 import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import org.jetbrains.annotations.NotNull;
 
 public final class InstanceProceed implements Proceed<Field> {
 
@@ -53,7 +52,7 @@ public final class InstanceProceed implements Proceed<Field> {
     private final BiPredicate<Object, String> set;
 
     public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent,
-                           @NotNull BiFunction<Object, String, Optional<?>> get, @NotNull BiPredicate<Object, String> set) {
+        @NotNull BiFunction<Object, String, Optional<?>> get, @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.object = object;
         this.parent = parent;

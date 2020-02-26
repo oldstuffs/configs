@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs;
 
-import java.util.Arrays;
 import org.junit.jupiter.api.Test;
 
 public final class TestRunner {
@@ -38,7 +37,7 @@ public final class TestRunner {
         testConfig.setAutoSave(true);
 
         final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(
-            testConfig
+                testConfig
         );
 
         testLinkedConfig.load();

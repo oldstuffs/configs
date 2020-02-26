@@ -1,8 +1,7 @@
 package io.github.portlek.configs;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 public interface Provided<T> {
 

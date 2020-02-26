@@ -25,11 +25,10 @@
 
 package io.github.portlek.configs.util;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
 
 public final class Basedir {
 

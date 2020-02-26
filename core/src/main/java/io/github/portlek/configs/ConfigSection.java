@@ -14,8 +14,7 @@ public interface ConfigSection {
     @NotNull
     Optional<Object> get(@NotNull String path, @Nullable Object def);
 
-    @NotNull
-    <T> T getOrSet(@NotNull String pat, @NotNull T fallback);
+    @NotNull <T> T getOrSet(@NotNull String pat, @NotNull T fallback);
 
     void set(@NotNull String path, @Nullable Object object);
 

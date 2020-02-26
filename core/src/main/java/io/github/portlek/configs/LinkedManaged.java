@@ -25,16 +25,14 @@
 
 package io.github.portlek.configs;
 
+import java.util.Optional;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
-import java.util.function.Function;
-
 public interface LinkedManaged extends Managed {
 
-    @Nullable
-    <T> T match(@NotNull Function<String, Optional<T>> function);
+    @Nullable <T> T match(@NotNull Function<String, Optional<T>> function);
 
     @NotNull
     String getChosenFileName();
