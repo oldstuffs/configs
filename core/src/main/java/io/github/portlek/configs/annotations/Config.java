@@ -70,6 +70,18 @@ public @interface Config {
     FileType type() default FileType.YAML;
 
     /**
+     * @return The file header comment.
+     */
+    @NotNull
+    String[] header() default {};
+
+    /**
+     * @return The file footer comment.
+     */
+    @NotNull
+    String[] footer() default {};
+
+    /**
      * @return The resource path where will create from.
      */
     @NotNull

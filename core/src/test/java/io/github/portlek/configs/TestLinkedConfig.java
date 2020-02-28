@@ -28,6 +28,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.util.MapEntry;
 import io.github.portlek.configs.util.Replaceable;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,8 +47,19 @@ import java.util.function.Supplier;
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 
+    public TestLinkedConfig(@NotNull TestConfig testConfig) {
+        super(testConfig.plugin_language, MapEntry.of("config", testConfig));
+    }
+
     @NotNull
-    private final Map<String, Supplier<String>> prefix = new HashMap<>();
+    public Map<String, Supplier<String>> getPrefix() {
+        final Map<String, Supplier<String>> map = new HashMap<>();
+        pull("config").ifPresent(o ->
+            map.put("%prefix%", () -> ((TestConfig)o).plugin_prefix)
+        );
+        return map;
+    }
+
     @Value
     public Replaceable<String> test_2 = match(s -> {
         if (s.equals("en")) {
@@ -64,6 +76,7 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 
         return Optional.empty();
     });
+
     @Value
     public Replaceable<String> test = match(s -> {
         if (s.equals("en")) {
@@ -78,18 +91,5 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 
         return Optional.empty();
     });
-
-    public TestLinkedConfig(@NotNull TestConfig testConfig) {
-        super(testConfig.plugin_language);
-    }
-
-    @NotNull
-    public Map<String, Supplier<String>> getPrefix() {
-        if (!prefix.containsKey("%prefix%")) {
-            prefix.put("%prefix%", () -> "Test");
-        }
-
-        return prefix;
-    }
 
 }

@@ -30,27 +30,59 @@ import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.FileType;
+import io.github.portlek.configs.util.Replaceable;
 import org.jetbrains.annotations.NotNull;
+import sun.plugin2.util.ColorUtil;
 
 @Config(
-        name = "config",
-        type = FileType.JSON,
-        version = "1.1"
+    name = "config",
+    type = FileType.JSON,
+    version = "1.1",
+    header = {
+        "Configuration Header",
+        "Header Test"
+    },
+    footer = {
+        "Configuration Footer",
+        "Footer Test"
+    }
 )
 public final class TestConfig extends ManagedBase {
 
-    @Instance
-    public final Hooks hooks = new Hooks();
-    @Instance
-    public final Saving saving = new Saving();
-    @Value
-    public String plugin_prefix = "&6[&eExamplePlugin&6]";
+    @Value(
+        header = {
+            "Value Header",
+            "Comment Test"
+        },
+        footer = {
+            "Value Footer",
+            "Footer Test"
+        },
+        prefix = "Value Prefix, Prefix Test"
+    )
+    public String plugin_prefix = "[ExamplePlugin]";
+
     @Value
     public String plugin_language = "en";
+
     @Value
     public boolean check_for_update = true;
 
-    @Section(path = "hooks")
+    @Instance
+    public final Hooks hooks = new Hooks();
+
+    @Section(
+        path = "hooks",
+        header = {
+            "Section Header",
+            "Comment Test"
+        },
+        footer = {
+            "Section Footer",
+            "Footer Test"
+        },
+        prefix = "Section Prefix, Prefix Test"
+    )
     public static class Hooks {
 
         @Value
@@ -73,20 +105,27 @@ public final class TestConfig extends ManagedBase {
 
     }
 
+    @Instance
+    public final Saving saving = new Saving();
+
     @Section(path = "saving")
     public static class Saving {
 
-        @Instance
-        public final MySQL mysql = new MySQL();
         @Value
         public boolean save_when_plugin_disable = true;
+
         @Value
         public boolean auto_save = true;
+
         @Value
         public int auto_save_time = 60;
+
         @NotNull
         @Value
         private String storage_type = "sqlite";
+
+        @Instance
+        public final MySQL mysql = new MySQL();
 
         @Section(path = "mysql")
         public static class MySQL {
