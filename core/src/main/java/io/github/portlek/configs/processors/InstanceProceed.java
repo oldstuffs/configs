@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import java.lang.reflect.Field;
@@ -51,8 +50,8 @@ public final class InstanceProceed implements Proceed<Field> {
     @NotNull
     private final BiPredicate<Object, String> set;
 
-    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent,
-        @NotNull BiFunction<Object, String, Optional<?>> get, @NotNull BiPredicate<Object, String> set) {
+    public InstanceProceed(@NotNull final Managed managed, @NotNull final Object object, @NotNull final String parent,
+                           @NotNull final BiFunction<Object, String, Optional<?>> get, @NotNull final BiPredicate<Object, String> set) {
         this.managed = managed;
         this.object = object;
         this.parent = parent;
@@ -61,8 +60,8 @@ public final class InstanceProceed implements Proceed<Field> {
     }
 
     @Override
-    public void load(@NotNull Field field) throws Exception {
-        final Optional<Object> fieldObjectOptional = Optional.ofNullable(field.get(object));
+    public void load(@NotNull final Field field) throws Exception {
+        final Optional<Object> fieldObjectOptional = Optional.ofNullable(field.get(this.object));
 
         if (fieldObjectOptional.isPresent()) {
             final Optional<Section> sectionOptional = Optional.ofNullable(
@@ -71,11 +70,11 @@ public final class InstanceProceed implements Proceed<Field> {
 
             if (sectionOptional.isPresent()) {
                 new SectionProceed(
-                    managed,
-                    parent,
+                    this.managed,
+                    this.parent,
                     sectionOptional.get(),
-                    get,
-                    set
+                    this.get,
+                    this.set
                 ).load(fieldObjectOptional.get());
             }
         }

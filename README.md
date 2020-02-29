@@ -3,8 +3,8 @@
 
 ```xml
 <repository>
-  <name>infumia</name>
-  <url>https://repo.infumia.com.tr/</url>
+    <id>portlek</id>
+    <url>https://dl.bintray.com/portlek/maven</url>
 </repository>
 
 <!-- For the all project type -->
@@ -20,18 +20,6 @@
   <version>1.0</version>
 </dependency>
 ```
-
-If you are making a project for a thing that has not `snakeyaml` you have to add;
-
-```xml
-<dependency>
-  <groupId>org.yaml</groupId>
-  <artifactId>snakeyaml</artifactId>
-  <version>1.25</version>
-</dependency>
-```
-
-If not(like bukkit plugins) you don't have to add this dependency to your project.
 
 Also you have to make relocation for the library with;
 

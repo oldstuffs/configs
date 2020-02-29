@@ -19,8 +19,8 @@ public final class PathCalc {
     @NotNull
     private final String fallbackName;
 
-    public PathCalc(@NotNull String regex, @NotNull String separator, @NotNull String rawPath, @NotNull String parent,
-        @NotNull String fallbackName) {
+    public PathCalc(@NotNull final String regex, @NotNull final String separator, @NotNull final String rawPath, @NotNull final String parent,
+                    @NotNull final String fallbackName) {
         this.regex = regex;
         this.separator = separator;
         this.rawPath = rawPath;
@@ -32,24 +32,24 @@ public final class PathCalc {
     public String value() {
         final String fieldPath;
 
-        if (rawPath.isEmpty()) {
-            if (!regex.isEmpty() && !separator.isEmpty()) {
-                fieldPath = fallbackName.replace(regex, separator);
+        if (this.rawPath.isEmpty()) {
+            if (!this.regex.isEmpty() && !this.separator.isEmpty()) {
+                fieldPath = this.fallbackName.replace(this.regex, this.separator);
             } else {
-                fieldPath = fallbackName;
+                fieldPath = this.fallbackName;
             }
         } else {
-            fieldPath = rawPath;
+            fieldPath = this.rawPath;
         }
 
         final String path;
 
-        if (parent.isEmpty()) {
+        if (this.parent.isEmpty()) {
             path = fieldPath;
-        } else if (parent.endsWith(".")) {
-            path = parent + fieldPath;
+        } else if (this.parent.endsWith(".")) {
+            path = this.parent + fieldPath;
         } else {
-            path = parent + "." + fieldPath;
+            path = this.parent + "." + fieldPath;
         }
 
         return path;

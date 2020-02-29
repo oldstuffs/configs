@@ -25,32 +25,39 @@
 
 package io.github.portlek.configs.util;
 
-import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import java.io.File;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
-import org.simpleyaml.configuration.file.YamlConfiguration;
 
 public enum FileType {
 
-    YAML(".yml", YamlConfiguration::loadConfiguration),
-    JSON(".json", JsonConfiguration::loadConfiguration);
+    YAML("yml"),
+    JSON("json"),
+    NONE("none");
 
     @NotNull
     public final String suffix;
 
-    @NotNull
-    private final Function<File, FileConfiguration> consumer;
-
-    FileType(@NotNull String suffix, @NotNull Function<File, FileConfiguration> consumer) {
-        this.suffix = suffix;
-        this.consumer = consumer;
+    FileType(@NotNull final String sffx) {
+        this.suffix = sffx;
     }
 
     @NotNull
-    public FileConfiguration load(@NotNull File file) {
-        return consumer.apply(file);
+    public static Optional<FileType> fromExtension(@NotNull final File file) {
+        return FileType.fromExtension(FileUtils.getExtension(file));
+    }
+
+    @NotNull
+    public static Optional<FileType> fromExtension(@NotNull final String type) {
+        return Arrays.stream(FileType.values())
+            .filter(value -> value.suffix.equalsIgnoreCase(type))
+            .findFirst();
+    }
+
+    @NotNull
+    public static Optional<FileType> fromFile(@NotNull final File file) {
+        return FileType.fromExtension(FileUtils.getExtension(file));
     }
 
 }

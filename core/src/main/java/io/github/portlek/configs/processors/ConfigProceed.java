@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.Basedir;
@@ -49,30 +48,30 @@ public final class ConfigProceed implements Proceed<Managed> {
     @NotNull
     private final BiPredicate<Object, String> set;
 
-    public ConfigProceed(@NotNull Config config) {
+    public ConfigProceed(@NotNull final Config config) {
         this(config, (o, s) -> Optional.empty(), (o, s) -> false);
     }
 
-    public ConfigProceed(@NotNull Config config, @NotNull BiFunction<Object, String, Optional<?>> get,
-                         @NotNull BiPredicate<Object, String> set) {
+    public ConfigProceed(@NotNull final Config config, @NotNull final BiFunction<Object, String, Optional<?>> get,
+                         @NotNull final BiPredicate<Object, String> set) {
         this.config = config;
         this.get = get;
         this.set = set;
     }
 
     @Override
-    public void load(@NotNull Managed managed) throws Exception {
-        final FileType fileType = config.type();
+    public void load(@NotNull final Managed managed) throws Exception {
+        final FileType fileType = this.config.type();
         final String fileName;
 
-        if (config.name().endsWith(fileType.suffix)) {
-            fileName = config.name();
+        if (this.config.name().endsWith(fileType.suffix)) {
+            fileName = this.config.name();
         } else {
-            fileName = config.name() + fileType.suffix;
+            fileName = this.config.name() + fileType.suffix;
         }
 
-        final Version version = Version.of(config.version());
-        final String versionPath = config.versionPath();
+        final Version version = Version.from(this.config.version());
+        final String versionPath = this.config.versionPath();
         final Optional<File> baseDirOptional = new Basedir(managed.getClass()).value();
 
         if (!baseDirOptional.isPresent()) {
@@ -80,8 +79,8 @@ public final class ConfigProceed implements Proceed<Managed> {
         }
 
         final File baseDir = baseDirOptional.get();
-        final String fileLocation = addSeparatorIfHasNot(
-            config.location()
+        final String fileLocation = this.addSeparatorIfHasNot(
+            this.config.location()
                 .replace("%basedir%", baseDir.getAbsolutePath())
                 .replace("/", File.separator)
         );
@@ -101,19 +100,19 @@ public final class ConfigProceed implements Proceed<Managed> {
         if (!fileVersionOptional.isPresent()) {
             version.write(versionPath, managed);
         } else {
-            final Version fileVersion = Version.of(fileVersionOptional.get());
+            final Version fileVersion = Version.from(fileVersionOptional.get());
 
-            if (!version.is(fileVersion)) {
+            if (!version.equals(fileVersion)) {
                 // TODO: 29/01/2020
             }
         }
 
-        new FieldsProceed(managed, "", get, set).load(managed);
+        new FieldsProceed(managed, "", this.get, this.set).load(managed);
         managed.save();
     }
 
     @NotNull
-    private String addSeparatorIfHasNot(@NotNull String raw) {
+    private String addSeparatorIfHasNot(@NotNull final String raw) {
         if (raw.endsWith(File.separator)) {
             return raw;
         }

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.Managed;
+import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 
 public final class Version {
@@ -34,19 +34,19 @@ public final class Version {
 
     private final int minor;
 
-    public Version(int major, int minor) {
-        this.major = major;
-        this.minor = minor;
+    public Version(final int mjr, final int mnr) {
+        this.major = mjr;
+        this.minor = mnr;
     }
 
     @NotNull
-    public static Version of(@NotNull String versionString) {
-        if (!versionString.contains(".")) {
+    public static Version from(@NotNull final String version) {
+        if (!version.contains(".")) {
             throw new UnsupportedOperationException("Make sure the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class have '.' between version numbers!");
         }
 
-        final String[] split = versionString.split("\\.");
+        final String[] split = version.split("\\.");
 
         if (split.length != 2) {
             throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
@@ -58,26 +58,48 @@ public final class Version {
                 Integer.parseInt(split[0]),
                 Integer.parseInt(split[1])
             );
-        } catch (Exception exception) {
+        } catch (final NumberFormatException e) {
             throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
         }
     }
 
-    public boolean afterThan(@NotNull Version version) {
-        return major > version.major || (major == version.major && minor > version.minor);
+    public boolean afterThan(@NotNull final Version version) {
+        return this.major > version.getMajor() || this.major == version.getMajor() && this.minor > version.getMinor();
     }
 
-    public boolean beforeThan(@NotNull Version version) {
-        return major < version.major || (major == version.major && minor < version.minor);
+    public int getMajor() {
+        return this.major;
     }
 
-    public boolean is(@NotNull Version version) {
-        return this.minor == version.minor && this.major == version.major;
+    public int getMinor() {
+        return this.minor;
     }
 
-    public void write(@NotNull String path, @NotNull Managed managed) {
-        managed.set(path, major + "." + minor);
+    public boolean beforeThan(@NotNull final Version version) {
+        return this.major < version.getMajor() || this.getMajor() == version.getMajor() && this.getMinor() < version.getMinor();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.major, this.minor);
+    }
+
+    @Override
+    public boolean equals(final Object vrsn) {
+        if (this == vrsn) {
+            return true;
+        }
+        if (vrsn == null || !this.getClass().equals(vrsn.getClass())) {
+            return false;
+        }
+        final Version version = (Version) vrsn;
+        return this.major == version.getMajor() &&
+            this.minor == version.getMinor();
+    }
+
+    public void write(@NotNull final String path, @NotNull final ConfigSection managed) {
+        managed.set(path, this.major + "." + this.minor);
     }
 
 }
