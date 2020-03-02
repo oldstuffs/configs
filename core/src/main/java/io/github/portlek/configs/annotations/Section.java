@@ -38,13 +38,4 @@ public @interface Section {
     @NotNull
     String path();
 
-    @NotNull
-    String[] header() default {};
-
-    @NotNull
-    String[] footer() default {};
-
-    @NotNull
-    String prefix() default "";
-
 }

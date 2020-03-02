@@ -54,7 +54,7 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     public ConfigProceed(@NotNull Config config, @NotNull BiFunction<Object, String, Optional<?>> get,
-                         @NotNull BiPredicate<Object, String> set) {
+        @NotNull BiPredicate<Object, String> set) {
         this.config = config;
         this.get = get;
         this.set = set;
