@@ -1,5 +1,6 @@
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Value;
@@ -23,9 +24,9 @@ public final class FieldsProceed implements Proceed<Managed> {
     @NotNull
     private final BiPredicate<Object, String> set;
 
-    public FieldsProceed(@NotNull final Object object, @NotNull final String parent,
-                         @NotNull final BiFunction<Object, String, Optional<?>> get,
-                         @NotNull final BiPredicate<Object, String> set) {
+    public FieldsProceed(@NotNull Object object, @NotNull String parent,
+        @NotNull BiFunction<Object, String, Optional<?>> get,
+        @NotNull BiPredicate<Object, String> set) {
         this.object = object;
         this.parent = parent;
         this.get = get;
@@ -33,8 +34,8 @@ public final class FieldsProceed implements Proceed<Managed> {
     }
 
     @Override
-    public void load(@NotNull final Managed managed) throws Exception {
-        for (final Field field : this.object.getClass().getDeclaredFields()) {
+    public void load(@NotNull Managed managed) throws Exception {
+        for (Field field : object.getClass().getDeclaredFields()) {
             final boolean isAccessible = field.isAccessible();
 
             field.setAccessible(true);
@@ -45,19 +46,19 @@ public final class FieldsProceed implements Proceed<Managed> {
             if (instance != null) {
                 new InstanceProceed(
                     managed,
-                    this.object,
-                    this.parent,
-                    this.get,
-                    this.set
+                    object,
+                    parent,
+                    get,
+                    set
                 ).load(field);
             } else if (value != null) {
                 new ValueProceed(
                     managed,
-                    this.object,
-                    this.parent,
+                    object,
+                    parent,
                     value,
-                    this.get,
-                    this.set
+                    get,
+                    set
                 ).load(field);
             }
 

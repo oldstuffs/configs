@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.util.PathCalc;
@@ -51,9 +52,9 @@ public final class SectionProceed implements Proceed<Object> {
     @NotNull
     private final BiPredicate<Object, String> set;
 
-    public SectionProceed(@NotNull final Managed managed, @NotNull final String parent, @NotNull final Section section,
-                          @NotNull final BiFunction<Object, String, Optional<?>> get,
-                          @NotNull final BiPredicate<Object, String> set) {
+    public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section,
+        @NotNull BiFunction<Object, String, Optional<?>> get,
+        @NotNull BiPredicate<Object, String> set) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;
@@ -62,21 +63,21 @@ public final class SectionProceed implements Proceed<Object> {
     }
 
     @Override
-    public void load(@NotNull final Object object) throws Exception {
+    public void load(@NotNull Object object) throws Exception {
         final String path = new PathCalc(
             "",
             "",
-            this.section.path(),
-            this.parent,
+            section.path(),
+            parent,
             object.getClass().getName()
         ).value();
-        final Optional<ConfigurationSection> configurationSectionOptional = this.managed.getSection(path);
+        final Optional<ConfigurationSection> configurationSectionOptional = managed.getSection(path);
 
         if (!configurationSectionOptional.isPresent()) {
-            this.managed.createSection(path);
+            managed.createSection(path);
         }
 
-        new FieldsProceed(object, path, this.get, this.set).load(this.managed);
+        new FieldsProceed(object, path, get, set).load(managed);
     }
 
 }

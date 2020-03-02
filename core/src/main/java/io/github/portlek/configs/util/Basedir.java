@@ -33,23 +33,22 @@ import org.jetbrains.annotations.NotNull;
 public final class Basedir {
 
     @NotNull
-    private final Class<?> clazz;
+    private final Class<?> aClass;
 
-    public Basedir(@NotNull final Class<?> clss) {
-        this.clazz = clss;
+    public Basedir(@NotNull Class<?> aClass) {
+        this.aClass = aClass;
     }
 
     @NotNull
     public Optional<File> value() {
-        File file = null;
         try {
-            file = new File(
-                this.clazz.getProtectionDomain().getCodeSource().getLocation().toURI()
-            ).getParentFile();
-        } catch (final URISyntaxException e) {
+            return Optional.of(
+                new File(aClass.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
+            );
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        return Optional.ofNullable(file);
-    }
 
+        return Optional.empty();
+    }
 }

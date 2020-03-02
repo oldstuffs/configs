@@ -17,51 +17,51 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     @NotNull
     private final Y value;
 
-    public MapEntry(@NotNull final X key, @NotNull final Y value) {
+    public MapEntry(@NotNull X key, @NotNull Y value) {
         this.key = key;
         this.value = value;
     }
 
     @NotNull
-    public static <X, Y> Map.Entry<X, Y> from(@NotNull final X key, @NotNull final Y value) {
+    public static <X, Y> Map.Entry<X, Y> of(@NotNull X key, @NotNull Y value) {
         return new MapEntry<>(key, value);
     }
 
     @NotNull
     @Override
     public X getKey() {
-        return this.key;
+        return key;
     }
 
     @NotNull
     @Override
     public Y getValue() {
-        return this.value;
+        return value;
     }
 
     @Override
-    public Y setValue(final Y value) {
-        throw new UnsupportedOperationException("You can't set MapEntry because of that object is immutable!");
+    public Y setValue(Y value) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int hashCode() {
         int hash;
-        hash = this.key.hashCode();
-        hash ^= this.value.hashCode();
+        hash = key.hashCode();
+        hash ^= value.hashCode();
         return hash;
     }
 
     @Override
     public boolean equals(final Object obj) {
         return obj instanceof Map.Entry
-            && ((Map.Entry<?, ?>) obj).getKey().equals(this.key)
-            && ((Map.Entry<?, ?>) obj).getValue().equals(this.value);
+            && ((Map.Entry<?, ?>) obj).getKey().equals(key)
+            && ((Map.Entry<?, ?>) obj).getValue().equals(value);
     }
 
     @Override
     public String toString() {
-        return this.key + "=" + this.value;
+        return key + "=" + value;
     }
 
 }

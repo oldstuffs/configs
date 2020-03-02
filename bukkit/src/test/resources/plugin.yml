@@ -1,0 +1,3 @@
+name: TestBukkitPlugin
+main: io.github.portlek.configs.TestBukkitPlugin
+version: '1.0'
