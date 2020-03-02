@@ -11,6 +11,7 @@ import com.eclipsesource.json.WriterConfig;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Reader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +42,23 @@ public class JsonConfiguration extends FileConfiguration {
      */
     public static JsonConfiguration loadConfiguration(@NotNull final File file) {
         return loadConfiguration(new JsonConfiguration(), file);
+    }
+
+    public static JsonConfiguration loadConfiguration(@NotNull final Reader reader) {
+        return loadConfiguration(new JsonConfiguration(), reader);
+    }
+
+    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final Reader reader) {
+        try {
+            config.load(reader);
+        } catch (FileNotFoundException ex) {
+            LOG.log(Level.SEVERE, "Cannot find file " + reader, ex);
+        } catch (IOException ex) {
+            LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
+        } catch (InvalidConfigurationException ex) {
+            LOG.log(Level.SEVERE, "Cannot load " + reader , ex);
+        }
+        return config;
     }
 
     private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {

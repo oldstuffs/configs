@@ -41,6 +41,9 @@ public final class TestRunner {
         );
 
         testLinkedConfig.load();
+
+        final TestLinkedResourceConfig testLinkedResourceConfig = new TestLinkedResourceConfig("test_1");
+        testLinkedResourceConfig.load();
     }
 
 }

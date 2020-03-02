@@ -37,12 +37,12 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 @LinkedConfig(configs = {
-        @Config(
-                name = "en"
-        ),
-        @Config(
-                name = "tr"
-        )
+    @Config(
+        name = "en"
+    ),
+    @Config(
+        name = "tr"
+    )
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 

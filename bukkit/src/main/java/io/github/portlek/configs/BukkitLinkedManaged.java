@@ -18,14 +18,12 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
     @SafeVarargs
     public BukkitLinkedManaged(@NotNull String chosenFileName, @NotNull Map.Entry<String, Object>... objects) {
         super(objects);
-        this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {
-        };
+        this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {};
     }
 
     @Override
     public void load() {
         final LinkedConfig linkedConfig = getClass().getDeclaredAnnotation(LinkedConfig.class);
-
         if (linkedConfig != null) {
             try {
                 new LinkedConfigProceed(

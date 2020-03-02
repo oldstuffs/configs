@@ -27,6 +27,7 @@ package io.github.portlek.configs.util;
 
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import java.io.File;
+import java.io.Reader;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
@@ -34,23 +35,33 @@ import org.simpleyaml.configuration.file.YamlConfiguration;
 
 public enum FileType {
 
-    YAML(".yml", YamlConfiguration::loadConfiguration),
-    JSON(".json", JsonConfiguration::loadConfiguration);
+    YAML(".yml", YamlConfiguration::loadConfiguration, YamlConfiguration::loadConfiguration),
+    JSON(".json", JsonConfiguration::loadConfiguration, JsonConfiguration::loadConfiguration);
 
     @NotNull
     public final String suffix;
 
     @NotNull
-    private final Function<File, FileConfiguration> consumer;
+    private final Function<File, FileConfiguration> file;
 
-    FileType(@NotNull String suffix, @NotNull Function<File, FileConfiguration> consumer) {
+    @NotNull
+    private final Function<Reader, FileConfiguration> reader;
+
+    FileType(@NotNull final String suffix, @NotNull final Function<File, FileConfiguration> file,
+             @NotNull final Function<Reader, FileConfiguration> reader) {
         this.suffix = suffix;
-        this.consumer = consumer;
+        this.file = file;
+        this.reader = reader;
     }
 
     @NotNull
     public FileConfiguration load(@NotNull File file) {
-        return consumer.apply(file);
+        return this.file.apply(file);
+    }
+
+    @NotNull
+    public FileConfiguration load(@NotNull Reader reader) {
+        return this.reader.apply(reader);
     }
 
 }
