@@ -35,8 +35,8 @@ import org.simpleyaml.configuration.file.YamlConfiguration;
 
 public enum FileType {
 
-    YAML(".yml", YamlConfiguration::loadConfiguration, YamlConfiguration::loadConfiguration),
-    JSON(".json", JsonConfiguration::loadConfiguration, JsonConfiguration::loadConfiguration);
+    YAML(".yml", YamlConfiguration::loadConfiguration),
+    JSON(".json", JsonConfiguration::loadConfiguration);
 
     @NotNull
     public final String suffix;
@@ -44,24 +44,14 @@ public enum FileType {
     @NotNull
     private final Function<File, FileConfiguration> file;
 
-    @NotNull
-    private final Function<Reader, FileConfiguration> reader;
-
-    FileType(@NotNull final String suffix, @NotNull final Function<File, FileConfiguration> file,
-             @NotNull final Function<Reader, FileConfiguration> reader) {
+    FileType(@NotNull final String suffix, @NotNull final Function<File, FileConfiguration> file) {
         this.suffix = suffix;
         this.file = file;
-        this.reader = reader;
     }
 
     @NotNull
     public FileConfiguration load(@NotNull File file) {
         return this.file.apply(file);
-    }
-
-    @NotNull
-    public FileConfiguration load(@NotNull Reader reader) {
-        return this.reader.apply(reader);
     }
 
 }
