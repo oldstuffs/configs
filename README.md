@@ -3,8 +3,8 @@
 
 ```xml
 <repository>
-  <name>infumia</name>
-  <url>https://repo.infumia.com.tr/</url>
+  <name>portlek</name>
+  <url>https://dl.bintray.com/portlek/maven</url>
 </repository>
 
 <!-- For the all project type -->
