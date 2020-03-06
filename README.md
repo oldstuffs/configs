@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=old)](https://travis-ci.com/portlek/configs)
+[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ## Setup
 
 ```xml
 <repository>
-  <name>portlek</name>
-  <url>https://dl.bintray.com/portlek/maven</url>
+    <id>portlek</id>
+    <url>https://dl.bintray.com/portlek/maven</url>
 </repository>
 
 <!-- For the all project type -->
@@ -20,18 +20,6 @@
   <version>1.0</version>
 </dependency>
 ```
-
-If you are making a project for a thing that has not `snakeyaml` you have to add;
-
-```xml
-<dependency>
-  <groupId>org.yaml</groupId>
-  <artifactId>snakeyaml</artifactId>
-  <version>1.25</version>
-</dependency>
-```
-
-If not(like bukkit plugins) you don't have to add this dependency to your project.
 
 Also you have to make relocation for the library with;
 
@@ -78,7 +66,7 @@ public final class TestConfig extends ManagedBase {
   public final TestSection testSection = new TestSection();
 
   @Section(path = "test-section")
-  public class TestSection {
+  public final class TestSection {
 
     @Value
     public String test_section_string = "test";
@@ -101,12 +89,13 @@ public final class TestConfig extends ManagedBase {
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 
-  @NotNull
-  private final TestConfig testConfig;
-
   public TestLinkedConfig(@NotNull TestConfig testConfig) {
-    super(testConfig.language);
-    this.testConfig = testConfig;
+    super(testConfig.language, MapEntry.of("config", testConfig));
+  }
+
+  @NotNull
+  public TestConfig getConfig() {
+    return (TestConfig) this.pull("config");
   }
 
   @Value
