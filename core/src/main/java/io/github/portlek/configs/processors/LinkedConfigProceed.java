@@ -15,22 +15,8 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
     @NotNull
     private final LinkedConfig linkedConfig;
 
-    @NotNull
-    private final BiFunction<Object, String, Optional<?>> get;
-
-    @NotNull
-    private final BiPredicate<Object, String> set;
-
     public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig) {
-        this(linkedConfig, (o, s) -> Optional.empty(), (o, s) -> false);
-    }
-
-    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig,
-        @NotNull BiFunction<Object, String, Optional<?>> get,
-        @NotNull BiPredicate<Object, String> set) {
         this.linkedConfig = linkedConfig;
-        this.get = get;
-        this.set = set;
     }
 
     @Override
@@ -56,9 +42,7 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
 
         if (configOptional.isPresent()) {
             new ConfigProceed(
-                configOptional.get(),
-                get,
-                set
+                configOptional.get()
             ).load(linkedManaged);
         }
     }

@@ -28,12 +28,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
@@ -54,34 +49,34 @@ public abstract class ManagedBase implements Managed {
     private boolean autoSave = false;
 
     @SafeVarargs
-    public ManagedBase(@NotNull Map.Entry<String, Object>... objects) {
+    protected ManagedBase(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
             this.objects.put(entry.getKey(), entry.getValue())
         );
     }
 
-    public ManagedBase() {
+    protected ManagedBase() {
     }
 
     @NotNull
     @Override
-    public Optional<Object> pull(@NotNull String id) {
-        return Optional.ofNullable(objects.get(id));
+    public final Optional<Object> pull(@NotNull final String id) {
+        return Optional.ofNullable(this.objects.get(id));
     }
 
     @Override
-    public void setAutoSave(boolean autoSave) {
+    public final void setAutoSave(final boolean autoSave) {
         this.autoSave = autoSave;
     }
 
     @Override
     public void load() {
-        final Config config = getClass().getDeclaredAnnotation(Config.class);
+        final Config config = this.getClass().getDeclaredAnnotation(Config.class);
         if (config != null) {
             try {
                 new ConfigProceed(config).load(this);
                 return;
-            } catch (Exception ignored) {
+            } catch (final Exception ignored) {
                 // ignored
             }
         }
@@ -89,215 +84,215 @@ public abstract class ManagedBase implements Managed {
     }
 
     @Override
-    public void save() {
+    public final void save() {
         try {
-            getFileConfiguration().save(getFile());
-        } catch (Exception exception) {
+            this.getFileConfiguration().save(this.getFile());
+        } catch (final Exception exception) {
             exception.printStackTrace();
         }
     }
 
     @Override
-    public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
+    public void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         this.file = file;
         this.fileConfiguration = fileConfiguration;
     }
 
     @Override
-    public <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided) {
-        customValues.put(aClass, provided);
+    public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
+        this.customValues.put(aClass, provided);
     }
 
     @NotNull
     @Override
-    public Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass) {
-        return customValues.keySet().stream()
+    public final Optional<Provided<?>> getCustomValue(@NotNull final Class<?> aClass) {
+        return this.customValues.keySet().stream()
             .filter(clazz -> clazz.isAssignableFrom(aClass))
             .findFirst()
-            .map(customValues::get);
+            .map(this.customValues::get);
     }
 
     @NotNull
     @Override
     public File getFile() {
-        return Objects.requireNonNull(file, "You have to load your class with '#load()' method");
+        return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
     }
 
     @NotNull
     @Override
     public FileConfiguration getFileConfiguration() {
-        return Objects.requireNonNull(fileConfiguration, "You have to load your class with '#load()' method");
+        return Objects.requireNonNull(this.fileConfiguration, "You have to load your class with '#load()' method");
     }
 
     @NotNull
     @Override
-    public Optional<Object> get(@NotNull String path) {
-        return Optional.ofNullable(getFileConfiguration().get(path));
+    public final Optional<Object> get(@NotNull final String path) {
+        return Optional.ofNullable(this.getFileConfiguration().get(path));
     }
 
     @NotNull
     @Override
-    public Optional<Object> get(@NotNull String path, @Nullable Object def) {
-        return Optional.ofNullable(getFileConfiguration().get(path, def));
+    public final Optional<Object> get(@NotNull final String path, @Nullable final Object def) {
+        return Optional.ofNullable(this.getFileConfiguration().get(path, def));
     }
 
     @NotNull
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T getOrSet(@NotNull String path, @NotNull T fallback) {
-        final Optional<T> object = (Optional<T>) get(path);
+    public final <T> T getOrSet(@NotNull final String path, @NotNull final T fallback) {
+        final Optional<T> object = (Optional<T>) this.get(path);
         if (object.isPresent()) {
             return object.get();
         }
-        set(path, fallback);
-        autoSave();
+        this.set(path, fallback);
+        this.autoSave();
         return fallback;
     }
 
     @Override
-    public void set(@NotNull String path, @Nullable Object object) {
-        getFileConfiguration().set(path, object);
-        autoSave();
+    public final void set(@NotNull final String path, @Nullable final Object object) {
+        this.getFileConfiguration().set(path, object);
+        this.autoSave();
     }
 
     @NotNull
     @Override
-    public Optional<ConfigurationSection> getSection(@NotNull String path) {
-        return Optional.ofNullable(getFileConfiguration().getConfigurationSection(path));
+    public final Optional<ConfigurationSection> getSection(@NotNull final String path) {
+        return Optional.ofNullable(this.getFileConfiguration().getConfigurationSection(path));
     }
 
     @NotNull
     @Override
-    public Optional<ConfigurationSection> getOrCreateSection(@NotNull String path) {
-        final Optional<ConfigurationSection> sectionOptional = getSection(path);
+    public final Optional<ConfigurationSection> getOrCreateSection(@NotNull final String path) {
+        final Optional<ConfigurationSection> sectionOptional = this.getSection(path);
         if (sectionOptional.isPresent()) {
             return sectionOptional;
         }
-        createSection(path);
-        return getSection(path);
+        this.createSection(path);
+        return this.getSection(path);
     }
 
     @Override
-    public void createSection(@NotNull String path) {
-        getFileConfiguration().createSection(path);
-        autoSave();
-    }
-
-    @NotNull
-    @Override
-    public Optional<String> getString(@NotNull String path) {
-        return Optional.ofNullable(getFileConfiguration().getString(path));
+    public final void createSection(@NotNull final String path) {
+        this.getFileConfiguration().createSection(path);
+        this.autoSave();
     }
 
     @NotNull
     @Override
-    public Optional<String> getString(@NotNull String path, @Nullable String def) {
-        return Optional.ofNullable(getFileConfiguration().getString(path, def));
-    }
-
-    @Override
-    public int getInt(@NotNull String path) {
-        return getFileConfiguration().getInt(path);
-    }
-
-    @Override
-    public int getInt(@NotNull String path, int def) {
-        return getFileConfiguration().getInt(path, def);
-    }
-
-    @Override
-    public boolean getBoolean(@NotNull String path) {
-        return getFileConfiguration().getBoolean(path);
-    }
-
-    @Override
-    public boolean getBoolean(@NotNull String path, boolean def) {
-        return getFileConfiguration().getBoolean(path, def);
-    }
-
-    @Override
-    public double getDouble(@NotNull String path) {
-        return getFileConfiguration().getDouble(path);
-    }
-
-    @Override
-    public double getDouble(@NotNull String path, double def) {
-        return getFileConfiguration().getDouble(path, def);
-    }
-
-    @Override
-    public long getLong(@NotNull String path) {
-        return getFileConfiguration().getLong(path);
-    }
-
-    @Override
-    public long getLong(@NotNull String path, long def) {
-        return getFileConfiguration().getLong(path, def);
+    public final Optional<String> getString(@NotNull final String path) {
+        return Optional.ofNullable(this.getFileConfiguration().getString(path));
     }
 
     @NotNull
     @Override
-    public List<String> getStringList(@NotNull String path) {
-        return getFileConfiguration().getStringList(path);
+    public final Optional<String> getString(@NotNull final String path, @Nullable final String def) {
+        return Optional.ofNullable(this.getFileConfiguration().getString(path, def));
+    }
+
+    @Override
+    public final int getInt(@NotNull final String path) {
+        return this.getFileConfiguration().getInt(path);
+    }
+
+    @Override
+    public final int getInt(@NotNull final String path, final int def) {
+        return this.getFileConfiguration().getInt(path, def);
+    }
+
+    @Override
+    public final boolean getBoolean(@NotNull final String path) {
+        return this.getFileConfiguration().getBoolean(path);
+    }
+
+    @Override
+    public final boolean getBoolean(@NotNull final String path, final boolean def) {
+        return this.getFileConfiguration().getBoolean(path, def);
+    }
+
+    @Override
+    public final double getDouble(@NotNull final String path) {
+        return this.getFileConfiguration().getDouble(path);
+    }
+
+    @Override
+    public final double getDouble(@NotNull final String path, final double def) {
+        return this.getFileConfiguration().getDouble(path, def);
+    }
+
+    @Override
+    public final long getLong(@NotNull final String path) {
+        return this.getFileConfiguration().getLong(path);
+    }
+
+    @Override
+    public final long getLong(@NotNull final String path, final long def) {
+        return this.getFileConfiguration().getLong(path, def);
     }
 
     @NotNull
     @Override
-    public List<Integer> getIntegerList(@NotNull String path) {
-        return getFileConfiguration().getIntegerList(path);
+    public final List<String> getStringList(@NotNull final String path) {
+        return this.getFileConfiguration().getStringList(path);
     }
 
     @NotNull
     @Override
-    public List<Boolean> getBooleanList(@NotNull String path) {
-        return getFileConfiguration().getBooleanList(path);
+    public final List<Integer> getIntegerList(@NotNull final String path) {
+        return this.getFileConfiguration().getIntegerList(path);
     }
 
     @NotNull
     @Override
-    public List<Double> getDoubleList(@NotNull String path) {
-        return getFileConfiguration().getDoubleList(path);
+    public final List<Boolean> getBooleanList(@NotNull final String path) {
+        return this.getFileConfiguration().getBooleanList(path);
     }
 
     @NotNull
     @Override
-    public List<Float> getFloatList(@NotNull String path) {
-        return getFileConfiguration().getFloatList(path);
+    public final List<Double> getDoubleList(@NotNull final String path) {
+        return this.getFileConfiguration().getDoubleList(path);
     }
 
     @NotNull
     @Override
-    public List<Long> getLongList(@NotNull String path) {
-        return getFileConfiguration().getLongList(path);
+    public final List<Float> getFloatList(@NotNull final String path) {
+        return this.getFileConfiguration().getFloatList(path);
     }
 
     @NotNull
     @Override
-    public List<Byte> getByteList(@NotNull String path) {
-        return getFileConfiguration().getByteList(path);
+    public final List<Long> getLongList(@NotNull final String path) {
+        return this.getFileConfiguration().getLongList(path);
     }
 
     @NotNull
     @Override
-    public List<Character> getCharacterList(@NotNull String path) {
-        return getFileConfiguration().getCharacterList(path);
+    public final List<Byte> getByteList(@NotNull final String path) {
+        return this.getFileConfiguration().getByteList(path);
     }
 
     @NotNull
     @Override
-    public List<Short> getShortList(@NotNull String path) {
-        return getFileConfiguration().getShortList(path);
+    public final List<Character> getCharacterList(@NotNull final String path) {
+        return this.getFileConfiguration().getCharacterList(path);
     }
 
     @NotNull
     @Override
-    public Optional<List<?>> getList(@NotNull String path) {
-        return Optional.ofNullable(getFileConfiguration().getList(path));
+    public final List<Short> getShortList(@NotNull final String path) {
+        return this.getFileConfiguration().getShortList(path);
+    }
+
+    @NotNull
+    @Override
+    public final Optional<List<?>> getList(@NotNull final String path) {
+        return Optional.ofNullable(this.getFileConfiguration().getList(path));
     }
 
     private void autoSave() {
-        if (autoSave) {
-            save();
+        if (this.autoSave) {
+            this.save();
         }
     }
 

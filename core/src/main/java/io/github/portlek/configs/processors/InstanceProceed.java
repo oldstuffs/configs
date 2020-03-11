@@ -45,19 +45,10 @@ public final class InstanceProceed implements Proceed<Field> {
     @NotNull
     private final String parent;
 
-    @NotNull
-    private final BiFunction<Object, String, Optional<?>> get;
-
-    @NotNull
-    private final BiPredicate<Object, String> set;
-
-    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent,
-        @NotNull BiFunction<Object, String, Optional<?>> get, @NotNull BiPredicate<Object, String> set) {
+    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent) {
         this.managed = managed;
         this.object = object;
         this.parent = parent;
-        this.get = get;
-        this.set = set;
     }
 
     @Override
@@ -73,9 +64,7 @@ public final class InstanceProceed implements Proceed<Field> {
                 new SectionProceed(
                     managed,
                     parent,
-                    sectionOptional.get(),
-                    get,
-                    set
+                    sectionOptional.get()
                 ).load(fieldObjectOptional.get());
             }
         }

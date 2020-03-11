@@ -52,21 +52,12 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private final Value value;
 
-    @NotNull
-    private final BiFunction<Object, String, Optional<?>> get;
-
-    @NotNull
-    private final BiPredicate<Object, String> set;
-
     public ValueProceed(@NotNull Managed managed, @NotNull Object instance, @NotNull String parent,
-        @NotNull Value value, @NotNull BiFunction<Object, String, Optional<?>> get,
-        @NotNull BiPredicate<Object, String> set) {
+                        @NotNull Value value) {
         this.managed = managed;
         this.instance = instance;
         this.parent = parent;
         this.value = value;
-        this.get = get;
-        this.set = set;
     }
 
     @Override
@@ -138,12 +129,6 @@ public final class ValueProceed implements Proceed<Field> {
             }
         }
 
-        final Optional<?> optional = get.apply(fieldValue, path);
-
-        if (optional.isPresent()) {
-            return optional;
-        }
-
         return managed.get(path);
     }
 
@@ -158,10 +143,6 @@ public final class ValueProceed implements Proceed<Field> {
         if (fieldValue instanceof Replaceable) {
             managed.set(path, ((Replaceable<?>) fieldValue).getValue());
             return;
-        }
-
-        if (!set.test(fieldValue, path)) {
-            managed.set(path, fieldValue);
         }
     }
 

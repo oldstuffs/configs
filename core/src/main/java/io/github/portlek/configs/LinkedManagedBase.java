@@ -21,35 +21,36 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     private final String chosenFileName;
 
     @SafeVarargs
-    public LinkedManagedBase(@NotNull String chosenFileName, @NotNull Map.Entry<String, Object>... objects) {
+    protected LinkedManagedBase(@NotNull final String chosenFileName,
+                                @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosenFileName = chosenFileName;
     }
 
     @NotNull
     @Override
-    public <T> T match(@NotNull Function<String, Optional<T>> function) {
-        return function.apply(chosenFileName).orElseThrow(() ->
-            new IllegalStateException("Cannot found match with the file id > " + chosenFileName)
+    public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
+        return function.apply(this.chosenFileName).orElseThrow(() ->
+            new IllegalStateException("Cannot found match with the file id > " + this.chosenFileName)
         );
     }
 
     @NotNull
     @Override
-    public String getChosenFileName() {
-        return chosenFileName;
+    public final String getChosenFileName() {
+        return this.chosenFileName;
     }
 
     @Override
-    public void load() {
-        final LinkedConfig linkedConfig = getClass().getDeclaredAnnotation(LinkedConfig.class);
+    public final void load() {
+        final LinkedConfig linkedConfig = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
 
         if (linkedConfig != null) {
             try {
                 new LinkedConfigProceed(linkedConfig).load(this);
 
                 return;
-            } catch (Exception exception) {
+            } catch (final Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -58,27 +59,27 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     }
 
     @Override
-    public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
-        linkedFiles.put(
-            chosenFileName,
+    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+        this.linkedFiles.put(
+            this.chosenFileName,
             MapEntry.of(file, fileConfiguration)
         );
     }
 
     @NotNull
     @Override
-    public File getFile() {
+    public final File getFile() {
         return Objects.requireNonNull(
-            linkedFiles.get(chosenFileName).getKey(),
+            this.linkedFiles.get(this.chosenFileName).getKey(),
             "You have to load your class with '#load()' method"
         );
     }
 
     @NotNull
     @Override
-    public FileConfiguration getFileConfiguration() {
+    public final FileConfiguration getFileConfiguration() {
         return Objects.requireNonNull(
-            linkedFiles.get(chosenFileName).getValue(),
+            this.linkedFiles.get(this.chosenFileName).getValue(),
             "You have to load your class with '#load()' method"
         );
     }

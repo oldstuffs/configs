@@ -18,19 +18,9 @@ public final class FieldsProceed implements Proceed<Managed> {
     @NotNull
     private final String parent;
 
-    @NotNull
-    private final BiFunction<Object, String, Optional<?>> get;
-
-    @NotNull
-    private final BiPredicate<Object, String> set;
-
-    public FieldsProceed(@NotNull Object object, @NotNull String parent,
-        @NotNull BiFunction<Object, String, Optional<?>> get,
-        @NotNull BiPredicate<Object, String> set) {
+    public FieldsProceed(@NotNull Object object, @NotNull String parent) {
         this.object = object;
         this.parent = parent;
-        this.get = get;
-        this.set = set;
     }
 
     @Override
@@ -47,18 +37,14 @@ public final class FieldsProceed implements Proceed<Managed> {
                 new InstanceProceed(
                     managed,
                     object,
-                    parent,
-                    get,
-                    set
+                    parent
                 ).load(field);
             } else if (value != null) {
                 new ValueProceed(
                     managed,
                     object,
                     parent,
-                    value,
-                    get,
-                    set
+                    value
                 ).load(field);
             }
 

@@ -1,7 +1,5 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.LinkedConfigProceed;
 import java.io.File;
 import java.util.Map;
 import java.util.Optional;
@@ -13,61 +11,43 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 public abstract class BukkitLinkedManaged extends BukkitManaged implements LinkedManaged {
 
     @NotNull
-    private final LinkedManagedBase linkedManagedBase;
+    private final LinkedManaged linkedManaged;
 
     @SafeVarargs
-    public BukkitLinkedManaged(@NotNull String chosenFileName, @NotNull Map.Entry<String, Object>... objects) {
+    protected BukkitLinkedManaged(@NotNull final String chosenFileName,
+                                  @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
-        this.linkedManagedBase = new LinkedManagedBase(chosenFileName) {};
+        this.linkedManaged = new LinkedManagedBase(chosenFileName) {
+        };
     }
 
     @Override
-    public void load() {
-        final LinkedConfig linkedConfig = getClass().getDeclaredAnnotation(LinkedConfig.class);
-        if (linkedConfig != null) {
-            try {
-                new LinkedConfigProceed(
-                    linkedConfig,
-                    get,
-                    set
-                ).load(this);
+    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+        this.linkedManaged.setup(file, fileConfiguration);
+    }
 
-                return;
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        }
+    @NotNull
+    @Override
+    public final File getFile() {
+        return this.linkedManaged.getFile();
+    }
 
-        throw new UnsupportedOperationException();
+    @NotNull
+    @Override
+    public final FileConfiguration getFileConfiguration() {
+        return this.linkedManaged.getFileConfiguration();
     }
 
     @Nullable
     @Override
-    public <T> T match(@NotNull Function<String, Optional<T>> function) {
-        return linkedManagedBase.match(function);
+    public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
+        return this.linkedManaged.match(function);
     }
 
     @NotNull
     @Override
-    public String getChosenFileName() {
-        return linkedManagedBase.getChosenFileName();
-    }
-
-    @Override
-    public void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration) {
-        linkedManagedBase.setup(file, fileConfiguration);
-    }
-
-    @NotNull
-    @Override
-    public File getFile() {
-        return linkedManagedBase.getFile();
-    }
-
-    @NotNull
-    @Override
-    public FileConfiguration getFileConfiguration() {
-        return linkedManagedBase.getFileConfiguration();
+    public final String getChosenFileName() {
+        return this.linkedManaged.getChosenFileName();
     }
 
 }

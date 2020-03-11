@@ -47,21 +47,8 @@ public final class ConfigProceed implements Proceed<Managed> {
     @NotNull
     private final Config config;
 
-    @NotNull
-    private final BiFunction<Object, String, Optional<?>> get;
-
-    @NotNull
-    private final BiPredicate<Object, String> set;
-
     public ConfigProceed(@NotNull final Config config) {
-        this(config, (o, s) -> Optional.empty(), (o, s) -> false);
-    }
-
-    public ConfigProceed(@NotNull final Config config, @NotNull final BiFunction<Object, String, Optional<?>> get,
-                         @NotNull final BiPredicate<Object, String> set) {
         this.config = config;
-        this.get = get;
-        this.set = set;
     }
 
     @Override
@@ -114,7 +101,7 @@ public final class ConfigProceed implements Proceed<Managed> {
                 // TODO: 29/01/2020
             }
         }
-        new FieldsProceed(managed, "", this.get, this.set).load(managed);
+        new FieldsProceed(managed, "").load(managed);
         managed.save();
     }
 
