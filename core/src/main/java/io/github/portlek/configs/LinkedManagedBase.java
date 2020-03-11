@@ -44,7 +44,6 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     @Override
     public final void load() {
         final LinkedConfig linkedConfig = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
-        System.out.println(linkedConfig);
         if (linkedConfig != null) {
             try {
                 new LinkedConfigProceed(linkedConfig).load(this);
