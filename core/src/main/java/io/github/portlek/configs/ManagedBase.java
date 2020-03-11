@@ -76,8 +76,8 @@ public abstract class ManagedBase implements Managed {
             try {
                 new ConfigProceed(config).load(this);
                 return;
-            } catch (final Exception ignored) {
-                // ignored
+            } catch (final Exception exception) {
+                exception.printStackTrace();
             }
         }
         throw new UnsupportedOperationException();

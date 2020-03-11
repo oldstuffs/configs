@@ -1,6 +1,7 @@
 package io.github.portlek.configs;
 
 import java.util.Map;
+import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,6 +11,17 @@ public abstract class BukkitManaged extends ManagedBase {
     protected BukkitManaged(@NotNull final Map.@NotNull Entry<String, Object>... objects) {
         super(objects);
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
+    }
+
+    public void setItemStack(@NotNull final String path, @NotNull final ItemStack itemStack) {
+        this.getCustomValue(ItemStack.class).ifPresent(provided ->
+            provided.set(itemStack, this, path));
+    }
+
+    @NotNull
+    public Optional<ItemStack> getItemStack(@NotNull final String path) {
+        return this.getCustomValue(ItemStack.class)
+            .flatMap(provided -> ((BukkitItemStackProvider) provided).get(this, path));
     }
 
 }

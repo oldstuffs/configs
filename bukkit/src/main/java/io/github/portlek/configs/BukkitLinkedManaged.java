@@ -22,6 +22,11 @@ public abstract class BukkitLinkedManaged extends BukkitManaged implements Linke
     }
 
     @Override
+    public void load() {
+        this.linkedManaged.load();
+    }
+
+    @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         this.linkedManaged.setup(file, fileConfiguration);
     }
