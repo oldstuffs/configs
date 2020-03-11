@@ -9,15 +9,15 @@ public final class ListReplace {
     @NotNull
     private final List<String> list;
 
-    public ListReplace(@NotNull List<String> list) {
+    public ListReplace(@NotNull final List<String> list) {
         this.list = list;
     }
 
     @NotNull
-    public List<String> apply(@NotNull String regex, @NotNull String replace) {
+    public List<String> apply(@NotNull final String regex, @NotNull final String replace) {
         final List<String> finalList = new ArrayList<>();
 
-        list.forEach(s ->
+        this.list.forEach(s ->
             finalList.add(s.replace(regex, replace))
         );
 

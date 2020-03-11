@@ -35,7 +35,7 @@ public final class Basedir {
     @NotNull
     private final Class<?> aClass;
 
-    public Basedir(@NotNull Class<?> aClass) {
+    public Basedir(@NotNull final Class<?> aClass) {
         this.aClass = aClass;
     }
 
@@ -43,9 +43,9 @@ public final class Basedir {
     public Optional<File> value() {
         try {
             return Optional.of(
-                new File(aClass.getProtectionDomain().getCodeSource().getLocation().toURI())
+                new File(this.aClass.getProtectionDomain().getCodeSource().getLocation().toURI())
             );
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             e.printStackTrace();
         }
 

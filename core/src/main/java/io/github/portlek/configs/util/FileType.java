@@ -49,7 +49,7 @@ public enum FileType {
     }
 
     @NotNull
-    public FileConfiguration load(@NotNull File file) {
+    public FileConfiguration load(@NotNull final File file) {
         return this.file.apply(file);
     }
 

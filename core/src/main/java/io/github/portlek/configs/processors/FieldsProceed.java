@@ -15,14 +15,14 @@ public final class FieldsProceed implements Proceed<Managed> {
     @NotNull
     private final String parent;
 
-    public FieldsProceed(@NotNull Object object, @NotNull String parent) {
+    public FieldsProceed(@NotNull final Object object, @NotNull final String parent) {
         this.object = object;
         this.parent = parent;
     }
 
     @Override
-    public void load(@NotNull Managed managed) throws Exception {
-        for (Field field : object.getClass().getDeclaredFields()) {
+    public void load(@NotNull final Managed managed) throws Exception {
+        for (final Field field : this.object.getClass().getDeclaredFields()) {
             final boolean isAccessible = field.isAccessible();
 
             field.setAccessible(true);
@@ -33,14 +33,14 @@ public final class FieldsProceed implements Proceed<Managed> {
             if (instance != null) {
                 new InstanceProceed(
                     managed,
-                    object,
-                    parent
+                    this.object,
+                    this.parent
                 ).load(field);
             } else if (value != null) {
                 new ValueProceed(
                     managed,
-                    object,
-                    parent,
+                    this.object,
+                    this.parent,
                     value
                 ).load(field);
             }

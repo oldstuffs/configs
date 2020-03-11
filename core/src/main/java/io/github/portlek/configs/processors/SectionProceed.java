@@ -44,28 +44,28 @@ public final class SectionProceed implements Proceed<Object> {
     @NotNull
     private final Section section;
 
-    public SectionProceed(@NotNull Managed managed, @NotNull String parent, @NotNull Section section) {
+    public SectionProceed(@NotNull final Managed managed, @NotNull final String parent, @NotNull final Section section) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;
     }
 
     @Override
-    public void load(@NotNull Object object) throws Exception {
+    public void load(@NotNull final Object object) throws Exception {
         final String path = new PathCalc(
             "",
             "",
-            section.path(),
-            parent,
+            this.section.path(),
+            this.parent,
             object.getClass().getName()
         ).value();
-        final Optional<ConfigurationSection> configurationSectionOptional = managed.getSection(path);
+        final Optional<ConfigurationSection> configurationSectionOptional = this.managed.getSection(path);
 
         if (!configurationSectionOptional.isPresent()) {
-            managed.createSection(path);
+            this.managed.createSection(path);
         }
 
-        new FieldsProceed(object, path).load(managed);
+        new FieldsProceed(object, path).load(this.managed);
     }
 
 }

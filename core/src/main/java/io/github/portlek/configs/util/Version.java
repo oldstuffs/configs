@@ -34,13 +34,13 @@ public final class Version {
 
     private final int minor;
 
-    public Version(int major, int minor) {
+    public Version(final int major, final int minor) {
         this.major = major;
         this.minor = minor;
     }
 
     @NotNull
-    public static Version of(@NotNull String versionString) {
+    public static Version of(@NotNull final String versionString) {
         if (!versionString.contains(".")) {
             throw new UnsupportedOperationException("Make sure the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class have '.' between version numbers!");
@@ -58,26 +58,26 @@ public final class Version {
                 Integer.parseInt(split[0]),
                 Integer.parseInt(split[1])
             );
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
         }
     }
 
-    public boolean afterThan(@NotNull Version version) {
-        return major > version.major || (major == version.major && minor > version.minor);
+    public boolean afterThan(@NotNull final Version version) {
+        return this.major > version.major || this.major == version.major && this.minor > version.minor;
     }
 
-    public boolean beforeThan(@NotNull Version version) {
-        return major < version.major || (major == version.major && minor < version.minor);
+    public boolean beforeThan(@NotNull final Version version) {
+        return this.major < version.major || this.major == version.major && this.minor < version.minor;
     }
 
-    public boolean is(@NotNull Version version) {
+    public boolean is(@NotNull final Version version) {
         return this.minor == version.minor && this.major == version.major;
     }
 
-    public void write(@NotNull String path, @NotNull Managed managed) {
-        managed.set(path, major + "." + minor);
+    public void write(@NotNull final String path, @NotNull final Managed managed) {
+        managed.set(path, this.major + "." + this.minor);
     }
 
 }

@@ -13,13 +13,13 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
     @NotNull
     private final LinkedConfig linkedConfig;
 
-    public LinkedConfigProceed(@NotNull LinkedConfig linkedConfig) {
+    public LinkedConfigProceed(@NotNull final LinkedConfig linkedConfig) {
         this.linkedConfig = linkedConfig;
     }
 
     @Override
-    public void load(@NotNull LinkedManaged linkedManaged) throws Exception {
-        final Optional<Config> configOptional = Arrays.stream(linkedConfig.configs())
+    public void load(@NotNull final LinkedManaged linkedManaged) throws Exception {
+        final Optional<Config> configOptional = Arrays.stream(this.linkedConfig.configs())
             .filter(config -> {
                 final String configSuffixName = config.type().suffix;
                 String configFileName = config.name();

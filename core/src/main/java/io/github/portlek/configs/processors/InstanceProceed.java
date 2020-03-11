@@ -43,15 +43,15 @@ public final class InstanceProceed implements Proceed<Field> {
     @NotNull
     private final String parent;
 
-    public InstanceProceed(@NotNull Managed managed, @NotNull Object object, @NotNull String parent) {
+    public InstanceProceed(@NotNull final Managed managed, @NotNull final Object object, @NotNull final String parent) {
         this.managed = managed;
         this.object = object;
         this.parent = parent;
     }
 
     @Override
-    public void load(@NotNull Field field) throws Exception {
-        final Optional<Object> fieldObjectOptional = Optional.ofNullable(field.get(object));
+    public void load(@NotNull final Field field) throws Exception {
+        final Optional<Object> fieldObjectOptional = Optional.ofNullable(field.get(this.object));
 
         if (fieldObjectOptional.isPresent()) {
             final Optional<Section> sectionOptional = Optional.ofNullable(
@@ -60,8 +60,8 @@ public final class InstanceProceed implements Proceed<Field> {
 
             if (sectionOptional.isPresent()) {
                 new SectionProceed(
-                    managed,
-                    parent,
+                    this.managed,
+                    this.parent,
                     sectionOptional.get()
                 ).load(fieldObjectOptional.get());
             }

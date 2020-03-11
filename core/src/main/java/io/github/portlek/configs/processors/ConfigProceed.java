@@ -131,8 +131,8 @@ public final class ConfigProceed implements Proceed<Managed> {
                 }
                 try {
                     if (!outFile.exists()) {
-                        OutputStream out = new FileOutputStream(outFile);
-                        byte[] buf = new byte[1024];
+                        final OutputStream out = new FileOutputStream(outFile);
+                        final byte[] buf = new byte[1024];
 
                         int len;
                         while ((len = in.read(buf)) > 0) {
