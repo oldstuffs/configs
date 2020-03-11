@@ -1,58 +1,28 @@
 package io.github.portlek.configs;
 
-import java.io.File;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
-public abstract class BukkitLinkedManaged extends BukkitManaged implements LinkedManaged {
-
-    @NotNull
-    private final LinkedManaged linkedManaged;
+public abstract class BukkitLinkedManaged extends LinkedManagedBase {
 
     @SafeVarargs
-    protected BukkitLinkedManaged(@NotNull final String chosenFileName,
+    protected BukkitLinkedManaged(@NotNull final String chosen,
                                   @NotNull final Map.Entry<String, Object>... objects) {
-        super(objects);
-        this.linkedManaged = new LinkedManagedBase(chosenFileName) {
-        };
+        super(chosen, objects);
+
     }
 
-    @Override
-    public void load() {
-        this.linkedManaged.load();
-    }
-
-    @Override
-    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        this.linkedManaged.setup(file, fileConfiguration);
+    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack item) {
+        this.getCustomValue(ItemStack.class).ifPresent(provided ->
+            provided.set(item, this, path));
     }
 
     @NotNull
-    @Override
-    public final File getFile() {
-        return this.linkedManaged.getFile();
-    }
-
-    @NotNull
-    @Override
-    public final FileConfiguration getFileConfiguration() {
-        return this.linkedManaged.getFileConfiguration();
-    }
-
-    @Nullable
-    @Override
-    public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        return this.linkedManaged.match(function);
-    }
-
-    @NotNull
-    @Override
-    public final String getChosenFileName() {
-        return this.linkedManaged.getChosenFileName();
+    public final Optional<ItemStack> getItemStack(@NotNull final String path) {
+        return this.getCustomValue(ItemStack.class)
+            .flatMap(provided -> ((BukkitItemStackProvider) provided).get(this, path));
     }
 
 }

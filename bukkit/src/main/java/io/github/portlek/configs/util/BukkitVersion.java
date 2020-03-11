@@ -27,17 +27,17 @@ public final class BukkitVersion {
     private final String version;
 
     /**
-     * @param version Minecraft server package name
-     */
-    public BukkitVersion(@NotNull final String version) {
-        this.version = version;
-    }
-
-    /**
      * Initiates with current running server package name
      */
     public BukkitVersion() {
         this(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].substring(1));
+    }
+
+    /**
+     * @param version Minecraft server package name
+     */
+    public BukkitVersion(@NotNull final String version) {
+        this.version = version;
     }
 
     /**
@@ -48,7 +48,7 @@ public final class BukkitVersion {
      */
     @NotNull
     public String raw() {
-        return version;
+        return this.version;
     }
 
     /**
@@ -57,7 +57,7 @@ public final class BukkitVersion {
      * @return major part
      */
     public int major() {
-        final Matcher matcher = PATTERN.matcher(version);
+        final Matcher matcher = BukkitVersion.PATTERN.matcher(this.version);
         if (matcher.matches()) {
             return Integer.parseInt(matcher.group("major"));
         }
@@ -70,7 +70,7 @@ public final class BukkitVersion {
      * @return minor part
      */
     public int minor() {
-        final Matcher matcher = PATTERN.matcher(version);
+        final Matcher matcher = BukkitVersion.PATTERN.matcher(this.version);
         if (matcher.matches()) {
             return Integer.parseInt(matcher.group("minor"));
         }
@@ -83,7 +83,7 @@ public final class BukkitVersion {
      * @return micro part
      */
     public int micro() {
-        final Matcher matcher = PATTERN.matcher(version);
+        final Matcher matcher = BukkitVersion.PATTERN.matcher(this.version);
         if (matcher.matches()) {
             return Integer.parseInt(matcher.group("micro"));
         }

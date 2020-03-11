@@ -40,23 +40,13 @@ public final class BukkitItemBuilder {
     @NotNull
     private final ItemStack itemStack;
 
-    private BukkitItemBuilder(@NotNull ItemStack itemStack) {
+    private BukkitItemBuilder(@NotNull final ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
     @NotNull
-    public static BukkitItemBuilder of(@NotNull ItemStack itemStack) {
-        return new BukkitItemBuilder(itemStack);
-    }
-
-    @NotNull
-    public static BukkitItemBuilder of(@NotNull Material material) {
-        return of(new ItemStack(material));
-    }
-
-    @NotNull
-    public static BukkitItemBuilder of(@NotNull XMaterial xMaterial) {
-        return of(
+    public static BukkitItemBuilder of(@NotNull final XMaterial xMaterial) {
+        return BukkitItemBuilder.of(
             Optional.ofNullable(xMaterial.parseMaterial()).orElseThrow(() ->
                 new IllegalStateException("Material of the " + xMaterial.name() + " cannot be null!")
             )
@@ -64,13 +54,23 @@ public final class BukkitItemBuilder {
     }
 
     @NotNull
-    public BukkitItemBuilder name(@NotNull String displayName) {
-        return name(displayName, true);
+    public static BukkitItemBuilder of(@NotNull final Material material) {
+        return BukkitItemBuilder.of(new ItemStack(material));
     }
 
     @NotNull
-    public BukkitItemBuilder name(@NotNull String displayName, boolean colored) {
-        final ItemMeta itemMeta = itemStack.getItemMeta();
+    public static BukkitItemBuilder of(@NotNull final ItemStack itemStack) {
+        return new BukkitItemBuilder(itemStack);
+    }
+
+    @NotNull
+    public BukkitItemBuilder name(@NotNull final String displayName) {
+        return this.name(displayName, true);
+    }
+
+    @NotNull
+    public BukkitItemBuilder name(@NotNull final String displayName, final boolean colored) {
+        final ItemMeta itemMeta = this.itemStack.getItemMeta();
         if (itemMeta == null) {
             return this;
         }
@@ -81,31 +81,31 @@ public final class BukkitItemBuilder {
         } else {
             itemMeta.setDisplayName(displayName);
         }
-        itemStack.setItemMeta(itemMeta);
+        this.itemStack.setItemMeta(itemMeta);
         return this;
     }
 
     @NotNull
-    public BukkitItemBuilder data(int data) {
-        return data((byte) data);
+    public BukkitItemBuilder data(final int data) {
+        return this.data((byte) data);
     }
 
     @NotNull
-    public BukkitItemBuilder data(byte data) {
-        final MaterialData materialData = itemStack.getData();
+    public BukkitItemBuilder data(final byte data) {
+        final MaterialData materialData = this.itemStack.getData();
         materialData.setData(data);
-        itemStack.setData(materialData);
+        this.itemStack.setData(materialData);
         return this;
     }
 
     @NotNull
-    public BukkitItemBuilder lore(@NotNull String... lore) {
-        return lore(Arrays.asList(lore), true);
+    public BukkitItemBuilder lore(@NotNull final String... lore) {
+        return this.lore(Arrays.asList(lore), true);
     }
 
     @NotNull
-    public BukkitItemBuilder lore(@NotNull List<String> lore, boolean colored) {
-        final ItemMeta itemMeta = itemStack.getItemMeta();
+    public BukkitItemBuilder lore(@NotNull final List<String> lore, final boolean colored) {
+        final ItemMeta itemMeta = this.itemStack.getItemMeta();
         if (itemMeta == null) {
             return this;
         }
@@ -118,13 +118,13 @@ public final class BukkitItemBuilder {
                 lore
             );
         }
-        itemStack.setItemMeta(itemMeta);
+        this.itemStack.setItemMeta(itemMeta);
         return this;
     }
 
     @NotNull
-    public BukkitItemBuilder enchantments(@NotNull String... enchantments) {
-        for (String s : enchantments) {
+    public BukkitItemBuilder enchantments(@NotNull final String... enchantments) {
+        for (final String s : enchantments) {
             final String[] split = s.split(":");
             final String enchantment;
             final int level;
@@ -133,46 +133,47 @@ public final class BukkitItemBuilder {
                 level = 1;
             } else {
                 enchantment = split[0];
-                level = getInt(split[1]);
+                level = this.getInt(split[1]);
             }
-            XEnchantment.matchXEnchantment(enchantment).ifPresent(xEnchantment -> enchantments(xEnchantment, level));
+            XEnchantment.matchXEnchantment(enchantment).ifPresent(xEnchantment -> this.enchantments(xEnchantment, level));
         }
         return this;
     }
 
-    @NotNull
-    public BukkitItemBuilder enchantments(@NotNull XEnchantment enchantment, int level) {
-        final Optional<Enchantment> enchantmentOptional = Optional.ofNullable(enchantment.parseEnchantment());
-        if (enchantmentOptional.isPresent()) {
-            return enchantments(enchantmentOptional.get(), level);
-        }
-        return this;
-    }
-
-    @NotNull
-    public BukkitItemBuilder enchantments(@NotNull Enchantment enchantment, int level) {
-        final Map<Enchantment, Integer> map = new HashMap<>();
-        map.put(enchantment, level);
-        return enchantments(map);
-    }
-
-    @NotNull
-    public BukkitItemBuilder enchantments(@NotNull Map<Enchantment, Integer> enchantments) {
-        itemStack.addUnsafeEnchantments(enchantments);
-        return this;
-    }
-
-    private int getInt(@NotNull String string) {
+    private int getInt(@NotNull final String string) {
         try {
             return Integer.parseInt(string);
-        } catch (Exception ignored) {
+        } catch (final Exception ignored) {
             // ignored
         }
         return 0;
     }
 
     @NotNull
+    public BukkitItemBuilder enchantments(@NotNull final XEnchantment enchantment, final int level) {
+        final Optional<Enchantment> enchantmentOptional = Optional.ofNullable(enchantment.parseEnchantment());
+        if (enchantmentOptional.isPresent()) {
+            return this.enchantments(enchantmentOptional.get(), level);
+        }
+        return this;
+    }
+
+    @NotNull
+    public BukkitItemBuilder enchantments(@NotNull final Enchantment enchantment, final int level) {
+        final Map<Enchantment, Integer> map = new HashMap<>();
+        map.put(enchantment, level);
+        return this.enchantments(map);
+    }
+
+    @NotNull
+    public BukkitItemBuilder enchantments(@NotNull final Map<Enchantment, Integer> enchantments) {
+        this.itemStack.addUnsafeEnchantments(enchantments);
+        return this;
+    }
+
+    @NotNull
     public ItemStack build() {
         return this.itemStack;
     }
+
 }

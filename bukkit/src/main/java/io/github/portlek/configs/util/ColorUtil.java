@@ -1,6 +1,7 @@
 package io.github.portlek.configs.util;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.bukkit.ChatColor;
@@ -12,20 +13,20 @@ public final class ColorUtil {
     }
 
     @NotNull
-    public static String colored(@NotNull String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
+    public static List<String> colored(@NotNull final String... array) {
+        return ColorUtil.colored(
+            Arrays.asList(array)
+        );
     }
 
     @NotNull
-    public static List<String> colored(@NotNull List<String> list) {
+    public static List<String> colored(@NotNull final Collection<String> list) {
         return list.stream().map(ColorUtil::colored).collect(Collectors.toList());
     }
 
     @NotNull
-    public static List<String> colored(@NotNull String... array) {
-        return colored(
-            Arrays.asList(array)
-        );
+    public static String colored(@NotNull final String text) {
+        return ChatColor.translateAlternateColorCodes('&', text);
     }
 
 }
