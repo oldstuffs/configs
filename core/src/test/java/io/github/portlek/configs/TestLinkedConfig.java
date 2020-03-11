@@ -29,12 +29,11 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.Replaceable;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
 @LinkedConfig(configs = {
     @Config(
@@ -48,31 +47,33 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 
     @NotNull
     private final Map<String, Supplier<String>> prefix = new HashMap<>();
+
     @Value
     public Replaceable<String> test_2 = match(s -> {
         if (s.equals("en")) {
             return Optional.of(
-                    Replaceable.of("%prefix% English words!")
-                            .replace(getPrefix())
+                Replaceable.of("%prefix% English words!")
+                    .replace(getPrefix())
             );
         } else if (s.equals("tr")) {
             return Optional.of(
-                    Replaceable.of("%prefix% Turkish words!")
-                            .replace(getPrefix())
+                Replaceable.of("%prefix% Turkish words!")
+                    .replace(getPrefix())
             );
         }
 
         return Optional.empty();
     });
+
     @Value
     public Replaceable<String> test = match(s -> {
         if (s.equals("en")) {
             return Optional.of(
-                    Replaceable.of("English words!")
+                Replaceable.of("English words!")
             );
         } else if (s.equals("tr")) {
             return Optional.of(
-                    Replaceable.of("Turkish words!")
+                Replaceable.of("Turkish words!")
             );
         }
 

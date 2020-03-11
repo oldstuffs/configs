@@ -44,6 +44,17 @@ public class JsonConfiguration extends FileConfiguration {
         return loadConfiguration(new JsonConfiguration(), file);
     }
 
+    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {
+        try {
+            config.load(file);
+        } catch (FileNotFoundException ex) {
+            LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
+        } catch (IOException | InvalidConfigurationException ex) {
+            LOG.log(Level.SEVERE, "Cannot load " + file, ex);
+        }
+        return config;
+    }
+
     public static JsonConfiguration loadConfiguration(@NotNull final Reader reader) {
         return loadConfiguration(new JsonConfiguration(), reader);
     }
@@ -56,18 +67,7 @@ public class JsonConfiguration extends FileConfiguration {
         } catch (IOException ex) {
             LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
         } catch (InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + reader , ex);
-        }
-        return config;
-    }
-
-    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {
-        try {
-            config.load(file);
-        } catch (FileNotFoundException ex) {
-            LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
-        } catch (IOException | InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + file, ex);
+            LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
         }
         return config;
     }
@@ -100,17 +100,17 @@ public class JsonConfiguration extends FileConfiguration {
     }
 
     @Override
-    protected @NotNull String buildHeader() {
-        return "";
-    }
-
-    @Override
     public @NotNull JsonConfigurationOptions options() {
         if (options == null) {
             options = new JsonConfigurationOptions(this);
         }
 
         return (JsonConfigurationOptions) options;
+    }
+
+    @Override
+    protected @NotNull String buildHeader() {
+        return "";
     }
 
     private void convertMapsToSections(@NotNull Map<?, ?> input, @NotNull final ConfigurationSection section) {

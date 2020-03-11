@@ -30,4 +30,5 @@ public class MemoryConfigurationOptions extends ConfigurationOptions {
         super.copyDefaults(value);
         return this;
     }
+
 }

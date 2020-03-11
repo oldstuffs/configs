@@ -47,5 +47,7 @@ public class YamlConstructor extends SafeConstructor {
         public void construct2ndStep(@NotNull Node node, @NotNull Object object) {
             throw new YAMLException("Unexpected referential mapping structure. Node: " + node);
         }
+
     }
+
 }

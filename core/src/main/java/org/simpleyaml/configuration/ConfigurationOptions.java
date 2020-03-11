@@ -8,7 +8,9 @@ import org.jetbrains.annotations.NotNull;
  */
 public class ConfigurationOptions {
     private final Configuration configuration;
+
     private char pathSeparator = '.';
+
     private boolean copyDefaults = false;
 
     protected ConfigurationOptions(@NotNull Configuration configuration) {
@@ -92,4 +94,5 @@ public class ConfigurationOptions {
         this.copyDefaults = value;
         return this;
     }
+
 }

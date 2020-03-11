@@ -4,12 +4,11 @@ import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.util.ColorUtil;
 import io.github.portlek.configs.util.MapEntry;
 import io.github.portlek.configs.util.Replaceable;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
 @LinkedConfig(configs = {
     @Config(
@@ -18,6 +17,12 @@ import java.util.function.Supplier;
     )
 })
 public final class TestBukkitLinkedConfig extends BukkitLinkedManaged {
+
+    @Instance
+    public final Errors errors = new Errors();
+
+    @Instance
+    public final Generals generals = new Generals();
 
     public TestBukkitLinkedConfig(@NotNull TestBukkitConfig configFile) {
         super(configFile.plugin_language, MapEntry.of("config", configFile));
@@ -32,9 +37,6 @@ public final class TestBukkitLinkedConfig extends BukkitLinkedManaged {
 
         return prefix;
     }
-
-    @Instance
-    public final Errors errors = new Errors();
 
     @Section(path = "error")
     public class Errors {
@@ -67,9 +69,6 @@ public final class TestBukkitLinkedConfig extends BukkitLinkedManaged {
         );
 
     }
-
-    @Instance
-    public final Generals generals = new Generals();
 
     @Section(path = "general")
     public class Generals {

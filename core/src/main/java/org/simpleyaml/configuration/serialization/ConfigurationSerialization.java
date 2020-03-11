@@ -20,7 +20,9 @@ import org.simpleyaml.utils.Validate;
  */
 public class ConfigurationSerialization {
     public static final String SERIALIZED_TYPE_KEY = "==";
+
     private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
+
     private final Class<? extends ConfigurationSerializable> clazz;
 
     protected ConfigurationSerialization(@NotNull Class<? extends ConfigurationSerializable> clazz) {
@@ -38,7 +40,7 @@ public class ConfigurationSerialization {
      * If a new instance could not be made, an example being the class not
      * fully implementing the interface, null will be returned.
      *
-     * @param args  Arguments for deserialization
+     * @param args Arguments for deserialization
      * @param clazz Class to deserialize into
      * @return New instance of the specified class
      */
@@ -102,17 +104,6 @@ public class ConfigurationSerialization {
     }
 
     @Nullable
-    protected Constructor<? extends ConfigurationSerializable> getConstructor() {
-        try {
-            return clazz.getConstructor(Map.class);
-        } catch (NoSuchMethodException ex) {
-            return null;
-        } catch (SecurityException ex) {
-            return null;
-        }
-    }
-
-    @Nullable
     protected ConfigurationSerializable deserializeViaMethod(@NotNull Method method, @NotNull Map<String, ?> args) {
         try {
             ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
@@ -130,6 +121,17 @@ public class ConfigurationSerialization {
         }
 
         return null;
+    }
+
+    @Nullable
+    protected Constructor<? extends ConfigurationSerializable> getConstructor() {
+        try {
+            return clazz.getConstructor(Map.class);
+        } catch (NoSuchMethodException ex) {
+            return null;
+        } catch (SecurityException ex) {
+            return null;
+        }
     }
 
     @Nullable
@@ -274,4 +276,5 @@ public class ConfigurationSerialization {
 
         return clazz.getName();
     }
+
 }

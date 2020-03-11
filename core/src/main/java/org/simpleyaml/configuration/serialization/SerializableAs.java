@@ -32,4 +32,5 @@ public @interface SerializableAs {
      * @return Name to serialize the class as.
      */
     String value();
+
 }

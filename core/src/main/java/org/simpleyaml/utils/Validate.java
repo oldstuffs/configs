@@ -56,7 +56,7 @@ public class Validate {
      * </pre>
      *
      * @param expression the boolean expression to check
-     * @param message    the exception message if invalid
+     * @param message the exception message if invalid
      * @throws IllegalArgumentException if expression is <code>false</code>
      */
     public static void isTrue(boolean expression, String message) {
@@ -73,7 +73,7 @@ public class Validate {
      *
      * <pre>Validate.notNull(myObject, "The object must not be null");</pre>
      *
-     * @param object  the object to check
+     * @param object the object to check
      * @param message the exception message if invalid
      */
     public static void notNull(Object object, String message) {
@@ -91,7 +91,7 @@ public class Validate {
      *
      * <pre>Validate.notEmpty(myString, "The string must not be empty");</pre>
      *
-     * @param string  the string to check
+     * @param string the string to check
      * @param message the exception message if invalid
      * @throws IllegalArgumentException if the string is empty
      */

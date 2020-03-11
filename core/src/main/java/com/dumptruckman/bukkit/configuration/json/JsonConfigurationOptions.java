@@ -21,14 +21,14 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
     }
 
     @Override
-    public @NotNull JsonConfigurationOptions copyDefaults(final boolean value) {
-        super.copyDefaults(value);
+    public @NotNull JsonConfigurationOptions pathSeparator(final char value) {
+        super.pathSeparator(value);
         return this;
     }
 
     @Override
-    public @NotNull JsonConfigurationOptions pathSeparator(final char value) {
-        super.pathSeparator(value);
+    public @NotNull JsonConfigurationOptions copyDefaults(final boolean value) {
+        super.copyDefaults(value);
         return this;
     }
 
@@ -43,4 +43,5 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
         super.copyHeader(value);
         return this;
     }
+
 }

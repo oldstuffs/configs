@@ -34,8 +34,6 @@ import io.github.portlek.configs.util.Replaceable;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import org.jetbrains.annotations.NotNull;
 
 public final class ValueProceed implements Proceed<Field> {

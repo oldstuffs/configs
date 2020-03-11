@@ -6,8 +6,6 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import org.jetbrains.annotations.NotNull;
 
 public final class LinkedConfigProceed implements Proceed<LinkedManaged> {

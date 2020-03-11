@@ -35,9 +35,6 @@ import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.logging.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
@@ -138,7 +135,7 @@ public final class ConfigProceed implements Proceed<Managed> {
                         byte[] buf = new byte[1024];
 
                         int len;
-                        while((len = in.read(buf)) > 0) {
+                        while ((len = in.read(buf)) > 0) {
                             out.write(buf, 0, len);
                         }
 

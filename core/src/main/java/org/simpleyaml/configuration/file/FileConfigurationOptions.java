@@ -12,6 +12,7 @@ import org.simpleyaml.configuration.MemoryConfigurationOptions;
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
     private String header = null;
+
     private boolean copyHeader = true;
 
     protected FileConfigurationOptions(@NotNull MemoryConfiguration configuration) {
@@ -125,4 +126,5 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
 
         return this;
     }
+
 }

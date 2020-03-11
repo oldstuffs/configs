@@ -12,6 +12,7 @@ import org.simpleyaml.utils.Validate;
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
     protected Configuration defaults;
+
     protected MemoryConfigurationOptions options;
 
     /**
@@ -46,7 +47,9 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
         }
 
         defaults.set(path, value);
-    }    @Override
+    }
+
+    @Override
     public void addDefaults(@NotNull Map<String, Object> defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
@@ -76,7 +79,6 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     }
 
 
-
     @Override
     @NotNull
     public MemoryConfigurationOptions options() {
@@ -86,4 +88,5 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
 
         return options;
     }
+
 }

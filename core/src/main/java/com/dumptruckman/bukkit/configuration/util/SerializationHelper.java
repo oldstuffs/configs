@@ -2,13 +2,7 @@ package com.dumptruckman.bukkit.configuration.util;
 
 import com.dumptruckman.bukkit.configuration.SerializableSet;
 import com.dumptruckman.bukkit.configuration.YAMLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +40,34 @@ public class SerializationHelper {
         } else {
             return value;
         }
+    }
+
+    /**
+     * Parses through the input map to deal with serialized objects a la {@link ConfigurationSerializable}.
+     * <p>
+     * Called recursively first on Maps and Lists before passing the parsed input over to
+     * {@link ConfigurationSerialization#deserializeObject(java.util.Map)}.  Basically this means it will deserialize
+     * the most nested objects FIRST and the top level object LAST.
+     */
+    public static Object deserialize(@NotNull final Map<?, ?> input) {
+        final Map<String, Object> output = new LinkedHashMap<>(input.size());
+        for (final Map.Entry<?, ?> e : input.entrySet()) {
+            if (e.getValue() instanceof Map) {
+                output.put(e.getKey().toString(), deserialize((Map<?, ?>) e.getValue()));
+            } else if (e.getValue() instanceof List) {
+                output.put(e.getKey().toString(), deserialize((List<?>) e.getValue()));
+            } else {
+                output.put(e.getKey().toString(), e.getValue());
+            }
+        }
+        if (output.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
+            try {
+                return ConfigurationSerialization.deserializeObject(output);
+            } catch (IllegalArgumentException ex) {
+                throw new YAMLException("Could not deserialize object", ex);
+            }
+        }
+        return output;
     }
 
     /**
@@ -102,34 +124,6 @@ public class SerializationHelper {
     }
 
     /**
-     * Parses through the input map to deal with serialized objects a la {@link ConfigurationSerializable}.
-     * <p>
-     * Called recursively first on Maps and Lists before passing the parsed input over to
-     * {@link ConfigurationSerialization#deserializeObject(java.util.Map)}.  Basically this means it will deserialize
-     * the most nested objects FIRST and the top level object LAST.
-     */
-    public static Object deserialize(@NotNull final Map<?, ?> input) {
-        final Map<String, Object> output = new LinkedHashMap<>(input.size());
-        for (final Map.Entry<?, ?> e : input.entrySet()) {
-            if (e.getValue() instanceof Map) {
-                output.put(e.getKey().toString(), deserialize((Map<?, ?>) e.getValue()));
-            } else if (e.getValue() instanceof List) {
-                output.put(e.getKey().toString(), deserialize((List<?>) e.getValue()));
-            } else {
-                output.put(e.getKey().toString(), e.getValue());
-            }
-        }
-        if (output.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
-            try {
-                return ConfigurationSerialization.deserializeObject(output);
-            } catch (IllegalArgumentException ex) {
-                throw new YAMLException("Could not deserialize object", ex);
-            }
-        }
-        return output;
-    }
-
-    /**
      * Parses through the input list to deal with serialized objects a la {@link ConfigurationSerializable}.
      * <p>
      * Functions similarly to {@link #deserialize(java.util.Map)} but only for detecting lists within
@@ -148,4 +142,5 @@ public class SerializationHelper {
         }
         return output;
     }
+
 }

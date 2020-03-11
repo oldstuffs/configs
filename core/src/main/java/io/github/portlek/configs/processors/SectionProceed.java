@@ -30,8 +30,6 @@ import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.util.PathCalc;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;
 

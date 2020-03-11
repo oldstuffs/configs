@@ -27,7 +27,6 @@ package io.github.portlek.configs.util;
 
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
 import java.io.File;
-import java.io.Reader;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;

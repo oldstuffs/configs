@@ -23,15 +23,15 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
 
     @NotNull
     @Override
-    public YamlConfigurationOptions copyDefaults(boolean value) {
-        super.copyDefaults(value);
+    public YamlConfigurationOptions pathSeparator(char value) {
+        super.pathSeparator(value);
         return this;
     }
 
     @NotNull
     @Override
-    public YamlConfigurationOptions pathSeparator(char value) {
-        super.pathSeparator(value);
+    public YamlConfigurationOptions copyDefaults(boolean value) {
+        super.copyDefaults(value);
         return this;
     }
 
@@ -76,4 +76,5 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
         this.indent = value;
         return this;
     }
+
 }

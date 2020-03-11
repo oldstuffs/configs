@@ -30,8 +30,6 @@ import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import java.lang.reflect.Field;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
 import org.jetbrains.annotations.NotNull;
 
 public final class InstanceProceed implements Proceed<Field> {

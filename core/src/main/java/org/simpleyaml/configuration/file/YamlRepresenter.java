@@ -23,6 +23,7 @@ public class YamlRepresenter extends Representer {
         public Node representData(@NotNull Object data) {
             return super.representData(((ConfigurationSection) data).getValues(false));
         }
+
     }
 
     private class RepresentConfigurationSerializable extends RepresentMap {
@@ -37,5 +38,7 @@ public class YamlRepresenter extends Representer {
 
             return super.representData(values);
         }
+
     }
+
 }

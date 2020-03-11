@@ -37,7 +37,7 @@ public final class TestRunner {
         testConfig.setAutoSave(true);
 
         final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(
-                testConfig
+            testConfig
         );
 
         testLinkedConfig.load();
