@@ -28,11 +28,6 @@ public final class TestBukkitConfig extends BukkitManaged {
         .map(ColorUtil::colored);
 
     @Value
-    public ItemStack test = BukkitItemBuilder.of(Material.LONG_GRASS)
-        .data(1)
-        .build();
-
-    @Value
     public String plugin_language = "en";
 
     @Instance
