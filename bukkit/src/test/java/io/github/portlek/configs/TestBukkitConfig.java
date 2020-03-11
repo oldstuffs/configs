@@ -1,25 +1,36 @@
 package io.github.portlek.configs;
 
+import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.util.BukkitItemBuilder;
 import io.github.portlek.configs.util.ColorUtil;
+import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.Replaceable;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 @Config(
     name = "config",
-    location = "%basedir%/TestBukkitPlugin"
+    location = "%basedir%/TestBukkitPlugin",
+    type = FileType.JSON
 )
 public final class TestBukkitConfig extends BukkitManaged {
 
     @Value
     public Replaceable<String> plugin_prefix = Replaceable.of("&6[&eTestBukkitPlugin&6]")
         .map(ColorUtil::colored);
+
+    @Value
+    public ItemStack test = BukkitItemBuilder.of(Material.LONG_GRASS)
+        .data(1)
+        .build();
 
     @Value
     public String plugin_language = "en";

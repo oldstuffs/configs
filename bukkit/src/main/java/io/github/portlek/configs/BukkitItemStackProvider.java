@@ -25,8 +25,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         managed.set(path + ".amount", itemStack.getAmount());
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
             Optional.ofNullable(itemStack.getData()).ifPresent(materialData ->
-                managed.set(path + ".data", materialData.getData())
-            );
+                managed.set(path + ".data", (int)materialData.getData()));
         }
         if (itemStack.getDurability() != 0) {
             managed.set(path + ".damage", itemStack.getDurability());
