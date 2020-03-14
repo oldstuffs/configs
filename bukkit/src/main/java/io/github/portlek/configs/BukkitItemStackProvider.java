@@ -7,8 +7,8 @@ import io.github.portlek.configs.util.ColorUtil;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
@@ -37,6 +37,9 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             Optional.ofNullable(itemMeta.getLore()).ifPresent(lore ->
                 managed.set(path + ".lore", lore.stream().map(s -> s.replace("§", "&")).collect(Collectors.toList()))
             );
+            managed.set(path + ".flags", itemMeta.getItemFlags().stream()
+                .map(Enum::name)
+                .collect(Collectors.toList()));
         });
         itemStack.getEnchantments().forEach((enchantment, integer) ->
             managed.set(path + ".enchants." + enchantment.getName(), integer)
@@ -87,31 +90,31 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                 (short) managed.getInt(path + ".damage")
             );
         }
-        final Optional<ItemMeta> itemMetaOptional = Optional.ofNullable(itemStack.getItemMeta());
-        if (!itemMetaOptional.isPresent()) {
-            return Optional.of(itemStack);
-        }
-        final ItemMeta itemMeta = itemMetaOptional.get();
-        managed.getString(path + ".display-name").ifPresent(s ->
-            itemMeta.setDisplayName(
-                ColorUtil.colored(s)
-            )
-        );
-        itemMeta.setLore(
-            ColorUtil.colored(
-                managed.getStringList(path + ".lore")
-            )
-        );
-        managed.getSection(path + ".enchants").map(section -> section.getKeys(false)).ifPresent(set ->
-            set.forEach(s ->
-                XEnchantment.matchXEnchantment(s).flatMap(xEnchantment ->
-                    Optional.ofNullable(xEnchantment.parseEnchantment())
-                ).ifPresent(enchantment ->
-                    itemMeta.addEnchant(enchantment, managed.getInt(path + ".enchants." + s), true)
+        Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
+            managed.getString(path + ".display-name").ifPresent(s ->
+                itemMeta.setDisplayName(
+                    ColorUtil.colored(s)
                 )
-            )
-        );
-        itemStack.setItemMeta(itemMeta);
+            );
+            itemMeta.setLore(
+                ColorUtil.colored(
+                    managed.getStringList(path + ".lore")
+                )
+            );
+            managed.getSection(path + ".enchants").map(section -> section.getKeys(false)).ifPresent(set ->
+                set.forEach(s ->
+                    XEnchantment.matchXEnchantment(s).flatMap(xEnchantment ->
+                        Optional.ofNullable(xEnchantment.parseEnchantment())
+                    ).ifPresent(enchantment ->
+                        itemMeta.addEnchant(enchantment, managed.getInt(path + ".enchants." + s), true)
+                    )
+                )
+            );
+            managed.getStringList(path + ".flags").stream()
+                .map(ItemFlag::valueOf)
+                .forEach(itemMeta::addItemFlags);
+            itemStack.setItemMeta(itemMeta);
+        });
         return Optional.of(itemStack);
     }
 
