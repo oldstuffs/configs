@@ -6,7 +6,6 @@ import io.github.portlek.configs.util.MapEntry;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
@@ -43,41 +42,20 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
 
     @Override
     public final void load() {
-        final LinkedConfig linkedConfig = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
-        if (linkedConfig != null) {
-            try {
-                new LinkedConfigProceed(linkedConfig).load(this);
-                return;
-            } catch (final Exception exception) {
-                exception.printStackTrace();
-            }
+        final LinkedConfig linked = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
+        if (linked != null) {
+            new LinkedConfigProceed(linked).load(this);
+            return;
         }
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!");
     }
 
     @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+        super.setup(file, fileConfiguration);
         this.linkedFiles.put(
             this.chosen,
             MapEntry.of(file, fileConfiguration)
-        );
-    }
-
-    @NotNull
-    @Override
-    public final File getFile() {
-        return Objects.requireNonNull(
-            this.linkedFiles.get(this.chosen).getKey(),
-            "You have to load your class with '#load()' method"
-        );
-    }
-
-    @NotNull
-    @Override
-    public final FileConfiguration getFileConfiguration() {
-        return Objects.requireNonNull(
-            this.linkedFiles.get(this.chosen).getValue(),
-            "You have to load your class with '#load()' method"
         );
     }
 

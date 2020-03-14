@@ -59,7 +59,7 @@ public final class ValueProceed implements Proceed<Field> {
     }
 
     @Override
-    public void load(@NotNull final Field field) throws Exception {
+    public void load(@NotNull final Field field) {
         final String path = new PathCalc(
             this.value.regex(),
             this.value.separator(),
@@ -67,19 +67,21 @@ public final class ValueProceed implements Proceed<Field> {
             this.parent,
             field.getName()
         ).value();
-        final Optional<Object> defaultValueOptional = Optional.ofNullable(field.get(this.instance));
+        try {
+            final Optional<Object> optional = Optional.ofNullable(field.get(this.instance));
+            if (!optional.isPresent()) {
+                return;
+            }
+            final Object fieldvalue = optional.get();
+            final Optional<?> filevalueoptional = this.get(fieldvalue, path);
 
-        if (!defaultValueOptional.isPresent()) {
-            return;
-        }
-
-        final Object fieldValue = defaultValueOptional.get();
-        final Optional<?> fileValueOptional = this.get(fieldValue, path);
-
-        if (fileValueOptional.isPresent()) {
-            field.set(this.instance, fileValueOptional.get());
-        } else {
-            this.set(fieldValue, path);
+            if (filevalueoptional.isPresent()) {
+                field.set(this.instance, filevalueoptional.get());
+            } else {
+                this.set(fieldvalue, path);
+            }
+        } catch (final IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 

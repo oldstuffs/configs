@@ -50,21 +50,19 @@ public final class InstanceProceed implements Proceed<Field> {
     }
 
     @Override
-    public void load(@NotNull final Field field) throws Exception {
-        final Optional<Object> fieldObjectOptional = Optional.ofNullable(field.get(this.object));
-
-        if (fieldObjectOptional.isPresent()) {
-            final Optional<Section> sectionOptional = Optional.ofNullable(
-                fieldObjectOptional.get().getClass().getDeclaredAnnotation(Section.class)
+    public void load(@NotNull final Field field) {
+        try {
+            Optional.ofNullable(field.get(this.object)).ifPresent(o ->
+                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
+                    new SectionProceed(
+                        this.managed,
+                        this.parent,
+                        section
+                    ).load(o)
+                )
             );
-
-            if (sectionOptional.isPresent()) {
-                new SectionProceed(
-                    this.managed,
-                    this.parent,
-                    sectionOptional.get()
-                ).load(fieldObjectOptional.get());
-            }
+        } catch (final IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 

@@ -38,7 +38,7 @@ public abstract class ManagedBase implements Managed {
 
     private final Map<String, Object> objects = new HashMap<>();
 
-    private final Map<Class<?>, Provided<?>> customValues = new HashMap<>();
+    private final Map<Class<?>, Provided<?>> customs = new HashMap<>();
 
     @Nullable
     private FileConfiguration fileConfiguration;
@@ -73,14 +73,10 @@ public abstract class ManagedBase implements Managed {
     public void load() {
         final Config config = this.getClass().getDeclaredAnnotation(Config.class);
         if (config != null) {
-            try {
-                new ConfigProceed(config).load(this);
-                return;
-            } catch (final Exception exception) {
-                exception.printStackTrace();
-            }
+            new ConfigProceed(config).load(this);
+            return;
         }
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!");
     }
 
     @Override
@@ -100,27 +96,27 @@ public abstract class ManagedBase implements Managed {
 
     @Override
     public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        this.customValues.put(aClass, provided);
+        this.customs.put(aClass, provided);
     }
 
     @NotNull
     @Override
     public final Optional<Provided<?>> getCustomValue(@NotNull final Class<?> aClass) {
-        return this.customValues.keySet().stream()
+        return this.customs.keySet().stream()
             .filter(aClass::equals)
             .findFirst()
-            .map(this.customValues::get);
+            .map(this.customs::get);
     }
 
     @NotNull
     @Override
-    public File getFile() {
+    public final File getFile() {
         return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
     }
 
     @NotNull
     @Override
-    public FileConfiguration getFileConfiguration() {
+    public final FileConfiguration getFileConfiguration() {
         return Objects.requireNonNull(this.fileConfiguration, "You have to load your class with '#load()' method");
     }
 

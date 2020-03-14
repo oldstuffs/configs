@@ -51,7 +51,7 @@ public final class SectionProceed implements Proceed<Object> {
     }
 
     @Override
-    public void load(@NotNull final Object object) throws Exception {
+    public void load(@NotNull final Object object) {
         final String path = new PathCalc(
             "",
             "",
@@ -60,11 +60,9 @@ public final class SectionProceed implements Proceed<Object> {
             object.getClass().getName()
         ).value();
         final Optional<ConfigurationSection> configurationSectionOptional = this.managed.getSection(path);
-
         if (!configurationSectionOptional.isPresent()) {
             this.managed.createSection(path);
         }
-
         new FieldsProceed(object, path).load(this.managed);
     }
 

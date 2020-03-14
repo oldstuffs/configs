@@ -49,7 +49,7 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     @Override
-    public void load(@NotNull final Managed managed) throws Exception {
+    public void load(@NotNull final Managed managed) {
         final FileType fileType = this.config.type();
         final String fileName;
         if (this.config.name().endsWith(fileType.suffix)) {
@@ -85,7 +85,11 @@ public final class ConfigProceed implements Proceed<Managed> {
         }
         if (!file.exists()) {
             file.getParentFile().mkdirs();
-            file.createNewFile();
+            try {
+                file.createNewFile();
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
         }
         final FileConfiguration fileConfiguration = fileType.load(file);
         managed.setup(file, fileConfiguration);

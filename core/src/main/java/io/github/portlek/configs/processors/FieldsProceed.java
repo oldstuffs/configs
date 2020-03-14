@@ -21,7 +21,7 @@ public final class FieldsProceed implements Proceed<Managed> {
     }
 
     @Override
-    public void load(@NotNull final Managed managed) throws Exception {
+    public void load(@NotNull final Managed managed) {
         for (final Field field : this.object.getClass().getDeclaredFields()) {
             final boolean isAccessible = field.isAccessible();
 
