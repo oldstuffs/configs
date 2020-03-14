@@ -18,27 +18,27 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();
 
     @NotNull
-    private final String chosenFileName;
+    private final String chosen;
 
     @SafeVarargs
-    protected LinkedManagedBase(@NotNull final String chosenFileName,
+    protected LinkedManagedBase(@NotNull final String chosen,
                                 @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
-        this.chosenFileName = chosenFileName;
+        this.chosen = chosen;
     }
 
     @NotNull
     @Override
     public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        return function.apply(this.chosenFileName).orElseThrow(() ->
-            new IllegalStateException("Cannot found match with the file id > " + this.chosenFileName)
+        return function.apply(this.chosen).orElseThrow(() ->
+            new IllegalStateException("Cannot found match with the file id > " + this.chosen)
         );
     }
 
     @NotNull
     @Override
-    public final String getChosenFileName() {
-        return this.chosenFileName;
+    public final String getChosen() {
+        return this.chosen;
     }
 
     @Override
@@ -58,7 +58,7 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         this.linkedFiles.put(
-            this.chosenFileName,
+            this.chosen,
             MapEntry.of(file, fileConfiguration)
         );
     }
@@ -67,7 +67,7 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     @Override
     public final File getFile() {
         return Objects.requireNonNull(
-            this.linkedFiles.get(this.chosenFileName).getKey(),
+            this.linkedFiles.get(this.chosen).getKey(),
             "You have to load your class with '#load()' method"
         );
     }
@@ -76,7 +76,7 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
     @Override
     public final FileConfiguration getFileConfiguration() {
         return Objects.requireNonNull(
-            this.linkedFiles.get(this.chosenFileName).getValue(),
+            this.linkedFiles.get(this.chosen).getValue(),
             "You have to load your class with '#load()' method"
         );
     }

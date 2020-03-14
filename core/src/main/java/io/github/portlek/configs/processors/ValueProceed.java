@@ -86,23 +86,21 @@ public final class ValueProceed implements Proceed<Field> {
     @SuppressWarnings("unchecked")
     @NotNull
     private Optional<?> get(@NotNull final Object fieldValue, @NotNull final String path) {
-        final Optional<Provided<?>> customValueOptional = this.managed.getCustomValue(fieldValue.getClass());
-
-        if (customValueOptional.isPresent()) {
-            return customValueOptional.get().get(this.managed, path);
+        final Optional<Provided<?>> optional = this.managed.getCustomValue(fieldValue.getClass());
+        if (optional.isPresent()) {
+            return optional.get().get(this.managed, path);
         }
-
         if (fieldValue instanceof String) {
             return this.managed.getString(path);
-        } else if (fieldValue instanceof List) {
+        }
+        if (fieldValue instanceof List) {
             return this.managed.getList(path);
-        } else if (fieldValue instanceof Replaceable<?>) {
+        }
+        if (fieldValue instanceof Replaceable<?>) {
             final Replaceable<?> replaceable = (Replaceable<?>) fieldValue;
-
             if (replaceable.getValue() instanceof String) {
                 final Optional<String> stringOptional = this.managed.getString(path);
                 final Replaceable<String> genericReplaceable = (Replaceable<String>) replaceable;
-
                 if (stringOptional.isPresent()) {
                     return Optional.of(
                         Replaceable.of(stringOptional.get())
@@ -113,10 +111,8 @@ public final class ValueProceed implements Proceed<Field> {
                 }
             } else if (replaceable.getValue() instanceof List<?>) {
                 final Optional<List<?>> listOptional = this.managed.getList(path);
-
                 if (listOptional.isPresent()) {
                     final Replaceable<List<String>> genericReplaceable = (Replaceable<List<String>>) replaceable;
-
                     return Optional.of(
                         Replaceable.of((List<String>) listOptional.get())
                             .replaces(genericReplaceable.getRegex())
@@ -126,7 +122,6 @@ public final class ValueProceed implements Proceed<Field> {
                 }
             }
         }
-
         return this.managed.get(path);
     }
 

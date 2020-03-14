@@ -28,7 +28,7 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
                     configFileName += configSuffixName;
                 }
 
-                String chosenFileName = linkedManaged.getChosenFileName();
+                String chosenFileName = linkedManaged.getChosen();
 
                 if (!chosenFileName.endsWith(configSuffixName)) {
                     chosenFileName += configSuffixName;

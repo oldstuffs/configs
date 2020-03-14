@@ -11,7 +11,7 @@ public abstract class BukkitLinkedManaged extends LinkedManagedBase {
     protected BukkitLinkedManaged(@NotNull final String chosen,
                                   @NotNull final Map.Entry<String, Object>... objects) {
         super(chosen, objects);
-
+        this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
     }
 
     public final void setItemStack(@NotNull final String path, @NotNull final ItemStack item) {

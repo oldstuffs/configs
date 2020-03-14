@@ -46,47 +46,50 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     @NotNull
     @Override
     public Optional<ItemStack> get(@NotNull final Managed managed, @NotNull final String path) {
-        if (!managed.getString(path).isPresent()) {
+        final Optional<String> optional = managed.getString(path + ".material");
+        if (!optional.isPresent()) {
             return Optional.empty();
         }
-        final Optional<String> materialStringOptional = managed.getString(path + ".material");
-        if (!materialStringOptional.isPresent()) {
-            return Optional.empty();
-        }
-        final String materialString = materialStringOptional.get();
+        final String mtrlstrng = optional.get();
         final Material material;
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() > 7) {
-            final Optional<XMaterial> xMaterialOptional = XMaterial.matchXMaterial(materialString);
-            if (!xMaterialOptional.isPresent()) {
+            final Optional<XMaterial> xmaterialoptional = XMaterial.matchXMaterial(mtrlstrng);
+            if (!xmaterialoptional.isPresent()) {
                 return Optional.empty();
             }
-            final Optional<Material> materialOptional = Optional.ofNullable(xMaterialOptional.get().parseMaterial());
-            if (!materialOptional.isPresent()) {
+            final Optional<Material> mtrloptnl = Optional.ofNullable(xmaterialoptional.get().parseMaterial());
+            if (!mtrloptnl.isPresent()) {
                 return Optional.empty();
             }
-            material = materialOptional.get();
+            material = mtrloptnl.get();
         } else {
-            material = Material.getMaterial(materialString);
+            material = Material.getMaterial(mtrlstrng);
         }
         final int amount = managed.getInt(path + ".amount");
+        final int fnlamnt;
+        if (amount == 0) {
+            fnlamnt = 1;
+        } else {
+            fnlamnt = amount;
+        }
         final ItemStack itemStack;
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
             itemStack = new ItemStack(
                 material,
-                amount == 0 ? 1 : amount,
+                fnlamnt,
                 (short) managed.getInt(path + ".damage"),
                 (byte) managed.getInt(path + ".data")
             );
         } else {
             itemStack = new ItemStack(
                 material,
-                amount == 0 ? 1 : amount,
+                fnlamnt,
                 (short) managed.getInt(path + ".damage")
             );
         }
         final Optional<ItemMeta> itemMetaOptional = Optional.ofNullable(itemStack.getItemMeta());
         if (!itemMetaOptional.isPresent()) {
-            return Optional.empty();
+            return Optional.of(itemStack);
         }
         final ItemMeta itemMeta = itemMetaOptional.get();
         managed.getString(path + ".display-name").ifPresent(s ->

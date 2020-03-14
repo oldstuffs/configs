@@ -107,7 +107,7 @@ public abstract class ManagedBase implements Managed {
     @Override
     public final Optional<Provided<?>> getCustomValue(@NotNull final Class<?> aClass) {
         return this.customValues.keySet().stream()
-            .filter(clazz -> clazz.isAssignableFrom(aClass))
+            .filter(aClass::equals)
             .findFirst()
             .map(this.customValues::get);
     }

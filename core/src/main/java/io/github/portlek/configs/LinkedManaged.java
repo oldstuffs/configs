@@ -35,6 +35,6 @@ public interface LinkedManaged extends Managed {
     @Nullable <T> T match(@NotNull Function<String, Optional<T>> function);
 
     @NotNull
-    String getChosenFileName();
+    String getChosen();
 
 }
