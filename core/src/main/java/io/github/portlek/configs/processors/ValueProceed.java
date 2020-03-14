@@ -50,12 +50,12 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private final Value value;
 
-    public ValueProceed(@NotNull final Managed managed, @NotNull final Object instance, @NotNull final String parent,
-                        @NotNull final Value value) {
-        this.managed = managed;
-        this.instance = instance;
-        this.parent = parent;
-        this.value = value;
+    public ValueProceed(@NotNull final Managed mngd, @NotNull final Object instnce, @NotNull final String prnt,
+                        @NotNull final Value vlue) {
+        this.managed = mngd;
+        this.instance = instnce;
+        this.parent = prnt;
+        this.value = vlue;
     }
 
     @Override
@@ -87,39 +87,39 @@ public final class ValueProceed implements Proceed<Field> {
 
     @SuppressWarnings("unchecked")
     @NotNull
-    private Optional<?> get(@NotNull final Object fieldValue, @NotNull final String path) {
-        final Optional<Provided<?>> optional = this.managed.getCustomValue(fieldValue.getClass());
+    private Optional<?> get(@NotNull final Object fieldvalue, @NotNull final String path) {
+        final Optional<Provided<?>> optional = this.managed.getCustomValue(fieldvalue.getClass());
         if (optional.isPresent()) {
             return optional.get().get(this.managed, path);
         }
-        if (fieldValue instanceof String) {
+        if (fieldvalue instanceof String) {
             return this.managed.getString(path);
         }
-        if (fieldValue instanceof List) {
+        if (fieldvalue instanceof List) {
             return this.managed.getList(path);
         }
-        if (fieldValue instanceof Replaceable<?>) {
-            final Replaceable<?> replaceable = (Replaceable<?>) fieldValue;
+        if (fieldvalue instanceof Replaceable<?>) {
+            final Replaceable<?> replaceable = (Replaceable<?>) fieldvalue;
             if (replaceable.getValue() instanceof String) {
-                final Optional<String> stringOptional = this.managed.getString(path);
-                final Replaceable<String> genericReplaceable = (Replaceable<String>) replaceable;
-                if (stringOptional.isPresent()) {
+                final Optional<String> optionalstring = this.managed.getString(path);
+                final Replaceable<String> genericreplaceable = (Replaceable<String>) replaceable;
+                if (optionalstring.isPresent()) {
                     return Optional.of(
-                        Replaceable.of(stringOptional.get())
+                        Replaceable.of(optionalstring.get())
                             .replaces(replaceable.getRegex())
                             .replace(replaceable.getReplaces())
-                            .map(genericReplaceable.getMaps())
+                            .map(genericreplaceable.getMaps())
                     );
                 }
             } else if (replaceable.getValue() instanceof List<?>) {
-                final Optional<List<?>> listOptional = this.managed.getList(path);
-                if (listOptional.isPresent()) {
-                    final Replaceable<List<String>> genericReplaceable = (Replaceable<List<String>>) replaceable;
+                final Optional<List<?>> listoptional = this.managed.getList(path);
+                if (listoptional.isPresent()) {
+                    final Replaceable<List<String>> genericreplaceable = (Replaceable<List<String>>) replaceable;
                     return Optional.of(
-                        Replaceable.of((List<String>) listOptional.get())
-                            .replaces(genericReplaceable.getRegex())
-                            .replace(genericReplaceable.getReplaces())
-                            .map(genericReplaceable.getMaps())
+                        Replaceable.of((List<String>) listoptional.get())
+                            .replaces(genericreplaceable.getRegex())
+                            .replace(genericreplaceable.getReplaces())
+                            .map(genericreplaceable.getMaps())
                     );
                 }
             }
@@ -128,9 +128,9 @@ public final class ValueProceed implements Proceed<Field> {
     }
 
     private void set(@NotNull final Object fieldValue, @NotNull final String path) {
-        final Optional<Provided<?>> customValueOptional = this.managed.getCustomValue(fieldValue.getClass());
-        if (customValueOptional.isPresent()) {
-            customValueOptional.get().set(fieldValue, this.managed, path);
+        final Optional<Provided<?>> optionalProvided = this.managed.getCustomValue(fieldValue.getClass());
+        if (optionalProvided.isPresent()) {
+            optionalProvided.get().set(fieldValue, this.managed, path);
             return;
         }
         if (fieldValue instanceof Replaceable<?>) {

@@ -9,36 +9,32 @@ import org.jetbrains.annotations.NotNull;
 public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
 
     @NotNull
-    private final LinkedConfig linkedConfig;
+    private final LinkedConfig config;
 
-    public LinkedConfigProceed(@NotNull final LinkedConfig linkedConfig) {
-        this.linkedConfig = linkedConfig;
+    public LinkedConfigProceed(@NotNull final LinkedConfig config) {
+        this.config = config;
     }
 
     @Override
-    public void load(@NotNull final LinkedManaged linkedManaged) {
-        Arrays.stream(this.linkedConfig.configs())
+    public void load(@NotNull final LinkedManaged linked) {
+        Arrays.stream(this.config.configs())
             .filter(config -> {
-                final String configSuffixName = config.type().suffix;
-                String configFileName = config.name();
-                if (!configFileName.endsWith(configSuffixName)) {
-                    configFileName += configSuffixName;
+                final String suffix = config.type().suffix;
+                String name = config.name();
+                if (!name.endsWith(suffix)) {
+                    name += suffix;
                 }
-                String chosenFileName = linkedManaged.getChosen();
-                if (!chosenFileName.endsWith(configSuffixName)) {
-                    chosenFileName += configSuffixName;
+                String chosen = linked.getChosen();
+                if (!chosen.endsWith(suffix)) {
+                    chosen += suffix;
                 }
-                return configFileName.equals(chosenFileName);
-            })
-            .findFirst().ifPresent(config -> {
-            try {
+                return name.equals(chosen);
+            }).findFirst()
+            .ifPresent(config ->
                 new ConfigProceed(
                     config
-                ).load(linkedManaged);
-            } catch (final Exception e) {
-                e.printStackTrace();
-            }
-        });
+                ).load(linked)
+            );
     }
 
 }

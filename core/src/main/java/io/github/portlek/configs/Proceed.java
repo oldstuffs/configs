@@ -29,6 +29,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Proceed<T> {
 
-    void load(@NotNull T t) throws Exception;
+    void load(@NotNull T t);
 
 }

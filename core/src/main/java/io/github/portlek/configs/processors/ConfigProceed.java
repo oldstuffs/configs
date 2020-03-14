@@ -32,7 +32,6 @@ import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.Version;
 import java.io.*;
-import java.net.URL;
 import java.net.URLConnection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -44,44 +43,44 @@ public final class ConfigProceed implements Proceed<Managed> {
     @NotNull
     private final Config config;
 
-    public ConfigProceed(@NotNull final Config config) {
-        this.config = config;
+    public ConfigProceed(@NotNull final Config cnfg) {
+        this.config = cnfg;
     }
 
     @Override
     public void load(@NotNull final Managed managed) {
-        final FileType fileType = this.config.type();
-        final String fileName;
-        if (this.config.name().endsWith(fileType.suffix)) {
-            fileName = this.config.name();
+        final FileType type = this.config.type();
+        final String name;
+        if (this.config.name().endsWith(type.suffix)) {
+            name = this.config.name();
         } else {
-            fileName = this.config.name() + fileType.suffix;
+            name = this.config.name() + type.suffix;
         }
         final Version version = Version.of(this.config.version());
-        final String versionPath = this.config.versionPath();
-        final Optional<File> baseDirOptional = new Basedir(managed.getClass()).value();
-        if (!baseDirOptional.isPresent()) {
+        final String versionpath = this.config.versionPath();
+        final Optional<File> optional = new Basedir(managed.getClass()).value();
+        if (!optional.isPresent()) {
             return;
         }
-        final File baseDir = baseDirOptional.get();
-        final String fileLocation = this.addSeparatorIfHasNot(
+        final File basedir = optional.get();
+        final String filelocation = ConfigProceed.addSeparatorIfHasNot(
             this.config.location()
-                .replace("%basedir%", baseDir.getParentFile().getAbsolutePath())
+                .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
                 .replace("/", File.separator)
         );
-        final String jarLocation = this.addSeparatorIfHasNot(
+        final String jarlocation = ConfigProceed.addSeparatorIfHasNot(
             this.config.location()
-                .replace("%basedir%", baseDir.getAbsolutePath())
+                .replace("%basedir%", basedir.getAbsolutePath())
                 .replace("/", File.separator)
         );
         final File file;
         if (this.config.copyDefault()) {
             file = this.saveResource(
-                jarLocation,
-                this.addSeparatorIfHasNot(this.config.resourcePath()) + fileName
+                jarlocation,
+                ConfigProceed.addSeparatorIfHasNot(this.config.resourcePath()) + name
             );
         } else {
-            file = new File(fileLocation, fileName);
+            file = new File(filelocation, name);
         }
         if (!file.exists()) {
             file.getParentFile().mkdirs();
@@ -91,14 +90,14 @@ public final class ConfigProceed implements Proceed<Managed> {
                 e.printStackTrace();
             }
         }
-        final FileConfiguration fileConfiguration = fileType.load(file);
-        managed.setup(file, fileConfiguration);
-        final Optional<String> fileVersionOptional = managed.getString(versionPath);
-        if (!fileVersionOptional.isPresent()) {
-            version.write(versionPath, managed);
+        final FileConfiguration configuration = type.load(file);
+        managed.setup(file, configuration);
+        final Optional<String> stringOptional = managed.getString(versionpath);
+        if (!stringOptional.isPresent()) {
+            version.write(versionpath, managed);
         } else {
-            final Version fileVersion = Version.of(fileVersionOptional.get());
-            if (!version.is(fileVersion)) {
+            final Version fileversion = Version.of(stringOptional.get());
+            if (!version.is(fileversion)) {
                 // TODO: 29/01/2020
             }
         }
@@ -107,69 +106,61 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     @NotNull
-    private String addSeparatorIfHasNot(@NotNull final String raw) {
+    private static String addSeparatorIfHasNot(@NotNull final String raw) {
+        final String fnl;
         if (raw.isEmpty()) {
-            return "";
+            fnl = "";
+        } else if (raw.endsWith(File.separator)) {
+            fnl = raw;
+        } else {
+            fnl = raw + File.separator;
         }
-        if (raw.endsWith(File.separator)) {
-            return raw;
-        }
-
-        return raw + File.separator;
+        return fnl;
     }
 
     @NotNull
-    public File saveResource(@NotNull final String dataFolder, @NotNull String resourcePath) {
-        if (!resourcePath.equals("")) {
-            resourcePath = resourcePath.replace('\\', '/');
-            final InputStream in = this.getResource(resourcePath);
-            if (in == null) {
-                throw new IllegalArgumentException("The embedded resource '" + resourcePath + "' cannot be found!");
-            } else {
-                final File outFile = new File(dataFolder, resourcePath);
-                final int lastIndex = resourcePath.lastIndexOf(47);
-                final File outDir = new File(dataFolder, resourcePath.substring(0, Math.max(lastIndex, 0)));
-                if (!outDir.exists()) {
-                    outDir.getParentFile().mkdirs();
-                    outDir.mkdirs();
-                }
-                try {
-                    if (!outFile.exists()) {
-                        final OutputStream out = new FileOutputStream(outFile);
-                        final byte[] buf = new byte[1024];
-
-                        int len;
-                        while ((len = in.read(buf)) > 0) {
-                            out.write(buf, 0, len);
-                        }
-
-                        out.close();
-                        in.close();
-                    }
-                } catch (final IOException var10) {
-                    var10.printStackTrace();
-                }
-                return outFile;
-            }
-        } else {
+    public File saveResource(@NotNull final String datafolder, @NotNull final String path) {
+        if (path.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be empty");
         }
+        final String replace = path.replace('\\', '/');
+        final int lastindex = replace.lastIndexOf(47);
+        final File outdir = new File(datafolder, replace.substring(0, Math.max(lastindex, 0)));
+        if (!outdir.exists()) {
+            outdir.getParentFile().mkdirs();
+            outdir.mkdirs();
+        }
+        final File outfile = new File(datafolder, replace);
+        if (!outfile.exists()) {
+            try (final OutputStream out = new FileOutputStream(outfile);
+                 final InputStream input = this.getResource(replace)) {
+                if (input == null) {
+                    throw new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!");
+                }
+                final byte[] buf = new byte[1024];
+                int len;
+                while ((len = input.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            } catch (final IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return outfile;
     }
 
     @Nullable
     public InputStream getResource(@NotNull final String path) {
-        try {
-            final URL url = this.getClass().getClassLoader().getResource(path);
-            if (url == null) {
-                return null;
-            } else {
+        return Optional.ofNullable(this.getClass().getClassLoader().getResource(path)).map(url -> {
+            try {
                 final URLConnection connection = url.openConnection();
                 connection.setUseCaches(false);
                 return connection.getInputStream();
+            } catch (final IOException exception) {
+                exception.printStackTrace();
             }
-        } catch (final IOException var4) {
             return null;
-        }
+        }).orElse(null);
     }
 
 }
