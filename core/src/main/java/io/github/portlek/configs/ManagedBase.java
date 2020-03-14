@@ -293,7 +293,7 @@ public abstract class ManagedBase implements Managed {
     }
 
     private void autoSave() {
-        if (this.autoSave && this.getFile().lastModified() < this.lastmodified) {
+        if (this.autoSave && this.lastmodified < this.getFile().lastModified()) {
             this.lastmodified = System.currentTimeMillis();
             this.save();
         }
