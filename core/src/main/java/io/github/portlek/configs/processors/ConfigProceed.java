@@ -113,8 +113,7 @@ public final class ConfigProceed implements Proceed<Managed> {
         } else if (raw.charAt(raw.length() - 1) == File.separatorChar) {
             fnl = raw;
         } else {
-            fnl = raw + File.separator
-        Char;
+            fnl = raw + File.separatorChar;
         }
         return fnl;
     }
