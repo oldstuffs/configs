@@ -25,7 +25,7 @@ public final class TestBukkitLinkedConfig extends BukkitLinkedManaged {
     public final Generals generals = new Generals();
 
     public TestBukkitLinkedConfig(@NotNull TestBukkitConfig configFile) {
-        super(configFile.plugin_language, MapEntry.of("config", configFile));
+        super(configFile.plugin_language, MapEntry.from("config", configFile));
     }
 
     @NotNull

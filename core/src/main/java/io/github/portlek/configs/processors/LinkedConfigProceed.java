@@ -11,8 +11,8 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
     @NotNull
     private final LinkedConfig config;
 
-    public LinkedConfigProceed(@NotNull final LinkedConfig config) {
-        this.config = config;
+    public LinkedConfigProceed(@NotNull final LinkedConfig cnfg) {
+        this.config = cnfg;
     }
 
     @Override

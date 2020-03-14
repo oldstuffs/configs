@@ -110,10 +110,11 @@ public final class ConfigProceed implements Proceed<Managed> {
         final String fnl;
         if (raw.isEmpty()) {
             fnl = "";
-        } else if (raw.endsWith(File.separator)) {
+        } else if (raw.charAt(raw.length() - 1) == File.separatorChar) {
             fnl = raw;
         } else {
-            fnl = raw + File.separator;
+            fnl = raw + File.separator
+        Char;
         }
         return fnl;
     }

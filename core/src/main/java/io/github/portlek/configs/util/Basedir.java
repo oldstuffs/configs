@@ -33,17 +33,17 @@ import org.jetbrains.annotations.NotNull;
 public final class Basedir {
 
     @NotNull
-    private final Class<?> aClass;
+    private final Class<?> clazz;
 
-    public Basedir(@NotNull final Class<?> aClass) {
-        this.aClass = aClass;
+    public Basedir(@NotNull final Class<?> clzz) {
+        this.clazz = clzz;
     }
 
     @NotNull
     public Optional<File> value() {
         try {
             return Optional.of(
-                new File(this.aClass.getProtectionDomain().getCodeSource().getLocation().toURI())
+                new File(this.clazz.getProtectionDomain().getCodeSource().getLocation().toURI())
             );
         } catch (final URISyntaxException e) {
             e.printStackTrace();

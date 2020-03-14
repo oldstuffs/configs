@@ -44,10 +44,10 @@ public final class SectionProceed implements Proceed<Object> {
     @NotNull
     private final Section section;
 
-    public SectionProceed(@NotNull final Managed managed, @NotNull final String parent, @NotNull final Section section) {
-        this.managed = managed;
-        this.parent = parent;
-        this.section = section;
+    public SectionProceed(@NotNull final Managed mngd, @NotNull final String prnt, @NotNull final Section sctn) {
+        this.managed = mngd;
+        this.parent = prnt;
+        this.section = sctn;
     }
 
     @Override

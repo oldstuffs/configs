@@ -79,7 +79,7 @@ public final class Replaceable<X> {
     @NotNull
     public X build(@NotNull final String regex, @NotNull final Supplier<String> replace) {
         return this.build(
-            MapEntry.of(regex, replace)
+            MapEntry.from(regex, replace)
         );
     }
 

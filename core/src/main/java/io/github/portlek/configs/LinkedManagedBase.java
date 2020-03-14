@@ -55,7 +55,7 @@ public abstract class LinkedManagedBase extends ManagedBase implements LinkedMan
         super.setup(file, fileConfiguration);
         this.linkedFiles.put(
             this.chosen,
-            MapEntry.of(file, fileConfiguration)
+            MapEntry.from(file, fileConfiguration)
         );
     }
 

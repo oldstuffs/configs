@@ -17,14 +17,14 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     @NotNull
     private final Y value;
 
-    public MapEntry(@NotNull final X key, @NotNull final Y value) {
-        this.key = key;
-        this.value = value;
+    public MapEntry(@NotNull final X xkey, @NotNull final Y yvalue) {
+        this.key = xkey;
+        this.value = yvalue;
     }
 
     @NotNull
-    public static <X, Y> Map.Entry<X, Y> of(@NotNull final X key, @NotNull final Y value) {
-        return new MapEntry<>(key, value);
+    public static <X, Y> Map.Entry<X, Y> from(@NotNull final X xkey, @NotNull final Y yvalue) {
+        return new MapEntry<>(xkey, yvalue);
     }
 
     @NotNull
@@ -40,16 +40,13 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     }
 
     @Override
-    public Y setValue(final Y value) {
-        throw new UnsupportedOperationException();
+    public Y setValue(@NotNull final Y yvalue) {
+        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " is an immutable class, you can't edit it!");
     }
 
     @Override
     public int hashCode() {
-        int hash;
-        hash = this.key.hashCode();
-        hash ^= this.value.hashCode();
-        return hash;
+        return this.key.hashCode() ^ this.value.hashCode();
     }
 
     @Override

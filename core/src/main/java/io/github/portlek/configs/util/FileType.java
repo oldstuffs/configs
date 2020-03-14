@@ -43,9 +43,9 @@ public enum FileType {
     @NotNull
     private final Function<File, FileConfiguration> file;
 
-    FileType(@NotNull final String suffix, @NotNull final Function<File, FileConfiguration> file) {
-        this.suffix = suffix;
-        this.file = file;
+    FileType(@NotNull final String sffix, @NotNull final Function<File, FileConfiguration> fle) {
+        this.suffix = sffix;
+        this.file = fle;
     }
 
     @NotNull

@@ -11,47 +11,43 @@ public final class PathCalc {
     private final String separator;
 
     @NotNull
-    private final String rawPath;
+    private final String rawpath;
 
     @NotNull
     private final String parent;
 
     @NotNull
-    private final String fallbackName;
+    private final String fallback;
 
-    public PathCalc(@NotNull final String regex, @NotNull final String separator, @NotNull final String rawPath, @NotNull final String parent,
-                    @NotNull final String fallbackName) {
-        this.regex = regex;
-        this.separator = separator;
-        this.rawPath = rawPath;
-        this.parent = parent;
-        this.fallbackName = fallbackName;
+    public PathCalc(@NotNull final String rgx, @NotNull final String sprtr, @NotNull final String rwpth,
+                    @NotNull final String prnt, @NotNull final String fllbcknm) {
+        this.regex = rgx;
+        this.separator = sprtr;
+        this.rawpath = rwpth;
+        this.parent = prnt;
+        this.fallback = fllbcknm;
     }
 
     @NotNull
     public String value() {
-        final String fieldPath;
-
-        if (this.rawPath.isEmpty()) {
+        final String fieldpath;
+        if (this.rawpath.isEmpty()) {
             if (!this.regex.isEmpty() && !this.separator.isEmpty()) {
-                fieldPath = this.fallbackName.replace(this.regex, this.separator);
+                fieldpath = this.fallback.replace(this.regex, this.separator);
             } else {
-                fieldPath = this.fallbackName;
+                fieldpath = this.fallback;
             }
         } else {
-            fieldPath = this.rawPath;
+            fieldpath = this.rawpath;
         }
-
         final String path;
-
         if (this.parent.isEmpty()) {
-            path = fieldPath;
-        } else if (this.parent.endsWith(".")) {
-            path = this.parent + fieldPath;
+            path = fieldpath;
+        } else if (this.parent.charAt(this.parent.length() - 1) == '.') {
+            path = this.parent + fieldpath;
         } else {
-            path = this.parent + "." + fieldPath;
+            path = this.parent + '.' + fieldpath;
         }
-
         return path;
     }
 
