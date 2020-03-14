@@ -48,8 +48,6 @@ public abstract class ManagedBase implements Managed {
 
     private boolean autoSave = false;
 
-    private long lastmodified = 0;
-
     @SafeVarargs
     protected ManagedBase(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
@@ -293,14 +291,9 @@ public abstract class ManagedBase implements Managed {
     }
 
     private void autoSave() {
-        if (this.autoSave && this.shouldReload()) {
-            this.lastmodified = System.currentTimeMillis();
+        if (this.autoSave) {
             this.save();
         }
-    }
-
-    private boolean shouldReload() {
-        return this.lastmodified < this.getFile().lastModified();
     }
 
 }
