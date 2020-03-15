@@ -46,7 +46,7 @@ public interface Managed extends ConfigSection {
     <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided);
 
     @NotNull
-    Optional<Provided<?>> getCustomValue(@NotNull Class<?> aClass);
+    <T> Optional<Provided<T>> getCustomValue(@NotNull Class<T> aClass);
 
     @NotNull
     File getFile();

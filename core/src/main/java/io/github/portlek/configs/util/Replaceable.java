@@ -1,5 +1,7 @@
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.Managed;
+import io.github.portlek.configs.Provided;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -26,11 +28,6 @@ public final class Replaceable<X> {
     }
 
     @NotNull
-    public static Replaceable<String> of(@NotNull final String text) {
-        return new Replaceable<>(text);
-    }
-
-    @NotNull
     public static Replaceable<List<String>> of(@NotNull final String... texts) {
         return Replaceable.of(Arrays.asList(texts));
     }
@@ -38,6 +35,11 @@ public final class Replaceable<X> {
     @NotNull
     public static Replaceable<List<String>> of(@NotNull final List<String> list) {
         return new Replaceable<>(list);
+    }
+
+    @NotNull
+    public static Replaceable<String> of(@NotNull final String text) {
+        return new Replaceable<>(text);
     }
 
     @NotNull
@@ -169,6 +171,51 @@ public final class Replaceable<X> {
     @NotNull
     public List<UnaryOperator<X>> getMaps() {
         return Collections.unmodifiableList(this.maps);
+    }
+
+    public static final class Provider implements Provided<Replaceable<?>> {
+        @Override
+        public void set(@NotNull final Replaceable<?> replaceable, @NotNull final Managed managed,
+                        @NotNull final String path) {
+            managed.set(path, replaceable.getValue());
+        }
+
+        @NotNull
+        @Override
+        public Optional<Replaceable<?>> get(@NotNull final Managed managed, @NotNull final String path) {
+            return Optional.empty();
+        }
+
+        @NotNull
+        @Override
+        public Optional<Replaceable<?>> getWithField(@NotNull final Replaceable<?> replaceable,
+                                                     @NotNull final Managed managed, @NotNull final String path) {
+            if (replaceable.getValue() instanceof String) {
+                final Optional<String> optionalstring = managed.getString(path);
+                final Replaceable<String> genericreplaceable = (Replaceable<String>) replaceable;
+                if (optionalstring.isPresent()) {
+                    return Optional.of(
+                        Replaceable.of(optionalstring.get())
+                            .replaces(genericreplaceable.getRegex())
+                            .replace(genericreplaceable.getReplaces())
+                            .map(genericreplaceable.getMaps())
+                    );
+                }
+            } else if (replaceable.getValue() instanceof List<?>) {
+                final Optional<List<?>> listoptional = managed.getList(path);
+                if (listoptional.isPresent()) {
+                    final Replaceable<List<String>> genericreplaceable = (Replaceable<List<String>>) replaceable;
+                    return Optional.of(
+                        Replaceable.of((List<String>) listoptional.get())
+                            .replaces(genericreplaceable.getRegex())
+                            .replace(genericreplaceable.getReplaces())
+                            .map(genericreplaceable.getMaps())
+                    );
+                }
+            }
+            return Optional.empty();
+        }
+
     }
 
 }

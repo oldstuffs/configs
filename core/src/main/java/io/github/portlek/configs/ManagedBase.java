@@ -101,11 +101,12 @@ public abstract class ManagedBase implements Managed {
 
     @NotNull
     @Override
-    public final Optional<Provided<?>> getCustomValue(@NotNull final Class<?> aClass) {
+    public final <T> Optional<Provided<T>> getCustomValue(@NotNull final Class<T> aClass) {
+        //noinspection unchecked
         return this.customs.keySet().stream()
             .filter(aClass::equals)
             .findFirst()
-            .map(this.customs::get);
+            .map(clss -> (Provided<T>) this.customs.get(clss));
     }
 
     @NotNull

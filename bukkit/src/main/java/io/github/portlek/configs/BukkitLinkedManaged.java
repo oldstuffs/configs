@@ -22,7 +22,7 @@ public abstract class BukkitLinkedManaged extends LinkedManagedBase {
     @NotNull
     public final Optional<ItemStack> getItemStack(@NotNull final String path) {
         return this.getCustomValue(ItemStack.class)
-            .flatMap(provided -> ((BukkitItemStackProvider) provided).get(this, path));
+            .flatMap(provided -> provided.get(this, path));
     }
 
 }

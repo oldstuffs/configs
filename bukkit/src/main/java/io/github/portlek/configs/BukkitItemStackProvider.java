@@ -16,11 +16,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
 
     @Override
-    public void set(@NotNull final Object fieldValue, @NotNull final Managed managed, @NotNull final String path) {
-        if (!(fieldValue instanceof ItemStack)) {
-            return;
-        }
-        final ItemStack itemStack = (ItemStack) fieldValue;
+    public void set(@NotNull final ItemStack itemStack, @NotNull final Managed managed, @NotNull final String path) {
         managed.set(path + ".material", itemStack.getType().name());
         managed.set(path + ".amount", itemStack.getAmount());
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
