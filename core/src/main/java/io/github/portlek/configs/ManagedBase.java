@@ -27,6 +27,7 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
+import io.github.portlek.configs.util.Replaceable;
 import java.io.File;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
@@ -53,9 +54,7 @@ public abstract class ManagedBase implements Managed {
         Arrays.asList(objects).forEach(entry ->
             this.objects.put(entry.getKey(), entry.getValue())
         );
-    }
-
-    protected ManagedBase() {
+        this.customs.put(Replaceable.class, new Replaceable.Provider());
     }
 
     @NotNull
