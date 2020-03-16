@@ -64,9 +64,7 @@ public class JsonConfiguration extends FileConfiguration {
             config.load(reader);
         } catch (final FileNotFoundException ex) {
             JsonConfiguration.LOG.log(Level.SEVERE, "Cannot find file " + reader, ex);
-        } catch (final IOException ex) {
-            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
-        } catch (final InvalidConfigurationException ex) {
+        } catch (final IOException | InvalidConfigurationException ex) {
             JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
         }
         return config;
