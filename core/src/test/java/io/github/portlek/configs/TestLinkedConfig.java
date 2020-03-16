@@ -28,6 +28,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.util.MapEntry;
 import io.github.portlek.configs.util.Replaceable;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,20 +46,17 @@ import org.jetbrains.annotations.NotNull;
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 
-    @NotNull
-    private final Map<String, Supplier<String>> prefix = new HashMap<>();
-
     @Value
-    public Replaceable<String> test_2 = match(s -> {
+    public Replaceable<String> test_2 = this.match(s -> {
         if (s.equals("en")) {
             return Optional.of(
                 Replaceable.of("%prefix% English words!")
-                    .replace(getPrefix())
+                    .replace(this.getPrefix())
             );
         } else if (s.equals("tr")) {
             return Optional.of(
                 Replaceable.of("%prefix% Turkish words!")
-                    .replace(getPrefix())
+                    .replace(this.getPrefix())
             );
         }
 
@@ -66,7 +64,7 @@ public final class TestLinkedConfig extends LinkedManagedBase {
     });
 
     @Value
-    public Replaceable<String> test = match(s -> {
+    public Replaceable<String> test = this.match(s -> {
         if (s.equals("en")) {
             return Optional.of(
                 Replaceable.of("English words!")
@@ -80,16 +78,15 @@ public final class TestLinkedConfig extends LinkedManagedBase {
         return Optional.empty();
     });
 
-    public TestLinkedConfig(@NotNull TestConfig testConfig) {
-        super(testConfig.plugin_language);
+    public TestLinkedConfig(@NotNull final TestConfig testConfig) {
+        super(testConfig.plugin_language, MapEntry.from("config", testConfig));
     }
 
     @NotNull
     public Map<String, Supplier<String>> getPrefix() {
-        if (!prefix.containsKey("%prefix%")) {
-            prefix.put("%prefix%", () -> "Test");
-        }
-
+        final Map<String, Supplier<String>> prefix = new HashMap<>();
+        this.pull("config").ifPresent(o ->
+            prefix.put("%prefix%", () -> ((TestConfig) o).plugin_language));
         return prefix;
     }
 

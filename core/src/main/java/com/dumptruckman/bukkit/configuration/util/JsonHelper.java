@@ -1,9 +1,6 @@
 package com.dumptruckman.bukkit.configuration.util;
 
-import com.eclipsesource.json.Json;
-import com.eclipsesource.json.JsonArray;
-import com.eclipsesource.json.JsonObject;
-import com.eclipsesource.json.JsonValue;
+import com.eclipsesource.json.*;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +13,7 @@ public final class JsonHelper {
 
     @NotNull
     public static Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
-        final Object object;
+        @Nullable final Object object;
 
         if (value.isBoolean()) {
             object = value.asBoolean();

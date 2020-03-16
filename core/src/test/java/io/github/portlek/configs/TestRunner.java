@@ -32,17 +32,11 @@ public final class TestRunner {
     @Test
     void run() {
         final TestConfig testConfig = new TestConfig();
-
+        final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(testConfig);
+        final TestLinkedResourceConfig testLinkedResourceConfig = new TestLinkedResourceConfig("test_1");
         testConfig.load();
         testConfig.setAutoSave(true);
-
-        final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(
-            testConfig
-        );
-
         testLinkedConfig.load();
-
-        final TestLinkedResourceConfig testLinkedResourceConfig = new TestLinkedResourceConfig("test_1");
         testLinkedResourceConfig.load();
     }
 
