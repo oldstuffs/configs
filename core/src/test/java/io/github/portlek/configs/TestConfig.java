@@ -34,10 +34,11 @@ import org.jetbrains.annotations.NotNull;
 
 @Config(
     name = "config",
-    type = FileType.JSON,
+    type = FileType.YAML,
     version = "1.1"
 )
-public final class TestConfig extends ManagedBase {
+public final class
+TestConfig extends ManagedBase {
 
     @Instance
     public final TestConfig.Hooks hooks = new TestConfig.Hooks();
@@ -61,19 +62,19 @@ public final class TestConfig extends ManagedBase {
     public static class Hooks {
 
         @Value
-        private final boolean PlaceholderAPI = false;
+        private boolean PlaceholderAPI = false;
 
         @Value
-        private final boolean GroupManager = false;
+        private boolean GroupManager = false;
 
         @Value
-        private final boolean LuckPerms = false;
+        private boolean LuckPerms = false;
 
         @Value
-        private final boolean PermissionsEX = false;
+        private boolean PermissionsEX = false;
 
         @Value
-        private final boolean Vault = false;
+        private boolean Vault = false;
 
         @Value
         public boolean auto_detect = true;
@@ -88,7 +89,7 @@ public final class TestConfig extends ManagedBase {
 
         @NotNull
         @Value
-        private final String storage_type = "sqlite";
+        private String storage_type = "sqlite";
 
         @Value
         public boolean save_when_plugin_disable = true;
@@ -103,19 +104,19 @@ public final class TestConfig extends ManagedBase {
         public static class MySQL {
 
             @Value
-            private final String host = "localhost";
+            private String host = "localhost";
 
             @Value
-            private final int port = 3306;
+            private int port = 3306;
 
             @Value
-            private final String database = "database";
+            private String database = "database";
 
             @Value
-            private final String username = "username";
+            private String username = "username";
 
             @Value
-            private final String password = "password";
+            private String password = "password";
 
         }
 
