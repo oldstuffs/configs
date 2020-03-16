@@ -41,33 +41,33 @@ public class JsonConfiguration extends FileConfiguration {
      * @return The configuration loaded from the file contents.
      */
     public static JsonConfiguration loadConfiguration(@NotNull final File file) {
-        return loadConfiguration(new JsonConfiguration(), file);
+        return JsonConfiguration.loadConfiguration(new JsonConfiguration(), file);
     }
 
     private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {
         try {
             config.load(file);
-        } catch (FileNotFoundException ex) {
-            LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
-        } catch (IOException | InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + file, ex);
+        } catch (final FileNotFoundException ex) {
+            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
+        } catch (final IOException | InvalidConfigurationException ex) {
+            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + file, ex);
         }
         return config;
     }
 
     public static JsonConfiguration loadConfiguration(@NotNull final Reader reader) {
-        return loadConfiguration(new JsonConfiguration(), reader);
+        return JsonConfiguration.loadConfiguration(new JsonConfiguration(), reader);
     }
 
     private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final Reader reader) {
         try {
             config.load(reader);
-        } catch (FileNotFoundException ex) {
-            LOG.log(Level.SEVERE, "Cannot find file " + reader, ex);
-        } catch (IOException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
-        } catch (InvalidConfigurationException ex) {
-            LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
+        } catch (final FileNotFoundException ex) {
+            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot find file " + reader, ex);
+        } catch (final IOException ex) {
+            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
+        } catch (final InvalidConfigurationException ex) {
+            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
         }
         return config;
     }
@@ -75,10 +75,10 @@ public class JsonConfiguration extends FileConfiguration {
     @NotNull
     @Override
     public String saveToString() {
-        final JsonObject jsonObject = JsonHelper.mapAsJsonObject(getValues(false));
+        final JsonObject jsonObject = JsonHelper.mapAsJsonObject(this.getValues(false));
         final String dump = jsonObject.toString(WriterConfig.PRETTY_PRINT);
 
-        if (dump.equals(BLANK_CONFIG)) {
+        if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
             return "";
         }
 
@@ -91,7 +91,7 @@ public class JsonConfiguration extends FileConfiguration {
             return;
         }
 
-        convertMapsToSections(
+        this.convertMapsToSections(
             JsonHelper.jsonObjectAsMap(
                 Json.parse(contents)
             ),
@@ -101,11 +101,11 @@ public class JsonConfiguration extends FileConfiguration {
 
     @Override
     public @NotNull JsonConfigurationOptions options() {
-        if (options == null) {
-            options = new JsonConfigurationOptions(this);
+        if (this.options == null) {
+            this.options = new JsonConfigurationOptions(this);
         }
 
-        return (JsonConfigurationOptions) options;
+        return (JsonConfigurationOptions) this.options;
     }
 
     @Override
@@ -118,12 +118,12 @@ public class JsonConfiguration extends FileConfiguration {
 
         if (result instanceof Map) {
             input = (Map<?, ?>) result;
-            for (Map.Entry<?, ?> entry : input.entrySet()) {
-                String key = entry.getKey().toString();
-                Object value = entry.getValue();
+            for (final Map.Entry<?, ?> entry : input.entrySet()) {
+                final String key = entry.getKey().toString();
+                final Object value = entry.getValue();
 
                 if (value instanceof Map) {
-                    convertMapsToSections((Map<?, ?>) value, section.createSection(key));
+                    this.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
                 } else {
                     section.set(key, value);
                 }

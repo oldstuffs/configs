@@ -7,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * MemoryConfiguration}
  */
 public class MemoryConfigurationOptions extends ConfigurationOptions {
-    protected MemoryConfigurationOptions(@NotNull MemoryConfiguration configuration) {
+    protected MemoryConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
         super(configuration);
     }
 
@@ -19,14 +19,14 @@ public class MemoryConfigurationOptions extends ConfigurationOptions {
 
     @NotNull
     @Override
-    public MemoryConfigurationOptions pathSeparator(char value) {
+    public MemoryConfigurationOptions pathSeparator(final char value) {
         super.pathSeparator(value);
         return this;
     }
 
     @NotNull
     @Override
-    public MemoryConfigurationOptions copyDefaults(boolean value) {
+    public MemoryConfigurationOptions copyDefaults(final boolean value) {
         super.copyDefaults(value);
         return this;
     }

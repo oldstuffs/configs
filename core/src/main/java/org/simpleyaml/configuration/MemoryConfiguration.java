@@ -28,7 +28,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
      * @param defaults Default value provider
      * @throws IllegalArgumentException Thrown if defaults is null
      */
-    public MemoryConfiguration(@Nullable Configuration defaults) {
+    public MemoryConfiguration(@Nullable final Configuration defaults) {
         this.defaults = defaults;
     }
 
@@ -39,40 +39,40 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     }
 
     @Override
-    public void addDefault(@NotNull String path, @Nullable Object value) {
+    public void addDefault(@NotNull final String path, @Nullable final Object value) {
         Validate.notNull(path, "Path may not be null");
 
-        if (defaults == null) {
-            defaults = new MemoryConfiguration();
+        if (this.defaults == null) {
+            this.defaults = new MemoryConfiguration();
         }
 
-        defaults.set(path, value);
+        this.defaults.set(path, value);
     }
 
     @Override
-    public void addDefaults(@NotNull Map<String, Object> defaults) {
+    public void addDefaults(@NotNull final Map<String, Object> defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
-        for (Map.Entry<String, Object> entry : defaults.entrySet()) {
-            addDefault(entry.getKey(), entry.getValue());
+        for (final Map.Entry<String, Object> entry : defaults.entrySet()) {
+            this.addDefault(entry.getKey(), entry.getValue());
         }
     }
 
     @Override
-    public void addDefaults(@NotNull Configuration defaults) {
+    public void addDefaults(@NotNull final Configuration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
-        addDefaults(defaults.getValues(true));
+        this.addDefaults(defaults.getValues(true));
     }
 
     @Override
     @Nullable
     public Configuration getDefaults() {
-        return defaults;
+        return this.defaults;
     }
 
     @Override
-    public void setDefaults(@NotNull Configuration defaults) {
+    public void setDefaults(@NotNull final Configuration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         this.defaults = defaults;
@@ -82,11 +82,11 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     @Override
     @NotNull
     public MemoryConfigurationOptions options() {
-        if (options == null) {
-            options = new MemoryConfigurationOptions(this);
+        if (this.options == null) {
+            this.options = new MemoryConfigurationOptions(this);
         }
 
-        return options;
+        return this.options;
     }
 
 }

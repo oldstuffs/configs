@@ -151,6 +151,12 @@ public abstract class ManagedBase implements Managed {
         this.autoSave();
     }
 
+    @Override
+    public final void addDefault(@NotNull final String path, @Nullable final Object object) {
+        this.getFileConfiguration().addDefault(path, object);
+        this.autoSave();
+    }
+
     @NotNull
     @Override
     public final Optional<ConfigurationSection> getSection(@NotNull final String path) {

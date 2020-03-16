@@ -15,7 +15,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
 
     private boolean copyHeader = true;
 
-    protected FileConfigurationOptions(@NotNull MemoryConfiguration configuration) {
+    protected FileConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
         super(configuration);
     }
 
@@ -27,14 +27,14 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
 
     @NotNull
     @Override
-    public FileConfigurationOptions pathSeparator(char value) {
+    public FileConfigurationOptions pathSeparator(final char value) {
         super.pathSeparator(value);
         return this;
     }
 
     @NotNull
     @Override
-    public FileConfigurationOptions copyDefaults(boolean value) {
+    public FileConfigurationOptions copyDefaults(final boolean value) {
         super.copyDefaults(value);
         return this;
     }
@@ -55,7 +55,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      */
     @Nullable
     public String header() {
-        return header;
+        return this.header;
     }
 
     /**
@@ -74,7 +74,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * @return This object, for chaining
      */
     @NotNull
-    public FileConfigurationOptions header(@Nullable String value) {
+    public FileConfigurationOptions header(@Nullable final String value) {
         this.header = value;
         return this;
     }
@@ -98,7 +98,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * @return Whether or not to copy the header
      */
     public boolean copyHeader() {
-        return copyHeader;
+        return this.copyHeader;
     }
 
     /**
@@ -121,8 +121,8 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * @return This object, for chaining
      */
     @NotNull
-    public FileConfigurationOptions copyHeader(boolean value) {
-        copyHeader = value;
+    public FileConfigurationOptions copyHeader(final boolean value) {
+        this.copyHeader = value;
 
         return this;
     }

@@ -15,19 +15,19 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static Optional<Object> jsonValueAsObject(@NotNull JsonValue value) {
+    public static Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
         final Object object;
 
         if (value.isBoolean()) {
             object = value.asBoolean();
         } else if (value.isNumber()) {
-            object = parseNumber(value);
+            object = JsonHelper.parseNumber(value);
         } else if (value.isString()) {
             object = value.asString();
         } else if (value.isArray()) {
-            object = jsonArrayAsList(value.asArray());
+            object = JsonHelper.jsonArrayAsList(value.asArray());
         } else if (value.isObject()) {
-            object = jsonObjectAsMap(value.asObject());
+            object = JsonHelper.jsonObjectAsMap(value.asObject());
         } else {
             object = null;
         }
@@ -36,18 +36,18 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static List<Object> jsonArrayAsList(@NotNull JsonArray array) {
+    public static List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
         final List<Object> list = new ArrayList<>(array.size());
 
-        for (JsonValue element : array) {
-            jsonValueAsObject(element).ifPresent(list::add);
+        for (final JsonValue element : array) {
+            JsonHelper.jsonValueAsObject(element).ifPresent(list::add);
         }
 
         return list;
     }
 
     @NotNull
-    public static Map<String, Object> jsonObjectAsMap(@NotNull JsonValue value) {
+    public static Map<String, Object> jsonObjectAsMap(@NotNull final JsonValue value) {
         if (!(value instanceof JsonObject)) {
             return new HashMap<>();
         }
@@ -55,7 +55,7 @@ public final class JsonHelper {
         final Map<String, Object> map = new HashMap<>();
 
         jsonObject.forEach(member ->
-            jsonValueAsObject(member.getValue()).ifPresent(o ->
+            JsonHelper.jsonValueAsObject(member.getValue()).ifPresent(o ->
                 map.put(member.getName(), o)
             )
         );
@@ -64,7 +64,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static Optional<JsonValue> objectAsJsonValue(@NotNull Object object) {
+    public static Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
         final JsonValue value;
 
         if (object instanceof Boolean) {
@@ -80,11 +80,11 @@ public final class JsonHelper {
         } else if (object instanceof String) {
             value = Json.value((String) object);
         } else if (object instanceof Collection) {
-            value = collectionAsJsonArray((Collection<?>) object);
+            value = JsonHelper.collectionAsJsonArray((Collection<?>) object);
         } else if (object instanceof Map) {
-            value = mapAsJsonObject((Map<?, ?>) object);
+            value = JsonHelper.mapAsJsonObject((Map<?, ?>) object);
         } else if (object instanceof ConfigurationSection) {
-            value = mapAsJsonObject(((ConfigurationSection) object).getValues(false));
+            value = JsonHelper.mapAsJsonObject(((ConfigurationSection) object).getValues(false));
         } else {
             value = null;
         }
@@ -93,22 +93,22 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static JsonArray collectionAsJsonArray(@NotNull Collection<?> collection) {
+    public static JsonArray collectionAsJsonArray(@NotNull final Collection<?> collection) {
         final JsonArray array = new JsonArray();
 
         collection.forEach(o -> {
-            objectAsJsonValue(o).ifPresent(array::add);
+            JsonHelper.objectAsJsonValue(o).ifPresent(array::add);
         });
 
         return array;
     }
 
     @NotNull
-    public static JsonObject mapAsJsonObject(@NotNull Map<?, ?> map) {
+    public static JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
         final JsonObject object = new JsonObject();
 
         map.forEach((key, value) ->
-            objectAsJsonValue(value).ifPresent(jsonValue ->
+            JsonHelper.objectAsJsonValue(value).ifPresent(jsonValue ->
                 object.add(String.valueOf(key), jsonValue)
             )
         );
@@ -117,23 +117,23 @@ public final class JsonHelper {
     }
 
     @Nullable
-    private static Object parseNumber(@NotNull JsonValue number) {
+    private static Object parseNumber(@NotNull final JsonValue number) {
         try {
             Integer.parseInt(number.toString());
             return number.asInt();
-        } catch (Exception e) {
+        } catch (final Exception e) {
             try {
                 Long.parseLong(number.toString());
                 return number.asLong();
-            } catch (Exception e1) {
+            } catch (final Exception e1) {
                 try {
                     Float.parseFloat(number.toString());
                     return number.asFloat();
-                } catch (Exception e2) {
+                } catch (final Exception e2) {
                     try {
                         Double.parseDouble(number.toString());
                         return number.asDouble();
-                    } catch (Exception ignored) {
+                    } catch (final Exception ignored) {
                     }
                 }
             }

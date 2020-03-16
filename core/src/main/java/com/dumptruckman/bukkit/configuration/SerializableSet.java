@@ -14,138 +14,138 @@ public class SerializableSet implements Set, ConfigurationSerializable {
     @NotNull
     private final Set backingSet;
 
-    public SerializableSet(@NotNull Set backingSet) {
+    public SerializableSet(@NotNull final Set backingSet) {
         this.backingSet = backingSet;
     }
 
     @SuppressWarnings("unchecked")
-    public SerializableSet(@NotNull Map<String, Object> serializedForm) {
-        Object o = serializedForm.get("contents");
+    public SerializableSet(@NotNull final Map<String, Object> serializedForm) {
+        final Object o = serializedForm.get("contents");
         if (o instanceof List) {
-            backingSet = new HashSet((List) o);
+            this.backingSet = new HashSet((List) o);
         } else {
-            backingSet = Collections.emptySet();
+            this.backingSet = Collections.emptySet();
         }
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> serializedForm = new HashMap<>(backingSet.size());
-        List<Object> contents = new ArrayList(backingSet);
+        final Map<String, Object> serializedForm = new HashMap<>(this.backingSet.size());
+        final List<Object> contents = new ArrayList(this.backingSet);
         serializedForm.put("contents", contents);
         return serializedForm;
     }
 
     @Override
     public int size() {
-        return backingSet.size();
+        return this.backingSet.size();
     }
 
     @Override
     public boolean isEmpty() {
-        return backingSet.isEmpty();
+        return this.backingSet.isEmpty();
     }
 
     @Override
-    public boolean contains(Object o) {
-        return backingSet.contains(o);
+    public boolean contains(final Object o) {
+        return this.backingSet.contains(o);
     }
 
     @NotNull
     @Override
     public Iterator iterator() {
-        return backingSet.iterator();
+        return this.backingSet.iterator();
     }
 
     @NotNull
     @Override
     public Object[] toArray() {
-        return backingSet.toArray();
+        return this.backingSet.toArray();
     }
 
     @NotNull
     @Override
-    public Object[] toArray(@NotNull Object[] a) {
-        return backingSet.toArray(a);
+    public Object[] toArray(@NotNull final Object[] a) {
+        return this.backingSet.toArray(a);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean add(Object o) {
-        return backingSet.add(o);
+    public boolean add(final Object o) {
+        return this.backingSet.add(o);
     }
 
     @Override
-    public boolean remove(Object o) {
-        return backingSet.remove(o);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean containsAll(@NotNull Collection c) {
-        return backingSet.containsAll(c);
+    public boolean remove(final Object o) {
+        return this.backingSet.remove(o);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean addAll(@NotNull Collection c) {
-        return backingSet.addAll(c);
+    public boolean containsAll(@NotNull final Collection c) {
+        return this.backingSet.containsAll(c);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean retainAll(@NotNull Collection c) {
-        return backingSet.retainAll(c);
+    public boolean addAll(@NotNull final Collection c) {
+        return this.backingSet.addAll(c);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean removeAll(@NotNull Collection c) {
-        return backingSet.removeAll(c);
+    public boolean retainAll(@NotNull final Collection c) {
+        return this.backingSet.retainAll(c);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean removeAll(@NotNull final Collection c) {
+        return this.backingSet.removeAll(c);
     }
 
     @Override
     public void clear() {
-        backingSet.clear();
+        this.backingSet.clear();
     }
 
     @Override
     public Spliterator spliterator() {
-        return backingSet.spliterator();
+        return this.backingSet.spliterator();
     }
 
     @Override
     public int hashCode() {
-        return backingSet.hashCode();
+        return this.backingSet.hashCode();
     }
 
     @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
-    public boolean equals(Object o) {
-        return backingSet.equals(o);
+    public boolean equals(final Object o) {
+        return this.backingSet.equals(o);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean removeIf(Predicate filter) {
-        return backingSet.removeIf(filter);
+    public boolean removeIf(final Predicate filter) {
+        return this.backingSet.removeIf(filter);
     }
 
     @Override
     public Stream stream() {
-        return backingSet.stream();
+        return this.backingSet.stream();
     }
 
     @Override
     public Stream parallelStream() {
-        return backingSet.parallelStream();
+        return this.backingSet.parallelStream();
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void forEach(Consumer action) {
-        backingSet.forEach(action);
+    public void forEach(final Consumer action) {
+        this.backingSet.forEach(action);
     }
 
 }

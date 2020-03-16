@@ -182,12 +182,6 @@ public final class Replaceable<X> {
 
         @NotNull
         @Override
-        public Optional<Replaceable<?>> get(@NotNull final Managed managed, @NotNull final String path) {
-            return Optional.empty();
-        }
-
-        @NotNull
-        @Override
         public Optional<Replaceable<?>> getWithField(@NotNull final Replaceable<?> replaceable,
                                                      @NotNull final Managed managed, @NotNull final String path) {
             if (replaceable.getValue() instanceof String) {
@@ -213,6 +207,12 @@ public final class Replaceable<X> {
                     );
                 }
             }
+            return Optional.empty();
+        }
+
+        @NotNull
+        @Override
+        public Optional<Replaceable<?>> get(@NotNull final Managed managed, @NotNull final String path) {
             return Optional.empty();
         }
 

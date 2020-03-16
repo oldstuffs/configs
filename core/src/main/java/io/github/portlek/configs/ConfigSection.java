@@ -18,6 +18,8 @@ public interface ConfigSection {
 
     void set(@NotNull String path, @Nullable Object object);
 
+    void addDefault(@NotNull String path, @Nullable Object object);
+
     @NotNull
     Optional<ConfigurationSection> getSection(@NotNull String path);
 
