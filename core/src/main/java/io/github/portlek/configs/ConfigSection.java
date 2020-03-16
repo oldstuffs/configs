@@ -46,6 +46,10 @@ public interface ConfigSection {
 
     double getDouble(@NotNull String path, double def);
 
+    float getFloat(@NotNull String path);
+
+    float getFloat(@NotNull String path, float def);
+
     long getLong(@NotNull String path);
 
     long getLong(@NotNull String path, long def);

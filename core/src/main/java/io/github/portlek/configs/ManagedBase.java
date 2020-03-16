@@ -223,6 +223,16 @@ public abstract class ManagedBase implements Managed {
     }
 
     @Override
+    public final float getFloat(@NotNull final String path) {
+        return this.getFileConfiguration().getFloat(path);
+    }
+
+    @Override
+    public final float getFloat(@NotNull final String path, final float def) {
+        return this.getFileConfiguration().getFloat(path, def);
+    }
+
+    @Override
     public final long getLong(@NotNull final String path) {
         return this.getFileConfiguration().getLong(path);
     }

@@ -397,9 +397,21 @@ public class MemorySection implements ConfigurationSection {
     }
 
     @Override
+    public float getFloat(@NotNull final String path) {
+        final Object def = this.getDefault(path);
+        return this.getFloat(path, def instanceof Number ? toFloat(def) : 0.0f);
+    }
+
+    @Override
+    public float getFloat(@NotNull final String path, final float def) {
+        final Object val = this.get(path, def);
+        return val instanceof Number ? toFloat(val) : def;
+    }
+
+    @Override
     public double getDouble(@NotNull final String path) {
         final Object def = this.getDefault(path);
-        return this.getDouble(path, def instanceof Number ? toDouble(def) : 0);
+        return this.getDouble(path, def instanceof Number ? toDouble(def) : 0.0d);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class Validate {
      * @param message the exception message if invalid
      * @throws IllegalArgumentException if expression is <code>false</code>
      */
-    public static void isTrue(boolean expression, String message) {
+    public static void isTrue(final boolean expression, final String message) {
         if (!expression) {
             throw new IllegalArgumentException(message);
         }
@@ -76,7 +76,7 @@ public class Validate {
      * @param object the object to check
      * @param message the exception message if invalid
      */
-    public static void notNull(Object object, String message) {
+    public static void notNull(final Object object, final String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
@@ -95,7 +95,7 @@ public class Validate {
      * @param message the exception message if invalid
      * @throws IllegalArgumentException if the string is empty
      */
-    public static void notEmpty(String string, String message) {
+    public static void notEmpty(final String string, final String message) {
         if (string == null || string.length() == 0) {
             throw new IllegalArgumentException(message);
         }
