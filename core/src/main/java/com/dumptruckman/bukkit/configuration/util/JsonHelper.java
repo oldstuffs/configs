@@ -1,6 +1,9 @@
 package com.dumptruckman.bukkit.configuration.util;
 
-import com.eclipsesource.json.*;
+import com.eclipsesource.json.Json;
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.eclipsesource.json.JsonValue;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -63,7 +66,6 @@ public final class JsonHelper {
     @NotNull
     public static Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
         final JsonValue value;
-
         if (object instanceof Boolean) {
             value = Json.value((Boolean) object);
         } else if (object instanceof Integer) {
@@ -85,31 +87,25 @@ public final class JsonHelper {
         } else {
             value = null;
         }
-
         return Optional.ofNullable(value);
     }
 
     @NotNull
     public static JsonArray collectionAsJsonArray(@NotNull final Collection<?> collection) {
         final JsonArray array = new JsonArray();
-
-        collection.forEach(o -> {
-            JsonHelper.objectAsJsonValue(o).ifPresent(array::add);
-        });
-
+        collection.forEach(o ->
+            JsonHelper.objectAsJsonValue(o).ifPresent(array::add));
         return array;
     }
 
     @NotNull
     public static JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
         final JsonObject object = new JsonObject();
-
         map.forEach((key, value) ->
             JsonHelper.objectAsJsonValue(value).ifPresent(jsonValue ->
                 object.add(String.valueOf(key), jsonValue)
             )
         );
-
         return object;
     }
 
@@ -118,20 +114,15 @@ public final class JsonHelper {
         try {
             Integer.parseInt(number.toString());
             return number.asInt();
-        } catch (final Exception e) {
+        } catch (final NumberFormatException e) {
             try {
                 Long.parseLong(number.toString());
                 return number.asLong();
-            } catch (final Exception e1) {
+            } catch (final NumberFormatException e1) {
                 try {
-                    Float.parseFloat(number.toString());
-                    return number.asFloat();
-                } catch (final Exception e2) {
-                    try {
-                        Double.parseDouble(number.toString());
-                        return number.asDouble();
-                    } catch (final Exception ignored) {
-                    }
+                    Double.parseDouble(number.toString());
+                    return number.asDouble();
+                } catch (final NumberFormatException ignored) {
                 }
             }
         }

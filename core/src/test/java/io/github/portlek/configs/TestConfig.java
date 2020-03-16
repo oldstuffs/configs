@@ -34,11 +34,10 @@ import org.jetbrains.annotations.NotNull;
 
 @Config(
     name = "config",
-    type = FileType.YAML,
+    type = FileType.JSON,
     version = "1.1"
 )
-public final class
-TestConfig extends ManagedBase {
+public final class TestConfig extends ManagedBase {
 
     @Instance
     public final TestConfig.Hooks hooks = new TestConfig.Hooks();
@@ -47,7 +46,7 @@ TestConfig extends ManagedBase {
     public final TestConfig.Saving saving = new TestConfig.Saving();
 
     @Value
-    public float test_double = -1.0f;
+    public double test_double = -1.0d;
 
     @Value
     public String plugin_prefix = "&6[&eExamplePlugin&6]";
@@ -62,22 +61,22 @@ TestConfig extends ManagedBase {
     public static class Hooks {
 
         @Value
-        private boolean PlaceholderAPI = false;
-
-        @Value
-        private boolean GroupManager = false;
-
-        @Value
-        private boolean LuckPerms = false;
-
-        @Value
-        private boolean PermissionsEX = false;
-
-        @Value
-        private boolean Vault = false;
-
-        @Value
         public boolean auto_detect = true;
+
+        @Value
+        private final boolean PlaceholderAPI = false;
+
+        @Value
+        private final boolean GroupManager = false;
+
+        @Value
+        private final boolean LuckPerms = false;
+
+        @Value
+        private final boolean PermissionsEX = false;
+
+        @Value
+        private final boolean Vault = false;
 
     }
 
@@ -86,10 +85,6 @@ TestConfig extends ManagedBase {
 
         @Instance
         public final TestConfig.Saving.MySQL mysql = new TestConfig.Saving.MySQL();
-
-        @NotNull
-        @Value
-        private String storage_type = "sqlite";
 
         @Value
         public boolean save_when_plugin_disable = true;
@@ -100,23 +95,27 @@ TestConfig extends ManagedBase {
         @Value
         public int auto_save_time = 60;
 
+        @NotNull
+        @Value
+        private final String storage_type = "sqlite";
+
         @Section(path = "mysql")
         public static class MySQL {
 
             @Value
-            private String host = "localhost";
+            private final String host = "localhost";
 
             @Value
-            private int port = 3306;
+            private final int port = 3306;
 
             @Value
-            private String database = "database";
+            private final String database = "database";
 
             @Value
-            private String username = "username";
+            private final String username = "username";
 
             @Value
-            private String password = "password";
+            private final String password = "password";
 
         }
 
