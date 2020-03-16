@@ -46,7 +46,7 @@ public final class TestConfig extends ManagedBase {
     public final TestConfig.Saving saving = new TestConfig.Saving();
 
     @Value
-    public double test_double = 1.0d;
+    public double test_double = -1.0d;
 
     @Value
     public String plugin_prefix = "&6[&eExamplePlugin&6]";

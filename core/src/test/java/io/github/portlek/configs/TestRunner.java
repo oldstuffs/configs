@@ -36,6 +36,9 @@ public final class TestRunner {
         final TestLinkedResourceConfig testLinkedResourceConfig = new TestLinkedResourceConfig("test_1");
         testConfig.load();
         testConfig.setAutoSave(true);
+        System.out.println(
+            (double) testConfig.getOrSet("test-double", -1.0)
+        );
         testLinkedConfig.load();
         testLinkedResourceConfig.load();
     }
