@@ -21,10 +21,10 @@ import org.yaml.snakeyaml.representer.Representer;
  * An implementation of {@link Configuration} which saves all files in Yaml.
  * Note that this implementation is not synchronized.
  */
-public class YamlConfiguration extends FileConfiguration {
-    protected static final String COMMENT_PREFIX = "# ";
+public final class YamlConfiguration extends FileConfiguration {
+    private static final String COMMENT_PREFIX = "# ";
 
-    protected static final String BLANK_CONFIG = "{}\n";
+    private static final String BLANK_CONFIG = "{}\n";
 
     private final DumperOptions yamlOptions = new DumperOptions();
 
@@ -118,7 +118,7 @@ public class YamlConfiguration extends FileConfiguration {
         }
 
         final String header = this.parseHeader(contents);
-        if (header.length() > 0) {
+        if (!header.isEmpty()) {
             this.options().header(header);
         }
 
@@ -148,8 +148,7 @@ public class YamlConfiguration extends FileConfiguration {
             if (def instanceof FileConfiguration) {
                 final FileConfiguration filedefaults = (FileConfiguration) def;
                 final String defaultsHeader = filedefaults.buildHeader();
-
-                if (defaultsHeader != null && defaultsHeader.length() > 0) {
+                if (!defaultsHeader.isEmpty()) {
                     return defaultsHeader;
                 }
             }
@@ -164,9 +163,9 @@ public class YamlConfiguration extends FileConfiguration {
         boolean startedHeader = false;
 
         for (int i = lines.length - 1; i >= 0; i--) {
-            builder.insert(0, "\n");
+            builder.insert(0, '\n');
 
-            if (startedHeader || lines[i].length() != 0) {
+            if (startedHeader || !lines[i].isEmpty()) {
                 builder.insert(0, lines[i]);
                 builder.insert(0, YamlConfiguration.COMMENT_PREFIX);
                 startedHeader = true;
