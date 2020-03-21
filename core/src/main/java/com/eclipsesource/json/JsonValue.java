@@ -102,7 +102,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use {@link Json#parse(Reader)} instead
      */
     @Deprecated
-    public static JsonValue readFrom(Reader reader) throws IOException {
+    public static JsonValue readFrom(final Reader reader) throws IOException {
         return Json.parse(reader);
     }
 
@@ -115,7 +115,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use {@link Json#parse(String)} instead
      */
     @Deprecated
-    public static JsonValue readFrom(String text) {
+    public static JsonValue readFrom(final String text) {
         return Json.parse(text);
     }
 
@@ -127,7 +127,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
-    public static JsonValue valueOf(int value) {
+    public static JsonValue valueOf(final int value) {
         return Json.value(value);
     }
 
@@ -139,7 +139,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
-    public static JsonValue valueOf(long value) {
+    public static JsonValue valueOf(final long value) {
         return Json.value(value);
     }
 
@@ -151,7 +151,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
-    public static JsonValue valueOf(float value) {
+    public static JsonValue valueOf(final float value) {
         return Json.value(value);
     }
 
@@ -163,7 +163,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
-    public static JsonValue valueOf(double value) {
+    public static JsonValue valueOf(final double value) {
         return Json.value(value);
     }
 
@@ -175,7 +175,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
-    public static JsonValue valueOf(String string) {
+    public static JsonValue valueOf(final String string) {
         return Json.value(string);
     }
 
@@ -187,7 +187,7 @@ public abstract class JsonValue implements Serializable {
      * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
-    public static JsonValue valueOf(boolean value) {
+    public static JsonValue valueOf(final boolean value) {
         return Json.value(value);
     }
 
@@ -274,7 +274,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON object
      */
     public JsonObject asObject() {
-        throw new UnsupportedOperationException("Not an object: " + toString());
+        throw new UnsupportedOperationException("Not an object: " + this.toString());
     }
 
     /**
@@ -283,11 +283,11 @@ public abstract class JsonValue implements Serializable {
      * @param config a configuration that controls the formatting or <code>null</code> for the minimal form
      * @return a JSON string that represents this value
      */
-    public String toString(WriterConfig config) {
-        StringWriter writer = new StringWriter();
+    public String toString(final WriterConfig config) {
+        final StringWriter writer = new StringWriter();
         try {
-            writeTo(writer, config);
-        } catch (IOException exception) {
+            this.writeTo(writer, config);
+        } catch (final IOException exception) {
             // StringWriter does not throw IOExceptions
             throw new RuntimeException(exception);
         }
@@ -297,22 +297,22 @@ public abstract class JsonValue implements Serializable {
     /**
      * Writes the JSON representation of this value to the given writer using the given formatting.
      * <p>
-     * Writing performance can be improved by using a {@link java.io.BufferedWriter BufferedWriter}.
+     * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
      * </p>
      *
      * @param writer the writer to write this value to
      * @param config a configuration that controls the formatting or <code>null</code> for the minimal form
      * @throws IOException if an I/O error occurs in the writer
      */
-    public void writeTo(Writer writer, WriterConfig config) throws IOException {
+    public void writeTo(final Writer writer, final WriterConfig config) throws IOException {
         if (writer == null) {
             throw new NullPointerException("writer is null");
         }
         if (config == null) {
             throw new NullPointerException("config is null");
         }
-        WritingBuffer buffer = new WritingBuffer(writer, 128);
-        write(config.createWriter(buffer));
+        final WritingBuffer buffer = new WritingBuffer(writer, 128);
+        this.write(config.createWriter(buffer));
         buffer.flush();
     }
 
@@ -326,7 +326,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON array
      */
     public JsonArray asArray() {
-        throw new UnsupportedOperationException("Not an array: " + toString());
+        throw new UnsupportedOperationException("Not an array: " + this.toString());
     }
 
     /**
@@ -343,7 +343,7 @@ public abstract class JsonValue implements Serializable {
      * @throws NumberFormatException if this JSON number can not be interpreted as <code>int</code> value
      */
     public int asInt() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this.toString());
     }
 
     /**
@@ -360,7 +360,7 @@ public abstract class JsonValue implements Serializable {
      * @throws NumberFormatException if this JSON number can not be interpreted as <code>long</code> value
      */
     public long asLong() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this.toString());
     }
 
     /**
@@ -375,7 +375,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public float asFloat() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this.toString());
     }
 
     /**
@@ -390,7 +390,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public double asDouble() {
-        throw new UnsupportedOperationException("Not a number: " + toString());
+        throw new UnsupportedOperationException("Not a number: " + this.toString());
     }
 
     /**
@@ -401,7 +401,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON string
      */
     public String asString() {
-        throw new UnsupportedOperationException("Not a string: " + toString());
+        throw new UnsupportedOperationException("Not a string: " + this.toString());
     }
 
     /**
@@ -412,21 +412,21 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is neither <code>true</code> or <code>false</code>
      */
     public boolean asBoolean() {
-        throw new UnsupportedOperationException("Not a boolean: " + toString());
+        throw new UnsupportedOperationException("Not a boolean: " + this.toString());
     }
 
     /**
      * Writes the JSON representation of this value to the given writer in its minimal form, without
      * any additional whitespace.
      * <p>
-     * Writing performance can be improved by using a {@link java.io.BufferedWriter BufferedWriter}.
+     * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
      * </p>
      *
      * @param writer the writer to write this value to
      * @throws IOException if an I/O error occurs in the writer
      */
-    public void writeTo(Writer writer) throws IOException {
-        writeTo(writer, WriterConfig.MINIMAL);
+    public void writeTo(final Writer writer) throws IOException {
+        this.writeTo(writer, WriterConfig.MINIMAL);
     }
 
     @Override
@@ -447,7 +447,7 @@ public abstract class JsonValue implements Serializable {
      * @return true if this object is the same as the object argument; false otherwise
      */
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         return super.equals(object);
     }
 
@@ -460,7 +460,7 @@ public abstract class JsonValue implements Serializable {
      */
     @Override
     public String toString() {
-        return toString(WriterConfig.MINIMAL);
+        return this.toString(WriterConfig.MINIMAL);
     }
 
 }

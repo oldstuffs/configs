@@ -42,7 +42,7 @@ public class Location {
      */
     public final int column;
 
-    Location(int offset, int line, int column) {
+    Location(final int offset, final int line, final int column) {
         this.offset = offset;
         this.column = column;
         this.line = line;
@@ -50,27 +50,27 @@ public class Location {
 
     @Override
     public int hashCode() {
-        return offset;
+        return this.offset;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
-        Location other = (Location) obj;
-        return offset == other.offset && column == other.column && line == other.line;
+        final Location other = (Location) obj;
+        return this.offset == other.offset && this.column == other.column && this.line == other.line;
     }
 
     @Override
     public String toString() {
-        return line + ":" + column;
+        return this.line + ":" + this.column;
     }
 
 }

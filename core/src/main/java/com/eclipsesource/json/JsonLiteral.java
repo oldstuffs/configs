@@ -36,66 +36,66 @@ class JsonLiteral extends JsonValue {
 
     private final boolean isFalse;
 
-    JsonLiteral(String value) {
+    JsonLiteral(final String value) {
         this.value = value;
-        isNull = "null".equals(value);
-        isTrue = "true".equals(value);
-        isFalse = "false".equals(value);
+        this.isNull = "null".equals(value);
+        this.isTrue = "true".equals(value);
+        this.isFalse = "false".equals(value);
     }
 
     @Override
     public boolean isBoolean() {
-        return isTrue || isFalse;
+        return this.isTrue || this.isFalse;
     }
 
     @Override
     public boolean isTrue() {
-        return isTrue;
+        return this.isTrue;
     }
 
     @Override
     public boolean isFalse() {
-        return isFalse;
+        return this.isFalse;
     }
 
     @Override
     public boolean isNull() {
-        return isNull;
+        return this.isNull;
     }
 
     @Override
-    void write(JsonWriter writer) throws IOException {
-        writer.writeLiteral(value);
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeLiteral(this.value);
     }
 
     @Override
     public boolean asBoolean() {
-        return isNull ? super.asBoolean() : isTrue;
+        return this.isNull ? super.asBoolean() : this.isTrue;
     }
 
     @Override
     public int hashCode() {
-        return value.hashCode();
+        return this.value.hashCode();
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
-        JsonLiteral other = (JsonLiteral) object;
-        return value.equals(other.value);
+        final JsonLiteral other = (JsonLiteral) object;
+        return this.value.equals(other.value);
     }
 
     @Override
     public String toString() {
-        return value;
+        return this.value;
     }
 
 }

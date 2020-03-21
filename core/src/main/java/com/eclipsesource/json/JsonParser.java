@@ -77,7 +77,7 @@ public class JsonParser {
      * @param handler the handler to process parser events
      */
     @SuppressWarnings("unchecked")
-    public JsonParser(JsonHandler<?, ?> handler) {
+    public JsonParser(final JsonHandler<?, ?> handler) {
         if (handler == null) {
             throw new NullPointerException("handler is null");
         }
@@ -92,14 +92,14 @@ public class JsonParser {
      * @param string the input string, must be valid JSON
      * @throws ParseException if the input is not valid JSON
      */
-    public void parse(String string) {
+    public void parse(final String string) {
         if (string == null) {
             throw new NullPointerException("string is null");
         }
-        int bufferSize = Math.max(MIN_BUFFER_SIZE, Math.min(DEFAULT_BUFFER_SIZE, string.length()));
+        final int bufferSize = Math.max(JsonParser.MIN_BUFFER_SIZE, Math.min(JsonParser.DEFAULT_BUFFER_SIZE, string.length()));
         try {
-            parse(new StringReader(string), bufferSize);
-        } catch (IOException exception) {
+            this.parse(new StringReader(string), bufferSize);
+        } catch (final IOException exception) {
             // StringReader does not throw IOException
             throw new RuntimeException(exception);
         }
@@ -117,8 +117,8 @@ public class JsonParser {
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
-    public void parse(Reader reader) throws IOException {
-        parse(reader, DEFAULT_BUFFER_SIZE);
+    public void parse(final Reader reader) throws IOException {
+        this.parse(reader, JsonParser.DEFAULT_BUFFER_SIZE);
     }
 
     /**
@@ -134,7 +134,7 @@ public class JsonParser {
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
-    public void parse(Reader reader, int buffersize) throws IOException {
+    public void parse(final Reader reader, final int buffersize) throws IOException {
         if (reader == null) {
             throw new NullPointerException("reader is null");
         }
@@ -142,48 +142,48 @@ public class JsonParser {
             throw new IllegalArgumentException("buffersize is zero or negative");
         }
         this.reader = reader;
-        buffer = new char[buffersize];
-        bufferOffset = 0;
-        index = 0;
-        fill = 0;
-        line = 1;
-        lineOffset = 0;
-        current = 0;
-        captureStart = -1;
-        read();
-        skipWhiteSpace();
-        readValue();
-        skipWhiteSpace();
-        if (!isEndOfText()) {
-            throw error("Unexpected character");
+        this.buffer = new char[buffersize];
+        this.bufferOffset = 0;
+        this.index = 0;
+        this.fill = 0;
+        this.line = 1;
+        this.lineOffset = 0;
+        this.current = 0;
+        this.captureStart = -1;
+        this.read();
+        this.skipWhiteSpace();
+        this.readValue();
+        this.skipWhiteSpace();
+        if (!this.isEndOfText()) {
+            throw this.error("Unexpected character");
         }
     }
 
     Location getLocation() {
-        int offset = bufferOffset + index - 1;
-        int column = offset - lineOffset + 1;
-        return new Location(offset, line, column);
+        final int offset = this.bufferOffset + this.index - 1;
+        final int column = offset - this.lineOffset + 1;
+        return new Location(offset, this.line, column);
     }
 
     private void readValue() throws IOException {
-        switch (current) {
+        switch (this.current) {
             case 'n':
-                readNull();
+                this.readNull();
                 break;
             case 't':
-                readTrue();
+                this.readTrue();
                 break;
             case 'f':
-                readFalse();
+                this.readFalse();
                 break;
             case '"':
-                readString();
+                this.readString();
                 break;
             case '[':
-                readArray();
+                this.readArray();
                 break;
             case '{':
-                readObject();
+                this.readObject();
                 break;
             case '-':
             case '0':
@@ -196,319 +196,319 @@ public class JsonParser {
             case '7':
             case '8':
             case '9':
-                readNumber();
+                this.readNumber();
                 break;
             default:
-                throw expected("value");
+                throw this.expected("value");
         }
     }
 
     private void readArray() throws IOException {
-        Object array = handler.startArray();
-        read();
-        if (++nestingLevel > MAX_NESTING_LEVEL) {
-            throw error("Nesting too deep");
+        final Object array = this.handler.startArray();
+        this.read();
+        if (++this.nestingLevel > JsonParser.MAX_NESTING_LEVEL) {
+            throw this.error("Nesting too deep");
         }
-        skipWhiteSpace();
-        if (readChar(']')) {
-            nestingLevel--;
-            handler.endArray(array);
+        this.skipWhiteSpace();
+        if (this.readChar(']')) {
+            this.nestingLevel--;
+            this.handler.endArray(array);
             return;
         }
         do {
-            skipWhiteSpace();
-            handler.startArrayValue(array);
-            readValue();
-            handler.endArrayValue(array);
-            skipWhiteSpace();
-        } while (readChar(','));
-        if (!readChar(']')) {
-            throw expected("',' or ']'");
+            this.skipWhiteSpace();
+            this.handler.startArrayValue(array);
+            this.readValue();
+            this.handler.endArrayValue(array);
+            this.skipWhiteSpace();
+        } while (this.readChar(','));
+        if (!this.readChar(']')) {
+            throw this.expected("',' or ']'");
         }
-        nestingLevel--;
-        handler.endArray(array);
+        this.nestingLevel--;
+        this.handler.endArray(array);
     }
 
     private void readObject() throws IOException {
-        Object object = handler.startObject();
-        read();
-        if (++nestingLevel > MAX_NESTING_LEVEL) {
-            throw error("Nesting too deep");
+        final Object object = this.handler.startObject();
+        this.read();
+        if (++this.nestingLevel > JsonParser.MAX_NESTING_LEVEL) {
+            throw this.error("Nesting too deep");
         }
-        skipWhiteSpace();
-        if (readChar('}')) {
-            nestingLevel--;
-            handler.endObject(object);
+        this.skipWhiteSpace();
+        if (this.readChar('}')) {
+            this.nestingLevel--;
+            this.handler.endObject(object);
             return;
         }
         do {
-            skipWhiteSpace();
-            handler.startObjectName(object);
-            String name = readName();
-            handler.endObjectName(object, name);
-            skipWhiteSpace();
-            if (!readChar(':')) {
-                throw expected("':'");
+            this.skipWhiteSpace();
+            this.handler.startObjectName(object);
+            final String name = this.readName();
+            this.handler.endObjectName(object, name);
+            this.skipWhiteSpace();
+            if (!this.readChar(':')) {
+                throw this.expected("':'");
             }
-            skipWhiteSpace();
-            handler.startObjectValue(object, name);
-            readValue();
-            handler.endObjectValue(object, name);
-            skipWhiteSpace();
-        } while (readChar(','));
-        if (!readChar('}')) {
-            throw expected("',' or '}'");
+            this.skipWhiteSpace();
+            this.handler.startObjectValue(object, name);
+            this.readValue();
+            this.handler.endObjectValue(object, name);
+            this.skipWhiteSpace();
+        } while (this.readChar(','));
+        if (!this.readChar('}')) {
+            throw this.expected("',' or '}'");
         }
-        nestingLevel--;
-        handler.endObject(object);
+        this.nestingLevel--;
+        this.handler.endObject(object);
     }
 
     private String readName() throws IOException {
-        if (current != '"') {
-            throw expected("name");
+        if (this.current != '"') {
+            throw this.expected("name");
         }
-        return readStringInternal();
+        return this.readStringInternal();
     }
 
     private void readNull() throws IOException {
-        handler.startNull();
-        read();
-        readRequiredChar('u');
-        readRequiredChar('l');
-        readRequiredChar('l');
-        handler.endNull();
+        this.handler.startNull();
+        this.read();
+        this.readRequiredChar('u');
+        this.readRequiredChar('l');
+        this.readRequiredChar('l');
+        this.handler.endNull();
     }
 
     private void readTrue() throws IOException {
-        handler.startBoolean();
-        read();
-        readRequiredChar('r');
-        readRequiredChar('u');
-        readRequiredChar('e');
-        handler.endBoolean(true);
+        this.handler.startBoolean();
+        this.read();
+        this.readRequiredChar('r');
+        this.readRequiredChar('u');
+        this.readRequiredChar('e');
+        this.handler.endBoolean(true);
     }
 
     private void readFalse() throws IOException {
-        handler.startBoolean();
-        read();
-        readRequiredChar('a');
-        readRequiredChar('l');
-        readRequiredChar('s');
-        readRequiredChar('e');
-        handler.endBoolean(false);
+        this.handler.startBoolean();
+        this.read();
+        this.readRequiredChar('a');
+        this.readRequiredChar('l');
+        this.readRequiredChar('s');
+        this.readRequiredChar('e');
+        this.handler.endBoolean(false);
     }
 
-    private void readRequiredChar(char ch) throws IOException {
-        if (!readChar(ch)) {
-            throw expected("'" + ch + "'");
+    private void readRequiredChar(final char ch) throws IOException {
+        if (!this.readChar(ch)) {
+            throw this.expected("'" + ch + "'");
         }
     }
 
     private void readString() throws IOException {
-        handler.startString();
-        handler.endString(readStringInternal());
+        this.handler.startString();
+        this.handler.endString(this.readStringInternal());
     }
 
     private String readStringInternal() throws IOException {
-        read();
-        startCapture();
-        while (current != '"') {
-            if (current == '\\') {
-                pauseCapture();
-                readEscape();
-                startCapture();
-            } else if (current < 0x20) {
-                throw expected("valid string character");
+        this.read();
+        this.startCapture();
+        while (this.current != '"') {
+            if (this.current == '\\') {
+                this.pauseCapture();
+                this.readEscape();
+                this.startCapture();
+            } else if (this.current < 0x20) {
+                throw this.expected("valid string character");
             } else {
-                read();
+                this.read();
             }
         }
-        String string = endCapture();
-        read();
+        final String string = this.endCapture();
+        this.read();
         return string;
     }
 
     private void readEscape() throws IOException {
-        read();
-        switch (current) {
+        this.read();
+        switch (this.current) {
             case '"':
             case '/':
             case '\\':
-                captureBuffer.append((char) current);
+                this.captureBuffer.append((char) this.current);
                 break;
             case 'b':
-                captureBuffer.append('\b');
+                this.captureBuffer.append('\b');
                 break;
             case 'f':
-                captureBuffer.append('\f');
+                this.captureBuffer.append('\f');
                 break;
             case 'n':
-                captureBuffer.append('\n');
+                this.captureBuffer.append('\n');
                 break;
             case 'r':
-                captureBuffer.append('\r');
+                this.captureBuffer.append('\r');
                 break;
             case 't':
-                captureBuffer.append('\t');
+                this.captureBuffer.append('\t');
                 break;
             case 'u':
-                char[] hexChars = new char[4];
+                final char[] hexChars = new char[4];
                 for (int i = 0; i < 4; i++) {
-                    read();
-                    if (!isHexDigit()) {
-                        throw expected("hexadecimal digit");
+                    this.read();
+                    if (!this.isHexDigit()) {
+                        throw this.expected("hexadecimal digit");
                     }
-                    hexChars[i] = (char) current;
+                    hexChars[i] = (char) this.current;
                 }
-                captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
+                this.captureBuffer.append((char) Integer.parseInt(new String(hexChars), 16));
                 break;
             default:
-                throw expected("valid escape sequence");
+                throw this.expected("valid escape sequence");
         }
-        read();
+        this.read();
     }
 
     private void readNumber() throws IOException {
-        handler.startNumber();
-        startCapture();
-        readChar('-');
-        int firstDigit = current;
-        if (!readDigit()) {
-            throw expected("digit");
+        this.handler.startNumber();
+        this.startCapture();
+        this.readChar('-');
+        final int firstDigit = this.current;
+        if (!this.readDigit()) {
+            throw this.expected("digit");
         }
         if (firstDigit != '0') {
-            while (readDigit()) {
+            while (this.readDigit()) {
             }
         }
-        readFraction();
-        readExponent();
-        handler.endNumber(endCapture());
+        this.readFraction();
+        this.readExponent();
+        this.handler.endNumber(this.endCapture());
     }
 
     private boolean readFraction() throws IOException {
-        if (!readChar('.')) {
+        if (!this.readChar('.')) {
             return false;
         }
-        if (!readDigit()) {
-            throw expected("digit");
+        if (!this.readDigit()) {
+            throw this.expected("digit");
         }
-        while (readDigit()) {
+        while (this.readDigit()) {
         }
         return true;
     }
 
     private boolean readExponent() throws IOException {
-        if (!readChar('e') && !readChar('E')) {
+        if (!this.readChar('e') && !this.readChar('E')) {
             return false;
         }
-        if (!readChar('+')) {
-            readChar('-');
+        if (!this.readChar('+')) {
+            this.readChar('-');
         }
-        if (!readDigit()) {
-            throw expected("digit");
+        if (!this.readDigit()) {
+            throw this.expected("digit");
         }
-        while (readDigit()) {
+        while (this.readDigit()) {
         }
         return true;
     }
 
-    private boolean readChar(char ch) throws IOException {
-        if (current != ch) {
+    private boolean readChar(final char ch) throws IOException {
+        if (this.current != ch) {
             return false;
         }
-        read();
+        this.read();
         return true;
     }
 
     private boolean readDigit() throws IOException {
-        if (!isDigit()) {
+        if (!this.isDigit()) {
             return false;
         }
-        read();
+        this.read();
         return true;
     }
 
     private void skipWhiteSpace() throws IOException {
-        while (isWhiteSpace()) {
-            read();
+        while (this.isWhiteSpace()) {
+            this.read();
         }
     }
 
     private void read() throws IOException {
-        if (index == fill) {
-            if (captureStart != -1) {
-                captureBuffer.append(buffer, captureStart, fill - captureStart);
-                captureStart = 0;
+        if (this.index == this.fill) {
+            if (this.captureStart != -1) {
+                this.captureBuffer.append(this.buffer, this.captureStart, this.fill - this.captureStart);
+                this.captureStart = 0;
             }
-            bufferOffset += fill;
-            fill = reader.read(buffer, 0, buffer.length);
-            index = 0;
-            if (fill == -1) {
-                current = -1;
-                index++;
+            this.bufferOffset += this.fill;
+            this.fill = this.reader.read(this.buffer, 0, this.buffer.length);
+            this.index = 0;
+            if (this.fill == -1) {
+                this.current = -1;
+                this.index++;
                 return;
             }
         }
-        if (current == '\n') {
-            line++;
-            lineOffset = bufferOffset + index;
+        if (this.current == '\n') {
+            this.line++;
+            this.lineOffset = this.bufferOffset + this.index;
         }
-        current = buffer[index++];
+        this.current = this.buffer[this.index++];
     }
 
     private void startCapture() {
-        if (captureBuffer == null) {
-            captureBuffer = new StringBuilder();
+        if (this.captureBuffer == null) {
+            this.captureBuffer = new StringBuilder();
         }
-        captureStart = index - 1;
+        this.captureStart = this.index - 1;
     }
 
     private void pauseCapture() {
-        int end = current == -1 ? index : index - 1;
-        captureBuffer.append(buffer, captureStart, end - captureStart);
-        captureStart = -1;
+        final int end = this.current == -1 ? this.index : this.index - 1;
+        this.captureBuffer.append(this.buffer, this.captureStart, end - this.captureStart);
+        this.captureStart = -1;
     }
 
     private String endCapture() {
-        int start = captureStart;
-        int end = index - 1;
-        captureStart = -1;
-        if (captureBuffer.length() > 0) {
-            captureBuffer.append(buffer, start, end - start);
-            String captured = captureBuffer.toString();
-            captureBuffer.setLength(0);
+        final int start = this.captureStart;
+        final int end = this.index - 1;
+        this.captureStart = -1;
+        if (this.captureBuffer.length() > 0) {
+            this.captureBuffer.append(this.buffer, start, end - start);
+            final String captured = this.captureBuffer.toString();
+            this.captureBuffer.setLength(0);
             return captured;
         }
-        return new String(buffer, start, end - start);
+        return new String(this.buffer, start, end - start);
     }
 
-    private ParseException expected(String expected) {
-        if (isEndOfText()) {
-            return error("Unexpected end of input");
+    private ParseException expected(final String expected) {
+        if (this.isEndOfText()) {
+            return this.error("Unexpected end of input");
         }
-        return error("Expected " + expected);
+        return this.error("Expected " + expected);
     }
 
-    private ParseException error(String message) {
-        return new ParseException(message, getLocation());
+    private ParseException error(final String message) {
+        return new ParseException(message, this.getLocation());
     }
 
     private boolean isWhiteSpace() {
-        return current == ' ' || current == '\t' || current == '\n' || current == '\r';
+        return this.current == ' ' || this.current == '\t' || this.current == '\n' || this.current == '\r';
     }
 
     private boolean isDigit() {
-        return current >= '0' && current <= '9';
+        return this.current >= '0' && this.current <= '9';
     }
 
     private boolean isHexDigit() {
-        return current >= '0' && current <= '9'
-            || current >= 'a' && current <= 'f'
-            || current >= 'A' && current <= 'F';
+        return this.current >= '0' && this.current <= '9'
+            || this.current >= 'a' && this.current <= 'f'
+            || this.current >= 'A' && this.current <= 'F';
     }
 
     private boolean isEndOfText() {
-        return current == -1;
+        return this.current == -1;
     }
 
 }

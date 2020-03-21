@@ -81,7 +81,7 @@ public abstract class JsonHandler<A, O> {
      *
      * @param value the parsed boolean value
      */
-    public void endBoolean(boolean value) {
+    public void endBoolean(final boolean value) {
     }
 
     /**
@@ -97,7 +97,7 @@ public abstract class JsonHandler<A, O> {
      *
      * @param string the parsed string
      */
-    public void endString(String string) {
+    public void endString(final String string) {
     }
 
     /**
@@ -113,7 +113,7 @@ public abstract class JsonHandler<A, O> {
      *
      * @param string the parsed number string
      */
-    public void endNumber(String string) {
+    public void endNumber(final String string) {
     }
 
     /**
@@ -139,7 +139,7 @@ public abstract class JsonHandler<A, O> {
      * @param array the array handler returned from {@link #startArray()}, or <code>null</code> if not
      * provided
      */
-    public void endArray(A array) {
+    public void endArray(final A array) {
     }
 
     /**
@@ -150,7 +150,7 @@ public abstract class JsonHandler<A, O> {
      * @param array the array handler returned from {@link #startArray()}, or <code>null</code> if not
      * provided
      */
-    public void startArrayValue(A array) {
+    public void startArrayValue(final A array) {
     }
 
     /**
@@ -162,7 +162,7 @@ public abstract class JsonHandler<A, O> {
      * @param array the array handler returned from {@link #startArray()}, or <code>null</code> if not
      * provided
      */
-    public void endArrayValue(A array) {
+    public void endArrayValue(final A array) {
     }
 
     /**
@@ -189,7 +189,7 @@ public abstract class JsonHandler<A, O> {
      *
      * @param object the object handler returned from {@link #startObject()}, or null if not provided
      */
-    public void endObject(O object) {
+    public void endObject(final O object) {
     }
 
     /**
@@ -199,7 +199,7 @@ public abstract class JsonHandler<A, O> {
      * @param object the object handler returned from {@link #startObject()}, or <code>null</code> if not
      * provided
      */
-    public void startObjectName(O object) {
+    public void startObjectName(final O object) {
     }
 
     /**
@@ -209,7 +209,7 @@ public abstract class JsonHandler<A, O> {
      * @param object the object handler returned from {@link #startObject()}, or null if not provided
      * @param name the parsed member name
      */
-    public void endObjectName(O object, String name) {
+    public void endObjectName(final O object, final String name) {
     }
 
     /**
@@ -220,7 +220,7 @@ public abstract class JsonHandler<A, O> {
      * provided
      * @param name the member name
      */
-    public void startObjectValue(O object, String name) {
+    public void startObjectValue(final O object, final String name) {
     }
 
     /**
@@ -232,7 +232,7 @@ public abstract class JsonHandler<A, O> {
      * @param object the object handler returned from {@link #startObject()}, or null if not provided
      * @param name the parsed member name
      */
-    public void endObjectValue(O object, String name) {
+    public void endObjectValue(final O object, final String name) {
     }
 
     /**
@@ -241,7 +241,7 @@ public abstract class JsonHandler<A, O> {
      * @return the current parser location
      */
     protected Location getLocation() {
-        return parser.getLocation();
+        return this.parser.getLocation();
     }
 
 }

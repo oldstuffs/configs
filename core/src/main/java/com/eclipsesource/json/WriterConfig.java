@@ -34,7 +34,7 @@ public abstract class WriterConfig {
      */
     public static WriterConfig MINIMAL = new WriterConfig() {
         @Override
-        JsonWriter createWriter(Writer writer) {
+        JsonWriter createWriter(final Writer writer) {
             return new JsonWriter(writer);
         }
     };

@@ -38,7 +38,7 @@ public class PrettyPrint extends WriterConfig {
 
     private final char[] indentChars;
 
-    protected PrettyPrint(char[] indentChars) {
+    protected PrettyPrint(final char[] indentChars) {
         this.indentChars = indentChars;
     }
 
@@ -57,11 +57,11 @@ public class PrettyPrint extends WriterConfig {
      * @param number the number of spaces to use
      * @return A PrettyPrint instance for wrapped mode with spaces indentation
      */
-    public static PrettyPrint indentWithSpaces(int number) {
+    public static PrettyPrint indentWithSpaces(final int number) {
         if (number < 0) {
             throw new IllegalArgumentException("number is negative");
         }
-        char[] chars = new char[number];
+        final char[] chars = new char[number];
         Arrays.fill(chars, ' ');
         return new PrettyPrint(chars);
     }
@@ -76,8 +76,8 @@ public class PrettyPrint extends WriterConfig {
     }
 
     @Override
-    protected JsonWriter createWriter(Writer writer) {
-        return new PrettyPrintWriter(writer, indentChars);
+    protected JsonWriter createWriter(final Writer writer) {
+        return new PrettyPrint.PrettyPrintWriter(writer, this.indentChars);
     }
 
     private static class PrettyPrintWriter extends JsonWriter {
@@ -86,68 +86,68 @@ public class PrettyPrint extends WriterConfig {
 
         private int indent;
 
-        private PrettyPrintWriter(Writer writer, char[] indentChars) {
+        private PrettyPrintWriter(final Writer writer, final char[] indentChars) {
             super(writer);
             this.indentChars = indentChars;
         }
 
         @Override
         protected void writeArrayOpen() throws IOException {
-            indent++;
-            writer.write('[');
-            writeNewLine();
+            this.indent++;
+            this.writer.write('[');
+            this.writeNewLine();
         }
 
         @Override
         protected void writeArrayClose() throws IOException {
-            indent--;
-            writeNewLine();
-            writer.write(']');
+            this.indent--;
+            this.writeNewLine();
+            this.writer.write(']');
         }
 
         @Override
         protected void writeArraySeparator() throws IOException {
-            writer.write(',');
-            if (!writeNewLine()) {
-                writer.write(' ');
+            this.writer.write(',');
+            if (!this.writeNewLine()) {
+                this.writer.write(' ');
             }
         }
 
         @Override
         protected void writeObjectOpen() throws IOException {
-            indent++;
-            writer.write('{');
-            writeNewLine();
+            this.indent++;
+            this.writer.write('{');
+            this.writeNewLine();
         }
 
         @Override
         protected void writeObjectClose() throws IOException {
-            indent--;
-            writeNewLine();
-            writer.write('}');
+            this.indent--;
+            this.writeNewLine();
+            this.writer.write('}');
         }
 
         @Override
         protected void writeMemberSeparator() throws IOException {
-            writer.write(':');
-            writer.write(' ');
+            this.writer.write(':');
+            this.writer.write(' ');
         }
 
         @Override
         protected void writeObjectSeparator() throws IOException {
-            writer.write(',');
-            if (!writeNewLine()) {
-                writer.write(' ');
+            this.writer.write(',');
+            if (!this.writeNewLine()) {
+                this.writer.write(' ');
             }
         }
 
         private boolean writeNewLine() throws IOException {
-            if (indentChars == null) {
+            if (this.indentChars == null) {
                 return false;
             }
-            writer.write('\n');
-            for (int i = 0; i < indent; i++) {
-                writer.write(indentChars);
+            this.writer.write('\n');
+            for (int i = 0; i < this.indent; i++) {
+                this.writer.write(this.indentChars);
             }
             return true;
         }

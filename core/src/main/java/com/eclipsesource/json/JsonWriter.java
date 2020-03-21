@@ -50,103 +50,103 @@ class JsonWriter {
 
     protected final Writer writer;
 
-    JsonWriter(Writer writer) {
+    JsonWriter(final Writer writer) {
         this.writer = writer;
     }
 
-    protected void writeLiteral(String value) throws IOException {
-        writer.write(value);
+    protected void writeLiteral(final String value) throws IOException {
+        this.writer.write(value);
     }
 
-    protected void writeNumber(String string) throws IOException {
-        writer.write(string);
+    protected void writeNumber(final String string) throws IOException {
+        this.writer.write(string);
     }
 
-    protected void writeString(String string) throws IOException {
-        writer.write('"');
-        writeJsonString(string);
-        writer.write('"');
+    protected void writeString(final String string) throws IOException {
+        this.writer.write('"');
+        this.writeJsonString(string);
+        this.writer.write('"');
     }
 
-    protected void writeJsonString(String string) throws IOException {
-        int length = string.length();
+    protected void writeJsonString(final String string) throws IOException {
+        final int length = string.length();
         int start = 0;
         for (int index = 0; index < length; index++) {
-            char[] replacement = getReplacementChars(string.charAt(index));
+            final char[] replacement = JsonWriter.getReplacementChars(string.charAt(index));
             if (replacement != null) {
-                writer.write(string, start, index - start);
-                writer.write(replacement);
+                this.writer.write(string, start, index - start);
+                this.writer.write(replacement);
                 start = index + 1;
             }
         }
-        writer.write(string, start, length - start);
+        this.writer.write(string, start, length - start);
     }
 
-    private static char[] getReplacementChars(char ch) {
+    private static char[] getReplacementChars(final char ch) {
         if (ch > '\\') {
             if (ch < '\u2028' || ch > '\u2029') {
                 // The lower range contains 'a' .. 'z'. Only 2 checks required.
                 return null;
             }
-            return ch == '\u2028' ? UNICODE_2028_CHARS : UNICODE_2029_CHARS;
+            return ch == '\u2028' ? JsonWriter.UNICODE_2028_CHARS : JsonWriter.UNICODE_2029_CHARS;
         }
         if (ch == '\\') {
-            return BS_CHARS;
+            return JsonWriter.BS_CHARS;
         }
         if (ch > '"') {
             // This range contains '0' .. '9' and 'A' .. 'Z'. Need 3 checks to get here.
             return null;
         }
         if (ch == '"') {
-            return QUOT_CHARS;
+            return JsonWriter.QUOT_CHARS;
         }
-        if (ch > CONTROL_CHARACTERS_END) {
+        if (ch > JsonWriter.CONTROL_CHARACTERS_END) {
             return null;
         }
         if (ch == '\n') {
-            return LF_CHARS;
+            return JsonWriter.LF_CHARS;
         }
         if (ch == '\r') {
-            return CR_CHARS;
+            return JsonWriter.CR_CHARS;
         }
         if (ch == '\t') {
-            return TAB_CHARS;
+            return JsonWriter.TAB_CHARS;
         }
-        return new char[]{'\\', 'u', '0', '0', HEX_DIGITS[ch >> 4 & 0x000f], HEX_DIGITS[ch & 0x000f]};
+        return new char[]{'\\', 'u', '0', '0', JsonWriter.HEX_DIGITS[ch >> 4 & 0x000f], JsonWriter.HEX_DIGITS[ch & 0x000f]};
     }
 
     protected void writeArrayOpen() throws IOException {
-        writer.write('[');
+        this.writer.write('[');
     }
 
     protected void writeArrayClose() throws IOException {
-        writer.write(']');
+        this.writer.write(']');
     }
 
     protected void writeArraySeparator() throws IOException {
-        writer.write(',');
+        this.writer.write(',');
     }
 
     protected void writeObjectOpen() throws IOException {
-        writer.write('{');
+        this.writer.write('{');
     }
 
     protected void writeObjectClose() throws IOException {
-        writer.write('}');
+        this.writer.write('}');
     }
 
-    protected void writeMemberName(String name) throws IOException {
-        writer.write('"');
-        writeJsonString(name);
-        writer.write('"');
+    protected void writeMemberName(final String name) throws IOException {
+        this.writer.write('"');
+        this.writeJsonString(name);
+        this.writer.write('"');
     }
 
     protected void writeMemberSeparator() throws IOException {
-        writer.write(':');
+        this.writer.write(':');
     }
 
     protected void writeObjectSeparator() throws IOException {
-        writer.write(',');
+        this.writer.write(',');
     }
 
 }

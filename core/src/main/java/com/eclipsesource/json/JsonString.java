@@ -30,7 +30,7 @@ class JsonString extends JsonValue {
 
     private final String string;
 
-    JsonString(String string) {
+    JsonString(final String string) {
         if (string == null) {
             throw new NullPointerException("string is null");
         }
@@ -43,33 +43,33 @@ class JsonString extends JsonValue {
     }
 
     @Override
-    void write(JsonWriter writer) throws IOException {
-        writer.writeString(string);
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeString(this.string);
     }
 
     @Override
     public String asString() {
-        return string;
+        return this.string;
     }
 
     @Override
     public int hashCode() {
-        return string.hashCode();
+        return this.string.hashCode();
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (getClass() != object.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
-        JsonString other = (JsonString) object;
-        return string.equals(other.string);
+        final JsonString other = (JsonString) object;
+        return this.string.equals(other.string);
     }
 
 }
