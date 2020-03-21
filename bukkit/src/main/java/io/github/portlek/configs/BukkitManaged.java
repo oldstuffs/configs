@@ -21,7 +21,7 @@ public abstract class BukkitManaged extends ManagedBase {
     @NotNull
     public Optional<ItemStack> getItemStack(@NotNull final String path) {
         return this.getCustomValue(ItemStack.class)
-            .flatMap(provided -> ((BukkitItemStackProvider) provided).get(this, path));
+            .flatMap(provided -> provided.get(this, path));
     }
 
 }
