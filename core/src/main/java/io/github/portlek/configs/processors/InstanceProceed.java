@@ -61,7 +61,7 @@ public final class InstanceProceed implements Proceed<Field> {
                     ).load(o)
                 )
             );
-        } catch (IllegalAccessException e) {
+        } catch (final IllegalAccessException e) {
             e.printStackTrace();
         }
     }
