@@ -61,9 +61,6 @@ public final class TestConfig extends ManagedBase {
     public static class Hooks {
 
         @Value
-        public boolean auto_detect = true;
-
-        @Value
         private final boolean PlaceholderAPI = false;
 
         @Value
@@ -78,6 +75,9 @@ public final class TestConfig extends ManagedBase {
         @Value
         private final boolean Vault = false;
 
+        @Value
+        public boolean auto_detect = true;
+
     }
 
     @Section(path = "saving")
@@ -85,6 +85,10 @@ public final class TestConfig extends ManagedBase {
 
         @Instance
         public final TestConfig.Saving.MySQL mysql = new TestConfig.Saving.MySQL();
+
+        @NotNull
+        @Value
+        private final String storage_type = "sqlite";
 
         @Value
         public boolean save_when_plugin_disable = true;
@@ -94,10 +98,6 @@ public final class TestConfig extends ManagedBase {
 
         @Value
         public int auto_save_time = 60;
-
-        @NotNull
-        @Value
-        private final String storage_type = "sqlite";
 
         @Section(path = "mysql")
         public static class MySQL {
