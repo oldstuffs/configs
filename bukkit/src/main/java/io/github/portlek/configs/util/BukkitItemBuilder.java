@@ -86,6 +86,12 @@ public final class BukkitItemBuilder {
     }
 
     @NotNull
+    public BukkitItemBuilder amount(final int size) {
+        this.itemStack.setAmount(size);
+        return this;
+    }
+
+    @NotNull
     public BukkitItemBuilder data(final int data) {
         return this.data((byte) data);
     }
