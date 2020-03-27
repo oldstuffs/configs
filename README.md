@@ -61,6 +61,9 @@ Also you have to make relocation for the library with;
 <summary>Core</summary>
 
 ```java
+import io.github.portlek.configs.ManagedBase;
+import io.github.portlek.configs.ConfigSectionBase;
+
 @Config(
   name = "config"
 )
@@ -70,7 +73,7 @@ public final class TestConfig extends ManagedBase {
   public String test = "test";
 
   @Instance
-  public final TestSection testSection = new TestSection();
+  public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
   @Section(path = "test-section")
   public final class TestSection extends ConfigSectionBase {
@@ -96,6 +99,9 @@ test-section:
 <summary>Bukkit</summary>
 
 ```java
+import io.github.portlek.configs.BukkitManaged;
+import io.github.portlek.configs.BukkitConfigSection;
+
 @Config(
   name = "config"
 )
@@ -105,7 +111,7 @@ public final class TestConfig extends BukkitManagedBase {
   public String test = "test";
 
   @Instance
-  public final TestSection testSection = new TestSection();
+  public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
   @Section(path = "test-section")
   public final class TestSection extends BukkitConfigSection {
@@ -133,6 +139,9 @@ test-section:
 <summary>Core</summary>
 
 ```java
+import io.github.portlek.configs.LinkedManagedBase;
+import io.github.portlek.configs.util.MapEntry;
+
 @LinkedConfig(configs = {
   @Config(
     name = "en"
@@ -143,7 +152,7 @@ test-section:
 })
 public final class TestLinkedConfig extends LinkedManagedBase {
 
-  public TestLinkedConfig(@NotNull TestConfig testConfig) {
+  public TestLinkedConfig(@NotNull final TestConfig testConfig) {
     super(testConfig.language, MapEntry.from("config", testConfig));
   }
 
@@ -181,6 +190,9 @@ test: 'Türkçe kelimeler!'
 <summary>Bukkit</summary>
 
 ```java
+import io.github.portlek.configs.BukkitLinkedManaged;
+import io.github.portlek.configs.util.MapEntry;
+
 @LinkedConfig(configs = {
   @Config(
     name = "en"
@@ -191,7 +203,7 @@ test: 'Türkçe kelimeler!'
 })
 public final class TestLinkedConfig extends BukkitLinkedManaged {
 
-  public TestLinkedConfig(@NotNull TestConfig testConfig) {
+  public TestLinkedConfig(@NotNull final TestConfig testConfig) {
     super(testConfig.language, MapEntry.from("config", testConfig));
   }
 
