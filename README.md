@@ -83,8 +83,10 @@ public final class TestConfig extends ManagedBase {
 }
 ```
 </details>
+<details>
 <summary>Bukkit</summary>
 
+```java
 @Config(
   name = "config"
 )
@@ -107,7 +109,6 @@ public final class TestConfig extends BukkitManagedBase {
 }
 ```
 </details>
-```java
 
 ### LinkedConfig Example
 
