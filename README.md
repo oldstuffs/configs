@@ -82,7 +82,16 @@ public final class TestConfig extends ManagedBase {
 
 }
 ```
+
+The result will be like that;
+
+```yml
+test: 'test'
+test-section:
+  test-section-string: 'test'
+```
 </details>
+
 <details>
 <summary>Bukkit</summary>
 
@@ -108,11 +117,21 @@ public final class TestConfig extends BukkitManagedBase {
 
 }
 ```
+
+The result will be like that;
+
+```yml
+test: 'test'
+test-section:
+  test-section-string: 'test'
+```
 </details>
 
 ### LinkedConfig Example
 
-#### Core
+<details>
+<summary>Core</summary>
+
 ```java
 @LinkedConfig(configs = {
   @Config(
@@ -146,7 +165,21 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 }
 ```
 
-#### Bukkit
+The result will be like that;
+
+(en.yml file)
+```yml
+test: 'English words!'
+```
+(tr.yml file)
+```yml
+test: 'Türkçe kelimeler!'
+```
+</details>
+
+<details>
+<summary>Bukkit</summary>
+
 ```java
 @LinkedConfig(configs = {
   @Config(
@@ -179,15 +212,8 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
 
 }
 ```
-The result of the config example will be like that;
 
-```yml
-test: 'test'
-test-section:
-  test-section-string: 'test'
-```
-
-The result of the linked config example will be like that;
+The result will be like that;
 
 (en.yml file)
 ```yml
@@ -197,3 +223,4 @@ test: 'English words!'
 ```yml
 test: 'Türkçe kelimeler!'
 ```
+</details>
