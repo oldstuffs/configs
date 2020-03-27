@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class BukkitManaged extends ManagedBase {
+public class BukkitManaged extends ManagedBase {
 
     @SafeVarargs
     protected BukkitManaged(@NotNull final Map.@NotNull Entry<String, Object>... objects) {
@@ -13,9 +13,9 @@ public abstract class BukkitManaged extends ManagedBase {
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
     }
 
-    public void setItemStack(@NotNull final String path, @NotNull final ItemStack itemStack) {
+    public void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
         this.getCustomValue(ItemStack.class).ifPresent(provided ->
-            provided.set(itemStack, this, path));
+            provided.set(itemstack, this, path));
     }
 
     @NotNull

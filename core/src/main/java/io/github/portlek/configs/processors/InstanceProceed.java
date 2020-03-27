@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.ConfigSection;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
@@ -38,28 +39,29 @@ public final class InstanceProceed implements Proceed<Field> {
     private final Managed managed;
 
     @NotNull
-    private final Object object;
+    private final ConfigSection configSection;
 
     @NotNull
     private final String parent;
 
-    public InstanceProceed(@NotNull final Managed managed, @NotNull final Object object, @NotNull final String parent) {
+    public InstanceProceed(@NotNull final Managed managed, @NotNull final ConfigSection configSection,
+                           @NotNull final String parent) {
         this.managed = managed;
-        this.object = object;
+        this.configSection = configSection;
         this.parent = parent;
     }
 
     @Override
     public void load(@NotNull final Field field) {
         try {
-            Optional.ofNullable(field.get(this.object)).ifPresent(o ->
-                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
+            Optional.ofNullable(field.get(this.configSection)).ifPresent(o ->
+                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section -> {
                     new SectionProceed(
                         this.managed,
                         this.parent,
                         section
-                    ).load(o)
-                )
+                    ).load((ConfigSection) o);
+                })
             );
         } catch (final IllegalAccessException e) {
             e.printStackTrace();

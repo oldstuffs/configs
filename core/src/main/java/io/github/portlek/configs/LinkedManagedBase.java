@@ -11,7 +11,7 @@ import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-public abstract class LinkedManagedBase extends ManagedBase implements LinkedManaged {
+public class LinkedManagedBase extends ManagedBase implements LinkedManaged {
 
     @NotNull
     private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();

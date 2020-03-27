@@ -35,11 +35,7 @@ public interface Managed extends ConfigSection {
     @NotNull
     Optional<Object> pull(@NotNull String id);
 
-    void setAutoSave(boolean autoSave);
-
     void load();
-
-    void save();
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
@@ -50,7 +46,6 @@ public interface Managed extends ConfigSection {
     @NotNull
     File getFile();
 
-    @NotNull
-    FileConfiguration getFileConfiguration();
+    void save();
 
 }

@@ -92,14 +92,14 @@ public final class ConfigProceed implements Proceed<Managed> {
         }
         final FileConfiguration configuration = type.load(file);
         managed.setup(file, configuration);
-        final Optional<String> stringOptional = managed.getString(versionpath);
-        if (!stringOptional.isPresent()) {
-            version.write(versionpath, managed);
-        } else {
-            final Version fileversion = Version.of(stringOptional.get());
+        final Optional<String> versionoptional = managed.getString(versionpath);
+        if (versionoptional.isPresent()) {
+            final Version fileversion = Version.of(versionoptional.get());
             if (!version.is(fileversion)) {
                 // TODO: 29/01/2020
             }
+        } else {
+            version.write(versionpath, managed);
         }
         new FieldsProceed(managed, "").load(managed);
         managed.save();

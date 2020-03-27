@@ -25,15 +25,14 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.ConfigSection;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.util.PathCalc;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.ConfigurationSection;
 
-public final class SectionProceed implements Proceed<Object> {
+public final class SectionProceed implements Proceed<ConfigSection> {
 
     @NotNull
     private final Managed managed;
@@ -51,19 +50,16 @@ public final class SectionProceed implements Proceed<Object> {
     }
 
     @Override
-    public void load(@NotNull final Object object) {
+    public void load(@NotNull final ConfigSection sctn) {
         final String path = new PathCalc(
             "",
             "",
             this.section.path(),
             this.parent,
-            object.getClass().getName()
+            sctn.getClass().getName()
         ).value();
-        final Optional<ConfigurationSection> configurationSectionOptional = this.managed.getSection(path);
-        if (!configurationSectionOptional.isPresent()) {
-            this.managed.createSection(path);
-        }
-        new FieldsProceed(object, path).load(this.managed);
+        sctn.setup(this.managed, this.managed.getOrCreateSection(path));
+        new FieldsProceed(sctn, path).load(this.managed);
     }
 
 }

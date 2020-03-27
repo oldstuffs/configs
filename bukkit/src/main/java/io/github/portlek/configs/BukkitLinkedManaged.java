@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class BukkitLinkedManaged extends LinkedManagedBase {
+public class BukkitLinkedManaged extends LinkedManagedBase {
 
     @SafeVarargs
     protected BukkitLinkedManaged(@NotNull final String chosen,

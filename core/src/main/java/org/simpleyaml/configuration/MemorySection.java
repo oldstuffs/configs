@@ -220,17 +220,13 @@ public class MemorySection implements ConfigurationSection {
     @Nullable
     public Object get(@NotNull final String path, @Nullable final Object def) {
         Validate.notNull(path, "Path cannot be null");
-
-        if (path.length() == 0) {
+        if (path.isEmpty()) {
             return this;
         }
-
-        final Configuration root = this.getRoot();
-        if (root == null) {
+        if (this.root == null) {
             throw new IllegalStateException("Cannot access section without a root");
         }
-
-        final char separator = root.options().pathSeparator();
+        final char separator = this.root.options().pathSeparator();
         // i1 is the leading (higher) index
         // i2 is the trailing (lower) index
         int i1 = -1, i2;
@@ -241,11 +237,13 @@ public class MemorySection implements ConfigurationSection {
                 return def;
             }
         }
-
         final String key = path.substring(i2);
-        if (section == this) {
+        if (section.equals(this)) {
             final Object result = this.map.get(key);
-            return result == null ? def : result;
+            if (result == null) {
+                return def;
+            }
+            return result;
         }
         return section.get(key, def);
     }

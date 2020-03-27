@@ -17,15 +17,7 @@ public final class TestBukkitPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final TestBukkitConfig testBukkitConfig = new TestBukkitConfig();
 
-        testBukkitConfig.load();
-
-        final TestBukkitLinkedConfig testBukkitLinkedConfig = new TestBukkitLinkedConfig(
-            testBukkitConfig
-        );
-
-        testBukkitLinkedConfig.load();
     }
 
 }

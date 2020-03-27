@@ -24,9 +24,10 @@ public interface ConfigSection {
     Optional<ConfigurationSection> getSection(@NotNull String path);
 
     @NotNull
-    Optional<ConfigurationSection> getOrCreateSection(@NotNull String path);
+    ConfigurationSection getOrCreateSection(@NotNull String path);
 
-    void createSection(@NotNull String path);
+    @NotNull
+    ConfigurationSection createSection(@NotNull String path);
 
     @NotNull
     Optional<String> getString(@NotNull String path);
@@ -79,5 +80,17 @@ public interface ConfigSection {
 
     @NotNull
     Optional<List<?>> getList(@NotNull String path);
+
+    boolean isAutosave();
+
+    void setAutosave(boolean autosv);
+
+    @NotNull
+    ConfigurationSection getSection();
+
+    @NotNull
+    Managed getManaged();
+
+    void setup(@NotNull Managed managed, @NotNull ConfigurationSection configurationSection);
 
 }
