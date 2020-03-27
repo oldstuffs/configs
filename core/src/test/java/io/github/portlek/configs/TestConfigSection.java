@@ -85,7 +85,11 @@ public final class TestConfigSection {
 
     @Test
     void setTest() {
-        
+        TestConfigSection.config.set("set-test-1", "settest-1");
+        final Optional<Object> settest1 = TestConfigSection.config.get("set-test-1");
+        assertTrue(settest1.isPresent(), "`set-test-1` hasn't been set!");
+        assertDoesNotThrow(settest1::get, "`set-test-1` was throw an exception!");
+        assertEquals("settest-1", settest1.get(), "`set-test-1` is not equal to `settest-1`");
     }
 
 }
