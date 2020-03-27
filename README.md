@@ -83,8 +83,6 @@ public final class TestConfig extends ManagedBase {
 }
 ```
 </details>
-
-<details>
 <summary>Bukkit</summary>
 
 @Config(
