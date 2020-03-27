@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 public final class TestConfigSection {
 
-    private static TestConfig config;
+    private static Managed config;
 
     @BeforeAll
     static void before() {
@@ -56,29 +56,36 @@ public final class TestConfigSection {
 
     @Test
     void getWithDefaultTest() {
-        final Optional<Object> test1 = TestConfigSection.config.get("test", "test-1");
-        assertTrue(test1.isPresent(), "`test` not found!");
-        assertEquals("test", test1.get(), "`test` not equal to " + test1.get() + '!');
-        assertNotEquals("test-1", test1.get(), "`test1` equal to " + test1.get() + '!');
+        final Optional<Object> test1 = TestConfigSection.config.get("getwithdefault-test-1", "getwithdefaulttest-1");
+        assertTrue(test1.isPresent(), "`getwithdefault-test-1` not found!");
+        assertEquals("getwithdefaulttest-1", test1.get(), "`getwithdefault-test-1` is not equal to `getwithdefaulttest-1`!");
 
-        final Optional<Object> test2 = TestConfigSection.config.get("test2", "test-2");
-        assertTrue(test2.isPresent(), "There is a value on `test2`!");
-        assertDoesNotThrow(test2::get, "Default value can't get from as `test-2`!");
-        assertEquals("test-2", test2.get(), "The value that gotten from the default value is not equal to `test-2`");
+        final Optional<Object> test2 = TestConfigSection.config.get("getwithdefault-test-2", "getwithdefaulttest-2");
+        assertTrue(test2.isPresent(), "There is not a value on `getwithdefault-test-2`!");
+        assertDoesNotThrow(test2::get, "Default value can't get from as `getwithdefault-test-2`!");
+        assertEquals("getwithdefaulttest-2", test2.get(), "The value that gotten from the default value is not equal to `getwithdefault-test-2`");
 
-        final Optional<Object> test3 = TestConfigSection.config.get("test3", null);
-        assertFalse(test3.isPresent(), "`test` found!");
+        final Optional<Object> test3 = TestConfigSection.config.get("getwithdefault-test-3", null);
+        assertFalse(test3.isPresent(), "`getwithdefault-test-3` not found!");
         assertThrows(NoSuchElementException.class, test3::get, "Wrong exception class was thrown!");
-        assertNull(test3.orElse(null), "Test3 is not null!");
+        assertNull(test3.orElse(null), "`getwithdefault-test-3` is not null!");
+        assertNotNull(test3.orElse("getwithdefaulttest-3"), "`getwithdefault-test-3` is null!");
     }
 
     @Test
     void getOrSetTest() {
-        final Object test1 = TestConfigSection.config.getOrSet("test", "test-1");
+        final Object test1 = TestConfigSection.config.getOrSet("getorset-test-1", "getorsettest-1");
         assertNotNull(test1, "`test` is null!");
-        assertEquals("test", test1, "`test` is not equal to `test-1`");
-        assertNotEquals("test-1", test1, "`test` is equal to `test-1`");
+        assertEquals("getorsettest-1", test1, "`getorset-test-1` is not equal to `getorsettest-1`!");
 
+        final Object test2 = TestConfigSection.config.getOrSet("getorset-test-2", "getorsettest-2");
+        assertNotNull(test2, "`getorset-test-2` is null!");
+        assertEquals("getorsettest-2", test2, "`getorset-test-2` is not equal to `getorsettest-2`!");
+    }
+
+    @Test
+    void setTest() {
+        
     }
 
 }
