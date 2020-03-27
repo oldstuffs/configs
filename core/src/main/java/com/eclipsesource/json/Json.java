@@ -109,7 +109,7 @@ public final class Json {
      * Returns a JsonValue instance that represents the given <code>double</code> value.
      *
      * @param value the value to get a JSON representation for
-     * @return a JSON value that represents the given value
+     * @return a JSON    value that represents the given value
      */
     public static JsonValue value(final double value) {
         if (Double.isInfinite(value) || Double.isNaN(value)) {
@@ -136,16 +136,6 @@ public final class Json {
      */
     public static JsonValue value(final boolean value) {
         return value ? Json.TRUE : Json.FALSE;
-    }
-
-    /**
-     * Creates a new empty JsonObject. This is equivalent to creating a new JsonObject using the
-     * constructor.
-     *
-     * @return a new empty JSON object
-     */
-    public static JsonObject object() {
-        return new JsonObject();
     }
 
     /**

@@ -42,8 +42,8 @@ import java.util.List;
  * Duplicate names are discouraged but not prohibited by JSON.
  * </p>
  * <p>
- * Members can be accessed by their name using {@link #get(String)}. A list of all names can be
- * obtained from the method {@link #names()}. This class also supports iterating over the members in
+ * Members can be accessed by their name using {@link #get(String)}.
+ * This class also supports iterating over the members in
  * document order using an {@link #iterator()} or an enhanced for loop:
  * </p>
  * <pre>
