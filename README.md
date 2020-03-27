@@ -27,7 +27,7 @@ Also you have to make relocation for the library with;
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-shade-plugin</artifactId>
-    <version>3.2.1</version>
+    <version>3.2.2</version>
     <configuration>
         <!-- Other settings -->
         <relocations>
