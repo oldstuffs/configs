@@ -116,7 +116,7 @@ public final class TestConfig extends BukkitManagedBase {
 public final class TestLinkedConfig extends LinkedManagedBase {
 
   public TestLinkedConfig(@NotNull TestConfig testConfig) {
-    super(testConfig.language, MapEntry.of("config", testConfig));
+    super(testConfig.language, MapEntry.from("config", testConfig));
   }
 
   @NotNull
@@ -150,7 +150,7 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 public final class TestLinkedConfig extends BukkitLinkedManaged {
 
   public TestLinkedConfig(@NotNull TestConfig testConfig) {
-    super(testConfig.language, MapEntry.of("config", testConfig));
+    super(testConfig.language, MapEntry.from("config", testConfig));
   }
 
   @NotNull
