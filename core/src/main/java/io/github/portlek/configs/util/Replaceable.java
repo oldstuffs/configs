@@ -1,7 +1,6 @@
 package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.ConfigSection;
-import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Provided;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
