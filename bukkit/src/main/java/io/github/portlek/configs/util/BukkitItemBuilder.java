@@ -91,8 +91,10 @@ public final class BukkitItemBuilder {
 
     @NotNull
     public BukkitItemBuilder flag(@NotNull final ItemFlag... flags) {
-        Optional.ofNullable(this.itemStack.getItemMeta()).ifPresent(itemMeta ->
-            itemMeta.addItemFlags(flags));
+        Optional.ofNullable(this.itemStack.getItemMeta()).ifPresent(itemMeta -> {
+            itemMeta.addItemFlags(flags);
+            this.itemStack.setItemMeta(itemMeta);
+        });
         return this;
     }
 
