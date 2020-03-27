@@ -57,7 +57,9 @@ Also you have to make relocation for the library with;
 
 ### Config Example
 
-#### Core
+<details>
+<summary>Core</summary>
+
 ```java
 @Config(
   name = "config"
@@ -80,9 +82,11 @@ public final class TestConfig extends ManagedBase {
 
 }
 ```
+</details>
 
-#### Bukkit
-```java
+<details>
+<summary>Bukkit</summary>
+
 @Config(
   name = "config"
 )
@@ -104,6 +108,8 @@ public final class TestConfig extends BukkitManagedBase {
 
 }
 ```
+</details>
+```java
 
 ### LinkedConfig Example
 
