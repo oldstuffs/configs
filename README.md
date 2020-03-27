@@ -3,6 +3,7 @@
 
 <details>
 <summary>Maven</summary>
+
 ```xml
 <repository>
     <id>portlek</id>
@@ -22,7 +23,6 @@
   <version>1.0</version>
 </dependency>
 ```
-</details>
 
 Also you have to make relocation for the library with;
 
@@ -51,6 +51,7 @@ Also you have to make relocation for the library with;
     </executions>
 </plugin>
 ```
+</details>
 
 ## Usage
 
