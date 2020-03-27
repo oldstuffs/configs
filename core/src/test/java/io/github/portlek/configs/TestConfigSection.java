@@ -39,7 +39,7 @@ public final class TestConfigSection {
     static void before() {
         TestConfigSection.config = new TestConfig();
         TestConfigSection.config.load();
-        TestConfigSection.config.setAutosave(true);
+        TestConfigSection.config.setAutoSave(true);
     }
 
     @Test

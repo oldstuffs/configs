@@ -184,12 +184,12 @@ public class ConfigSectionBase implements ConfigSection {
     }
 
     @Override
-    public final boolean isAutosave() {
+    public final boolean isAutoSave() {
         return this.autosave;
     }
 
     @Override
-    public final void setAutosave(final boolean autosv) {
+    public final void setAutoSave(final boolean autosv) {
         this.autosave = autosv;
     }
 

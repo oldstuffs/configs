@@ -81,9 +81,9 @@ public interface ConfigSection {
     @NotNull
     Optional<List<?>> getList(@NotNull String path);
 
-    boolean isAutosave();
+    boolean isAutoSave();
 
-    void setAutosave(boolean autosv);
+    void setAutoSave(boolean autosv);
 
     @NotNull
     ConfigurationSection getSection();
