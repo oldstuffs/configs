@@ -66,7 +66,7 @@ public final class TestConfig extends ManagedBase {
   public final TestSection testSection = new TestSection();
 
   @Section(path = "test-section")
-  public final class TestSection {
+  public final class TestSection extends ConfigSectionBase {
 
     @Value
     public String test_section_string = "test";
@@ -105,8 +105,7 @@ public final class TestLinkedConfig extends LinkedManagedBase {
     } else if (s.equals("tr")) {
       return Optional.of("Türkçe kelimeler!");
     }
-    
-    return Response.empty();
+    return Optional.empty();
   });
 
 }
