@@ -53,6 +53,7 @@ Also you have to make relocation for the library with;
 
 ### Config Example
 
+#### Core
 ```java
 @Config(
   name = "config"
@@ -76,8 +77,33 @@ public final class TestConfig extends ManagedBase {
 }
 ```
 
+#### Bukkit
+```java
+@Config(
+  name = "config"
+)
+public final class TestConfig extends BukkitManagedBase {
+
+  @Value
+  public String test = "test";
+
+  @Instance
+  public final TestSection testSection = new TestSection();
+
+  @Section(path = "test-section")
+  public final class TestSection extends BukkitConfigSection {
+
+    @Value
+    public String test_section_string = "test";
+
+  }
+
+}
+```
+
 ### LinkedConfig Example
 
+#### Core
 ```java
 @LinkedConfig(configs = {
   @Config(
@@ -111,6 +137,39 @@ public final class TestLinkedConfig extends LinkedManagedBase {
 }
 ```
 
+#### Bukkit
+```java
+@LinkedConfig(configs = {
+  @Config(
+    name = "en"
+  ),
+  @Config(
+    name = "tr"
+  ),
+})
+public final class TestLinkedConfig extends BukkitLinkedManaged {
+
+  public TestLinkedConfig(@NotNull TestConfig testConfig) {
+    super(testConfig.language, MapEntry.of("config", testConfig));
+  }
+
+  @NotNull
+  public TestConfig getConfig() {
+    return (TestConfig) this.pull("config");
+  }
+
+  @Value
+  public String test = match(s -> {
+    if (s.equals("en")) {
+      return Optional.of("English words!");
+    } else if (s.equals("tr")) {
+      return Optional.of("Türkçe kelimeler!");
+    }
+    return Optional.empty();
+  });
+
+}
+```
 The result of the config example will be like that;
 
 ```yml
