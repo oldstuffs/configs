@@ -43,15 +43,6 @@ public class PrettyPrint extends WriterConfig {
     }
 
     /**
-     * Print every value on a separate line. Use tabs (<code>\t</code>) for indentation.
-     *
-     * @return A PrettyPrint instance for wrapped mode with tab indentation
-     */
-    public static PrettyPrint singleLine() {
-        return new PrettyPrint(null);
-    }
-
-    /**
      * Print every value on a separate line. Use the given number of spaces for indentation.
      *
      * @param number the number of spaces to use
@@ -64,15 +55,6 @@ public class PrettyPrint extends WriterConfig {
         final char[] chars = new char[number];
         Arrays.fill(chars, ' ');
         return new PrettyPrint(chars);
-    }
-
-    /**
-     * Do not break lines, but still insert whitespace between values.
-     *
-     * @return A PrettyPrint instance for single-line mode
-     */
-    public static PrettyPrint indentWithTabs() {
-        return new PrettyPrint(new char[]{'\t'});
     }
 
     @Override

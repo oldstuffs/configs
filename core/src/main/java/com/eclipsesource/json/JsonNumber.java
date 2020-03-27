@@ -58,11 +58,6 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
-    public float asFloat() {
-        return Float.parseFloat(this.string);
-    }
-
-    @Override
     public double asDouble() {
         return Double.parseDouble(this.string);
     }

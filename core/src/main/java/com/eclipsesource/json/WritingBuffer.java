@@ -39,10 +39,6 @@ class WritingBuffer extends Writer {
 
     private int fill = 0;
 
-    WritingBuffer(final Writer writer) {
-        this(writer, 16);
-    }
-
     WritingBuffer(final Writer writer, final int bufferSize) {
         this.writer = writer;
         this.buffer = new char[bufferSize];
@@ -95,7 +91,7 @@ class WritingBuffer extends Writer {
      * Does not close or flush the wrapped writer.
      */
     @Override
-    public void close() throws IOException {
+    public void close() {
     }
 
 }

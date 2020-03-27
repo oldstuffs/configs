@@ -62,34 +62,7 @@ import java.util.List;
 @SuppressWarnings("serial") // use default serial UID
 public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
-    private final List<JsonValue> values;
-
-    /**
-     * Creates a new empty JsonArray.
-     */
-    public JsonArray() {
-        this.values = new ArrayList<JsonValue>();
-    }
-
-    /**
-     * Creates a new JsonArray with the contents of the specified JSON array.
-     *
-     * @param array the JsonArray to get the initial contents from, must not be <code>null</code>
-     */
-    public JsonArray(final JsonArray array) {
-        this(array, false);
-    }
-
-    private JsonArray(final JsonArray array, final boolean unmodifiable) {
-        if (array == null) {
-            throw new NullPointerException("array is null");
-        }
-        if (unmodifiable) {
-            this.values = Collections.unmodifiableList(array.values);
-        } else {
-            this.values = new ArrayList<JsonValue>(array.values);
-        }
-    }
+    private final List<JsonValue> values = new ArrayList<>();
 
     /**
      * Reads a JSON array from the given reader.
@@ -123,92 +96,6 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     @Deprecated
     public static JsonArray readFrom(final String string) {
         return JsonValue.readFrom(string).asArray();
-    }
-
-    /**
-     * Returns an unmodifiable wrapper for the specified JsonArray. This method allows to provide
-     * read-only access to a JsonArray.
-     * <p>
-     * The returned JsonArray is backed by the given array and reflects subsequent changes. Attempts
-     * to modify the returned JsonArray result in an <code>UnsupportedOperationException</code>.
-     * </p>
-     *
-     * @param array the JsonArray for which an unmodifiable JsonArray is to be returned
-     * @return an unmodifiable view of the specified JsonArray
-     */
-    public static JsonArray unmodifiableArray(final JsonArray array) {
-        return new JsonArray(array, true);
-    }
-
-    /**
-     * Appends the JSON representation of the specified <code>int</code> value to the end of this
-     * array.
-     *
-     * @param value the value to add to the array
-     * @return the array itself, to enable method chaining
-     */
-    public JsonArray add(final int value) {
-        this.values.add(Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends the JSON representation of the specified <code>long</code> value to the end of this
-     * array.
-     *
-     * @param value the value to add to the array
-     * @return the array itself, to enable method chaining
-     */
-    public JsonArray add(final long value) {
-        this.values.add(Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends the JSON representation of the specified <code>float</code> value to the end of this
-     * array.
-     *
-     * @param value the value to add to the array
-     * @return the array itself, to enable method chaining
-     */
-    public JsonArray add(final float value) {
-        this.values.add(Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends the JSON representation of the specified <code>double</code> value to the end of this
-     * array.
-     *
-     * @param value the value to add to the array
-     * @return the array itself, to enable method chaining
-     */
-    public JsonArray add(final double value) {
-        this.values.add(Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends the JSON representation of the specified <code>boolean</code> value to the end of this
-     * array.
-     *
-     * @param value the value to add to the array
-     * @return the array itself, to enable method chaining
-     */
-    public JsonArray add(final boolean value) {
-        this.values.add(Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends the JSON representation of the specified string to the end of this array.
-     *
-     * @param value the string to add to the array
-     * @return the array itself, to enable method chaining
-     */
-    public JsonArray add(final String value) {
-        this.values.add(Json.value(value));
-        return this;
     }
 
     /**
@@ -329,19 +216,6 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
             throw new NullPointerException("value is null");
         }
         this.values.set(index, value);
-        return this;
-    }
-
-    /**
-     * Removes the element at the specified index from this array.
-     *
-     * @param index the index of the element to remove
-     * @return the array itself, to enable method chaining
-     * @throws IndexOutOfBoundsException if the index is out of range, i.e. <code>index &lt; 0</code> or
-     * <code>index &gt;= size</code>
-     */
-    public JsonArray remove(final int index) {
-        this.values.remove(index);
         return this;
     }
 

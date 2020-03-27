@@ -364,21 +364,6 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns this JSON value as a <code>float</code> value, assuming that this value represents a
-     * JSON number. If this is not the case, an exception is thrown.
-     * <p>
-     * If the JSON number is out of the <code>Float</code> range, {@link Float#POSITIVE_INFINITY} or
-     * {@link Float#NEGATIVE_INFINITY} is returned.
-     * </p>
-     *
-     * @return this value as <code>float</code>
-     * @throws UnsupportedOperationException if this value is not a JSON number
-     */
-    public float asFloat() {
-        throw new UnsupportedOperationException("Not a number: " + this.toString());
-    }
-
-    /**
      * Returns this JSON value as a <code>double</code> value, assuming that this value represents a
      * JSON number. If this is not the case, an exception is thrown.
      * <p>
@@ -413,20 +398,6 @@ public abstract class JsonValue implements Serializable {
      */
     public boolean asBoolean() {
         throw new UnsupportedOperationException("Not a boolean: " + this.toString());
-    }
-
-    /**
-     * Writes the JSON representation of this value to the given writer in its minimal form, without
-     * any additional whitespace.
-     * <p>
-     * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
-     * </p>
-     *
-     * @param writer the writer to write this value to
-     * @throws IOException if an I/O error occurs in the writer
-     */
-    public void writeTo(final Writer writer) throws IOException {
-        this.writeTo(writer, WriterConfig.MINIMAL);
     }
 
     @Override

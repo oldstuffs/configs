@@ -80,18 +80,9 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * Creates a new empty JsonObject.
      */
     public JsonObject() {
-        this.names = new ArrayList<String>();
-        this.values = new ArrayList<JsonValue>();
+        this.names = new ArrayList<>();
+        this.values = new ArrayList<>();
         this.table = new JsonObject.HashIndexTable();
-    }
-
-    /**
-     * Creates a new JsonObject, initialized with the contents of the specified JSON object.
-     *
-     * @param object the JSON object to get the initial contents from, must not be <code>null</code>
-     */
-    public JsonObject(final JsonObject object) {
-        this(object, false);
     }
 
     private JsonObject(final JsonObject object, final boolean unmodifiable) {
@@ -151,43 +142,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     }
 
     /**
-     * Returns an unmodifiable JsonObject for the specified one. This method allows to provide
-     * read-only access to a JsonObject.
-     * <p>
-     * The returned JsonObject is backed by the given object and reflect changes that happen to it.
-     * Attempts to modify the returned JsonObject result in an
-     * <code>UnsupportedOperationException</code>.
-     * </p>
-     *
-     * @param object the JsonObject for which an unmodifiable JsonObject is to be returned
-     * @return an unmodifiable view of the specified JsonObject
-     */
-    public static JsonObject unmodifiableObject(final JsonObject object) {
-        return new JsonObject(object, true);
-    }
-
-    /**
-     * Appends a new member to the end of this object, with the specified name and the JSON
-     * representation of the specified <code>int</code> value.
-     * <p>
-     * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name
-     * that already exists in the object will append another member with the same name. In order to
-     * replace existing members, use the method <code>set(name, value)</code> instead. However,
-     * <strong> <em>add</em> is much faster than <em>set</em></strong> (because it does not need to
-     * search for existing members). Therefore <em>add</em> should be preferred when constructing new
-     * objects.
-     * </p>
-     *
-     * @param name the name of the member to add
-     * @param value the value of the member to add
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject add(final String name, final int value) {
-        this.add(name, Json.value(value));
-        return this;
-    }
-
-    /**
      * Appends a new member to the end of this object, with the specified name and the specified JSON
      * value.
      * <p>
@@ -213,111 +167,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         this.table.add(name, this.names.size());
         this.names.add(name);
         this.values.add(value);
-        return this;
-    }
-
-    /**
-     * Appends a new member to the end of this object, with the specified name and the JSON
-     * representation of the specified <code>long</code> value.
-     * <p>
-     * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name
-     * that already exists in the object will append another member with the same name. In order to
-     * replace existing members, use the method <code>set(name, value)</code> instead. However,
-     * <strong> <em>add</em> is much faster than <em>set</em></strong> (because it does not need to
-     * search for existing members). Therefore <em>add</em> should be preferred when constructing new
-     * objects.
-     * </p>
-     *
-     * @param name the name of the member to add
-     * @param value the value of the member to add
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject add(final String name, final long value) {
-        this.add(name, Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends a new member to the end of this object, with the specified name and the JSON
-     * representation of the specified <code>float</code> value.
-     * <p>
-     * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name
-     * that already exists in the object will append another member with the same name. In order to
-     * replace existing members, use the method <code>set(name, value)</code> instead. However,
-     * <strong> <em>add</em> is much faster than <em>set</em></strong> (because it does not need to
-     * search for existing members). Therefore <em>add</em> should be preferred when constructing new
-     * objects.
-     * </p>
-     *
-     * @param name the name of the member to add
-     * @param value the value of the member to add
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject add(final String name, final float value) {
-        this.add(name, Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends a new member to the end of this object, with the specified name and the JSON
-     * representation of the specified <code>double</code> value.
-     * <p>
-     * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name
-     * that already exists in the object will append another member with the same name. In order to
-     * replace existing members, use the method <code>set(name, value)</code> instead. However,
-     * <strong> <em>add</em> is much faster than <em>set</em></strong> (because it does not need to
-     * search for existing members). Therefore <em>add</em> should be preferred when constructing new
-     * objects.
-     * </p>
-     *
-     * @param name the name of the member to add
-     * @param value the value of the member to add
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject add(final String name, final double value) {
-        this.add(name, Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends a new member to the end of this object, with the specified name and the JSON
-     * representation of the specified <code>boolean</code> value.
-     * <p>
-     * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name
-     * that already exists in the object will append another member with the same name. In order to
-     * replace existing members, use the method <code>set(name, value)</code> instead. However,
-     * <strong> <em>add</em> is much faster than <em>set</em></strong> (because it does not need to
-     * search for existing members). Therefore <em>add</em> should be preferred when constructing new
-     * objects.
-     * </p>
-     *
-     * @param name the name of the member to add
-     * @param value the value of the member to add
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject add(final String name, final boolean value) {
-        this.add(name, Json.value(value));
-        return this;
-    }
-
-    /**
-     * Appends a new member to the end of this object, with the specified name and the JSON
-     * representation of the specified string.
-     * <p>
-     * This method <strong>does not prevent duplicate names</strong>. Calling this method with a name
-     * that already exists in the object will append another member with the same name. In order to
-     * replace existing members, use the method <code>set(name, value)</code> instead. However,
-     * <strong> <em>add</em> is much faster than <em>set</em></strong> (because it does not need to
-     * search for existing members). Therefore <em>add</em> should be preferred when constructing new
-     * objects.
-     * </p>
-     *
-     * @param name the name of the member to add
-     * @param value the value of the member to add
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject add(final String name, final String value) {
-        this.add(name, Json.value(value));
         return this;
     }
 
@@ -482,39 +331,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     }
 
     /**
-     * Removes a member with the specified name from this object. If this object contains multiple
-     * members with the given name, only the last one is removed. If this object does not contain a
-     * member with the specified name, the object is not modified.
-     *
-     * @param name the name of the member to remove
-     * @return the object itself, to enable method chaining
-     */
-    public JsonObject remove(final String name) {
-        if (name == null) {
-            throw new NullPointerException("name is null");
-        }
-        final int index = this.indexOf(name);
-        if (index != -1) {
-            this.table.remove(index);
-            this.names.remove(index);
-            this.values.remove(index);
-        }
-        return this;
-    }
-
-    /**
-     * Checks if a specified member is present as a child of this object. This will not test if
-     * this object contains the literal <code>null</code>, {@link JsonValue#isNull()} should be used
-     * for this purpose.
-     *
-     * @param name the name of the member to check for
-     * @return whether or not the member is present
-     */
-    public boolean contains(final String name) {
-        return this.names.contains(name);
-    }
-
-    /**
      * Copies all members of the specified object into this object. When the specified object contains
      * members with names that also exist in this object, the existing values in this object will be
      * replaced by the corresponding values in the specified object.
@@ -530,23 +346,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             this.set(member.name, member.value);
         }
         return this;
-    }
-
-    /**
-     * Returns the <code>int</code> value of the member with the specified name in this object. If
-     * this object does not contain a member with this name, the given default value is returned. If
-     * this object contains multiple members with the given name, the last one will be picked. If this
-     * member's value does not represent a JSON number or if it cannot be interpreted as Java
-     * <code>int</code>, an exception is thrown.
-     *
-     * @param name the name of the member whose value is to be returned
-     * @param defaultValue the value to be returned if the requested member is missing
-     * @return the value of the last member with the specified name, or the given default value if
-     * this object does not contain a member with that name
-     */
-    public int getInt(final String name, final int defaultValue) {
-        final JsonValue value = this.get(name);
-        return value != null ? value.asInt() : defaultValue;
     }
 
     /**
@@ -566,116 +365,12 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     }
 
     /**
-     * Returns the <code>long</code> value of the member with the specified name in this object. If
-     * this object does not contain a member with this name, the given default value is returned. If
-     * this object contains multiple members with the given name, the last one will be picked. If this
-     * member's value does not represent a JSON number or if it cannot be interpreted as Java
-     * <code>long</code>, an exception is thrown.
-     *
-     * @param name the name of the member whose value is to be returned
-     * @param defaultValue the value to be returned if the requested member is missing
-     * @return the value of the last member with the specified name, or the given default value if
-     * this object does not contain a member with that name
-     */
-    public long getLong(final String name, final long defaultValue) {
-        final JsonValue value = this.get(name);
-        return value != null ? value.asLong() : defaultValue;
-    }
-
-    /**
-     * Returns the <code>float</code> value of the member with the specified name in this object. If
-     * this object does not contain a member with this name, the given default value is returned. If
-     * this object contains multiple members with the given name, the last one will be picked. If this
-     * member's value does not represent a JSON number or if it cannot be interpreted as Java
-     * <code>float</code>, an exception is thrown.
-     *
-     * @param name the name of the member whose value is to be returned
-     * @param defaultValue the value to be returned if the requested member is missing
-     * @return the value of the last member with the specified name, or the given default value if
-     * this object does not contain a member with that name
-     */
-    public float getFloat(final String name, final float defaultValue) {
-        final JsonValue value = this.get(name);
-        return value != null ? value.asFloat() : defaultValue;
-    }
-
-    /**
-     * Returns the <code>double</code> value of the member with the specified name in this object. If
-     * this object does not contain a member with this name, the given default value is returned. If
-     * this object contains multiple members with the given name, the last one will be picked. If this
-     * member's value does not represent a JSON number or if it cannot be interpreted as Java
-     * <code>double</code>, an exception is thrown.
-     *
-     * @param name the name of the member whose value is to be returned
-     * @param defaultValue the value to be returned if the requested member is missing
-     * @return the value of the last member with the specified name, or the given default value if
-     * this object does not contain a member with that name
-     */
-    public double getDouble(final String name, final double defaultValue) {
-        final JsonValue value = this.get(name);
-        return value != null ? value.asDouble() : defaultValue;
-    }
-
-    /**
-     * Returns the <code>boolean</code> value of the member with the specified name in this object. If
-     * this object does not contain a member with this name, the given default value is returned. If
-     * this object contains multiple members with the given name, the last one will be picked. If this
-     * member's value does not represent a JSON <code>true</code> or <code>false</code> value, an
-     * exception is thrown.
-     *
-     * @param name the name of the member whose value is to be returned
-     * @param defaultValue the value to be returned if the requested member is missing
-     * @return the value of the last member with the specified name, or the given default value if
-     * this object does not contain a member with that name
-     */
-    public boolean getBoolean(final String name, final boolean defaultValue) {
-        final JsonValue value = this.get(name);
-        return value != null ? value.asBoolean() : defaultValue;
-    }
-
-    /**
-     * Returns the <code>String</code> value of the member with the specified name in this object. If
-     * this object does not contain a member with this name, the given default value is returned. If
-     * this object contains multiple members with the given name, the last one is picked. If this
-     * member's value does not represent a JSON string, an exception is thrown.
-     *
-     * @param name the name of the member whose value is to be returned
-     * @param defaultValue the value to be returned if the requested member is missing
-     * @return the value of the last member with the specified name, or the given default value if
-     * this object does not contain a member with that name
-     */
-    public String getString(final String name, final String defaultValue) {
-        final JsonValue value = this.get(name);
-        return value != null ? value.asString() : defaultValue;
-    }
-
-    /**
-     * Returns the number of members (name/value pairs) in this object.
-     *
-     * @return the number of members in this object
-     */
-    public int size() {
-        return this.names.size();
-    }
-
-    /**
      * Returns <code>true</code> if this object contains no members.
      *
      * @return <code>true</code> if this object contains no members
      */
     public boolean isEmpty() {
         return this.names.isEmpty();
-    }
-
-    /**
-     * Returns a list of the names in this object in document order. The returned list is backed by
-     * this object and will reflect subsequent changes. It cannot be used to modify this object.
-     * Attempts to modify the returned list will result in an exception.
-     *
-     * @return a list of the names in this object
-     */
-    public List<String> names() {
-        return Collections.unmodifiableList(this.names);
     }
 
     /**
@@ -842,13 +537,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
 
         private final byte[] hashTable = new byte[32]; // must be a power of two
 
-        HashIndexTable() {
-        }
-
-        HashIndexTable(final JsonObject.HashIndexTable original) {
-            System.arraycopy(original.hashTable, 0, this.hashTable, 0, this.hashTable.length);
-        }
-
         void add(final String name, final int index) {
             final int slot = this.hashSlotFor(name);
             if (index < 0xff) {
@@ -861,16 +549,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
 
         private int hashSlotFor(final Object element) {
             return element.hashCode() & this.hashTable.length - 1;
-        }
-
-        void remove(final int index) {
-            for (int i = 0; i < this.hashTable.length; i++) {
-                if ((this.hashTable[i] & 0xff) == index + 1) {
-                    this.hashTable[i] = 0;
-                } else if ((this.hashTable[i] & 0xff) > index + 1) {
-                    this.hashTable[i]--;
-                }
-            }
         }
 
         int get(final Object name) {

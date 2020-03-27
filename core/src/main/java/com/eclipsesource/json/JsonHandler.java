@@ -235,13 +235,4 @@ public abstract class JsonHandler<A, O> {
     public void endObjectValue(final O object, final String name) {
     }
 
-    /**
-     * Returns the current parser location.
-     *
-     * @return the current parser location
-     */
-    protected Location getLocation() {
-        return this.parser.getLocation();
-    }
-
 }
