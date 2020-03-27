@@ -30,8 +30,8 @@ import com.cryptomorin.xseries.XMaterial;
 import java.util.*;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 import org.jetbrains.annotations.NotNull;
 
@@ -70,24 +70,29 @@ public final class BukkitItemBuilder {
 
     @NotNull
     public BukkitItemBuilder name(@NotNull final String displayName, final boolean colored) {
-        final ItemMeta itemMeta = this.itemStack.getItemMeta();
-        if (itemMeta == null) {
-            return this;
-        }
-        if (colored) {
-            itemMeta.setDisplayName(
-                ColorUtil.colored(displayName)
-            );
-        } else {
-            itemMeta.setDisplayName(displayName);
-        }
-        this.itemStack.setItemMeta(itemMeta);
+        Optional.ofNullable(this.itemStack.getItemMeta()).ifPresent(itemMeta -> {
+            if (colored) {
+                itemMeta.setDisplayName(
+                    ColorUtil.colored(displayName)
+                );
+            } else {
+                itemMeta.setDisplayName(displayName);
+            }
+            this.itemStack.setItemMeta(itemMeta);
+        });
         return this;
     }
 
     @NotNull
     public BukkitItemBuilder amount(final int size) {
         this.itemStack.setAmount(size);
+        return this;
+    }
+
+    @NotNull
+    public BukkitItemBuilder flag(@NotNull final ItemFlag... flags) {
+        Optional.ofNullable(this.itemStack.getItemMeta()).ifPresent(itemMeta ->
+            itemMeta.addItemFlags(flags));
         return this;
     }
 
@@ -111,27 +116,25 @@ public final class BukkitItemBuilder {
 
     @NotNull
     public BukkitItemBuilder lore(@NotNull final List<String> lore, final boolean colored) {
-        final ItemMeta itemMeta = this.itemStack.getItemMeta();
-        if (itemMeta == null) {
-            return this;
-        }
-        if (colored) {
-            itemMeta.setLore(
-                ColorUtil.colored(lore)
-            );
-        } else {
-            itemMeta.setLore(
-                lore
-            );
-        }
-        this.itemStack.setItemMeta(itemMeta);
+        Optional.ofNullable(this.itemStack.getItemMeta()).ifPresent(itemMeta -> {
+            if (colored) {
+                itemMeta.setLore(
+                    ColorUtil.colored(lore)
+                );
+            } else {
+                itemMeta.setLore(
+                    lore
+                );
+            }
+            this.itemStack.setItemMeta(itemMeta);
+        });
         return this;
     }
 
     @NotNull
     public BukkitItemBuilder enchantments(@NotNull final String... enchantments) {
-        for (final String s : enchantments) {
-            final String[] split = s.split(":");
+        for (final String enchstring : enchantments) {
+            final String[] split = enchstring.split(":");
             final String enchantment;
             final int level;
             if (split.length == 1) {
@@ -157,11 +160,9 @@ public final class BukkitItemBuilder {
 
     @NotNull
     public BukkitItemBuilder enchantments(@NotNull final XEnchantment enchantment, final int level) {
-        final Optional<Enchantment> enchantmentOptional = Optional.ofNullable(enchantment.parseEnchantment());
-        if (enchantmentOptional.isPresent()) {
-            return this.enchantments(enchantmentOptional.get(), level);
-        }
-        return this;
+        return Optional.ofNullable(enchantment.parseEnchantment()).map(value ->
+            this.enchantments(value, level)
+        ).orElse(this);
     }
 
     @NotNull
