@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.com/portlek/configs.svg?branch=old)](https://travis-ci.com/portlek/configs)
 ## Setup
 
+<details>
+<summary>Maven</summary>
 ```xml
 <repository>
     <id>portlek</id>
@@ -20,6 +22,7 @@
   <version>1.0</version>
 </dependency>
 ```
+</details>
 
 Also you have to make relocation for the library with;
 
