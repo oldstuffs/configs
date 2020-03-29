@@ -29,11 +29,6 @@ public class BukkitSection implements BkktSection {
     }
 
     @Override
-    public final void autoSave() {
-        this.base.autoSave();
-    }
-
-    @Override
     public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
         this.base.setup(managed, section);
     }
