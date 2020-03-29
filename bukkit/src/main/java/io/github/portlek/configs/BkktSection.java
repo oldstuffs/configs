@@ -1,10 +1,17 @@
 package io.github.portlek.configs;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public interface BkktSection extends CfgSection {
+
+    @Override
+    @NotNull
+    default Supplier<CfgSection> getNewSection() {
+        return BukkitSection::new;
+    }
 
     @NotNull
     default Optional<ItemStack> getItemStack() {

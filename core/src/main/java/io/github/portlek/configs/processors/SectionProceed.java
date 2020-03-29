@@ -27,6 +27,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.annotations.Section;
 import org.jetbrains.annotations.NotNull;
 
 public final class SectionProceed implements Proceed<CfgSection> {
@@ -38,10 +39,10 @@ public final class SectionProceed implements Proceed<CfgSection> {
     private final CfgSection parent;
 
     @NotNull
-    private final io.github.portlek.configs.annotations.Section section;
+    private final Section section;
 
     public SectionProceed(@NotNull final FlManaged managed, @NotNull final CfgSection parent,
-                          @NotNull final io.github.portlek.configs.annotations.Section section) {
+                          @NotNull final Section section) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;

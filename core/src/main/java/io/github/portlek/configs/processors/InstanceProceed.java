@@ -27,6 +27,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.annotations.Section;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -48,7 +49,7 @@ public final class InstanceProceed implements Proceed<Field> {
     public void load(@NotNull final Field field) {
         try {
             Optional.ofNullable(field.get(this.parent)).ifPresent(o ->
-                Optional.ofNullable(o.getClass().getDeclaredAnnotation(io.github.portlek.configs.annotations.Section.class)).ifPresent(section ->
+                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
                     new SectionProceed(
                         this.managed,
                         this.parent,

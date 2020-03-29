@@ -1,6 +1,5 @@
 package io.github.portlek.configs;
 
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.ConfigurationSection;
 
@@ -8,6 +7,14 @@ public class BukkitSection implements BkktSection {
 
     @NotNull
     private final CfgSection base;
+
+    public BukkitSection() {
+        this(new ConfigSection());
+    }
+
+    public BukkitSection(@NotNull final CfgSection base) {
+        this.base = base;
+    }
 
     @NotNull
     @Override
@@ -24,20 +31,6 @@ public class BukkitSection implements BkktSection {
     @Override
     public final void autoSave() {
         this.base.autoSave();
-    }
-
-    @NotNull
-    @Override
-    public final Supplier<CfgSection> getNewSection() {
-        return BukkitSection::new;
-    }
-
-    public BukkitSection() {
-        this(new ConfigSection());
-    }
-
-    public BukkitSection(@NotNull final CfgSection base) {
-        this.base = base;
     }
 
     @Override
