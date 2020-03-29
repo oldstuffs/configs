@@ -26,47 +26,41 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
 
     @NotNull
     @Override
-    public FlManaged getBase() {
-        return (FlManaged) super.getBase();
-    }
-
-    @NotNull
-    @Override
     public final FileConfiguration getConfigurationSection() {
-        return (FileConfiguration) super.getConfigurationSection();
+        return ((FlManaged) this.getBase()).getConfigurationSection();
     }
 
     @NotNull
     @Override
     public final Optional<Object> pull(@NotNull final String id) {
-        return this.getBase().pull(id);
+        return ((FlManaged) this.getBase()).pull(id);
     }
 
     @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        this.getBase().setup(file, fileConfiguration);
+        ((FlManaged) this.getBase()).setup(file, fileConfiguration);
     }
 
     @Override
     public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        this.getBase().addCustomValue(aClass, provided);
+        ((FlManaged) this.getBase()).addCustomValue(aClass, provided);
     }
 
     @NotNull
     @Override
     public final <T> Optional<Provided<T>> getCustomValue(@NotNull final Class<T> aClass) {
-        return this.getBase().getCustomValue(aClass);
+        return ((FlManaged) this.getBase()).getCustomValue(aClass);
     }
 
     @NotNull
     @Override
     public final File getFile() {
-        return this.getBase().getFile();
+        return ((FlManaged) this.getBase()).getFile();
     }
 
     @Override
     public final void addObject(@NotNull final String key, @NotNull final Object object) {
-        this.getBase().addObject(key, object);
+        ((FlManaged) this.getBase()).addObject(key, object);
     }
 
 }
