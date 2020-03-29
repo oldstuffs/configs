@@ -18,7 +18,7 @@ public class BukkitSection implements BkktSection {
 
     @NotNull
     @Override
-    public CfgSection getBase() {
+    public final CfgSection getBase() {
         return this.base;
     }
 
