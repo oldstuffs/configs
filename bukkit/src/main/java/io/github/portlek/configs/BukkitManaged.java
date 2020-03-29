@@ -1,16 +1,24 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.util.BukkitItemStackProvider;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class BukkitManaged extends ManagedBase {
 
     @SafeVarargs
-    protected BukkitManaged(@NotNull final Map.@NotNull Entry<String, Object>... objects) {
+    protected BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
+    }
+
+    @NotNull
+    @Override
+    public final Supplier<ConfigSection> getNewSection() {
+        return BukkitConfigSection::new;
     }
 
     @NotNull

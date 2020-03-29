@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
@@ -17,6 +18,12 @@ public class ConfigSectionBase implements ConfigSection {
     private Managed managed;
 
     private boolean autosave = false;
+
+    @NotNull
+    @Override
+    public Supplier<ConfigSection> getNewSection() {
+        return ConfigSectionBase::new;
+    }
 
     @NotNull
     @Override
@@ -61,10 +68,10 @@ public class ConfigSectionBase implements ConfigSection {
 
     @NotNull
     @Override
-    public final Optional<ConfigSection> getSection(@NotNull final String path) {
+    public Optional<ConfigSection> getSection(@NotNull final String path) {
         return Optional.ofNullable(this.getConfigurationSection().getConfigurationSection(path))
             .map(configurationsection -> {
-                final ConfigSection configsection = new ConfigSectionBase();
+                final ConfigSection configsection = this.getNewSection().get();
                 configsection.setup(this.getManaged(), configurationsection);
                 return configsection;
             });
@@ -78,7 +85,7 @@ public class ConfigSectionBase implements ConfigSection {
 
     @Override
     public final ConfigSection createSection(@NotNull final String path) {
-        final ConfigSection configsection = new ConfigSectionBase();
+        final ConfigSection configsection = this.getNewSection().get();
         configsection.setup(this.getManaged(), this.getConfigurationSection().createSection(path));
         configsection.setAutoSave(this.autosave);
         configsection.autoSave();
