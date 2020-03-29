@@ -25,7 +25,10 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
@@ -35,7 +38,14 @@ public interface Managed extends ConfigSection {
     @NotNull
     Optional<Object> pull(@NotNull String id);
 
-    void load();
+    default void load() {
+        final Config config = this.getClass().getDeclaredAnnotation(Config.class);
+        if (config != null) {
+            new ConfigProceed(config).load(this);
+            return;
+        }
+        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!");
+    }
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
@@ -43,9 +53,18 @@ public interface Managed extends ConfigSection {
 
     @NotNull <T> Optional<Provided<T>> getCustomValue(@NotNull Class<T> aClass);
 
+    default void save() {
+        try {
+            this.getConfigurationSection().save(this.getFile());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    FileConfiguration getConfigurationSection();
+
     @NotNull
     File getFile();
-
-    void save();
 
 }

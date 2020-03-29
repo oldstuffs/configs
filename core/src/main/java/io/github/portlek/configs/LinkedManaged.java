@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.processors.LinkedConfigProceed;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
@@ -36,5 +38,15 @@ public interface LinkedManaged extends Managed {
 
     @NotNull
     String getChosen();
+
+    @Override
+    default void load() {
+        final LinkedConfig linked = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
+        if (linked != null) {
+            new LinkedConfigProceed(linked).load(this);
+            return;
+        }
+        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!");
+    }
 
 }

@@ -58,16 +58,6 @@ public class ManagedBase extends ConfigSectionBase implements Managed {
     }
 
     @Override
-    public void load() {
-        final Config config = this.getClass().getDeclaredAnnotation(Config.class);
-        if (config != null) {
-            new ConfigProceed(config).load(this);
-            return;
-        }
-        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!");
-    }
-
-    @Override
     public void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         this.file = file;
         this.setup(this, fileConfiguration);
@@ -92,15 +82,6 @@ public class ManagedBase extends ConfigSectionBase implements Managed {
     @Override
     public final File getFile() {
         return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
-    }
-
-    @Override
-    public final void save() {
-        try {
-            this.getConfigurationSection().save(this.getFile());
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @NotNull

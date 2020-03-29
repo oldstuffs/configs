@@ -41,16 +41,6 @@ public class LinkedManagedBase extends ManagedBase implements LinkedManaged {
     }
 
     @Override
-    public final void load() {
-        final LinkedConfig linked = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
-        if (linked != null) {
-            new LinkedConfigProceed(linked).load(this);
-            return;
-        }
-        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!");
-    }
-
-    @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         super.setup(file, fileConfiguration);
         this.linkedFiles.put(
