@@ -29,7 +29,6 @@ import io.github.portlek.configs.ConfigSection;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.util.PathCalc;
 import org.jetbrains.annotations.NotNull;
 
 public final class SectionProceed implements Proceed<ConfigSection> {
@@ -38,28 +37,22 @@ public final class SectionProceed implements Proceed<ConfigSection> {
     private final Managed managed;
 
     @NotNull
-    private final String parent;
+    private final ConfigSection parent;
 
     @NotNull
     private final Section section;
 
-    public SectionProceed(@NotNull final Managed mngd, @NotNull final String prnt, @NotNull final Section sctn) {
-        this.managed = mngd;
-        this.parent = prnt;
-        this.section = sctn;
+    public SectionProceed(@NotNull final Managed managed, @NotNull final ConfigSection parent,
+                          @NotNull final Section section) {
+        this.managed = managed;
+        this.parent = parent;
+        this.section = section;
     }
 
     @Override
     public void load(@NotNull final ConfigSection sctn) {
-        final String path = new PathCalc(
-            "",
-            "",
-            this.section.path(),
-            this.parent,
-            sctn.getClass().getName()
-        ).value();
-        sctn.setup(this.managed, this.managed.getOrCreateSection(path));
-        new FieldsProceed(sctn, path).load(this.managed);
+        sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.path()));
+        new FieldsProceed(sctn).load(this.managed);
     }
 
 }

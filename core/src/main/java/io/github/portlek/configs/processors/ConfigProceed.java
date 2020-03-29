@@ -101,7 +101,7 @@ public final class ConfigProceed implements Proceed<Managed> {
         } else {
             version.write(versionpath, managed);
         }
-        new FieldsProceed(managed, "").load(managed);
+        new FieldsProceed(managed).load(managed);
         managed.save();
     }
 

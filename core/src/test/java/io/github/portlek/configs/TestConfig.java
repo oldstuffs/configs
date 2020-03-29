@@ -30,6 +30,7 @@ import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.FileType;
+import io.github.portlek.configs.util.Replaceable;
 import java.util.UUID;
 
 @Config(
@@ -52,6 +53,9 @@ public final class TestConfig extends ManagedBase {
         22
     );
 
+    @Value
+    public Replaceable<String> test_replaceable = Replaceable.of("Test");
+
     @Section(path = "test-section")
     public static final class TestSection extends ConfigSectionBase {
 
@@ -64,6 +68,9 @@ public final class TestConfig extends ManagedBase {
             "Test",
             33
         );
+
+        @Value
+        public Replaceable<String> test_replaceable_2 = Replaceable.of("Test-2");
 
     }
 

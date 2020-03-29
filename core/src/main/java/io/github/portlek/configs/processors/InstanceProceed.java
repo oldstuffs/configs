@@ -39,22 +39,17 @@ public final class InstanceProceed implements Proceed<Field> {
     private final Managed managed;
 
     @NotNull
-    private final ConfigSection section;
+    private final ConfigSection parent;
 
-    @NotNull
-    private final String parent;
-
-    public InstanceProceed(@NotNull final Managed managed, @NotNull final ConfigSection cnfsctn,
-                           @NotNull final String parent) {
+    public InstanceProceed(@NotNull final Managed managed, @NotNull final ConfigSection cnfsctn) {
         this.managed = managed;
-        this.section = cnfsctn;
-        this.parent = parent;
+        this.parent = cnfsctn;
     }
 
     @Override
     public void load(@NotNull final Field field) {
         try {
-            Optional.ofNullable(field.get(this.section)).ifPresent(o ->
+            Optional.ofNullable(field.get(this.parent)).ifPresent(o ->
                 Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
                     new SectionProceed(
                         this.managed,

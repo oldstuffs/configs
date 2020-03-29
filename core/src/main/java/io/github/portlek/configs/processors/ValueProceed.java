@@ -45,16 +45,11 @@ public final class ValueProceed implements Proceed<Field> {
     private final ConfigSection section;
 
     @NotNull
-    private final String parent;
-
-    @NotNull
     private final Value value;
 
-    public ValueProceed(@NotNull final Managed mngd, @NotNull final ConfigSection cfgsctn, @NotNull final String prnt,
-                        @NotNull final Value vlue) {
+    public ValueProceed(@NotNull final Managed mngd, @NotNull final ConfigSection cfgsctn, @NotNull final Value vlue) {
         this.managed = mngd;
         this.section = cfgsctn;
-        this.parent = prnt;
         this.value = vlue;
     }
 
@@ -64,7 +59,6 @@ public final class ValueProceed implements Proceed<Field> {
             this.value.regex(),
             this.value.separator(),
             this.value.path(),
-            this.parent,
             field.getName()
         ).value();
         try {
@@ -88,15 +82,15 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private Optional<?> get(@NotNull final Object fieldvalue, @NotNull final String path) {
         if (fieldvalue instanceof String) {
-            return this.managed.getString(path);
+            return this.section.getString(path);
         }
         if (fieldvalue instanceof List<?>) {
-            return this.managed.getList(path);
+            return this.section.getList(path);
         }
         return this.managed.getCustomValue((Class<Object>) fieldvalue.getClass()).map(objectProvided ->
             objectProvided.getWithField(fieldvalue, this.section, path)
         ).orElseGet(() ->
-            this.managed.get(path)
+            this.section.get(path)
         );
     }
 

@@ -12,26 +12,21 @@ import org.jetbrains.annotations.NotNull;
 public final class FieldsProceed implements Proceed<Managed> {
 
     @NotNull
-    private final ConfigSection section;
+    private final ConfigSection parent;
 
-    @NotNull
-    private final String parent;
-
-    public FieldsProceed(@NotNull final ConfigSection cnfsctn, @NotNull final String prnt) {
-        this.section = cnfsctn;
-        this.parent = prnt;
+    public FieldsProceed(@NotNull final ConfigSection cnfsctn) {
+        this.parent = cnfsctn;
     }
 
     @Override
     public void load(@NotNull final Managed managed) {
-        for (final Field field : this.section.getClass().getDeclaredFields()) {
+        for (final Field field : this.parent.getClass().getDeclaredFields()) {
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);
             Optional.ofNullable(field.getDeclaredAnnotation(Instance.class)).map(instance ->
                 Optional.of(
                     (Proceed<Field>) new InstanceProceed(
                         managed,
-                        this.section,
                         this.parent
                     )
                 )
@@ -40,7 +35,6 @@ public final class FieldsProceed implements Proceed<Managed> {
                     Optional.of(
                         new ValueProceed(
                             managed,
-                            this.section,
                             this.parent,
                             value
                         )
