@@ -10,6 +10,9 @@ import org.simpleyaml.configuration.ConfigurationSection;
 public interface ConfigSection {
 
     @NotNull
+    String getName();
+
+    @NotNull
     Set<String> getKeys(boolean deep);
 
     @NotNull

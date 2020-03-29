@@ -23,14 +23,26 @@ public class BukkitManaged extends ManagedBase {
     }
 
     public final void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
-        this.getCustomValue(ItemStack.class).ifPresent(provided ->
-            provided.set(itemstack, this, path));
+        final ConfigSection section;
+        if (path.isEmpty()) {
+            section = this;
+        } else {
+            section = this.getOrCreateSection(path);
+        }
+        this.getManaged().getCustomValue(ItemStack.class)
+            .ifPresent(provided -> provided.set(itemstack, section));
     }
 
     @NotNull
     public final Optional<ItemStack> getItemStack(@NotNull final String path) {
-        return this.getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(this, path));
+        final ConfigSection section;
+        if (path.isEmpty()) {
+            section = this;
+        } else {
+            section = this.getOrCreateSection(path);
+        }
+        return this.getManaged().getCustomValue(ItemStack.class)
+            .flatMap(provided -> provided.get(section));
     }
 
 }

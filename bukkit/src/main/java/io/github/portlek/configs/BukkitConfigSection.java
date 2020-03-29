@@ -15,15 +15,27 @@ public class BukkitConfigSection extends ConfigSectionBase {
         this.setItemStack("", itemstack);
     }
 
-    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack item) {
-        this.getManaged().getCustomValue(ItemStack.class).ifPresent(provided ->
-            provided.set(item, this, path));
+    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
+        final ConfigSection section;
+        if (path.isEmpty()) {
+            section = this;
+        } else {
+            section = this.getOrCreateSection(path);
+        }
+        this.getManaged().getCustomValue(ItemStack.class)
+            .ifPresent(provided -> provided.set(itemstack, section));
     }
 
     @NotNull
     public final Optional<ItemStack> getItemStack(@NotNull final String path) {
+        final ConfigSection section;
+        if (path.isEmpty()) {
+            section = this;
+        } else {
+            section = this.getOrCreateSection(path);
+        }
         return this.getManaged().getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(this, path));
+            .flatMap(provided -> provided.get(section));
     }
 
 }

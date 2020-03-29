@@ -20,6 +20,12 @@ public class ConfigSectionBase implements ConfigSection {
 
     @NotNull
     @Override
+    public final String getName() {
+        return this.getConfigurationSection().getName();
+    }
+
+    @NotNull
+    @Override
     public final Set<String> getKeys(final boolean deep) {
         return this.getConfigurationSection().getKeys(deep);
     }
