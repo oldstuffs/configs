@@ -26,6 +26,12 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
 
     @NotNull
     @Override
+    public FlManaged getBase() {
+        return (FlManaged) super.getBase();
+    }
+
+    @NotNull
+    @Override
     public final FileConfiguration getConfigurationSection() {
         return (FileConfiguration) super.getConfigurationSection();
     }
@@ -33,34 +39,34 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
     @NotNull
     @Override
     public final Optional<Object> pull(@NotNull final String id) {
-        return this.base.pull(id);
+        return this.getBase().pull(id);
     }
 
     @Override
     public void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        this.base.setup(file, fileConfiguration);
+        this.getBase().setup(file, fileConfiguration);
     }
 
     @Override
     public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        this.base.addCustomValue(aClass, provided);
+        this.getBase().addCustomValue(aClass, provided);
     }
 
     @NotNull
     @Override
     public final <T> Optional<Provided<T>> getCustomValue(@NotNull final Class<T> aClass) {
-        return this.base.getCustomValue(aClass);
+        return this.getBase().getCustomValue(aClass);
     }
 
     @NotNull
     @Override
     public final File getFile() {
-        return this.base.getFile();
+        return this.getBase().getFile();
     }
 
     @Override
     public final void addObject(@NotNull final String key, @NotNull final Object object) {
-        this.base.addObject(key, object);
+        this.getBase().addObject(key, object);
     }
 
 }

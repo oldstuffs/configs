@@ -11,6 +11,12 @@ public class BukkitSection implements BkktSection {
 
     @NotNull
     @Override
+    public CfgSection getBase() {
+        return this.base;
+    }
+
+    @NotNull
+    @Override
     public ConfigurationSection getConfigurationSection() {
         return this.base.getConfigurationSection();
     }

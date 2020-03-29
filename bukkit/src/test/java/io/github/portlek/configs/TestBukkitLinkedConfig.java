@@ -1,6 +1,9 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.*;
+import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.ColorUtil;
 import io.github.portlek.configs.util.MapEntry;
 import io.github.portlek.configs.util.Replaceable;

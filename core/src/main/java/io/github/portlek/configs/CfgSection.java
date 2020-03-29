@@ -11,6 +11,9 @@ import org.simpleyaml.configuration.ConfigurationSection;
 public interface CfgSection {
 
     @NotNull
+    CfgSection getBase();
+
+    @NotNull
     default String getName() {
         return this.getConfigurationSection().getName();
     }

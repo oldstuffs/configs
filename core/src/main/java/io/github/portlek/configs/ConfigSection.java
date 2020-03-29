@@ -17,6 +17,12 @@ public class ConfigSection implements CfgSection {
 
     @NotNull
     @Override
+    public CfgSection getBase() {
+        return this;
+    }
+
+    @NotNull
+    @Override
     public ConfigurationSection getConfigurationSection() {
         return Objects.requireNonNull(this.section, "You have to load your class with '#load()' method");
     }
