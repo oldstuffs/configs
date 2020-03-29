@@ -13,8 +13,6 @@ public class ConfigSection implements CfgSection {
     @Nullable
     private FlManaged managed;
 
-    private boolean autosave = false;
-
     @NotNull
     @Override
     public CfgSection getBase() {
@@ -29,7 +27,7 @@ public class ConfigSection implements CfgSection {
 
     @Override
     public final void autoSave() {
-        if (this.autosave) {
+        if (this.getManaged().isAutoSave()) {
             this.getManaged().save();
         }
     }
@@ -44,16 +42,6 @@ public class ConfigSection implements CfgSection {
     @NotNull
     public final FlManaged getManaged() {
         return Objects.requireNonNull(this.managed, "You have to load your class with '#load()' method");
-    }
-
-    @Override
-    public final boolean isAutoSave() {
-        return this.autosave;
-    }
-
-    @Override
-    public final void setAutoSave(final boolean autosv) {
-        this.autosave = autosv;
     }
 
 }

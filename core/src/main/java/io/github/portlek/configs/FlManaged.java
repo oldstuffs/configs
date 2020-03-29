@@ -70,4 +70,8 @@ public interface FlManaged extends CfgSection {
 
     void addObject(@NotNull String key, @NotNull Object object);
 
+    boolean isAutoSave();
+
+    void setAutoSave(boolean autosv);
+
 }

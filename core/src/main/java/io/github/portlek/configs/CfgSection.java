@@ -71,7 +71,6 @@ public interface CfgSection {
     default CfgSection createSection(@NotNull final String path) {
         final CfgSection configsection = this.getNewSection().get();
         configsection.setup(this.getManaged(), this.getConfigurationSection().createSection(path));
-        configsection.setAutoSave(this.isAutoSave());
         configsection.autoSave();
         return configsection;
     }
@@ -85,10 +84,6 @@ public interface CfgSection {
 
     @NotNull
     FlManaged getManaged();
-
-    boolean isAutoSave();
-
-    void setAutoSave(boolean autosv);
 
     @NotNull
     default Optional<String> getString(@NotNull final String path) {

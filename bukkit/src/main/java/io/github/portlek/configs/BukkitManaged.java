@@ -63,4 +63,14 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
         ((FlManaged) this.getBase()).addObject(key, object);
     }
 
+    @Override
+    public final boolean isAutoSave() {
+        return ((FlManaged) this.getBase()).isAutoSave();
+    }
+
+    @Override
+    public final void setAutoSave(final boolean autosv) {
+        ((FlManaged) this.getBase()).setAutoSave(autosv);
+    }
+
 }

@@ -44,14 +44,4 @@ public class BukkitSection implements BkktSection {
         return this.base.getManaged();
     }
 
-    @Override
-    public final boolean isAutoSave() {
-        return this.base.isAutoSave();
-    }
-
-    @Override
-    public final void setAutoSave(final boolean autosv) {
-        this.base.setAutoSave(autosv);
-    }
-
 }

@@ -42,6 +42,8 @@ public class FileManaged extends ConfigSection implements FlManaged {
     @Nullable
     private File file;
 
+    private boolean autosave = false;
+
     @SafeVarargs
     protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
@@ -85,6 +87,16 @@ public class FileManaged extends ConfigSection implements FlManaged {
     @Override
     public final void addObject(@NotNull final String key, @NotNull final Object object) {
         this.objects.put(key, object);
+    }
+
+    @Override
+    public final boolean isAutoSave() {
+        return this.autosave;
+    }
+
+    @Override
+    public final void setAutoSave(final boolean autosv) {
+        this.autosave = autosv;
     }
 
     @NotNull
