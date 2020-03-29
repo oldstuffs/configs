@@ -20,7 +20,7 @@ public class ConfigSectionBase implements ConfigSection {
 
     @NotNull
     @Override
-    public Set<String> getKeys(final boolean deep) {
+    public final Set<String> getKeys(final boolean deep) {
         return this.getConfigurationSection().getKeys(deep);
     }
 
