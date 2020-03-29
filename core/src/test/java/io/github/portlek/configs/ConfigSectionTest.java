@@ -100,4 +100,11 @@ public final class ConfigSectionTest {
         assertDoesNotThrow(() -> optional.get().getConfigurationSection(), "`test-section` section couldn't load correctly!");
     }
 
+    @Test
+    void getOrCreateSectionTest() {
+        final ConfigSection section = ConfigSectionTest.config.getOrCreateSection("test-section");
+        assertTrue(section, "`test-section` is not found!");
+        assertDoesNotThrow(() -> section.get().getConfigurationSection(), "`test-section` section couldn't load correctly!");
+    }
+
 }
