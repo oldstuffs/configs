@@ -101,7 +101,7 @@ public final class ValueProceed implements Proceed<Field> {
             optional.get().set(fieldValue, this.section, path);
             return;
         }
-        this.managed.set(path, fieldValue);
+        this.section.set(path, fieldValue);
     }
 
 }
