@@ -1,57 +1,38 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.util.BukkitItemStackProvider;
+import java.io.File;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
-public class BukkitLinkedManaged extends LinkedManagedBase {
+public class BukkitLinkedManaged extends BukkitManaged implements LnkdFlManaged {
 
     @SafeVarargs
-    protected BukkitLinkedManaged(@NotNull final String chosen,
-                                  @NotNull final Map.Entry<String, Object>... objects) {
-        super(chosen, objects);
+    public BukkitLinkedManaged(@NotNull final String chosen,
+                               @NotNull final Map.Entry<String, Object>... objects) {
+        this.base = new LinkedFileManaged(chosen);
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
     }
 
     @NotNull
     @Override
-    public final Supplier<ConfigSection> getNewSection() {
-        return BukkitConfigSection::new;
+    public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
+        return this.base.match(function);
     }
 
     @NotNull
-    public final Optional<ItemStack> getItemStack() {
-        return this.getItemStack("");
+    @Override
+    public final String getChosen() {
+        return this.base.getChosen();
     }
 
-    public final void setItemStack(@NotNull final ItemStack itemstack) {
-        this.setItemStack("", itemstack);
-    }
-
-    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
-        final ConfigSection section;
-        if (path.isEmpty()) {
-            section = this;
-        } else {
-            section = this.getOrCreateSection(path);
-        }
-        this.getManaged().getCustomValue(ItemStack.class)
-            .ifPresent(provided -> provided.set(itemstack, section, path));
-    }
-
-    @NotNull
-    public final Optional<ItemStack> getItemStack(@NotNull final String path) {
-        final ConfigSection section;
-        if (path.isEmpty()) {
-            section = this;
-        } else {
-            section = this.getOrCreateSection(path);
-        }
-        return this.getManaged().getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(section, path));
+    @Override
+    public void setup(final @NotNull File file, final @NotNull FileConfiguration fileConfiguration) {
+        this.base.setup(file, fileConfiguration);
     }
 
 }

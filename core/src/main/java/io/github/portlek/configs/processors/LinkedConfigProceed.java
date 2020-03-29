@@ -1,12 +1,11 @@
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.LinkedManaged;
-import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.LnkdFlManaged;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import java.util.Arrays;
 import org.jetbrains.annotations.NotNull;
 
-public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
+public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
 
     @NotNull
     private final LinkedConfig config;
@@ -16,7 +15,7 @@ public final class LinkedConfigProceed implements Proceed<LinkedManaged> {
     }
 
     @Override
-    public void load(@NotNull final LinkedManaged linked) {
+    public void load(@NotNull final LnkdFlManaged linked) {
         Arrays.stream(this.config.configs())
             .filter(config -> {
                 final String suffix = config.type().suffix;

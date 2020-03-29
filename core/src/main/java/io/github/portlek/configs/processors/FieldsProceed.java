@@ -1,25 +1,24 @@
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.ConfigSection;
-import io.github.portlek.configs.Managed;
-import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Value;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public final class FieldsProceed implements Proceed<Managed> {
+public final class FieldsProceed implements Proceed<FlManaged> {
 
     @NotNull
-    private final ConfigSection parent;
+    private final CfgSection parent;
 
-    public FieldsProceed(@NotNull final ConfigSection cnfsctn) {
+    public FieldsProceed(@NotNull final CfgSection cnfsctn) {
         this.parent = cnfsctn;
     }
 
     @Override
-    public void load(@NotNull final Managed managed) {
+    public void load(@NotNull final FlManaged managed) {
         for (final Field field : this.parent.getClass().getDeclaredFields()) {
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);

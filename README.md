@@ -61,8 +61,8 @@ Also you have to make relocation for the library with;
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.ManagedBase;
-import io.github.portlek.configs.ConfigSectionBase;
+import io.github.portlek.configs.FileManaged;
+import io.github.portlek.configs.ConfigSection;
 
 @Config(
   name = "config"
@@ -100,7 +100,7 @@ test-section:
 
 ```java
 import io.github.portlek.configs.BukkitManaged;
-import io.github.portlek.configs.BukkitConfigSection;
+import io.github.portlek.configs.BukkitSection;
 
 @Config(
   name = "config"
@@ -139,7 +139,7 @@ test-section:
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.LinkedManagedBase;
+import io.github.portlek.configs.LinkedFileManaged;
 import io.github.portlek.configs.util.MapEntry;
 
 @LinkedConfig(configs = {

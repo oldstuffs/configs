@@ -1,56 +1,66 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.util.BukkitItemStackProvider;
+import io.github.portlek.configs.util.Provided;
+import java.io.File;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
-public class BukkitManaged extends ManagedBase {
+public class BukkitManaged extends BukkitSection implements FlManaged {
 
     @SafeVarargs
-    protected BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
-        super(objects);
+    public BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
+        this(new FileManaged(), objects);
+    }
+
+    @SafeVarargs
+    public BukkitManaged(@NotNull final FlManaged managed, @NotNull final Map.Entry<String, Object>... objects) {
+        super(managed);
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
+        Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }
 
     @NotNull
     @Override
-    public final Supplier<ConfigSection> getNewSection() {
-        return BukkitConfigSection::new;
+    public final FileConfiguration getConfigurationSection() {
+        return (FileConfiguration) super.getConfigurationSection();
     }
 
     @NotNull
-    public final Optional<ItemStack> getItemStack() {
-        return this.getItemStack("");
+    @Override
+    public final Optional<Object> pull(@NotNull final String id) {
+        return this.base.pull(id);
     }
 
-    public final void setItemStack(@NotNull final ItemStack itemstack) {
-        this.setItemStack("", itemstack);
+    @Override
+    public void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+        this.base.setup(file, fileConfiguration);
     }
 
-    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
-        final ConfigSection section;
-        if (path.isEmpty()) {
-            section = this;
-        } else {
-            section = this.getOrCreateSection(path);
-        }
-        this.getManaged().getCustomValue(ItemStack.class)
-            .ifPresent(provided -> provided.set(itemstack, section, path));
+    @Override
+    public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
+        this.base.addCustomValue(aClass, provided);
     }
 
     @NotNull
-    public final Optional<ItemStack> getItemStack(@NotNull final String path) {
-        final ConfigSection section;
-        if (path.isEmpty()) {
-            section = this;
-        } else {
-            section = this.getOrCreateSection(path);
-        }
-        return this.getManaged().getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(section, path));
+    @Override
+    public final <T> Optional<Provided<T>> getCustomValue(@NotNull final Class<T> aClass) {
+        return this.base.getCustomValue(aClass);
+    }
+
+    @NotNull
+    @Override
+    public final File getFile() {
+        return this.base.getFile();
+    }
+
+    @Override
+    public final void addObject(@NotNull final String key, @NotNull final Object object) {
+        this.base.addObject(key, object);
     }
 
 }

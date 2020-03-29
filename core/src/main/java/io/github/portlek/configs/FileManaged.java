@@ -25,17 +25,15 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.processors.ConfigProceed;
+import io.github.portlek.configs.util.Provided;
 import io.github.portlek.configs.util.Replaceable;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-public class ManagedBase extends ConfigSectionBase implements Managed {
+public class FileManaged extends ConfigSection implements FlManaged {
 
     private final Map<String, Object> objects = new HashMap<>();
 
@@ -45,9 +43,9 @@ public class ManagedBase extends ConfigSectionBase implements Managed {
     private File file;
 
     @SafeVarargs
-    protected ManagedBase(@NotNull final Map.Entry<String, Object>... objects) {
+    protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
-            this.objects.put(entry.getKey(), entry.getValue()));
+            this.addObject(entry.getKey(), entry.getValue()));
         this.customs.put(Replaceable.class, new Replaceable.Provider());
     }
 
@@ -82,6 +80,11 @@ public class ManagedBase extends ConfigSectionBase implements Managed {
     @Override
     public final File getFile() {
         return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
+    }
+
+    @Override
+    public final void addObject(@NotNull final String key, @NotNull final Object object) {
+        this.objects.put(key, object);
     }
 
     @NotNull

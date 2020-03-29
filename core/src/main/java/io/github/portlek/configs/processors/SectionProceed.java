@@ -25,32 +25,30 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.ConfigSection;
-import io.github.portlek.configs.Managed;
-import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.FlManaged;
 import org.jetbrains.annotations.NotNull;
 
-public final class SectionProceed implements Proceed<ConfigSection> {
+public final class SectionProceed implements Proceed<CfgSection> {
 
     @NotNull
-    private final Managed managed;
+    private final FlManaged managed;
 
     @NotNull
-    private final ConfigSection parent;
+    private final CfgSection parent;
 
     @NotNull
-    private final Section section;
+    private final io.github.portlek.configs.annotations.Section section;
 
-    public SectionProceed(@NotNull final Managed managed, @NotNull final ConfigSection parent,
-                          @NotNull final Section section) {
+    public SectionProceed(@NotNull final FlManaged managed, @NotNull final CfgSection parent,
+                          @NotNull final io.github.portlek.configs.annotations.Section section) {
         this.managed = managed;
         this.parent = parent;
         this.section = section;
     }
 
     @Override
-    public void load(@NotNull final ConfigSection sctn) {
+    public void load(@NotNull final CfgSection sctn) {
         sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.path()).getConfigurationSection());
         new FieldsProceed(sctn).load(this.managed);
     }

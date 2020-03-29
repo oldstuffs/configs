@@ -25,8 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.Managed;
-import io.github.portlek.configs.Proceed;
+import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.FileType;
@@ -38,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-public final class ConfigProceed implements Proceed<Managed> {
+public final class ConfigProceed implements Proceed<FlManaged> {
 
     @NotNull
     private final Config config;
@@ -48,7 +47,7 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     @Override
-    public void load(@NotNull final Managed managed) {
+    public void load(@NotNull final FlManaged managed) {
         final FileType type = this.config.type();
         final String name;
         if (this.config.name().endsWith(type.suffix)) {

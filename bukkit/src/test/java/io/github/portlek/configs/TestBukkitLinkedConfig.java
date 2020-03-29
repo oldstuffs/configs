@@ -38,7 +38,7 @@ public final class TestBukkitLinkedConfig extends BukkitLinkedManaged {
         return prefix;
     }
 
-    @Section(path = "error")
+    @CfgSection(path = "error")
     public class Errors {
 
         @Value
@@ -70,7 +70,7 @@ public final class TestBukkitLinkedConfig extends BukkitLinkedManaged {
 
     }
 
-    @Section(path = "general")
+    @CfgSection(path = "general")
     public class Generals {
 
         @Value

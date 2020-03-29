@@ -38,7 +38,7 @@ import java.util.UUID;
     type = FileType.JSON,
     version = "1.1"
 )
-public final class TestConfig extends ManagedBase {
+public final class TestConfig extends FileManaged {
 
     @Instance
     public final TestConfig.TestSection testSection = new TestConfig.TestSection();
@@ -57,7 +57,7 @@ public final class TestConfig extends ManagedBase {
     public Replaceable<String> test_replaceable = Replaceable.of("Test");
 
     @Section(path = "test-section")
-    public static final class TestSection extends ConfigSectionBase {
+    public static final class TestSection extends ConfigSection {
 
         @Value
         public String test = "test-section > test";

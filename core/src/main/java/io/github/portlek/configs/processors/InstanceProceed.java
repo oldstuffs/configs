@@ -25,10 +25,8 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.ConfigSection;
-import io.github.portlek.configs.Managed;
-import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.FlManaged;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -36,12 +34,12 @@ import org.jetbrains.annotations.NotNull;
 public final class InstanceProceed implements Proceed<Field> {
 
     @NotNull
-    private final Managed managed;
+    private final FlManaged managed;
 
     @NotNull
-    private final ConfigSection parent;
+    private final CfgSection parent;
 
-    public InstanceProceed(@NotNull final Managed managed, @NotNull final ConfigSection cnfsctn) {
+    public InstanceProceed(@NotNull final FlManaged managed, @NotNull final CfgSection cnfsctn) {
         this.managed = managed;
         this.parent = cnfsctn;
     }
@@ -50,12 +48,12 @@ public final class InstanceProceed implements Proceed<Field> {
     public void load(@NotNull final Field field) {
         try {
             Optional.ofNullable(field.get(this.parent)).ifPresent(o ->
-                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
+                Optional.ofNullable(o.getClass().getDeclaredAnnotation(io.github.portlek.configs.annotations.Section.class)).ifPresent(section ->
                     new SectionProceed(
                         this.managed,
                         this.parent,
                         section
-                    ).load((ConfigSection) o))
+                    ).load((CfgSection) o))
             );
         } catch (final IllegalAccessException e) {
             e.printStackTrace();

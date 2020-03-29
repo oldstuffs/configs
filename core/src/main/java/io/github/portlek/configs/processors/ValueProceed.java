@@ -25,10 +25,9 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.ConfigSection;
-import io.github.portlek.configs.Managed;
-import io.github.portlek.configs.Proceed;
-import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.util.Provided;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.PathCalc;
 import java.lang.reflect.Field;
@@ -39,15 +38,15 @@ import org.jetbrains.annotations.NotNull;
 public final class ValueProceed implements Proceed<Field> {
 
     @NotNull
-    private final Managed managed;
+    private final FlManaged managed;
 
     @NotNull
-    private final ConfigSection section;
+    private final CfgSection section;
 
     @NotNull
     private final Value value;
 
-    public ValueProceed(@NotNull final Managed mngd, @NotNull final ConfigSection cfgsctn, @NotNull final Value vlue) {
+    public ValueProceed(@NotNull final FlManaged mngd, @NotNull final CfgSection cfgsctn, @NotNull final Value vlue) {
         this.managed = mngd;
         this.section = cfgsctn;
         this.value = vlue;

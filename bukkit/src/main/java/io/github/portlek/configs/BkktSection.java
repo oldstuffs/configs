@@ -1,29 +1,22 @@
 package io.github.portlek.configs;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitConfigSection extends ConfigSectionBase {
+public interface BkktSection extends CfgSection {
 
     @NotNull
-    @Override
-    public final Supplier<ConfigSection> getNewSection() {
-        return BukkitConfigSection::new;
-    }
-
-    @NotNull
-    public final Optional<ItemStack> getItemStack() {
+    default Optional<ItemStack> getItemStack() {
         return this.getItemStack("");
     }
 
-    public final void setItemStack(@NotNull final ItemStack itemstack) {
+    default void setItemStack(@NotNull final ItemStack itemstack) {
         this.setItemStack("", itemstack);
     }
 
-    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
-        final ConfigSection section;
+    default void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
+        final CfgSection section;
         if (path.isEmpty()) {
             section = this;
         } else {
@@ -34,8 +27,8 @@ public class BukkitConfigSection extends ConfigSectionBase {
     }
 
     @NotNull
-    public final Optional<ItemStack> getItemStack(@NotNull final String path) {
-        final ConfigSection section;
+    default Optional<ItemStack> getItemStack(@NotNull final String path) {
+        final CfgSection section;
         if (path.isEmpty()) {
             section = this;
         } else {
@@ -44,5 +37,6 @@ public class BukkitConfigSection extends ConfigSectionBase {
         return this.getManaged().getCustomValue(ItemStack.class)
             .flatMap(provided -> provided.get(section, path));
     }
+
 
 }

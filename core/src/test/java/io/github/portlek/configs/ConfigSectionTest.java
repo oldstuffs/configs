@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 
 public final class ConfigSectionTest {
 
-    private static Managed config;
+    private static FlManaged config;
 
     @BeforeAll
     static void before() {
@@ -95,7 +95,7 @@ public final class ConfigSectionTest {
 
     @Test
     void getSectionTest() {
-        final Optional<ConfigSection> optional = ConfigSectionTest.config.getSection("test-section");
+        final Optional<CfgSection> optional = ConfigSectionTest.config.getSection("test-section");
         assertTrue(optional.isPresent(), "`test-section` is not found!");
         assertDoesNotThrow(() -> optional.get().getConfigurationSection(), "`test-section` section couldn't load correctly!");
     }

@@ -1,7 +1,6 @@
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.ConfigSection;
-import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.CfgSection;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -175,7 +174,7 @@ public final class Replaceable<X> {
 
     public static final class Provider implements Provided<Replaceable<?>> {
         @Override
-        public void set(@NotNull final Replaceable<?> replaceable, @NotNull final ConfigSection section,
+        public void set(@NotNull final Replaceable<?> replaceable, @NotNull final CfgSection section,
                         @NotNull final String path) {
             section.set(path, replaceable.getValue());
         }
@@ -183,7 +182,7 @@ public final class Replaceable<X> {
         @NotNull
         @Override
         public Optional<Replaceable<?>> getWithField(@NotNull final Replaceable<?> replaceable,
-                                                     @NotNull final ConfigSection section, @NotNull final String path) {
+                                                     @NotNull final CfgSection section, @NotNull final String path) {
             if (replaceable.getValue() instanceof String) {
                 final Optional<String> optionalstring = section.getString(path);
                 final Replaceable<String> genericreplaceable = (Replaceable<String>) replaceable;
@@ -212,7 +211,7 @@ public final class Replaceable<X> {
 
         @NotNull
         @Override
-        public Optional<Replaceable<?>> get(@NotNull final ConfigSection section, @NotNull final String path) {
+        public Optional<Replaceable<?>> get(@NotNull final CfgSection section, @NotNull final String path) {
             return Optional.empty();
         }
 

@@ -1,7 +1,5 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.LinkedConfigProceed;
 import io.github.portlek.configs.util.MapEntry;
 import java.io.File;
 import java.util.HashMap;
@@ -11,7 +9,7 @@ import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-public class LinkedManagedBase extends ManagedBase implements LinkedManaged {
+public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
 
     @NotNull
     private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();
@@ -20,7 +18,7 @@ public class LinkedManagedBase extends ManagedBase implements LinkedManaged {
     private final String chosen;
 
     @SafeVarargs
-    protected LinkedManagedBase(@NotNull final String chosen,
+    protected LinkedFileManaged(@NotNull final String chosen,
                                 @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
