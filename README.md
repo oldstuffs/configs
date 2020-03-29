@@ -67,7 +67,7 @@ import io.github.portlek.configs.ConfigSection;
 @Config(
   name = "config"
 )
-public final class TestConfig extends ManagedBase {
+public final class TestConfig extends FileManaged {
 
   @Value
   public String test = "test";
@@ -76,7 +76,7 @@ public final class TestConfig extends ManagedBase {
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
   @Section(path = "test-section")
-  public final class TestSection extends ConfigSectionBase {
+  public final class TestSection extends ConfigSection {
 
     @Value
     public String test_section_string = "test";
@@ -105,7 +105,7 @@ import io.github.portlek.configs.BukkitSection;
 @Config(
   name = "config"
 )
-public final class TestConfig extends BukkitManagedBase {
+public final class TestConfig extends BukkitManaged {
 
   @Value
   public String test = "test";
@@ -114,7 +114,7 @@ public final class TestConfig extends BukkitManagedBase {
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
   @Section(path = "test-section")
-  public final class TestSection extends BukkitConfigSection {
+  public final class TestSection extends BukkitSection {
 
     @Value
     public String test_section_string = "test";
@@ -150,7 +150,7 @@ import io.github.portlek.configs.util.MapEntry;
     name = "tr"
   ),
 })
-public final class TestLinkedConfig extends LinkedManagedBase {
+public final class TestLinkedConfig extends LinkedFileManaged {
 
   public TestLinkedConfig(@NotNull final TestConfig testConfig) {
     super(testConfig.language, MapEntry.from("config", testConfig));
