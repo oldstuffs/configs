@@ -51,7 +51,7 @@ public final class SectionProceed implements Proceed<ConfigSection> {
 
     @Override
     public void load(@NotNull final ConfigSection sctn) {
-        sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.path()));
+        sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.path()).getConfigurationSection());
         new FieldsProceed(sctn).load(this.managed);
     }
 

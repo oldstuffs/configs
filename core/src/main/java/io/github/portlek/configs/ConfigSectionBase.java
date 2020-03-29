@@ -20,13 +20,13 @@ public class ConfigSectionBase implements ConfigSection {
     @NotNull
     @Override
     public final Optional<Object> get(@NotNull final String path) {
-        return Optional.ofNullable(this.getSection().get(path));
+        return Optional.ofNullable(this.getConfigurationSection().get(path));
     }
 
     @NotNull
     @Override
     public final Optional<Object> get(@NotNull final String path, @Nullable final Object def) {
-        return Optional.ofNullable(this.getSection().get(path, def));
+        return Optional.ofNullable(this.getConfigurationSection().get(path, def));
     }
 
     @NotNull
@@ -42,139 +42,145 @@ public class ConfigSectionBase implements ConfigSection {
 
     @Override
     public final void set(@NotNull final String path, @Nullable final Object object) {
-        this.getSection().set(path, object);
+        this.getConfigurationSection().set(path, object);
         this.autoSave();
     }
 
     @NotNull
     @Override
-    public final Optional<ConfigurationSection> getSection(@NotNull final String path) {
-        return Optional.ofNullable(this.getSection().getConfigurationSection(path));
+    public final Optional<ConfigSection> getSection(@NotNull final String path) {
+        return Optional.ofNullable(this.getConfigurationSection().getConfigurationSection(path))
+            .map(configurationsection -> {
+                final ConfigSection configsection = new ConfigSectionBase();
+                configsection.setup(this.getManaged(), configurationsection);
+                return configsection;
+            });
     }
 
     @NotNull
     @Override
-    public final ConfigurationSection getOrCreateSection(@NotNull final String path) {
+    public final ConfigSection getOrCreateSection(@NotNull final String path) {
         return this.getSection(path).orElseGet(() -> this.createSection(path));
     }
 
     @Override
-    public final ConfigurationSection createSection(@NotNull final String path) {
-        final ConfigurationSection section = this.getSection().createSection(path);
+    public final ConfigSection createSection(@NotNull final String path) {
+        final ConfigSection configsection = new ConfigSectionBase();
+        configsection.setup(this.getManaged(), this.getConfigurationSection().createSection(path));
         this.autoSave();
-        return section;
+        return configsection;
     }
 
     @NotNull
     @Override
     public final Optional<String> getString(@NotNull final String path) {
-        return Optional.ofNullable(this.getSection().getString(path));
+        return Optional.ofNullable(this.getConfigurationSection().getString(path));
     }
 
     @NotNull
     @Override
     public final Optional<String> getString(@NotNull final String path, @Nullable final String def) {
-        return Optional.ofNullable(this.getSection().getString(path, def));
+        return Optional.ofNullable(this.getConfigurationSection().getString(path, def));
     }
 
     @Override
     public final int getInt(@NotNull final String path) {
-        return this.getSection().getInt(path);
+        return this.getConfigurationSection().getInt(path);
     }
 
     @Override
     public final int getInt(@NotNull final String path, final int def) {
-        return this.getSection().getInt(path, def);
+        return this.getConfigurationSection().getInt(path, def);
     }
 
     @Override
     public final boolean getBoolean(@NotNull final String path) {
-        return this.getSection().getBoolean(path);
+        return this.getConfigurationSection().getBoolean(path);
     }
 
     @Override
     public final boolean getBoolean(@NotNull final String path, final boolean def) {
-        return this.getSection().getBoolean(path, def);
+        return this.getConfigurationSection().getBoolean(path, def);
     }
 
     @Override
     public final double getDouble(@NotNull final String path) {
-        return this.getSection().getDouble(path);
+        return this.getConfigurationSection().getDouble(path);
     }
 
     @Override
     public final double getDouble(@NotNull final String path, final double def) {
-        return this.getSection().getDouble(path, def);
+        return this.getConfigurationSection().getDouble(path, def);
     }
 
     @Override
     public final long getLong(@NotNull final String path) {
-        return this.getSection().getLong(path);
+        return this.getConfigurationSection().getLong(path);
     }
 
     @Override
     public final long getLong(@NotNull final String path, final long def) {
-        return this.getSection().getLong(path, def);
+        return this.getConfigurationSection().getLong(path, def);
     }
 
     @NotNull
     @Override
     public final List<String> getStringList(@NotNull final String path) {
-        return this.getSection().getStringList(path);
+        return this.getConfigurationSection().getStringList(path);
     }
 
     @NotNull
     @Override
     public final List<Integer> getIntegerList(@NotNull final String path) {
-        return this.getSection().getIntegerList(path);
+        return this.getConfigurationSection().getIntegerList(path);
     }
 
     @NotNull
     @Override
     public final List<Boolean> getBooleanList(@NotNull final String path) {
-        return this.getSection().getBooleanList(path);
+        return this.getConfigurationSection().getBooleanList(path);
     }
 
     @NotNull
     @Override
     public final List<Double> getDoubleList(@NotNull final String path) {
-        return this.getSection().getDoubleList(path);
+        return this.getConfigurationSection().getDoubleList(path);
     }
 
     @NotNull
     @Override
     public final List<Float> getFloatList(@NotNull final String path) {
-        return this.getSection().getFloatList(path);
+        return this.getConfigurationSection().getFloatList(path);
     }
 
     @NotNull
     @Override
     public final List<Long> getLongList(@NotNull final String path) {
-        return this.getSection().getLongList(path);
+        return this.getConfigurationSection().getLongList(path);
     }
 
     @NotNull
     @Override
     public final List<Byte> getByteList(@NotNull final String path) {
-        return this.getSection().getByteList(path);
+        return this.getConfigurationSection().getByteList(path);
     }
 
     @NotNull
     @Override
     public final List<Character> getCharacterList(@NotNull final String path) {
-        return this.getSection().getCharacterList(path);
+        return this.getConfigurationSection().getCharacterList(path);
     }
 
     @NotNull
     @Override
     public final List<Short> getShortList(@NotNull final String path) {
-        return this.getSection().getShortList(path);
+        return this.getConfigurationSection().getShortList(path);
     }
 
     @NotNull
     @Override
     public final Optional<List<?>> getList(@NotNull final String path) {
-        return Optional.ofNullable(this.getSection().getList(path));
+        return Optional.ofNullable(this.getConfigurationSection().getList(path));
     }
 
     @Override
@@ -189,7 +195,7 @@ public class ConfigSectionBase implements ConfigSection {
 
     @NotNull
     @Override
-    public ConfigurationSection getSection() {
+    public ConfigurationSection getConfigurationSection() {
         return Objects.requireNonNull(this.section, "You have to load your class with '#load()' method");
     }
 

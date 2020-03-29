@@ -97,7 +97,7 @@ public class ManagedBase extends ConfigSectionBase implements Managed {
     @Override
     public final void save() {
         try {
-            this.getSection().save(this.getFile());
+            this.getConfigurationSection().save(this.getFile());
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -105,8 +105,8 @@ public class ManagedBase extends ConfigSectionBase implements Managed {
 
     @NotNull
     @Override
-    public FileConfiguration getSection() {
-        return (FileConfiguration) super.getSection();
+    public FileConfiguration getConfigurationSection() {
+        return (FileConfiguration) super.getConfigurationSection();
     }
 
 }

@@ -19,13 +19,13 @@ public interface ConfigSection {
     void set(@NotNull String path, @Nullable Object object);
 
     @NotNull
-    Optional<ConfigurationSection> getSection(@NotNull String path);
+    Optional<ConfigSection> getSection(@NotNull String path);
 
     @NotNull
-    ConfigurationSection getOrCreateSection(@NotNull String path);
+    ConfigSection getOrCreateSection(@NotNull String path);
 
     @NotNull
-    ConfigurationSection createSection(@NotNull String path);
+    ConfigSection createSection(@NotNull String path);
 
     @NotNull
     Optional<String> getString(@NotNull String path);
@@ -84,7 +84,7 @@ public interface ConfigSection {
     void setAutoSave(boolean autosv);
 
     @NotNull
-    ConfigurationSection getSection();
+    ConfigurationSection getConfigurationSection();
 
     @NotNull
     Managed getManaged();
