@@ -46,12 +46,6 @@ public class ConfigSectionBase implements ConfigSection {
         this.autoSave();
     }
 
-    @Override
-    public final void addDefault(@NotNull final String path, @Nullable final Object object) {
-        this.getSection().addDefault(path, object);
-        this.autoSave();
-    }
-
     @NotNull
     @Override
     public final Optional<ConfigurationSection> getSection(@NotNull final String path) {

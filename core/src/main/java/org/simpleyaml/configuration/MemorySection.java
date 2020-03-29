@@ -795,15 +795,13 @@ public class MemorySection implements ConfigurationSection {
     @Override
     public void addDefault(@NotNull final String path, @Nullable final Object value) {
         Validate.notNull(path, "Path cannot be null");
-
-        final Configuration root = this.getRoot();
-        if (root == null) {
+        if (this.root == null) {
             throw new IllegalStateException("Cannot add default without root");
         }
-        if (root == this) {
+        if (this.root.equals(this)) {
             throw new UnsupportedOperationException("Unsupported addDefault(String, Object) implementation");
         }
-        root.addDefault(MemorySection.createPath(this, path), value);
+        this.root.addDefault(MemorySection.createPath(this, path), value);
     }
 
     protected boolean isPrimitiveWrapper(@Nullable final Object input) {

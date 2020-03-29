@@ -41,11 +41,9 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     @Override
     public void addDefault(@NotNull final String path, @Nullable final Object value) {
         Validate.notNull(path, "Path may not be null");
-
         if (this.defaults == null) {
             this.defaults = new MemoryConfiguration();
         }
-
         this.defaults.set(path, value);
     }
 
