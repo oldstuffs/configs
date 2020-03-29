@@ -6,6 +6,15 @@ import org.jetbrains.annotations.NotNull;
 
 public class BukkitConfigSection extends ConfigSectionBase {
 
+    @NotNull
+    public final Optional<ItemStack> getItemStack() {
+        return this.getItemStack("");
+    }
+
+    public final void setItemStack(@NotNull final ItemStack itemstack) {
+        this.setItemStack("", itemstack);
+    }
+
     public final void setItemStack(@NotNull final String path, @NotNull final ItemStack item) {
         this.getManaged().getCustomValue(ItemStack.class).ifPresent(provided ->
             provided.set(item, this, path));

@@ -16,36 +16,49 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
 
     @Override
-    public void set(@NotNull final ItemStack itemStack, @NotNull final ConfigSection section, @NotNull final String path) {
-        section.set(path + ".material", itemStack.getType().name());
-        section.set(path + ".amount", itemStack.getAmount());
+    public void set(@NotNull final ItemStack itemStack, @NotNull final ConfigSection section,
+                    @NotNull final String path) {
+        final String fnlpath;
+        if (path.isEmpty() || path.charAt(path.length() - 1) == '.') {
+            fnlpath = path;
+        } else {
+            fnlpath = path + '.';
+        }
+        section.set(fnlpath + "material", itemStack.getType().name());
+        section.set(fnlpath + "amount", itemStack.getAmount());
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
             Optional.ofNullable(itemStack.getData()).ifPresent(materialData ->
-                section.set(path + ".data", (int) materialData.getData()));
+                section.set(fnlpath + "data", (int) materialData.getData()));
         }
         if (itemStack.getDurability() != 0) {
-            section.set(path + ".damage", itemStack.getDurability());
+            section.set(fnlpath + "damage", itemStack.getDurability());
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             if (itemMeta.hasDisplayName()) {
-                section.set(path + ".display-name", itemMeta.getDisplayName().replace("§", "&"));
+                section.set(fnlpath + "display-name", itemMeta.getDisplayName().replace("§", "&"));
             }
             Optional.ofNullable(itemMeta.getLore()).ifPresent(lore ->
-                section.set(path + ".lore", lore.stream().map(s -> s.replace("§", "&")).collect(Collectors.toList()))
+                section.set(fnlpath + "lore", lore.stream().map(s -> s.replace("§", "&")).collect(Collectors.toList()))
             );
-            section.set(path + ".flags", itemMeta.getItemFlags().stream()
+            section.set(fnlpath + "flags", itemMeta.getItemFlags().stream()
                 .map(Enum::name)
                 .collect(Collectors.toList()));
         });
         itemStack.getEnchantments().forEach((enchantment, integer) ->
-            section.set(path + ".enchants." + enchantment.getName(), integer)
+            section.set(fnlpath + "enchants." + enchantment.getName(), integer)
         );
     }
 
     @NotNull
     @Override
     public Optional<ItemStack> get(@NotNull final ConfigSection section, @NotNull final String path) {
-        final Optional<String> optional = section.getString(path + ".material");
+        final String fnlpath;
+        if (path.isEmpty() || path.charAt(path.length() - 1) == '.') {
+            fnlpath = path;
+        } else {
+            fnlpath = path + '.';
+        }
+        final Optional<String> optional = section.getString(fnlpath + "material");
         if (!optional.isPresent()) {
             return Optional.empty();
         }
@@ -64,7 +77,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         } else {
             material = Material.getMaterial(mtrlstrng);
         }
-        final int amount = section.getInt(path + ".amount");
+        final int amount = section.getInt(fnlpath + "amount");
         final int fnlamnt;
         if (amount == 0) {
             fnlamnt = 1;
@@ -76,39 +89,39 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             itemStack = new ItemStack(
                 material,
                 fnlamnt,
-                (short) section.getInt(path + ".damage"),
-                (byte) section.getInt(path + ".data")
+                (short) section.getInt(fnlpath + "damage"),
+                (byte) section.getInt(fnlpath + "data")
             );
         } else {
             itemStack = new ItemStack(
                 material,
                 fnlamnt,
-                (short) section.getInt(path + ".damage")
+                (short) section.getInt(fnlpath + "damage")
             );
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
-            section.getString(path + ".display-name").ifPresent(s ->
+            section.getString(fnlpath + "display-name").ifPresent(s ->
                 itemMeta.setDisplayName(
                     ColorUtil.colored(s)
                 )
             );
             itemMeta.setLore(
                 ColorUtil.colored(
-                    section.getStringList(path + ".lore")
+                    section.getStringList(fnlpath + "lore")
                 )
             );
-            section.getSection(path + ".enchants").map(enchsection ->
+            section.getSection(fnlpath + "enchants").map(enchsection ->
                 enchsection.getKeys(false)
             ).ifPresent(set ->
                 set.forEach(s ->
                     XEnchantment.matchXEnchantment(s).flatMap(xEnchantment ->
                         Optional.ofNullable(xEnchantment.parseEnchantment())
                     ).ifPresent(enchantment ->
-                        itemMeta.addEnchant(enchantment, section.getInt(path + ".enchants." + s), true)
+                        itemMeta.addEnchant(enchantment, section.getInt(fnlpath + "enchants." + s), true)
                     )
                 )
             );
-            section.getStringList(path + ".flags").stream()
+            section.getStringList(fnlpath + "flags").stream()
                 .map(ItemFlag::valueOf)
                 .forEach(itemMeta::addItemFlags);
             itemStack.setItemMeta(itemMeta);

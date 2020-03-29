@@ -13,13 +13,22 @@ public class BukkitManaged extends ManagedBase {
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
     }
 
-    public void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
+    @NotNull
+    public final Optional<ItemStack> getItemStack() {
+        return this.getItemStack("");
+    }
+
+    public final void setItemStack(@NotNull final ItemStack itemstack) {
+        this.setItemStack("", itemstack);
+    }
+
+    public final void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
         this.getCustomValue(ItemStack.class).ifPresent(provided ->
             provided.set(itemstack, this, path));
     }
 
     @NotNull
-    public Optional<ItemStack> getItemStack(@NotNull final String path) {
+    public final Optional<ItemStack> getItemStack(@NotNull final String path) {
         return this.getCustomValue(ItemStack.class)
             .flatMap(provided -> provided.get(this, path));
     }

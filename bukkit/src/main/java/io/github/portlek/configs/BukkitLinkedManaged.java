@@ -14,6 +14,15 @@ public class BukkitLinkedManaged extends LinkedManagedBase {
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
     }
 
+    @NotNull
+    public final Optional<ItemStack> getItemStack() {
+        return this.getItemStack("");
+    }
+
+    public final void setItemStack(@NotNull final ItemStack itemstack) {
+        this.setItemStack("", itemstack);
+    }
+
     public final void setItemStack(@NotNull final String path, @NotNull final ItemStack item) {
         this.getCustomValue(ItemStack.class).ifPresent(provided ->
             provided.set(item, this, path));
