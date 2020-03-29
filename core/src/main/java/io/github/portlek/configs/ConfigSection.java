@@ -83,6 +83,8 @@ public interface ConfigSection {
 
     void setAutoSave(boolean autosv);
 
+    void autoSave();
+
     @NotNull
     ConfigurationSection getConfigurationSection();
 

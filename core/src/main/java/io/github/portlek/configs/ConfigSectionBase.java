@@ -67,7 +67,8 @@ public class ConfigSectionBase implements ConfigSection {
     public final ConfigSection createSection(@NotNull final String path) {
         final ConfigSection configsection = new ConfigSectionBase();
         configsection.setup(this.getManaged(), this.getConfigurationSection().createSection(path));
-        this.autoSave();
+        configsection.setAutoSave(this.autosave);
+        configsection.autoSave();
         return configsection;
     }
 
@@ -193,6 +194,13 @@ public class ConfigSectionBase implements ConfigSection {
         this.autosave = autosv;
     }
 
+    @Override
+    public void autoSave() {
+        if (this.autosave) {
+            this.getManaged().save();
+        }
+    }
+
     @NotNull
     @Override
     public ConfigurationSection getConfigurationSection() {
@@ -209,12 +217,6 @@ public class ConfigSectionBase implements ConfigSection {
     public final void setup(@NotNull final Managed managed, @NotNull final ConfigurationSection configurationSection) {
         this.section = configurationSection;
         this.managed = managed;
-    }
-
-    private void autoSave() {
-        if (this.autosave) {
-            this.getManaged().save();
-        }
     }
 
 }
