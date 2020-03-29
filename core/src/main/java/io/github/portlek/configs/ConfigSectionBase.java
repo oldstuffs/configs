@@ -3,6 +3,7 @@ package io.github.portlek.configs;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
@@ -16,6 +17,12 @@ public class ConfigSectionBase implements ConfigSection {
     private Managed managed;
 
     private boolean autosave = false;
+
+    @NotNull
+    @Override
+    public Set<String> getKeys(final boolean deep) {
+        return this.getConfigurationSection().getKeys(deep);
+    }
 
     @NotNull
     @Override
@@ -195,7 +202,7 @@ public class ConfigSectionBase implements ConfigSection {
     }
 
     @Override
-    public void autoSave() {
+    public final void autoSave() {
         if (this.autosave) {
             this.getManaged().save();
         }

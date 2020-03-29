@@ -2,11 +2,15 @@ package io.github.portlek.configs;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.ConfigurationSection;
 
 public interface ConfigSection {
+
+    @NotNull
+    Set<String> getKeys(boolean deep);
 
     @NotNull
     Optional<Object> get(@NotNull String path);
