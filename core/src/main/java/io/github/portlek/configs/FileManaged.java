@@ -99,6 +99,13 @@ public class FileManaged extends ConfigSection implements FlManaged {
         this.autosave = autosv;
     }
 
+    @Override
+    public final void autoSave() {
+        if (this.autosave) {
+            this.save();
+        }
+    }
+
     @NotNull
     @Override
     public FileConfiguration getConfigurationSection() {

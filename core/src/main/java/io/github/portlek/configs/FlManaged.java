@@ -74,4 +74,6 @@ public interface FlManaged extends CfgSection {
 
     void setAutoSave(boolean autosv);
 
+    void autoSave();
+
 }

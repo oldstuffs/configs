@@ -35,7 +35,6 @@ public interface CfgSection {
     default <T> T getOrSet(@NotNull final String path, @NotNull final T fallback) {
         return ((Optional<T>) this.get(path)).orElseGet(() -> {
             this.set(path, fallback);
-            this.autoSave();
             return fallback;
         });
     }
@@ -47,10 +46,11 @@ public interface CfgSection {
 
     default void set(@NotNull final String path, @Nullable final Object object) {
         this.getConfigurationSection().set(path, object);
-        this.autoSave();
+        this.getManaged().autoSave();
     }
 
-    void autoSave();
+    @NotNull
+    FlManaged getManaged();
 
     @NotNull
     default CfgSection getOrCreateSection(@NotNull final String path) {
@@ -71,7 +71,7 @@ public interface CfgSection {
     default CfgSection createSection(@NotNull final String path) {
         final CfgSection configsection = this.getNewSection().get();
         configsection.setup(this.getManaged(), this.getConfigurationSection().createSection(path));
-        configsection.autoSave();
+        this.getManaged().autoSave();
         return configsection;
     }
 
@@ -81,9 +81,6 @@ public interface CfgSection {
     }
 
     void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection configurationSection);
-
-    @NotNull
-    FlManaged getManaged();
 
     @NotNull
     default Optional<String> getString(@NotNull final String path) {

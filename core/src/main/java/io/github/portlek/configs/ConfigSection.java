@@ -26,13 +26,6 @@ public class ConfigSection implements CfgSection {
     }
 
     @Override
-    public final void autoSave() {
-        if (this.getManaged().isAutoSave()) {
-            this.getManaged().save();
-        }
-    }
-
-    @Override
     public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
         this.section = configurationSection;
         this.managed = managed;
