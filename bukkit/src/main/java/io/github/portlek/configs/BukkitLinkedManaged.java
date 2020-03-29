@@ -23,12 +23,12 @@ public class BukkitLinkedManaged extends BukkitManaged implements LnkdFlManaged 
 
     @NotNull
     @Override
-    public LnkdFlManaged getBase() {
+    public final LnkdFlManaged getBase() {
         return (LnkdFlManaged) super.getBase();
     }
 
     @Override
-    public void setup(final @NotNull File file, final @NotNull FileConfiguration fileConfiguration) {
+    public final void setup(final @NotNull File file, final @NotNull FileConfiguration fileConfiguration) {
         this.getBase().setup(file, fileConfiguration);
     }
 
