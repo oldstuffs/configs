@@ -39,29 +39,28 @@ public final class InstanceProceed implements Proceed<Field> {
     private final Managed managed;
 
     @NotNull
-    private final ConfigSection configSection;
+    private final ConfigSection section;
 
     @NotNull
     private final String parent;
 
-    public InstanceProceed(@NotNull final Managed managed, @NotNull final ConfigSection configSection,
+    public InstanceProceed(@NotNull final Managed managed, @NotNull final ConfigSection cnfsctn,
                            @NotNull final String parent) {
         this.managed = managed;
-        this.configSection = configSection;
+        this.section = cnfsctn;
         this.parent = parent;
     }
 
     @Override
     public void load(@NotNull final Field field) {
         try {
-            Optional.ofNullable(field.get(this.configSection)).ifPresent(o ->
-                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section -> {
+            Optional.ofNullable(field.get(this.section)).ifPresent(o ->
+                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
                     new SectionProceed(
                         this.managed,
                         this.parent,
                         section
-                    ).load((ConfigSection) o);
-                })
+                    ).load((ConfigSection) o))
             );
         } catch (final IllegalAccessException e) {
             e.printStackTrace();

@@ -30,6 +30,7 @@ import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.annotations.Value;
 import io.github.portlek.configs.util.FileType;
+import java.util.UUID;
 
 @Config(
     name = "config",
@@ -44,11 +45,25 @@ public final class TestConfig extends ManagedBase {
     @Value
     public String test = "test";
 
+    @Value
+    public ProvidedObject provided_object = new ProvidedObject(
+        UUID.fromString("9979fabf-909a-46be-b92c-376b48ecf15a"),
+        "Test",
+        22
+    );
+
     @Section(path = "test-section")
     public static final class TestSection extends ConfigSectionBase {
 
         @Value
         public String test = "test-section > test";
+
+        @Value
+        public ProvidedObject provided_object = new ProvidedObject(
+            UUID.fromString("9e03090a-c24b-43a3-8c29-0d47b7e3efc5"),
+            "Test",
+            33
+        );
 
     }
 

@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.ConfigSection;
 import io.github.portlek.configs.Managed;
 import io.github.portlek.configs.Proceed;
 import io.github.portlek.configs.Provided;
@@ -41,7 +42,7 @@ public final class ValueProceed implements Proceed<Field> {
     private final Managed managed;
 
     @NotNull
-    private final Object instance;
+    private final ConfigSection section;
 
     @NotNull
     private final String parent;
@@ -49,10 +50,10 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private final Value value;
 
-    public ValueProceed(@NotNull final Managed mngd, @NotNull final Object instnce, @NotNull final String prnt,
+    public ValueProceed(@NotNull final Managed mngd, @NotNull final ConfigSection cfgsctn, @NotNull final String prnt,
                         @NotNull final Value vlue) {
         this.managed = mngd;
-        this.instance = instnce;
+        this.section = cfgsctn;
         this.parent = prnt;
         this.value = vlue;
     }
@@ -67,15 +68,14 @@ public final class ValueProceed implements Proceed<Field> {
             field.getName()
         ).value();
         try {
-            final Optional<Object> optional = Optional.ofNullable(field.get(this.instance));
+            final Optional<Object> optional = Optional.ofNullable(field.get(this.section));
             if (!optional.isPresent()) {
                 return;
             }
             final Object fieldvalue = optional.get();
             final Optional<?> filevalueoptional = this.get(fieldvalue, path);
-
             if (filevalueoptional.isPresent()) {
-                field.set(this.instance, filevalueoptional.get());
+                field.set(this.section, filevalueoptional.get());
             } else {
                 this.set(fieldvalue, path);
             }
@@ -94,7 +94,7 @@ public final class ValueProceed implements Proceed<Field> {
             return this.managed.getList(path);
         }
         return this.managed.getCustomValue((Class<Object>) fieldvalue.getClass()).map(objectProvided ->
-            objectProvided.getWithField(fieldvalue, this.managed, path)
+            objectProvided.getWithField(fieldvalue, this.section, path)
         ).orElseGet(() ->
             this.managed.get(path)
         );
@@ -102,10 +102,9 @@ public final class ValueProceed implements Proceed<Field> {
 
     private void set(@NotNull final Object fieldValue, @NotNull final String path) {
         //noinspection unchecked
-        final Optional<Provided<Object>> optionalProvided =
-            this.managed.getCustomValue((Class<Object>) fieldValue.getClass());
-        if (optionalProvided.isPresent()) {
-            optionalProvided.get().set(fieldValue, this.managed, path);
+        final Optional<Provided<Object>> optional = this.managed.getCustomValue((Class<Object>) fieldValue.getClass());
+        if (optional.isPresent()) {
+            optional.get().set(fieldValue, this.section, path);
             return;
         }
         this.managed.set(path, fieldValue);

@@ -133,7 +133,7 @@ public final class ConfigProceed implements Proceed<Managed> {
         final File outfile = new File(datafolder, replace);
         if (!outfile.exists()) {
             try (final OutputStream out = new FileOutputStream(outfile);
-                 final InputStream input = this.getResource(replace)) {
+                 final InputStream input = ConfigProceed.getResource(replace)) {
                 if (input == null) {
                     throw new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!");
                 }
@@ -150,8 +150,8 @@ public final class ConfigProceed implements Proceed<Managed> {
     }
 
     @Nullable
-    public InputStream getResource(@NotNull final String path) {
-        return Optional.ofNullable(this.getClass().getClassLoader().getResource(path)).map(url -> {
+    private static InputStream getResource(@NotNull final String path) {
+        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).map(url -> {
             try {
                 final URLConnection connection = url.openConnection();
                 connection.setUseCaches(false);
