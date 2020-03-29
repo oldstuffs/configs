@@ -1,11 +1,9 @@
 package io.github.portlek.configs;
 
-import java.io.File;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
 public class BukkitLinkedManaged extends BukkitManaged implements LnkdFlManaged {
 
@@ -25,11 +23,6 @@ public class BukkitLinkedManaged extends BukkitManaged implements LnkdFlManaged 
     @Override
     public final LnkdFlManaged getBase() {
         return (LnkdFlManaged) super.getBase();
-    }
-
-    @Override
-    public final void setup(final @NotNull File file, final @NotNull FileConfiguration fileConfiguration) {
-        this.getBase().setup(file, fileConfiguration);
     }
 
     @NotNull

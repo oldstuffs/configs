@@ -43,7 +43,7 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
     }
 
     @Override
-    public void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         this.getBase().setup(file, fileConfiguration);
     }
 
