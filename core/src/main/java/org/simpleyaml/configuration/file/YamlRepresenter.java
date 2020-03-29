@@ -8,7 +8,6 @@ import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
 import org.simpleyaml.configuration.serialization.ConfigurationSerialization;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;
-import org.yaml.snakeyaml.representer.SafeRepresenter;
 
 public class YamlRepresenter extends Representer {
 
@@ -17,7 +16,7 @@ public class YamlRepresenter extends Representer {
         this.multiRepresenters.put(ConfigurationSerializable.class, new RepresentConfigurationSerializable());
     }
 
-    private class RepresentConfigurationSection extends SafeRepresenter.RepresentMap {
+    private class RepresentConfigurationSection extends RepresentMap {
 
         @NotNull
         @Override
@@ -27,7 +26,7 @@ public class YamlRepresenter extends Representer {
 
     }
 
-    private class RepresentConfigurationSerializable extends SafeRepresenter.RepresentMap {
+    private class RepresentConfigurationSerializable extends RepresentMap {
 
         @NotNull
         @Override
