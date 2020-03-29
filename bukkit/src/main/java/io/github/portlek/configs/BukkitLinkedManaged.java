@@ -30,6 +30,5 @@ public class BukkitLinkedManaged extends BukkitManaged implements LnkdFlManaged 
     public final String getChosen() {
         return this.getBase().getChosen();
     }
-
-
+    
 }
