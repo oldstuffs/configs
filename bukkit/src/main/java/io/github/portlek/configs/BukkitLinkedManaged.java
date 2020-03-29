@@ -31,7 +31,7 @@ public class BukkitLinkedManaged extends LinkedManagedBase {
             section = this.getOrCreateSection(path);
         }
         this.getManaged().getCustomValue(ItemStack.class)
-            .ifPresent(provided -> provided.set(itemstack, section));
+            .ifPresent(provided -> provided.set(itemstack, section, path));
     }
 
     @NotNull
@@ -43,7 +43,7 @@ public class BukkitLinkedManaged extends LinkedManagedBase {
             section = this.getOrCreateSection(path);
         }
         return this.getManaged().getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(section));
+            .flatMap(provided -> provided.get(section, path));
     }
 
 }
