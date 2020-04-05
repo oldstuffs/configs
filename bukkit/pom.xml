@@ -24,6 +24,14 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>io.github.portlek:BukkitItemBuilder</artifact>
+                                    <includes>
+                                        <include>io/github/portlek/bukkititembuilder/**</include>
+                                    </includes>
+                                </filter>
+                            </filters>
                             <minimizeJar>true</minimizeJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                         </configuration>
@@ -44,6 +52,11 @@
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>configs-core</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.portlek</groupId>
+            <artifactId>BukkitItemBuilder</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
