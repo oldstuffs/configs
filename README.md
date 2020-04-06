@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=old)](https://travis-ci.com/portlek/configs)
+[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ## Setup
 
 <details>
