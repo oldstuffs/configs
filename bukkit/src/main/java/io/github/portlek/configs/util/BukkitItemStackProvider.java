@@ -2,6 +2,7 @@ package io.github.portlek.configs.util;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
+import io.github.portlek.bukkititembuilder.util.ColorUtil;
 import io.github.portlek.configs.CfgSection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -109,14 +110,10 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             section.getString(fnlpath + "display-name").ifPresent(s ->
-                itemMeta.setDisplayName(
-                    ColorUtil.colored(s)
-                )
+                itemMeta.setDisplayName(ColorUtil.colored(s))
             );
             itemMeta.setLore(
-                ColorUtil.colored(
-                    section.getStringList(fnlpath + "lore")
-                )
+                ColorUtil.colored(section.getStringList(fnlpath + "lore"))
             );
             section.getSection(fnlpath + "enchants").map(enchsection ->
                 enchsection.getKeys(false)
