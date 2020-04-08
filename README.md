@@ -108,11 +108,11 @@ import io.github.portlek.configs.ConfigSection;
 )
 public final class TestConfig extends FileManaged {
 
-  @Value
-  public String test = "test";
-
   @Instance
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+
+  @Value
+  public String test = "test";
 
   @Section(path = "test-section")
   public final class TestSection extends ConfigSection {
@@ -146,11 +146,11 @@ import io.github.portlek.configs.BukkitSection;
 )
 public final class TestConfig extends BukkitManaged {
 
-  @Value
-  public String test = "test";
-
   @Instance
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+
+  @Value
+  public String test = "test";
 
   @Section(path = "test-section")
   public final class TestSection extends BukkitSection {
