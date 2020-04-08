@@ -290,3 +290,5 @@ test: 'Türkçe kelimeler!'
 For JSON file type https://github.com/dumptruckman/JsonConfiguration
 
 For YAML file type and general configuration https://github.com/Carleslc/Simple-YAML
+
+For JSON parsing https://github.com/ralfstx/minimal-json
