@@ -38,29 +38,33 @@ shadowJar {
 <summary>Maven</summary>
 
 ```xml
-<repository>
-    <id>portlek</id>
-    <url>https://dl.bintray.com/portlek/maven</url>
-</repository>
+<repositories>
+    <repository>
+        <id>portlek</id>
+        <url>https://dl.bintray.com/portlek/maven</url>
+    </repository>
+</repositories>
 
 <!-- For the all project type -->
-<dependency>
-  <groupId>io.github.portlek</groupId>
-  <artifactId>configs-core</artifactId>
-  <version>1.0</version>
-</dependency>
-<!-- If you don't make an application which has not the snakeyaml add the implementation. -->
-<dependency>
-  <groupId>org.yaml</groupId>
-  <artifactId>snakeyaml</artifactId>
-  <version>1.26</version>
-</dependency>
-<!-- For the bukkit projects -->
-<dependency>
-  <groupId>io.github.portlek</groupId>
-  <artifactId>configs-bukkit</artifactId>
-  <version>1.0</version>
-</dependency>
+<dependencies>
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-core</artifactId>
+      <version>1.0</version>
+    </dependency>
+    <!-- If you don't make an application which has not the snakeyaml add the implementation. -->
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.26</version>
+    </dependency>
+    <!-- For the bukkit projects -->
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-bukkit</artifactId>
+      <version>1.0</version>
+    </dependency>
+</dependencies>
 ```
 
 Also you have to make relocation for the library with;
