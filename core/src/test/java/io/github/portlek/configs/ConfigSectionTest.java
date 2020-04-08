@@ -26,6 +26,9 @@
 package io.github.portlek.configs;
 
 import static org.junit.jupiter.api.Assertions.*;
+import io.github.portlek.configs.obj.ProvidedObject;
+import io.github.portlek.configs.obj.TestConfig;
+import io.github.portlek.configs.obj.TestProvided;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeAll;

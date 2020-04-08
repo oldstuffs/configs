@@ -1,4 +1,4 @@
-package io.github.portlek.configs;
+package io.github.portlek.configs.obj;
 
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
