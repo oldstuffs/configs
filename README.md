@@ -2,6 +2,31 @@
 ## Setup
 
 <details>
+<summary>Gradle</summary>
+
+```groovy
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+repositories {
+    maven {
+        url = "https://dl.bintray.com/portlek/maven"
+    }
+}
+
+dependencies {
+    implementation("io.github.portlek:configs-bukkit:1.0")
+}
+
+shadowJar {
+    relocate('io.github.portlek.configs', "your.package.path.to.relocate")
+    // other stuffs.
+}
+```
+</details>
+
+<details>
 <summary>Maven</summary>
 
 ```xml
