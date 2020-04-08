@@ -13,6 +13,7 @@ import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
  * @author Bukkit <https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationSection.java>
  */
 public interface ConfigurationSection {
+
     /**
      * Gets a set containing all keys in this section.
      * <p>

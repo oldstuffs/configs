@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
  * Represents a source of configurable options and settings
  */
 public interface Configuration extends ConfigurationSection {
+
     /**
      * Sets the default value of the given path as provided.
      * <p>

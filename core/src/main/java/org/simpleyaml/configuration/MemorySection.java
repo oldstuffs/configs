@@ -14,6 +14,7 @@ import org.simpleyaml.utils.Validate;
  * @author Carlos Lazaro Costa (removed Bukkit-dependent accessors)
  */
 public class MemorySection implements ConfigurationSection {
+
     protected final Map<String, Object> map = new LinkedHashMap<>();
 
     private final Configuration root;

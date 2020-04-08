@@ -11,6 +11,7 @@ import org.simpleyaml.configuration.MemoryConfigurationOptions;
  * FileConfiguration}
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
+
     private String header = null;
 
     private boolean copyHeader = true;

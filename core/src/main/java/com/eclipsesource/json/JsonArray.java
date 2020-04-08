@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 /**
  * Represents a JSON array, an ordered collection of JSON values.
  * <p>

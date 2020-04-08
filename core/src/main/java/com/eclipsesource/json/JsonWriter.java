@@ -24,7 +24,6 @@ package com.eclipsesource.json;
 import java.io.IOException;
 import java.io.Writer;
 
-
 class JsonWriter {
 
     private static final int CONTROL_CHARACTERS_END = 0x001f;

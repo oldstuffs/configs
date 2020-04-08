@@ -23,7 +23,6 @@ package com.eclipsesource.json;
 
 import java.io.*;
 
-
 /**
  * Represents a JSON value. This can be a JSON <strong>object</strong>, an <strong> array</strong>,
  * a <strong>number</strong>, a <strong>string</strong>, or one of the literals

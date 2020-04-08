@@ -6,6 +6,7 @@ package org.simpleyaml.utils;
  * @author Bukkit <https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/util/NumberConversions.java>
  */
 public final class NumberConversions {
+
     private NumberConversions() {
     }
 

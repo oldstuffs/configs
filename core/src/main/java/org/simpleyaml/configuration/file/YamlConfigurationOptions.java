@@ -9,6 +9,7 @@ import org.simpleyaml.utils.Validate;
  * YamlConfiguration}
  */
 public class YamlConfigurationOptions extends FileConfigurationOptions {
+
     private int indent = 2;
 
     protected YamlConfigurationOptions(@NotNull final YamlConfiguration configuration) {

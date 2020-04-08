@@ -24,7 +24,6 @@ package com.eclipsesource.json;
 import java.io.IOException;
 import java.io.Writer;
 
-
 /**
  * A lightweight writing buffer to reduce the amount of write operations to be performed on the
  * underlying writer. This implementation is not thread-safe. It deliberately deviates from the

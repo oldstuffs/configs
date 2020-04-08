@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * Configuration}
  */
 public class ConfigurationOptions {
+
     private final Configuration configuration;
 
     private char pathSeparator = '.';

@@ -173,6 +173,7 @@ public final class Replaceable<X> {
     }
 
     public static final class Provider implements Provided<Replaceable<?>> {
+
         @Override
         public void set(@NotNull final Replaceable<?> replaceable, @NotNull final CfgSection section,
                         @NotNull final String path) {

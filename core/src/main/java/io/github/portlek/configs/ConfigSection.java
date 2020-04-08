@@ -26,15 +26,15 @@ public class ConfigSection implements CfgSection {
     }
 
     @Override
-    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
-        this.section = configurationSection;
-        this.managed = managed;
-    }
-
-    @Override
     @NotNull
     public final FlManaged getManaged() {
         return Objects.requireNonNull(this.managed, "You have to load your class with '#load()' method");
+    }
+
+    @Override
+    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
+        this.section = configurationSection;
+        this.managed = managed;
     }
 
 }

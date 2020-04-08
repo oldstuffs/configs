@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
  * MemoryConfiguration}
  */
 public class MemoryConfigurationOptions extends ConfigurationOptions {
+
     protected MemoryConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
         super(configuration);
     }

@@ -24,7 +24,6 @@ package com.eclipsesource.json;
 import java.io.IOException;
 import java.io.Reader;
 
-
 /**
  * This class serves as the entry point to the minimal-json API.
  * <p>

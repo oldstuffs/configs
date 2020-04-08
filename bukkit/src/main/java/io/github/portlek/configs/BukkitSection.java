@@ -29,14 +29,14 @@ public class BukkitSection implements BkktSection {
     }
 
     @Override
-    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.base.setup(managed, section);
-    }
-
-    @Override
     @NotNull
     public final FlManaged getManaged() {
         return this.base.getManaged();
+    }
+
+    @Override
+    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
+        this.base.setup(managed, section);
     }
 
 }

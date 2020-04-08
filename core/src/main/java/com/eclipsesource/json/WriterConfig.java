@@ -23,7 +23,6 @@ package com.eclipsesource.json;
 
 import java.io.Writer;
 
-
 /**
  * Controls the formatting of the JSON output. Use one of the available constants.
  */
