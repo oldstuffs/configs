@@ -285,3 +285,7 @@ test: 'English words!'
 test: 'Türkçe kelimeler!'
 ```
 </details>
+
+### 3rd Party Libraries
+For JSON file type https://github.com/dumptruckman/JsonConfiguration
+For YAML file type and general configuration https://github.com/Carleslc/Simple-YAML
