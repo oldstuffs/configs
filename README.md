@@ -252,6 +252,11 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
   }
 
   @Value
+  public String same_in_every_language = match(s -> 
+      Optional.of("Same in every language!")
+  );
+
+  @Value
   public String test = match(s -> {
     if (s.equals("en")) {
       return Optional.of("English words!");
