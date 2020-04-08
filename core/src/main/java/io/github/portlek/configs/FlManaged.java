@@ -40,12 +40,20 @@ public interface FlManaged extends CfgSection {
     Optional<Object> pull(@NotNull String id);
 
     default void load() {
+        this.onCreate();
         final Config config = this.getClass().getDeclaredAnnotation(Config.class);
         if (config != null) {
             new ConfigProceed(config).load(this);
+            this.onLoad();
             return;
         }
         throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!");
+    }
+
+    default void onCreate() {
+    }
+
+    default void onLoad() {
     }
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
