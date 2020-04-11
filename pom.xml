@@ -9,6 +9,15 @@
     <version>1.0</version>
     <name>configs-parent</name>
     <packaging>pom</packaging>
+    <description>An API for creating  inveotories for Bukkit servers.</description>
+    <url>https://github.com/portlek/configs</url>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
 
     <developers>
         <developer>
