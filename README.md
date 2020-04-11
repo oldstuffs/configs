@@ -1,7 +1,7 @@
 # Configs
 
 [![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
-[![DevOps By Rultor.com](https://www.rultor.com/b/yegor256/rultor)](https://github.com/portlek/configs)
+[![DevOps By Rultor.com](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
 ## Setup
 
 <details>
