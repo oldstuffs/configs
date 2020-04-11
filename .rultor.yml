@@ -1,6 +1,5 @@
 docker:
-  image: yegor256/rultor-image
-  as_root: true
+  image: ubuntu
 assets:
   settings.xml: "portlek/secret-repo#configs/settings.xml"
   pubring.gpg: "portlek/secret-repo#configs/pubring.gpg"
@@ -12,13 +11,10 @@ merge:
     mvn clean install --errors --settings /home/r/settings.xml
 deploy:
   script: |
-    export GPG_TTY=$(tty)
     mvn clean deploy --errors --settings /home/r/settings.xml
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
     mvn versions:set "-DnewVersion=${tag}" --settings /home/r/settings.xml
     git commit -am "${tag}"
-    export GPG_TTY=$(tty)
-    gpg --import /home/r/pubring.gpg
     mvn clean deploy --errors --settings /home/r/settings.xml
