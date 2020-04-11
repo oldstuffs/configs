@@ -15,6 +15,7 @@ merge:
     mvn clean install --errors --settings /home/r/settings.xml
 deploy:
   script: |
+    export GPG_TTY=$(tty)
     mvn clean deploy --errors --settings /home/r/settings.xml
 release:
   script: |-
