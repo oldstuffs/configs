@@ -48,6 +48,8 @@ public class SerializationHelper {
      * Called recursively first on Maps and Lists before passing the parsed input over to
      * {@link ConfigurationSerialization#deserializeObject(Map)}.  Basically this means it will deserialize
      * the most nested objects FIRST and the top level object LAST.
+     *
+     * @param input The input to deserialize
      */
     public static Object deserialize(@NotNull final Map<?, ?> input) {
         final Map<String, Object> output = new LinkedHashMap<>(input.size());
