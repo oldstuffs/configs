@@ -1,5 +1,5 @@
 docker:
-  image: g4s8/rultor:alpine3.10
+  image: yegor256/rultor-image
   as_root: true
 assets:
   settings.xml: "portlek/secret-repo#configs/settings.xml"
