@@ -7,7 +7,7 @@
 <details>
 <summary>Gradle</summary>
 
-```
+```gradle
 plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
 }
