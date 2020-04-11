@@ -44,7 +44,7 @@ import java.util.List;
  * }
  * </pre>
  * <p>
- * An equivalent {@link List} can be obtained from the method {@link #values()}.
+ * An equivalent {@link List} can be obtained from the method {@link #values}.
  * </p>
  * <p>
  * Note that this class is <strong>not thread-safe</strong>. If multiple threads access a
