@@ -20,4 +20,5 @@ release:
     mvn versions:set "-DnewVersion=${tag}" --settings /home/r/settings.xml
     git commit -am "${tag}"
     export GPG_TTY=$(tty)
+    gpg --import /home/r/pubring.gpg
     mvn clean deploy --errors --settings /home/r/settings.xml
