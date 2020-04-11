@@ -140,6 +140,13 @@
                         <goals>
                             <goal>sign</goal>
                         </goals>
+                        <configuration>
+                            <executable>${gpg.executable}</executable>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                            <keyname>${gpg.keyname}</keyname>
+                            <homedir>${gpg.homedir}</homedir>
+                            <useAgent>true</useAgent>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
