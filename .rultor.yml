@@ -1,5 +1,6 @@
 docker:
-  image: yegor256/rultor-image
+  image: g4s8/rultor:alpine3.10
+  as_root: true
 assets:
   settings.xml: "portlek/secret-repo#configs/settings.xml"
   pubring.gpg: "portlek/secret-repo#configs/pubring.gpg"
