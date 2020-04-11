@@ -24,7 +24,7 @@ package org.simpleyaml.utils;
  * deemed invalid, an IllegalArgumentException is thrown. For example:</p>
  *
  * <pre>
- * Validate.isTrue( i > 0, "The value must be greater than zero: ", i);
+ * Validate.isTrue( i bigger than 0, "The value must be greater than zero: ", i);
  * Validate.notNull( surname, "The surname must not be null");
  * </pre>
  *
@@ -51,7 +51,7 @@ public class Validate {
      * primitive number or using your own custom validation expression.</p>
      *
      * <pre>
-     * Validate.isTrue( (i > 0), "The value must be greater than zero");
+     * Validate.isTrue( (i bigger than 0), "The value must be greater than zero");
      * Validate.isTrue( myObject.isOk(), "The object is not OK");
      * </pre>
      *

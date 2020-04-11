@@ -9,8 +9,6 @@ import org.simpleyaml.configuration.serialization.ConfigurationSerializable;
 
 /**
  * Represents a section of a {@link Configuration}
- *
- * @author Bukkit <https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationSection.java>
  */
 public interface ConfigurationSection {
 
