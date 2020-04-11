@@ -39,8 +39,8 @@ shadowJar {
 <summary>Maven</summary>
 
 ```xml
-<!-- For the all project type -->
 <dependencies>
+    <!-- For the all project type -->
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
