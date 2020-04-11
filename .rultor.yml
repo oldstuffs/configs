@@ -9,15 +9,15 @@ architect:
   - portlek
 merge:
   script: |
-    mvn clean install --errors --settings ../settings.xml
+    mvn clean install --errors --settings /home/r/settings.xml
 deploy:
   script: |
     export GPG_TTY=$(tty)
-    mvn clean deploy --errors --settings ../settings.xml
+    mvn clean deploy --errors --settings /home/r/settings.xml
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
-    mvn versions:set "-DnewVersion=${tag}" --settings ../settings.xml
+    mvn versions:set "-DnewVersion=${tag}" --settings /home/r/settings.xml
     git commit -am "${tag}"
     export GPG_TTY=$(tty)
-    mvn clean deploy --errors --settings ../settings.xml
+    mvn clean deploy --errors --settings /home/r/settings.xml
