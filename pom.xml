@@ -9,7 +9,7 @@
     <version>1.0</version>
     <name>configs-parent</name>
     <packaging>pom</packaging>
-    <description>An API for creating  inveotories for Bukkit servers.</description>
+    <description>An API for creating and managing file.</description>
     <url>https://github.com/portlek/configs</url>
 
     <licenses>
