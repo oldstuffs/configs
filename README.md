@@ -13,9 +13,7 @@ plugins {
 }
 
 repositories {
-    maven {
-        url = "https://dl.bintray.com/portlek/maven"
-    }
+    mavenCentral()
 }
 
 dependencies {
@@ -41,13 +39,6 @@ shadowJar {
 <summary>Maven</summary>
 
 ```xml
-<repositories>
-    <repository>
-        <id>portlek</id>
-        <url>https://dl.bintray.com/portlek/maven</url>
-    </repository>
-</repositories>
-
 <!-- For the all project type -->
 <dependencies>
     <dependency>
