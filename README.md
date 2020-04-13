@@ -2,6 +2,7 @@
 
 [![We recommend IntelliJ IDEA](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 [![DevOps By Rultor.com](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
+![Java CI with Maven](https://github.com/portlek/configs/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 ## Setup
 
 <details>
