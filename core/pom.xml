@@ -5,7 +5,7 @@
     <parent>
         <artifactId>configs-parent</artifactId>
         <groupId>io.github.portlek</groupId>
-        <version>1.2</version>
+        <version>1.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
