@@ -224,10 +224,12 @@ The result will be like that;
 (en.yml file)
 ```yml
 test: 'English words!'
+same-in-every-language: 'Same in every language!'
 ```
 (tr.yml file)
 ```yml
 test: 'Türkçe kelimeler!'
+same-in-every-language: 'Same in every language!'
 ```
 </details>
 
@@ -280,10 +282,12 @@ The result will be like that;
 (en.yml file)
 ```yml
 test: 'English words!'
+same-in-every-language: 'Same in every language!'
 ```
 (tr.yml file)
 ```yml
 test: 'Türkçe kelimeler!'
+same-in-every-language: 'Same in every language!'
 ```
 </details>
 
