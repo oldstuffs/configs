@@ -19,14 +19,14 @@ repositories {
 
 dependencies {
     // For the all project type
-    implementation("io.github.portlek:configs-core:1.2")
+    implementation("io.github.portlek:configs-core:1.4")
     // If you don't make an application which has not the snakeyaml add the implementation.
     implementation("org.yaml:snakeyaml:1.26")
 
     // For the bukkit projects
     // You don't have to add snakeyaml implementation into bukkit plugins,
     // it because Bukkit has already snakeyaml implementation in it.
-    implementation("io.github.portlek:configs-bukkit:1.2")
+    implementation("io.github.portlek:configs-bukkit:1.4")
 }
 
 shadowJar {
@@ -45,7 +45,7 @@ shadowJar {
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
-      <version>1.2</version>
+      <version>1.4</version>
     </dependency>
     <!-- If you don't make an application which has not the snakeyaml add the implementation. -->
     <dependency>
@@ -57,7 +57,7 @@ shadowJar {
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-bukkit</artifactId>
-      <version>1.2</version>
+      <version>1.4</version>
     </dependency>
 </dependencies>
 ```
