@@ -2,7 +2,6 @@
 
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 [![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
-![build](https://github.com/portlek/configs/workflows/Java%20CI%20with%20Maven/badge.svg?branch=master)
 ![maven-central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core)
 ## Setup
 
