@@ -115,13 +115,13 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
     /**
      * Indicates whether a given object is "equal to" this JsonArray. An object is considered equal
-     * if it is also a <code>JsonArray</code> and both arrays contain the same list of values.
+     * if it is also a {@code JsonArray} and both arrays contain the same list of values.
      * <p>
      * If two JsonArrays are equal, they will also produce the same JSON output.
      * </p>
      *
      * @param object the object to be compared with this JsonArray
-     * @return <tt>true</tt> if the specified object is equal to this JsonArray, <code>false</code>
+     * @return true if the specified object is equal to this JsonArray, {@code false}
      * otherwise
      */
     @Override
