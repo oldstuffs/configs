@@ -1,7 +1,7 @@
 package io.github.portlek.configs;
 
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
+import io.github.portlek.configs.yaml.configuration.ConfigurationSection;
 
 public class BukkitSection implements BkktSection {
 

@@ -1,6 +1,6 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.MapEntry;
 import java.io.File;
 import java.util.HashMap;
