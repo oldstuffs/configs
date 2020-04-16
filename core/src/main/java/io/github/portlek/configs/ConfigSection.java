@@ -3,7 +3,7 @@ package io.github.portlek.configs;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.ConfigurationSection;
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
 
 public class ConfigSection implements CfgSection {
 

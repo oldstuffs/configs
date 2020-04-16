@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.util;
 
-import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
+import io.github.portlek.configs.jsonconfiguration.json.JsonConfiguration;
 import java.io.File;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
-import org.simpleyaml.configuration.file.YamlConfiguration;
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.simpleyaml.configuration.file.YamlConfiguration;
 
 public enum FileType {
 

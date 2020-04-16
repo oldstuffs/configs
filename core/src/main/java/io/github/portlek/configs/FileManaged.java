@@ -31,7 +31,7 @@ import java.io.File;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 public class FileManaged extends ConfigSection implements FlManaged {
 

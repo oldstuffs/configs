@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 public interface FlManaged extends CfgSection {
 

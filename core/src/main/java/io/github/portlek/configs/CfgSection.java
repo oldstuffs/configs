@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.ConfigurationSection;
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
 
 public interface CfgSection {
 

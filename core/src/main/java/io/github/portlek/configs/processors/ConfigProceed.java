@@ -35,7 +35,7 @@ import java.net.URLConnection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 public final class ConfigProceed implements Proceed<FlManaged> {
 
