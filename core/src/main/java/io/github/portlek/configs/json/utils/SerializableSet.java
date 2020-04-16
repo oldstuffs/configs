@@ -44,16 +44,6 @@ public class SerializableSet implements Set, ConfigurationSerializable {
     }
 
     @SuppressWarnings("unchecked")
-    public SerializableSet(@NotNull final Map<String, Object> serializedForm) {
-        final Object o = serializedForm.get("contents");
-        if (o instanceof List) {
-            this.backingSet = new HashSet((List) o);
-        } else {
-            this.backingSet = Collections.emptySet();
-        }
-    }
-
-    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> serialize() {
         final Map<String, Object> serializedForm = new HashMap<>(this.backingSet.size());

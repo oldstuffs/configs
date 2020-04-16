@@ -190,7 +190,7 @@ public final class YamlConfiguration extends FileConfiguration {
     }
 
     @NotNull
-    protected String parseHeader(@NotNull final String input) {
+    private String parseHeader(@NotNull final String input) {
         final String[] lines = input.split("\r?\n", -1);
         final StringBuilder result = new StringBuilder();
         boolean readingHeader = true;

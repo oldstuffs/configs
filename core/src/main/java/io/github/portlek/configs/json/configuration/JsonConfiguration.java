@@ -3,18 +3,17 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.json.configuration;
 
+import io.github.portlek.configs.json.utils.JsonHelper;
+import io.github.portlek.configs.json.utils.SerializationHelper;
 import io.github.portlek.configs.jsonparser.Json;
 import io.github.portlek.configs.jsonparser.JsonObject;
 import io.github.portlek.configs.jsonparser.WriterConfig;
-import io.github.portlek.configs.json.utils.JsonHelper;
-import io.github.portlek.configs.json.utils.SerializationHelper;
 import io.github.portlek.configs.yaml.configuration.ConfigurationSection;
 import io.github.portlek.configs.yaml.configuration.InvalidConfigurationException;
 import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.Reader;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,9 +24,9 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * Able to store all the things you'd expect from a Bukkit configuration.
  */
-public class JsonConfiguration extends FileConfiguration {
+public final class JsonConfiguration extends FileConfiguration {
 
-    protected static final String BLANK_CONFIG = "{}\n";
+    private static final String BLANK_CONFIG = "{}\n";
 
     private static final Logger LOG = Logger.getLogger(JsonConfiguration.class.getName());
 
@@ -51,21 +50,6 @@ public class JsonConfiguration extends FileConfiguration {
             JsonConfiguration.LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
         } catch (final IOException | InvalidConfigurationException ex) {
             JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + file, ex);
-        }
-        return config;
-    }
-
-    public static JsonConfiguration loadConfiguration(@NotNull final Reader reader) {
-        return JsonConfiguration.loadConfiguration(new JsonConfiguration(), reader);
-    }
-
-    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final Reader reader) {
-        try {
-            config.load(reader);
-        } catch (final FileNotFoundException ex) {
-            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot find file " + reader, ex);
-        } catch (final IOException | InvalidConfigurationException ex) {
-            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + reader, ex);
         }
         return config;
     }

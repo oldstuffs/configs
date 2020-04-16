@@ -16,7 +16,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     /**
      * Creates an empty {@link FileConfiguration} with no default values.
      */
-    public FileConfiguration() {
+    protected FileConfiguration() {
         super();
     }
 

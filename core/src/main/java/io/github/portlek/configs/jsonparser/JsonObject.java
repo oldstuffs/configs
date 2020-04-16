@@ -87,21 +87,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         this.table = new JsonObject.HashIndexTable();
     }
 
-    private JsonObject(final JsonObject object, final boolean unmodifiable) {
-        if (object == null) {
-            throw new NullPointerException("object is null");
-        }
-        if (unmodifiable) {
-            this.names = Collections.unmodifiableList(object.names);
-            this.values = Collections.unmodifiableList(object.values);
-        } else {
-            this.names = new ArrayList<String>(object.names);
-            this.values = new ArrayList<JsonValue>(object.values);
-        }
-        this.table = new JsonObject.HashIndexTable();
-        this.updateHashIndex();
-    }
-
     private void updateHashIndex() {
         final int size = this.names.size();
         for (int i = 0; i < size; i++) {
@@ -364,15 +349,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         }
         final int index = this.indexOf(name);
         return index != -1 ? this.values.get(index) : null;
-    }
-
-    /**
-     * Returns <code>true</code> if this object contains no members.
-     *
-     * @return <code>true</code> if this object contains no members
-     */
-    public boolean isEmpty() {
-        return this.names.isEmpty();
     }
 
     /**
