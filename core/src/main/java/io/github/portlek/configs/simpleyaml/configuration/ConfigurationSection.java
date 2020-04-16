@@ -1,11 +1,11 @@
 package io.github.portlek.configs.simpleyaml.configuration;
 
+import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
 
 /**
  * Represents a section of a {@link Configuration}

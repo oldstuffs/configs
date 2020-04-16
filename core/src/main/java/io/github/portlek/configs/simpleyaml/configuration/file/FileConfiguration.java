@@ -1,13 +1,12 @@
 package io.github.portlek.configs.simpleyaml.configuration.file;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import io.github.portlek.configs.simpleyaml.configuration.Configuration;
 import io.github.portlek.configs.simpleyaml.configuration.InvalidConfigurationException;
 import io.github.portlek.configs.simpleyaml.configuration.MemoryConfiguration;
 import io.github.portlek.configs.simpleyaml.utils.Validate;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This is a base class for all File based implementations of {@link Configuration}
@@ -19,37 +18,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      */
     public FileConfiguration() {
         super();
-    }
-
-    /**
-     * Creates an empty {@link FileConfiguration} using the specified {@link
-     * Configuration} as a source for all default values.
-     *
-     * @param defaults Default value provider
-     */
-    public FileConfiguration(@Nullable final Configuration defaults) {
-        super(defaults);
-    }
-
-    /**
-     * Saves this {@link FileConfiguration} to the specified location.
-     * <p>
-     * If the file does not exist, it will be created. If already exists, it
-     * will be overwritten. If it cannot be overwritten or created, an
-     * exception will be thrown.
-     * <p>
-     * This method will save using the system default encoding, or possibly
-     * using UTF8.
-     *
-     * @param file File to save to.
-     * @throws IOException Thrown when the given file cannot be written to for
-     * any reason.
-     * @throws IllegalArgumentException Thrown when file is null.
-     */
-    public void save(@NotNull final String file) throws IOException {
-        Validate.notNull(file, "File cannot be null");
-
-        this.save(new File(file));
     }
 
     /**

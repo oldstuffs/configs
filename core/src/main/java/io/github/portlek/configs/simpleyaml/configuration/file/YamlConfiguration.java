@@ -1,5 +1,9 @@
 package io.github.portlek.configs.simpleyaml.configuration.file;
 
+import io.github.portlek.configs.simpleyaml.configuration.Configuration;
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
+import io.github.portlek.configs.simpleyaml.configuration.InvalidConfigurationException;
+import io.github.portlek.configs.simpleyaml.utils.Validate;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,10 +12,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.Configuration;
-import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
-import io.github.portlek.configs.simpleyaml.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.simpleyaml.utils.Validate;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.error.YAMLException;

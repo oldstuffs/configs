@@ -1,5 +1,6 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.MapEntry;
 import java.io.File;
 import java.util.HashMap;
@@ -7,7 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
 

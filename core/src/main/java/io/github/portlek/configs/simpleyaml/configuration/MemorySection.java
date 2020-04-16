@@ -1,11 +1,11 @@
 package io.github.portlek.configs.simpleyaml.configuration;
 
 import static io.github.portlek.configs.simpleyaml.utils.NumberConversions.*;
+import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.simpleyaml.utils.Validate;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.simpleyaml.utils.Validate;
 
 /**
  * A type of {@link ConfigurationSection} that is stored in memory.

@@ -2,13 +2,13 @@ package io.github.portlek.configs.jsonconfiguration.util;
 
 import io.github.portlek.configs.jsonconfiguration.SerializableSet;
 import io.github.portlek.configs.jsonconfiguration.YAMLException;
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
+import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerialization;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerialization;
 
 /**
  * @author Jeremy Wood

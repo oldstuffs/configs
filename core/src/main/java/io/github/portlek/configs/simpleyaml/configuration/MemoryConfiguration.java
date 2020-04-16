@@ -1,9 +1,9 @@
 package io.github.portlek.configs.simpleyaml.configuration;
 
+import io.github.portlek.configs.simpleyaml.utils.Validate;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.utils.Validate;
 
 /**
  * This is a {@link Configuration} implementation that does not save or load

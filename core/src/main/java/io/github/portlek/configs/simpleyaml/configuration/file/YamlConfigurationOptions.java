@@ -1,8 +1,8 @@
 package io.github.portlek.configs.simpleyaml.configuration.file;
 
+import io.github.portlek.configs.simpleyaml.utils.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.utils.Validate;
 
 /**
  * Various settings for controlling the input and output of a {@link

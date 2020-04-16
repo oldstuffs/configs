@@ -1,5 +1,6 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.BukkitItemStackProvider;
 import io.github.portlek.configs.util.Provided;
 import java.io.File;
@@ -8,7 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 public class BukkitManaged extends BukkitSection implements FlManaged {
 

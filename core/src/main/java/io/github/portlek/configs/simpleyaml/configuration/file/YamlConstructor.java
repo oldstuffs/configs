@@ -1,10 +1,10 @@
 package io.github.portlek.configs.simpleyaml.configuration.file;
 
+import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerialization;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerialization;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.Node;

@@ -3,11 +3,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.jsonconfiguration.json;
 
-import io.github.portlek.configs.jsonconfiguration.util.JsonHelper;
-import io.github.portlek.configs.jsonconfiguration.util.SerializationHelper;
 import io.github.portlek.configs.json.Json;
 import io.github.portlek.configs.json.JsonObject;
 import io.github.portlek.configs.json.WriterConfig;
+import io.github.portlek.configs.jsonconfiguration.util.JsonHelper;
+import io.github.portlek.configs.jsonconfiguration.util.SerializationHelper;
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
+import io.github.portlek.configs.simpleyaml.configuration.InvalidConfigurationException;
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,9 +19,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
-import io.github.portlek.configs.simpleyaml.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 /**
  * A JSON Configuration for Bukkit based on {@link FileConfiguration}.

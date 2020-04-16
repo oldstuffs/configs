@@ -1,5 +1,7 @@
 package io.github.portlek.configs.simpleyaml.configuration.serialization;
 
+import io.github.portlek.configs.simpleyaml.configuration.Configuration;
+import io.github.portlek.configs.simpleyaml.utils.Validate;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,12 +12,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.configuration.Configuration;
-import io.github.portlek.configs.simpleyaml.utils.Validate;
 
 /**
  * Utility class for storing and retrieving classes for {@link Configuration}.
- *
  */
 public class ConfigurationSerialization {
 

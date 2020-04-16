@@ -27,12 +27,12 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
+import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.Provided;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.file.FileConfiguration;
 
 public interface FlManaged extends CfgSection {
 

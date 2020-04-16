@@ -25,13 +25,13 @@
 
 package io.github.portlek.configs.jsonconfiguration;
 
+import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.simpleyaml.configuration.serialization.SerializableAs;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.simpleyaml.configuration.serialization.SerializableAs;
 
 @SerializableAs("set")
 public class SerializableSet implements Set, ConfigurationSerializable {

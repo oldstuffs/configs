@@ -1,9 +1,9 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
 
 public class ConfigSection implements CfgSection {
 

@@ -4,10 +4,10 @@ import io.github.portlek.configs.json.Json;
 import io.github.portlek.configs.json.JsonArray;
 import io.github.portlek.configs.json.JsonObject;
 import io.github.portlek.configs.json.JsonValue;
+import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import io.github.portlek.configs.simpleyaml.configuration.ConfigurationSection;
 
 public final class JsonHelper {
 

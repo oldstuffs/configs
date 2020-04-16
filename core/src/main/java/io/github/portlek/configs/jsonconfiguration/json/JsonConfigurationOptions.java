@@ -3,8 +3,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.jsonconfiguration.json;
 
-import org.jetbrains.annotations.NotNull;
 import io.github.portlek.configs.simpleyaml.configuration.file.FileConfigurationOptions;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Mandatory configuration options class for JsonConfiguration.
