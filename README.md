@@ -1,4 +1,5 @@
 # Configs
+Annotation based configuration library for any Java project.
 
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 [![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
