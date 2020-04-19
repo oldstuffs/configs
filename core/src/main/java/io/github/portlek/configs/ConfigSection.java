@@ -15,7 +15,7 @@ public class ConfigSection implements CfgSection {
 
     @NotNull
     @Override
-    public CfgSection getBase() {
+    public final CfgSection getBase() {
         return this;
     }
 

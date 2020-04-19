@@ -122,15 +122,6 @@ public final class Replaceable<X> {
         return finalValue.get();
     }
 
-    @SuppressWarnings("unchecked")
-    private void replace(@NotNull final AtomicReference<X> finalValue, @NotNull final String regex, @NotNull final String replace) {
-        if (this.value instanceof String) {
-            finalValue.set((X) ((String) finalValue.get()).replace(regex, replace));
-        } else if (this.value instanceof List<?>) {
-            finalValue.set((X) new ListReplace((List<String>) finalValue.get()).apply(regex, replace));
-        }
-    }
-
     @NotNull
     public <Y> Y buildMap(@NotNull final Function<X, Y> function) {
         final X built = this.build();
@@ -170,6 +161,15 @@ public final class Replaceable<X> {
     @NotNull
     public List<UnaryOperator<X>> getMaps() {
         return Collections.unmodifiableList(this.maps);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void replace(@NotNull final AtomicReference<X> finalValue, @NotNull final String regex, @NotNull final String replace) {
+        if (this.value instanceof String) {
+            finalValue.set((X) ((String) finalValue.get()).replace(regex, replace));
+        } else if (this.value instanceof List<?>) {
+            finalValue.set((X) new ListReplace((List<String>) finalValue.get()).apply(regex, replace));
+        }
     }
 
     public static final class Provider implements Provided<Replaceable<?>> {

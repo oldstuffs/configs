@@ -27,10 +27,10 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.Version;
+import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.Optional;
@@ -44,6 +44,33 @@ public final class ConfigProceed implements Proceed<FlManaged> {
 
     public ConfigProceed(@NotNull final Config cnfg) {
         this.config = cnfg;
+    }
+
+    @NotNull
+    private static String addSeparatorIfHasNot(@NotNull final String raw) {
+        final String fnl;
+        if (raw.isEmpty()) {
+            fnl = "";
+        } else if (raw.charAt(raw.length() - 1) == File.separatorChar) {
+            fnl = raw;
+        } else {
+            fnl = raw + File.separatorChar;
+        }
+        return fnl;
+    }
+
+    @Nullable
+    private static InputStream getResource(@NotNull final String path) {
+        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).map(url -> {
+            try {
+                final URLConnection connection = url.openConnection();
+                connection.setUseCaches(false);
+                return connection.getInputStream();
+            } catch (final IOException exception) {
+                exception.printStackTrace();
+            }
+            return null;
+        }).orElse(null);
     }
 
     @Override
@@ -105,19 +132,6 @@ public final class ConfigProceed implements Proceed<FlManaged> {
     }
 
     @NotNull
-    private static String addSeparatorIfHasNot(@NotNull final String raw) {
-        final String fnl;
-        if (raw.isEmpty()) {
-            fnl = "";
-        } else if (raw.charAt(raw.length() - 1) == File.separatorChar) {
-            fnl = raw;
-        } else {
-            fnl = raw + File.separatorChar;
-        }
-        return fnl;
-    }
-
-    @NotNull
     public File saveResource(@NotNull final String datafolder, @NotNull final String path) {
         if (path.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be empty");
@@ -146,20 +160,6 @@ public final class ConfigProceed implements Proceed<FlManaged> {
             }
         }
         return outfile;
-    }
-
-    @Nullable
-    private static InputStream getResource(@NotNull final String path) {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).map(url -> {
-            try {
-                final URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                return connection.getInputStream();
-            } catch (final IOException exception) {
-                exception.printStackTrace();
-            }
-            return null;
-        }).orElse(null);
     }
 
 }

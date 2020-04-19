@@ -48,105 +48,6 @@ public class ConfigurationSerialization {
         return new ConfigurationSerialization(clazz).deserialize(args);
     }
 
-    @Nullable
-    public ConfigurationSerializable deserialize(@NotNull final Map<String, ?> args) {
-        Validate.notNull(args, "Args must not be null");
-
-        ConfigurationSerializable result = null;
-        Method method = null;
-
-        if (result == null) {
-            method = this.getMethod("deserialize", true);
-
-            if (method != null) {
-                result = this.deserializeViaMethod(method, args);
-            }
-        }
-
-        if (result == null) {
-            method = this.getMethod("valueOf", true);
-
-            if (method != null) {
-                result = this.deserializeViaMethod(method, args);
-            }
-        }
-
-        if (result == null) {
-            final Constructor<? extends ConfigurationSerializable> constructor = this.getConstructor();
-
-            if (constructor != null) {
-                result = this.deserializeViaCtor(constructor, args);
-            }
-        }
-
-        return result;
-    }
-
-    @Nullable
-    protected Method getMethod(@NotNull final String name, final boolean isStatic) {
-        try {
-            final Method method = this.clazz.getDeclaredMethod(name, Map.class);
-
-            if (!ConfigurationSerializable.class.isAssignableFrom(method.getReturnType())) {
-                return null;
-            }
-            if (Modifier.isStatic(method.getModifiers()) != isStatic) {
-                return null;
-            }
-
-            return method;
-        } catch (final NoSuchMethodException ex) {
-            return null;
-        } catch (final SecurityException ex) {
-            return null;
-        }
-    }
-
-    @Nullable
-    protected ConfigurationSerializable deserializeViaMethod(@NotNull final Method method, @NotNull final Map<String, ?> args) {
-        try {
-            final ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
-
-            if (result == null) {
-                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + this.clazz + " for deserialization: method returned null");
-            } else {
-                return result;
-            }
-        } catch (final Throwable ex) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(
-                Level.SEVERE,
-                "Could not call method '" + method.toString() + "' of " + this.clazz + " for deserialization",
-                ex instanceof InvocationTargetException ? ex.getCause() : ex);
-        }
-
-        return null;
-    }
-
-    @Nullable
-    protected Constructor<? extends ConfigurationSerializable> getConstructor() {
-        try {
-            return this.clazz.getConstructor(Map.class);
-        } catch (final NoSuchMethodException ex) {
-            return null;
-        } catch (final SecurityException ex) {
-            return null;
-        }
-    }
-
-    @Nullable
-    protected ConfigurationSerializable deserializeViaCtor(@NotNull final Constructor<? extends ConfigurationSerializable> ctor, @NotNull final Map<String, ?> args) {
-        try {
-            return ctor.newInstance(args);
-        } catch (final Throwable ex) {
-            Logger.getLogger(ConfigurationSerialization.class.getName()).log(
-                Level.SEVERE,
-                "Could not call constructor '" + ctor.toString() + "' of " + this.clazz + " for deserialization",
-                ex instanceof InvocationTargetException ? ex.getCause() : ex);
-        }
-
-        return null;
-    }
-
     /**
      * Attempts to deserialize the given arguments into a new instance of the
      * given class.
@@ -274,6 +175,105 @@ public class ConfigurationSerialization {
         }
 
         return clazz.getName();
+    }
+
+    @Nullable
+    public ConfigurationSerializable deserialize(@NotNull final Map<String, ?> args) {
+        Validate.notNull(args, "Args must not be null");
+
+        ConfigurationSerializable result = null;
+        Method method = null;
+
+        if (result == null) {
+            method = this.getMethod("deserialize", true);
+
+            if (method != null) {
+                result = this.deserializeViaMethod(method, args);
+            }
+        }
+
+        if (result == null) {
+            method = this.getMethod("valueOf", true);
+
+            if (method != null) {
+                result = this.deserializeViaMethod(method, args);
+            }
+        }
+
+        if (result == null) {
+            final Constructor<? extends ConfigurationSerializable> constructor = this.getConstructor();
+
+            if (constructor != null) {
+                result = this.deserializeViaCtor(constructor, args);
+            }
+        }
+
+        return result;
+    }
+
+    @Nullable
+    protected Method getMethod(@NotNull final String name, final boolean isStatic) {
+        try {
+            final Method method = this.clazz.getDeclaredMethod(name, Map.class);
+
+            if (!ConfigurationSerializable.class.isAssignableFrom(method.getReturnType())) {
+                return null;
+            }
+            if (Modifier.isStatic(method.getModifiers()) != isStatic) {
+                return null;
+            }
+
+            return method;
+        } catch (final NoSuchMethodException ex) {
+            return null;
+        } catch (final SecurityException ex) {
+            return null;
+        }
+    }
+
+    @Nullable
+    protected ConfigurationSerializable deserializeViaMethod(@NotNull final Method method, @NotNull final Map<String, ?> args) {
+        try {
+            final ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
+
+            if (result == null) {
+                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + this.clazz + " for deserialization: method returned null");
+            } else {
+                return result;
+            }
+        } catch (final Throwable ex) {
+            Logger.getLogger(ConfigurationSerialization.class.getName()).log(
+                Level.SEVERE,
+                "Could not call method '" + method.toString() + "' of " + this.clazz + " for deserialization",
+                ex instanceof InvocationTargetException ? ex.getCause() : ex);
+        }
+
+        return null;
+    }
+
+    @Nullable
+    protected Constructor<? extends ConfigurationSerializable> getConstructor() {
+        try {
+            return this.clazz.getConstructor(Map.class);
+        } catch (final NoSuchMethodException ex) {
+            return null;
+        } catch (final SecurityException ex) {
+            return null;
+        }
+    }
+
+    @Nullable
+    protected ConfigurationSerializable deserializeViaCtor(@NotNull final Constructor<? extends ConfigurationSerializable> ctor, @NotNull final Map<String, ?> args) {
+        try {
+            return ctor.newInstance(args);
+        } catch (final Throwable ex) {
+            Logger.getLogger(ConfigurationSerialization.class.getName()).log(
+                Level.SEVERE,
+                "Could not call constructor '" + ctor.toString() + "' of " + this.clazz + " for deserialization",
+                ex instanceof InvocationTargetException ? ex.getCause() : ex);
+        }
+
+        return null;
     }
 
 }

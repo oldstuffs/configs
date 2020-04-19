@@ -318,8 +318,6 @@ public abstract class JsonValue implements Serializable {
         buffer.flush();
     }
 
-    abstract void write(JsonWriter writer) throws IOException;
-
     /**
      * Returns this JSON value as {@link JsonArray}, assuming that this value represents a JSON array.
      * If this is not the case, an exception is thrown.
@@ -435,5 +433,7 @@ public abstract class JsonValue implements Serializable {
     public String toString() {
         return this.toString(WriterConfig.MINIMAL);
     }
+
+    abstract void write(JsonWriter writer) throws IOException;
 
 }

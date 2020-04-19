@@ -15,14 +15,20 @@ public class BukkitLinkedManaged extends BukkitManaged implements LnkdFlManaged 
 
     @NotNull
     @Override
+    public final LnkdFlManaged getBase() {
+        return (LnkdFlManaged) super.getBase();
+    }
+
+    @NotNull
+    @Override
     public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        return ((LnkdFlManaged) this.getBase()).match(function);
+        return this.getBase().match(function);
     }
 
     @NotNull
     @Override
     public final String getChosen() {
-        return ((LnkdFlManaged) this.getBase()).getChosen();
+        return this.getBase().getChosen();
     }
 
 }

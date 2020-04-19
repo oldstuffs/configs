@@ -1,7 +1,7 @@
 package io.github.portlek.configs;
 
-import org.jetbrains.annotations.NotNull;
 import io.github.portlek.configs.yaml.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
 public class BukkitSection implements BkktSection {
 
@@ -18,25 +18,25 @@ public class BukkitSection implements BkktSection {
 
     @NotNull
     @Override
-    public final CfgSection getBase() {
+    public CfgSection getBase() {
         return this.base;
     }
 
     @NotNull
     @Override
     public ConfigurationSection getConfigurationSection() {
-        return this.base.getConfigurationSection();
+        return this.getBase().getConfigurationSection();
     }
 
     @Override
     @NotNull
     public final FlManaged getManaged() {
-        return this.base.getManaged();
+        return this.getBase().getManaged();
     }
 
     @Override
     public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.base.setup(managed, section);
+        this.getBase().setup(managed, section);
     }
 
 }

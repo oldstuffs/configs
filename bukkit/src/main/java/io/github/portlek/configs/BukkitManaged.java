@@ -26,56 +26,67 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
 
     @NotNull
     @Override
+    public FlManaged getBase() {
+        return (FlManaged) super.getBase();
+    }
+
+    @NotNull
+    @Override
     public final FileConfiguration getConfigurationSection() {
-        return ((FlManaged) this.getBase()).getConfigurationSection();
+        return this.getBase().getConfigurationSection();
     }
 
     @NotNull
     @Override
     public final Optional<Object> pull(@NotNull final String id) {
-        return ((FlManaged) this.getBase()).pull(id);
+        return this.getBase().pull(id);
     }
 
     @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        ((FlManaged) this.getBase()).setup(file, fileConfiguration);
+        this.getBase().setup(file, fileConfiguration);
     }
 
     @Override
     public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        ((FlManaged) this.getBase()).addCustomValue(aClass, provided);
+        this.getBase().addCustomValue(aClass, provided);
     }
 
     @NotNull
     @Override
     public final <T> Optional<Provided<T>> getCustomValue(@NotNull final Class<T> aClass) {
-        return ((FlManaged) this.getBase()).getCustomValue(aClass);
+        return this.getBase().getCustomValue(aClass);
     }
 
     @NotNull
     @Override
     public final File getFile() {
-        return ((FlManaged) this.getBase()).getFile();
+        return this.getBase().getFile();
     }
 
     @Override
     public final void addObject(@NotNull final String key, @NotNull final Object object) {
-        ((FlManaged) this.getBase()).addObject(key, object);
+        this.getBase().addObject(key, object);
     }
 
     @Override
     public final boolean isAutoSave() {
-        return ((FlManaged) this.getBase()).isAutoSave();
+        return this.getBase().isAutoSave();
     }
 
     @Override
     public final void setAutoSave(final boolean autosv) {
-        ((FlManaged) this.getBase()).setAutoSave(autosv);
+        this.getBase().setAutoSave(autosv);
     }
 
     @Override
     public final void autoSave() {
-        ((FlManaged) this.getBase()).autoSave();
+        this.getBase().autoSave();
+    }
+
+    @Override
+    public final void reloadIfShould() {
+        this.getBase().reloadIfShould();
     }
 
 }

@@ -93,20 +93,6 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
-        writer.writeArrayOpen();
-        final Iterator<JsonValue> iterator = this.iterator();
-        if (iterator.hasNext()) {
-            iterator.next().write(writer);
-            while (iterator.hasNext()) {
-                writer.writeArraySeparator();
-                iterator.next().write(writer);
-            }
-        }
-        writer.writeArrayClose();
-    }
-
-    @Override
     public JsonArray asArray() {
         return this;
     }
@@ -140,6 +126,20 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         }
         final JsonArray other = (JsonArray) object;
         return this.values.equals(other.values);
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeArrayOpen();
+        final Iterator<JsonValue> iterator = this.iterator();
+        if (iterator.hasNext()) {
+            iterator.next().write(writer);
+            while (iterator.hasNext()) {
+                writer.writeArraySeparator();
+                iterator.next().write(writer);
+            }
+        }
+        writer.writeArrayClose();
     }
 
     /**

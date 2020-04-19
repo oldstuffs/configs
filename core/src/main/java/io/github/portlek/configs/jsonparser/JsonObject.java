@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -85,13 +84,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         this.names = new ArrayList<>();
         this.values = new ArrayList<>();
         this.table = new JsonObject.HashIndexTable();
-    }
-
-    private void updateHashIndex() {
-        final int size = this.names.size();
-        for (int i = 0; i < size; i++) {
-            this.table.add(this.names.get(i), i);
-        }
     }
 
     /**
@@ -207,14 +199,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             this.values.add(value);
         }
         return this;
-    }
-
-    int indexOf(final String name) {
-        final int index = this.table.get(name);
-        if (index != -1 && name.equals(this.names.get(index))) {
-            return index;
-        }
-        return this.names.lastIndexOf(name);
     }
 
     /**
@@ -394,25 +378,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
-        writer.writeObjectOpen();
-        final Iterator<String> namesIterator = this.names.iterator();
-        final Iterator<JsonValue> valuesIterator = this.values.iterator();
-        if (namesIterator.hasNext()) {
-            writer.writeMemberName(namesIterator.next());
-            writer.writeMemberSeparator();
-            valuesIterator.next().write(writer);
-            while (namesIterator.hasNext()) {
-                writer.writeObjectSeparator();
-                writer.writeMemberName(namesIterator.next());
-                writer.writeMemberSeparator();
-                valuesIterator.next().write(writer);
-            }
-        }
-        writer.writeObjectClose();
-    }
-
-    @Override
     public int hashCode() {
         int result = 1;
         result = 31 * result + this.names.hashCode();
@@ -433,6 +398,40 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         }
         final JsonObject other = (JsonObject) obj;
         return this.names.equals(other.names) && this.values.equals(other.values);
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeObjectOpen();
+        final Iterator<String> namesIterator = this.names.iterator();
+        final Iterator<JsonValue> valuesIterator = this.values.iterator();
+        if (namesIterator.hasNext()) {
+            writer.writeMemberName(namesIterator.next());
+            writer.writeMemberSeparator();
+            valuesIterator.next().write(writer);
+            while (namesIterator.hasNext()) {
+                writer.writeObjectSeparator();
+                writer.writeMemberName(namesIterator.next());
+                writer.writeMemberSeparator();
+                valuesIterator.next().write(writer);
+            }
+        }
+        writer.writeObjectClose();
+    }
+
+    int indexOf(final String name) {
+        final int index = this.table.get(name);
+        if (index != -1 && name.equals(this.names.get(index))) {
+            return index;
+        }
+        return this.names.lastIndexOf(name);
+    }
+
+    private void updateHashIndex() {
+        final int size = this.names.size();
+        for (int i = 0; i < size; i++) {
+            this.table.add(this.names.get(i), i);
+        }
     }
 
     private synchronized void readObject(final ObjectInputStream inputStream)
@@ -525,14 +524,14 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             }
         }
 
-        private int hashSlotFor(final Object element) {
-            return element.hashCode() & this.hashTable.length - 1;
-        }
-
         int get(final Object name) {
             final int slot = this.hashSlotFor(name);
             // subtract 1, 0 stands for empty
             return (this.hashTable[slot] & 0xff) - 1;
+        }
+
+        private int hashSlotFor(final Object element) {
+            return element.hashCode() & this.hashTable.length - 1;
         }
 
     }

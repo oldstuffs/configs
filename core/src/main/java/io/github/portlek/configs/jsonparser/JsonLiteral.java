@@ -66,11 +66,6 @@ class JsonLiteral extends JsonValue {
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
-        writer.writeLiteral(this.value);
-    }
-
-    @Override
     public boolean asBoolean() {
         return this.isNull ? super.asBoolean() : this.isTrue;
     }
@@ -98,6 +93,11 @@ class JsonLiteral extends JsonValue {
     @Override
     public String toString() {
         return this.value;
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeLiteral(this.value);
     }
 
 }

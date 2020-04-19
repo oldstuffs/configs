@@ -56,34 +56,6 @@ class JsonWriter {
         this.writer = writer;
     }
 
-    protected void writeLiteral(final String value) throws IOException {
-        this.writer.write(value);
-    }
-
-    protected void writeNumber(final String string) throws IOException {
-        this.writer.write(string);
-    }
-
-    protected void writeString(final String string) throws IOException {
-        this.writer.write('"');
-        this.writeJsonString(string);
-        this.writer.write('"');
-    }
-
-    protected void writeJsonString(final String string) throws IOException {
-        final int length = string.length();
-        int start = 0;
-        for (int index = 0; index < length; index++) {
-            final char[] replacement = JsonWriter.getReplacementChars(string.charAt(index));
-            if (replacement != null) {
-                this.writer.write(string, start, index - start);
-                this.writer.write(replacement);
-                start = index + 1;
-            }
-        }
-        this.writer.write(string, start, length - start);
-    }
-
     private static char[] getReplacementChars(final char ch) {
         if (ch > '\\') {
             if (ch < '\u2028' || ch > '\u2029') {
@@ -115,6 +87,34 @@ class JsonWriter {
             return JsonWriter.TAB_CHARS;
         }
         return new char[]{'\\', 'u', '0', '0', JsonWriter.HEX_DIGITS[ch >> 4 & 0x000f], JsonWriter.HEX_DIGITS[ch & 0x000f]};
+    }
+
+    protected void writeLiteral(final String value) throws IOException {
+        this.writer.write(value);
+    }
+
+    protected void writeNumber(final String string) throws IOException {
+        this.writer.write(string);
+    }
+
+    protected void writeString(final String string) throws IOException {
+        this.writer.write('"');
+        this.writeJsonString(string);
+        this.writer.write('"');
+    }
+
+    protected void writeJsonString(final String string) throws IOException {
+        final int length = string.length();
+        int start = 0;
+        for (int index = 0; index < length; index++) {
+            final char[] replacement = JsonWriter.getReplacementChars(string.charAt(index));
+            if (replacement != null) {
+                this.writer.write(string, start, index - start);
+                this.writer.write(replacement);
+                start = index + 1;
+            }
+        }
+        this.writer.write(string, start, length - start);
     }
 
     protected void writeArrayOpen() throws IOException {

@@ -27,14 +27,17 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.Provided;
+import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
+
+    @Override
+    FileConfiguration getConfigurationSection();
 
     @NotNull
     Optional<Object> pull(@NotNull String id);
@@ -70,9 +73,6 @@ public interface FlManaged extends CfgSection {
         }
     }
 
-    @Override
-    FileConfiguration getConfigurationSection();
-
     @NotNull
     File getFile();
 
@@ -83,5 +83,7 @@ public interface FlManaged extends CfgSection {
     void setAutoSave(boolean autosv);
 
     void autoSave();
+
+    void reloadIfShould();
 
 }

@@ -805,6 +805,19 @@ public class MemorySection implements ConfigurationSection {
         this.root.addDefault(MemorySection.createPath(this, path), value);
     }
 
+    @Override
+    public String toString() {
+        final Configuration root = this.getRoot();
+        return new StringBuilder()
+            .append(this.getClass().getSimpleName())
+            .append("[path='")
+            .append(this.getCurrentPath())
+            .append("', root='")
+            .append(root == null ? null : root.getClass().getSimpleName())
+            .append("']")
+            .toString();
+    }
+
     protected boolean isPrimitiveWrapper(@Nullable final Object input) {
         return input instanceof Integer || input instanceof Boolean
             || input instanceof Character || input instanceof Byte
@@ -819,19 +832,6 @@ public class MemorySection implements ConfigurationSection {
         final Configuration root = this.getRoot();
         final Configuration defaults = root == null ? null : root.getDefaults();
         return defaults == null ? null : defaults.get(MemorySection.createPath(this, path));
-    }
-
-    @Override
-    public String toString() {
-        final Configuration root = this.getRoot();
-        return new StringBuilder()
-            .append(this.getClass().getSimpleName())
-            .append("[path='")
-            .append(this.getCurrentPath())
-            .append("', root='")
-            .append(root == null ? null : root.getClass().getSimpleName())
-            .append("']")
-            .toString();
     }
 
     protected void mapChildrenKeys(@NotNull final Set<String> output, @NotNull final ConfigurationSection section, final boolean deep) {

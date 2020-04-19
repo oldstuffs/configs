@@ -15,6 +15,17 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
     private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
 
+    @NotNull
+    private static String putDot(@NotNull final String text) {
+        final String fnltext;
+        if (text.isEmpty() || text.charAt(text.length() - 1) == '.') {
+            fnltext = text;
+        } else {
+            fnltext = text + '.';
+        }
+        return fnltext;
+    }
+
     @Override
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
                     @NotNull final String path) {
@@ -50,17 +61,6 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         itemStack.getEnchantments().forEach((enchantment, integer) ->
             section.set(fnlpath + "enchants." + enchantment.getName(), integer)
         );
-    }
-
-    @NotNull
-    private static String putDot(@NotNull final String text) {
-        final String fnltext;
-        if (text.isEmpty() || text.charAt(text.length() - 1) == '.') {
-            fnltext = text;
-        } else {
-            fnltext = text + '.';
-        }
-        return fnltext;
     }
 
     @NotNull

@@ -25,10 +25,12 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import io.github.portlek.configs.util.Provided;
 import io.github.portlek.configs.util.Replaceable;
+import io.github.portlek.configs.yaml.configuration.InvalidConfigurationException;
+import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +45,8 @@ public class FileManaged extends ConfigSection implements FlManaged {
     private File file;
 
     private boolean autosave = false;
+
+    private long lastreload;
 
     @SafeVarargs
     protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
@@ -103,6 +107,18 @@ public class FileManaged extends ConfigSection implements FlManaged {
     public final void autoSave() {
         if (this.autosave) {
             this.save();
+        }
+    }
+
+    @Override
+    public final void reloadIfShould() {
+        if (this.lastreload < this.getFile().lastModified()) {
+            try {
+                this.getConfigurationSection().load(this.getFile());
+                this.lastreload = System.currentTimeMillis();
+            } catch (final IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
         }
     }
 

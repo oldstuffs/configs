@@ -45,11 +45,6 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
-        writer.writeNumber(this.string);
-    }
-
-    @Override
     public int asInt() {
         return Integer.parseInt(this.string, 10);
     }
@@ -87,6 +82,11 @@ class JsonNumber extends JsonValue {
     @Override
     public String toString() {
         return this.string;
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeNumber(this.string);
     }
 
 }
