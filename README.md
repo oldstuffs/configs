@@ -5,7 +5,8 @@ Annotation based configuration library for any Java project.
 [![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
 
 [![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
-![maven-central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=configs-core)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-bukkit?label=configs-bukkit)
 ## Setup
 
 <details>
