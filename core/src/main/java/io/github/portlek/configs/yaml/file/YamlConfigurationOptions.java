@@ -1,6 +1,6 @@
-package io.github.portlek.configs.yaml.configuration.file;
+package io.github.portlek.configs.yaml.file;
 
-import io.github.portlek.configs.yaml.utils.Validate;
+import io.github.portlek.configs.util.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

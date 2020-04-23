@@ -1,9 +1,9 @@
-package io.github.portlek.configs.yaml.configuration.file;
+package io.github.portlek.configs.yaml.file;
 
-import io.github.portlek.configs.yaml.configuration.Configuration;
-import io.github.portlek.configs.yaml.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.yaml.configuration.MemoryConfiguration;
-import io.github.portlek.configs.yaml.utils.Validate;
+import io.github.portlek.configs.yaml.Configuration;
+import io.github.portlek.configs.yaml.InvalidConfigurationException;
+import io.github.portlek.configs.yaml.MemoryConfiguration;
+import io.github.portlek.configs.util.Validate;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import org.jetbrains.annotations.NotNull;

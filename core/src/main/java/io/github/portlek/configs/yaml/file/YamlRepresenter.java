@@ -1,8 +1,8 @@
-package io.github.portlek.configs.yaml.configuration.file;
+package io.github.portlek.configs.yaml.file;
 
-import io.github.portlek.configs.yaml.configuration.ConfigurationSection;
-import io.github.portlek.configs.yaml.configuration.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.yaml.configuration.serialization.ConfigurationSerialization;
+import io.github.portlek.configs.yaml.ConfigurationSection;
+import io.github.portlek.configs.yaml.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.yaml.serialization.ConfigurationSerialization;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;

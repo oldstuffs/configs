@@ -27,8 +27,8 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.util.Provided;
 import io.github.portlek.configs.util.Replaceable;
-import io.github.portlek.configs.yaml.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.yaml.InvalidConfigurationException;
+import io.github.portlek.configs.yaml.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;

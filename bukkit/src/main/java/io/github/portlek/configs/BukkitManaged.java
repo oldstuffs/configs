@@ -2,7 +2,7 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.util.BukkitItemStackProvider;
 import io.github.portlek.configs.util.Provided;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.yaml.file.FileConfiguration;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;

@@ -28,7 +28,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.util.Provided;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.yaml.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;

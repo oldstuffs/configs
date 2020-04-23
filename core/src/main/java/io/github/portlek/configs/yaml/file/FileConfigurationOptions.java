@@ -1,8 +1,8 @@
-package io.github.portlek.configs.yaml.configuration.file;
+package io.github.portlek.configs.yaml.file;
 
-import io.github.portlek.configs.yaml.configuration.Configuration;
-import io.github.portlek.configs.yaml.configuration.MemoryConfiguration;
-import io.github.portlek.configs.yaml.configuration.MemoryConfigurationOptions;
+import io.github.portlek.configs.yaml.Configuration;
+import io.github.portlek.configs.yaml.MemoryConfiguration;
+import io.github.portlek.configs.yaml.MemoryConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

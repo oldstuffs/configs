@@ -23,10 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.json.utils;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.yaml.configuration.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.yaml.configuration.serialization.SerializableAs;
+import io.github.portlek.configs.yaml.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.yaml.serialization.SerializableAs;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;

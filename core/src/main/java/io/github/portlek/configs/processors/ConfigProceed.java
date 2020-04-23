@@ -30,7 +30,7 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.Version;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
+import io.github.portlek.configs.yaml.file.FileConfiguration;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.Optional;

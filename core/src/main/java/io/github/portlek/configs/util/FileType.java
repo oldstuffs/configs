@@ -25,9 +25,9 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.json.configuration.JsonConfiguration;
-import io.github.portlek.configs.yaml.configuration.file.FileConfiguration;
-import io.github.portlek.configs.yaml.configuration.file.YamlConfiguration;
+import io.github.portlek.configs.json.JsonConfiguration;
+import io.github.portlek.configs.yaml.file.FileConfiguration;
+import io.github.portlek.configs.yaml.file.YamlConfiguration;
 import java.io.File;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
