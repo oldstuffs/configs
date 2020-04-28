@@ -219,12 +219,18 @@ test-section:
 import io.github.portlek.configs.LinkedFileManaged;
 import io.github.portlek.configs.util.MapEntry;
 
-@LinkedConfig(configs = {
-  @Config(
-    name = "en"
+@LinkedConfig(files = {
+  @LinkedFile(
+    id = "en",
+    config = Config(
+      name = "en"
+    )
   ),
-  @Config(
-    name = "tr"
+  @LinkedFile(
+    id = "tr",
+    config = Config(
+      name = "r"
+    )
   ),
 })
 public final class TestLinkedConfig extends LinkedFileManaged {
@@ -277,12 +283,18 @@ same-in-every-language: 'Same in every language!'
 import io.github.portlek.configs.BukkitLinkedManaged;
 import io.github.portlek.configs.util.MapEntry;
 
-@LinkedConfig(configs = {
-  @Config(
-    name = "en"
+@LinkedConfig(files = {
+  @LinkedFile(
+    id = "en",
+    config = Config(
+      name = "en"
+    )
   ),
-  @Config(
-    name = "tr"
+  @LinkedFile(
+    id = "tr",
+    config = Config(
+      name = "r"
+    )
   ),
 })
 public final class TestLinkedConfig extends BukkitLinkedManaged {
@@ -335,12 +347,18 @@ same-in-every-language: 'Same in every language!'
 import io.github.portlek.configs.NukkitLinkedManaged;
 import io.github.portlek.configs.util.MapEntry;
 
-@LinkedConfig(configs = {
-  @Config(
-    name = "en"
+@LinkedConfig(files = {
+  @LinkedFile(
+    id = "en",
+    config = Config(
+      name = "en"
+    )
   ),
-  @Config(
-    name = "tr"
+  @LinkedFile(
+    id = "tr",
+    config = Config(
+      name = "r"
+    )
   ),
 })
 public final class TestLinkedConfig extends NukkitLinkedManaged {
