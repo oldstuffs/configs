@@ -62,7 +62,7 @@ public class ConfigurationOptions {
      *
      * @return Path separator
      */
-    public char pathSeparator() {
+    public final char pathSeparator() {
         return this.pathSeparator;
     }
 
@@ -96,7 +96,7 @@ public class ConfigurationOptions {
      *
      * @return Whether or not defaults are directly copied
      */
-    public boolean copyDefaults() {
+    public final boolean copyDefaults() {
         return this.copyDefaults;
     }
 
