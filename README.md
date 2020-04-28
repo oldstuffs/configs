@@ -328,6 +328,64 @@ same-in-every-language: 'Same in every language!'
 ```
 </details>
 
+<details>
+<summary>Bukkit</summary>
+
+```java
+import io.github.portlek.configs.NukkitLinkedManaged;
+import io.github.portlek.configs.util.MapEntry;
+
+@LinkedConfig(configs = {
+  @Config(
+    name = "en"
+  ),
+  @Config(
+    name = "tr"
+  ),
+})
+public final class TestLinkedConfig extends NukkitLinkedManaged {
+
+  public TestLinkedConfig(@NotNull final TestConfig testConfig) {
+    super(testConfig.language, MapEntry.from("config", testConfig));
+  }
+
+  @NotNull
+  public TestConfig getConfig() {
+    return (TestConfig) this.pull("config");
+  }
+
+  @Value
+  public String same_in_every_language = match(s -> 
+      Optional.of("Same in every language!")
+  );
+
+  @Value
+  public String test = match(s -> {
+    if (s.equals("en")) {
+      return Optional.of("English words!");
+    } else if (s.equals("tr")) {
+      return Optional.of("Türkçe kelimeler!");
+    }
+    return Optional.empty();
+  });
+
+}
+```
+
+The result will be like that;
+
+(en.yml file)
+```yml
+test: 'English words!'
+same-in-every-language: 'Same in every language!'
+```
+(tr.yml file)
+```yml
+test: 'Türkçe kelimeler!'
+same-in-every-language: 'Same in every language!'
+```
+</details>
+
 ## 3rd Party Libraries
 For JSON file type https://github.com/dumptruckman/JsonConfiguration
 
