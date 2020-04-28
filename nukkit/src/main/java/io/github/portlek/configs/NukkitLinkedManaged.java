@@ -3,12 +3,13 @@ package io.github.portlek.configs;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public class NukkitLinkedManaged extends NukkitManaged implements LnkdFlManaged {
 
     @SafeVarargs
-    public NukkitLinkedManaged(@NotNull final String chosen,
+    public NukkitLinkedManaged(@NotNull final Supplier<String> chosen,
                                @NotNull final Map.Entry<String, Object>... objects) {
         super(new LinkedFileManaged(chosen), objects);
     }
@@ -27,7 +28,7 @@ public class NukkitLinkedManaged extends NukkitManaged implements LnkdFlManaged 
 
     @NotNull
     @Override
-    public final String getChosen() {
+    public final Supplier<String> getChosen() {
         return this.getBase().getChosen();
     }
 

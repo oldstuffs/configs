@@ -17,7 +17,7 @@ public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
     @Override
     public void load(@NotNull final LnkdFlManaged linked) {
         Arrays.stream(this.config.files())
-            .filter(linkedFile -> linkedFile.key().equals(linked.getChosen()))
+            .filter(linkedFile -> linkedFile.key().equals(linked.getChosen().get()))
             .findFirst()
             .ifPresent(linkedFile ->
                 new ConfigProceed(linkedFile.config()).load(linked)

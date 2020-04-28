@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
@@ -15,10 +16,10 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();
 
     @NotNull
-    private final String chosen;
+    private final Supplier<String> chosen;
 
     @SafeVarargs
-    protected LinkedFileManaged(@NotNull final String chosen, @NotNull final Map.Entry<String, Object>... objects) {
+    protected LinkedFileManaged(@NotNull final Supplier<String> chosen, @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
     }
@@ -26,14 +27,14 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     @NotNull
     @Override
     public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        return function.apply(this.chosen).orElseThrow(() ->
+        return function.apply(this.chosen.get()).orElseThrow(() ->
             new IllegalStateException("Cannot found match with the file key > " + this.chosen)
         );
     }
 
     @NotNull
     @Override
-    public final String getChosen() {
+    public final Supplier<String> getChosen() {
         return this.chosen;
     }
 
@@ -41,7 +42,7 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
         super.setup(file, fileConfiguration);
         this.linkedFiles.put(
-            this.chosen,
+            this.chosen.get(),
             MapEntry.from(file, fileConfiguration)
         );
     }

@@ -29,6 +29,7 @@ import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public interface LnkdFlManaged extends FlManaged {
@@ -36,7 +37,7 @@ public interface LnkdFlManaged extends FlManaged {
     @NotNull <T> T match(@NotNull Function<String, Optional<T>> function);
 
     @NotNull
-    String getChosen();
+    Supplier<String> getChosen();
 
     @Override
     default void load() {
