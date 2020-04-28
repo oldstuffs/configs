@@ -228,8 +228,8 @@ import io.github.portlek.configs.util.MapEntry;
   ),
   @LinkedFile(
     id = "tr",
-    config = Config(
-      name = "r"
+    config = @Config(
+      name = "tr"
     )
   ),
 })
@@ -286,14 +286,14 @@ import io.github.portlek.configs.util.MapEntry;
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
-    config = Config(
+    config = @Config(
       name = "en"
     )
   ),
   @LinkedFile(
     id = "tr",
-    config = Config(
-      name = "r"
+    config = @Config(
+      name = "tr"
     )
   ),
 })
@@ -350,14 +350,14 @@ import io.github.portlek.configs.util.MapEntry;
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
-    config = Config(
+    config = @Config(
       name = "en"
     )
   ),
   @LinkedFile(
     id = "tr",
-    config = Config(
-      name = "r"
+    config = @Config(
+      name = "tr"
     )
   ),
 })
