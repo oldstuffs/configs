@@ -16,23 +16,11 @@ public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
 
     @Override
     public void load(@NotNull final LnkdFlManaged linked) {
-        Arrays.stream(this.config.configs())
-            .filter(config -> {
-                final String suffix = config.type().suffix;
-                String name = config.name();
-                if (!name.endsWith(suffix)) {
-                    name += suffix;
-                }
-                String chosen = linked.getChosen();
-                if (!chosen.endsWith(suffix)) {
-                    chosen += suffix;
-                }
-                return name.equals(chosen);
-            }).findFirst()
-            .ifPresent(config ->
-                new ConfigProceed(
-                    config
-                ).load(linked)
+        Arrays.stream(this.config.files())
+            .filter(linkedFile -> linkedFile.key().equals(linked.getChosen()))
+            .findFirst()
+            .ifPresent(linkedFile ->
+                new ConfigProceed(linkedFile.config()).load(linked)
             );
     }
 
