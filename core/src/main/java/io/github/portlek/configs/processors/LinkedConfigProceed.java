@@ -19,9 +19,7 @@ public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
         Arrays.stream(this.config.files())
             .filter(linkedFile -> linkedFile.key().equals(linked.getChosen().get()))
             .findFirst()
-            .ifPresent(linkedFile ->
-                new ConfigProceed(linkedFile.config()).load(linked)
-            );
+            .ifPresent(linkedFile -> new ConfigProceed(linkedFile.config()).load(linked));
     }
 
 }
