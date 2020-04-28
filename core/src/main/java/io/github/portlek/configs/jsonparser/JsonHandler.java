@@ -91,7 +91,7 @@ public abstract class JsonHandler<A, O> {
     }
 
     @Nullable
-    public @Nullable A startArray() {
+    public A startArray() {
         return null;
     }
 
@@ -118,7 +118,7 @@ public abstract class JsonHandler<A, O> {
     }
 
     @Nullable
-    public @Nullable O startObject() {
+    public O startObject() {
         return null;
     }
 
