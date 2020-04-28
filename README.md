@@ -24,9 +24,10 @@ repositories {
 dependencies {
     // For the all project type
     implementation("io.github.portlek:configs-core:${version}")
-
     // For the bukkit projects
     implementation("io.github.portlek:configs-bukkit:${version}")
+    // For the nukkit projects
+    implementation("io.github.portlek:configs-nukkit:${version}")
 }
 
 shadowJar {
@@ -51,6 +52,12 @@ shadowJar {
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-bukkit</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <!-- For the nukkit projects -->
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-nukkit</artifactId>
       <version>${version}</version>
     </dependency>
 </dependencies>
@@ -147,6 +154,44 @@ public final class TestConfig extends BukkitManaged {
 
   @Section(path = "test-section")
   public final class TestSection extends BukkitSection {
+
+    @Value
+    public String test_section_string = "test";
+
+  }
+
+}
+```
+
+The result will be like that;
+
+```yml
+test: 'test'
+test-section:
+  test-section-string: 'test'
+```
+</details>
+
+<details>
+<summary>Nukkit</summary>
+
+```java
+import io.github.portlek.configs.NukkitManaged;
+import io.github.portlek.configs.NukkitSection;
+
+@Config(
+  name = "config"
+)
+public final class TestConfig extends NukkitManaged {
+
+  @Instance
+  public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+
+  @Value
+  public String test = "test";
+
+  @Section(path = "test-section")
+  public final class TestSection extends NukkitSection {
 
     @Value
     public String test_section_string = "test";
