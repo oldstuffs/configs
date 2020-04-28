@@ -329,7 +329,7 @@ same-in-every-language: 'Same in every language!'
 </details>
 
 <details>
-<summary>Bukkit</summary>
+<summary>Nukkit</summary>
 
 ```java
 import io.github.portlek.configs.NukkitLinkedManaged;
