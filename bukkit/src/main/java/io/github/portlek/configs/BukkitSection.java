@@ -1,6 +1,6 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.yaml.ConfigurationSection;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 
 public class BukkitSection implements BkktSection {

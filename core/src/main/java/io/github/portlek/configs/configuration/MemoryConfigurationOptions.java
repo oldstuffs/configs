@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.yaml;
+package io.github.portlek.configs.configuration;
 
 import org.jetbrains.annotations.NotNull;
 

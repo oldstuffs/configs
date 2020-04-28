@@ -1,4 +1,4 @@
-package io.github.portlek.configs.yaml.serialization;
+package io.github.portlek.configs.configuration.serialization;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

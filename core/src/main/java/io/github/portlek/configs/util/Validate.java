@@ -42,14 +42,10 @@ package io.github.portlek.configs.util;
  * @author Norm Deane
  * @since 2.0
  */
-public class Validate {
-    // Validate has no dependencies on other classes in Commons Lang at present
+public final class Validate {
 
-    /**
-     * Constructor. This class should not normally be instantiated.
-     */
-    public Validate() {
-        super();
+    // Validate has no dependencies on other classes in Commons Lang at present
+    private Validate() {
     }
 
     /**
@@ -104,7 +100,7 @@ public class Validate {
      * @throws IllegalArgumentException if the string is empty
      */
     public static void notEmpty(final String string, final String message) {
-        if (string == null || string.length() == 0) {
+        if (string == null || string.isEmpty()) {
             throw new IllegalArgumentException(message);
         }
     }

@@ -25,9 +25,9 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.yaml.ConfigurationSection;
-import io.github.portlek.configs.yaml.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.yaml.serialization.ConfigurationSerialization;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.configuration.serialization.ConfigurationSerialization;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;

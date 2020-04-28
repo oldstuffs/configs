@@ -1,6 +1,6 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.yaml.ConfigurationSection;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Objects;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

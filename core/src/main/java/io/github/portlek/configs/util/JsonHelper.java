@@ -25,11 +25,11 @@
 
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.jsonparser.Json;
 import io.github.portlek.configs.jsonparser.JsonArray;
 import io.github.portlek.configs.jsonparser.JsonObject;
 import io.github.portlek.configs.jsonparser.JsonValue;
-import io.github.portlek.configs.yaml.ConfigurationSection;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

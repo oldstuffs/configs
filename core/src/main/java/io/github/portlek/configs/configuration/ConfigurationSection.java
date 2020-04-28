@@ -23,9 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.yaml;
+package io.github.portlek.configs.configuration;
 
-import io.github.portlek.configs.yaml.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.configuration.serialization.ConfigurationSerializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

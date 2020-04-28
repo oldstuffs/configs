@@ -1,6 +1,6 @@
-package io.github.portlek.configs.yaml.serialization;
+package io.github.portlek.configs.configuration.serialization;
 
-import io.github.portlek.configs.yaml.Configuration;
+import io.github.portlek.configs.configuration.Configuration;
 import io.github.portlek.configs.util.Validate;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

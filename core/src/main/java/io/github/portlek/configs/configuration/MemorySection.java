@@ -23,9 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.yaml;
+package io.github.portlek.configs.configuration;
 
-import io.github.portlek.configs.yaml.serialization.ConfigurationSerializable;
+import io.github.portlek.configs.configuration.serialization.ConfigurationSerializable;
 import io.github.portlek.configs.util.NumberConversions;
 import io.github.portlek.configs.util.Validate;
 import java.util.*;

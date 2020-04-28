@@ -28,14 +28,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.json;
 
-import io.github.portlek.configs.util.JsonHelper;
-import io.github.portlek.configs.util.SerializationHelper;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.InvalidConfigurationException;
 import io.github.portlek.configs.jsonparser.Json;
 import io.github.portlek.configs.jsonparser.JsonObject;
 import io.github.portlek.configs.jsonparser.WriterConfig;
-import io.github.portlek.configs.yaml.ConfigurationSection;
-import io.github.portlek.configs.yaml.InvalidConfigurationException;
-import io.github.portlek.configs.yaml.file.FileConfiguration;
+import io.github.portlek.configs.util.JsonHelper;
+import io.github.portlek.configs.util.SerializationHelper;
+import io.github.portlek.configs.yaml.FileConfiguration;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

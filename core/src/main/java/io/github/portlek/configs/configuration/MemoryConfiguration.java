@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.yaml;
+package io.github.portlek.configs.configuration;
 
 import io.github.portlek.configs.util.Validate;
 import java.util.Map;
