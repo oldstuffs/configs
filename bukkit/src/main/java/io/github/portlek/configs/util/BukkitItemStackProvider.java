@@ -2,10 +2,10 @@ package io.github.portlek.configs.util;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
-import io.github.portlek.bukkititembuilder.util.ColorUtil;
 import io.github.portlek.configs.CfgSection;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -110,11 +110,12 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             section.getString(fnlpath + "display-name").ifPresent(s ->
-                itemMeta.setDisplayName(ColorUtil.colored(s))
+                itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', s))
             );
             itemMeta.setLore(
-                ColorUtil.colored(section.getStringList(fnlpath + "lore"))
-            );
+                section.getStringList(fnlpath + "lore").stream()
+                    .map(s -> ChatColor.translateAlternateColorCodes('&', s))
+                    .collect(Collectors.toList()));
             section.getSection(fnlpath + "enchants").map(enchsection ->
                 enchsection.getKeys(false)
             ).ifPresent(set ->
