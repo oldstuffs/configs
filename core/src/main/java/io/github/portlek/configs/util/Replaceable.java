@@ -59,7 +59,7 @@ public final class Replaceable<X> {
     }
 
     @NotNull
-    public Replaceable<X> replaces(@NotNull final List<String> regex) {
+    public Replaceable<X> replaces(@NotNull final Collection<String> regex) {
         this.regex.addAll(regex);
 
         return this;
@@ -71,7 +71,7 @@ public final class Replaceable<X> {
     }
 
     @NotNull
-    public Replaceable<X> map(@NotNull final List<UnaryOperator<X>> map) {
+    public Replaceable<X> map(@NotNull final Collection<UnaryOperator<X>> map) {
         this.maps.addAll(map);
 
         return this;
@@ -93,7 +93,7 @@ public final class Replaceable<X> {
     }
 
     @NotNull
-    public X build(@NotNull final List<Map.Entry<String, Supplier<String>>> entries) {
+    public X build(@NotNull final Iterable<Map.Entry<String, Supplier<String>>> entries) {
         final Map<String, Supplier<String>> map = new HashMap<>();
 
         entries.forEach(entry ->
@@ -164,7 +164,7 @@ public final class Replaceable<X> {
     }
 
     @SuppressWarnings("unchecked")
-    private void replace(@NotNull final AtomicReference<X> finalValue, @NotNull final String regex, @NotNull final String replace) {
+    private void replace(@NotNull final AtomicReference<X> finalValue, @NotNull final CharSequence regex, @NotNull final CharSequence replace) {
         if (this.value instanceof String) {
             finalValue.set((X) ((String) finalValue.get()).replace(regex, replace));
         } else if (this.value instanceof List<?>) {

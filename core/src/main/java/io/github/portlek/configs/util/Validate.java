@@ -49,7 +49,7 @@ public final class Validate {
     }
 
     /**
-     * <p>Validate that the argument condition is <code>true</code>; otherwise
+     * <p>Validate that the argument condition is {@code true}; otherwise
      * throwing an exception with the specified message. This method is useful when
      * validating according to an arbitrary boolean expression, such as validating a
      * primitive number or using your own custom validation expression.</p>
@@ -61,7 +61,7 @@ public final class Validate {
      *
      * @param expression the boolean expression to check
      * @param message the exception message if invalid
-     * @throws IllegalArgumentException if expression is <code>false</code>
+     * @throws IllegalArgumentException if expression is {@code false}
      */
     public static void isTrue(final boolean expression, final String message) {
         if (!expression) {
@@ -72,7 +72,7 @@ public final class Validate {
     //---------------------------------------------------------------------------------
 
     /**
-     * <p>Validate that the specified argument is not <code>null</code>;
+     * <p>Validate that the specified argument is not {@code null};
      * otherwise throwing an exception with the specified message.
      *
      * <pre>Validate.notNull(myObject, "The object must not be null");</pre>
@@ -90,7 +90,7 @@ public final class Validate {
 
     /**
      * <p>Validate that the specified argument string is
-     * neither <code>null</code> nor a length of zero (no characters);
+     * neither {@code null} nor a length of zero (no characters);
      * otherwise throwing an exception with the specified message.
      *
      * <pre>Validate.notEmpty(myString, "The string must not be empty");</pre>

@@ -51,19 +51,19 @@ public class Location {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return this.offset;
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj == null) {
             return false;
         }
-        if (this.getClass() != obj.getClass()) {
+        if (!this.getClass().equals(obj.getClass())) {
             return false;
         }
         final Location other = (Location) obj;
@@ -71,7 +71,7 @@ public class Location {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.line + ":" + this.column;
     }
 

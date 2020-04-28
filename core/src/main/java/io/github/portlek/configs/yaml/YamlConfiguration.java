@@ -114,6 +114,36 @@ public final class YamlConfiguration extends FileConfiguration {
     }
 
     @NotNull
+    private static String parseHeader(@NotNull final String input) {
+        final String[] lines = input.split("\r?\n", -1);
+        final StringBuilder result = new StringBuilder();
+        boolean readingHeader = true;
+        boolean foundHeader = false;
+
+        for (int i = 0; i < lines.length && readingHeader; i++) {
+            final String line = lines[i];
+
+            if (line.startsWith(YamlConfiguration.COMMENT_PREFIX)) {
+                if (i > 0) {
+                    result.append('\n');
+                }
+
+                if (line.length() > YamlConfiguration.COMMENT_PREFIX.length()) {
+                    result.append(line.substring(YamlConfiguration.COMMENT_PREFIX.length()));
+                }
+
+                foundHeader = true;
+            } else if (foundHeader && line.isEmpty()) {
+                result.append('\n');
+            } else if (foundHeader) {
+                readingHeader = false;
+            }
+        }
+
+        return result.toString();
+    }
+
+    @NotNull
     @Override
     public String saveToString() {
         this.yamlOptions.setIndent(this.options().indent());
@@ -143,7 +173,7 @@ public final class YamlConfiguration extends FileConfiguration {
             throw new InvalidConfigurationException("Top level is not a Map.");
         }
 
-        final String header = this.parseHeader(contents);
+        final String header = YamlConfiguration.parseHeader(contents);
         if (!header.isEmpty()) {
             this.options().header(header);
         }
@@ -180,7 +210,7 @@ public final class YamlConfiguration extends FileConfiguration {
             }
         }
 
-        if (header == null) {
+        if (header.isEmpty()) {
             return "";
         }
 
@@ -201,7 +231,7 @@ public final class YamlConfiguration extends FileConfiguration {
         return builder.toString();
     }
 
-    protected void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
+    private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
         for (final Map.Entry<?, ?> entry : input.entrySet()) {
             final String key = entry.getKey().toString();
             final Object value = entry.getValue();
@@ -212,36 +242,6 @@ public final class YamlConfiguration extends FileConfiguration {
                 section.set(key, value);
             }
         }
-    }
-
-    @NotNull
-    private String parseHeader(@NotNull final String input) {
-        final String[] lines = input.split("\r?\n", -1);
-        final StringBuilder result = new StringBuilder();
-        boolean readingHeader = true;
-        boolean foundHeader = false;
-
-        for (int i = 0; i < lines.length && readingHeader; i++) {
-            final String line = lines[i];
-
-            if (line.startsWith(YamlConfiguration.COMMENT_PREFIX)) {
-                if (i > 0) {
-                    result.append("\n");
-                }
-
-                if (line.length() > YamlConfiguration.COMMENT_PREFIX.length()) {
-                    result.append(line.substring(YamlConfiguration.COMMENT_PREFIX.length()));
-                }
-
-                foundHeader = true;
-            } else if (foundHeader && line.length() == 0) {
-                result.append("\n");
-            } else if (foundHeader) {
-                readingHeader = false;
-            }
-        }
-
-        return result.toString();
     }
 
 }

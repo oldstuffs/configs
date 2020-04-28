@@ -43,34 +43,34 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
 
     @NotNull
     @Override
-    public YamlConfiguration configuration() {
+    public final YamlConfiguration configuration() {
         return (YamlConfiguration) super.configuration();
     }
 
     @NotNull
     @Override
-    public YamlConfigurationOptions pathSeparator(final char value) {
+    public final YamlConfigurationOptions pathSeparator(final char value) {
         super.pathSeparator(value);
         return this;
     }
 
     @NotNull
     @Override
-    public YamlConfigurationOptions copyDefaults(final boolean value) {
+    public final YamlConfigurationOptions copyDefaults(final boolean value) {
         super.copyDefaults(value);
         return this;
     }
 
     @NotNull
     @Override
-    public YamlConfigurationOptions header(@Nullable final String value) {
+    public final YamlConfigurationOptions header(@Nullable final String value) {
         super.header(value);
         return this;
     }
 
     @NotNull
     @Override
-    public YamlConfigurationOptions copyHeader(final boolean value) {
+    public final YamlConfigurationOptions copyHeader(final boolean value) {
         super.copyHeader(value);
         return this;
     }
@@ -82,7 +82,7 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
      *
      * @return How much to indent by
      */
-    public int indent() {
+    public final int indent() {
         return this.indent;
     }
 
@@ -95,7 +95,7 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
      * @return This object, for chaining
      */
     @NotNull
-    public YamlConfigurationOptions indent(final int value) {
+    public final YamlConfigurationOptions indent(final int value) {
         Validate.isTrue(value >= 2, "Indent must be at least 2 characters");
         Validate.isTrue(value <= 9, "Indent cannot be greater than 9 characters");
 

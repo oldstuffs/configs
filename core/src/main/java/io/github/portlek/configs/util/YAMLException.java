@@ -27,6 +27,8 @@ package io.github.portlek.configs.util;
 
 public class YAMLException extends RuntimeException {
 
+    private static final long serialVersionUID = -367494690497491560L;
+
     public YAMLException(final String message, final Throwable cause) {
         super(message, cause);
     }

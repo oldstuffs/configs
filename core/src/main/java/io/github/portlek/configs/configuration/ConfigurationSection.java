@@ -678,7 +678,7 @@ public interface ConfigurationSection {
      * @param clazz the type of the requested object
      * @return Requested object
      */
-    @Nullable <T extends Object> T getObject(@NotNull String path, @NotNull Class<T> clazz);
+    @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz);
 
     /**
      * Gets the requested object at the given path, returning a default value if
@@ -703,7 +703,7 @@ public interface ConfigurationSection {
      * the path
      * @return Requested object
      */
-    @Nullable <T extends Object> T getObject(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
+    @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
 
     /**
      * Gets the requested {@link ConfigurationSerializable} object at the given

@@ -30,7 +30,7 @@ import java.io.Reader;
 /**
  * This class serves as the entry point to the minimal-json API.
  * <p>
- * To <strong>parse</strong> a given JSON input, use the <code>parse()</code> methods like in this
+ * To <strong>parse</strong> a given JSON input, use the {@code parse()} methods like in this
  * example:
  * </p>
  * <pre>
@@ -38,14 +38,14 @@ import java.io.Reader;
  * </pre>
  * <p>
  * To <strong>create</strong> a JSON data structure to be serialized, use the methods
- * <code>value()</code>, <code>array()</code>, and <code>object()</code>. For example, the following
+ * {@code value()}, {@code array()}, and {@code object()}. For example, the following
  * snippet will produce the JSON string <em>{"foo": 23, "bar": true}</em>:
  * </p>
  * <pre>
  * String string = Json.object().add("foo", 23).add("bar", true).toString();
  * </pre>
  * <p>
- * To create a JSON array from a given Java array, you can use one of the <code>array()</code>
+ * To create a JSON array from a given Java array, you can use one of the {@code array()}
  * methods with varargs parameters:
  * </p>
  * <pre>
@@ -56,17 +56,17 @@ import java.io.Reader;
 public final class Json {
 
     /**
-     * Represents the JSON literal <code>null</code>.
+     * Represents the JSON literal {@code null}.
      */
     public static final JsonValue NULL = new JsonLiteral("null");
 
     /**
-     * Represents the JSON literal <code>true</code>.
+     * Represents the JSON literal {@code true}.
      */
     public static final JsonValue TRUE = new JsonLiteral("true");
 
     /**
-     * Represents the JSON literal <code>false</code>.
+     * Represents the JSON literal {@code false}.
      */
     public static final JsonValue FALSE = new JsonLiteral("false");
 
@@ -75,7 +75,7 @@ public final class Json {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given <code>int</code> value.
+     * Returns a JsonValue instance that represents the given {@code int} value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
@@ -85,7 +85,7 @@ public final class Json {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given <code>long</code> value.
+     * Returns a JsonValue instance that represents the given {@code long} value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
@@ -95,7 +95,7 @@ public final class Json {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given <code>float</code> value.
+     * Returns a JsonValue instance that represents the given {@code float} value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
@@ -108,7 +108,7 @@ public final class Json {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given <code>double</code> value.
+     * Returns a JsonValue instance that represents the given {@code double} value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON    value that represents the given value
@@ -131,7 +131,7 @@ public final class Json {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given <code>boolean</code> value.
+     * Returns a JsonValue instance that represents the given {@code boolean} value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
@@ -162,7 +162,7 @@ public final class Json {
      * valid JSON value, optionally padded with whitespace.
      * <p>
      * Characters are read in chunks into an input buffer. Hence, wrapping a reader in an additional
-     * <code>BufferedReader</code> likely won't improve reading performance.
+     * {@code BufferedReader} likely won't improve reading performance.
      * </p>
      *
      * @param reader the reader to read the JSON value from
@@ -184,56 +184,56 @@ public final class Json {
         protected JsonValue value;
 
         @Override
-        public void endNull() {
+        public final void endNull() {
             this.value = Json.NULL;
         }
 
         @Override
-        public void endBoolean(final boolean bool) {
+        public final void endBoolean(final boolean bool) {
             this.value = bool ? Json.TRUE : Json.FALSE;
         }
 
         @Override
-        public void endString(final String string) {
+        public final void endString(final String string) {
             this.value = new JsonString(string);
         }
 
         @Override
-        public void endNumber(final String string) {
+        public final void endNumber(final String string) {
             this.value = new JsonNumber(string);
         }
 
         @Override
-        public JsonArray startArray() {
+        public final JsonArray startArray() {
             return new JsonArray();
         }
 
         @Override
-        public void endArray(final JsonArray array) {
+        public final void endArray(final JsonArray array) {
             this.value = array;
         }
 
         @Override
-        public void endArrayValue(final JsonArray array) {
+        public final void endArrayValue(final JsonArray array) {
             array.add(this.value);
         }
 
         @Override
-        public JsonObject startObject() {
+        public final JsonObject startObject() {
             return new JsonObject();
         }
 
         @Override
-        public void endObject(final JsonObject object) {
+        public final void endObject(final JsonObject object) {
             this.value = object;
         }
 
         @Override
-        public void endObjectValue(final JsonObject object, final String name) {
+        public final void endObjectValue(final JsonObject object, final String name) {
             object.add(name, this.value);
         }
 
-        JsonValue getValue() {
+        final JsonValue getValue() {
             return this.value;
         }
 

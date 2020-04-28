@@ -60,7 +60,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * any reason.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-    public void save(@NotNull final File file) throws IOException {
+    public final void save(@NotNull final File file) throws IOException {
         Validate.notNull(file, "File cannot be null");
 
         file.getParentFile().mkdirs();
@@ -98,7 +98,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * a valid Configuration.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-    public void load(@NotNull final String file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public final void load(@NotNull final String file) throws FileNotFoundException, IOException, InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
 
         this.load(new File(file));
@@ -122,7 +122,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * a valid Configuration.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-    public void load(@NotNull final File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
+    public final void load(@NotNull final File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
         Validate.notNull(file, "File cannot be null");
 
         final FileInputStream stream = new FileInputStream(file);
@@ -143,7 +143,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * represent a valid Configuration
      * @throws IllegalArgumentException thrown when reader is null
      */
-    public void load(@NotNull final Reader reader) throws IOException, InvalidConfigurationException {
+    public final void load(@NotNull final Reader reader) throws IOException, InvalidConfigurationException {
         final BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
 
         final StringBuilder builder = new StringBuilder();

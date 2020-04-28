@@ -41,7 +41,7 @@ public class PrettyPrint extends WriterConfig {
     private final char[] indentChars;
 
     protected PrettyPrint(final char[] indentChars) {
-        this.indentChars = indentChars;
+        this.indentChars = indentChars.clone();
     }
 
     /**
@@ -60,11 +60,11 @@ public class PrettyPrint extends WriterConfig {
     }
 
     @Override
-    protected JsonWriter createWriter(final Writer writer) {
+    protected final JsonWriter createWriter(final Writer writer) {
         return new PrettyPrint.PrettyPrintWriter(writer, this.indentChars);
     }
 
-    private static class PrettyPrintWriter extends JsonWriter {
+    private static final class PrettyPrintWriter extends JsonWriter {
 
         private final char[] indentChars;
 

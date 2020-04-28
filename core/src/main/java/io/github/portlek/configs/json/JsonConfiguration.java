@@ -106,8 +106,9 @@ public final class JsonConfiguration extends FileConfiguration {
         );
     }
 
+    @NotNull
     @Override
-    public @NotNull JsonConfigurationOptions options() {
+    public JsonConfigurationOptions options() {
         if (this.options == null) {
             this.options = new JsonConfigurationOptions(this);
         }
@@ -115,17 +116,19 @@ public final class JsonConfiguration extends FileConfiguration {
         return (JsonConfigurationOptions) this.options;
     }
 
+    @NotNull
     @Override
-    protected @NotNull String buildHeader() {
+    protected String buildHeader() {
         return "";
     }
 
-    private void convertMapsToSections(@NotNull Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        final Object result = SerializationHelper.deserialize(input);
+    private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
+        Map<?, ?> input1 = input;
+        final Object result = SerializationHelper.deserialize(input1);
 
         if (result instanceof Map) {
-            input = (Map<?, ?>) result;
-            for (final Map.Entry<?, ?> entry : input.entrySet()) {
+            input1 = (Map<?, ?>) result;
+            for (final Map.Entry<?, ?> entry : input1.entrySet()) {
                 final String key = entry.getKey().toString();
                 final Object value = entry.getValue();
 

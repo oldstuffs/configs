@@ -10,8 +10,8 @@ public final class TestBukkitPlugin extends JavaPlugin {
     public TestBukkitPlugin() {
     }
 
-    public TestBukkitPlugin(JavaPluginLoader loader, PluginDescriptionFile description,
-                            File dataFolder, File file) {
+    public TestBukkitPlugin(final JavaPluginLoader loader, final PluginDescriptionFile description,
+                            final File dataFolder, final File file) {
         super(loader, description, new File("build"), file);
     }
 

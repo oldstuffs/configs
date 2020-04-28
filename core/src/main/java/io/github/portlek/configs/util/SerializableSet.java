@@ -34,7 +34,7 @@ import java.util.stream.Stream;
 import org.jetbrains.annotations.NotNull;
 
 @SerializableAs("set")
-public class SerializableSet implements Set, ConfigurationSerializable {
+public final class SerializableSet implements Set, ConfigurationSerializable {
 
     @NotNull
     private final Set backingSet;

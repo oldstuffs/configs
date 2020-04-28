@@ -36,7 +36,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             Optional.ofNullable(itemStack.getData()).ifPresent(materialData ->
                 section.set(fnlpath + "data", (int) materialData.getData()));
         }
-        if (itemStack.getDurability() != 0) {
+        if ((int) itemStack.getDurability() != 0) {
             section.set(fnlpath + "damage", itemStack.getDurability());
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {

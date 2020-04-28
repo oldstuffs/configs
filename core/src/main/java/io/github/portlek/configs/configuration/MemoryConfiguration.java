@@ -60,12 +60,12 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
 
     @Nullable
     @Override
-    public ConfigurationSection getParent() {
+    public final ConfigurationSection getParent() {
         return null;
     }
 
     @Override
-    public void addDefault(@NotNull final String path, @Nullable final Object value) {
+    public final void addDefault(@NotNull final String path, @Nullable final Object value) {
         Validate.notNull(path, "Path may not be null");
         if (this.defaults == null) {
             this.defaults = new MemoryConfiguration();
@@ -74,7 +74,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     }
 
     @Override
-    public void addDefaults(@NotNull final Map<String, Object> defaults) {
+    public final void addDefaults(@NotNull final Map<String, Object> defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         for (final Map.Entry<String, Object> entry : defaults.entrySet()) {
@@ -83,7 +83,7 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
     }
 
     @Override
-    public void addDefaults(@NotNull final Configuration defaults) {
+    public final void addDefaults(@NotNull final Configuration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         this.addDefaults(defaults.getValues(true));
@@ -91,12 +91,12 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
 
     @Override
     @Nullable
-    public Configuration getDefaults() {
+    public final Configuration getDefaults() {
         return this.defaults;
     }
 
     @Override
-    public void setDefaults(@NotNull final Configuration defaults) {
+    public final void setDefaults(@NotNull final Configuration defaults) {
         Validate.notNull(defaults, "Defaults may not be null");
 
         this.defaults = defaults;

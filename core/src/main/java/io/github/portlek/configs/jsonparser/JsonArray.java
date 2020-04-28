@@ -26,15 +26,16 @@ package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * Represents a JSON array, an ordered collection of JSON values.
  * <p>
- * Elements can be added using the <code>add(...)</code> methods which accept instances of
+ * Elements can be added using the {@code add(...)} methods which accept instances of
  * {@link JsonValue}, strings, primitive numbers, and boolean values. To replace an element of an
- * array, use the <code>set(int, ...)</code> methods.
+ * array, use the {@code set(int, ...)} methods.
  * </p>
  * <p>
  * This class also supports
@@ -51,7 +52,7 @@ import java.util.List;
  * </p>
  * <p>
  * Note that this class is <strong>not thread-safe</strong>. If multiple threads access a
- * <code>JsonArray</code> instance concurrently, while at least one of these threads modifies the
+ * {@code JsonArray} instance concurrently, while at least one of these threads modifies the
  * contents of this array, access to the instance must be synchronized externally. Failure to do so
  * may lead to an inconsistent state.
  * </p>
@@ -62,15 +63,15 @@ import java.util.List;
 @SuppressWarnings("serial") // use default serial UID
 public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
-    private final List<JsonValue> values = new ArrayList<>();
+    private final Collection<JsonValue> values = new ArrayList<>();
 
     /**
      * Appends the specified JSON value to the end of this array.
      *
-     * @param value the JsonValue to add to the array, must not be <code>null</code>
+     * @param value the JsonValue to add to the array, must not be {@code null}
      * @return the array itself, to enable method chaining
      */
-    public JsonArray add(final JsonValue value) {
+    public final JsonArray add(final JsonValue value) {
         if (value == null) {
             throw new NullPointerException("value is null");
         }
@@ -83,22 +84,22 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      *
      * @return the number of elements in this array
      */
-    public int size() {
+    public final int size() {
         return this.values.size();
     }
 
     @Override
-    public boolean isArray() {
+    public final boolean isArray() {
         return true;
     }
 
     @Override
-    public JsonArray asArray() {
+    public final JsonArray asArray() {
         return this;
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return this.values.hashCode();
     }
 
@@ -114,14 +115,14 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * otherwise
      */
     @Override
-    public boolean equals(final Object object) {
+    public final boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (this.getClass() != object.getClass()) {
+        if (!this.getClass().equals(object.getClass())) {
             return false;
         }
         final JsonArray other = (JsonArray) object;
@@ -129,7 +130,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
+    final void write(final JsonWriter writer) throws IOException {
         writer.writeArrayOpen();
         final Iterator<JsonValue> iterator = this.iterator();
         if (iterator.hasNext()) {
@@ -149,7 +150,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return an iterator over the values of this array
      */
     @Override
-    public Iterator<JsonValue> iterator() {
+    public final Iterator<JsonValue> iterator() {
         final Iterator<JsonValue> iterator = this.values.iterator();
         return new Iterator<JsonValue>() {
 

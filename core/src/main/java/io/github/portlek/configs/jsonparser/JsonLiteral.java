@@ -39,6 +39,7 @@ class JsonLiteral extends JsonValue {
     private final boolean isFalse;
 
     JsonLiteral(final String value) {
+        super();
         this.value = value;
         this.isNull = "null".equals(value);
         this.isTrue = "true".equals(value);
@@ -46,44 +47,44 @@ class JsonLiteral extends JsonValue {
     }
 
     @Override
-    public boolean isBoolean() {
+    public final boolean isBoolean() {
         return this.isTrue || this.isFalse;
     }
 
     @Override
-    public boolean isTrue() {
+    public final boolean isTrue() {
         return this.isTrue;
     }
 
     @Override
-    public boolean isFalse() {
+    public final boolean isFalse() {
         return this.isFalse;
     }
 
     @Override
-    public boolean isNull() {
+    public final boolean isNull() {
         return this.isNull;
     }
 
     @Override
-    public boolean asBoolean() {
+    public final boolean asBoolean() {
         return this.isNull ? super.asBoolean() : this.isTrue;
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return this.value.hashCode();
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public final boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (this.getClass() != object.getClass()) {
+        if (!this.getClass().equals(object.getClass())) {
             return false;
         }
         final JsonLiteral other = (JsonLiteral) object;
@@ -91,12 +92,12 @@ class JsonLiteral extends JsonValue {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.value;
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
+    final void write(final JsonWriter writer) throws IOException {
         writer.writeLiteral(this.value);
     }
 

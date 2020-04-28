@@ -32,13 +32,6 @@ package io.github.portlek.configs.configuration;
 public class InvalidConfigurationException extends Exception {
 
     /**
-     * Creates a new instance of InvalidConfigurationException without a
-     * message or cause.
-     */
-    public InvalidConfigurationException() {
-    }
-
-    /**
      * Constructs an instance of InvalidConfigurationException with the
      * specified message.
      *

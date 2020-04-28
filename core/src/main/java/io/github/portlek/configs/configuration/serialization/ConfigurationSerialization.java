@@ -20,7 +20,7 @@ public class ConfigurationSerialization {
 
     public static final String SERIALIZED_TYPE_KEY = "==";
 
-    private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<String, Class<? extends ConfigurationSerializable>>();
+    private static final Map<String, Class<? extends ConfigurationSerializable>> aliases = new HashMap<>();
 
     private final Class<? extends ConfigurationSerializable> clazz;
 
@@ -64,7 +64,7 @@ public class ConfigurationSerialization {
      */
     @Nullable
     public static ConfigurationSerializable deserializeObject(@NotNull final Map<String, ?> args) {
-        Class<? extends ConfigurationSerializable> clazz = null;
+        Class<? extends ConfigurationSerializable> clazz;
 
         if (args.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
             try {
@@ -159,7 +159,7 @@ public class ConfigurationSerialization {
         DelegateDeserialization delegate = clazz.getAnnotation(DelegateDeserialization.class);
 
         if (delegate != null) {
-            if (delegate.value() == null || delegate.value() == clazz) {
+            if (delegate.value() == null || delegate.value().equals(clazz)) {
                 delegate = null;
             } else {
                 return ConfigurationSerialization.getAlias(delegate.value());
@@ -178,14 +178,14 @@ public class ConfigurationSerialization {
     }
 
     @Nullable
-    public ConfigurationSerializable deserialize(@NotNull final Map<String, ?> args) {
+    public final ConfigurationSerializable deserialize(@NotNull final Map<String, ?> args) {
         Validate.notNull(args, "Args must not be null");
 
         ConfigurationSerializable result = null;
-        Method method = null;
+        Method method;
 
         if (result == null) {
-            method = this.getMethod("deserialize", true);
+            method = this.getMethod("deserialize");
 
             if (method != null) {
                 result = this.deserializeViaMethod(method, args);
@@ -193,7 +193,7 @@ public class ConfigurationSerialization {
         }
 
         if (result == null) {
-            method = this.getMethod("valueOf", true);
+            method = this.getMethod("valueOf");
 
             if (method != null) {
                 result = this.deserializeViaMethod(method, args);
@@ -212,27 +212,25 @@ public class ConfigurationSerialization {
     }
 
     @Nullable
-    protected Method getMethod(@NotNull final String name, final boolean isStatic) {
+    protected final Method getMethod(@NotNull final String name) {
         try {
             final Method method = this.clazz.getDeclaredMethod(name, Map.class);
 
             if (!ConfigurationSerializable.class.isAssignableFrom(method.getReturnType())) {
                 return null;
             }
-            if (Modifier.isStatic(method.getModifiers()) != isStatic) {
+            if (!Modifier.isStatic(method.getModifiers())) {
                 return null;
             }
 
             return method;
-        } catch (final NoSuchMethodException ex) {
-            return null;
-        } catch (final SecurityException ex) {
+        } catch (final NoSuchMethodException | SecurityException ex) {
             return null;
         }
     }
 
     @Nullable
-    protected ConfigurationSerializable deserializeViaMethod(@NotNull final Method method, @NotNull final Map<String, ?> args) {
+    protected final ConfigurationSerializable deserializeViaMethod(@NotNull final Method method, @NotNull final Map<String, ?> args) {
         try {
             final ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
 
@@ -252,18 +250,16 @@ public class ConfigurationSerialization {
     }
 
     @Nullable
-    protected Constructor<? extends ConfigurationSerializable> getConstructor() {
+    protected final Constructor<? extends ConfigurationSerializable> getConstructor() {
         try {
             return this.clazz.getConstructor(Map.class);
-        } catch (final NoSuchMethodException ex) {
-            return null;
-        } catch (final SecurityException ex) {
+        } catch (final NoSuchMethodException | SecurityException ex) {
             return null;
         }
     }
 
     @Nullable
-    protected ConfigurationSerializable deserializeViaCtor(@NotNull final Constructor<? extends ConfigurationSerializable> ctor, @NotNull final Map<String, ?> args) {
+    protected final ConfigurationSerializable deserializeViaCtor(@NotNull final Constructor<? extends ConfigurationSerializable> ctor, @NotNull final Map<String, ?> args) {
         try {
             return ctor.newInstance(args);
         } catch (final Throwable ex) {

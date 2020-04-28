@@ -29,13 +29,13 @@ import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.Basedir;
 import io.github.portlek.configs.util.FileType;
+import io.github.portlek.configs.util.SaveResource;
 import io.github.portlek.configs.util.Version;
 import io.github.portlek.configs.yaml.FileConfiguration;
-import java.io.*;
-import java.net.URLConnection;
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class ConfigProceed implements Proceed<FlManaged> {
 
@@ -57,20 +57,6 @@ public final class ConfigProceed implements Proceed<FlManaged> {
             fnl = raw + File.separatorChar;
         }
         return fnl;
-    }
-
-    @Nullable
-    private static InputStream getResource(@NotNull final String path) {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).map(url -> {
-            try {
-                final URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                return connection.getInputStream();
-            } catch (final IOException exception) {
-                exception.printStackTrace();
-            }
-            return null;
-        }).orElse(null);
     }
 
     @Override
@@ -101,10 +87,10 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         );
         final File file;
         if (this.config.copyDefault()) {
-            file = this.saveResource(
+            file = new SaveResource(
                 jarlocation,
                 ConfigProceed.addSeparatorIfHasNot(this.config.resourcePath()) + name
-            );
+            ).value();
         } else {
             file = new File(filelocation, name);
         }
@@ -129,37 +115,6 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         }
         new FieldsProceed(managed).load(managed);
         managed.save();
-    }
-
-    @NotNull
-    public File saveResource(@NotNull final String datafolder, @NotNull final String path) {
-        if (path.isEmpty()) {
-            throw new IllegalArgumentException("ResourcePath cannot be empty");
-        }
-        final String replace = path.replace('\\', '/');
-        final int lastindex = replace.lastIndexOf(47);
-        final File outdir = new File(datafolder, replace.substring(0, Math.max(lastindex, 0)));
-        if (!outdir.exists()) {
-            outdir.getParentFile().mkdirs();
-            outdir.mkdirs();
-        }
-        final File outfile = new File(datafolder, replace);
-        if (!outfile.exists()) {
-            try (final OutputStream out = new FileOutputStream(outfile);
-                 final InputStream input = ConfigProceed.getResource(replace)) {
-                if (input == null) {
-                    throw new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!");
-                }
-                final byte[] buf = new byte[1024];
-                int len;
-                while ((len = input.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-            } catch (final IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return outfile;
     }
 
 }

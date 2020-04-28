@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 public class TestBukkitRunner {
 
     @Test
-    void api() {
+    final void api() {
         MockBukkit.mock();
         MockBukkit.load(TestBukkitPlugin.class);
         MockBukkit.unload();

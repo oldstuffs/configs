@@ -66,7 +66,7 @@ public final class NumberConversions {
             return Float.parseFloat(object.toString());
         } catch (final NumberFormatException | NullPointerException ignored) {
         }
-        return 0;
+        return (float) 0;
     }
 
     public static long toLong(final Object object) {
@@ -78,7 +78,7 @@ public final class NumberConversions {
             return Long.parseLong(object.toString());
         } catch (final NumberFormatException | NullPointerException ignored) {
         }
-        return 0;
+        return 0L;
     }
 
 }

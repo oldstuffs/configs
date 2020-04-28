@@ -37,31 +37,35 @@ import org.jetbrains.annotations.NotNull;
  * @author Jeremy Wood
  * @version 6/14/2017
  */
-public class SerializationHelper {
+public final class SerializationHelper {
 
     private static final Logger LOG = Logger.getLogger(SerializationHelper.class.getName());
 
-    public static Object serialize(@NotNull Object value) {
-        if (value instanceof Object[]) {
-            value = new ArrayList<>(Arrays.asList((Object[]) value));
+    private SerializationHelper() {
+    }
+
+    public static Object serialize(@NotNull final Object value) {
+        Object value1 = value;
+        if (value1 instanceof Object[]) {
+            value1 = new ArrayList<>(Arrays.asList((Object[]) value1));
         }
-        if (value instanceof Set && !(value instanceof SerializableSet)) {
-            value = new SerializableSet((Set<?>) value);
+        if (value1 instanceof Set && !(value1 instanceof SerializableSet)) {
+            value1 = new SerializableSet((Set<?>) value1);
         }
-        if (value instanceof ConfigurationSection) {
-            return SerializationHelper.buildMap(((ConfigurationSection) value).getValues(false));
-        } else if (value instanceof Map) {
-            return SerializationHelper.buildMap((Map<?, ?>) value);
-        } else if (value instanceof List) {
-            return SerializationHelper.buildList((List<?>) value);
-        } else if (value instanceof ConfigurationSerializable) {
-            final ConfigurationSerializable serializable = (ConfigurationSerializable) value;
+        if (value1 instanceof ConfigurationSection) {
+            return SerializationHelper.buildMap(((ConfigurationSection) value1).getValues(false));
+        } else if (value1 instanceof Map) {
+            return SerializationHelper.buildMap((Map<?, ?>) value1);
+        } else if (value1 instanceof List) {
+            return SerializationHelper.buildList((Collection<?>) value1);
+        } else if (value1 instanceof ConfigurationSerializable) {
+            final ConfigurationSerializable serializable = (ConfigurationSerializable) value1;
             final Map<String, Object> values = new LinkedHashMap<>();
             values.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY, ConfigurationSerialization.getAlias(serializable.getClass()));
             values.putAll(serializable.serialize());
             return SerializationHelper.buildMap(values);
         } else {
-            return value;
+            return value1;
         }
     }
 
@@ -145,8 +149,8 @@ public class SerializationHelper {
      * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
      * lists and maps within lists.
      */
-    private static Object deserialize(@NotNull final List<?> input) {
-        final List<Object> output = new ArrayList<>(input.size());
+    private static Object deserialize(@NotNull final Collection<?> input) {
+        final Collection<Object> output = new ArrayList<>(input.size());
         for (final Object o : input) {
             if (o instanceof Map) {
                 output.add(SerializationHelper.deserialize((Map<?, ?>) o));

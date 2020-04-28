@@ -37,25 +37,25 @@ class WritingBuffer extends Writer {
 
     private final Writer writer;
 
-    private final char[] buffer;
+    private final char[] buffer = new char[128];
 
     private int fill = 0;
 
-    WritingBuffer(final Writer writer, final int bufferSize) {
+    WritingBuffer(final Writer writer) {
         this.writer = writer;
-        this.buffer = new char[bufferSize];
     }
 
     @Override
-    public void write(final int c) throws IOException {
+    public final void write(final int c) throws IOException {
         if (this.fill > this.buffer.length - 1) {
             this.flush();
         }
-        this.buffer[this.fill++] = (char) c;
+        this.buffer[this.fill] = (char) c;
+        this.fill++;
     }
 
     @Override
-    public void write(final char[] cbuf, final int off, final int len) throws IOException {
+    public final void write(final char[] cbuf, final int off, final int len) throws IOException {
         if (this.fill > this.buffer.length - len) {
             this.flush();
             if (len > this.buffer.length) {
@@ -68,7 +68,7 @@ class WritingBuffer extends Writer {
     }
 
     @Override
-    public void write(final String str, final int off, final int len) throws IOException {
+    public final void write(final String str, final int off, final int len) throws IOException {
         if (this.fill > this.buffer.length - len) {
             this.flush();
             if (len > this.buffer.length) {
@@ -84,7 +84,7 @@ class WritingBuffer extends Writer {
      * Flushes the internal buffer but does not flush the wrapped writer.
      */
     @Override
-    public void flush() throws IOException {
+    public final void flush() throws IOException {
         this.writer.write(this.buffer, 0, this.fill);
         this.fill = 0;
     }

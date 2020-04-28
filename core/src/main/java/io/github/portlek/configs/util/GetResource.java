@@ -23,38 +23,37 @@
  *
  */
 
-package io.github.portlek.configs.configuration;
+package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.processors.ConfigProceed;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-/**
- * Various settings for controlling the input and output of a {@link
- * MemoryConfiguration}
- */
-public class MemoryConfigurationOptions extends ConfigurationOptions {
-
-    protected MemoryConfigurationOptions(@NotNull final Configuration configuration) {
-        super(configuration);
-    }
+public final class GetResource {
 
     @NotNull
-    @Override
-    public MemoryConfiguration configuration() {
-        return (MemoryConfiguration) super.configuration();
+    private final String path;
+
+    public GetResource(@NotNull final String path) {
+        this.path = path;
     }
 
-    @NotNull
-    @Override
-    public MemoryConfigurationOptions pathSeparator(final char value) {
-        super.pathSeparator(value);
-        return this;
-    }
-
-    @NotNull
-    @Override
-    public MemoryConfigurationOptions copyDefaults(final boolean value) {
-        super.copyDefaults(value);
-        return this;
+    @Nullable
+    public InputStream value() {
+        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(this.path)).map(url -> {
+            try {
+                final URLConnection connection = url.openConnection();
+                connection.setUseCaches(false);
+                return connection.getInputStream();
+            } catch (final IOException exception) {
+                exception.printStackTrace();
+            }
+            return null;
+        }).orElse(null);
     }
 
 }

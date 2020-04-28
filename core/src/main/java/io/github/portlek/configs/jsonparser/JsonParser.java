@@ -84,7 +84,6 @@ public class JsonParser {
             throw new NullPointerException("handler is null");
         }
         this.handler = (JsonHandler<Object, Object>) handler;
-        handler.parser = this;
     }
 
     /**
@@ -94,12 +93,12 @@ public class JsonParser {
      * @param string the input string, must be valid JSON
      * @throws ParseException if the input is not valid JSON
      */
-    public void parse(final String string) {
+    public final void parse(final String string) {
         if (string == null) {
             throw new NullPointerException("string is null");
         }
-        final int bufferSize = Math.max(JsonParser.MIN_BUFFER_SIZE, Math.min(JsonParser.DEFAULT_BUFFER_SIZE, string.length()));
         try {
+            final int bufferSize = Math.max(JsonParser.MIN_BUFFER_SIZE, Math.min(JsonParser.DEFAULT_BUFFER_SIZE, string.length()));
             this.parse(new StringReader(string), bufferSize);
         } catch (final IOException exception) {
             // StringReader does not throw IOException
@@ -112,14 +111,14 @@ public class JsonParser {
      * valid JSON value, optionally padded with whitespace.
      * <p>
      * Characters are read in chunks into a default-sized input buffer. Hence, wrapping a reader in an
-     * additional <code>BufferedReader</code> likely won't improve reading performance.
+     * additional {@code BufferedReader} likely won't improve reading performance.
      * </p>
      *
      * @param reader the reader to read the input from
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
-    public void parse(final Reader reader) throws IOException {
+    public final void parse(final Reader reader) throws IOException {
         this.parse(reader, JsonParser.DEFAULT_BUFFER_SIZE);
     }
 
@@ -128,7 +127,7 @@ public class JsonParser {
      * valid JSON value, optionally padded with whitespace.
      * <p>
      * Characters are read in chunks into an input buffer of the given size. Hence, wrapping a reader
-     * in an additional <code>BufferedReader</code> likely won't improve reading performance.
+     * in an additional {@code BufferedReader} likely won't improve reading performance.
      * </p>
      *
      * @param reader the reader to read the input from
@@ -136,7 +135,7 @@ public class JsonParser {
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
-    public void parse(final Reader reader, final int buffersize) throws IOException {
+    public final void parse(final Reader reader, final int buffersize) throws IOException {
         if (reader == null) {
             throw new NullPointerException("reader is null");
         }
@@ -161,7 +160,7 @@ public class JsonParser {
         }
     }
 
-    Location getLocation() {
+    final Location getLocation() {
         final int offset = this.bufferOffset + this.index - 1;
         final int column = offset - this.lineOffset + 1;
         return new Location(offset, this.line, column);
@@ -208,7 +207,8 @@ public class JsonParser {
     private void readArray() throws IOException {
         final Object array = this.handler.startArray();
         this.read();
-        if (++this.nestingLevel > JsonParser.MAX_NESTING_LEVEL) {
+        ++this.nestingLevel;
+        if (this.nestingLevel > JsonParser.MAX_NESTING_LEVEL) {
             throw this.error("Nesting too deep");
         }
         this.skipWhiteSpace();
@@ -219,7 +219,6 @@ public class JsonParser {
         }
         do {
             this.skipWhiteSpace();
-            this.handler.startArrayValue(array);
             this.readValue();
             this.handler.endArrayValue(array);
             this.skipWhiteSpace();
@@ -234,7 +233,8 @@ public class JsonParser {
     private void readObject() throws IOException {
         final Object object = this.handler.startObject();
         this.read();
-        if (++this.nestingLevel > JsonParser.MAX_NESTING_LEVEL) {
+        ++this.nestingLevel;
+        if (this.nestingLevel > JsonParser.MAX_NESTING_LEVEL) {
             throw this.error("Nesting too deep");
         }
         this.skipWhiteSpace();
@@ -245,15 +245,12 @@ public class JsonParser {
         }
         do {
             this.skipWhiteSpace();
-            this.handler.startObjectName(object);
             final String name = this.readName();
-            this.handler.endObjectName(object, name);
             this.skipWhiteSpace();
             if (!this.readChar(':')) {
                 throw this.expected("':'");
             }
             this.skipWhiteSpace();
-            this.handler.startObjectValue(object, name);
             this.readValue();
             this.handler.endObjectValue(object, name);
             this.skipWhiteSpace();
@@ -273,7 +270,6 @@ public class JsonParser {
     }
 
     private void readNull() throws IOException {
-        this.handler.startNull();
         this.read();
         this.readRequiredChar('u');
         this.readRequiredChar('l');
@@ -282,7 +278,6 @@ public class JsonParser {
     }
 
     private void readTrue() throws IOException {
-        this.handler.startBoolean();
         this.read();
         this.readRequiredChar('r');
         this.readRequiredChar('u');
@@ -291,7 +286,6 @@ public class JsonParser {
     }
 
     private void readFalse() throws IOException {
-        this.handler.startBoolean();
         this.read();
         this.readRequiredChar('a');
         this.readRequiredChar('l');
@@ -302,12 +296,11 @@ public class JsonParser {
 
     private void readRequiredChar(final char ch) throws IOException {
         if (!this.readChar(ch)) {
-            throw this.expected("'" + ch + "'");
+            throw this.expected("'" + ch + '\'');
         }
     }
 
     private void readString() throws IOException {
-        this.handler.startString();
         this.handler.endString(this.readStringInternal());
     }
 
@@ -371,7 +364,6 @@ public class JsonParser {
     }
 
     private void readNumber() throws IOException {
-        this.handler.startNumber();
         this.startCapture();
         this.readChar('-');
         final int firstDigit = this.current;
@@ -455,7 +447,8 @@ public class JsonParser {
             this.line++;
             this.lineOffset = this.bufferOffset + this.index;
         }
-        this.current = this.buffer[this.index++];
+        this.current = this.buffer[this.index];
+        this.index++;
     }
 
     private void startCapture() {

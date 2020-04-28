@@ -25,8 +25,6 @@
 
 package io.github.portlek.configs;
 
-import cn.nukkit.item.Item;
-import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 

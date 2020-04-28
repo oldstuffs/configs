@@ -45,7 +45,7 @@ public class YamlConstructor extends SafeConstructor {
 
         @Nullable
         @Override
-        public Object construct(@NotNull final Node node) {
+        public final Object construct(@NotNull final Node node) {
             if (node.isTwoStepsConstruction()) {
                 throw new YAMLException("Unexpected referential mapping structure. Node: " + node);
             }
@@ -69,7 +69,7 @@ public class YamlConstructor extends SafeConstructor {
         }
 
         @Override
-        public void construct2ndStep(@NotNull final Node node, @NotNull final Object object) {
+        public final void construct2ndStep(@NotNull final Node node, @NotNull final Object object) {
             throw new YAMLException("Unexpected referential mapping structure. Node: " + node);
         }
 

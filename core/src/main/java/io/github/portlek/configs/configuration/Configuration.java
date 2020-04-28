@@ -35,23 +35,6 @@ import org.jetbrains.annotations.Nullable;
 public interface Configuration extends ConfigurationSection {
 
     /**
-     * Sets the default value of the given path as provided.
-     * <p>
-     * If no source {@link Configuration} was provided as a default
-     * collection, then a new {@link MemoryConfiguration} will be created to
-     * hold the new default value.
-     * <p>
-     * If value is null, the value will be removed from the default
-     * Configuration source.
-     *
-     * @param path Path of the value to set.
-     * @param value Value to set the default to.
-     * @throws IllegalArgumentException Thrown if path is null.
-     */
-    @Override
-    void addDefault(@NotNull String path, @Nullable Object value);
-
-    /**
      * Sets the default values of the given paths as provided.
      * <p>
      * If no source {@link Configuration} was provided as a default

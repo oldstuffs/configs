@@ -33,6 +33,7 @@ class JsonNumber extends JsonValue {
     private final String string;
 
     JsonNumber(final String string) {
+        super();
         if (string == null) {
             throw new NullPointerException("string is null");
         }
@@ -40,39 +41,39 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
-    public boolean isNumber() {
+    public final boolean isNumber() {
         return true;
     }
 
     @Override
-    public int asInt() {
+    public final int asInt() {
         return Integer.parseInt(this.string, 10);
     }
 
     @Override
-    public long asLong() {
+    public final long asLong() {
         return Long.parseLong(this.string, 10);
     }
 
     @Override
-    public double asDouble() {
+    public final double asDouble() {
         return Double.parseDouble(this.string);
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return this.string.hashCode();
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public final boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (this.getClass() != object.getClass()) {
+        if (!this.getClass().equals(object.getClass())) {
             return false;
         }
         final JsonNumber other = (JsonNumber) object;
@@ -80,12 +81,12 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
         return this.string;
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
+    final void write(final JsonWriter writer) throws IOException {
         writer.writeNumber(this.string);
     }
 

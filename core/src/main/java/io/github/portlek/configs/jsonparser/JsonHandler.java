@@ -24,14 +24,16 @@
  */
 package io.github.portlek.configs.jsonparser;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * A handler for parser events. Instances of this class can be given to a {@link JsonParser}. The
  * parser will then call the methods of the given handler while reading the input.
  * <p>
  * The default implementations of these methods do nothing. Subclasses may override only those
- * methods they are interested in. They can use <code>getLocation()</code> to access the current
- * character position of the parser at any point. The <code>start*</code> methods will be called
- * while the location points to the first character of the parsed element. The <code>end*</code>
+ * methods they are interested in. They can use {@code getLocation()} to access the current
+ * character position of the parser at any point. The {@code start*} methods will be called
+ * while the location points to the first character of the parsed element. The {@code end*}
  * methods will be called while the location points to the character position that directly follows
  * the last character of the parsed element. Example:
  * </p>
@@ -54,31 +56,15 @@ package io.github.portlek.configs.jsonparser;
  */
 public abstract class JsonHandler<A, O> {
 
-    JsonParser parser;
-
     /**
-     * Indicates the beginning of a <code>null</code> literal in the JSON input. This method will be
-     * called when reading the first character of the literal.
-     */
-    public void startNull() {
-    }
-
-    /**
-     * Indicates the end of a <code>null</code> literal in the JSON input. This method will be called
+     * Indicates the end of a {@code null} literal in the JSON input. This method will be called
      * after reading the last character of the literal.
      */
     public void endNull() {
     }
 
     /**
-     * Indicates the beginning of a boolean literal (<code>true</code> or <code>false</code>) in the
-     * JSON input. This method will be called when reading the first character of the literal.
-     */
-    public void startBoolean() {
-    }
-
-    /**
-     * Indicates the end of a boolean literal (<code>true</code> or <code>false</code>) in the JSON
+     * Indicates the end of a boolean literal ({@code true} or {@code false}) in the JSON
      * input. This method will be called after reading the last character of the literal.
      *
      * @param value the parsed boolean value
@@ -87,26 +73,12 @@ public abstract class JsonHandler<A, O> {
     }
 
     /**
-     * Indicates the beginning of a string in the JSON input. This method will be called when reading
-     * the opening double quote character (<code>'&quot;'</code>).
-     */
-    public void startString() {
-    }
-
-    /**
      * Indicates the end of a string in the JSON input. This method will be called after reading the
-     * closing double quote character (<code>'&quot;'</code>).
+     * closing double quote character ({@code '"'}).
      *
      * @param string the parsed string
      */
     public void endString(final String string) {
-    }
-
-    /**
-     * Indicates the beginning of a number in the JSON input. This method will be called when reading
-     * the first character of the number.
-     */
-    public void startNumber() {
     }
 
     /**
@@ -118,70 +90,35 @@ public abstract class JsonHandler<A, O> {
     public void endNumber(final String string) {
     }
 
-    /**
-     * Indicates the beginning of an array in the JSON input. This method will be called when reading
-     * the opening square bracket character (<code>'['</code>).
-     * <p>
-     * This method may return an object to handle subsequent parser events for this array. This array
-     * handler will then be provided in all calls to {@link #startArrayValue(Object)
-     * startArrayValue()}, {@link #endArrayValue(Object) endArrayValue()}, and
-     * {@link #endArray(Object) endArray()} for this array.
-     * </p>
-     *
-     * @return a handler for this array, or <code>null</code> if not needed
-     */
-    public A startArray() {
+    @Nullable
+    public @Nullable A startArray() {
         return null;
     }
 
     /**
      * Indicates the end of an array in the JSON input. This method will be called after reading the
-     * closing square bracket character (<code>']'</code>).
+     * closing square bracket character ({@code ']'}).
      *
-     * @param array the array handler returned from {@link #startArray()}, or <code>null</code> if not
+     * @param array the array handler returned from {@link #startArray()}, or {@code null} if not
      * provided
      */
     public void endArray(final A array) {
     }
 
     /**
-     * Indicates the beginning of an array element in the JSON input. This method will be called when
-     * reading the first character of the element, just before the call to the <code>start</code>
-     * method for the specific element type ({@link #startString()}, {@link #startNumber()}, etc.).
-     *
-     * @param array the array handler returned from {@link #startArray()}, or <code>null</code> if not
-     * provided
-     */
-    public void startArrayValue(final A array) {
-    }
-
-    /**
      * Indicates the end of an array element in the JSON input. This method will be called after
-     * reading the last character of the element value, just after the <code>end</code> method for the
+     * reading the last character of the element value, just after the {@code end} method for the
      * specific element type (like {@link #endString(String) endString()}, {@link #endNumber(String)
      * endNumber()}, etc.).
      *
-     * @param array the array handler returned from {@link #startArray()}, or <code>null</code> if not
+     * @param array the array handler returned from {@link #startArray()}, or {@code null} if not
      * provided
      */
     public void endArrayValue(final A array) {
     }
 
-    /**
-     * Indicates the beginning of an object in the JSON input. This method will be called when reading
-     * the opening curly bracket character (<code>'{'</code>).
-     * <p>
-     * This method may return an object to handle subsequent parser events for this object. This
-     * object handler will be provided in all calls to {@link #startObjectName(Object)
-     * startObjectName()}, {@link #endObjectName(Object, String) endObjectName()},
-     * {@link #startObjectValue(Object, String) startObjectValue()},
-     * {@link #endObjectValue(Object, String) endObjectValue()}, and {@link #endObject(Object)
-     * endObject()} for this object.
-     * </p>
-     *
-     * @return a handler for this object, or <code>null</code> if not needed
-     */
-    public O startObject() {
+    @Nullable
+    public @Nullable O startObject() {
         return null;
     }
 
@@ -195,39 +132,8 @@ public abstract class JsonHandler<A, O> {
     }
 
     /**
-     * Indicates the beginning of the name of an object member in the JSON input. This method will be
-     * called when reading the opening quote character ('&quot;') of the member name.
-     *
-     * @param object the object handler returned from {@link #startObject()}, or <code>null</code> if not
-     * provided
-     */
-    public void startObjectName(final O object) {
-    }
-
-    /**
-     * Indicates the end of an object member name in the JSON input. This method will be called after
-     * reading the closing quote character (<code>'"'</code>) of the member name.
-     *
-     * @param object the object handler returned from {@link #startObject()}, or null if not provided
-     * @param name the parsed member name
-     */
-    public void endObjectName(final O object, final String name) {
-    }
-
-    /**
-     * Indicates the beginning of the name of an object member in the JSON input. This method will be
-     * called when reading the opening quote character ('&quot;') of the member name.
-     *
-     * @param object the object handler returned from {@link #startObject()}, or <code>null</code> if not
-     * provided
-     * @param name the member name
-     */
-    public void startObjectValue(final O object, final String name) {
-    }
-
-    /**
      * Indicates the end of an object member value in the JSON input. This method will be called after
-     * reading the last character of the member value, just after the <code>end</code> method for the
+     * reading the last character of the member value, just after the {@code end} method for the
      * specific member type (like {@link #endString(String) endString()}, {@link #endNumber(String)
      * endNumber()}, etc.).
      *

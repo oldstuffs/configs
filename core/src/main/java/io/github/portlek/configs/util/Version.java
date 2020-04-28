@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.CfgSection;
 import org.jetbrains.annotations.NotNull;
 
 public final class Version {
@@ -76,7 +76,7 @@ public final class Version {
         return this.minor == version.minor && this.major == version.major;
     }
 
-    public void write(@NotNull final String path, @NotNull final FlManaged managed) {
+    public void write(@NotNull final String path, @NotNull final CfgSection managed) {
         managed.set(path, this.major + "." + this.minor);
     }
 

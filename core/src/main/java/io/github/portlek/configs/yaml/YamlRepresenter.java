@@ -45,7 +45,7 @@ public class YamlRepresenter extends Representer {
 
         @NotNull
         @Override
-        public Node representData(@NotNull final Object data) {
+        public final Node representData(@NotNull final Object data) {
             return super.representData(((ConfigurationSection) data).getValues(false));
         }
 
@@ -55,9 +55,9 @@ public class YamlRepresenter extends Representer {
 
         @NotNull
         @Override
-        public Node representData(@NotNull final Object data) {
+        public final Node representData(@NotNull final Object data) {
             final ConfigurationSerializable serializable = (ConfigurationSerializable) data;
-            final Map<String, Object> values = new LinkedHashMap<String, Object>();
+            final Map<String, Object> values = new LinkedHashMap<>();
             values.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY, ConfigurationSerialization.getAlias(serializable.getClass()));
             values.putAll(serializable.serialize());
 

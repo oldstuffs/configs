@@ -40,31 +40,36 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
         super(configuration);
     }
 
+    @NotNull
     @Override
-    public @NotNull JsonConfiguration configuration() {
+    public final JsonConfiguration configuration() {
         return (JsonConfiguration) super.configuration();
     }
 
+    @NotNull
     @Override
-    public @NotNull JsonConfigurationOptions pathSeparator(final char value) {
+    public final JsonConfigurationOptions pathSeparator(final char value) {
         super.pathSeparator(value);
         return this;
     }
 
+    @NotNull
     @Override
-    public @NotNull JsonConfigurationOptions copyDefaults(final boolean value) {
+    public final JsonConfigurationOptions copyDefaults(final boolean value) {
         super.copyDefaults(value);
         return this;
     }
 
+    @NotNull
     @Override
-    public JsonConfigurationOptions header(final String value) {
+    public final JsonConfigurationOptions header(final String value) {
         super.header(value);
         return this;
     }
 
+    @NotNull
     @Override
-    public JsonConfigurationOptions copyHeader(final boolean value) {
+    public final JsonConfigurationOptions copyHeader(final boolean value) {
         super.copyHeader(value);
         return this;
     }

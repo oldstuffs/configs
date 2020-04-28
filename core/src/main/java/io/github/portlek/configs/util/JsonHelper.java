@@ -76,7 +76,7 @@ public final class JsonHelper {
         if (!(value instanceof JsonObject)) {
             return new HashMap<>();
         }
-        final JsonObject jsonObject = (JsonObject) value;
+        final Iterable<JsonObject.Member> jsonObject = (JsonObject) value;
         final Map<String, Object> map = new HashMap<>();
 
         jsonObject.forEach(member ->
@@ -116,7 +116,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static JsonArray collectionAsJsonArray(@NotNull final Collection<?> collection) {
+    public static JsonArray collectionAsJsonArray(@NotNull final Iterable<?> collection) {
         final JsonArray array = new JsonArray();
         collection.forEach(o ->
             JsonHelper.objectAsJsonValue(o).ifPresent(array::add));

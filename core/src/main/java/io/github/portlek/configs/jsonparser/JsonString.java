@@ -33,6 +33,7 @@ class JsonString extends JsonValue {
     private final String string;
 
     JsonString(final String string) {
+        super();
         if (string == null) {
             throw new NullPointerException("string is null");
         }
@@ -40,29 +41,29 @@ class JsonString extends JsonValue {
     }
 
     @Override
-    public boolean isString() {
+    public final boolean isString() {
         return true;
     }
 
     @Override
-    public String asString() {
+    public final String asString() {
         return this.string;
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
         return this.string.hashCode();
     }
 
     @Override
-    public boolean equals(final Object object) {
+    public final boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (this.getClass() != object.getClass()) {
+        if (!this.getClass().equals(object.getClass())) {
             return false;
         }
         final JsonString other = (JsonString) object;
@@ -70,7 +71,7 @@ class JsonString extends JsonValue {
     }
 
     @Override
-    void write(final JsonWriter writer) throws IOException {
+    final void write(final JsonWriter writer) throws IOException {
         writer.writeString(this.string);
     }
 

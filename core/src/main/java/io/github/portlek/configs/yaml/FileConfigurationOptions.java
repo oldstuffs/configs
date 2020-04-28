@@ -29,7 +29,6 @@ import io.github.portlek.configs.configuration.Configuration;
 import io.github.portlek.configs.configuration.MemoryConfiguration;
 import io.github.portlek.configs.configuration.MemoryConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Various settings for controlling the input and output of a {@link
@@ -37,7 +36,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
 
-    private String header = null;
+    @NotNull
+    private String header = "";
 
     private boolean copyHeader = true;
 
@@ -79,8 +79,8 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      *
      * @return Header
      */
-    @Nullable
-    public String header() {
+    @NotNull
+    public final String header() {
         return this.header;
     }
 
@@ -100,7 +100,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * @return This object, for chaining
      */
     @NotNull
-    public FileConfigurationOptions header(@Nullable final String value) {
+    public FileConfigurationOptions header(@NotNull final String value) {
         this.header = value;
         return this;
     }
@@ -123,7 +123,7 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      *
      * @return Whether or not to copy the header
      */
-    public boolean copyHeader() {
+    public final boolean copyHeader() {
         return this.copyHeader;
     }
 

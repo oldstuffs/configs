@@ -26,6 +26,7 @@ package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
 import java.io.Writer;
+import org.jetbrains.annotations.Nullable;
 
 class JsonWriter {
 
@@ -56,7 +57,7 @@ class JsonWriter {
         this.writer = writer;
     }
 
-    private static char[] getReplacementChars(final char ch) {
+    private static char @Nullable [] getReplacementChars(final char ch) {
         if (ch > '\\') {
             if (ch < '\u2028' || ch > '\u2029') {
                 // The lower range contains 'a' .. 'z'. Only 2 checks required.
@@ -89,21 +90,21 @@ class JsonWriter {
         return new char[]{'\\', 'u', '0', '0', JsonWriter.HEX_DIGITS[ch >> 4 & 0x000f], JsonWriter.HEX_DIGITS[ch & 0x000f]};
     }
 
-    protected void writeLiteral(final String value) throws IOException {
+    protected final void writeLiteral(final String value) throws IOException {
         this.writer.write(value);
     }
 
-    protected void writeNumber(final String string) throws IOException {
+    protected final void writeNumber(final String string) throws IOException {
         this.writer.write(string);
     }
 
-    protected void writeString(final String string) throws IOException {
+    protected final void writeString(final String string) throws IOException {
         this.writer.write('"');
         this.writeJsonString(string);
         this.writer.write('"');
     }
 
-    protected void writeJsonString(final String string) throws IOException {
+    protected final void writeJsonString(final String string) throws IOException {
         final int length = string.length();
         int start = 0;
         for (int index = 0; index < length; index++) {
@@ -137,7 +138,7 @@ class JsonWriter {
         this.writer.write('}');
     }
 
-    protected void writeMemberName(final String name) throws IOException {
+    protected final void writeMemberName(final String name) throws IOException {
         this.writer.write('"');
         this.writeJsonString(name);
         this.writer.write('"');
