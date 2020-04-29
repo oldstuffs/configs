@@ -27,10 +27,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.util.Basedir;
-import io.github.portlek.configs.util.FileType;
-import io.github.portlek.configs.util.SaveResource;
-import io.github.portlek.configs.util.Version;
+import io.github.portlek.configs.util.*;
 import io.github.portlek.configs.yaml.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
@@ -44,19 +41,6 @@ public final class ConfigProceed implements Proceed<FlManaged> {
 
     public ConfigProceed(@NotNull final Config cnfg) {
         this.config = cnfg;
-    }
-
-    @NotNull
-    private static String addSeparatorIfHasNot(@NotNull final String raw) {
-        final String fnl;
-        if (raw.isEmpty()) {
-            fnl = "";
-        } else if (raw.charAt(raw.length() - 1) == File.separatorChar) {
-            fnl = raw;
-        } else {
-            fnl = raw + File.separatorChar;
-        }
-        return fnl;
     }
 
     @Override
@@ -75,21 +59,21 @@ public final class ConfigProceed implements Proceed<FlManaged> {
             return;
         }
         final File basedir = optional.get();
-        final String filelocation = ConfigProceed.addSeparatorIfHasNot(
+        final String filelocation = new AddSeparator(
             this.config.location()
                 .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
                 .replace("/", File.separator)
-        );
-        final String jarlocation = ConfigProceed.addSeparatorIfHasNot(
+        ).value();
+        final String jarlocation = new AddSeparator(
             this.config.location()
                 .replace("%basedir%", basedir.getAbsolutePath())
                 .replace("/", File.separator)
-        );
+        ).value();
         final File file;
         if (this.config.copyDefault()) {
             file = new SaveResource(
                 jarlocation,
-                ConfigProceed.addSeparatorIfHasNot(this.config.resourcePath()) + name
+                new AddSeparator(this.config.resourcePath()).value() + name
             ).value();
         } else {
             file = new File(filelocation, name);
