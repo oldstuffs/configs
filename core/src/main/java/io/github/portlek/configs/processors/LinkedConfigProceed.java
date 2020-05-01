@@ -2,6 +2,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.LnkdFlManaged;
 import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.annotations.LinkedFile;
 import java.util.Arrays;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +20,9 @@ public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
         Arrays.stream(this.config.files())
             .filter(linkedFile -> linkedFile.key().equals(linked.getChosen().get()))
             .findFirst()
-            .ifPresent(linkedFile -> new ConfigProceed(linkedFile.config()).load(linked));
+            .map(LinkedFile::config)
+            .map(ConfigProceed::new)
+            .ifPresent(configProceed -> configProceed.load(linked));
     }
 
 }
