@@ -61,6 +61,16 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
+    public final String toString() {
+        return this.string;
+    }
+
+    @Override
+    final void write(final JsonWriter writer) throws IOException {
+        writer.writeNumber(this.string);
+    }
+
+    @Override
     public final int hashCode() {
         return this.string.hashCode();
     }
@@ -78,16 +88,6 @@ class JsonNumber extends JsonValue {
         }
         final JsonNumber other = (JsonNumber) object;
         return this.string.equals(other.string);
-    }
-
-    @Override
-    public final String toString() {
-        return this.string;
-    }
-
-    @Override
-    final void write(final JsonWriter writer) throws IOException {
-        writer.writeNumber(this.string);
     }
 
 }

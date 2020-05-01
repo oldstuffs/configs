@@ -72,6 +72,16 @@ class JsonLiteral extends JsonValue {
     }
 
     @Override
+    public final String toString() {
+        return this.value;
+    }
+
+    @Override
+    final void write(final JsonWriter writer) throws IOException {
+        writer.writeLiteral(this.value);
+    }
+
+    @Override
     public final int hashCode() {
         return this.value.hashCode();
     }
@@ -89,16 +99,6 @@ class JsonLiteral extends JsonValue {
         }
         final JsonLiteral other = (JsonLiteral) object;
         return this.value.equals(other.value);
-    }
-
-    @Override
-    public final String toString() {
-        return this.value;
-    }
-
-    @Override
-    final void write(final JsonWriter writer) throws IOException {
-        writer.writeLiteral(this.value);
     }
 
 }

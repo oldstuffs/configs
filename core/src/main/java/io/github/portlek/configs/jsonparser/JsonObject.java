@@ -381,6 +381,25 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     }
 
     @Override
+    final void write(final JsonWriter writer) throws IOException {
+        writer.writeObjectOpen();
+        final Iterator<String> namesIterator = this.names.iterator();
+        final Iterator<JsonValue> valuesIterator = this.values.iterator();
+        if (namesIterator.hasNext()) {
+            writer.writeMemberName(namesIterator.next());
+            writer.writeMemberSeparator();
+            valuesIterator.next().write(writer);
+            while (namesIterator.hasNext()) {
+                writer.writeObjectSeparator();
+                writer.writeMemberName(namesIterator.next());
+                writer.writeMemberSeparator();
+                valuesIterator.next().write(writer);
+            }
+        }
+        writer.writeObjectClose();
+    }
+
+    @Override
     public final int hashCode() {
         int result = 1;
         result = 31 * result + this.names.hashCode();
@@ -401,25 +420,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         }
         final JsonObject other = (JsonObject) obj;
         return this.names.equals(other.names) && this.values.equals(other.values);
-    }
-
-    @Override
-    final void write(final JsonWriter writer) throws IOException {
-        writer.writeObjectOpen();
-        final Iterator<String> namesIterator = this.names.iterator();
-        final Iterator<JsonValue> valuesIterator = this.values.iterator();
-        if (namesIterator.hasNext()) {
-            writer.writeMemberName(namesIterator.next());
-            writer.writeMemberSeparator();
-            valuesIterator.next().write(writer);
-            while (namesIterator.hasNext()) {
-                writer.writeObjectSeparator();
-                writer.writeMemberName(namesIterator.next());
-                writer.writeMemberSeparator();
-                valuesIterator.next().write(writer);
-            }
-        }
-        writer.writeObjectClose();
     }
 
     final int indexOf(final String name) {
