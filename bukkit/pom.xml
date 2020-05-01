@@ -52,7 +52,26 @@
                 <version>3.2.3</version>
                 <executions>
                     <execution>
+                        <id>verify</id>
                         <phase>verify</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>org/yaml/**</exclude>
+                                        <exclude>META-INF/maven/org.yaml/**</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
@@ -78,6 +97,12 @@
             <groupId>io.github.portlek</groupId>
             <artifactId>configs-core</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>snakeyaml</artifactId>
+                    <groupId>org.yaml</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
