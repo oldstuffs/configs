@@ -41,14 +41,14 @@ public final class ValueProceed implements Proceed<Field> {
     private final FlManaged managed;
 
     @NotNull
-    private final CfgSection section;
+    private final CfgSection parent;
 
     @NotNull
     private final Value value;
 
     public ValueProceed(@NotNull final FlManaged mngd, @NotNull final CfgSection cfgsctn, @NotNull final Value vlue) {
         this.managed = mngd;
-        this.section = cfgsctn;
+        this.parent = cfgsctn;
         this.value = vlue;
     }
 
@@ -61,14 +61,14 @@ public final class ValueProceed implements Proceed<Field> {
             field.getName()
         ).value();
         try {
-            final Optional<Object> optional = Optional.ofNullable(field.get(this.section));
+            final Optional<Object> optional = Optional.ofNullable(field.get(this.parent));
             if (!optional.isPresent()) {
                 return;
             }
             final Object fieldvalue = optional.get();
             final Optional<?> filevalueoptional = this.get(fieldvalue, path);
             if (filevalueoptional.isPresent()) {
-                field.set(this.section, filevalueoptional.get());
+                field.set(this.parent, filevalueoptional.get());
             } else {
                 this.set(fieldvalue, path);
             }
@@ -81,15 +81,15 @@ public final class ValueProceed implements Proceed<Field> {
     @NotNull
     private Optional<?> get(@NotNull final Object fieldvalue, @NotNull final String path) {
         if (fieldvalue instanceof String) {
-            return this.section.getString(path);
+            return this.parent.getString(path);
         }
         if (fieldvalue instanceof List<?>) {
-            return this.section.getList(path);
+            return this.parent.getList(path);
         }
         return this.managed.getCustomValue((Class<Object>) fieldvalue.getClass()).map(objectProvided ->
-            objectProvided.getWithField(fieldvalue, this.section, path)
+            objectProvided.getWithField(fieldvalue, this.parent, path)
         ).orElseGet(() ->
-            this.section.get(path)
+            this.parent.get(path)
         );
     }
 
@@ -97,10 +97,10 @@ public final class ValueProceed implements Proceed<Field> {
         //noinspection unchecked
         final Optional<Provided<Object>> optional = this.managed.getCustomValue((Class<Object>) fieldValue.getClass());
         if (optional.isPresent()) {
-            optional.get().set(fieldValue, this.section, path);
+            optional.get().set(fieldValue, this.parent, path);
             return;
         }
-        this.section.set(path, fieldValue);
+        this.parent.set(path, fieldValue);
     }
 
 }
