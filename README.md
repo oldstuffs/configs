@@ -24,6 +24,7 @@ repositories {
 dependencies {
     // For the all project type
     implementation("io.github.portlek:configs-core:${version}")
+    implementation("org.yaml:snakeyaml:1.26")
     // For the bukkit projects
     implementation("io.github.portlek:configs-bukkit:${version}")
     // For the nukkit projects
@@ -47,6 +48,11 @@ shadowJar {
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
       <version>${version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>1.26</version>
     </dependency>
     <!-- For the bukkit projects -->
     <dependency>
