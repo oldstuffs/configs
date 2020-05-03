@@ -43,14 +43,14 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             if (itemMeta.hasDisplayName()) {
                 section.set(
                     fnlpath + "display-name",
-                    itemMeta.getDisplayName().replace("§", "&")
+                    ChatColor.stripColor(itemMeta.getDisplayName())
                 );
             }
             Optional.ofNullable(itemMeta.getLore()).ifPresent(lore ->
                 section.set(
                     fnlpath + "lore",
                     lore.stream()
-                        .map(s -> s.replace("§", "&"))
+                        .map(ChatColor::stripColor)
                         .collect(Collectors.toList())
                 )
             );
@@ -110,11 +110,11 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             section.getString(fnlpath + "display-name").ifPresent(s ->
-                itemMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', s))
+                itemMeta.setDisplayName(ColorUtil.colored(s))
             );
             itemMeta.setLore(
                 section.getStringList(fnlpath + "lore").stream()
-                    .map(s -> ChatColor.translateAlternateColorCodes('&', s))
+                    .map(ColorUtil::colored)
                     .collect(Collectors.toList()));
             section.getSection(fnlpath + "enchants").map(enchsection ->
                 enchsection.getKeys(false)
