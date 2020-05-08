@@ -46,6 +46,8 @@ public class FileManaged extends ConfigSection implements FlManaged {
 
     private boolean autosave = false;
 
+    private long lastreload = 0L;
+
     @SafeVarargs
     protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
@@ -105,6 +107,18 @@ public class FileManaged extends ConfigSection implements FlManaged {
     public final void autoSave() {
         if (this.autosave) {
             this.save();
+        }
+    }
+
+    @Override
+    public final void reloadIfShould() {
+        if (this.lastreload < this.getFile().lastModified()) {
+            try {
+                this.getConfigurationSection().load(this.getFile());
+                this.lastreload = System.currentTimeMillis();
+            } catch (final IOException | InvalidConfigurationException e) {
+                e.printStackTrace();
+            }
         }
     }
 

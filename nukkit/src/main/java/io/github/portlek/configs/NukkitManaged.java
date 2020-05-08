@@ -81,4 +81,9 @@ public class NukkitManaged extends NukkitSection implements FlManaged {
         this.getBase().autoSave();
     }
 
+    @Override
+    public final void reloadIfShould() {
+        this.getBase().reloadIfShould();
+    }
+
 }

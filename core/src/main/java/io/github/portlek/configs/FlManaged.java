@@ -84,4 +84,6 @@ public interface FlManaged extends CfgSection {
 
     void autoSave();
 
+    void reloadIfShould();
+
 }
