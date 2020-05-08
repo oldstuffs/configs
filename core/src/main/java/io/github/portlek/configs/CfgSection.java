@@ -23,7 +23,6 @@ public interface CfgSection {
 
     @NotNull
     default Set<String> getKeys(final boolean deep) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getKeys(deep);
     }
 
@@ -32,13 +31,11 @@ public interface CfgSection {
 
     @NotNull
     default Optional<Object> get(@NotNull final String path, @Nullable final Object def) {
-        this.getManaged().reloadIfShould();
         return Optional.ofNullable(this.getConfigurationSection().get(path, def));
     }
 
     @NotNull
     default <T> T getOrSet(@NotNull final String path, @NotNull final T fallback) {
-        this.getManaged().reloadIfShould();
         return ((Optional<T>) this.get(path)).orElseGet(() -> {
             this.set(path, fallback);
             return fallback;
@@ -47,7 +44,6 @@ public interface CfgSection {
 
     @NotNull
     default Optional<Object> get(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return Optional.ofNullable(this.getConfigurationSection().get(path));
     }
 
@@ -58,13 +54,11 @@ public interface CfgSection {
 
     @NotNull
     default CfgSection getOrCreateSection(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getSection(path).orElseGet(() -> this.createSection(path));
     }
 
     @NotNull
     default Optional<CfgSection> getSection(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return Optional.ofNullable(this.getConfigurationSection().getConfigurationSection(path))
             .map(configurationsection -> {
                 final CfgSection configsection = this.getNewSection().get();
@@ -90,113 +84,93 @@ public interface CfgSection {
 
     @NotNull
     default Optional<String> getString(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return Optional.ofNullable(this.getConfigurationSection().getString(path));
     }
 
     @NotNull
     default Optional<String> getString(@NotNull final String path, @Nullable final String def) {
-        this.getManaged().reloadIfShould();
         return Optional.ofNullable(this.getConfigurationSection().getString(path, def));
     }
 
     default int getInt(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getInt(path);
     }
 
     default int getInt(@NotNull final String path, final int def) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getInt(path, def);
     }
 
     default boolean getBoolean(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getBoolean(path);
     }
 
     default boolean getBoolean(@NotNull final String path, final boolean def) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getBoolean(path, def);
     }
 
     default double getDouble(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getDouble(path);
     }
 
     default double getDouble(@NotNull final String path, final double def) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getDouble(path, def);
     }
 
     default long getLong(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getLong(path);
     }
 
     default long getLong(@NotNull final String path, final long def) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getLong(path, def);
     }
 
     @NotNull
     default List<String> getStringList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getStringList(path);
     }
 
     @NotNull
     default List<Integer> getIntegerList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getIntegerList(path);
     }
 
     @NotNull
     default List<Boolean> getBooleanList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getBooleanList(path);
     }
 
     @NotNull
     default List<Double> getDoubleList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getDoubleList(path);
     }
 
     @NotNull
     default List<Float> getFloatList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getFloatList(path);
     }
 
     @NotNull
     default List<Long> getLongList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getLongList(path);
     }
 
     @NotNull
     default List<Byte> getByteList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getByteList(path);
     }
 
     @NotNull
     default List<Character> getCharacterList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getCharacterList(path);
     }
 
     @NotNull
     default List<Short> getShortList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return this.getConfigurationSection().getShortList(path);
     }
 
     @NotNull
     default Optional<List<?>> getList(@NotNull final String path) {
-        this.getManaged().reloadIfShould();
         return Optional.ofNullable(this.getConfigurationSection().getList(path));
     }
 

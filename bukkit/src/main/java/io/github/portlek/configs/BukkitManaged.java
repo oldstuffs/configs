@@ -84,9 +84,4 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
         this.getBase().autoSave();
     }
 
-    @Override
-    public final void reloadIfShould() {
-        this.getBase().reloadIfShould();
-    }
-
 }
