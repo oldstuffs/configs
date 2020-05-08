@@ -43,14 +43,14 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             if (itemMeta.hasDisplayName()) {
                 section.set(
                     fnlpath + "display-name",
-                    ChatColor.stripColor(itemMeta.getDisplayName())
+                    itemMeta.getDisplayName().replace("§", "&")
                 );
             }
             Optional.ofNullable(itemMeta.getLore()).ifPresent(lore ->
                 section.set(
                     fnlpath + "lore",
                     lore.stream()
-                        .map(ChatColor::stripColor)
+                        .map(s -> s.replace("§", "&"))
                         .collect(Collectors.toList())
                 )
             );
