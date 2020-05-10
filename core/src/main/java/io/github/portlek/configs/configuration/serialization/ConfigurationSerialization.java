@@ -64,7 +64,7 @@ public class ConfigurationSerialization {
      */
     @Nullable
     public static ConfigurationSerializable deserializeObject(@NotNull final Map<String, ?> args) {
-        Class<? extends ConfigurationSerializable> clazz;
+        final Class<? extends ConfigurationSerializable> clazz;
 
         if (args.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
             try {
