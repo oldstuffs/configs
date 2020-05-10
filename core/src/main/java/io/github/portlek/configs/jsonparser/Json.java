@@ -316,22 +316,22 @@ public final class Json {
 
         @Override
         public void endNull() {
-          this.value = Json.NULL;
+            this.value = Json.NULL;
         }
 
         @Override
         public void endBoolean(final boolean bool) {
-          this.value = bool ? Json.TRUE : Json.FALSE;
+            this.value = bool ? Json.TRUE : Json.FALSE;
         }
 
         @Override
         public void endString(final String string) {
-          this.value = new JsonString(string);
+            this.value = new JsonString(string);
         }
 
         @Override
         public void endNumber(final String string) {
-          this.value = new JsonNumber(string);
+            this.value = new JsonNumber(string);
         }
 
         @Override
@@ -341,7 +341,7 @@ public final class Json {
 
         @Override
         public void endArray(final JsonArray array) {
-          this.value = array;
+            this.value = array;
         }
 
         @Override
@@ -356,7 +356,7 @@ public final class Json {
 
         @Override
         public void endObject(final JsonObject object) {
-          this.value = object;
+            this.value = object;
         }
 
         @Override

@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.yaml;
 
 public class YAMLException extends RuntimeException {
 

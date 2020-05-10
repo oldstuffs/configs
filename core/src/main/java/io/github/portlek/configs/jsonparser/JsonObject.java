@@ -79,9 +79,9 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * Creates a new empty JsonObject.
      */
     public JsonObject() {
-      this.names = new ArrayList<String>();
-      this.values = new ArrayList<JsonValue>();
-      this.table = new JsonObject.HashIndexTable();
+        this.names = new ArrayList<String>();
+        this.values = new ArrayList<JsonValue>();
+        this.table = new JsonObject.HashIndexTable();
     }
 
     /**
@@ -98,14 +98,14 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             throw new NullPointerException("object is null");
         }
         if (unmodifiable) {
-          this.names = Collections.unmodifiableList(object.names);
-          this.values = Collections.unmodifiableList(object.values);
+            this.names = Collections.unmodifiableList(object.names);
+            this.values = Collections.unmodifiableList(object.values);
         } else {
-          this.names = new ArrayList<String>(object.names);
-          this.values = new ArrayList<JsonValue>(object.values);
+            this.names = new ArrayList<String>(object.names);
+            this.values = new ArrayList<JsonValue>(object.values);
         }
-      this.table = new JsonObject.HashIndexTable();
-      this.updateHashIndex();
+        this.table = new JsonObject.HashIndexTable();
+        this.updateHashIndex();
     }
 
     /**
@@ -175,7 +175,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject add(final String name, final int value) {
-      this.add(name, Json.value(value));
+        this.add(name, Json.value(value));
         return this;
     }
 
@@ -196,7 +196,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject add(final String name, final long value) {
-      this.add(name, Json.value(value));
+        this.add(name, Json.value(value));
         return this;
     }
 
@@ -217,7 +217,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject add(final String name, final float value) {
-      this.add(name, Json.value(value));
+        this.add(name, Json.value(value));
         return this;
     }
 
@@ -238,7 +238,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject add(final String name, final double value) {
-      this.add(name, Json.value(value));
+        this.add(name, Json.value(value));
         return this;
     }
 
@@ -259,7 +259,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject add(final String name, final boolean value) {
-      this.add(name, Json.value(value));
+        this.add(name, Json.value(value));
         return this;
     }
 
@@ -280,7 +280,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject add(final String name, final String value) {
-      this.add(name, Json.value(value));
+        this.add(name, Json.value(value));
         return this;
     }
 
@@ -307,9 +307,9 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         if (value == null) {
             throw new NullPointerException("value is null");
         }
-      this.table.add(name, this.names.size());
-      this.names.add(name);
-      this.values.add(value);
+        this.table.add(name, this.names.size());
+        this.names.add(name);
+        this.values.add(value);
         return this;
     }
 
@@ -329,7 +329,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject set(final String name, final int value) {
-      this.set(name, Json.value(value));
+        this.set(name, Json.value(value));
         return this;
     }
 
@@ -349,7 +349,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject set(final String name, final long value) {
-      this.set(name, Json.value(value));
+        this.set(name, Json.value(value));
         return this;
     }
 
@@ -369,7 +369,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject set(final String name, final float value) {
-      this.set(name, Json.value(value));
+        this.set(name, Json.value(value));
         return this;
     }
 
@@ -389,7 +389,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject set(final String name, final double value) {
-      this.set(name, Json.value(value));
+        this.set(name, Json.value(value));
         return this;
     }
 
@@ -409,7 +409,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject set(final String name, final boolean value) {
-      this.set(name, Json.value(value));
+        this.set(name, Json.value(value));
         return this;
     }
 
@@ -429,7 +429,7 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
      * @return the object itself, to enable method chaining
      */
     public JsonObject set(final String name, final String value) {
-      this.set(name, Json.value(value));
+        this.set(name, Json.value(value));
         return this;
     }
 
@@ -456,11 +456,11 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         }
         final int index = this.indexOf(name);
         if (index != -1) {
-          this.values.set(index, value);
+            this.values.set(index, value);
         } else {
-          this.table.add(name, this.names.size());
-          this.names.add(name);
-          this.values.add(value);
+            this.table.add(name, this.names.size());
+            this.names.add(name);
+            this.values.add(value);
         }
         return this;
     }
@@ -479,9 +479,9 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         }
         final int index = this.indexOf(name);
         if (index != -1) {
-          this.table.remove(index);
-          this.names.remove(index);
-          this.values.remove(index);
+            this.table.remove(index);
+            this.names.remove(index);
+            this.values.remove(index);
         }
         return this;
     }
@@ -757,14 +757,14 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
     private synchronized void readObject(final ObjectInputStream inputStream)
         throws IOException, ClassNotFoundException {
         inputStream.defaultReadObject();
-      this.table = new JsonObject.HashIndexTable();
-      this.updateHashIndex();
+        this.table = new JsonObject.HashIndexTable();
+        this.updateHashIndex();
     }
 
     private void updateHashIndex() {
         final int size = this.names.size();
         for (int i = 0; i < size; i++) {
-          this.table.add(this.names.get(i), i);
+            this.table.add(this.names.get(i), i);
         }
     }
 
@@ -852,18 +852,18 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             final int slot = this.hashSlotFor(name);
             if (index < 0xff) {
                 // increment by 1, 0 stands for empty
-              this.hashTable[slot] = (byte) (index + 1);
+                this.hashTable[slot] = (byte) (index + 1);
             } else {
-              this.hashTable[slot] = 0;
+                this.hashTable[slot] = 0;
             }
         }
 
         void remove(final int index) {
             for (int i = 0; i < this.hashTable.length; i++) {
                 if ((this.hashTable[i] & 0xff) == index + 1) {
-                  this.hashTable[i] = 0;
+                    this.hashTable[i] = 0;
                 } else if ((this.hashTable[i] & 0xff) > index + 1) {
-                  this.hashTable[i]--;
+                    this.hashTable[i]--;
                 }
             }
         }

@@ -384,7 +384,7 @@ public abstract class JsonValue implements Serializable {
      * @throws IOException if an I/O error occurs in the writer
      */
     public void writeTo(final Writer writer) throws IOException {
-      this.writeTo(writer, WriterConfig.MINIMAL);
+        this.writeTo(writer, WriterConfig.MINIMAL);
     }
 
     /**
@@ -405,7 +405,7 @@ public abstract class JsonValue implements Serializable {
             throw new NullPointerException("config is null");
         }
         final WritingBuffer buffer = new WritingBuffer(writer, 128);
-      this.write(config.createWriter(buffer));
+        this.write(config.createWriter(buffer));
         buffer.flush();
     }
 
@@ -418,7 +418,7 @@ public abstract class JsonValue implements Serializable {
     public String toString(final WriterConfig config) {
         final StringWriter writer = new StringWriter();
         try {
-          this.writeTo(writer, config);
+            this.writeTo(writer, config);
         } catch (final IOException exception) {
             // StringWriter does not throw IOExceptions
             throw new RuntimeException(exception);

@@ -37,9 +37,9 @@ class JsonLiteral extends JsonValue {
 
     JsonLiteral(final String value) {
         this.value = value;
-      this.isNull = "null".equals(value);
-      this.isTrue = "true".equals(value);
-      this.isFalse = "false".equals(value);
+        this.isNull = "null".equals(value);
+        this.isTrue = "true".equals(value);
+        this.isFalse = "false".equals(value);
     }
 
     @Override

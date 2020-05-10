@@ -67,7 +67,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * Creates a new empty JsonArray.
      */
     public JsonArray() {
-      this.values = new ArrayList<JsonValue>();
+        this.values = new ArrayList<JsonValue>();
     }
 
     /**
@@ -84,9 +84,9 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
             throw new NullPointerException("array is null");
         }
         if (unmodifiable) {
-          this.values = Collections.unmodifiableList(array.values);
+            this.values = Collections.unmodifiableList(array.values);
         } else {
-          this.values = new ArrayList<JsonValue>(array.values);
+            this.values = new ArrayList<JsonValue>(array.values);
         }
     }
 
@@ -147,7 +147,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return the array itself, to enable method chaining
      */
     public JsonArray add(final int value) {
-      this.values.add(Json.value(value));
+        this.values.add(Json.value(value));
         return this;
     }
 
@@ -159,7 +159,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return the array itself, to enable method chaining
      */
     public JsonArray add(final long value) {
-      this.values.add(Json.value(value));
+        this.values.add(Json.value(value));
         return this;
     }
 
@@ -171,7 +171,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return the array itself, to enable method chaining
      */
     public JsonArray add(final float value) {
-      this.values.add(Json.value(value));
+        this.values.add(Json.value(value));
         return this;
     }
 
@@ -183,7 +183,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return the array itself, to enable method chaining
      */
     public JsonArray add(final double value) {
-      this.values.add(Json.value(value));
+        this.values.add(Json.value(value));
         return this;
     }
 
@@ -195,7 +195,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return the array itself, to enable method chaining
      */
     public JsonArray add(final boolean value) {
-      this.values.add(Json.value(value));
+        this.values.add(Json.value(value));
         return this;
     }
 
@@ -206,7 +206,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * @return the array itself, to enable method chaining
      */
     public JsonArray add(final String value) {
-      this.values.add(Json.value(value));
+        this.values.add(Json.value(value));
         return this;
     }
 
@@ -220,7 +220,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         if (value == null) {
             throw new NullPointerException("value is null");
         }
-      this.values.add(value);
+        this.values.add(value);
         return this;
     }
 
@@ -235,7 +235,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray set(final int index, final int value) {
-      this.values.set(index, Json.value(value));
+        this.values.set(index, Json.value(value));
         return this;
     }
 
@@ -250,7 +250,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray set(final int index, final long value) {
-      this.values.set(index, Json.value(value));
+        this.values.set(index, Json.value(value));
         return this;
     }
 
@@ -265,7 +265,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray set(final int index, final float value) {
-      this.values.set(index, Json.value(value));
+        this.values.set(index, Json.value(value));
         return this;
     }
 
@@ -280,7 +280,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray set(final int index, final double value) {
-      this.values.set(index, Json.value(value));
+        this.values.set(index, Json.value(value));
         return this;
     }
 
@@ -295,7 +295,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray set(final int index, final boolean value) {
-      this.values.set(index, Json.value(value));
+        this.values.set(index, Json.value(value));
         return this;
     }
 
@@ -310,7 +310,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray set(final int index, final String value) {
-      this.values.set(index, Json.value(value));
+        this.values.set(index, Json.value(value));
         return this;
     }
 
@@ -327,7 +327,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         if (value == null) {
             throw new NullPointerException("value is null");
         }
-      this.values.set(index, value);
+        this.values.set(index, value);
         return this;
     }
 
@@ -340,7 +340,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
      * <code>index &gt;= size</code>
      */
     public JsonArray remove(final int index) {
-      this.values.remove(index);
+        this.values.remove(index);
         return this;
     }
 
@@ -423,6 +423,11 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         return this;
     }
 
+    @Override
+    public int hashCode() {
+        return this.values.hashCode();
+    }
+
     /**
      * Indicates whether a given object is "equal to" this JsonArray. An object is considered equal
      * if it is also a <code>JsonArray</code> and both arrays contain the same list of values.
@@ -447,11 +452,6 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         }
         final JsonArray other = (JsonArray) object;
         return this.values.equals(other.values);
-    }
-
-    @Override
-    public int hashCode() {
-        return this.values.hashCode();
     }
 
     @Override
