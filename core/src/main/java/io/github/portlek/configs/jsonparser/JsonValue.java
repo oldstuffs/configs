@@ -58,6 +58,16 @@ import java.io.*;
 @SuppressWarnings("serial") // use default serial UID
 public abstract class JsonValue implements Serializable {
 
+    public static final String NOT_AN_OBJECT = "Not an object: ";
+
+    public static final String NOT_AN_ARRAY = "Not an array: ";
+
+    public static final String NOT_A_NUMBER = "Not a number: ";
+
+    public static final String NOT_A_STRING = "Not a string: ";
+
+    public static final String NOT_A_BOOLEAN = "Not a boolean: ";
+
     JsonValue() {
         // prevent subclasses outside of this package
     }
@@ -249,7 +259,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON object
      */
     public JsonObject asObject() {
-        throw new UnsupportedOperationException("Not an object: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_AN_OBJECT + this.toString());
     }
 
     /**
@@ -260,7 +270,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON array
      */
     public JsonArray asArray() {
-        throw new UnsupportedOperationException("Not an array: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_AN_ARRAY + this.toString());
     }
 
     /**
@@ -277,7 +287,7 @@ public abstract class JsonValue implements Serializable {
      * @throws NumberFormatException if this JSON number can not be interpreted as <code>int</code> value
      */
     public int asInt() {
-        throw new UnsupportedOperationException("Not a number: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
 
     /**
@@ -294,7 +304,7 @@ public abstract class JsonValue implements Serializable {
      * @throws NumberFormatException if this JSON number can not be interpreted as <code>long</code> value
      */
     public long asLong() {
-        throw new UnsupportedOperationException("Not a number: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
 
     /**
@@ -309,7 +319,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public float asFloat() {
-        throw new UnsupportedOperationException("Not a number: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
 
     /**
@@ -324,7 +334,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public double asDouble() {
-        throw new UnsupportedOperationException("Not a number: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
 
     /**
@@ -335,7 +345,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is not a JSON string
      */
     public String asString() {
-        throw new UnsupportedOperationException("Not a string: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_A_STRING + this.toString());
     }
 
     /**
@@ -346,7 +356,7 @@ public abstract class JsonValue implements Serializable {
      * @throws UnsupportedOperationException if this value is neither <code>true</code> or <code>false</code>
      */
     public boolean asBoolean() {
-        throw new UnsupportedOperationException("Not a boolean: " + this.toString());
+        throw new UnsupportedOperationException(JsonValue.NOT_A_BOOLEAN + this.toString());
     }
 
     /**

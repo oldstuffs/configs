@@ -61,6 +61,8 @@ import java.util.List;
 @SuppressWarnings("serial") // use default serial UID
 public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
+    public static final String ARRAY_IS_NULL = "array is null";
+
     private final List<JsonValue> values;
 
     /**
@@ -81,7 +83,7 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
 
     private JsonArray(final JsonArray array, final boolean unmodifiable) {
         if (array == null) {
-            throw new NullPointerException("array is null");
+            throw new NullPointerException(JsonArray.ARRAY_IS_NULL);
         }
         if (unmodifiable) {
             this.values = Collections.unmodifiableList(array.values);
