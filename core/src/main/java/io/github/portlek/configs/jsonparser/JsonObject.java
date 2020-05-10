@@ -24,10 +24,7 @@ package io.github.portlek.configs.jsonparser;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a JSON object, a set of name/value pairs, where the names are strings and the values
@@ -316,6 +313,171 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         this.table.add(name, this.names.size());
         this.names.add(name);
         this.values.add(value);
+        return this;
+    }
+
+    /**
+     * Returns the <code>float</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, an empty Optional is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>float</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty Optional if
+     * this object does not contain a member with that name
+     * @see #getFloat(String, float)
+     * equivalent without Optional instantiation
+     */
+    public Optional<Float> getFloat(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? Optional.of(value.asFloat()) : Optional.empty();
+    }
+
+    /**
+     * Returns the <code>double</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, an empty Optional is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>double</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty Optional if
+     * this object does not contain a member with that name
+     * @see #getDouble(String, double)
+     * equivalent without Optional instantiation
+     */
+    public OptionalDouble getDouble(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? OptionalDouble.of(value.asDouble()) : OptionalDouble.empty();
+    }
+
+    /**
+     * Returns the <code>JsonObject</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, null is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>int</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or the given default value if
+     * this object does not contain a member with that name
+     */
+    public JsonObject getObject(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? value.asObject() : null;
+    }
+
+    /**
+     * Returns the <code>boolean</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, an empty Optional is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>boolean</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty Optional if
+     * this object does not contain a member with that name
+     * @see #getBoolean(String, boolean)
+     * equivalent without Optional instantiation
+     */
+    public Optional<Boolean> getBoolean(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? Optional.of(value.asBoolean()) : Optional.empty();
+    }
+
+    /**
+     * Returns the <code>String</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, an empty Optional is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>String</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty Optional if
+     * this object does not contain a member with that name
+     * @see #getString(String, String)
+     * equivalent without Optional instantiation
+     */
+    public Optional<String> getString(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? Optional.of(value.asString()) : Optional.empty();
+    }
+
+    /**
+     * Returns the <code>long</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, an empty Optional is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>long</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty Optional if
+     * this object does not contain a member with that name
+     * @see #getLong(String, long)
+     * equivalent without Optional instantiation
+     */
+    public OptionalLong getLong(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? OptionalLong.of(value.asLong()) : OptionalLong.empty();
+    }
+
+    /**
+     * Returns the value of the member with the specified name in this object. If this object contains
+     * multiple members with the given name, this method will return the last one.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty optional if this
+     * object does not contain a member with that name
+     * @see #get(String)
+     * equivalent without Optional instantiation
+     */
+    public Optional<JsonValue> getOptional(final String name) {
+        return Optional.ofNullable(this.get(name));
+    }
+
+    /**
+     * Returns the <code>int</code> value of the member with the specified name in this object. If
+     * this object does not contain a member with this name, an empty Optional is returned. If
+     * this object contains multiple members with the given name, the last one will be picked. If this
+     * member's value does not represent a JSON number or if it cannot be interpreted as Java
+     * <code>int</code>, an exception is thrown.
+     *
+     * @param name the name of the member whose value is to be returned
+     * @return the value of the last member with the specified name, or an empty Optional if
+     * this object does not contain a member with that name
+     * @see #getInt(String, int)
+     * equivalent without Optional instantiation
+     */
+    public OptionalInt getInt(final String name) {
+        final JsonValue value = this.get(name);
+        return value != null ? OptionalInt.of(value.asInt()) : OptionalInt.empty();
+    }
+
+    /**
+     * Copies all members of the specified object into this object. When the specified object contains
+     * members with names that also exist in this object, the existing values in this object will be
+     * replaced by the corresponding values in the specified object, except for the case that both values
+     * are JsonObjects themselves, which will trigger another merge of these objects
+     *
+     * @param object the object to merge
+     * @return the object itself, to enable method chaining
+     */
+    public JsonObject deepMerge(final JsonObject object) {
+        if (object == null) {
+            throw new NullPointerException("object is null");
+        }
+        for (final JsonObject.Member member : object) {
+            final String name = member.name;
+            JsonValue value = member.value;
+            if (value instanceof JsonObject) {
+                final JsonValue existingValue = this.get(member.name);
+                if (existingValue instanceof JsonObject) {
+                    value = ((JsonObject) existingValue).deepMerge((JsonObject) value);
+                }
+            }
+            this.set(name, value);
+        }
         return this;
     }
 

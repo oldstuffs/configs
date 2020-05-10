@@ -80,6 +80,20 @@ public final class Json {
     }
 
     /**
+     * Returns a JsonValue instance that represents the given object. If the object implements
+     * {@link JsonSerializable}, its {@link JsonSerializable#asJsonValue()} method is called and the
+     * result returned.
+     * <p>
+     * Converts null values to null literals and non-trivial objects to their string representation.
+     *
+     * @param object the object to get a JSON representation for
+     * @return a JSON value that represents the given object
+     */
+    public static JsonValue value(final Object object) {
+        return JsonBuilder.toJsonValue(object);
+    }
+
+    /**
      * Returns a JsonValue instance that represents the given <code>int</code> value.
      *
      * @param value the value to get a JSON representation for
