@@ -29,7 +29,7 @@ import java.lang.reflect.Array;
 import java.util.Map;
 
 /**
- * A simple builder which allows to create a JsonValue from a java object. <b> As this is part of
+ * A simple builder which allows to create a JsonValue from a java object. As this is part of
  * the minimal-json library, it is a minimal converter, and therefore does <b>not</b> resolve cyclic
  * structures.
  *

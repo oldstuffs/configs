@@ -27,7 +27,7 @@ import java.io.Serializable;
  * An immutable object that represents a location in the parsed text.
  */
 @SuppressWarnings("serial") // use default serial UID
-public class Location implements Serializable {
+public final class Location implements Serializable {
 
     /**
      * The absolute character index, starting at 0.
