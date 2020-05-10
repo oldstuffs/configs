@@ -7,6 +7,7 @@ Annotation based configuration library for any Java project.
 [![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=configs-core)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-bukkit?label=configs-bukkit)
+![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-nukkit?label=configs-nukkit)
 ## Setup
 
 <details>
