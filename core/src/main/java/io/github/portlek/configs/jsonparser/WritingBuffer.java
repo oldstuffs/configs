@@ -44,42 +44,41 @@ class WritingBuffer extends Writer {
 
     WritingBuffer(final Writer writer, final int bufferSize) {
         this.writer = writer;
-        this.buffer = new char[bufferSize];
+      this.buffer = new char[bufferSize];
     }
 
     @Override
     public void write(final int c) throws IOException {
         if (this.fill > this.buffer.length - 1) {
-            this.flush();
+          this.flush();
         }
-        this.buffer[this.fill] = (char) c;
-        this.fill++;
+      this.buffer[this.fill++] = (char) c;
     }
 
     @Override
     public void write(final char[] cbuf, final int off, final int len) throws IOException {
         if (this.fill > this.buffer.length - len) {
-            this.flush();
+          this.flush();
             if (len > this.buffer.length) {
-                this.writer.write(cbuf, off, len);
+              this.writer.write(cbuf, off, len);
                 return;
             }
         }
         System.arraycopy(cbuf, off, this.buffer, this.fill, len);
-        this.fill += len;
+      this.fill += len;
     }
 
     @Override
     public void write(final String str, final int off, final int len) throws IOException {
         if (this.fill > this.buffer.length - len) {
-            this.flush();
+          this.flush();
             if (len > this.buffer.length) {
-                this.writer.write(str, off, len);
+              this.writer.write(str, off, len);
                 return;
             }
         }
         str.getChars(off, off + len, this.buffer, this.fill);
-        this.fill += len;
+      this.fill += len;
     }
 
     /**
@@ -87,15 +86,15 @@ class WritingBuffer extends Writer {
      */
     @Override
     public void flush() throws IOException {
-        this.writer.write(this.buffer, 0, this.fill);
-        this.fill = 0;
+      this.writer.write(this.buffer, 0, this.fill);
+      this.fill = 0;
     }
 
     /**
      * Does not close or flush the wrapped writer.
      */
     @Override
-    public void close() {
+    public void close() throws IOException {
     }
 
 }

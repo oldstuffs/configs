@@ -42,7 +42,7 @@ public class PrettyPrint extends WriterConfig {
     }
 
     /**
-     * Print every value on a separate line. Use tabs ({@code \t}) for indentation.
+     * Print every value on a separate line. Use tabs (<code>\t</code>) for indentation.
      *
      * @return A PrettyPrint instance for wrapped mode with tab indentation
      */
@@ -79,7 +79,7 @@ public class PrettyPrint extends WriterConfig {
         return new PrettyPrint.PrettyPrintWriter(writer, this.indentChars);
     }
 
-    private static final class PrettyPrintWriter extends JsonWriter {
+    private static class PrettyPrintWriter extends JsonWriter {
 
         private final char[] indentChars;
 
@@ -92,51 +92,51 @@ public class PrettyPrint extends WriterConfig {
 
         @Override
         protected void writeArrayOpen() throws IOException {
-            this.indent++;
-            this.writer.write('[');
-            this.writeNewLine();
+          this.indent++;
+          this.writer.write('[');
+          this.writeNewLine();
         }
 
         @Override
         protected void writeArrayClose() throws IOException {
-            this.indent--;
-            this.writeNewLine();
-            this.writer.write(']');
+          this.indent--;
+          this.writeNewLine();
+          this.writer.write(']');
         }
 
         @Override
         protected void writeArraySeparator() throws IOException {
-            this.writer.write(',');
+          this.writer.write(',');
             if (!this.writeNewLine()) {
-                this.writer.write(' ');
+              this.writer.write(' ');
             }
         }
 
         @Override
         protected void writeObjectOpen() throws IOException {
-            this.indent++;
-            this.writer.write('{');
-            this.writeNewLine();
+          this.indent++;
+          this.writer.write('{');
+          this.writeNewLine();
         }
 
         @Override
         protected void writeObjectClose() throws IOException {
-            this.indent--;
-            this.writeNewLine();
-            this.writer.write('}');
+          this.indent--;
+          this.writeNewLine();
+          this.writer.write('}');
         }
 
         @Override
         protected void writeMemberSeparator() throws IOException {
-            this.writer.write(':');
-            this.writer.write(' ');
+          this.writer.write(':');
+          this.writer.write(' ');
         }
 
         @Override
         protected void writeObjectSeparator() throws IOException {
-            this.writer.write(',');
+          this.writer.write(',');
             if (!this.writeNewLine()) {
-                this.writer.write(' ');
+              this.writer.write(' ');
             }
         }
 
@@ -144,9 +144,9 @@ public class PrettyPrint extends WriterConfig {
             if (this.indentChars == null) {
                 return false;
             }
-            this.writer.write('\n');
+          this.writer.write('\n');
             for (int i = 0; i < this.indent; i++) {
-                this.writer.write(this.indentChars);
+              this.writer.write(this.indentChars);
             }
             return true;
         }

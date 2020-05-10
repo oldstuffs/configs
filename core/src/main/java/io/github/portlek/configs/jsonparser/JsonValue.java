@@ -59,25 +59,25 @@ import java.io.*;
 public abstract class JsonValue implements Serializable {
 
     /**
-     * Represents the JSON literal {@code true}.
+     * Represents the JSON literal <code>true</code>.
      *
-     * @deprecated Use {@code Json.TRUE} instead
+     * @deprecated Use <code>Json.TRUE</code> instead
      */
     @Deprecated
     public static final JsonValue TRUE = new JsonLiteral("true");
 
     /**
-     * Represents the JSON literal {@code false}.
+     * Represents the JSON literal <code>false</code>.
      *
-     * @deprecated Use {@code Json.FALSE} instead
+     * @deprecated Use <code>Json.FALSE</code> instead
      */
     @Deprecated
     public static final JsonValue FALSE = new JsonLiteral("false");
 
     /**
-     * Represents the JSON literal {@code null}.
+     * Represents the JSON literal <code>null</code>.
      *
-     * @deprecated Use {@code Json.NULL} instead
+     * @deprecated Use <code>Json.NULL</code> instead
      */
     @Deprecated
     public static final JsonValue NULL = new JsonLiteral("null");
@@ -90,7 +90,7 @@ public abstract class JsonValue implements Serializable {
      * Reads a JSON value from the given reader.
      * <p>
      * Characters are read in chunks and buffered internally, therefore wrapping an existing reader in
-     * an additional {@code BufferedReader} does <strong>not</strong> improve reading
+     * an additional <code>BufferedReader</code> does <strong>not</strong> improve reading
      * performance.
      * </p>
      *
@@ -119,11 +119,11 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given {@code int} value.
+     * Returns a JsonValue instance that represents the given <code>int</code> value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
-     * @deprecated Use {@code Json.value()} instead
+     * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
     public static JsonValue valueOf(final int value) {
@@ -131,11 +131,11 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given {@code long} value.
+     * Returns a JsonValue instance that represents the given <code>long</code> value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
-     * @deprecated Use {@code Json.value()} instead
+     * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
     public static JsonValue valueOf(final long value) {
@@ -143,11 +143,11 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given {@code float} value.
+     * Returns a JsonValue instance that represents the given <code>float</code> value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
-     * @deprecated Use {@code Json.value()} instead
+     * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
     public static JsonValue valueOf(final float value) {
@@ -155,11 +155,11 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given {@code double} value.
+     * Returns a JsonValue instance that represents the given <code>double</code> value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
-     * @deprecated Use {@code Json.value()} instead
+     * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
     public static JsonValue valueOf(final double value) {
@@ -171,7 +171,7 @@ public abstract class JsonValue implements Serializable {
      *
      * @param string the string to get a JSON representation for
      * @return a JSON value that represents the given string
-     * @deprecated Use {@code Json.value()} instead
+     * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
     public static JsonValue valueOf(final String string) {
@@ -179,11 +179,11 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns a JsonValue instance that represents the given {@code boolean} value.
+     * Returns a JsonValue instance that represents the given <code>boolean</code> value.
      *
      * @param value the value to get a JSON representation for
      * @return a JSON value that represents the given value
-     * @deprecated Use {@code Json.value()} instead
+     * @deprecated Use <code>Json.value()</code> instead
      */
     @Deprecated
     public static JsonValue valueOf(final boolean value) {
@@ -194,7 +194,7 @@ public abstract class JsonValue implements Serializable {
      * Detects whether this value represents a JSON object. If this is the case, this value is an
      * instance of {@link JsonObject}.
      *
-     * @return {@code true} if this value is an instance of JsonObject
+     * @return <code>true</code> if this value is an instance of JsonObject
      */
     public boolean isObject() {
         return false;
@@ -204,7 +204,7 @@ public abstract class JsonValue implements Serializable {
      * Detects whether this value represents a JSON array. If this is the case, this value is an
      * instance of {@link JsonArray}.
      *
-     * @return {@code true} if this value is an instance of JsonArray
+     * @return <code>true</code> if this value is an instance of JsonArray
      */
     public boolean isArray() {
         return false;
@@ -213,7 +213,7 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents a JSON number.
      *
-     * @return {@code true} if this value represents a JSON number
+     * @return <code>true</code> if this value represents a JSON number
      */
     public boolean isNumber() {
         return false;
@@ -222,7 +222,7 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents a JSON string.
      *
-     * @return {@code true} if this value represents a JSON string
+     * @return <code>true</code> if this value represents a JSON string
      */
     public boolean isString() {
         return false;
@@ -231,35 +231,35 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents a boolean value.
      *
-     * @return {@code true} if this value represents either the JSON literal <code>true</code> or
-     * {@code false}
+     * @return <code>true</code> if this value represents either the JSON literal <code>true</code> or
+     * <code>false</code>
      */
     public boolean isBoolean() {
         return false;
     }
 
     /**
-     * Detects whether this value represents the JSON literal {@code true}.
+     * Detects whether this value represents the JSON literal <code>true</code>.
      *
-     * @return {@code true} if this value represents the JSON literal <code>true</code>
+     * @return <code>true</code> if this value represents the JSON literal <code>true</code>
      */
     public boolean isTrue() {
         return false;
     }
 
     /**
-     * Detects whether this value represents the JSON literal {@code false}.
+     * Detects whether this value represents the JSON literal <code>false</code>.
      *
-     * @return {@code true} if this value represents the JSON literal <code>false</code>
+     * @return <code>true</code> if this value represents the JSON literal <code>false</code>
      */
     public boolean isFalse() {
         return false;
     }
 
     /**
-     * Detects whether this value represents the JSON literal {@code null}.
+     * Detects whether this value represents the JSON literal <code>null</code>.
      *
-     * @return {@code true} if this value represents the JSON literal <code>null</code>
+     * @return <code>true</code> if this value represents the JSON literal <code>null</code>
      */
     public boolean isNull() {
         return false;
@@ -288,48 +288,48 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns this JSON value as an {@code int} value, assuming that this value represents a
-     * JSON number that can be interpreted as Java {@code int}. If this is not the case, an
+     * Returns this JSON value as an <code>int</code> value, assuming that this value represents a
+     * JSON number that can be interpreted as Java <code>int</code>. If this is not the case, an
      * exception is thrown.
      * <p>
-     * To be interpreted as Java {@code int}, the JSON number must neither contain an exponent
-     * nor a fraction part. Moreover, the number must be in the {@code Integer} range.
+     * To be interpreted as Java <code>int</code>, the JSON number must neither contain an exponent
+     * nor a fraction part. Moreover, the number must be in the <code>Integer</code> range.
      * </p>
      *
-     * @return this value as {@code int}
+     * @return this value as <code>int</code>
      * @throws UnsupportedOperationException if this value is not a JSON number
-     * @throws NumberFormatException if this JSON number can not be interpreted as {@code int} value
+     * @throws NumberFormatException if this JSON number can not be interpreted as <code>int</code> value
      */
     public int asInt() {
         throw new UnsupportedOperationException("Not a number: " + this.toString());
     }
 
     /**
-     * Returns this JSON value as a {@code long} value, assuming that this value represents a
-     * JSON number that can be interpreted as Java {@code long}. If this is not the case, an
+     * Returns this JSON value as a <code>long</code> value, assuming that this value represents a
+     * JSON number that can be interpreted as Java <code>long</code>. If this is not the case, an
      * exception is thrown.
      * <p>
-     * To be interpreted as Java {@code long}, the JSON number must neither contain an exponent
-     * nor a fraction part. Moreover, the number must be in the {@code Long} range.
+     * To be interpreted as Java <code>long</code>, the JSON number must neither contain an exponent
+     * nor a fraction part. Moreover, the number must be in the <code>Long</code> range.
      * </p>
      *
-     * @return this value as {@code long}
+     * @return this value as <code>long</code>
      * @throws UnsupportedOperationException if this value is not a JSON number
-     * @throws NumberFormatException if this JSON number can not be interpreted as {@code long} value
+     * @throws NumberFormatException if this JSON number can not be interpreted as <code>long</code> value
      */
     public long asLong() {
         throw new UnsupportedOperationException("Not a number: " + this.toString());
     }
 
     /**
-     * Returns this JSON value as a {@code float} value, assuming that this value represents a
+     * Returns this JSON value as a <code>float</code> value, assuming that this value represents a
      * JSON number. If this is not the case, an exception is thrown.
      * <p>
-     * If the JSON number is out of the {@code Float} range, {@link Float#POSITIVE_INFINITY} or
+     * If the JSON number is out of the <code>Float</code> range, {@link Float#POSITIVE_INFINITY} or
      * {@link Float#NEGATIVE_INFINITY} is returned.
      * </p>
      *
-     * @return this value as {@code float}
+     * @return this value as <code>float</code>
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public float asFloat() {
@@ -337,14 +337,14 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns this JSON value as a {@code double} value, assuming that this value represents a
+     * Returns this JSON value as a <code>double</code> value, assuming that this value represents a
      * JSON number. If this is not the case, an exception is thrown.
      * <p>
-     * If the JSON number is out of the {@code Double} range, {@link Double#POSITIVE_INFINITY} or
+     * If the JSON number is out of the <code>Double</code> range, {@link Double#POSITIVE_INFINITY} or
      * {@link Double#NEGATIVE_INFINITY} is returned.
      * </p>
      *
-     * @return this value as {@code double}
+     * @return this value as <code>double</code>
      * @throws UnsupportedOperationException if this value is not a JSON number
      */
     public double asDouble() {
@@ -363,11 +363,11 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Returns this JSON value as a {@code boolean} value, assuming that this value is either
-     * {@code true} or <code>false</code>. If this is not the case, an exception is thrown.
+     * Returns this JSON value as a <code>boolean</code> value, assuming that this value is either
+     * <code>true</code> or <code>false</code>. If this is not the case, an exception is thrown.
      *
-     * @return this value as {@code boolean}
-     * @throws UnsupportedOperationException if this value is neither {@code true} or <code>false</code>
+     * @return this value as <code>boolean</code>
+     * @throws UnsupportedOperationException if this value is neither <code>true</code> or <code>false</code>
      */
     public boolean asBoolean() {
         throw new UnsupportedOperationException("Not a boolean: " + this.toString());
@@ -384,7 +384,7 @@ public abstract class JsonValue implements Serializable {
      * @throws IOException if an I/O error occurs in the writer
      */
     public void writeTo(final Writer writer) throws IOException {
-        this.writeTo(writer, WriterConfig.MINIMAL);
+      this.writeTo(writer, WriterConfig.MINIMAL);
     }
 
     /**
@@ -394,7 +394,7 @@ public abstract class JsonValue implements Serializable {
      * </p>
      *
      * @param writer the writer to write this value to
-     * @param config a configuration that controls the formatting or {@code null} for the minimal form
+     * @param config a configuration that controls the formatting or <code>null</code> for the minimal form
      * @throws IOException if an I/O error occurs in the writer
      */
     public void writeTo(final Writer writer, final WriterConfig config) throws IOException {
@@ -405,25 +405,30 @@ public abstract class JsonValue implements Serializable {
             throw new NullPointerException("config is null");
         }
         final WritingBuffer buffer = new WritingBuffer(writer, 128);
-        this.write(config.createWriter(buffer));
+      this.write(config.createWriter(buffer));
         buffer.flush();
     }
 
     /**
      * Returns the JSON string for this value using the given formatting.
      *
-     * @param config a configuration that controls the formatting or {@code null} for the minimal form
+     * @param config a configuration that controls the formatting or <code>null</code> for the minimal form
      * @return a JSON string that represents this value
      */
     public String toString(final WriterConfig config) {
         final StringWriter writer = new StringWriter();
         try {
-            this.writeTo(writer, config);
+          this.writeTo(writer, config);
         } catch (final IOException exception) {
             // StringWriter does not throw IOExceptions
             throw new RuntimeException(exception);
         }
         return writer.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
     /**

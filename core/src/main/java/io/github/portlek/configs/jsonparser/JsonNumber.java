@@ -62,6 +62,11 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    @Override
     public boolean equals(final Object object) {
         if (this == object) {
             return true;
@@ -84,10 +89,6 @@ class JsonNumber extends JsonValue {
     @Override
     void write(final JsonWriter writer) throws IOException {
         writer.writeNumber(this.string);
-    }
-
-    private int hashCode() {
-        return this.string.hashCode();
     }
 
 }

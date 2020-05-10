@@ -47,6 +47,11 @@ class JsonString extends JsonValue {
     }
 
     @Override
+    public int hashCode() {
+        return this.string.hashCode();
+    }
+
+    @Override
     public boolean equals(final Object object) {
         if (this == object) {
             return true;
@@ -64,10 +69,6 @@ class JsonString extends JsonValue {
     @Override
     void write(final JsonWriter writer) throws IOException {
         writer.writeString(this.string);
-    }
-
-    private int hashCode() {
-        return this.string.hashCode();
     }
 
 }

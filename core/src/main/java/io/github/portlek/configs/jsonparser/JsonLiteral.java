@@ -37,9 +37,9 @@ class JsonLiteral extends JsonValue {
 
     JsonLiteral(final String value) {
         this.value = value;
-        this.isNull = "null".equals(value);
-        this.isTrue = "true".equals(value);
-        this.isFalse = "false".equals(value);
+      this.isNull = "null".equals(value);
+      this.isTrue = "true".equals(value);
+      this.isFalse = "false".equals(value);
     }
 
     @Override
@@ -64,10 +64,12 @@ class JsonLiteral extends JsonValue {
 
     @Override
     public boolean asBoolean() {
-        if (this.isNull) {
-            return super.asBoolean();
-        }
-        return this.isTrue;
+        return this.isNull ? super.asBoolean() : this.isTrue;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.value.hashCode();
     }
 
     @Override
@@ -93,10 +95,6 @@ class JsonLiteral extends JsonValue {
     @Override
     void write(final JsonWriter writer) throws IOException {
         writer.writeLiteral(this.value);
-    }
-
-    private int hashCode() {
-        return this.value.hashCode();
     }
 
 }
