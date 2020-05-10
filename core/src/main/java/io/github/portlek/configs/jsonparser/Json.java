@@ -67,6 +67,8 @@ public final class Json {
      */
     public static final JsonValue FALSE = new JsonLiteral("false");
 
+    public static final String INFINITE_AND_NAN = "Infinite and NaN values not permitted in JSON";
+
     private Json() {
         // not meant to be instantiated
     }
@@ -99,7 +101,7 @@ public final class Json {
      */
     public static JsonValue value(final float value) {
         if (Float.isInfinite(value) || Float.isNaN(value)) {
-            throw new IllegalArgumentException("Infinite and NaN values not permitted in JSON");
+            throw new IllegalArgumentException(Json.INFINITE_AND_NAN);
         }
         return new JsonNumber(Json.cutOffPointZero(Float.toString(value)));
     }
@@ -112,7 +114,7 @@ public final class Json {
      */
     public static JsonValue value(final double value) {
         if (Double.isInfinite(value) || Double.isNaN(value)) {
-            throw new IllegalArgumentException("Infinite and NaN values not permitted in JSON");
+            throw new IllegalArgumentException(Json.INFINITE_AND_NAN);
         }
         return new JsonNumber(Json.cutOffPointZero(Double.toString(value)));
     }
