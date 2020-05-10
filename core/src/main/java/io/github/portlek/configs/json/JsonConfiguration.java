@@ -30,9 +30,6 @@ package io.github.portlek.configs.json;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.jsonparser.Json;
-import io.github.portlek.configs.jsonparser.JsonObject;
-import io.github.portlek.configs.jsonparser.WriterConfig;
 import io.github.portlek.configs.util.JsonHelper;
 import io.github.portlek.configs.util.SerializationHelper;
 import io.github.portlek.configs.yaml.FileConfiguration;

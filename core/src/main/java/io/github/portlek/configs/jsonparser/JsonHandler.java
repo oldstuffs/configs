@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2016 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +18,8 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
-
-import org.jetbrains.annotations.Nullable;
 
 /**
  * A handler for parser events. Instances of this class can be given to a {@link JsonParser}. The
@@ -56,6 +51,8 @@ import org.jetbrains.annotations.Nullable;
  */
 public abstract class JsonHandler<A, O> {
 
+    JsonParser parser;
+
     /**
      * Indicates the end of a {@code null} literal in the JSON input. This method will be called
      * after reading the last character of the literal.
@@ -64,7 +61,7 @@ public abstract class JsonHandler<A, O> {
     }
 
     /**
-     * Indicates the end of a boolean literal ({@code true} or {@code false}) in the JSON
+     * Indicates the end of a boolean literal ({@code true} or <code>false</code>) in the JSON
      * input. This method will be called after reading the last character of the literal.
      *
      * @param value the parsed boolean value
@@ -90,7 +87,18 @@ public abstract class JsonHandler<A, O> {
     public void endNumber(final String string) {
     }
 
-    @Nullable
+    /**
+     * Indicates the beginning of an array in the JSON input. This method will be called when reading
+     * the opening square bracket character ({@code '['}).
+     * <p>
+     * This method may return an object to handle subsequent parser events for this array. This array
+     * handler will then be provided in all calls to {@link #startArrayValue(Object)
+     * startArrayValue()}, {@link #endArrayValue(Object) endArrayValue()}, and
+     * {@link #endArray(Object) endArray()} for this array.
+     * </p>
+     *
+     * @return a handler for this array, or {@code null} if not needed
+     */
     public A startArray() {
         return null;
     }
@@ -117,7 +125,20 @@ public abstract class JsonHandler<A, O> {
     public void endArrayValue(final A array) {
     }
 
-    @Nullable
+    /**
+     * Indicates the beginning of an object in the JSON input. This method will be called when reading
+     * the opening curly bracket character (<code>'{'</code>).
+     * <p>
+     * This method may return an object to handle subsequent parser events for this object. This
+     * object handler will be provided in all calls to {@link #startObjectName(Object)
+     * startObjectName()}, {@link #endObjectName(Object, String) endObjectName()},
+     * {@link #startObjectValue(Object, String) startObjectValue()},
+     * {@link #endObjectValue(Object, String) endObjectValue()}, and {@link #endObject(Object)
+     * endObject()} for this object.
+     * </p>
+     *
+     * @return a handler for this object, or {@code null} if not needed
+     */
     public O startObject() {
         return null;
     }
@@ -141,6 +162,15 @@ public abstract class JsonHandler<A, O> {
      * @param name the parsed member name
      */
     public void endObjectValue(final O object, final String name) {
+    }
+
+    /**
+     * Returns the current parser location.
+     *
+     * @return the current parser location
+     */
+    protected Location getLocation() {
+        return this.parser.getLocation();
     }
 
 }

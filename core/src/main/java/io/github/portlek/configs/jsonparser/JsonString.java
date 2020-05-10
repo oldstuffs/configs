@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2013, 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -33,7 +30,6 @@ class JsonString extends JsonValue {
     private final String string;
 
     JsonString(final String string) {
-        super();
         if (string == null) {
             throw new NullPointerException("string is null");
         }
@@ -41,38 +37,37 @@ class JsonString extends JsonValue {
     }
 
     @Override
-    public final boolean isString() {
+    public boolean isString() {
         return true;
     }
 
     @Override
-    public final String asString() {
+    public String asString() {
         return this.string;
     }
 
     @Override
-    final void write(final JsonWriter writer) throws IOException {
-        writer.writeString(this.string);
-    }
-
-    @Override
-    public final int hashCode() {
-        return this.string.hashCode();
-    }
-
-    @Override
-    public final boolean equals(final Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (!this.getClass().equals(object.getClass())) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         final JsonString other = (JsonString) object;
         return this.string.equals(other.string);
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeString(this.string);
+    }
+
+    private int hashCode() {
+        return this.string.hashCode();
     }
 
 }

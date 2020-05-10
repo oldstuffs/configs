@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2015, 2016 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -104,20 +101,20 @@ public final class Json {
         if (Float.isInfinite(value) || Float.isNaN(value)) {
             throw new IllegalArgumentException("Infinite and NaN values not permitted in JSON");
         }
-        return new JsonNumber(Float.toString(value));
+        return new JsonNumber(Json.cutOffPointZero(Float.toString(value)));
     }
 
     /**
      * Returns a JsonValue instance that represents the given {@code double} value.
      *
      * @param value the value to get a JSON representation for
-     * @return a JSON    value that represents the given value
+     * @return a JSON value that represents the given value
      */
     public static JsonValue value(final double value) {
         if (Double.isInfinite(value) || Double.isNaN(value)) {
             throw new IllegalArgumentException("Infinite and NaN values not permitted in JSON");
         }
-        return new JsonNumber(Double.toString(value));
+        return new JsonNumber(Json.cutOffPointZero(Double.toString(value)));
     }
 
     /**
@@ -127,7 +124,10 @@ public final class Json {
      * @return a JSON value that represents the given string
      */
     public static JsonValue value(final String string) {
-        return string == null ? Json.NULL : new JsonString(string);
+        if (string == null) {
+            return Json.NULL;
+        }
+        return new JsonString(string);
     }
 
     /**
@@ -137,7 +137,137 @@ public final class Json {
      * @return a JSON value that represents the given value
      */
     public static JsonValue value(final boolean value) {
-        return value ? Json.TRUE : Json.FALSE;
+        if (value) {
+            return Json.TRUE;
+        }
+        return Json.FALSE;
+    }
+
+    /**
+     * Creates a new empty JsonArray. This is equivalent to creating a new JsonArray using the
+     * constructor.
+     *
+     * @return a new empty JSON array
+     */
+    public static JsonArray array() {
+        return new JsonArray();
+    }
+
+    /**
+     * Creates a new JsonArray that contains the JSON representations of the given {@code int}
+     * values.
+     *
+     * @param values the values to be included in the new JSON array
+     * @return a new JSON array that contains the given values
+     */
+    public static JsonArray array(final int... values) {
+        if (values == null) {
+            throw new NullPointerException("values is null");
+        }
+        final JsonArray array = new JsonArray();
+        for (final int value : values) {
+            array.add(value);
+        }
+        return array;
+    }
+
+    /**
+     * Creates a new JsonArray that contains the JSON representations of the given {@code long}
+     * values.
+     *
+     * @param values the values to be included in the new JSON array
+     * @return a new JSON array that contains the given values
+     */
+    public static JsonArray array(final long... values) {
+        if (values == null) {
+            throw new NullPointerException("values is null");
+        }
+        final JsonArray array = new JsonArray();
+        for (final long value : values) {
+            array.add(value);
+        }
+        return array;
+    }
+
+    /**
+     * Creates a new JsonArray that contains the JSON representations of the given {@code float}
+     * values.
+     *
+     * @param values the values to be included in the new JSON array
+     * @return a new JSON array that contains the given values
+     */
+    public static JsonArray array(final float... values) {
+        if (values == null) {
+            throw new NullPointerException("values is null");
+        }
+        final JsonArray array = new JsonArray();
+        for (final float value : values) {
+            array.add(value);
+        }
+        return array;
+    }
+
+    /**
+     * Creates a new JsonArray that contains the JSON representations of the given {@code double}
+     * values.
+     *
+     * @param values the values to be included in the new JSON array
+     * @return a new JSON array that contains the given values
+     */
+    public static JsonArray array(final double... values) {
+        if (values == null) {
+            throw new NullPointerException("values is null");
+        }
+        final JsonArray array = new JsonArray();
+        for (final double value : values) {
+            array.add(value);
+        }
+        return array;
+    }
+
+    /**
+     * Creates a new JsonArray that contains the JSON representations of the given
+     * {@code boolean} values.
+     *
+     * @param values the values to be included in the new JSON array
+     * @return a new JSON array that contains the given values
+     */
+    public static JsonArray array(final boolean... values) {
+        if (values == null) {
+            throw new NullPointerException("values is null");
+        }
+        final JsonArray array = new JsonArray();
+        for (final boolean value : values) {
+            array.add(value);
+        }
+        return array;
+    }
+
+    /**
+     * Creates a new JsonArray that contains the JSON representations of the given strings.
+     *
+     * @param strings the strings to be included in the new JSON array
+     * @return a new JSON array that contains the given strings
+     */
+    public static JsonArray array(final String... strings) {
+        if (strings == null) {
+            throw new NullPointerException("values is null");
+        }
+        final JsonArray array = new JsonArray();
+        for (final String value : strings) {
+            array.add(value);
+        }
+        return array;
+    }
+
+    /**
+     * Creates a new empty JsonObject. This is equivalent to creating a new JsonObject using the
+     * constructor.
+     *
+     * @return a new empty JSON object
+     */
+    public static JsonObject object() {
+        return new JsonObject();
     }
 
     /**
@@ -179,61 +309,72 @@ public final class Json {
         return handler.getValue();
     }
 
+    private static String cutOffPointZero(final String string) {
+        if (string.endsWith(".0")) {
+            return string.substring(0, string.length() - 2);
+        }
+        return string;
+    }
+
     static class DefaultHandler extends JsonHandler<JsonArray, JsonObject> {
 
         protected JsonValue value;
 
         @Override
-        public final void endNull() {
+        public void endNull() {
             this.value = Json.NULL;
         }
 
         @Override
-        public final void endBoolean(final boolean bool) {
-            this.value = bool ? Json.TRUE : Json.FALSE;
+        public void endBoolean(final boolean bool) {
+            if (bool) {
+                this.value = Json.TRUE;
+            } else {
+                this.value = Json.FALSE;
+            }
         }
 
         @Override
-        public final void endString(final String string) {
+        public void endString(final String string) {
             this.value = new JsonString(string);
         }
 
         @Override
-        public final void endNumber(final String string) {
+        public void endNumber(final String string) {
             this.value = new JsonNumber(string);
         }
 
         @Override
-        public final JsonArray startArray() {
+        public JsonArray startArray() {
             return new JsonArray();
         }
 
         @Override
-        public final void endArray(final JsonArray array) {
+        public void endArray(final JsonArray array) {
             this.value = array;
         }
 
         @Override
-        public final void endArrayValue(final JsonArray array) {
+        public void endArrayValue(final JsonArray array) {
             array.add(this.value);
         }
 
         @Override
-        public final JsonObject startObject() {
+        public JsonObject startObject() {
             return new JsonObject();
         }
 
         @Override
-        public final void endObject(final JsonObject object) {
+        public void endObject(final JsonObject object) {
             this.value = object;
         }
 
         @Override
-        public final void endObjectValue(final JsonObject object, final String name) {
+        public void endObjectValue(final JsonObject object, final String name) {
             object.add(name, this.value);
         }
 
-        final JsonValue getValue() {
+        JsonValue getValue() {
             return this.value;
         }
 

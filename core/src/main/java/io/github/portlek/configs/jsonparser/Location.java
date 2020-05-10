@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2016 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 /**
@@ -51,19 +48,19 @@ public class Location {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         return this.offset;
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
         if (obj == null) {
             return false;
         }
-        if (!this.getClass().equals(obj.getClass())) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
         final Location other = (Location) obj;
@@ -71,7 +68,7 @@ public class Location {
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return this.line + ":" + this.column;
     }
 

@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2013, 2016 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -84,6 +81,7 @@ public class JsonParser {
             throw new NullPointerException("handler is null");
         }
         this.handler = (JsonHandler<Object, Object>) handler;
+        handler.parser = this;
     }
 
     /**
@@ -93,7 +91,7 @@ public class JsonParser {
      * @param string the input string, must be valid JSON
      * @throws ParseException if the input is not valid JSON
      */
-    public final void parse(final String string) {
+    public void parse(final String string) {
         if (string == null) {
             throw new NullPointerException("string is null");
         }
@@ -118,7 +116,7 @@ public class JsonParser {
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
-    public final void parse(final Reader reader) throws IOException {
+    public void parse(final Reader reader) throws IOException {
         this.parse(reader, JsonParser.DEFAULT_BUFFER_SIZE);
     }
 
@@ -135,7 +133,7 @@ public class JsonParser {
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
-    public final void parse(final Reader reader, final int buffersize) throws IOException {
+    public void parse(final Reader reader, final int buffersize) throws IOException {
         if (reader == null) {
             throw new NullPointerException("reader is null");
         }
@@ -160,7 +158,7 @@ public class JsonParser {
         }
     }
 
-    final Location getLocation() {
+    Location getLocation() {
         final int offset = this.bufferOffset + this.index - 1;
         final int column = offset - this.lineOffset + 1;
         return new Location(offset, this.line, column);
@@ -219,6 +217,7 @@ public class JsonParser {
         }
         do {
             this.skipWhiteSpace();
+            this.handler.startArrayValue(array);
             this.readValue();
             this.handler.endArrayValue(array);
             this.skipWhiteSpace();
@@ -245,12 +244,15 @@ public class JsonParser {
         }
         do {
             this.skipWhiteSpace();
+            this.handler.startObjectName(object);
             final String name = this.readName();
+            this.handler.endObjectName(object, name);
             this.skipWhiteSpace();
             if (!this.readChar(':')) {
                 throw this.expected("':'");
             }
             this.skipWhiteSpace();
+            this.handler.startObjectValue(object, name);
             this.readValue();
             this.handler.endObjectValue(object, name);
             this.skipWhiteSpace();
@@ -270,6 +272,7 @@ public class JsonParser {
     }
 
     private void readNull() throws IOException {
+        this.handler.startNull();
         this.read();
         this.readRequiredChar('u');
         this.readRequiredChar('l');
@@ -278,6 +281,7 @@ public class JsonParser {
     }
 
     private void readTrue() throws IOException {
+        this.handler.startBoolean();
         this.read();
         this.readRequiredChar('r');
         this.readRequiredChar('u');
@@ -286,6 +290,7 @@ public class JsonParser {
     }
 
     private void readFalse() throws IOException {
+        this.handler.startBoolean();
         this.read();
         this.readRequiredChar('a');
         this.readRequiredChar('l');
@@ -296,11 +301,12 @@ public class JsonParser {
 
     private void readRequiredChar(final char ch) throws IOException {
         if (!this.readChar(ch)) {
-            throw this.expected("'" + ch + '\'');
+            throw this.expected("'" + ch + "'");
         }
     }
 
     private void readString() throws IOException {
+        this.handler.startString();
         this.handler.endString(this.readStringInternal());
     }
 
@@ -364,6 +370,7 @@ public class JsonParser {
     }
 
     private void readNumber() throws IOException {
+        this.handler.startNumber();
         this.startCapture();
         this.readChar('-');
         final int firstDigit = this.current;
@@ -459,7 +466,12 @@ public class JsonParser {
     }
 
     private void pauseCapture() {
-        final int end = this.current == -1 ? this.index : this.index - 1;
+        final int end;
+        if (this.current == -1) {
+            end = this.index;
+        } else {
+            end = this.index - 1;
+        }
         this.captureBuffer.append(this.buffer, this.captureStart, end - this.captureStart);
         this.captureStart = -1;
     }

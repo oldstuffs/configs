@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2013, 2017 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.*;
@@ -234,7 +231,7 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents a boolean value.
      *
-     * @return {@code true} if this value represents either the JSON literal {@code true} or
+     * @return {@code true} if this value represents either the JSON literal <code>true</code> or
      * {@code false}
      */
     public boolean isBoolean() {
@@ -244,7 +241,7 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents the JSON literal {@code true}.
      *
-     * @return {@code true} if this value represents the JSON literal {@code true}
+     * @return {@code true} if this value represents the JSON literal <code>true</code>
      */
     public boolean isTrue() {
         return false;
@@ -253,7 +250,7 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents the JSON literal {@code false}.
      *
-     * @return {@code true} if this value represents the JSON literal {@code false}
+     * @return {@code true} if this value represents the JSON literal <code>false</code>
      */
     public boolean isFalse() {
         return false;
@@ -262,7 +259,7 @@ public abstract class JsonValue implements Serializable {
     /**
      * Detects whether this value represents the JSON literal {@code null}.
      *
-     * @return {@code true} if this value represents the JSON literal {@code null}
+     * @return {@code true} if this value represents the JSON literal <code>null</code>
      */
     public boolean isNull() {
         return false;
@@ -277,45 +274,6 @@ public abstract class JsonValue implements Serializable {
      */
     public JsonObject asObject() {
         throw new UnsupportedOperationException("Not an object: " + this.toString());
-    }
-
-    /**
-     * Returns the JSON string for this value using the given formatting.
-     *
-     * @param config a configuration that controls the formatting or {@code null} for the minimal form
-     * @return a JSON string that represents this value
-     */
-    public final String toString(final WriterConfig config) {
-        final StringWriter writer = new StringWriter();
-        try {
-            this.writeTo(writer, config);
-        } catch (final IOException exception) {
-            // StringWriter does not throw IOExceptions
-            throw new RuntimeException(exception);
-        }
-        return writer.toString();
-    }
-
-    /**
-     * Writes the JSON representation of this value to the given writer using the given formatting.
-     * <p>
-     * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
-     * </p>
-     *
-     * @param writer the writer to write this value to
-     * @param config a configuration that controls the formatting or {@code null} for the minimal form
-     * @throws IOException if an I/O error occurs in the writer
-     */
-    public final void writeTo(final Writer writer, final WriterConfig config) throws IOException {
-        if (writer == null) {
-            throw new NullPointerException("writer is null");
-        }
-        if (config == null) {
-            throw new NullPointerException("config is null");
-        }
-        final WritingBuffer buffer = new WritingBuffer(writer);
-        this.write(config.createWriter(buffer));
-        buffer.flush();
     }
 
     /**
@@ -364,6 +322,21 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
+     * Returns this JSON value as a {@code float} value, assuming that this value represents a
+     * JSON number. If this is not the case, an exception is thrown.
+     * <p>
+     * If the JSON number is out of the {@code Float} range, {@link Float#POSITIVE_INFINITY} or
+     * {@link Float#NEGATIVE_INFINITY} is returned.
+     * </p>
+     *
+     * @return this value as {@code float}
+     * @throws UnsupportedOperationException if this value is not a JSON number
+     */
+    public float asFloat() {
+        throw new UnsupportedOperationException("Not a number: " + this.toString());
+    }
+
+    /**
      * Returns this JSON value as a {@code double} value, assuming that this value represents a
      * JSON number. If this is not the case, an exception is thrown.
      * <p>
@@ -391,13 +364,83 @@ public abstract class JsonValue implements Serializable {
 
     /**
      * Returns this JSON value as a {@code boolean} value, assuming that this value is either
-     * {@code true} or {@code false}. If this is not the case, an exception is thrown.
+     * {@code true} or <code>false</code>. If this is not the case, an exception is thrown.
      *
      * @return this value as {@code boolean}
-     * @throws UnsupportedOperationException if this value is neither {@code true} or {@code false}
+     * @throws UnsupportedOperationException if this value is neither {@code true} or <code>false</code>
      */
     public boolean asBoolean() {
         throw new UnsupportedOperationException("Not a boolean: " + this.toString());
+    }
+
+    /**
+     * Writes the JSON representation of this value to the given writer in its minimal form, without
+     * any additional whitespace.
+     * <p>
+     * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
+     * </p>
+     *
+     * @param writer the writer to write this value to
+     * @throws IOException if an I/O error occurs in the writer
+     */
+    public void writeTo(final Writer writer) throws IOException {
+        this.writeTo(writer, WriterConfig.MINIMAL);
+    }
+
+    /**
+     * Writes the JSON representation of this value to the given writer using the given formatting.
+     * <p>
+     * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
+     * </p>
+     *
+     * @param writer the writer to write this value to
+     * @param config a configuration that controls the formatting or {@code null} for the minimal form
+     * @throws IOException if an I/O error occurs in the writer
+     */
+    public void writeTo(final Writer writer, final WriterConfig config) throws IOException {
+        if (writer == null) {
+            throw new NullPointerException("writer is null");
+        }
+        if (config == null) {
+            throw new NullPointerException("config is null");
+        }
+        final WritingBuffer buffer = new WritingBuffer(writer, 128);
+        this.write(config.createWriter(buffer));
+        buffer.flush();
+    }
+
+    /**
+     * Returns the JSON string for this value using the given formatting.
+     *
+     * @param config a configuration that controls the formatting or {@code null} for the minimal form
+     * @return a JSON string that represents this value
+     */
+    public String toString(final WriterConfig config) {
+        final StringWriter writer = new StringWriter();
+        try {
+            this.writeTo(writer, config);
+        } catch (final IOException exception) {
+            // StringWriter does not throw IOExceptions
+            throw new RuntimeException(exception);
+        }
+        return writer.toString();
+    }
+
+    /**
+     * Indicates whether some other object is "equal to" this one according to the contract specified
+     * in {@link Object#equals(Object)}.
+     * <p>
+     * Two JsonValues are considered equal if and only if they represent the same JSON text. As a
+     * consequence, two given JsonObjects may be different even though they contain the same set of
+     * names with the same values, but in a different order.
+     * </p>
+     *
+     * @param object the reference object with which to compare
+     * @return true if this object is the same as the object argument; false otherwise
+     */
+    @Override
+    public boolean equals(final Object object) {
+        return super.equals(object);
     }
 
     /**

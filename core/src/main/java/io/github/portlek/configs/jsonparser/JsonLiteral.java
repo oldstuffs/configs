@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2013, 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -39,7 +36,6 @@ class JsonLiteral extends JsonValue {
     private final boolean isFalse;
 
     JsonLiteral(final String value) {
-        super();
         this.value = value;
         this.isNull = "null".equals(value);
         this.isTrue = "true".equals(value);
@@ -47,58 +43,60 @@ class JsonLiteral extends JsonValue {
     }
 
     @Override
-    public final boolean isBoolean() {
+    public boolean isBoolean() {
         return this.isTrue || this.isFalse;
     }
 
     @Override
-    public final boolean isTrue() {
+    public boolean isTrue() {
         return this.isTrue;
     }
 
     @Override
-    public final boolean isFalse() {
+    public boolean isFalse() {
         return this.isFalse;
     }
 
     @Override
-    public final boolean isNull() {
+    public boolean isNull() {
         return this.isNull;
     }
 
     @Override
-    public final boolean asBoolean() {
-        return this.isNull ? super.asBoolean() : this.isTrue;
+    public boolean asBoolean() {
+        if (this.isNull) {
+            return super.asBoolean();
+        }
+        return this.isTrue;
     }
 
     @Override
-    public final String toString() {
-        return this.value;
-    }
-
-    @Override
-    final void write(final JsonWriter writer) throws IOException {
-        writer.writeLiteral(this.value);
-    }
-
-    @Override
-    public final int hashCode() {
-        return this.value.hashCode();
-    }
-
-    @Override
-    public final boolean equals(final Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (!this.getClass().equals(object.getClass())) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         final JsonLiteral other = (JsonLiteral) object;
         return this.value.equals(other.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeLiteral(this.value);
+    }
+
+    private int hashCode() {
+        return this.value.hashCode();
     }
 
 }

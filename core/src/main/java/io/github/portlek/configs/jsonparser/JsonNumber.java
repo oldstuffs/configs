@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2013, 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -33,7 +30,6 @@ class JsonNumber extends JsonValue {
     private final String string;
 
     JsonNumber(final String string) {
-        super();
         if (string == null) {
             throw new NullPointerException("string is null");
         }
@@ -41,53 +37,57 @@ class JsonNumber extends JsonValue {
     }
 
     @Override
-    public final boolean isNumber() {
+    public boolean isNumber() {
         return true;
     }
 
     @Override
-    public final int asInt() {
+    public int asInt() {
         return Integer.parseInt(this.string, 10);
     }
 
     @Override
-    public final long asLong() {
+    public long asLong() {
         return Long.parseLong(this.string, 10);
     }
 
     @Override
-    public final double asDouble() {
+    public float asFloat() {
+        return Float.parseFloat(this.string);
+    }
+
+    @Override
+    public double asDouble() {
         return Double.parseDouble(this.string);
     }
 
     @Override
-    public final String toString() {
-        return this.string;
-    }
-
-    @Override
-    final void write(final JsonWriter writer) throws IOException {
-        writer.writeNumber(this.string);
-    }
-
-    @Override
-    public final int hashCode() {
-        return this.string.hashCode();
-    }
-
-    @Override
-    public final boolean equals(final Object object) {
+    public boolean equals(final Object object) {
         if (this == object) {
             return true;
         }
         if (object == null) {
             return false;
         }
-        if (!this.getClass().equals(object.getClass())) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
         final JsonNumber other = (JsonNumber) object;
         return this.string.equals(other.string);
+    }
+
+    @Override
+    public String toString() {
+        return this.string;
+    }
+
+    @Override
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeNumber(this.string);
+    }
+
+    private int hashCode() {
+        return this.string.hashCode();
     }
 
 }

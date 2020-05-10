@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -41,7 +38,16 @@ public class PrettyPrint extends WriterConfig {
     private final char[] indentChars;
 
     protected PrettyPrint(final char[] indentChars) {
-        this.indentChars = indentChars.clone();
+        this.indentChars = indentChars;
+    }
+
+    /**
+     * Print every value on a separate line. Use tabs ({@code \t}) for indentation.
+     *
+     * @return A PrettyPrint instance for wrapped mode with tab indentation
+     */
+    public static PrettyPrint singleLine() {
+        return new PrettyPrint(null);
     }
 
     /**
@@ -59,8 +65,17 @@ public class PrettyPrint extends WriterConfig {
         return new PrettyPrint(chars);
     }
 
+    /**
+     * Do not break lines, but still insert whitespace between values.
+     *
+     * @return A PrettyPrint instance for single-line mode
+     */
+    public static PrettyPrint indentWithTabs() {
+        return new PrettyPrint(new char[]{'\t'});
+    }
+
     @Override
-    protected final JsonWriter createWriter(final Writer writer) {
+    protected JsonWriter createWriter(final Writer writer) {
         return new PrettyPrint.PrettyPrintWriter(writer, this.indentChars);
     }
 

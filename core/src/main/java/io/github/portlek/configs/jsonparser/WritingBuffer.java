@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +18,7 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
@@ -37,16 +34,21 @@ class WritingBuffer extends Writer {
 
     private final Writer writer;
 
-    private final char[] buffer = new char[128];
+    private final char[] buffer;
 
     private int fill = 0;
 
     WritingBuffer(final Writer writer) {
+        this(writer, 16);
+    }
+
+    WritingBuffer(final Writer writer, final int bufferSize) {
         this.writer = writer;
+        this.buffer = new char[bufferSize];
     }
 
     @Override
-    public final void write(final int c) throws IOException {
+    public void write(final int c) throws IOException {
         if (this.fill > this.buffer.length - 1) {
             this.flush();
         }
@@ -55,7 +57,7 @@ class WritingBuffer extends Writer {
     }
 
     @Override
-    public final void write(final char[] cbuf, final int off, final int len) throws IOException {
+    public void write(final char[] cbuf, final int off, final int len) throws IOException {
         if (this.fill > this.buffer.length - len) {
             this.flush();
             if (len > this.buffer.length) {
@@ -68,7 +70,7 @@ class WritingBuffer extends Writer {
     }
 
     @Override
-    public final void write(final String str, final int off, final int len) throws IOException {
+    public void write(final String str, final int off, final int len) throws IOException {
         if (this.fill > this.buffer.length - len) {
             this.flush();
             if (len > this.buffer.length) {
@@ -84,7 +86,7 @@ class WritingBuffer extends Writer {
      * Flushes the internal buffer but does not flush the wrapped writer.
      */
     @Override
-    public final void flush() throws IOException {
+    public void flush() throws IOException {
         this.writer.write(this.buffer, 0, this.fill);
         this.fill = 0;
     }

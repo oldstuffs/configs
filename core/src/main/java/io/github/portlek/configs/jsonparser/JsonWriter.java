@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2013, 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +18,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
+ ******************************************************************************/
 package io.github.portlek.configs.jsonparser;
 
 import java.io.IOException;
 import java.io.Writer;
-import org.jetbrains.annotations.Nullable;
 
 class JsonWriter {
 
@@ -57,13 +53,16 @@ class JsonWriter {
         this.writer = writer;
     }
 
-    private static char @Nullable [] getReplacementChars(final char ch) {
+    private static char[] getReplacementChars(final char ch) {
         if (ch > '\\') {
             if (ch < '\u2028' || ch > '\u2029') {
                 // The lower range contains 'a' .. 'z'. Only 2 checks required.
                 return null;
             }
-            return ch == '\u2028' ? JsonWriter.UNICODE_2028_CHARS : JsonWriter.UNICODE_2029_CHARS;
+            if (ch == '\u2028') {
+                return JsonWriter.UNICODE_2028_CHARS;
+            }
+            return JsonWriter.UNICODE_2029_CHARS;
         }
         if (ch == '\\') {
             return JsonWriter.BS_CHARS;
@@ -90,32 +89,18 @@ class JsonWriter {
         return new char[]{'\\', 'u', '0', '0', JsonWriter.HEX_DIGITS[ch >> 4 & 0x000f], JsonWriter.HEX_DIGITS[ch & 0x000f]};
     }
 
-    protected final void writeLiteral(final String value) throws IOException {
+    protected void writeLiteral(final String value) throws IOException {
         this.writer.write(value);
     }
 
-    protected final void writeNumber(final String string) throws IOException {
+    protected void writeNumber(final String string) throws IOException {
         this.writer.write(string);
     }
 
-    protected final void writeString(final String string) throws IOException {
+    protected void writeString(final String string) throws IOException {
         this.writer.write('"');
         this.writeJsonString(string);
         this.writer.write('"');
-    }
-
-    protected final void writeJsonString(final String string) throws IOException {
-        final int length = string.length();
-        int start = 0;
-        for (int index = 0; index < length; index++) {
-            final char[] replacement = JsonWriter.getReplacementChars(string.charAt(index));
-            if (replacement != null) {
-                this.writer.write(string, start, index - start);
-                this.writer.write(replacement);
-                start = index + 1;
-            }
-        }
-        this.writer.write(string, start, length - start);
     }
 
     protected void writeArrayOpen() throws IOException {
@@ -138,7 +123,7 @@ class JsonWriter {
         this.writer.write('}');
     }
 
-    protected final void writeMemberName(final String name) throws IOException {
+    protected void writeMemberName(final String name) throws IOException {
         this.writer.write('"');
         this.writeJsonString(name);
         this.writer.write('"');
@@ -150,6 +135,20 @@ class JsonWriter {
 
     protected void writeObjectSeparator() throws IOException {
         this.writer.write(',');
+    }
+
+    protected void writeJsonString(final String string) throws IOException {
+        final int length = string.length();
+        int start = 0;
+        for (int index = 0; index < length; index++) {
+            final char[] replacement = JsonWriter.getReplacementChars(string.charAt(index));
+            if (replacement != null) {
+                this.writer.write(string, start, index - start);
+                this.writer.write(replacement);
+                start = index + 1;
+            }
+        }
+        this.writer.write(string, start, length - start);
     }
 
 }
