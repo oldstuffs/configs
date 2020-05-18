@@ -27,21 +27,19 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.util.*;
-import io.github.portlek.configs.yaml.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class ConfigProceed implements Proceed<FlManaged> {
 
     @NotNull
     private final Config config;
-
-    public ConfigProceed(@NotNull final Config cnfg) {
-        this.config = cnfg;
-    }
 
     @Override
     public void load(@NotNull final FlManaged managed) {

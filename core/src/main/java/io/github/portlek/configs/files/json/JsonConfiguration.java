@@ -26,16 +26,16 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package io.github.portlek.configs.json;
+package io.github.portlek.configs.files.json;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.jsonparser.Json;
-import io.github.portlek.configs.jsonparser.JsonObject;
-import io.github.portlek.configs.jsonparser.WriterConfig;
+import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.util.JsonHelper;
 import io.github.portlek.configs.util.SerializationHelper;
-import io.github.portlek.configs.yaml.FileConfiguration;
+import io.github.portlek.configs.util.jsonparser.Json;
+import io.github.portlek.configs.util.jsonparser.JsonObject;
+import io.github.portlek.configs.util.jsonparser.WriterConfig;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

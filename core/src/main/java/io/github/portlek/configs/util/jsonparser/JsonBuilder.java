@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.jsonparser;
+package io.github.portlek.configs.util.jsonparser;
 
 import java.lang.reflect.Array;
 import java.util.Map;

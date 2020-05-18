@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2019 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,18 +22,26 @@
  * SOFTWARE.
  *
  */
-package io.github.portlek.configs.jsonparser;
 
-/**
- * Objects, which implement this interface, can be directly serialized as {@link JsonValue}.
- */
-public interface JsonSerializable {
+package io.github.portlek.configs.annotations;
 
-    /**
-     * Serializes the object into a {@link JsonValue}
-     *
-     * @return The object as json representation
-     */
-    JsonValue asJsonValue();
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.jetbrains.annotations.NotNull;
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Property {
+
+    @NotNull
+    String path() default "";
+
+    @NotNull
+    String regex() default "_";
+
+    @NotNull
+    String separator() default "-";
 
 }

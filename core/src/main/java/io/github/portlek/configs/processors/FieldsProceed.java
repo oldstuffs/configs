@@ -3,20 +3,18 @@ package io.github.portlek.configs.processors;
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Instance;
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.annotations.Property;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.stream.Stream;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class FieldsProceed implements Proceed<FlManaged> {
 
     @NotNull
     private final CfgSection parent;
-
-    public FieldsProceed(@NotNull final CfgSection cnfsctn) {
-        this.parent = cnfsctn;
-    }
 
     @Override
     public void load(@NotNull final FlManaged managed) {
@@ -26,8 +24,8 @@ public final class FieldsProceed implements Proceed<FlManaged> {
             Stream.of(
                 Optional.ofNullable(field.getDeclaredAnnotation(Instance.class))
                     .map(instance -> (Proceed<Field>) new InstanceProceed(managed, this.parent)),
-                Optional.ofNullable(field.getDeclaredAnnotation(Value.class))
-                    .map(value -> (Proceed<Field>) new ValueProceed(managed, this.parent, value))
+                Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
+                    .map(property -> (Proceed<Field>) new ValueProceed(managed, this.parent, property))
             )
                 .filter(Optional::isPresent)
                 .findFirst()

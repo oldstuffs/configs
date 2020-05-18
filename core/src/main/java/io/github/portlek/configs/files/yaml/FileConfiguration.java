@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.yaml;
+package io.github.portlek.configs.files.yaml;
 
 import io.github.portlek.configs.configuration.Configuration;
 import io.github.portlek.configs.configuration.InvalidConfigurationException;

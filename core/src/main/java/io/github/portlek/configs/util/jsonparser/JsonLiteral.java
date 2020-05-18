@@ -19,51 +19,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package io.github.portlek.configs.jsonparser;
+package io.github.portlek.configs.util.jsonparser;
 
 import java.io.IOException;
 
 @SuppressWarnings("serial")
     // use default serial UID
-class JsonNumber extends JsonValue {
+class JsonLiteral extends JsonValue {
 
-    private final String string;
+    private final String value;
 
-    JsonNumber(final String string) {
-        if (string == null) {
-            throw new NullPointerException("string is null");
-        }
-        this.string = string;
+    private final boolean isNull;
+
+    private final boolean isTrue;
+
+    private final boolean isFalse;
+
+    JsonLiteral(final String value) {
+        this.value = value;
+        this.isNull = "null".equals(value);
+        this.isTrue = "true".equals(value);
+        this.isFalse = "false".equals(value);
     }
 
     @Override
-    public boolean isNumber() {
-        return true;
+    public boolean isBoolean() {
+        return this.isTrue || this.isFalse;
     }
 
     @Override
-    public int asInt() {
-        return Integer.parseInt(this.string, 10);
+    public boolean isTrue() {
+        return this.isTrue;
     }
 
     @Override
-    public long asLong() {
-        return Long.parseLong(this.string, 10);
+    public boolean isFalse() {
+        return this.isFalse;
     }
 
     @Override
-    public float asFloat() {
-        return Float.parseFloat(this.string);
+    public boolean isNull() {
+        return this.isNull;
     }
 
     @Override
-    public double asDouble() {
-        return Double.parseDouble(this.string);
+    public boolean asBoolean() {
+        return this.isNull ? super.asBoolean() : this.isTrue;
     }
 
     @Override
     public int hashCode() {
-        return this.string.hashCode();
+        return this.value.hashCode();
     }
 
     @Override
@@ -77,18 +83,18 @@ class JsonNumber extends JsonValue {
         if (this.getClass() != object.getClass()) {
             return false;
         }
-        final JsonNumber other = (JsonNumber) object;
-        return this.string.equals(other.string);
+        final JsonLiteral other = (JsonLiteral) object;
+        return this.value.equals(other.value);
     }
 
     @Override
     public String toString() {
-        return this.string;
+        return this.value;
     }
 
     @Override
     void write(final JsonWriter writer) throws IOException {
-        writer.writeNumber(this.string);
+        writer.writeLiteral(this.value);
     }
 
 }

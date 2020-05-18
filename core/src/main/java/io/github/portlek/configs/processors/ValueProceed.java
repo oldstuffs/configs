@@ -27,14 +27,16 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
-import io.github.portlek.configs.annotations.Value;
+import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.util.PathCalc;
 import io.github.portlek.configs.util.Provided;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class ValueProceed implements Proceed<Field> {
 
     @NotNull
@@ -44,20 +46,14 @@ public final class ValueProceed implements Proceed<Field> {
     private final CfgSection parent;
 
     @NotNull
-    private final Value value;
-
-    public ValueProceed(@NotNull final FlManaged mngd, @NotNull final CfgSection cfgsctn, @NotNull final Value vlue) {
-        this.managed = mngd;
-        this.parent = cfgsctn;
-        this.value = vlue;
-    }
+    private final Property property;
 
     @Override
     public void load(@NotNull final Field field) {
         final String path = new PathCalc(
-            this.value.regex(),
-            this.value.separator(),
-            this.value.path(),
+            this.property.regex(),
+            this.property.separator(),
+            this.property.path(),
             field.getName()
         ).value();
         try {

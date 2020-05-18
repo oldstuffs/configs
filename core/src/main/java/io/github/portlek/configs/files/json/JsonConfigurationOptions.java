@@ -26,9 +26,9 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
-package io.github.portlek.configs.json;
+package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.yaml.FileConfigurationOptions;
+import io.github.portlek.configs.files.yaml.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
 /**

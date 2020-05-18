@@ -1,5 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2015 EclipseSource.
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -18,32 +20,25 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- ******************************************************************************/
-package io.github.portlek.configs.jsonparser;
-
-import java.io.Writer;
-
-/**
- * Controls the formatting of the JSON output. Use one of the available constants.
+ *
  */
-public abstract class WriterConfig {
 
-    /**
-     * Write JSON in its minimal form, without any additional whitespace. This is the default.
-     */
-    public static WriterConfig MINIMAL = new WriterConfig() {
-        @Override
-        JsonWriter createWriter(final Writer writer) {
-            return new JsonWriter(writer);
-        }
-    };
+package io.github.portlek.configs.obj;
 
-    /**
-     * Write JSON in pretty-print, with each value on a separate line and an indentation of two
-     * spaces.
-     */
-    public static WriterConfig PRETTY_PRINT = PrettyPrint.indentWithSpaces(2);
+import io.github.portlek.configs.annotations.Property;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
 
-    abstract JsonWriter createWriter(Writer writer);
+@RequiredArgsConstructor
+public final class ObjectThatHasProperties {
+
+    @Property
+    private final String name;
+
+    @Property
+    private final int age;
+
+    @Property
+    private final UUID uniqueId;
 
 }

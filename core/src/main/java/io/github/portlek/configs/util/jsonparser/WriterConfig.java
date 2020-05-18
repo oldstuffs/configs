@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013, 2015 EclipseSource.
+ * Copyright (c) 2015 EclipseSource.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -19,56 +19,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package io.github.portlek.configs.jsonparser;
+package io.github.portlek.configs.util.jsonparser;
 
-import java.io.IOException;
+import java.io.Writer;
 
-@SuppressWarnings("serial")
-    // use default serial UID
-class JsonString extends JsonValue {
+/**
+ * Controls the formatting of the JSON output. Use one of the available constants.
+ */
+public abstract class WriterConfig {
 
-    private final String string;
-
-    JsonString(final String string) {
-        if (string == null) {
-            throw new NullPointerException("string is null");
+    /**
+     * Write JSON in its minimal form, without any additional whitespace. This is the default.
+     */
+    public static WriterConfig MINIMAL = new WriterConfig() {
+        @Override
+        JsonWriter createWriter(final Writer writer) {
+            return new JsonWriter(writer);
         }
-        this.string = string;
-    }
+    };
 
-    @Override
-    public boolean isString() {
-        return true;
-    }
+    /**
+     * Write JSON in pretty-print, with each value on a separate line and an indentation of two
+     * spaces.
+     */
+    public static WriterConfig PRETTY_PRINT = PrettyPrint.indentWithSpaces(2);
 
-    @Override
-    public String asString() {
-        return this.string;
-    }
-
-    @Override
-    public int hashCode() {
-        return this.string.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object object) {
-        if (this == object) {
-            return true;
-        }
-        if (object == null) {
-            return false;
-        }
-        if (this.getClass() != object.getClass()) {
-            return false;
-        }
-        final JsonString other = (JsonString) object;
-        return this.string.equals(other.string);
-    }
-
-    @Override
-    void write(final JsonWriter writer) throws IOException {
-        writer.writeString(this.string);
-    }
+    abstract JsonWriter createWriter(Writer writer);
 
 }

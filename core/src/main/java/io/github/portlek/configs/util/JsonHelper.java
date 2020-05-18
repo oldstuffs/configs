@@ -26,10 +26,10 @@
 package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.jsonparser.Json;
-import io.github.portlek.configs.jsonparser.JsonArray;
-import io.github.portlek.configs.jsonparser.JsonObject;
-import io.github.portlek.configs.jsonparser.JsonValue;
+import io.github.portlek.configs.util.jsonparser.Json;
+import io.github.portlek.configs.util.jsonparser.JsonArray;
+import io.github.portlek.configs.util.jsonparser.JsonObject;
+import io.github.portlek.configs.util.jsonparser.JsonValue;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -92,15 +92,15 @@ public final class JsonHelper {
     public static Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
         final JsonValue value;
         if (object instanceof Boolean) {
-            value = Json.value((Boolean) object);
+            value = Json.value(object);
         } else if (object instanceof Integer) {
-            value = Json.value((Integer) object);
+            value = Json.value(object);
         } else if (object instanceof Long) {
-            value = Json.value((Long) object);
+            value = Json.value(object);
         } else if (object instanceof Float) {
-            value = Json.value((Float) object);
+            value = Json.value(object);
         } else if (object instanceof Double) {
-            value = Json.value((Double) object);
+            value = Json.value(object);
         } else if (object instanceof String) {
             value = Json.value((String) object);
         } else if (object instanceof Collection) {

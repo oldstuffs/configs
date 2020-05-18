@@ -28,8 +28,10 @@ package io.github.portlek.configs.processors;
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Section;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class SectionProceed implements Proceed<CfgSection> {
 
     @NotNull
@@ -40,13 +42,6 @@ public final class SectionProceed implements Proceed<CfgSection> {
 
     @NotNull
     private final Section section;
-
-    public SectionProceed(@NotNull final FlManaged managed, @NotNull final CfgSection parent,
-                          @NotNull final Section section) {
-        this.managed = managed;
-        this.parent = parent;
-        this.section = section;
-    }
 
     @Override
     public void load(@NotNull final CfgSection sctn) {

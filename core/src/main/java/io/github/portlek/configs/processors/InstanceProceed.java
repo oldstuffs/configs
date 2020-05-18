@@ -30,8 +30,10 @@ import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Section;
 import java.lang.reflect.Field;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class InstanceProceed implements Proceed<Field> {
 
     @NotNull
@@ -39,11 +41,6 @@ public final class InstanceProceed implements Proceed<Field> {
 
     @NotNull
     private final CfgSection parent;
-
-    public InstanceProceed(@NotNull final FlManaged managed, @NotNull final CfgSection cnfsctn) {
-        this.managed = managed;
-        this.parent = cnfsctn;
-    }
 
     @Override
     public void load(@NotNull final Field field) {

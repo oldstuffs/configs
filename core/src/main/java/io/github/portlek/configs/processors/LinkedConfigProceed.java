@@ -4,16 +4,14 @@ import io.github.portlek.configs.LnkdFlManaged;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.LinkedFile;
 import java.util.Arrays;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
 
     @NotNull
     private final LinkedConfig config;
-
-    public LinkedConfigProceed(@NotNull final LinkedConfig cnfg) {
-        this.config = cnfg;
-    }
 
     @Override
     public void load(@NotNull final LnkdFlManaged linked) {

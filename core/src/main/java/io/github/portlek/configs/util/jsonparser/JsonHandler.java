@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package io.github.portlek.configs.jsonparser;
+package io.github.portlek.configs.util.jsonparser;
 
 /**
  * A handler for parser events. Instances of this class can be given to a {@link JsonParser}. The
