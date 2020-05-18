@@ -6,7 +6,6 @@ import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import java.lang.reflect.Field;
 import java.util.Optional;
-import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,17 +20,15 @@ public final class FieldsProceed implements Proceed<FlManaged> {
         for (final Field field : this.parent.getClass().getDeclaredFields()) {
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);
-            Stream.of(
+            final Optional<InstanceProceed> instanceOptional =
                 Optional.ofNullable(field.getDeclaredAnnotation(Instance.class))
-                    .map(instance -> (Proceed<Field>) new InstanceProceed(managed, this.parent)),
-                Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
-                    .map(property -> (Proceed<Field>) new ValueProceed(managed, this.parent, property))
-            )
-                .filter(Optional::isPresent)
-                .findFirst()
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .ifPresent(fieldProceed -> fieldProceed.load(field));
+                    .map(instance -> new InstanceProceed(managed, this.parent));
+            final Optional<PropertyProceed> propertyOptional = Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
+                .map(property -> new PropertyProceed(managed, this.parent, property));
+            instanceOptional.ifPresent(fieldProceed ->
+                fieldProceed.load(field));
+            propertyOptional.ifPresent(propertyProceed ->
+                propertyProceed.load(field));
             field.setAccessible(accessible);
         }
     }

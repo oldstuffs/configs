@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2019 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,27 +23,25 @@
  *
  */
 
-package io.github.portlek.configs.obj;
+package io.github.portlek.configs.annotations;
 
-import io.github.portlek.configs.annotations.Property;
-import java.util.UUID;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.jetbrains.annotations.NotNull;
 
-@Data
-@NoArgsConstructor
-public final class ObjectThatHasProperties {
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Feature {
 
-    @Property
-    private UUID uniqueId;
+    @NotNull
+    String path() default "";
 
-    @Property
-    private String name;
+    @NotNull
+    String regex() default "_";
 
-    @Property
-    private int age;
-
-    @Property
-    private boolean live;
+    @NotNull
+    String separator() default "-";
 
 }
