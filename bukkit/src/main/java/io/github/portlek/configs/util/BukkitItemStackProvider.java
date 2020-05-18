@@ -5,7 +5,6 @@ import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.configs.CfgSection;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -15,21 +14,10 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
     private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
 
-    @NotNull
-    private static String putDot(@NotNull final String text) {
-        final String fnltext;
-        if (text.isEmpty() || text.charAt(text.length() - 1) == '.') {
-            fnltext = text;
-        } else {
-            fnltext = text + '.';
-        }
-        return fnltext;
-    }
-
     @Override
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
                     @NotNull final String path) {
-        final String fnlpath = BukkitItemStackProvider.putDot(path);
+        final String fnlpath = new PutDot(path).value();
         section.set(fnlpath + "material", itemStack.getType().name());
         section.set(fnlpath + "amount", itemStack.getAmount());
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
@@ -66,7 +54,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     @NotNull
     @Override
     public Optional<ItemStack> get(@NotNull final CfgSection section, @NotNull final String path) {
-        final String fnlpath = BukkitItemStackProvider.putDot(path);
+        final String fnlpath = new PutDot(path).value();
         final Optional<String> optional = section.getString(fnlpath + "material");
         if (!optional.isPresent()) {
             return Optional.empty();

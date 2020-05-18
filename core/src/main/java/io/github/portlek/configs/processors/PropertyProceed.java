@@ -85,8 +85,7 @@ public final class PropertyProceed implements Proceed<Field> {
         return this.managed.getCustomValue((Class<Object>) fieldvalue.getClass()).map(objectProvided ->
             objectProvided.getWithField(fieldvalue, this.parent, path)
         ).orElseGet(() ->
-            this.parent.get(path)
-        );
+            this.parent.get(path));
     }
 
     private void set(@NotNull final Object fieldValue, @NotNull final String path) {
