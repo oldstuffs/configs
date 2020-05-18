@@ -37,7 +37,7 @@ public class ConfigSection implements CfgSection {
     @Override
     public <X, Y> Feature<X, Y> feature(@NotNull final String path, @NotNull final Class<X> keyClass,
                                         @NotNull final Class<Y> valueClass) {
-        final Feature<X, Y> feature = new Feature<>(this.getManaged(), this, keyClass, valueClass);
+        final Feature<X, Y> feature = new Feature<>(this::getManaged, this, keyClass, valueClass);
         this.getManaged().addCustomValue(valueClass, new FeatureProvider<>(feature));
         return feature;
     }

@@ -30,6 +30,7 @@ import io.github.portlek.configs.FlManaged;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +40,7 @@ public final class Feature<X, Y> {
     private final Map<X, Y> cache = new ConcurrentHashMap<>();
 
     @NotNull
-    private final FlManaged managed;
+    private final Supplier<FlManaged> managedSupplier;
 
     @NotNull
     private final CfgSection parent;
@@ -58,10 +59,10 @@ public final class Feature<X, Y> {
             .map(Optional::get)
             .forEach(section -> {
                 final String key = section.getName();
-                this.managed.getCustomValue(this.valueClass)
+                this.managedSupplier.get().getCustomValue(this.valueClass)
                     .flatMap(yProvided -> yProvided.get(section, ""))
                     .ifPresent(y ->
-                        this.managed.convert(this.keyClass, key).ifPresent(converted ->
+                        this.managedSupplier.get().convert(this.keyClass, key).ifPresent(converted ->
                             this.cache.put(converted, y)));
             });
     }

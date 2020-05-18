@@ -42,18 +42,13 @@ public final class ReplaceableListProvider implements Provided<Replaceable<List<
     @NotNull
     @Override
     public Optional<Replaceable<List<String>>> getWithField(@NotNull final Replaceable<List<String>> replaceable,
-                                                            @NotNull final CfgSection section, @NotNull final String path) {
-
-        final List<String> listoptional = section.getStringList(path);
-        if (listoptional.isPresent()) {
-            return Optional.of(
-                Replaceable.from(listoptional.get())
-                    .replaces(replaceable.getRegex())
-                    .replace(replaceable.getReplaces())
-                    .map(replaceable.getMaps())
-            );
-        }
-        return Optional.empty();
+                                                            @NotNull final CfgSection section,
+                                                            @NotNull final String path) {
+        return section.getStringList(path)
+            .map(strings -> Replaceable.from(strings)
+                .replaces(replaceable.getRegex())
+                .replace(replaceable.getReplaces())
+                .map(replaceable.getMaps()));
     }
 
     @NotNull
