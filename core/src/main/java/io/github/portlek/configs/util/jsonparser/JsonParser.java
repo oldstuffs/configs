@@ -1,15 +1,15 @@
 /*******************************************************************************
  * Copyright (c) 2013, 2016 EclipseSource.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -124,12 +124,12 @@ public class JsonParser {
      * Reads the entire input from the given reader and parses it as JSON. The input must contain a
      * valid JSON value, optionally padded with whitespace.
      * <p>
-     * Characters are read in chunks into an input buffer of the given size. Hence, wrapping a reader
+     * Characters are read in chunks into an input buffer from the given size. Hence, wrapping a reader
      * in an additional <code>BufferedReader</code> likely won't improve reading performance.
      * </p>
      *
      * @param reader the reader to read the input from
-     * @param buffersize the size of the input buffer in chars
+     * @param buffersize the size from the input buffer in chars
      * @throws IOException if an I/O error occurs in the reader
      * @throws ParseException if the input is not valid JSON
      */
@@ -483,7 +483,7 @@ public class JsonParser {
 
     private ParseException expected(final String expected) {
         if (this.isEndOfText()) {
-            return this.error("Unexpected end of input");
+            return this.error("Unexpected end from input");
         }
         return this.error("Expected " + expected);
     }

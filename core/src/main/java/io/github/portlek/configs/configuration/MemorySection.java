@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * A type of {@link ConfigurationSection} that is stored in memory.
+ * A type from {@link ConfigurationSection} that is stored in memory.
  *
  * @author Carlos Lazaro Costa (removed Bukkit-dependent accessors)
  */
@@ -101,8 +101,8 @@ public class MemorySection implements ConfigurationSection {
      * only {@link MemorySection}.
      *
      * @param section Section to create a path for.
-     * @param key Name of the specified section.
-     * @return Full path of the section from its root.
+     * @param key Name from the specified section.
+     * @return Full path from the section from its root.
      */
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key) {
@@ -117,9 +117,9 @@ public class MemorySection implements ConfigurationSection {
      * only {@link MemorySection}.
      *
      * @param section Section to create a path for.
-     * @param key Name of the specified section.
+     * @param key Name from the specified section.
      * @param relativeTo Section to create the path relative to.
-     * @return Full path of the section from its root.
+     * @return Full path from the section from its root.
      */
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key, @Nullable final ConfigurationSection relativeTo) {
@@ -898,7 +898,7 @@ public class MemorySection implements ConfigurationSection {
             final MemorySection sec = (MemorySection) section;
 
             for (final Map.Entry<String, Object> entry : sec.map.entrySet()) {
-                // Because of the copyDefaults call potentially copying out of order, we must remove and then add in our saved order
+                // Because from the copyDefaults call potentially copying out from order, we must remove and then add in our saved order
                 // This means that default values we haven't set end up getting placed first
                 // See SPIGOT-4558 for an example using spigot.yml - watch subsections move around to default order
                 final String childPath = MemorySection.createPath(section, entry.getKey(), this);

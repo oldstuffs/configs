@@ -1,15 +1,15 @@
 /*******************************************************************************
  * Copyright (c) 2015, 2016 EclipseSource.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -42,7 +42,7 @@ import java.io.Reader;
  * String string = Json.object().add("foo", 23).add("bar", true).toString();
  * </pre>
  * <p>
- * To create a JSON array from a given Java array, you can use one of the <code>array()</code>
+ * To create a JSON array from a given Java array, you can use one from the <code>array()</code>
  * methods with varargs parameters:
  * </p>
  * <pre>
@@ -170,7 +170,7 @@ public final class Json {
     }
 
     /**
-     * Creates a new JsonArray that contains the JSON representations of the given <code>int</code>
+     * Creates a new JsonArray that contains the JSON representations from the given <code>int</code>
      * values.
      *
      * @param values the values to be included in the new JSON array
@@ -188,7 +188,7 @@ public final class Json {
     }
 
     /**
-     * Creates a new JsonArray that contains the JSON representations of the given <code>long</code>
+     * Creates a new JsonArray that contains the JSON representations from the given <code>long</code>
      * values.
      *
      * @param values the values to be included in the new JSON array
@@ -206,7 +206,7 @@ public final class Json {
     }
 
     /**
-     * Creates a new JsonArray that contains the JSON representations of the given <code>float</code>
+     * Creates a new JsonArray that contains the JSON representations from the given <code>float</code>
      * values.
      *
      * @param values the values to be included in the new JSON array
@@ -224,7 +224,7 @@ public final class Json {
     }
 
     /**
-     * Creates a new JsonArray that contains the JSON representations of the given <code>double</code>
+     * Creates a new JsonArray that contains the JSON representations from the given <code>double</code>
      * values.
      *
      * @param values the values to be included in the new JSON array
@@ -242,7 +242,7 @@ public final class Json {
     }
 
     /**
-     * Creates a new JsonArray that contains the JSON representations of the given
+     * Creates a new JsonArray that contains the JSON representations from the given
      * <code>boolean</code> values.
      *
      * @param values the values to be included in the new JSON array
@@ -260,7 +260,7 @@ public final class Json {
     }
 
     /**
-     * Creates a new JsonArray that contains the JSON representations of the given strings.
+     * Creates a new JsonArray that contains the JSON representations from the given strings.
      *
      * @param strings the strings to be included in the new JSON array
      * @return a new JSON array that contains the given strings

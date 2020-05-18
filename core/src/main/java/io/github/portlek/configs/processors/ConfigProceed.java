@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
@@ -50,7 +51,7 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         } else {
             name = this.config.name() + type.suffix;
         }
-        final Version version = Version.of(this.config.version());
+        final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
         final Optional<File> optional = new Basedir(managed.getClass()).value();
         if (!optional.isPresent()) {
@@ -88,7 +89,7 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         managed.setup(file, configuration);
         final Optional<String> versionoptional = managed.getString(versionpath);
         if (versionoptional.isPresent()) {
-            final Version fileversion = Version.of(versionoptional.get());
+            final Version fileversion = Version.from(versionoptional.get());
             if (!version.is(fileversion)) {
                 // TODO: 29/01/2020
             }

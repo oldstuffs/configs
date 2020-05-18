@@ -1,15 +1,15 @@
 /*******************************************************************************
  * Copyright (c) 2013, 2017 EclipseSource.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,7 +25,7 @@ import java.io.*;
 
 /**
  * Represents a JSON value. This can be a JSON <strong>object</strong>, an <strong> array</strong>,
- * a <strong>number</strong>, a <strong>string</strong>, or one of the literals
+ * a <strong>number</strong>, a <strong>string</strong>, or one from the literals
  * <strong>true</strong>, <strong>false</strong>, and <strong>null</strong>.
  * <p>
  * The literals <strong>true</strong>, <strong>false</strong>, and <strong>null</strong> are
@@ -33,8 +33,8 @@ import java.io.*;
  * </p>
  * <p>
  * JSON <strong>objects</strong> and <strong>arrays</strong> are represented by the subtypes
- * {@link JsonObject} and {@link JsonArray}. Instances of these types can be created using the
- * public constructors of these classes.
+ * {@link JsonObject} and {@link JsonArray}. Instances from these types can be created using the
+ * public constructors from these classes.
  * </p>
  * <p>
  * Instances that represent JSON <strong>numbers</strong>, <strong>strings</strong> and
@@ -42,12 +42,12 @@ import java.io.*;
  * {@link Json#value(String)}, {@link Json#value(long)}, {@link Json#value(double)}, etc.
  * </p>
  * <p>
- * In order to find out whether an instance of this class is of a certain type, the methods
+ * In order to find out whether an instance from this class is from a certain type, the methods
  * {@link #isObject()}, {@link #isArray()}, {@link #isString()}, {@link #isNumber()} etc. can be
  * used.
  * </p>
  * <p>
- * If the type of a JSON value is known, the methods {@link #asObject()}, {@link #asArray()},
+ * If the type from a JSON value is known, the methods {@link #asObject()}, {@link #asArray()},
  * {@link #asString()}, {@link #asInt()}, etc. can be used to get this value directly in the
  * appropriate target type.
  * </p>
@@ -69,7 +69,7 @@ public abstract class JsonValue implements Serializable {
     public static final String NOT_A_BOOLEAN = "Not a boolean: ";
 
     JsonValue() {
-        // prevent subclasses outside of this package
+        // prevent subclasses outside from this package
     }
 
     /**
@@ -178,9 +178,9 @@ public abstract class JsonValue implements Serializable {
 
     /**
      * Detects whether this value represents a JSON object. If this is the case, this value is an
-     * instance of {@link JsonObject}.
+     * instance from {@link JsonObject}.
      *
-     * @return <code>true</code> if this value is an instance of JsonObject
+     * @return <code>true</code> if this value is an instance from JsonObject
      */
     public boolean isObject() {
         return false;
@@ -188,9 +188,9 @@ public abstract class JsonValue implements Serializable {
 
     /**
      * Detects whether this value represents a JSON array. If this is the case, this value is an
-     * instance of {@link JsonArray}.
+     * instance from {@link JsonArray}.
      *
-     * @return <code>true</code> if this value is an instance of JsonArray
+     * @return <code>true</code> if this value is an instance from JsonArray
      */
     public boolean isArray() {
         return false;
@@ -311,7 +311,7 @@ public abstract class JsonValue implements Serializable {
      * Returns this JSON value as a <code>float</code> value, assuming that this value represents a
      * JSON number. If this is not the case, an exception is thrown.
      * <p>
-     * If the JSON number is out of the <code>Float</code> range, {@link Float#POSITIVE_INFINITY} or
+     * If the JSON number is out from the <code>Float</code> range, {@link Float#POSITIVE_INFINITY} or
      * {@link Float#NEGATIVE_INFINITY} is returned.
      * </p>
      *
@@ -326,7 +326,7 @@ public abstract class JsonValue implements Serializable {
      * Returns this JSON value as a <code>double</code> value, assuming that this value represents a
      * JSON number. If this is not the case, an exception is thrown.
      * <p>
-     * If the JSON number is out of the <code>Double</code> range, {@link Double#POSITIVE_INFINITY} or
+     * If the JSON number is out from the <code>Double</code> range, {@link Double#POSITIVE_INFINITY} or
      * {@link Double#NEGATIVE_INFINITY} is returned.
      * </p>
      *
@@ -360,7 +360,7 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Writes the JSON representation of this value to the given writer in its minimal form, without
+     * Writes the JSON representation from this value to the given writer in its minimal form, without
      * any additional whitespace.
      * <p>
      * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
@@ -374,7 +374,7 @@ public abstract class JsonValue implements Serializable {
     }
 
     /**
-     * Writes the JSON representation of this value to the given writer using the given formatting.
+     * Writes the JSON representation from this value to the given writer using the given formatting.
      * <p>
      * Writing performance can be improved by using a {@link BufferedWriter BufferedWriter}.
      * </p>
@@ -422,7 +422,7 @@ public abstract class JsonValue implements Serializable {
      * in {@link Object#equals(Object)}.
      * <p>
      * Two JsonValues are considered equal if and only if they represent the same JSON text. As a
-     * consequence, two given JsonObjects may be different even though they contain the same set of
+     * consequence, two given JsonObjects may be different even though they contain the same set from
      * names with the same values, but in a different order.
      * </p>
      *

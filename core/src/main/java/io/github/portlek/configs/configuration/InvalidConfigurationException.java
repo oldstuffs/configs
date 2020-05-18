@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -32,31 +32,31 @@ package io.github.portlek.configs.configuration;
 public class InvalidConfigurationException extends Exception {
 
     /**
-     * Constructs an instance of InvalidConfigurationException with the
+     * Constructs an instance from InvalidConfigurationException with the
      * specified message.
      *
-     * @param msg The details of the exception.
+     * @param msg The details from the exception.
      */
     public InvalidConfigurationException(final String msg) {
         super(msg);
     }
 
     /**
-     * Constructs an instance of InvalidConfigurationException with the
+     * Constructs an instance from InvalidConfigurationException with the
      * specified cause.
      *
-     * @param cause The cause of the exception.
+     * @param cause The cause from the exception.
      */
     public InvalidConfigurationException(final Throwable cause) {
         super(cause);
     }
 
     /**
-     * Constructs an instance of InvalidConfigurationException with the
+     * Constructs an instance from InvalidConfigurationException with the
      * specified message and cause.
      *
-     * @param cause The cause of the exception.
-     * @param msg The details of the exception.
+     * @param cause The cause from the exception.
+     * @param msg The details from the exception.
      */
     public InvalidConfigurationException(final String msg, final Throwable cause) {
         super(msg, cause);

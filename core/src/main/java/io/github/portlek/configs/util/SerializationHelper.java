@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -32,20 +32,19 @@ import io.github.portlek.configs.files.yaml.YAMLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Jeremy Wood
  * @version 6/14/2017
  */
-public final class SerializationHelper {
+@UtilityClass
+public class SerializationHelper {
 
-    private static final Logger LOG = Logger.getLogger(SerializationHelper.class.getName());
+    private final Logger LOG = Logger.getLogger(SerializationHelper.class.getName());
 
-    private SerializationHelper() {
-    }
-
-    public static Object serialize(@NotNull final Object value) {
+    public Object serialize(@NotNull final Object value) {
         Object value1 = value;
         if (value1 instanceof Object[]) {
             value1 = new ArrayList<>(Arrays.asList((Object[]) value1));
@@ -70,7 +69,7 @@ public final class SerializationHelper {
         }
     }
 
-    public static Object deserialize(@NotNull final Map<?, ?> input) {
+    public Object deserialize(@NotNull final Map<?, ?> input) {
         final Map<String, Object> output = new LinkedHashMap<>(input.size());
         for (final Map.Entry<?, ?> e : input.entrySet()) {
             if (e.getValue() instanceof Map) {
@@ -106,7 +105,7 @@ public final class SerializationHelper {
      * for Everything else: stores it as is in the returned Map.
      */
     @NotNull
-    private static Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
+    private Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
         final Map<String, Object> result = new LinkedHashMap<>(map.size());
         try {
             for (final Map.Entry<?, ?> entry : map.entrySet()) {
@@ -132,7 +131,7 @@ public final class SerializationHelper {
      * and calls {@link #buildMap(Map)} on the new Map before adding to the returned list.
      * for Everything else: stores it as is in the returned List.
      */
-    private static List<Object> buildList(@NotNull final Collection<?> collection) {
+    private List<Object> buildList(@NotNull final Collection<?> collection) {
         final List<Object> result = new ArrayList<>(collection.size());
         try {
             for (final Object o : collection) {
@@ -150,7 +149,7 @@ public final class SerializationHelper {
      * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
      * lists and maps within lists.
      */
-    private static Object deserialize(@NotNull final Collection<?> input) {
+    private Object deserialize(@NotNull final Collection<?> input) {
         final Collection<Object> output = new ArrayList<>(input.size());
         for (final Object o : input) {
             if (o instanceof Map) {

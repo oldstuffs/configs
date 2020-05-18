@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -34,7 +34,7 @@ import java.nio.charset.StandardCharsets;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This is a base class for all File based implementations of {@link Configuration}
+ * This is a base class for all File based implementations from {@link Configuration}
  */
 public abstract class FileConfiguration extends MemoryConfiguration {
 
@@ -172,7 +172,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * <p>
      * If the string is invalid in any way, an exception will be thrown.
      *
-     * @param contents Contents of a Configuration to load.
+     * @param contents Contents from a Configuration to load.
      * @throws InvalidConfigurationException Thrown if the specified string is
      * invalid.
      * @throws IllegalArgumentException Thrown if contents is null.
@@ -194,7 +194,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * result.
      * <p>
      * This will use the header from {@link #options()} -&gt; {@link
-     * FileConfigurationOptions#header()}, respecting the rules of {@link
+     * FileConfigurationOptions#header()}, respecting the rules from {@link
      * FileConfigurationOptions#copyHeader()} if set.
      *
      * @return Compiled header

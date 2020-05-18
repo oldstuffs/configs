@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a section of a {@link Configuration}
+ * Represents a section from a {@link Configuration}
  */
 public interface ConfigurationSection {
 
@@ -44,12 +44,12 @@ public interface ConfigurationSection {
      * child {@link ConfigurationSection}s (and their children, etc). These
      * will be in a valid path notation for you to use.
      * <p>
-     * If deep is set to false, then this will contain only the keys of any
+     * If deep is set to false, then this will contain only the keys from any
      * direct children, and not their own children.
      *
      * @param deep Whether or not to get a deep list, as opposed to a shallow
      * list.
-     * @return Set of keys contained within this ConfigurationSection.
+     * @return Set from keys contained within this ConfigurationSection.
      */
     @NotNull Set<String> getKeys(boolean deep);
 
@@ -61,11 +61,11 @@ public interface ConfigurationSection {
      * etc). These keys will be in a valid path notation for you to use.
      * <p>
      * If deep is set to false, then this will contain only the keys and
-     * values of any direct children, and not their own children.
+     * values from any direct children, and not their own children.
      *
      * @param deep Whether or not to get a deep list, as opposed to a shallow
      * list.
-     * @return Map of keys and values of this section.
+     * @return Map from keys and values from this section.
      */
     @NotNull Map<String, Object> getValues(boolean deep);
 
@@ -86,10 +86,10 @@ public interface ConfigurationSection {
      * Checks if this {@link ConfigurationSection} contains the given path.
      * <p>
      * If the value for the requested path does not exist, the boolean parameter
-     * of true has been specified, a default value for the path exists, this
+     * from true has been specified, a default value for the path exists, this
      * will return true.
      * <p>
-     * If a boolean parameter of false has been specified, true will only be
+     * If a boolean parameter from false has been specified, true will only be
      * returned if there is a set value for the specified path.
      *
      * @param path Path to check for existence.
@@ -109,14 +109,14 @@ public interface ConfigurationSection {
      * has been specified, this will still return false.
      *
      * @param path Path to check for existence.
-     * @return True if this section contains the requested path, regardless of
+     * @return True if this section contains the requested path, regardless from
      * having a default.
      * @throws IllegalArgumentException Thrown when path is null.
      */
     boolean isSet(@NotNull String path);
 
     /**
-     * Gets the path of this {@link ConfigurationSection} from its root {@link
+     * Gets the path from this {@link ConfigurationSection} from its root {@link
      * Configuration}
      * <p>
      * For any {@link Configuration} themselves, this will return an empty
@@ -125,21 +125,21 @@ public interface ConfigurationSection {
      * If the section is no longer contained within its root for any reason,
      * such as being replaced with a different value, this may return null.
      * <p>
-     * To retrieve the single name of this section, that is, the final part of
+     * To retrieve the single name from this section, that is, the final part from
      * the path returned by this method, you may use {@link #getName()}.
      *
-     * @return Path of this section relative to its root
+     * @return Path from this section relative to its root
      */
     @Nullable String getCurrentPath();
 
     /**
-     * Gets the name of this individual {@link ConfigurationSection}, in the
+     * Gets the name from this individual {@link ConfigurationSection}, in the
      * path.
      * <p>
-     * This will always be the final part of {@link #getCurrentPath()}, unless
+     * This will always be the final part from {@link #getCurrentPath()}, unless
      * the section is orphaned.
      *
-     * @return Name of this section
+     * @return Name from this section
      */
     @NotNull String getName();
 
@@ -177,7 +177,7 @@ public interface ConfigurationSection {
      * this will return the default value. If the Object does not exist and no
      * default value was specified, this will return null.
      *
-     * @param path Path of the Object to get.
+     * @param path Path from the Object to get.
      * @return Requested Object.
      */
     @Nullable Object get(@NotNull String path);
@@ -187,10 +187,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the Object does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the Object to get.
+     * @param path Path from the Object to get.
      * @param def The default value to return if the path is not found.
      * @return Requested Object.
      */
@@ -200,14 +200,14 @@ public interface ConfigurationSection {
      * Sets the specified path to the given value.
      * <p>
      * If value is null, the entry will be removed. Any existing entry will be
-     * replaced, regardless of what the new value is.
+     * replaced, regardless from what the new value is.
      * <p>
      * Some implementations may have limitations on what you may store. See
      * their individual javadocs for details. No implementations should allow
      * you to store {@link Configuration}s or {@link ConfigurationSection}s,
      * please use {@link #createSection(String)} for that.
      *
-     * @param path Path of the object to set.
+     * @param path Path from the object to set.
      * @param value New value to set the path to.
      */
     void set(@NotNull String path, @Nullable Object value);
@@ -247,7 +247,7 @@ public interface ConfigurationSection {
      * this will return the default value. If the String does not exist and no
      * default value was specified, this will return null.
      *
-     * @param path Path of the String to get.
+     * @param path Path from the String to get.
      * @return Requested String.
      */
     @Nullable String getString(@NotNull String path);
@@ -257,10 +257,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the String does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the String to get.
+     * @param path Path from the String to get.
      * @param def The default value to return if the path is not found or is
      * not a String.
      * @return Requested String.
@@ -275,7 +275,7 @@ public interface ConfigurationSection {
      * but a default value has been specified, this will check if that default
      * value is a String and return appropriately.
      *
-     * @param path Path of the String to check.
+     * @param path Path from the String to check.
      * @return Whether or not the specified path is a String.
      */
     boolean isString(@NotNull String path);
@@ -287,7 +287,7 @@ public interface ConfigurationSection {
      * will return the default value. If the int does not exist and no default
      * value was specified, this will return 0.
      *
-     * @param path Path of the int to get.
+     * @param path Path from the int to get.
      * @return Requested int.
      */
     int getInt(@NotNull String path);
@@ -296,10 +296,10 @@ public interface ConfigurationSection {
      * Gets the requested int by path, returning a default value if not found.
      * <p>
      * If the int does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the int to get.
+     * @param path Path from the int to get.
      * @param def The default value to return if the path is not found or is
      * not an int.
      * @return Requested int.
@@ -314,7 +314,7 @@ public interface ConfigurationSection {
      * but a default value has been specified, this will check if that default
      * value is a int and return appropriately.
      *
-     * @param path Path of the int to check.
+     * @param path Path from the int to check.
      * @return Whether or not the specified path is an int.
      */
     boolean isInt(@NotNull String path);
@@ -326,7 +326,7 @@ public interface ConfigurationSection {
      * this will return the default value. If the boolean does not exist and
      * no default value was specified, this will return false.
      *
-     * @param path Path of the boolean to get.
+     * @param path Path from the boolean to get.
      * @return Requested boolean.
      */
     boolean getBoolean(@NotNull String path);
@@ -336,10 +336,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the boolean does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the boolean to get.
+     * @param path Path from the boolean to get.
      * @param def The default value to return if the path is not found or is
      * not a boolean.
      * @return Requested boolean.
@@ -354,7 +354,7 @@ public interface ConfigurationSection {
      * but a default value has been specified, this will check if that default
      * value is a boolean and return appropriately.
      *
-     * @param path Path of the boolean to check.
+     * @param path Path from the boolean to check.
      * @return Whether or not the specified path is a boolean.
      */
     boolean isBoolean(@NotNull String path);
@@ -366,7 +366,7 @@ public interface ConfigurationSection {
      * this will return the default value. If the float does not exist and no
      * default value was specified, this will return 0.0f.
      *
-     * @param path Path of the float to get.
+     * @param path Path from the float to get.
      * @return Requested float.
      */
     float getFloat(@NotNull String path);
@@ -376,10 +376,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the float does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the float to get.
+     * @param path Path from the float to get.
      * @param def The default value to return if the path is not found or is
      * not a float.
      * @return Requested float.
@@ -393,7 +393,7 @@ public interface ConfigurationSection {
      * this will return the default value. If the double does not exist and no
      * default value was specified, this will return 0.
      *
-     * @param path Path of the double to get.
+     * @param path Path from the double to get.
      * @return Requested double.
      */
     double getDouble(@NotNull String path);
@@ -403,10 +403,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the double does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the double to get.
+     * @param path Path from the double to get.
      * @param def The default value to return if the path is not found or is
      * not a double.
      * @return Requested double.
@@ -421,7 +421,7 @@ public interface ConfigurationSection {
      * but a default value has been specified, this will check if that default
      * value is a double and return appropriately.
      *
-     * @param path Path of the double to check.
+     * @param path Path from the double to check.
      * @return Whether or not the specified path is a double.
      */
     boolean isDouble(@NotNull String path);
@@ -433,7 +433,7 @@ public interface ConfigurationSection {
      * will return the default value. If the long does not exist and no
      * default value was specified, this will return 0.
      *
-     * @param path Path of the long to get.
+     * @param path Path from the long to get.
      * @return Requested long.
      */
     long getLong(@NotNull String path);
@@ -443,10 +443,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the long does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the long to get.
+     * @param path Path from the long to get.
      * @param def The default value to return if the path is not found or is
      * not a long.
      * @return Requested long.
@@ -461,7 +461,7 @@ public interface ConfigurationSection {
      * but a default value has been specified, this will check if that default
      * value is a long and return appropriately.
      *
-     * @param path Path of the long to check.
+     * @param path Path from the long to check.
      * @return Whether or not the specified path is a long.
      */
     boolean isLong(@NotNull String path);
@@ -475,7 +475,7 @@ public interface ConfigurationSection {
      * will return the default value. If the List does not exist and no
      * default value was specified, this will return null.
      *
-     * @param path Path of the List to get.
+     * @param path Path from the List to get.
      * @return Requested List.
      */
     @Nullable List<?> getList(@NotNull String path);
@@ -485,10 +485,10 @@ public interface ConfigurationSection {
      * found.
      * <p>
      * If the List does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param path Path of the List to get.
+     * @param path Path from the List to get.
      * @param def The default value to return if the path is not found or is
      * not a List.
      * @return Requested List.
@@ -503,13 +503,13 @@ public interface ConfigurationSection {
      * but a default value has been specified, this will check if that default
      * value is a List and return appropriately.
      *
-     * @param path Path of the List to check.
+     * @param path Path from the List to check.
      * @return Whether or not the specified path is a List.
      */
     boolean isList(@NotNull String path);
 
     /**
-     * Gets the requested List of String by path.
+     * Gets the requested List from String by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -518,13 +518,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a String if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of String.
+     * @param path Path from the List to get.
+     * @return Requested List from String.
      */
     @NotNull List<String> getStringList(@NotNull String path);
 
     /**
-     * Gets the requested List of Integer by path.
+     * Gets the requested List from Integer by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -533,13 +533,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Integer if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Integer.
+     * @param path Path from the List to get.
+     * @return Requested List from Integer.
      */
     @NotNull List<Integer> getIntegerList(@NotNull String path);
 
     /**
-     * Gets the requested List of Boolean by path.
+     * Gets the requested List from Boolean by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -548,13 +548,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Boolean if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Boolean.
+     * @param path Path from the List to get.
+     * @return Requested List from Boolean.
      */
     @NotNull List<Boolean> getBooleanList(@NotNull String path);
 
     /**
-     * Gets the requested List of Double by path.
+     * Gets the requested List from Double by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -563,13 +563,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Double if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Double.
+     * @param path Path from the List to get.
+     * @return Requested List from Double.
      */
     @NotNull List<Double> getDoubleList(@NotNull String path);
 
     /**
-     * Gets the requested List of Float by path.
+     * Gets the requested List from Float by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -578,13 +578,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Float if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Float.
+     * @param path Path from the List to get.
+     * @return Requested List from Float.
      */
     @NotNull List<Float> getFloatList(@NotNull String path);
 
     /**
-     * Gets the requested List of Long by path.
+     * Gets the requested List from Long by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -593,13 +593,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Long if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Long.
+     * @param path Path from the List to get.
+     * @return Requested List from Long.
      */
     @NotNull List<Long> getLongList(@NotNull String path);
 
     /**
-     * Gets the requested List of Byte by path.
+     * Gets the requested List from Byte by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -608,13 +608,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Byte if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Byte.
+     * @param path Path from the List to get.
+     * @return Requested List from Byte.
      */
     @NotNull List<Byte> getByteList(@NotNull String path);
 
     /**
-     * Gets the requested List of Character by path.
+     * Gets the requested List from Character by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -623,13 +623,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Character if
      * possible, but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Character.
+     * @param path Path from the List to get.
+     * @return Requested List from Character.
      */
     @NotNull List<Character> getCharacterList(@NotNull String path);
 
     /**
-     * Gets the requested List of Short by path.
+     * Gets the requested List from Short by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -638,13 +638,13 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Short if possible,
      * but may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Short.
+     * @param path Path from the List to get.
+     * @return Requested List from Short.
      */
     @NotNull List<Short> getShortList(@NotNull String path);
 
     /**
-     * Gets the requested List of Maps by path.
+     * Gets the requested List from Maps by path.
      * <p>
      * If the List does not exist but a default value has been specified, this
      * will return the default value. If the List does not exist and no
@@ -653,8 +653,8 @@ public interface ConfigurationSection {
      * This method will attempt to cast any values into a Map if possible, but
      * may miss any values out if they are not compatible.
      *
-     * @param path Path of the List to get.
-     * @return Requested List of Maps.
+     * @param path Path from the List to get.
+     * @return Requested List from Maps.
      */
     @NotNull List<Map<?, ?>> getMapList(@NotNull String path);
 
@@ -673,9 +673,9 @@ public interface ConfigurationSection {
      * Objects to Strings. However, #getObject(path, Boolean.class) is
      * equivalent to {@link #getBoolean(String) #getBoolean(path)} for example.
      *
-     * @param <T> the type of the requested object
+     * @param <T> the type from the requested object
      * @param path the path to the object.
-     * @param clazz the type of the requested object
+     * @param clazz the type from the requested object
      * @return Requested object
      */
     @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz);
@@ -685,7 +685,7 @@ public interface ConfigurationSection {
      * not found
      * <p>
      * If the Object does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
      * <b>Note:</b> For example #getObject(path, String.class, def) is
@@ -696,9 +696,9 @@ public interface ConfigurationSection {
      * Boolean.class, def) is equivalent to {@link #getBoolean(String, boolean) #getBoolean(path,
      * def)} for example.
      *
-     * @param <T> the type of the requested object
+     * @param <T> the type from the requested object
      * @param path the path to the object.
-     * @param clazz the type of the requested object
+     * @param clazz the type from the requested object
      * @param def the default object to return if the object is not present at
      * the path
      * @return Requested object
@@ -713,9 +713,9 @@ public interface ConfigurationSection {
      * will return the default value. If the Object does not exist and no
      * default value was specified, this will return null.
      *
-     * @param <T> the type of {@link ConfigurationSerializable}
+     * @param <T> the type from {@link ConfigurationSerializable}
      * @param path the path to the object.
-     * @param clazz the type of {@link ConfigurationSerializable}
+     * @param clazz the type from {@link ConfigurationSerializable}
      * @return Requested {@link ConfigurationSerializable} object
      */
     @Nullable <T extends ConfigurationSerializable> T getSerializable(@NotNull String path, @NotNull Class<T> clazz);
@@ -725,12 +725,12 @@ public interface ConfigurationSection {
      * path, returning a default value if not found
      * <p>
      * If the Object does not exist then the specified default value will
-     * returned regardless of if a default has been identified in the root
+     * returned regardless from if a default has been identified in the root
      * {@link Configuration}.
      *
-     * @param <T> the type of {@link ConfigurationSerializable}
+     * @param <T> the type from {@link ConfigurationSerializable}
      * @param path the path to the object.
-     * @param clazz the type of {@link ConfigurationSerializable}
+     * @param clazz the type from {@link ConfigurationSerializable}
      * @param def the default object to return if the object is not present at
      * the path
      * @return Requested {@link ConfigurationSerializable} object
@@ -745,7 +745,7 @@ public interface ConfigurationSection {
      * ConfigurationSection does not exist and no default value was specified,
      * this will return null.
      *
-     * @param path Path of the ConfigurationSection to get.
+     * @param path Path from the ConfigurationSection to get.
      * @return Requested ConfigurationSection.
      */
     @Nullable ConfigurationSection getConfigurationSection(@NotNull String path);
@@ -759,7 +759,7 @@ public interface ConfigurationSection {
      * if that default value is a ConfigurationSection and return
      * appropriately.
      *
-     * @param path Path of the ConfigurationSection to check.
+     * @param path Path from the ConfigurationSection to check.
      * @return Whether or not the specified path is a ConfigurationSection.
      */
     boolean isConfigurationSection(@NotNull String path);
@@ -790,7 +790,7 @@ public interface ConfigurationSection {
      * this will create a new section at the path, replacing anything that may
      * have existed there previously.
      *
-     * @param path Path of the value to set.
+     * @param path Path from the value to set.
      * @param value Value to set the default to.
      * @throws IllegalArgumentException Thrown if path is null.
      */

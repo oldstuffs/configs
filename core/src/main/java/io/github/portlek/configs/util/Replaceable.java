@@ -7,12 +7,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class Replaceable<X> {
-
-    @NotNull
-    private final X value;
 
     @NotNull
     private final List<String> regex = new ArrayList<>();
@@ -23,22 +23,21 @@ public final class Replaceable<X> {
     @NotNull
     private final List<UnaryOperator<X>> maps = new ArrayList<>();
 
-    private Replaceable(@NotNull final X value) {
-        this.value = value;
+    @NotNull
+    private final X value;
+
+    @NotNull
+    public static Replaceable<List<String>> from(@NotNull final String... texts) {
+        return Replaceable.from(Arrays.asList(texts));
     }
 
     @NotNull
-    public static Replaceable<List<String>> of(@NotNull final String... texts) {
-        return Replaceable.of(Arrays.asList(texts));
-    }
-
-    @NotNull
-    public static Replaceable<List<String>> of(@NotNull final List<String> list) {
+    public static Replaceable<List<String>> from(@NotNull final List<String> list) {
         return new Replaceable<>(list);
     }
 
     @NotNull
-    public static Replaceable<String> of(@NotNull final String text) {
+    public static Replaceable<String> from(@NotNull final String text) {
         return new Replaceable<>(text);
     }
 
@@ -169,7 +168,9 @@ public final class Replaceable<X> {
         if (this.value instanceof String) {
             finalValue.set((X) ((String) finalValue.get()).replace(regex, replace));
         } else if (this.value instanceof List<?>) {
-            finalValue.set((X) new ListReplace((List<String>) finalValue.get()).apply(regex, replace));
+            finalValue.set((X) ((List<String>) finalValue.get()).stream()
+                .map(s -> s.replace(regex, replace))
+                .collect(Collectors.toList()));
         }
     }
 
@@ -190,7 +191,7 @@ public final class Replaceable<X> {
                 final Replaceable<String> genericreplaceable = (Replaceable<String>) replaceable;
                 if (optionalstring.isPresent()) {
                     return Optional.of(
-                        Replaceable.of(optionalstring.get())
+                        Replaceable.from(optionalstring.get())
                             .replaces(genericreplaceable.getRegex())
                             .replace(genericreplaceable.getReplaces())
                             .map(genericreplaceable.getMaps())
@@ -201,7 +202,7 @@ public final class Replaceable<X> {
                 if (listoptional.isPresent()) {
                     final Replaceable<List<String>> genericreplaceable = (Replaceable<List<String>>) replaceable;
                     return Optional.of(
-                        Replaceable.of((List<String>) listoptional.get())
+                        Replaceable.from((List<String>) listoptional.get())
                             .replaces(genericreplaceable.getRegex())
                             .replace(genericreplaceable.getReplaces())
                             .map(genericreplaceable.getMaps())

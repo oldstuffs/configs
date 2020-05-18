@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -31,7 +31,7 @@ import io.github.portlek.configs.configuration.MemoryConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Various settings for controlling the input and output of a {@link
+ * Various settings for controlling the input and output from a {@link
  * FileConfiguration}
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
@@ -66,11 +66,11 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
 
     /**
-     * Gets the header that will be applied to the top of the saved output.
+     * Gets the header that will be applied to the top from the saved output.
      * <p>
-     * This header will be commented out and applied directly at the top of
-     * the generated output of the {@link FileConfiguration}. It is not
-     * required to include a newline at the end of the header as it will
+     * This header will be commented out and applied directly at the top from
+     * the generated output from the {@link FileConfiguration}. It is not
+     * required to include a newline at the end from the header as it will
      * automatically be applied, but you may include one if you wish for extra
      * spacing.
      * <p>
@@ -85,11 +85,11 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     }
 
     /**
-     * Sets the header that will be applied to the top of the saved output.
+     * Sets the header that will be applied to the top from the saved output.
      * <p>
-     * This header will be commented out and applied directly at the top of
-     * the generated output of the {@link FileConfiguration}. It is not
-     * required to include a newline at the end of the header as it will
+     * This header will be commented out and applied directly at the top from
+     * the generated output from the {@link FileConfiguration}. It is not
+     * required to include a newline at the end from the header as it will
      * automatically be applied, but you may include one if you wish for extra
      * spacing.
      * <p>
@@ -111,10 +111,10 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * If this is true, if a default {@link FileConfiguration} is passed to
      * {@link
      * FileConfiguration#setDefaults(Configuration)}
-     * then upon saving it will use the header from that config, instead of
+     * then upon saving it will use the header from that config, instead from
      * the one provided here.
      * <p>
-     * If no default is set on the configuration, or the default is not of
+     * If no default is set on the configuration, or the default is not from
      * type FileConfiguration, or that config has no header ({@link #header()}
      * returns null) then the header specified in this configuration will be
      * used.
@@ -133,10 +133,10 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
      * If this is true, if a default {@link FileConfiguration} is passed to
      * {@link
      * FileConfiguration#setDefaults(Configuration)}
-     * then upon saving it will use the header from that config, instead of
+     * then upon saving it will use the header from that config, instead from
      * the one provided here.
      * <p>
-     * If no default is set on the configuration, or the default is not of
+     * If no default is set on the configuration, or the default is not from
      * type FileConfiguration, or that config has no header ({@link #header()}
      * returns null) then the header specified in this configuration will be
      * used.

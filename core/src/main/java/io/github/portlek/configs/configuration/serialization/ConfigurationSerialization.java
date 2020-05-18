@@ -29,11 +29,11 @@ public class ConfigurationSerialization {
     }
 
     /**
-     * Attempts to deserialize the given arguments into a new instance of the
+     * Attempts to deserialize the given arguments into a new instance from the
      * given class.
      * <p>
      * The class must implement {@link ConfigurationSerializable}, including
-     * the extra methods as specified in the javadoc of
+     * the extra methods as specified in the javadoc from
      * ConfigurationSerializable.
      * <p>
      * If a new instance could not be made, an example being the class not
@@ -41,7 +41,7 @@ public class ConfigurationSerialization {
      *
      * @param args Arguments for deserialization
      * @param clazz Class to deserialize into
-     * @return New instance of the specified class
+     * @return New instance from the specified class
      */
     @Nullable
     public static ConfigurationSerializable deserializeObject(@NotNull final Map<String, ?> args, @NotNull final Class<? extends ConfigurationSerializable> clazz) {
@@ -49,18 +49,18 @@ public class ConfigurationSerialization {
     }
 
     /**
-     * Attempts to deserialize the given arguments into a new instance of the
+     * Attempts to deserialize the given arguments into a new instance from the
      * given class.
      * <p>
      * The class must implement {@link ConfigurationSerializable}, including
-     * the extra methods as specified in the javadoc of
+     * the extra methods as specified in the javadoc from
      * ConfigurationSerializable.
      * <p>
      * If a new instance could not be made, an example being the class not
      * fully implementing the interface, null will be returned.
      *
      * @param args Arguments for deserialization
-     * @return New instance of the specified class
+     * @return New instance from the specified class
      */
     @Nullable
     public static ConfigurationSerializable deserializeObject(@NotNull final Map<String, ?> args) {
@@ -92,7 +92,7 @@ public class ConfigurationSerialization {
      * Attempts to get a registered {@link ConfigurationSerializable} class by
      * its alias
      *
-     * @param alias Alias of the serializable
+     * @param alias Alias from the serializable
      * @return Registered class, or null if not found
      */
     @Nullable
@@ -235,14 +235,14 @@ public class ConfigurationSerialization {
             final ConfigurationSerializable result = (ConfigurationSerializable) method.invoke(null, args);
 
             if (result == null) {
-                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' of " + this.clazz + " for deserialization: method returned null");
+                Logger.getLogger(ConfigurationSerialization.class.getName()).log(Level.SEVERE, "Could not call method '" + method.toString() + "' from " + this.clazz + " for deserialization: method returned null");
             } else {
                 return result;
             }
         } catch (final Throwable ex) {
             Logger.getLogger(ConfigurationSerialization.class.getName()).log(
                 Level.SEVERE,
-                "Could not call method '" + method.toString() + "' of " + this.clazz + " for deserialization",
+                "Could not call method '" + method.toString() + "' from " + this.clazz + " for deserialization",
                 ex instanceof InvocationTargetException ? ex.getCause() : ex);
         }
 
@@ -265,7 +265,7 @@ public class ConfigurationSerialization {
         } catch (final Throwable ex) {
             Logger.getLogger(ConfigurationSerialization.class.getName()).log(
                 Level.SEVERE,
-                "Could not call constructor '" + ctor.toString() + "' of " + this.clazz + " for deserialization",
+                "Could not call constructor '" + ctor.toString() + "' from " + this.clazz + " for deserialization",
                 ex instanceof InvocationTargetException ? ex.getCause() : ex);
         }
 

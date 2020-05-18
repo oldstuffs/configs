@@ -1,6 +1,8 @@
 package io.github.portlek.configs.util;
 
 import java.util.Map;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -9,6 +11,8 @@ import org.jetbrains.annotations.NotNull;
  * @param <X> the key
  * @param <Y> the value
  */
+@RequiredArgsConstructor
+@Getter
 public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
 
     @NotNull
@@ -17,26 +21,9 @@ public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
     @NotNull
     private final Y value;
 
-    public MapEntry(@NotNull final X xkey, @NotNull final Y yvalue) {
-        this.key = xkey;
-        this.value = yvalue;
-    }
-
     @NotNull
     public static <X, Y> Map.Entry<X, Y> from(@NotNull final X xkey, @NotNull final Y yvalue) {
         return new MapEntry<>(xkey, yvalue);
-    }
-
-    @NotNull
-    @Override
-    public X getKey() {
-        return this.key;
-    }
-
-    @NotNull
-    @Override
-    public Y getValue() {
-        return this.value;
     }
 
     @Override

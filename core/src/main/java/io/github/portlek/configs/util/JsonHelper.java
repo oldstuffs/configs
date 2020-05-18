@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -31,16 +31,15 @@ import io.github.portlek.configs.util.jsonparser.JsonArray;
 import io.github.portlek.configs.util.jsonparser.JsonObject;
 import io.github.portlek.configs.util.jsonparser.JsonValue;
 import java.util.*;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class JsonHelper {
-
-    private JsonHelper() {
-    }
+@UtilityClass
+public class JsonHelper {
 
     @NotNull
-    public static Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
+    public Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
         @Nullable final Object object;
 
         if (value.isBoolean()) {
@@ -61,7 +60,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
+    public List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
         final List<Object> list = new ArrayList<>(array.size());
 
         for (final JsonValue element : array) {
@@ -72,7 +71,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static Map<String, Object> jsonObjectAsMap(@NotNull final JsonValue value) {
+    public Map<String, Object> jsonObjectAsMap(@NotNull final JsonValue value) {
         if (!(value instanceof JsonObject)) {
             return new HashMap<>();
         }
@@ -89,7 +88,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
+    public Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
         final JsonValue value;
         if (object instanceof Boolean) {
             value = Json.value(object);
@@ -116,7 +115,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static JsonArray collectionAsJsonArray(@NotNull final Iterable<?> collection) {
+    public JsonArray collectionAsJsonArray(@NotNull final Iterable<?> collection) {
         final JsonArray array = new JsonArray();
         collection.forEach(o ->
             JsonHelper.objectAsJsonValue(o).ifPresent(array::add));
@@ -124,7 +123,7 @@ public final class JsonHelper {
     }
 
     @NotNull
-    public static JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
+    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
         final JsonObject object = new JsonObject();
         map.forEach((key, value) ->
             JsonHelper.objectAsJsonValue(value).ifPresent(jsonValue ->
@@ -135,7 +134,7 @@ public final class JsonHelper {
     }
 
     @Nullable
-    private static Object parseNumber(@NotNull final JsonValue number) {
+    private Object parseNumber(@NotNull final JsonValue number) {
         try {
             Integer.parseInt(number.toString());
             return number.asInt();

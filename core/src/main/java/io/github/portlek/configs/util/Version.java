@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,21 +26,18 @@
 package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.CfgSection;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class Version {
 
     private final int major;
 
     private final int minor;
 
-    public Version(final int major, final int minor) {
-        this.major = major;
-        this.minor = minor;
-    }
-
     @NotNull
-    public static Version of(@NotNull final String versionString) {
+    public static Version from(@NotNull final String versionString) {
         if (!versionString.contains(".")) {
             throw new UnsupportedOperationException("Make sure the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class have '.' between version numbers!");
@@ -49,7 +46,7 @@ public final class Version {
         final String[] split = versionString.split("\\.");
 
         if (split.length != 2) {
-            throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
+            throw new UnsupportedOperationException("Make sure pattern from the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
         }
 
@@ -59,7 +56,7 @@ public final class Version {
                 Integer.parseInt(split[1])
             );
         } catch (final Exception exception) {
-            throw new UnsupportedOperationException("Make sure pattern of the string that you want to convert as a " +
+            throw new UnsupportedOperationException("Make sure pattern from the string that you want to convert as a " +
                 "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
         }
     }

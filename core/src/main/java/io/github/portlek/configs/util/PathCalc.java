@@ -1,7 +1,9 @@
 package io.github.portlek.configs.util;
 
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
+@RequiredArgsConstructor
 public final class PathCalc {
 
     @NotNull
@@ -15,14 +17,6 @@ public final class PathCalc {
 
     @NotNull
     private final String fallback;
-
-    public PathCalc(@NotNull final String rgx, @NotNull final String sprtr, @NotNull final String rwpth,
-                    @NotNull final String fllbcknm) {
-        this.regex = rgx;
-        this.separator = sprtr;
-        this.rawpath = rwpth;
-        this.fallback = fllbcknm;
-    }
 
     @NotNull
     public String value() {

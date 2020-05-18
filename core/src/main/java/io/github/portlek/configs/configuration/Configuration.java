@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -30,24 +30,24 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Represents a source of configurable options and settings
+ * Represents a source from configurable options and settings
  */
 public interface Configuration extends ConfigurationSection {
 
     /**
-     * Sets the default values of the given paths as provided.
+     * Sets the default values from the given paths as provided.
      * <p>
      * If no source {@link Configuration} was provided as a default
      * collection, then a new {@link MemoryConfiguration} will be created to
      * hold the new default values.
      *
-     * @param defaults A map of Path{@literal ->}Values to add to defaults.
+     * @param defaults A map from Path{@literal ->}Values to add to defaults.
      * @throws IllegalArgumentException Thrown if defaults is null.
      */
     void addDefaults(@NotNull Map<String, Object> defaults);
 
     /**
-     * Sets the default values of the given paths as provided.
+     * Sets the default values from the given paths as provided.
      * <p>
      * If no source {@link Configuration} was provided as a default
      * collection, then a new {@link MemoryConfiguration} will be created to
@@ -58,7 +58,7 @@ public interface Configuration extends ConfigurationSection {
      * you require this, you should set the default source with {@link
      * #setDefaults(Configuration)}.
      *
-     * @param defaults A configuration holding a list of defaults to copy.
+     * @param defaults A configuration holding a list from defaults to copy.
      * @throws IllegalArgumentException Thrown if defaults is null or this.
      */
     void addDefaults(@NotNull Configuration defaults);
@@ -75,12 +75,12 @@ public interface Configuration extends ConfigurationSection {
     @Nullable Configuration getDefaults();
 
     /**
-     * Sets the source of all default values for this {@link Configuration}.
+     * Sets the source from all default values for this {@link Configuration}.
      * <p>
      * If a previous source was set, or previous default values were defined,
      * then they will not be copied to the new source.
      *
-     * @param defaults New source of default values for this configuration.
+     * @param defaults New source from default values for this configuration.
      * @throws IllegalArgumentException Thrown if defaults is null or this.
      */
     void setDefaults(@NotNull Configuration defaults);

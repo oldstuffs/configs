@@ -3,15 +3,15 @@
  *
  * Copyright (c) 2020 Hasan Demirtaş
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
+ * Permission is hereby granted, free from charge, to any person obtaining a copy
+ * from this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
+ * copies from the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
+ * copies or substantial portions from the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -25,15 +25,15 @@
 
 package io.github.portlek.configs.util;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * Utils for casting number types to other number types
  */
-public final class NumberConversions {
+@UtilityClass
+public class NumberConversions {
 
-    private NumberConversions() {
-    }
-
-    public static int toInt(final Object object) {
+    public int toInt(final Object object) {
         if (object instanceof Number) {
             return ((Number) object).intValue();
         }
@@ -45,7 +45,7 @@ public final class NumberConversions {
         return 0;
     }
 
-    public static double toDouble(final Object object) {
+    public double toDouble(final Object object) {
         if (object instanceof Number) {
             return ((Number) object).doubleValue();
         }
@@ -57,7 +57,7 @@ public final class NumberConversions {
         return 0;
     }
 
-    public static float toFloat(final Object object) {
+    public float toFloat(final Object object) {
         if (object instanceof Number) {
             return ((Number) object).floatValue();
         }
@@ -69,7 +69,7 @@ public final class NumberConversions {
         return (float) 0;
     }
 
-    public static long toLong(final Object object) {
+    public long toLong(final Object object) {
         if (object instanceof Number) {
             return ((Number) object).longValue();
         }

@@ -7,12 +7,12 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Gets minecraft version from
- * package version of the server.
+ * package version from the server.
  */
 final class BukkitVersion {
 
     /**
-     * Pattern of the server text
+     * Pattern from the server text
      * <p>
      * The pattern is like that
      * (major)_(minor)_R(micro)
@@ -41,7 +41,7 @@ final class BukkitVersion {
     }
 
     /**
-     * Gets minor part of the version
+     * Gets minor part from the version
      *
      * @return minor part
      */

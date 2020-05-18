@@ -23,37 +23,34 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.processors.ConfigProceed;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLConnection;
-import java.util.Optional;
+import io.github.portlek.configs.files.json.JsonConfiguration;
+import io.github.portlek.configs.files.yaml.FileConfiguration;
+import io.github.portlek.configs.files.yaml.YamlConfiguration;
+import java.io.File;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public final class GetResource {
+public enum FileType {
+
+    YAML(".yml", YamlConfiguration::loadConfiguration),
+    JSON(".json", JsonConfiguration::loadConfiguration);
 
     @NotNull
-    private final String path;
+    public final String suffix;
 
-    public GetResource(@NotNull final String path) {
-        this.path = path;
+    @NotNull
+    private final Function<File, FileConfiguration> file;
+
+    FileType(@NotNull final String sffix, @NotNull final Function<File, FileConfiguration> fle) {
+        this.suffix = sffix;
+        this.file = fle;
     }
 
-    @Nullable
-    public InputStream value() {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(this.path)).map(url -> {
-            try {
-                final URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                return connection.getInputStream();
-            } catch (final IOException exception) {
-                exception.printStackTrace();
-            }
-            return null;
-        }).orElse(null);
+    @NotNull
+    public FileConfiguration load(@NotNull final File file) {
+        return this.file.apply(file);
     }
 
 }
