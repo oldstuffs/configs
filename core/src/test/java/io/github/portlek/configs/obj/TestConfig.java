@@ -42,9 +42,6 @@ public final class TestConfig extends FileManaged {
     @Instance
     public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
-    @Feature
-    public ObjectThatHasProperties test_feature;
-
     @Property
     public String test = "test";
 
