@@ -28,9 +28,11 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.processors.ConfigProceed;
+import io.github.portlek.configs.provided.Provided;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
@@ -59,6 +61,10 @@ public interface FlManaged extends CfgSection {
     }
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
+
+    <T> void addConverter(@NotNull Class<T> aClass, @NotNull Function<String, T> function);
+
+    @NotNull <T> Optional<T> convert(@NotNull Class<T> aClass, @NotNull String value);
 
     <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided);
 

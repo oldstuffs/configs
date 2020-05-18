@@ -1,6 +1,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.files.yaml.FileConfiguration;
+import io.github.portlek.configs.provided.Provided;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;

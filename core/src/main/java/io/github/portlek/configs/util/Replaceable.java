@@ -1,7 +1,7 @@
 package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.provided.Provided;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -174,50 +174,6 @@ public final class Replaceable<X> {
         }
     }
 
-    public static final class Provider implements Provided<Replaceable<?>> {
 
-        @Override
-        public void set(@NotNull final Replaceable<?> replaceable, @NotNull final CfgSection section,
-                        @NotNull final String path) {
-            section.set(path, replaceable.getValue());
-        }
-
-        @NotNull
-        @Override
-        public Optional<Replaceable<?>> getWithField(@NotNull final Replaceable<?> replaceable,
-                                                     @NotNull final CfgSection section, @NotNull final String path) {
-            if (replaceable.getValue() instanceof String) {
-                final Optional<String> optionalstring = section.getString(path);
-                final Replaceable<String> genericreplaceable = (Replaceable<String>) replaceable;
-                if (optionalstring.isPresent()) {
-                    return Optional.of(
-                        Replaceable.from(optionalstring.get())
-                            .replaces(genericreplaceable.getRegex())
-                            .replace(genericreplaceable.getReplaces())
-                            .map(genericreplaceable.getMaps())
-                    );
-                }
-            } else if (replaceable.getValue() instanceof List<?>) {
-                final Optional<List<?>> listoptional = section.getList(path);
-                if (listoptional.isPresent()) {
-                    final Replaceable<List<String>> genericreplaceable = (Replaceable<List<String>>) replaceable;
-                    return Optional.of(
-                        Replaceable.from((List<String>) listoptional.get())
-                            .replaces(genericreplaceable.getRegex())
-                            .replace(genericreplaceable.getReplaces())
-                            .map(genericreplaceable.getMaps())
-                    );
-                }
-            }
-            return Optional.empty();
-        }
-
-        @NotNull
-        @Override
-        public Optional<Replaceable<?>> get(@NotNull final CfgSection section, @NotNull final String path) {
-            return Optional.empty();
-        }
-
-    }
 
 }

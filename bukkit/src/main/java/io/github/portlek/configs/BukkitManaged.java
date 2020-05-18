@@ -1,5 +1,6 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.util.BukkitItemStackProvider;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
 import java.io.File;

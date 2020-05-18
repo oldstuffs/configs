@@ -1,6 +1,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.util.Feature;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +29,9 @@ public interface CfgSection {
 
     @NotNull
     FlManaged getManaged();
+
+    @NotNull <X, Y> Feature<X, Y> feature(@NotNull String path, @NotNull Class<X> keyClass,
+                                          @NotNull Class<Y> valueClass);
 
     @NotNull
     default Optional<Object> get(@NotNull final String path, @Nullable final Object def) {

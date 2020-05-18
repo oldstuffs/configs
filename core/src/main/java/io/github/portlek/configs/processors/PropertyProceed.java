@@ -29,7 +29,7 @@ import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.util.PathCalc;
-import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.provided.Provided;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;

@@ -26,9 +26,12 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.files.yaml.FileConfiguration;
+import io.github.portlek.configs.provided.Provided;
+import io.github.portlek.configs.provided.ReplaceableProvider;
 import io.github.portlek.configs.util.Replaceable;
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,6 +40,8 @@ public class FileManaged extends ConfigSection implements FlManaged {
     private final Map<String, Object> objects = new HashMap<>();
 
     private final Map<Class<?>, Provided<?>> customs = new HashMap<>();
+
+    private final Map<Class<?>, Function<String, ?>> converter = new HashMap<>();
 
     @Nullable
     private File file;
@@ -47,7 +52,13 @@ public class FileManaged extends ConfigSection implements FlManaged {
     protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
             this.addObject(entry.getKey(), entry.getValue()));
-        this.customs.put(Replaceable.class, new Replaceable.Provider());
+        this.customs.put(Replaceable.class, new ReplaceableProvider());
+        this.converter.put(UUID.class, UUID::fromString);
+        this.converter.put(Boolean.class, Boolean::parseBoolean);
+        this.converter.put(Integer.class, Integer::parseInt);
+        this.converter.put(String.class, s -> s);
+        this.converter.put(Float.class, Float::parseFloat);
+        this.converter.put(Long.class, Long::parseLong);
     }
 
     @NotNull
@@ -63,8 +74,28 @@ public class FileManaged extends ConfigSection implements FlManaged {
     }
 
     @Override
+    public final <T> void addConverter(@NotNull final Class<T> aClass, @NotNull final Function<String, T> function) {
+        if (!this.converter.containsKey(aClass)) {
+            this.converter.put(aClass, function);
+        }
+    }
+
+    @NotNull
+    @Override
+    public final <T> Optional<T> convert(@NotNull final Class<T> aClass, @NotNull final String value) {
+        //noinspection unchecked
+        return this.converter.keySet().stream()
+            .filter(aClass::equals)
+            .findFirst()
+            .map(clss -> (Function<String, T>) this.converter.get(clss))
+            .map(function -> function.apply(value));
+    }
+
+    @Override
     public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        this.customs.put(aClass, provided);
+        if (!this.customs.containsKey(aClass)) {
+            this.customs.put(aClass, provided);
+        }
     }
 
     @NotNull

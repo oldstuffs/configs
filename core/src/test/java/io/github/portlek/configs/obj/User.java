@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public final class ObjectThatHasProperties {
+public final class User {
 
     @Property
     private UUID uniqueId;
