@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs.util;
 
+import lombok.experimental.UtilityClass;
+
 /**
  * <p>This class assists in validating arguments.</p>
  *
@@ -42,11 +44,8 @@ package io.github.portlek.configs.util;
  * @author Norm Deane
  * @since 2.0
  */
-public final class Validate {
-
-    // Validate has no dependencies on other classes in Commons Lang at present
-    private Validate() {
-    }
+@UtilityClass
+public class Validate {
 
     /**
      * <p>Validate that the argument condition is {@code true}; otherwise
@@ -63,7 +62,7 @@ public final class Validate {
      * @param message the exception message if invalid
      * @throws IllegalArgumentException if expression is {@code false}
      */
-    public static void isTrue(final boolean expression, final String message) {
+    public void isTrue(final boolean expression, final String message) {
         if (!expression) {
             throw new IllegalArgumentException(message);
         }
@@ -80,7 +79,7 @@ public final class Validate {
      * @param object the object to check
      * @param message the exception message if invalid
      */
-    public static void notNull(final Object object, final String message) {
+    public void notNull(final Object object, final String message) {
         if (object == null) {
             throw new IllegalArgumentException(message);
         }
@@ -99,7 +98,7 @@ public final class Validate {
      * @param message the exception message if invalid
      * @throws IllegalArgumentException if the string is empty
      */
-    public static void notEmpty(final String string, final String message) {
+    public void notEmpty(final String string, final String message) {
         if (string == null || string.isEmpty()) {
             throw new IllegalArgumentException(message);
         }
