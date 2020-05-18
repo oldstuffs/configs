@@ -3,6 +3,7 @@ package io.github.portlek.configs.util;
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.Provided;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.bukkit.Material;
