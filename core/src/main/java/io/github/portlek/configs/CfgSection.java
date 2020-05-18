@@ -28,6 +28,10 @@ public interface CfgSection {
         return this.getConfigurationSection().getKeys(deep);
     }
 
+    default boolean contains(@NotNull final String path) {
+        return this.getConfigurationSection().contains(path);
+    }
+
     @NotNull
     FlManaged getManaged();
 
