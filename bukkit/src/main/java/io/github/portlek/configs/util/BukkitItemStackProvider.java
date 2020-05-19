@@ -106,10 +106,9 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                     XEnchantment.matchXEnchantment(s).flatMap(xEnchantment ->
                         Optional.ofNullable(xEnchantment.parseEnchantment())
                     ).ifPresent(enchantment ->
-                        itemMeta.addEnchant(enchantment, section.getInt(fnlpath + "enchants." + s).orElse(1), true)
-                    )
-                )
-            );
+                        itemMeta.addEnchant(
+                            enchantment,
+                            section.getInt(fnlpath + "enchants." + s).orElse(1), true))));
             section.getStringList(fnlpath + "flags").ifPresent(flags ->
                 flags.stream()
                     .map(ItemFlag::valueOf)
