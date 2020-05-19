@@ -571,6 +571,16 @@ public interface CfgSection {
      */
     void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection configurationSection);
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path) {
         try {
