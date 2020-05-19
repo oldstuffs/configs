@@ -33,6 +33,7 @@ import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.util.jsonparser.Json;
 import io.github.portlek.configs.util.jsonparser.JsonObject;
+import io.github.portlek.configs.util.jsonparser.JsonValue;
 import io.github.portlek.configs.util.jsonparser.WriterConfig;
 import java.io.File;
 import java.util.Map;
@@ -82,12 +83,9 @@ public final class JsonConfiguration extends FileConfiguration {
         if (contents.isEmpty()) {
             return;
         }
-        this.convertMapsToSections(
-            GeneralUtilities.jsonObjectAsMap(
-                Json.parse(contents)
-            ),
-            this
-        );
+        final JsonValue parse = Json.parse(contents);
+        final Map<String, Object> input = GeneralUtilities.jsonObjectAsMap(parse);
+        this.convertMapsToSections(input, this);
     }
 
     @NotNull
@@ -98,12 +96,6 @@ public final class JsonConfiguration extends FileConfiguration {
         }
 
         return (JsonConfigurationOptions) this.options;
-    }
-
-    @NotNull
-    @Override
-    public String buildHeader() {
-        return "";
     }
 
     private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {

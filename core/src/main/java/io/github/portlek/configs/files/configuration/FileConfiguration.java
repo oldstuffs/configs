@@ -163,17 +163,4 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         return (FileConfigurationOptions) this.options;
     }
 
-    /**
-     * Compiles the header for this {@link FileConfiguration} and returns the
-     * result.
-     * <p>
-     * This will use the header from {@link #options()} -&gt; {@link
-     * FileConfigurationOptions#header()}, respecting the rules from {@link
-     * FileConfigurationOptions#copyHeader()} if set.
-     *
-     * @return Compiled header
-     */
-    @NotNull
-    public abstract String buildHeader();
-
 }

@@ -60,18 +60,4 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
         return this;
     }
 
-    @NotNull
-    @Override
-    public final JsonConfigurationOptions header(final String value) {
-        super.header(value);
-        return this;
-    }
-
-    @NotNull
-    @Override
-    public final JsonConfigurationOptions copyHeader(final boolean value) {
-        super.copyHeader(value);
-        return this;
-    }
-
 }

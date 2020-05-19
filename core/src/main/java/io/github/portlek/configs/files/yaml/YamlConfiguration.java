@@ -92,50 +92,19 @@ public final class YamlConfiguration extends FileConfiguration {
     }
 
     @NotNull
-    private static String parseHeader(@NotNull final String input) {
-        final String[] lines = input.split("\r?\n", -1);
-        final StringBuilder result = new StringBuilder();
-        boolean readingHeader = true;
-        boolean foundHeader = false;
-
-        for (int i = 0; i < lines.length && readingHeader; i++) {
-            final String line = lines[i];
-
-            if (line.startsWith(YamlConfiguration.COMMENT_PREFIX)) {
-                if (i > 0) {
-                    result.append('\n');
-                }
-
-                if (line.length() > YamlConfiguration.COMMENT_PREFIX.length()) {
-                    result.append(line.substring(YamlConfiguration.COMMENT_PREFIX.length()));
-                }
-
-                foundHeader = true;
-            } else if (foundHeader && line.isEmpty()) {
-                result.append('\n');
-            } else if (foundHeader) {
-                readingHeader = false;
-            }
-        }
-
-        return result.toString();
-    }
-
-    @NotNull
     @Override
     public String saveToString() {
         this.yamlOptions.setIndent(this.options().indent());
         this.yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
 
-        final String header = this.buildHeader();
         String dump = this.yaml.dump(this.getValues(false));
 
         if (dump.equals(YamlConfiguration.BLANK_CONFIG)) {
             dump = "";
         }
 
-        return header + dump;
+        return dump;
     }
 
     @SneakyThrows
@@ -143,10 +112,6 @@ public final class YamlConfiguration extends FileConfiguration {
     public void loadFromString(@NotNull final String contents) {
         final Map<?, ?> input;
         input = this.yaml.load(contents);
-        final String header = YamlConfiguration.parseHeader(contents);
-        if (!header.isEmpty()) {
-            this.options().header(header);
-        }
         if (input != null) {
             this.convertMapsToSections(input, this);
         }
@@ -160,44 +125,6 @@ public final class YamlConfiguration extends FileConfiguration {
         }
 
         return (YamlConfigurationOptions) this.options;
-    }
-
-    @NotNull
-    @Override
-    public String buildHeader() {
-        final String header = this.options().header();
-
-        if (this.options().copyHeader()) {
-            final Configuration def = this.getDefaults();
-
-            if (def instanceof FileConfiguration) {
-                final FileConfiguration filedefaults = (FileConfiguration) def;
-                final String defaultsHeader = filedefaults.buildHeader();
-                if (!defaultsHeader.isEmpty()) {
-                    return defaultsHeader;
-                }
-            }
-        }
-
-        if (header.isEmpty()) {
-            return "";
-        }
-
-        final StringBuilder builder = new StringBuilder();
-        final String[] lines = header.split("\r?\n", -1);
-        boolean startedHeader = false;
-
-        for (int i = lines.length - 1; i >= 0; i--) {
-            builder.insert(0, '\n');
-
-            if (startedHeader || !lines[i].isEmpty()) {
-                builder.insert(0, lines[i]);
-                builder.insert(0, YamlConfiguration.COMMENT_PREFIX);
-                startedHeader = true;
-            }
-        }
-
-        return builder.toString();
     }
 
     private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
