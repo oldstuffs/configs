@@ -26,10 +26,10 @@
 package io.github.portlek.configs.files.yaml;
 
 import io.github.portlek.configs.configuration.Configuration;
-import io.github.portlek.configs.configuration.InvalidConfigurationException;
 import io.github.portlek.configs.configuration.MemoryConfiguration;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
@@ -131,20 +131,13 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         } else {
             input = new BufferedReader(reader);
         }
-
+        @Cleanup final BufferedReader fnlinput = input;
         final StringBuilder builder = new StringBuilder();
-
-        try {
-            String line;
-
-            while ((line = input.readLine()) != null) {
-                builder.append(line);
-                builder.append('\n');
-            }
-        } finally {
-            input.close();
+        String line;
+        while ((line = fnlinput.readLine()) != null) {
+            builder.append(line);
+            builder.append('\n');
         }
-
         this.loadFromString(builder.toString());
     }
 
