@@ -53,51 +53,48 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         }
         final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
-        final Optional<File> optional = new Basedir(managed.getClass()).value();
-        if (!optional.isPresent()) {
-            return;
-        }
-        final File basedir = optional.get();
-        final String filelocation = new AddSeparator(
-            this.config.location()
-                .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
-                .replace("/", File.separator)
-        ).value();
-        final String jarlocation = new AddSeparator(
-            this.config.location()
-                .replace("%basedir%", basedir.getAbsolutePath())
-                .replace("/", File.separator)
-        ).value();
-        final File file;
-        if (this.config.copyDefault()) {
-            file = new SaveResource(
-                jarlocation,
-                new AddSeparator(this.config.resourcePath()).value() + name
+        new Basedir(managed.getClass()).value().ifPresent(basedir -> {
+            final String filelocation = new AddSeparator(
+                this.config.location()
+                    .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
+                    .replace("/", File.separator)
             ).value();
-        } else {
-            file = new File(filelocation, name);
-        }
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            try {
-                file.createNewFile();
-            } catch (final IOException e) {
-                e.printStackTrace();
+            final String jarlocation = new AddSeparator(
+                this.config.location()
+                    .replace("%basedir%", basedir.getAbsolutePath())
+                    .replace("/", File.separator)
+            ).value();
+            final File file;
+            if (this.config.copyDefault()) {
+                file = new SaveResource(
+                    jarlocation,
+                    new AddSeparator(this.config.resourcePath()).value() + name
+                ).value();
+            } else {
+                file = new File(filelocation, name);
             }
-        }
-        final FileConfiguration configuration = type.load(file);
-        managed.setup(file, configuration);
-        final Optional<String> versionoptional = managed.getString(versionpath);
-        if (versionoptional.isPresent()) {
-            final Version fileversion = Version.from(versionoptional.get());
-            if (!version.is(fileversion)) {
-                // TODO: 29/01/2020
+            if (!file.exists()) {
+                file.getParentFile().mkdirs();
+                try {
+                    file.createNewFile();
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } else {
-            version.write(versionpath, managed);
-        }
-        new FieldsProceed(managed).load(managed);
-        managed.save();
+            final FileConfiguration configuration = type.load(file);
+            managed.setup(file, configuration);
+            final Optional<String> versionoptional = managed.getString(versionpath);
+            if (versionoptional.isPresent()) {
+                final Version fileversion = Version.from(versionoptional.get());
+                if (!version.is(fileversion)) {
+                    // TODO: 29/01/2020
+                }
+            } else {
+                version.write(versionpath, managed);
+            }
+            new FieldsProceed(managed).load(managed);
+            managed.save();
+        });
     }
 
 }
