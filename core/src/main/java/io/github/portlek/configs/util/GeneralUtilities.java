@@ -229,7 +229,7 @@ public class GeneralUtilities {
 
     @NotNull
     public Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
-        final JsonValue value;
+        @Nullable final JsonValue value;
         if (object instanceof Boolean) {
             value = Json.value(object);
         } else if (object instanceof Integer) {
