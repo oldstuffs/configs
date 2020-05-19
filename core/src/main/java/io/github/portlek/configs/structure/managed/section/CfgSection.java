@@ -528,6 +528,7 @@ public interface CfgSection {
      *
      * @param path Path from the section to get.
      * @return Requested section.
+     * @see ConfigurationSection#getConfigurationSection(String)
      */
     @NotNull
     default Optional<CfgSection> getSection(@NotNull final String path) {
@@ -544,6 +545,7 @@ public interface CfgSection {
      *
      * @param path Path from the section to get.
      * @return Requested section.
+     * @see ConfigurationSection#createSection(String)
      */
     @NotNull
     default CfgSection createSection(@NotNull final String path) {
@@ -576,6 +578,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getString(String)
      */
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path) {
@@ -596,11 +599,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getString(String, String)
      */
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path, @Nullable final String def) {
         try {
-            final Optional<UUID> uuid = Optional.ofNullable(this.getConfigurationSection().getString(path))
+            final Optional<UUID> uuid = Optional.ofNullable(this.getConfigurationSection().getString(path, def))
                 .map(UUID::fromString);
             if (uuid.isPresent()) {
                 return uuid;
@@ -621,6 +625,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getString(String)
      */
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path, @Nullable final UUID def) {
@@ -642,6 +647,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getString(String)
      */
     @NotNull
     default Optional<String> getString(@NotNull final String path) {
@@ -649,7 +655,8 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a fallback value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
      * this will return the default value. If the Object does not exist and no
@@ -657,6 +664,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getString(String, String)
      */
     @NotNull
     default Optional<String> getString(@NotNull final String path, @Nullable final String def) {
@@ -664,10 +672,41 @@ public interface CfgSection {
     }
 
     /**
+     * Gets the requested Object by path, returning an empty string if not
+     * found.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object.
+     * @see #getString(String)
+     */
+    @NotNull
+    default String getStringOrEmpty(@NotNull final String path) {
+        return this.getString(path).orElse("");
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found. If default value is null, returns empty string.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return empty string.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getString(String, String)
+     */
+    @NotNull
+    default String getStringOrEmpty(@NotNull final String path, @Nullable final String def) {
+        return this.getString(path, def).orElse("");
+    }
+
+    /**
      * Gets the requested Object by path.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getInt(String)
      */
     default Optional<Integer> getInteger(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getInt);
@@ -682,6 +721,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getInt(String, int)
      */
     default int getInteger(@NotNull final String path, final int def) {
         return this.getConfigurationSection().getInt(path, def);
@@ -692,6 +732,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getBoolean(String)
      */
     default Optional<Boolean> getBoolean(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getBoolean);
@@ -706,6 +747,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getBoolean(String, boolean)
      */
     default boolean getBoolean(@NotNull final String path, final boolean def) {
         return this.getConfigurationSection().getBoolean(path, def);
@@ -716,6 +758,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getDouble(String)
      */
     default Optional<Double> getDouble(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getDouble);
@@ -730,6 +773,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getDouble(String, double)
      */
     default double getDouble(@NotNull final String path, final double def) {
         return this.getConfigurationSection().getDouble(path, def);
@@ -740,6 +784,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getFloat(String)
      */
     default Optional<Float> getFloat(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getFloat);
@@ -754,6 +799,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getFloat(String, float)
      */
     default float getFloat(@NotNull final String path, final float def) {
         return this.getConfigurationSection().getFloat(path, def);
@@ -764,6 +810,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getLong(String)
      */
     default Optional<Long> getLong(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getLong);
@@ -778,6 +825,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getLong(String, long)
      */
     default long getLong(@NotNull final String path, final long def) {
         return this.getConfigurationSection().getLong(path, def);
@@ -788,6 +836,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getStringList(String)
      */
     @NotNull
     default Optional<List<String>> getStringList(@NotNull final String path) {
@@ -803,6 +852,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getStringList(String)
      */
     @NotNull
     default Optional<List<String>> getStringList(@NotNull final String path, @Nullable final List<String> def) {
@@ -818,6 +868,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getIntegerList(String)
      */
     @NotNull
     default Optional<List<Integer>> getIntegerList(@NotNull final String path) {
