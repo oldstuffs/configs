@@ -28,8 +28,8 @@ public final class FieldsProceed implements Runnable {
                     .map(instance -> new InstanceProceed(this.managed, this.parent, field));
             final Optional<PropertyProceed> propertyOptional = Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
                 .map(property -> new PropertyProceed(this.managed, this.parent, property, field));
-            instanceOptional.ifPresent(InstanceProceed::load);
-            propertyOptional.ifPresent(PropertyProceed::load);
+            instanceOptional.ifPresent(InstanceProceed::run);
+            propertyOptional.ifPresent(PropertyProceed::run);
             field.setAccessible(accessible);
         }
     }
