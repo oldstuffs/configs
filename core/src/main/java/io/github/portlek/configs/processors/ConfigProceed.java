@@ -26,7 +26,7 @@
 package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.FileType;
-import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.util.GeneralUtilities;

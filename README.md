@@ -226,7 +226,7 @@ test-section:
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.LinkedFileManaged;
+import io.github.portlek.configs.structure.LinkedFileManaged;
 import io.github.portlek.configs.util.MapEntry;
 import io.github.portlek.configs.annnotations.*;
 

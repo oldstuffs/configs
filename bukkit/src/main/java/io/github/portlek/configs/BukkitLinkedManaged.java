@@ -1,5 +1,6 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.structure.LinkedFileManaged;
 import io.github.portlek.configs.structure.LnkdFlManaged;
 import java.util.Map;
 import java.util.Optional;
