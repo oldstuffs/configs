@@ -25,6 +25,11 @@ public final class Replaceable<X> {
     private final X value;
 
     @NotNull
+    public static Replaceable<String> from(@NotNull final StringBuilder builder) {
+        return Replaceable.from(builder.toString());
+    }
+
+    @NotNull
     public static Replaceable<List<String>> from(@NotNull final String... texts) {
         return Replaceable.from(Arrays.asList(texts));
     }

@@ -56,7 +56,7 @@ public interface BkktSection extends CfgSection {
             section = this.getOrCreateSection(path);
         }
         this.getManaged().getCustomValue(ItemStack.class)
-            .ifPresent(provided -> provided.set(itemstack, section, path));
+            .ifPresent(provided -> provided.set(itemstack, section, ""));
     }
 
     @NotNull
@@ -68,7 +68,7 @@ public interface BkktSection extends CfgSection {
             section = this.getOrCreateSection(path);
         }
         return this.getManaged().getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(section, path));
+            .flatMap(provided -> provided.get(section, ""));
     }
 
 }
