@@ -247,7 +247,7 @@ import io.github.portlek.configs.annnotations.*;
 public final class TestLinkedConfig extends LinkedFileManaged {
 
   public TestLinkedConfig(@NotNull final TestConfig testConfig) {
-    super(testConfig.language, MapEntry.from("config", testConfig));
+    super(() -> testConfig.language, MapEntry.from("config", testConfig));
   }
 
   @NotNull
@@ -311,7 +311,7 @@ import io.github.portlek.configs.util.MapEntry;
 public final class TestLinkedConfig extends BukkitLinkedManaged {
 
   public TestLinkedConfig(@NotNull final TestConfig testConfig) {
-    super(testConfig.language, MapEntry.from("config", testConfig));
+    super(() -> testConfig.language, MapEntry.from("config", testConfig));
   }
 
   @NotNull
@@ -376,7 +376,7 @@ import io.github.portlek.configs.annotations.*;
 public final class TestLinkedConfig extends NukkitLinkedManaged {
 
   public TestLinkedConfig(@NotNull final TestConfig testConfig) {
-    super(testConfig.language, MapEntry.from("config", testConfig));
+    super(() -> testConfig.language, MapEntry.from("config", testConfig));
   }
 
   @NotNull
