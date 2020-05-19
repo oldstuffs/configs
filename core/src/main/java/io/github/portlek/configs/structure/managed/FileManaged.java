@@ -47,7 +47,7 @@ public class FileManaged extends ConfigSection implements FlManaged {
     private boolean autosave = false;
 
     @SafeVarargs
-    protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
+    public FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
             this.addObject(entry.getKey(), entry.getValue()));
         this.customs.put(Replaceable.class, new ReplaceableProvider());
