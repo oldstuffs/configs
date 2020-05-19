@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 
 public class NukkitSection implements NkktSection {

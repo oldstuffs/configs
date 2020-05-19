@@ -23,43 +23,38 @@
  *
  */
 
-package io.github.portlek.configs.configuration;
+package io.github.portlek.configs.files.configuration;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Exception thrown when attempting to load an invalid {@link Configuration}
+ * Various settings for controlling the input and output from a {@link
+ * MemoryConfiguration}
  */
-@SuppressWarnings("serial")
-public class InvalidConfigurationException extends Exception {
+public class MemoryConfigurationOptions extends ConfigurationOptions {
 
-    /**
-     * Constructs an instance from InvalidConfigurationException with the
-     * specified message.
-     *
-     * @param msg The details from the exception.
-     */
-    public InvalidConfigurationException(final String msg) {
-        super(msg);
+    protected MemoryConfigurationOptions(@NotNull final Configuration configuration) {
+        super(configuration);
     }
 
-    /**
-     * Constructs an instance from InvalidConfigurationException with the
-     * specified cause.
-     *
-     * @param cause The cause from the exception.
-     */
-    public InvalidConfigurationException(final Throwable cause) {
-        super(cause);
+    @NotNull
+    @Override
+    public MemoryConfiguration configuration() {
+        return (MemoryConfiguration) super.configuration();
     }
 
-    /**
-     * Constructs an instance from InvalidConfigurationException with the
-     * specified message and cause.
-     *
-     * @param cause The cause from the exception.
-     * @param msg The details from the exception.
-     */
-    public InvalidConfigurationException(final String msg, final Throwable cause) {
-        super(msg, cause);
+    @NotNull
+    @Override
+    public MemoryConfigurationOptions pathSeparator(final char value) {
+        super.pathSeparator(value);
+        return this;
+    }
+
+    @NotNull
+    @Override
+    public MemoryConfigurationOptions copyDefaults(final boolean value) {
+        super.copyDefaults(value);
+        return this;
     }
 
 }

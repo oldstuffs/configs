@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.configuration;
+package io.github.portlek.configs.files.configuration;
 
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;

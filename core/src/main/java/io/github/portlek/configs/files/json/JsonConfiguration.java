@@ -28,16 +28,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
-import io.github.portlek.configs.util.JsonHelper;
-import io.github.portlek.configs.util.SerializationHelper;
+import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.util.jsonparser.Json;
 import io.github.portlek.configs.util.jsonparser.JsonObject;
 import io.github.portlek.configs.util.jsonparser.WriterConfig;
 import java.io.File;
 import java.util.Map;
-import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -48,8 +46,6 @@ import org.jetbrains.annotations.NotNull;
 public final class JsonConfiguration extends FileConfiguration {
 
     private static final String BLANK_CONFIG = "{}\n";
-
-    private static final Logger LOG = Logger.getLogger(JsonConfiguration.class.getName());
 
     /**
      * Loads up a configuration from a json formatted file.
@@ -73,7 +69,7 @@ public final class JsonConfiguration extends FileConfiguration {
     @NotNull
     @Override
     public String saveToString() {
-        final JsonObject jsonObject = JsonHelper.mapAsJsonObject(this.getValues(false));
+        final JsonObject jsonObject = GeneralUtilities.mapAsJsonObject(this.getValues(false));
         final String dump = jsonObject.toString(WriterConfig.PRETTY_PRINT);
 
         if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
@@ -89,7 +85,7 @@ public final class JsonConfiguration extends FileConfiguration {
             return;
         }
         this.convertMapsToSections(
-            JsonHelper.jsonObjectAsMap(
+            GeneralUtilities.jsonObjectAsMap(
                 Json.parse(contents)
             ),
             this
@@ -114,7 +110,7 @@ public final class JsonConfiguration extends FileConfiguration {
 
     private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
         Map<?, ?> input1 = input;
-        final Object result = SerializationHelper.deserialize(input1);
+        final Object result = GeneralUtilities.deserialize(input1);
 
         if (result instanceof Map) {
             input1 = (Map<?, ?>) result;

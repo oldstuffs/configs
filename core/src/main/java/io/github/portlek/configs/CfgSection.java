@@ -1,6 +1,6 @@
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.nodes.Node;
 import org.yaml.snakeyaml.representer.Representer;

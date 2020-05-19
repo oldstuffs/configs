@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.configuration;
+package io.github.portlek.configs.files.configuration;
 
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.*;
