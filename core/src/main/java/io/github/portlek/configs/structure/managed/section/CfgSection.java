@@ -713,11 +713,11 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
-     * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
+     * this will return the default value.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
@@ -739,11 +739,11 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
-     * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
+     * this will return the default value.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
@@ -765,11 +765,11 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
-     * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
+     * this will return the default value.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
@@ -791,11 +791,11 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
-     * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
+     * this will return the default value.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
@@ -817,11 +817,11 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
-     * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
+     * this will return the default value.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
@@ -844,7 +844,7 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, return
      * <p>
      * If the Object does not exist but a default value has been specified,
      * this will return the default value. If the Object does not exist and no
@@ -857,10 +857,10 @@ public interface CfgSection {
     @NotNull
     default Optional<List<String>> getStringList(@NotNull final String path, @Nullable final List<String> def) {
         final Optional<List<String>> generic = this.getGeneric(path, this.getConfigurationSection()::getStringList);
-        if (!generic.isPresent()) {
-            return Optional.ofNullable(def);
+        if (generic.isPresent()) {
+            return generic;
         }
-        return generic;
+        return Optional.ofNullable(def);
     }
 
     /**
