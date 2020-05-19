@@ -844,7 +844,8 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path, return
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
      * this will return the default value. If the Object does not exist and no
@@ -852,15 +853,47 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see ConfigurationSection#getStringList(String)
+     * @see #getStringList(String)
      */
     @NotNull
     default Optional<List<String>> getStringList(@NotNull final String path, @Nullable final List<String> def) {
-        final Optional<List<String>> generic = this.getGeneric(path, this.getConfigurationSection()::getStringList);
+        final Optional<List<String>> generic = this.getStringList(path);
         if (generic.isPresent()) {
             return generic;
         }
         return Optional.ofNullable(def);
+    }
+
+    /**
+     * Gets the requested Object by path, returning an empty list if not
+     * found.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object.
+     * @see #getStringList(String)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<String> getStringListOrEmpty(@NotNull final String path) {
+        return this.getStringList(path).orElse(new ArrayList<>());
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found. If default value is null, returns empty list.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return empty list.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getStringList(String, List)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<String> getStringListOrEmpty(@NotNull final String path, @Nullable final List<String> def) {
+        return this.getStringList(path, def).orElse(new ArrayList<>());
     }
 
     /**
@@ -876,7 +909,8 @@ public interface CfgSection {
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found.
      * <p>
      * If the Object does not exist but a default value has been specified,
      * this will return the default value. If the Object does not exist and no
@@ -884,71 +918,108 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getIntegerList(String)
      */
     @NotNull
     default Optional<List<Integer>> getIntegerList(@NotNull final String path, @Nullable final List<Integer> def) {
-        return this.getGeneric(path, this.getConfigurationSection()::getIntegerList);
+        final Optional<List<Integer>> generic = this.getIntegerList(path);
+        if (generic.isPresent()) {
+            return generic;
+        }
+        return Optional.ofNullable(def);
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning an empty list if not
+     * found.
      *
      * @param path Path from the Object to get.
-     * @return Requested Object in {@link Optional#of(Object)}.
+     * @return Requested Object.
+     * @see #getIntegerList(String)
+     * @see ArrayList
      */
     @NotNull
-    default Optional<List<Boolean>> getBooleanList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getBooleanList);
+    default List<Integer> getIntegerListOrEmpty(@NotNull final String path) {
+        return this.getIntegerList(path).orElse(new ArrayList<>());
     }
 
     /**
-     * Gets the requested Object by path.
+     * Gets the requested Object by path, returning a default value if not
+     * found. If default value is null, returns empty list.
      * <p>
      * If the Object does not exist but a default value has been specified,
      * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
+     * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getIntegerList(String, List)
+     * @see ArrayList
      */
     @NotNull
-    default Optional<List<Double>> getDoubleList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
+    default List<Integer> getIntegerListOrEmpty(@NotNull final String path, @Nullable final List<Integer> def) {
+        return this.getIntegerList(path, def).orElse(new ArrayList<>());
     }
 
-    @NotNull
-    default Optional<List<Float>> getFloatList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getFloatList);
-    }
-
-    @NotNull
-    default Optional<List<Long>> getLongList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getLongList);
-    }
-
-    @NotNull
-    default Optional<List<Byte>> getByteList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getByteList);
-    }
-
-    @NotNull
-    default Optional<List<Character>> getCharacterList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getCharacterList);
-    }
-
-    @NotNull
-    default Optional<List<Short>> getShortList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getShortList);
-    }
-
-    @NotNull
-    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getMapList);
-    }
-
-    @NotNull
-    default Optional<List<?>> getList(@NotNull final String path) {
-        return Optional.ofNullable(this.getConfigurationSection().getList(path));
-    }
+//    /**
+//     * Gets the requested Object by path.
+//     *
+//     * @param path Path from the Object to get.
+//     * @return Requested Object in {@link Optional#of(Object)}.
+//     */
+//    @NotNull
+//    default Optional<List<Boolean>> getBooleanList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getBooleanList);
+//    }
+//
+//    /**
+//     * Gets the requested Object by path.
+//     * <p>
+//     * If the Object does not exist but a default value has been specified,
+//     * this will return the default value. If the Object does not exist and no
+//     * default value was specified, this will return {@link Optional#empty()}.
+//     *
+//     * @param path Path from the Object to get.
+//     * @return Requested Object in {@link Optional#of(Object)}.
+//     */
+//    @NotNull
+//    default Optional<List<Double>> getDoubleList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<Float>> getFloatList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getFloatList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<Long>> getLongList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getLongList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<Byte>> getByteList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getByteList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<Character>> getCharacterList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getCharacterList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<Short>> getShortList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getShortList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path) {
+//        return this.getGeneric(path, this.getConfigurationSection()::getMapList);
+//    }
+//
+//    @NotNull
+//    default Optional<List<?>> getList(@NotNull final String path) {
+//        return Optional.ofNullable(this.getConfigurationSection().getList(path));
+//    }
 
 }
