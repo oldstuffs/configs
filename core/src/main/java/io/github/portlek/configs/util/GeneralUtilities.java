@@ -219,7 +219,8 @@ public class GeneralUtilities {
         if (!(value instanceof JsonObject)) {
             return new HashMap<>();
         }
-        final Iterable<JsonObject.Member> jsonObject = (JsonObject) value;
+        // noinspection unchecked
+        final Iterable<JsonObject.Member> jsonObject = (Iterable<JsonObject.Member>) value;
         final Map<String, Object> map = new HashMap<>();
         jsonObject.forEach(member ->
             GeneralUtilities.jsonValueAsObject(member.getValue()).ifPresent(o ->
