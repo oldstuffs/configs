@@ -41,34 +41,34 @@ public interface BkktSection extends CfgSection {
 
     @NotNull
     default Optional<ItemStack> getItemStack() {
-        return this.getItemStack("");
+        return this.getManaged().getCustomValue(ItemStack.class)
+            .flatMap(provided -> provided.get(this, ""));
     }
 
     default void setItemStack(@NotNull final ItemStack itemstack) {
-        this.setItemStack("", itemstack);
+        this.getManaged().getCustomValue(ItemStack.class)
+            .ifPresent(provided -> provided.set(itemstack, this, ""));
     }
 
     default void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
-        final CfgSection section;
+        final BkktSection section;
         if (path.isEmpty()) {
             section = this;
         } else {
-            section = this.getOrCreateSection(path);
+            section = (BkktSection) this.getOrCreateSection(path);
         }
-        this.getManaged().getCustomValue(ItemStack.class)
-            .ifPresent(provided -> provided.set(itemstack, section, ""));
+        section.setItemStack(itemstack);
     }
 
     @NotNull
     default Optional<ItemStack> getItemStack(@NotNull final String path) {
-        final CfgSection section;
+        final BkktSection section;
         if (path.isEmpty()) {
             section = this;
         } else {
-            section = this.getOrCreateSection(path);
+            section = (BkktSection) this.getOrCreateSection(path);
         }
-        return this.getManaged().getCustomValue(ItemStack.class)
-            .flatMap(provided -> provided.get(section, ""));
+        return section.getItemStack();
     }
 
 }
