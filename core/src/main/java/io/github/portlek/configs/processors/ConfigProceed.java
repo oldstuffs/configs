@@ -91,12 +91,12 @@ public final class ConfigProceed implements Runnable {
             this.managed.setup(file, configuration);
             // Create and setup file.
 
-            // Parse comments
+            // Parse header
             Optional.ofNullable(this.managed.getClass().getDeclaredAnnotation(Comment.class))
                 .map(comment ->
                     new CommentProceed(this.managed, this.managed, "", comment))
                 .ifPresent(CommentProceed::run);
-            // Parse comments
+            // Parse header
 
             // Does versioning stuffs.
             final Optional<String> versionoptional = this.managed.getString(versionpath);
