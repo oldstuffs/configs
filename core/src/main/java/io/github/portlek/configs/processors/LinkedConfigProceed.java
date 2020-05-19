@@ -8,19 +8,22 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class LinkedConfigProceed implements Proceed<LnkdFlManaged> {
+public final class LinkedConfigProceed implements Proceed {
+
+    @NotNull
+    private final LnkdFlManaged linked;
 
     @NotNull
     private final LinkedConfig config;
 
     @Override
-    public void load(@NotNull final LnkdFlManaged linked) {
+    public void load() {
         Arrays.stream(this.config.files())
-            .filter(linkedFile -> linkedFile.key().equals(linked.getChosen().get()))
+            .filter(linkedFile -> linkedFile.key().equals(this.linked.getChosen().get()))
             .findFirst()
             .map(LinkedFile::config)
-            .map(ConfigProceed::new)
-            .ifPresent(configProceed -> configProceed.load(linked));
+            .map(cnfg -> new ConfigProceed(this.linked, cnfg))
+            .ifPresent(ConfigProceed::load);
     }
 
 }

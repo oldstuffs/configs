@@ -10,25 +10,26 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class FieldsProceed implements Proceed<FlManaged> {
+public final class FieldsProceed implements Proceed {
+
+    @NotNull
+    private final FlManaged managed;
 
     @NotNull
     private final CfgSection parent;
 
     @Override
-    public void load(@NotNull final FlManaged managed) {
+    public void load() {
         for (final Field field : this.parent.getClass().getDeclaredFields()) {
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);
             final Optional<InstanceProceed> instanceOptional =
                 Optional.ofNullable(field.getDeclaredAnnotation(Instance.class))
-                    .map(instance -> new InstanceProceed(managed, this.parent));
+                    .map(instance -> new InstanceProceed(this.managed, this.parent, field));
             final Optional<PropertyProceed> propertyOptional = Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
-                .map(property -> new PropertyProceed(managed, this.parent, property));
-            instanceOptional.ifPresent(fieldProceed ->
-                fieldProceed.load(field));
-            propertyOptional.ifPresent(propertyProceed ->
-                propertyProceed.load(field));
+                .map(property -> new PropertyProceed(this.managed, this.parent, property, field));
+            instanceOptional.ifPresent(InstanceProceed::load);
+            propertyOptional.ifPresent(PropertyProceed::load);
             field.setAccessible(accessible);
         }
     }

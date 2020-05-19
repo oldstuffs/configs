@@ -25,10 +25,8 @@
 
 package io.github.portlek.configs.processors;
 
-import org.jetbrains.annotations.NotNull;
+public interface Proceed {
 
-public interface Proceed<T> {
-
-    void load(@NotNull T t);
+    void load();
 
 }

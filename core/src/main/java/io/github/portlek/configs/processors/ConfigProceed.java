@@ -38,13 +38,16 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class ConfigProceed implements Proceed<FlManaged> {
+public final class ConfigProceed implements Proceed {
+
+    @NotNull
+    private final FlManaged managed;
 
     @NotNull
     private final Config config;
 
     @Override
-    public void load(@NotNull final FlManaged managed) {
+    public void load() {
         final FileType type = this.config.type();
         final String name;
         if (this.config.name().endsWith(type.suffix)) {
@@ -54,7 +57,7 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         }
         final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
-        GeneralUtilities.basedir(managed.getClass()).ifPresent(basedir -> {
+        GeneralUtilities.basedir(this.managed.getClass()).ifPresent(basedir -> {
             final String filelocation = GeneralUtilities.addSeparator(
                 this.config.location()
                     .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
@@ -83,18 +86,18 @@ public final class ConfigProceed implements Proceed<FlManaged> {
                 }
             }
             final FileConfiguration configuration = type.load(file);
-            managed.setup(file, configuration);
-            final Optional<String> versionoptional = managed.getString(versionpath);
+            this.managed.setup(file, configuration);
+            final Optional<String> versionoptional = this.managed.getString(versionpath);
             if (versionoptional.isPresent()) {
                 final Version fileversion = Version.from(versionoptional.get());
                 if (!version.is(fileversion)) {
                     // TODO: 29/01/2020
                 }
             } else {
-                version.write(versionpath, managed);
+                version.write(versionpath, this.managed);
             }
-            new FieldsProceed(managed).load(managed);
-            managed.save();
+            new FieldsProceed(this.managed, this.managed).load();
+            this.managed.save();
         });
     }
 

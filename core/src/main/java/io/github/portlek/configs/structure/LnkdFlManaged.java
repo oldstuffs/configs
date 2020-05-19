@@ -44,7 +44,7 @@ public interface LnkdFlManaged extends FlManaged {
     default void load() {
         final LinkedConfig linked = this.getClass().getDeclaredAnnotation(LinkedConfig.class);
         if (linked != null) {
-            new LinkedConfigProceed(linked).load(this);
+            new LinkedConfigProceed(this, linked).load();
             return;
         }
         throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!");

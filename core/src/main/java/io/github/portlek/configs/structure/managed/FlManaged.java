@@ -46,7 +46,7 @@ public interface FlManaged extends CfgSection {
         this.onCreate();
         final Config config = this.getClass().getDeclaredAnnotation(Config.class);
         if (config != null) {
-            new ConfigProceed(config).load(this);
+            new ConfigProceed(this, config).load();
             this.onLoad();
             return;
         }

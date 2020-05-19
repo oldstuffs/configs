@@ -35,7 +35,7 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class InstanceProceed implements Proceed<Field> {
+public final class InstanceProceed implements Proceed {
 
     @NotNull
     private final FlManaged managed;
@@ -43,17 +43,17 @@ public final class InstanceProceed implements Proceed<Field> {
     @NotNull
     private final CfgSection parent;
 
+    @NotNull
+    private final Field field;
+
     @SneakyThrows
     @Override
-    public void load(@NotNull final Field field) {
-        Optional.ofNullable(field.get(this.parent)).ifPresent(o ->
-            Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
-                new SectionProceed(
-                    this.managed,
-                    this.parent,
-                    section
-                ).load((CfgSection) o))
-        );
+    public void load() {
+        Optional.ofNullable(this.field.get(this.parent)).ifPresent(o ->
+            Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class))
+                .map(section ->
+                    new SectionProceed(this.managed, this.parent, (CfgSection) o, section))
+                .ifPresent(SectionProceed::load));
 
     }
 

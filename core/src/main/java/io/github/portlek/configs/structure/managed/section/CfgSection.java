@@ -598,6 +598,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getString(String, String)
      */
@@ -624,6 +625,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getString(String)
      */
@@ -663,6 +665,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getString(String, String)
      */
@@ -693,6 +696,7 @@ public interface CfgSection {
      * default value was specified, this will return empty string.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getString(String, String)
      */
@@ -720,6 +724,7 @@ public interface CfgSection {
      * this will return the default value.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getInt(String, int)
      */
@@ -746,6 +751,7 @@ public interface CfgSection {
      * this will return the default value.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getBoolean(String, boolean)
      */
@@ -772,6 +778,7 @@ public interface CfgSection {
      * this will return the default value.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getDouble(String, double)
      */
@@ -798,6 +805,7 @@ public interface CfgSection {
      * this will return the default value.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getFloat(String, float)
      */
@@ -824,6 +832,7 @@ public interface CfgSection {
      * this will return the default value.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see ConfigurationSection#getLong(String, long)
      */
@@ -852,6 +861,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getStringList(String)
      */
@@ -887,6 +897,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getStringList(String, List)
      * @see ArrayList
@@ -917,6 +928,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getIntegerList(String)
      */
@@ -952,6 +964,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getIntegerList(String, List)
      * @see ArrayList
@@ -982,6 +995,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getBooleanList(String)
      */
@@ -1017,6 +1031,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getBooleanList(String, List)
      * @see ArrayList
@@ -1047,6 +1062,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getDoubleList(String)
      */
@@ -1082,6 +1098,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getDoubleList(String, List)
      * @see ArrayList
@@ -1112,6 +1129,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getFloatList(String)
      */
@@ -1147,6 +1165,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getFloatList(String, List)
      * @see ArrayList
@@ -1177,6 +1196,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getLongList(String)
      */
@@ -1212,6 +1232,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getLongList(String, List)
      * @see ArrayList
@@ -1242,6 +1263,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getByteList(String)
      */
@@ -1277,6 +1299,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getByteList(String, List)
      * @see ArrayList
@@ -1307,11 +1330,13 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getCharacterList(String)
      */
     @NotNull
-    default Optional<List<Character>> getCharacterList(@NotNull final String path, @Nullable final List<Character> def) {
+    default Optional<List<Character>> getCharacterList(@NotNull final String path,
+                                                       @Nullable final List<Character> def) {
         final Optional<List<Character>> generic = this.getCharacterList(path);
         if (generic.isPresent()) {
             return generic;
@@ -1342,6 +1367,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getCharacterList(String, List)
      * @see ArrayList
@@ -1372,6 +1398,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getShortList(String)
      */
@@ -1407,6 +1434,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getShortList(String, List)
      * @see ArrayList
@@ -1437,6 +1465,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getMapList(String)
      */
@@ -1472,6 +1501,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getDoubleList(String, List)
      * @see ArrayList
@@ -1502,6 +1532,7 @@ public interface CfgSection {
      * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getList(String)
      */
@@ -1537,6 +1568,7 @@ public interface CfgSection {
      * default value was specified, this will return empty list.
      *
      * @param path Path from the Object to get.
+     * @param def The default value to return if the path is not found.
      * @return Requested Object in {@link Optional#of(Object)}.
      * @see #getList(String, List)
      * @see ArrayList

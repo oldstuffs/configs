@@ -38,7 +38,7 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class PropertyProceed implements Proceed<Field> {
+public final class PropertyProceed implements Proceed {
 
     @NotNull
     private final FlManaged managed;
@@ -49,23 +49,26 @@ public final class PropertyProceed implements Proceed<Field> {
     @NotNull
     private final Property property;
 
+    @NotNull
+    private final Field field;
+
     @SneakyThrows
     @Override
-    public void load(@NotNull final Field field) {
+    public void load() {
         final String path = GeneralUtilities.calculatePath(
             this.property.regex(),
             this.property.separator(),
             this.property.path(),
-            field.getName()
+            this.field.getName()
         );
-        final Optional<Object> optional = Optional.ofNullable(field.get(this.parent));
+        final Optional<Object> optional = Optional.ofNullable(this.field.get(this.parent));
         if (!optional.isPresent()) {
             return;
         }
         final Object fieldvalue = optional.get();
         final Optional<?> filevalueoptional = this.get(fieldvalue, path);
         if (filevalueoptional.isPresent()) {
-            field.set(this.parent, filevalueoptional.get());
+            this.field.set(this.parent, filevalueoptional.get());
         } else {
             this.set(fieldvalue, path);
         }
