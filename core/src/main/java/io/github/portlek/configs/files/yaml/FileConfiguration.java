@@ -56,8 +56,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * using UTF8.
      *
      * @param file File to save to.
-     * @throws IOException Thrown when the given file cannot be written to for
-     * any reason.
      * @throws IllegalArgumentException Thrown when file is null.
      */
     @SneakyThrows
