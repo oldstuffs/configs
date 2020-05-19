@@ -25,11 +25,17 @@
 
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.processors.ConfigProceed;
+import io.github.portlek.configs.util.jsonparser.Json;
+import io.github.portlek.configs.util.jsonparser.JsonArray;
+import io.github.portlek.configs.util.jsonparser.JsonObject;
+import io.github.portlek.configs.util.jsonparser.JsonValue;
 import java.io.*;
 import java.net.URI;
 import java.net.URLConnection;
-import java.util.Optional;
+import java.util.*;
+import java.util.logging.Logger;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +43,8 @@ import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
 public class GeneralUtilities {
+
+    private final Logger LOG = Logger.getLogger(SerializationHelper.class.getName());
 
     @NotNull
     public String addSeparator(@NotNull final String raw) {
@@ -131,109 +139,247 @@ public class GeneralUtilities {
         }).orElse(null);
     }
 
-    public int toInt(final Object object) {
+    public int toInt(@NotNull final Object object) {
         if (object instanceof Number) {
             return ((Number) object).intValue();
         }
 
         try {
             return Integer.parseInt(object.toString());
-        } catch (final NumberFormatException | NullPointerException ignored) {
+        } catch (final NumberFormatException ignored) {
         }
         return 0;
     }
 
-    public double toDouble(final Object object) {
+    public double toDouble(@NotNull final Object object) {
         if (object instanceof Number) {
             return ((Number) object).doubleValue();
         }
 
         try {
             return Double.parseDouble(object.toString());
-        } catch (final NumberFormatException | NullPointerException ignored) {
+        } catch (final NumberFormatException ignored) {
         }
         return 0;
     }
 
-    public float toFloat(final Object object) {
+    public float toFloat(@NotNull final Object object) {
         if (object instanceof Number) {
             return ((Number) object).floatValue();
         }
 
         try {
             return Float.parseFloat(object.toString());
-        } catch (final NumberFormatException | NullPointerException ignored) {
+        } catch (final NumberFormatException ignored) {
         }
         return (float) 0;
     }
 
-    public long toLong(final Object object) {
+    public long toLong(@NotNull final Object object) {
         if (object instanceof Number) {
             return ((Number) object).longValue();
         }
-
         try {
             return Long.parseLong(object.toString());
-        } catch (final NumberFormatException | NullPointerException ignored) {
+        } catch (final NumberFormatException ignored) {
         }
         return 0L;
     }
 
-    /**
-     * <p>Validate that the argument condition is {@code true}; otherwise
-     * throwing an exception with the specified message. This method is useful when
-     * validating according to an arbitrary boolean expression, such as validating a
-     * primitive number or using your own custom validation expression.</p>
-     *
-     * <pre>
-     * Validate.isTrue( (i bigger than 0), "The value must be greater than zero");
-     * Validate.isTrue( myObject.isOk(), "The object is not OK");
-     * </pre>
-     *
-     * @param expression the boolean expression to check
-     * @param message the exception message if invalid
-     * @throws IllegalArgumentException if expression is {@code false}
-     */
-    public void isTrue(final boolean expression, final String message) {
-        if (!expression) {
-            throw new IllegalArgumentException(message);
+    @NotNull
+    public Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
+        @Nullable final Object object;
+        if (value.isBoolean()) {
+            object = value.asBoolean();
+        } else if (value.isNumber()) {
+            object = GeneralUtilities.parseNumber(value);
+        } else if (value.isString()) {
+            object = value.asString();
+        } else if (value.isArray()) {
+            object = GeneralUtilities.jsonArrayAsList(value.asArray());
+        } else if (value.isObject()) {
+            object = GeneralUtilities.jsonObjectAsMap(value.asObject());
+        } else {
+            object = null;
+        }
+        return Optional.ofNullable(object);
+    }
+
+    @NotNull
+    public List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
+        final List<Object> list = new ArrayList<>(array.size());
+        for (final JsonValue element : array) {
+            GeneralUtilities.jsonValueAsObject(element).ifPresent(list::add);
+        }
+        return list;
+    }
+
+    @NotNull
+    public Map<String, Object> jsonObjectAsMap(@NotNull final JsonValue value) {
+        if (!(value instanceof JsonObject)) {
+            return new HashMap<>();
+        }
+        final Iterable<JsonObject.Member> jsonObject = (JsonObject) value;
+        final Map<String, Object> map = new HashMap<>();
+        jsonObject.forEach(member ->
+            GeneralUtilities.jsonValueAsObject(member.getValue()).ifPresent(o ->
+                map.put(member.getName(), o)));
+        return map;
+    }
+
+    @NotNull
+    public Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
+        final JsonValue value;
+        if (object instanceof Boolean) {
+            value = Json.value(object);
+        } else if (object instanceof Integer) {
+            value = Json.value(object);
+        } else if (object instanceof Long) {
+            value = Json.value(object);
+        } else if (object instanceof Float) {
+            value = Json.value(object);
+        } else if (object instanceof Double) {
+            value = Json.value(object);
+        } else if (object instanceof String) {
+            value = Json.value((String) object);
+        } else if (object instanceof Iterable<?>) {
+            value = GeneralUtilities.collectionAsJsonArray((Iterable<?>) object);
+        } else if (object instanceof Map) {
+            value = GeneralUtilities.mapAsJsonObject((Map<?, ?>) object);
+        } else if (object instanceof ConfigurationSection) {
+            value = GeneralUtilities.mapAsJsonObject(((ConfigurationSection) object).getValues(false));
+        } else {
+            value = null;
+        }
+        return Optional.ofNullable(value);
+    }
+
+    @NotNull
+    public JsonArray collectionAsJsonArray(@NotNull final Iterable<?> collection) {
+        final JsonArray array = new JsonArray();
+        collection.forEach(o ->
+            GeneralUtilities.objectAsJsonValue(o).ifPresent(array::add));
+        return array;
+    }
+
+    @NotNull
+    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
+        final JsonObject object = new JsonObject();
+        map.forEach((key, value) ->
+            GeneralUtilities.objectAsJsonValue(value).ifPresent(jsonValue ->
+                object.add(String.valueOf(key), jsonValue)));
+        return object;
+    }
+
+    @NotNull
+    public Object serialize(@NotNull final Object value) {
+        Object value1 = value;
+        if (value1 instanceof Object[]) {
+            value1 = new ArrayList<>(Arrays.asList((Object[]) value1));
+        }
+        if (value1 instanceof ConfigurationSection) {
+            return GeneralUtilities.buildMap(((ConfigurationSection) value1).getValues(false));
+        } else if (value1 instanceof Map) {
+            return GeneralUtilities.buildMap((Map<?, ?>) value1);
+        } else if (value1 instanceof List) {
+            return GeneralUtilities.buildList((Collection<?>) value1);
+        } else {
+            return value1;
         }
     }
-    // notNull
-    //---------------------------------------------------------------------------------
 
-    /**
-     * <p>Validate that the specified argument is not {@code null};
-     * otherwise throwing an exception with the specified message.
-     *
-     * <pre>Validate.notNull(myObject, "The object must not be null");</pre>
-     *
-     * @param object the object to check
-     * @param message the exception message if invalid
-     */
-    public void notNull(final Object object, final String message) {
-        if (object == null) {
-            throw new IllegalArgumentException(message);
+    @NotNull
+    public Map<String, Object> deserialize(@NotNull final Map<?, ?> input) {
+        final Map<String, Object> output = new LinkedHashMap<>(input.size());
+        for (final Map.Entry<?, ?> e : input.entrySet()) {
+            if (e.getValue() instanceof Map) {
+                output.put(e.getKey().toString(), GeneralUtilities.deserialize((Map<?, ?>) e.getValue()));
+            } else if (e.getValue() instanceof List) {
+                output.put(e.getKey().toString(), GeneralUtilities.deserialize((List<?>) e.getValue()));
+            } else {
+                output.put(e.getKey().toString(), e.getValue());
+            }
         }
+        return output;
     }
-    // notEmpty string
-    //---------------------------------------------------------------------------------
+
+    @Nullable
+    private Object parseNumber(@NotNull final JsonValue number) {
+        try {
+            Integer.parseInt(number.toString());
+            return number.asInt();
+        } catch (final NumberFormatException e) {
+            try {
+                Long.parseLong(number.toString());
+                return number.asLong();
+            } catch (final NumberFormatException e1) {
+                try {
+                    Double.parseDouble(number.toString());
+                    return number.asDouble();
+                } catch (final NumberFormatException ignored) {
+                }
+            }
+        }
+        return null;
+    }
 
     /**
-     * <p>Validate that the specified argument string is
-     * neither {@code null} nor a length from zero (no characters);
-     * otherwise throwing an exception with the specified message.
-     *
-     * <pre>Validate.notEmpty(myString, "The string must not be empty");</pre>
-     *
-     * @param string the string to check
-     * @param message the exception message if invalid
-     * @throws IllegalArgumentException if the string is empty
+     * Takes a Map and parses through the values, to ensure that, before saving, all objects are as appropriate as
+     * possible for storage in most data formats.
+     * <p>
+     * Specifically it does the following:
+     * for Map: calls this method recursively on the Map before putting it in the returned Map.
+     * for List: calls {@link #buildList(Collection)} which functions similar to this method.
+     * for ConfigurationSection: gets the values as a map and calls this method recursively on the Map before putting
+     * it in the returned Map.
+     * for Everything else: stores it as is in the returned Map.
      */
-    public void notEmpty(final String string, final String message) {
-        if (string == null || string.isEmpty()) {
-            throw new IllegalArgumentException(message);
+    @NotNull
+    private Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
+        final Map<String, Object> result = new LinkedHashMap<>(map.size());
+        for (final Map.Entry<?, ?> entry : map.entrySet()) {
+            result.put(entry.getKey().toString(), GeneralUtilities.serialize(entry.getValue()));
         }
+        return result;
+    }
+
+    /**
+     * Takes a Collection and parses through the values, to ensure that, before saving, all objects are as appropriate
+     * as possible for storage in most data formats.
+     * <p>
+     * Specifically it does the following:
+     * for Map: calls {@link #buildMap(Map)} on the Map before adding to the returned list.
+     * for List: calls this method recursively on the List.
+     * for ConfigurationSection: gets the values as a map and calls {@link #buildMap(Map)} on the Map
+     * before adding to the returned list.
+     * for Everything else: stores it as is in the returned List.
+     */
+    @NotNull
+    private List<Object> buildList(@NotNull final Collection<?> collection) {
+        final List<Object> result = new ArrayList<>(collection.size());
+        for (final Object o : collection) {
+            result.add(GeneralUtilities.serialize(o));
+        }
+        return result;
+    }
+
+    /**
+     * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
+     * lists and maps within lists.
+     */
+    @NotNull
+    private Collection<Object> deserialize(@NotNull final Collection<?> input) {
+        final Collection<Object> output = new ArrayList<>(input.size());
+        for (final Object o : input) {
+            if (o instanceof Map) {
+                output.add(GeneralUtilities.deserialize((Map<?, ?>) o));
+            } else if (o instanceof List) {
+                output.add(GeneralUtilities.deserialize((List<?>) o));
+            } else {
+                output.add(o);
+            }
+        }
+        return output;
     }
 
 }
