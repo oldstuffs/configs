@@ -44,13 +44,13 @@ public interface FlManaged extends CfgSection {
 
     default void load() {
         this.onCreate();
-        final Config config = this.getClass().getDeclaredAnnotation(Config.class);
-        if (config != null) {
-            new ConfigProceed(this, config).load();
-            this.onLoad();
-            return;
-        }
-        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!");
+        new ConfigProceed(
+            this,
+            Optional.ofNullable(this.getClass().getDeclaredAnnotation(Config.class))
+                .orElseThrow(() ->
+                    new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!"))
+        ).run();
+        this.onLoad();
     }
 
     default void onCreate() {
