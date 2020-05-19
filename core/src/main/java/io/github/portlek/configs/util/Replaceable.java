@@ -1,7 +1,5 @@
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.provided.Provided;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
@@ -173,7 +171,5 @@ public final class Replaceable<X> {
                 .collect(Collectors.toList()));
         }
     }
-
-
 
 }

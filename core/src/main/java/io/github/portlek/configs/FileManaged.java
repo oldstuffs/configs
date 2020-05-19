@@ -31,7 +31,6 @@ import io.github.portlek.configs.provided.ReplaceableProvider;
 import io.github.portlek.configs.util.Replaceable;
 import java.io.File;
 import java.util.*;
-import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

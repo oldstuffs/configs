@@ -32,7 +32,6 @@ import io.github.portlek.configs.provided.Provided;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
