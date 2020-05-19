@@ -29,9 +29,7 @@ import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
-import io.github.portlek.configs.util.AddSeparator;
-import io.github.portlek.configs.util.Basedir;
-import io.github.portlek.configs.util.SaveResource;
+import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.util.Version;
 import java.io.File;
 import java.io.IOException;
@@ -56,23 +54,23 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         }
         final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
-        new Basedir(managed.getClass()).value().ifPresent(basedir -> {
-            final String filelocation = new AddSeparator(
+        GeneralUtilities.basedir(managed.getClass()).ifPresent(basedir -> {
+            final String filelocation = GeneralUtilities.addSeparator(
                 this.config.location()
                     .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
                     .replace("/", File.separator)
-            ).value();
-            final String jarlocation = new AddSeparator(
+            );
+            final String jarlocation = GeneralUtilities.addSeparator(
                 this.config.location()
                     .replace("%basedir%", basedir.getAbsolutePath())
                     .replace("/", File.separator)
-            ).value();
+            );
             final File file;
             if (this.config.copyDefault()) {
-                file = new SaveResource(
+                file = GeneralUtilities.saveResource(
                     jarlocation,
-                    new AddSeparator(this.config.resourcePath()).value() + name
-                ).value();
+                    GeneralUtilities.addSeparator(this.config.resourcePath()) + name
+                );
             } else {
                 file = new File(filelocation, name);
             }

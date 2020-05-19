@@ -29,11 +29,12 @@ import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.util.PathCalc;
+import io.github.portlek.configs.util.GeneralUtilities;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
@@ -48,32 +49,28 @@ public final class PropertyProceed implements Proceed<Field> {
     @NotNull
     private final Property property;
 
+    @SneakyThrows
     @Override
     public void load(@NotNull final Field field) {
-        final String path = new PathCalc(
+        final String path = GeneralUtilities.calculatePath(
             this.property.regex(),
             this.property.separator(),
             this.property.path(),
             field.getName()
-        ).value();
-        try {
-            final Optional<Object> optional = Optional.ofNullable(field.get(this.parent));
-            if (!optional.isPresent()) {
-                return;
-            }
-            final Object fieldvalue = optional.get();
-            final Optional<?> filevalueoptional = this.get(fieldvalue, path);
-            if (filevalueoptional.isPresent()) {
-                field.set(this.parent, filevalueoptional.get());
-            } else {
-                this.set(fieldvalue, path);
-            }
-        } catch (final IllegalAccessException e) {
-            e.printStackTrace();
+        );
+        final Optional<Object> optional = Optional.ofNullable(field.get(this.parent));
+        if (!optional.isPresent()) {
+            return;
+        }
+        final Object fieldvalue = optional.get();
+        final Optional<?> filevalueoptional = this.get(fieldvalue, path);
+        if (filevalueoptional.isPresent()) {
+            field.set(this.parent, filevalueoptional.get());
+        } else {
+            this.set(fieldvalue, path);
         }
     }
 
-    @SuppressWarnings("unchecked")
     @NotNull
     private Optional<?> get(@NotNull final Object fieldvalue, @NotNull final String path) {
         if (fieldvalue instanceof String) {
@@ -82,6 +79,7 @@ public final class PropertyProceed implements Proceed<Field> {
         if (fieldvalue instanceof List<?>) {
             return this.parent.getList(path);
         }
+        // noinspection unchecked
         return this.managed.getCustomValue((Class<Object>) fieldvalue.getClass()).map(objectProvided ->
             objectProvided.getWithField(fieldvalue, this.parent, path)
         ).orElseGet(() ->

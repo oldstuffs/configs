@@ -29,7 +29,6 @@
 package io.github.portlek.configs.files.json;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.configuration.InvalidConfigurationException;
 import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.util.JsonHelper;
 import io.github.portlek.configs.util.SerializationHelper;
@@ -37,10 +36,7 @@ import io.github.portlek.configs.util.jsonparser.Json;
 import io.github.portlek.configs.util.jsonparser.JsonObject;
 import io.github.portlek.configs.util.jsonparser.WriterConfig;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.jetbrains.annotations.NotNull;
 
@@ -68,14 +64,9 @@ public final class JsonConfiguration extends FileConfiguration {
         return JsonConfiguration.loadConfiguration(new JsonConfiguration(), file);
     }
 
-    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config, @NotNull final File file) {
-        try {
-            config.load(file);
-        } catch (final FileNotFoundException ex) {
-            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot find file " + file, ex);
-        } catch (final IOException | InvalidConfigurationException ex) {
-            JsonConfiguration.LOG.log(Level.SEVERE, "Cannot load " + file, ex);
-        }
+    private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config,
+                                                       @NotNull final File file) {
+        config.load(file);
         return config;
     }
 
@@ -97,7 +88,6 @@ public final class JsonConfiguration extends FileConfiguration {
         if (contents.isEmpty()) {
             return;
         }
-
         this.convertMapsToSections(
             JsonHelper.jsonObjectAsMap(
                 Json.parse(contents)

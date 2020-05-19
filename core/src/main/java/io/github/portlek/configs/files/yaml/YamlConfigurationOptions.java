@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.util.Validate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -96,9 +95,12 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
      */
     @NotNull
     public final YamlConfigurationOptions indent(final int value) {
-        Validate.isTrue(value >= 2, "Indent must be at least 2 characters");
-        Validate.isTrue(value <= 9, "Indent cannot be greater than 9 characters");
-
+        if (value < 2) {
+            throw new IllegalStateException("Indent must be at least 2 characters");
+        }
+        if (value > 9) {
+            throw new IllegalStateException("Indent cannot be greater than 9 characters");
+        }
         this.indent = value;
         return this;
     }

@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.configuration;
 
-import io.github.portlek.configs.configuration.serialization.ConfigurationSerializable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -704,38 +703,6 @@ public interface ConfigurationSection {
      * @return Requested object
      */
     @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
-
-    /**
-     * Gets the requested {@link ConfigurationSerializable} object at the given
-     * path.
-     * <p>
-     * If the Object does not exist but a default value has been specified, this
-     * will return the default value. If the Object does not exist and no
-     * default value was specified, this will return null.
-     *
-     * @param <T> the type from {@link ConfigurationSerializable}
-     * @param path the path to the object.
-     * @param clazz the type from {@link ConfigurationSerializable}
-     * @return Requested {@link ConfigurationSerializable} object
-     */
-    @Nullable <T extends ConfigurationSerializable> T getSerializable(@NotNull String path, @NotNull Class<T> clazz);
-
-    /**
-     * Gets the requested {@link ConfigurationSerializable} object at the given
-     * path, returning a default value if not found
-     * <p>
-     * If the Object does not exist then the specified default value will
-     * returned regardless from if a default has been identified in the root
-     * {@link Configuration}.
-     *
-     * @param <T> the type from {@link ConfigurationSerializable}
-     * @param path the path to the object.
-     * @param clazz the type from {@link ConfigurationSerializable}
-     * @param def the default object to return if the object is not present at
-     * the path
-     * @return Requested {@link ConfigurationSerializable} object
-     */
-    @Nullable <T extends ConfigurationSerializable> T getSerializable(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
 
     /**
      * Gets the requested ConfigurationSection by path.

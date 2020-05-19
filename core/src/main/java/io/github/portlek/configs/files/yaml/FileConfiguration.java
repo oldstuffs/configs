@@ -28,9 +28,9 @@ package io.github.portlek.configs.files.yaml;
 import io.github.portlek.configs.configuration.Configuration;
 import io.github.portlek.configs.configuration.InvalidConfigurationException;
 import io.github.portlek.configs.configuration.MemoryConfiguration;
-import io.github.portlek.configs.util.Validate;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -60,9 +60,8 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * any reason.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-    public final void save(@NotNull final File file) throws IOException {
-        Validate.notNull(file, "File cannot be null");
-
+    @SneakyThrows
+    public final void save(@NotNull final File file) {
         file.getParentFile().mkdirs();
 
         final String data = this.saveToString();
@@ -91,16 +90,9 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * thrown.
      *
      * @param file File to load from.
-     * @throws FileNotFoundException Thrown when the given file cannot be
-     * opened.
-     * @throws IOException Thrown when the given file cannot be read.
-     * @throws InvalidConfigurationException Thrown when the given file is not
-     * a valid Configuration.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-    public final void load(@NotNull final String file) throws FileNotFoundException, IOException, InvalidConfigurationException {
-        Validate.notNull(file, "File cannot be null");
-
+    public final void load(@NotNull final String file) {
         this.load(new File(file));
     }
 
@@ -115,18 +107,11 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * thrown.
      *
      * @param file File to load from.
-     * @throws FileNotFoundException Thrown when the given file cannot be
-     * opened.
-     * @throws IOException Thrown when the given file cannot be read.
-     * @throws InvalidConfigurationException Thrown when the given file is not
-     * a valid Configuration.
      * @throws IllegalArgumentException Thrown when file is null.
      */
-    public final void load(@NotNull final File file) throws FileNotFoundException, IOException, InvalidConfigurationException {
-        Validate.notNull(file, "File cannot be null");
-
+    @SneakyThrows
+    public final void load(@NotNull final File file) {
         final FileInputStream stream = new FileInputStream(file);
-
         this.load(new InputStreamReader(stream, StandardCharsets.UTF_8));
     }
 
@@ -138,13 +123,16 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * from the given stream.
      *
      * @param reader the reader to load from
-     * @throws IOException thrown when underlying reader throws an IOException
-     * @throws InvalidConfigurationException thrown when the reader does not
-     * represent a valid Configuration
      * @throws IllegalArgumentException thrown when reader is null
      */
-    public final void load(@NotNull final Reader reader) throws IOException, InvalidConfigurationException {
-        final BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader);
+    @SneakyThrows
+    public final void load(@NotNull final Reader reader) {
+        final BufferedReader input;
+        if (reader instanceof BufferedReader) {
+            input = (BufferedReader) reader;
+        } else {
+            input = new BufferedReader(reader);
+        }
 
         final StringBuilder builder = new StringBuilder();
 
@@ -173,11 +161,9 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * If the string is invalid in any way, an exception will be thrown.
      *
      * @param contents Contents from a Configuration to load.
-     * @throws InvalidConfigurationException Thrown if the specified string is
-     * invalid.
      * @throws IllegalArgumentException Thrown if contents is null.
      */
-    public abstract void loadFromString(@NotNull String contents) throws InvalidConfigurationException;
+    public abstract void loadFromString(@NotNull String contents);
 
     @NotNull
     @Override

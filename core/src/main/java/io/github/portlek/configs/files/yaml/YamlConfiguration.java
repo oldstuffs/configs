@@ -27,19 +27,13 @@ package io.github.portlek.configs.files.yaml;
 
 import io.github.portlek.configs.configuration.Configuration;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.configuration.InvalidConfigurationException;
-import io.github.portlek.configs.util.Validate;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.Reader;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
 /**
@@ -73,17 +67,8 @@ public final class YamlConfiguration extends FileConfiguration {
      */
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final File file) {
-        Validate.notNull(file, "File cannot be null");
-
         final YamlConfiguration config = new YamlConfiguration();
-
-        try {
-            config.load(file);
-        } catch (final FileNotFoundException ignored) {
-        } catch (final IOException | InvalidConfigurationException ex) {
-            Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load " + file, ex);
-        }
-
+        config.load(file);
         return config;
     }
 
@@ -100,16 +85,8 @@ public final class YamlConfiguration extends FileConfiguration {
      */
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final Reader reader) {
-        Validate.notNull(reader, "Stream cannot be null");
-
         final YamlConfiguration config = new YamlConfiguration();
-
-        try {
-            config.load(reader);
-        } catch (final IOException | InvalidConfigurationException ex) {
-            Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load configuration from stream", ex);
-        }
-
+        config.load(reader);
         return config;
     }
 
@@ -160,24 +137,15 @@ public final class YamlConfiguration extends FileConfiguration {
         return header + dump;
     }
 
+    @SneakyThrows
     @Override
-    public void loadFromString(@NotNull final String contents) throws InvalidConfigurationException {
-        Validate.notNull(contents, "Contents cannot be null");
-
+    public void loadFromString(@NotNull final String contents) {
         final Map<?, ?> input;
-        try {
-            input = this.yaml.load(contents);
-        } catch (final YAMLException e) {
-            throw new InvalidConfigurationException(e);
-        } catch (final ClassCastException e) {
-            throw new InvalidConfigurationException("Top level is not a Map.");
-        }
-
+        input = this.yaml.load(contents);
         final String header = YamlConfiguration.parseHeader(contents);
         if (!header.isEmpty()) {
             this.options().header(header);
         }
-
         if (input != null) {
             this.convertMapsToSections(input, this);
         }

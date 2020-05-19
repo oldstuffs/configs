@@ -30,7 +30,6 @@ import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.provided.Provided;
 import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,11 +65,7 @@ public interface FlManaged extends CfgSection {
     @NotNull <T> Optional<Provided<T>> getCustomValue(@NotNull Class<T> aClass);
 
     default void save() {
-        try {
-            this.getConfigurationSection().save(this.getFile());
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
+        this.getConfigurationSection().save(this.getFile());
     }
 
     @NotNull

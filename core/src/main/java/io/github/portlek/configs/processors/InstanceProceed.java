@@ -31,6 +31,7 @@ import io.github.portlek.configs.annotations.Section;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
@@ -42,20 +43,18 @@ public final class InstanceProceed implements Proceed<Field> {
     @NotNull
     private final CfgSection parent;
 
+    @SneakyThrows
     @Override
     public void load(@NotNull final Field field) {
-        try {
-            Optional.ofNullable(field.get(this.parent)).ifPresent(o ->
-                Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
-                    new SectionProceed(
-                        this.managed,
-                        this.parent,
-                        section
-                    ).load((CfgSection) o))
-            );
-        } catch (final IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        Optional.ofNullable(field.get(this.parent)).ifPresent(o ->
+            Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
+                new SectionProceed(
+                    this.managed,
+                    this.parent,
+                    section
+                ).load((CfgSection) o))
+        );
+
     }
 
 }

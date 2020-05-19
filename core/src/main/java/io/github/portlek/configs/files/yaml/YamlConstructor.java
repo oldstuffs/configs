@@ -25,9 +25,6 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.configuration.serialization.ConfigurationSerialization;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
@@ -49,23 +46,7 @@ public class YamlConstructor extends SafeConstructor {
             if (node.isTwoStepsConstruction()) {
                 throw new YAMLException("Unexpected referential mapping structure. Node: " + node);
             }
-
-            final Map<?, ?> raw = (Map<?, ?>) super.construct(node);
-
-            if (raw.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
-                final Map<String, Object> typed = new LinkedHashMap<>(raw.size());
-                for (final Map.Entry<?, ?> entry : raw.entrySet()) {
-                    typed.put(entry.getKey().toString(), entry.getValue());
-                }
-
-                try {
-                    return ConfigurationSerialization.deserializeObject(typed);
-                } catch (final IllegalArgumentException ex) {
-                    throw new YAMLException("Could not deserialize object", ex);
-                }
-            }
-
-            return raw;
+            return super.construct(node);
         }
 
         @Override
