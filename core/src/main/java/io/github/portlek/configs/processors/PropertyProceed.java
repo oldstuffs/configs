@@ -38,7 +38,7 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class PropertyProceed implements Proceed {
+public final class PropertyProceed implements Runnable {
 
     @NotNull
     private final FlManaged managed;
@@ -54,7 +54,7 @@ public final class PropertyProceed implements Proceed {
 
     @SneakyThrows
     @Override
-    public void load() {
+    public void run() {
         final String path = GeneralUtilities.calculatePath(
             this.property.regex(),
             this.property.separator(),

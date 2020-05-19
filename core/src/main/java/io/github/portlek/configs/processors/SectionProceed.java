@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class SectionProceed implements Proceed {
+public final class SectionProceed implements Runnable {
 
     @NotNull
     private final FlManaged managed;
@@ -47,9 +47,9 @@ public final class SectionProceed implements Proceed {
     private final Section section;
 
     @Override
-    public void load() {
+    public void run() {
         this.sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.path()).getConfigurationSection());
-        new FieldsProceed(this.managed, this.sctn).load();
+        new FieldsProceed(this.managed, this.sctn).run();
     }
 
 }

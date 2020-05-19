@@ -38,7 +38,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class ConfigProceed implements Proceed {
+public final class ConfigProceed implements Runnable {
 
     @NotNull
     private final FlManaged managed;
@@ -47,7 +47,7 @@ public final class ConfigProceed implements Proceed {
     private final Config config;
 
     @Override
-    public void load() {
+    public void run() {
         final FileType type = this.config.type();
         final String name;
         if (this.config.name().endsWith(type.suffix)) {
@@ -96,7 +96,7 @@ public final class ConfigProceed implements Proceed {
             } else {
                 version.write(versionpath, this.managed);
             }
-            new FieldsProceed(this.managed, this.managed).load();
+            new FieldsProceed(this.managed, this.managed).run();
             this.managed.save();
         });
     }

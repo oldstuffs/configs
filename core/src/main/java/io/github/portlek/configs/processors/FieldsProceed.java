@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class FieldsProceed implements Proceed {
+public final class FieldsProceed implements Runnable {
 
     @NotNull
     private final FlManaged managed;
@@ -19,7 +19,7 @@ public final class FieldsProceed implements Proceed {
     private final CfgSection parent;
 
     @Override
-    public void load() {
+    public void run() {
         for (final Field field : this.parent.getClass().getDeclaredFields()) {
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);
