@@ -25,11 +25,20 @@
 
 package io.github.portlek.configs.annotations;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import javax.annotation.processing.SupportedSourceVersion;
+import javax.lang.model.SourceVersion;
 import org.jetbrains.annotations.NotNull;
 
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD, ElementType.TYPE})
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public @interface Comment {
 
     @NotNull
-    String[] value() default {};
+    String[] value();
 
 }
