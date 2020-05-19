@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.structure.managed;
 
-import io.github.portlek.configs.files.yaml.FileConfiguration;
+import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.provided.ReplaceableProvider;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;

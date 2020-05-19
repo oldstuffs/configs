@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.files;
 
+import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.files.json.JsonConfiguration;
-import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.files.yaml.YamlConfiguration;
 import java.io.File;
 import java.util.function.Function;

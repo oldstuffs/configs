@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.structure.managed.section;
 
-import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
+import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

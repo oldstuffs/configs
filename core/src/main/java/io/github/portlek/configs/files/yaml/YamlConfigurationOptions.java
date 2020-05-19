@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.files.yaml;
 
+import io.github.portlek.configs.files.configuration.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

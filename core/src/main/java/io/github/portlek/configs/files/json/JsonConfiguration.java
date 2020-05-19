@@ -29,7 +29,7 @@
 package io.github.portlek.configs.files.json;
 
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
-import io.github.portlek.configs.files.yaml.FileConfiguration;
+import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.util.jsonparser.Json;
 import io.github.portlek.configs.util.jsonparser.JsonObject;
