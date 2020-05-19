@@ -136,6 +136,8 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @param fallback The fallback value to return if the path is not found.
+     * @param function the function to get requested object's from the section.
+     * @param <T> The requested object's type.
      * @return Requested Object.
      */
     @NotNull
@@ -145,6 +147,21 @@ public interface CfgSection {
             this.set(path, fallback);
             return fallback;
         });
+    }
+
+    /**
+     * @param path
+     * @param function
+     * @param <T>
+     * @return
+     */
+    @NotNull
+    default <T> Optional<T> getGeneric(@NotNull final String path,
+                                       @NotNull final Function<String, T> function) {
+        if (this.contains(path)) {
+            return Optional.ofNullable(function.apply(path));
+        }
+        return Optional.empty();
     }
 
     /**
@@ -551,15 +568,6 @@ public interface CfgSection {
      * @param configurationSection the configuration section to manage section itself.
      */
     void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection configurationSection);
-
-    @NotNull
-    default <T> Optional<T> getGeneric(@NotNull final String path,
-                                       @NotNull final Function<String, T> function) {
-        if (this.contains(path)) {
-            return Optional.ofNullable(function.apply(path));
-        }
-        return Optional.empty();
-    }
 
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path) {
