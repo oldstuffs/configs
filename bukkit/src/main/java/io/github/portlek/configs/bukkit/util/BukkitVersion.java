@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
  * Gets minecraft version from
  * package version from the server.
  */
-final class BukkitVersion {
+public final class BukkitVersion {
 
     /**
      * Pattern from the server text
@@ -54,7 +54,7 @@ final class BukkitVersion {
     /**
      * Initiates with current running server package name
      */
-    BukkitVersion() {
+    public BukkitVersion() {
         this(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].substring(1));
     }
 

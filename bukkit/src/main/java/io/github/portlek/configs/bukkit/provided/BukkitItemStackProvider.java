@@ -23,10 +23,12 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.util;
+package io.github.portlek.configs.bukkit.provided;
 
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
+import io.github.portlek.configs.bukkit.util.BukkitVersion;
+import io.github.portlek.configs.bukkit.util.ColorUtil;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.bukkit.util.BukkitItemStackProvider;
+import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.FileManaged;
