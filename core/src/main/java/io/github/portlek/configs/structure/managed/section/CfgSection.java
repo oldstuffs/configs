@@ -554,7 +554,7 @@ public interface CfgSection {
     }
 
     /**
-     * Gives a {@link Supplier>} to create a new section.
+     * Gives a {@link Supplier} to create a new section.
      *
      * @return a {@link CfgSection} supplier to create a new section.
      */
