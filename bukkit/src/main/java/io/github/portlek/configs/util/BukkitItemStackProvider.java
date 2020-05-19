@@ -18,7 +18,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     @Override
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
                     @NotNull final String path) {
-        final String fnlpath = new PutDot(path).value();
+        final String fnlpath = GeneralUtilities.putDot(path);
         section.set(fnlpath + "material", itemStack.getType().name());
         section.set(fnlpath + "amount", itemStack.getAmount());
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
@@ -55,7 +55,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     @NotNull
     @Override
     public Optional<ItemStack> get(@NotNull final CfgSection section, @NotNull final String path) {
-        final String fnlpath = new PutDot(path).value();
+        final String fnlpath = GeneralUtilities.putDot(path);
         final Optional<String> optional = section.getString(fnlpath + "material");
         if (!optional.isPresent()) {
             return Optional.empty();
