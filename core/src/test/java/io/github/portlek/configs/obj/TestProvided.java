@@ -4,7 +4,6 @@ import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
-import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 public final class TestProvided implements Provided<ProvidedObject> {
@@ -30,9 +29,9 @@ public final class TestProvided implements Provided<ProvidedObject> {
         final String uuid = "9e03090a-c24b-43a3-8c29-0d47b7e3efc5";
         return Optional.of(
             new ProvidedObject(
-                UUID.fromString(providedsection.getOrSet("uuid", uuid)),
-                providedsection.getOrSet("name", "Not found"),
-                providedsection.getOrSet("age", 0)
+                providedsection.getOrSetUniqueId("uuid", uuid),
+                providedsection.getOrSetString("name", "Not found"),
+                providedsection.getOrSetInteger("age", 0)
             )
         );
     }

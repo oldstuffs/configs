@@ -80,11 +80,11 @@ public final class ConfigSectionTest {
 
     @Test
     void getOrSetTest() {
-        final Object test1 = ConfigSectionTest.config.getOrSet("getorset-test-1", "getorsettest-1");
+        final Object test1 = ConfigSectionTest.config.getOrSetString("getorset-test-1", "getorsettest-1");
         assertNotNull(test1, "`test` is null!");
         assertEquals("getorsettest-1", test1, "`getorset-test-1` is not equal to `getorsettest-1`!");
 
-        final Object test2 = ConfigSectionTest.config.getOrSet("getorset-test-2", "getorsettest-2");
+        final Object test2 = ConfigSectionTest.config.getOrSetString("getorset-test-2", "getorsettest-2");
         assertNotNull(test2, "`getorset-test-2` is null!");
         assertEquals("getorsettest-2", test2, "`getorset-test-2` is not equal to `getorsettest-2`!");
     }

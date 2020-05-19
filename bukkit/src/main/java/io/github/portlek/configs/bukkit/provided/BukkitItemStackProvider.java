@@ -103,20 +103,20 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         } else {
             material = Material.getMaterial(mtrlstrng);
         }
-        final int fnlamnt = section.getInt(fnlpath + "amount").orElse(1);
+        final int fnlamnt = section.getInteger(fnlpath + "amount").orElse(1);
         final ItemStack itemStack;
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
             itemStack = new ItemStack(
                 material,
                 fnlamnt,
-                section.getInt(fnlpath + "damage").orElse(0).shortValue(),
-                section.getInt(fnlpath + "data").orElse(0).byteValue()
+                section.getInteger(fnlpath + "damage").orElse(0).shortValue(),
+                section.getInteger(fnlpath + "data").orElse(0).byteValue()
             );
         } else {
             itemStack = new ItemStack(
                 material,
                 fnlamnt,
-                section.getInt(fnlpath + "damage").orElse(0).shortValue()
+                section.getInteger(fnlpath + "damage").orElse(0).shortValue()
             );
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
@@ -136,7 +136,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                     ).ifPresent(enchantment ->
                         itemMeta.addEnchant(
                             enchantment,
-                            section.getInt(fnlpath + "enchants." + s).orElse(1), true))));
+                            section.getInteger(fnlpath + "enchants." + s).orElse(1), true))));
             section.getStringList(fnlpath + "flags").ifPresent(flags ->
                 flags.stream()
                     .map(ItemFlag::valueOf)
