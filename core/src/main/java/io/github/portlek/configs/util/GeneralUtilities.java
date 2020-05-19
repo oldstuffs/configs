@@ -44,7 +44,7 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 public class GeneralUtilities {
 
-    private final Logger LOG = Logger.getLogger(SerializationHelper.class.getName());
+    private final Logger LOG = Logger.getLogger(GeneralUtilities.class.getName());
 
     @NotNull
     public String addSeparator(@NotNull final String raw) {
