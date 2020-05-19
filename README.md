@@ -109,6 +109,7 @@ Also you have to make relocation for the library with;
 ```java
 import io.github.portlek.configs.FileManaged;
 import io.github.portlek.configs.ConfigSection;
+import io.github.portlek.configs.annnotations.*;
 
 @Config(
   name = "config"
@@ -118,13 +119,13 @@ public final class TestConfig extends FileManaged {
   @Instance
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
-  @Value
+  @Property
   public String test = "test";
 
   @Section(path = "test-section")
   public final class TestSection extends ConfigSection {
 
-    @Value
+    @Property
     public String test_section_string = "test";
 
   }
@@ -147,6 +148,7 @@ test-section:
 ```java
 import io.github.portlek.configs.BukkitManaged;
 import io.github.portlek.configs.BukkitSection;
+import io.github.portlek.configs.annnotations.*;
 
 @Config(
   name = "config"
@@ -156,13 +158,13 @@ public final class TestConfig extends BukkitManaged {
   @Instance
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
-  @Value
+  @Property
   public String test = "test";
 
   @Section(path = "test-section")
   public final class TestSection extends BukkitSection {
 
-    @Value
+    @Property
     public String test_section_string = "test";
 
   }
@@ -185,6 +187,7 @@ test-section:
 ```java
 import io.github.portlek.configs.NukkitManaged;
 import io.github.portlek.configs.NukkitSection;
+import io.github.portlek.configs.annnotations.*;
 
 @Config(
   name = "config"
@@ -194,13 +197,13 @@ public final class TestConfig extends NukkitManaged {
   @Instance
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
 
-  @Value
+  @Property
   public String test = "test";
 
   @Section(path = "test-section")
   public final class TestSection extends NukkitSection {
 
-    @Value
+    @Property
     public String test_section_string = "test";
 
   }
@@ -225,6 +228,7 @@ test-section:
 ```java
 import io.github.portlek.configs.LinkedFileManaged;
 import io.github.portlek.configs.util.MapEntry;
+import io.github.portlek.configs.annnotations.*;
 
 @LinkedConfig(files = {
   @LinkedFile(
@@ -251,12 +255,12 @@ public final class TestLinkedConfig extends LinkedFileManaged {
     return (TestConfig) this.pull("config");
   }
 
-  @Value
+  @Property
   public String same_in_every_language = match(s -> 
       Optional.of("Same in every language!")
   );
 
-  @Value
+  @Property
   public String test = match(s -> {
     if (s.equals("en")) {
       return Optional.of("English words!");
@@ -315,12 +319,12 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
     return (TestConfig) this.pull("config");
   }
 
-  @Value
+  @Property
   public String same_in_every_language = match(s -> 
       Optional.of("Same in every language!")
   );
 
-  @Value
+  @Property
   public String test = match(s -> {
     if (s.equals("en")) {
       return Optional.of("English words!");
@@ -353,6 +357,7 @@ same-in-every-language: 'Same in every language!'
 ```java
 import io.github.portlek.configs.NukkitLinkedManaged;
 import io.github.portlek.configs.util.MapEntry;
+import io.github.portlek.configs.annotations.*;
 
 @LinkedConfig(files = {
   @LinkedFile(
@@ -379,12 +384,12 @@ public final class TestLinkedConfig extends NukkitLinkedManaged {
     return (TestConfig) this.pull("config");
   }
 
-  @Value
+  @Property
   public String same_in_every_language = match(s -> 
       Optional.of("Same in every language!")
   );
 
-  @Value
+  @Property
   public String test = match(s -> {
     if (s.equals("en")) {
       return Optional.of("English words!");
