@@ -151,7 +151,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -170,7 +170,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -187,7 +187,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -204,7 +204,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -221,7 +221,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -238,7 +238,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -255,7 +255,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -272,7 +272,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -289,7 +289,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -306,7 +306,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -323,7 +323,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -340,7 +340,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -357,7 +357,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -374,7 +374,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -391,7 +391,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -408,7 +408,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -425,7 +425,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -442,7 +442,7 @@ public interface CfgSection {
      * Gets the requested Object by path, returning a fallback value if not
      * found. And also set sets the fallback value into the path.
      * <p>
-     * If the unique id does not exist then the specified fallback value will
+     * If the Object does not exist then the specified fallback value will
      * returned regardless from if a fallback has been identified in the root
      * {@link Configuration}.
      *
@@ -485,14 +485,19 @@ public interface CfgSection {
      * you to store {@link Configuration}s or {@link ConfigurationSection}s,
      * please use {@link #createSection(String)} for that.
      * @see FlManaged#autoSave()
-     * @see FlManaged#isAutoSave()
-     * @see FlManaged#setAutoSave(boolean)
      */
     default void set(@NotNull final String path, @Nullable final Object object) {
         this.getConfigurationSection().set(path, object);
         this.getManaged().autoSave();
     }
 
+    /**
+     * Gets the requested section by path. Creates the section if not
+     * found.
+     *
+     * @param path Path from the section to get.
+     * @return Requested section.
+     */
     @NotNull
     default CfgSection getOrCreateSection(@NotNull final String path) {
         return this.getSection(path).orElseGet(() -> this.createSection(path));
