@@ -174,6 +174,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
      * @return Compiled header
      */
     @NotNull
-    protected abstract String buildHeader();
+    public abstract String buildHeader();
 
 }

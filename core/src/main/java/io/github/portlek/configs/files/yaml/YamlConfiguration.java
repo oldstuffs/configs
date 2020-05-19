@@ -164,7 +164,7 @@ public final class YamlConfiguration extends FileConfiguration {
 
     @NotNull
     @Override
-    protected String buildHeader() {
+    public String buildHeader() {
         final String header = this.options().header();
 
         if (this.options().copyHeader()) {
