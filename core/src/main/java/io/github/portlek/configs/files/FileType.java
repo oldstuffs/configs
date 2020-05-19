@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.files;
 
 import io.github.portlek.configs.files.json.JsonConfiguration;
 import io.github.portlek.configs.files.yaml.FileConfiguration;

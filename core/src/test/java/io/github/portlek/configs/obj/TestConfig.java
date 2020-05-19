@@ -27,7 +27,7 @@ package io.github.portlek.configs.obj;
 
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
 import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.FileType;
+import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
