@@ -150,10 +150,12 @@ public interface CfgSection {
     }
 
     /**
-     * @param path
-     * @param function
-     * @param <T>
-     * @return
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @param function the function to get requested object's from the section.
+     * @param <T> The requested object's type.
+     * @return Requested Object.
      */
     @NotNull
     default <T> Optional<T> getGeneric(@NotNull final String path,
@@ -552,7 +554,7 @@ public interface CfgSection {
     }
 
     /**
-     * Gives a {@link Supplier<CfgSection>} to create a new section.
+     * Gives a {@link Supplier>} to create a new section.
      *
      * @return a {@link CfgSection} supplier to create a new section.
      */
