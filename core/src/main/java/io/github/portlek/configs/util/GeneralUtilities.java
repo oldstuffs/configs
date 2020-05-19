@@ -273,19 +273,20 @@ public class GeneralUtilities {
 
     @NotNull
     public Object serialize(@NotNull final Object value) {
-        Object value1 = value;
-        if (value1 instanceof Object[]) {
-            value1 = new ArrayList<>(Arrays.asList((Object[]) value1));
+        Object value1;
+        if (value instanceof Object[]) {
+            value1 = new ArrayList<>(Arrays.asList((Object[]) value));
+        } else {
+            value1 = value;
         }
         if (value1 instanceof ConfigurationSection) {
-            return GeneralUtilities.buildMap(((ConfigurationSection) value1).getValues(false));
+            value1 = GeneralUtilities.buildMap(((ConfigurationSection) value1).getValues(false));
         } else if (value1 instanceof Map) {
-            return GeneralUtilities.buildMap((Map<?, ?>) value1);
+            value1 = GeneralUtilities.buildMap((Map<?, ?>) value1);
         } else if (value1 instanceof List) {
-            return GeneralUtilities.buildList((Collection<?>) value1);
-        } else {
-            return value1;
+            value1 = GeneralUtilities.buildList((Collection<?>) value1);
         }
+        return value1;
     }
 
     @NotNull
