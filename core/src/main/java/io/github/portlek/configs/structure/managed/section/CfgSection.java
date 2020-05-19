@@ -497,12 +497,19 @@ public interface CfgSection {
      *
      * @param path Path from the section to get.
      * @return Requested section.
+     * @see #createSection(String)
      */
     @NotNull
     default CfgSection getOrCreateSection(@NotNull final String path) {
         return this.getSection(path).orElseGet(() -> this.createSection(path));
     }
 
+    /**
+     * Gets the requested section by path.
+     *
+     * @param path Path from the section to get.
+     * @return Requested section.
+     */
     @NotNull
     default Optional<CfgSection> getSection(@NotNull final String path) {
         return Optional.ofNullable(this.getConfigurationSection().getConfigurationSection(path))
@@ -513,6 +520,12 @@ public interface CfgSection {
             });
     }
 
+    /**
+     * Creates the requested section by path.
+     *
+     * @param path Path from the section to get.
+     * @return Requested section.
+     */
     @NotNull
     default CfgSection createSection(@NotNull final String path) {
         final CfgSection configsection = this.getNewSection().get();
@@ -521,25 +534,27 @@ public interface CfgSection {
         return configsection;
     }
 
+    /**
+     * Gives a {@link Supplier<CfgSection>} to create a new section.
+     *
+     * @return a {@link CfgSection} supplier to create a new section.
+     */
     @NotNull
     default Supplier<CfgSection> getNewSection() {
         return ConfigSection::new;
     }
 
+    /**
+     * Setups the section's main managed class and {@link ConfigurationSection} to manage itself.
+     *
+     * @param managed the file managed to being main managed class.
+     * @param configurationSection the configuration section to manage section itself.
+     */
     void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection configurationSection);
 
     @NotNull
-    default <T> Optional<List<T>> getGenericList(@NotNull final String path,
-                                                 @NotNull final Function<String, List<T>> function) {
-        if (this.getList(path).isPresent()) {
-            return Optional.ofNullable(function.apply(path));
-        }
-        return Optional.empty();
-    }
-
-    @NotNull
-    default <T> Optional<T> getGenericObject(@NotNull final String path,
-                                             @NotNull final Function<String, T> function) {
+    default <T> Optional<T> getGeneric(@NotNull final String path,
+                                       @NotNull final Function<String, T> function) {
         if (this.contains(path)) {
             return Optional.ofNullable(function.apply(path));
         }
@@ -597,7 +612,7 @@ public interface CfgSection {
     }
 
     default Optional<Integer> getInteger(@NotNull final String path) {
-        return this.getGenericObject(path, this.getConfigurationSection()::getInt);
+        return this.getGeneric(path, this.getConfigurationSection()::getInt);
     }
 
     default int getInteger(@NotNull final String path, final int def) {
@@ -605,7 +620,7 @@ public interface CfgSection {
     }
 
     default Optional<Boolean> getBoolean(@NotNull final String path) {
-        return this.getGenericObject(path, this.getConfigurationSection()::getBoolean);
+        return this.getGeneric(path, this.getConfigurationSection()::getBoolean);
     }
 
     default boolean getBoolean(@NotNull final String path, final boolean def) {
@@ -613,7 +628,7 @@ public interface CfgSection {
     }
 
     default Optional<Double> getDouble(@NotNull final String path) {
-        return this.getGenericObject(path, this.getConfigurationSection()::getDouble);
+        return this.getGeneric(path, this.getConfigurationSection()::getDouble);
     }
 
     default double getDouble(@NotNull final String path, final double def) {
@@ -621,7 +636,7 @@ public interface CfgSection {
     }
 
     default Optional<Float> getFloat(@NotNull final String path) {
-        return this.getGenericObject(path, this.getConfigurationSection()::getFloat);
+        return this.getGeneric(path, this.getConfigurationSection()::getFloat);
     }
 
     default float getFloat(@NotNull final String path, final float def) {
@@ -629,7 +644,7 @@ public interface CfgSection {
     }
 
     default Optional<Long> getLong(@NotNull final String path) {
-        return this.getGenericObject(path, this.getConfigurationSection()::getLong);
+        return this.getGeneric(path, this.getConfigurationSection()::getLong);
     }
 
     default long getLong(@NotNull final String path, final long def) {
@@ -638,52 +653,52 @@ public interface CfgSection {
 
     @NotNull
     default Optional<List<String>> getStringList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getStringList);
+        return this.getGeneric(path, this.getConfigurationSection()::getStringList);
     }
 
     @NotNull
     default Optional<List<Integer>> getIntegerList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getIntegerList);
+        return this.getGeneric(path, this.getConfigurationSection()::getIntegerList);
     }
 
     @NotNull
     default Optional<List<Boolean>> getBooleanList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getBooleanList);
+        return this.getGeneric(path, this.getConfigurationSection()::getBooleanList);
     }
 
     @NotNull
     default Optional<List<Double>> getDoubleList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getDoubleList);
+        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
     }
 
     @NotNull
     default Optional<List<Float>> getFloatList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getFloatList);
+        return this.getGeneric(path, this.getConfigurationSection()::getFloatList);
     }
 
     @NotNull
     default Optional<List<Long>> getLongList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getLongList);
+        return this.getGeneric(path, this.getConfigurationSection()::getLongList);
     }
 
     @NotNull
     default Optional<List<Byte>> getByteList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getByteList);
+        return this.getGeneric(path, this.getConfigurationSection()::getByteList);
     }
 
     @NotNull
     default Optional<List<Character>> getCharacterList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getCharacterList);
+        return this.getGeneric(path, this.getConfigurationSection()::getCharacterList);
     }
 
     @NotNull
     default Optional<List<Short>> getShortList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getShortList);
+        return this.getGeneric(path, this.getConfigurationSection()::getShortList);
     }
 
     @NotNull
     default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path) {
-        return this.getGenericList(path, this.getConfigurationSection()::getMapList);
+        return this.getGeneric(path, this.getConfigurationSection()::getMapList);
     }
 
     @NotNull
