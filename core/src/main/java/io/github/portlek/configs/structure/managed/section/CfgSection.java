@@ -573,10 +573,6 @@ public interface CfgSection {
 
     /**
      * Gets the requested Object by path.
-     * <p>
-     * If the Object does not exist but a default value has been specified,
-     * this will return the default value. If the Object does not exist and no
-     * default value was specified, this will return {@link Optional#empty()}.
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
@@ -591,6 +587,16 @@ public interface CfgSection {
         }
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path, @Nullable final String def) {
         try {
@@ -606,6 +612,16 @@ public interface CfgSection {
         }
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path, @Nullable final UUID def) {
         try {
@@ -621,71 +637,229 @@ public interface CfgSection {
         }
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<String> getString(@NotNull final String path) {
         return Optional.ofNullable(this.getConfigurationSection().getString(path));
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<String> getString(@NotNull final String path, @Nullable final String def) {
         return Optional.ofNullable(this.getConfigurationSection().getString(path, def));
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default Optional<Integer> getInteger(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getInt);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default int getInteger(@NotNull final String path, final int def) {
         return this.getConfigurationSection().getInt(path, def);
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default Optional<Boolean> getBoolean(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getBoolean);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default boolean getBoolean(@NotNull final String path, final boolean def) {
         return this.getConfigurationSection().getBoolean(path, def);
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default Optional<Double> getDouble(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getDouble);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default double getDouble(@NotNull final String path, final double def) {
         return this.getConfigurationSection().getDouble(path, def);
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default Optional<Float> getFloat(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getFloat);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default float getFloat(@NotNull final String path, final float def) {
         return this.getConfigurationSection().getFloat(path, def);
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default Optional<Long> getLong(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getLong);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     default long getLong(@NotNull final String path, final long def) {
         return this.getConfigurationSection().getLong(path, def);
     }
 
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<List<String>> getStringList(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getStringList);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
+    @NotNull
+    default Optional<List<String>> getStringList(@NotNull final String path, @Nullable final List<String> def) {
+        final Optional<List<String>> generic = this.getGeneric(path, this.getConfigurationSection()::getStringList);
+        if (!generic.isPresent()) {
+            return Optional.ofNullable(def);
+        }
+        return generic;
+    }
+
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<List<Integer>> getIntegerList(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getIntegerList);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
+    @NotNull
+    default Optional<List<Integer>> getIntegerList(@NotNull final String path, @Nullable final List<Integer> def) {
+        return this.getGeneric(path, this.getConfigurationSection()::getIntegerList);
+    }
+
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<List<Boolean>> getBooleanList(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getBooleanList);
     }
 
+    /**
+     * Gets the requested Object by path.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     */
     @NotNull
     default Optional<List<Double>> getDoubleList(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
