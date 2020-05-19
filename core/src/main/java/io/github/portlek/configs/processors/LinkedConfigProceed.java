@@ -1,6 +1,6 @@
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.LnkdFlManaged;
+import io.github.portlek.configs.structure.LnkdFlManaged;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.LinkedFile;
 import java.util.Arrays;

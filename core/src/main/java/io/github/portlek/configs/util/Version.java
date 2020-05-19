@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 

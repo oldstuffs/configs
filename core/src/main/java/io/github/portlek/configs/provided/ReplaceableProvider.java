@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.provided;
 
-import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.Replaceable;
 import java.util.List;
 import java.util.Optional;

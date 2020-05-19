@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.util.GeneralUtilities;

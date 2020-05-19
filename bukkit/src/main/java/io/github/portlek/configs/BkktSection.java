@@ -1,5 +1,6 @@
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;

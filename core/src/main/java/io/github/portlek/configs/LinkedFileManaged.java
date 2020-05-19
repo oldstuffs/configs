@@ -1,6 +1,8 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.files.yaml.FileConfiguration;
+import io.github.portlek.configs.structure.LnkdFlManaged;
+import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.util.MapEntry;
 import java.io.File;
 import java.util.HashMap;

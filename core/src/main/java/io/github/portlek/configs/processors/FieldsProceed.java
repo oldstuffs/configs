@@ -1,7 +1,7 @@
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import java.lang.reflect.Field;

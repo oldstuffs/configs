@@ -107,8 +107,8 @@ Also you have to make relocation for the library with;
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.FileManaged;
-import io.github.portlek.configs.ConfigSection;
+import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.managed.section.ConfigSection;
 import io.github.portlek.configs.annnotations.*;
 
 @Config(
