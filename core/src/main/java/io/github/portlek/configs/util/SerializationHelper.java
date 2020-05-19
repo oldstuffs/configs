@@ -26,9 +26,6 @@
 package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.configuration.serialization.ConfigurationSerializable;
-import io.github.portlek.configs.configuration.serialization.ConfigurationSerialization;
-import io.github.portlek.configs.files.yaml.YAMLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,21 +46,12 @@ public class SerializationHelper {
         if (value1 instanceof Object[]) {
             value1 = new ArrayList<>(Arrays.asList((Object[]) value1));
         }
-        if (value1 instanceof Set && !(value1 instanceof SerializableSet)) {
-            value1 = new SerializableSet((Set<?>) value1);
-        }
         if (value1 instanceof ConfigurationSection) {
             return SerializationHelper.buildMap(((ConfigurationSection) value1).getValues(false));
         } else if (value1 instanceof Map) {
             return SerializationHelper.buildMap((Map<?, ?>) value1);
         } else if (value1 instanceof List) {
             return SerializationHelper.buildList((Collection<?>) value1);
-        } else if (value1 instanceof ConfigurationSerializable) {
-            final ConfigurationSerializable serializable = (ConfigurationSerializable) value1;
-            final Map<String, Object> values = new LinkedHashMap<>();
-            values.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY, ConfigurationSerialization.getAlias(serializable.getClass()));
-            values.putAll(serializable.serialize());
-            return SerializationHelper.buildMap(values);
         } else {
             return value1;
         }
@@ -80,13 +68,6 @@ public class SerializationHelper {
                 output.put(e.getKey().toString(), e.getValue());
             }
         }
-        if (output.containsKey(ConfigurationSerialization.SERIALIZED_TYPE_KEY)) {
-            try {
-                return ConfigurationSerialization.deserializeObject(output);
-            } catch (final IllegalArgumentException ex) {
-                throw new YAMLException("Could not deserialize object", ex);
-            }
-        }
         return output;
     }
 
@@ -99,9 +80,6 @@ public class SerializationHelper {
      * for List: calls {@link #buildList(Collection)} which functions similar to this method.
      * for ConfigurationSection: gets the values as a map and calls this method recursively on the Map before putting
      * it in the returned Map.
-     * for ConfigurationSerializable: add the {@link ConfigurationSerialization#SERIALIZED_TYPE_KEY} to a new Map
-     * along with the Map given by {@link ConfigurationSerializable#serialize()}
-     * and calls this method recursively on the new Map before putting it in the returned Map.
      * for Everything else: stores it as is in the returned Map.
      */
     @NotNull
@@ -126,9 +104,6 @@ public class SerializationHelper {
      * for List: calls this method recursively on the List.
      * for ConfigurationSection: gets the values as a map and calls {@link #buildMap(Map)} on the Map
      * before adding to the returned list.
-     * for ConfigurationSerializable: add the {@link ConfigurationSerialization#SERIALIZED_TYPE_KEY} to a new Map
-     * along with the Map given by {@link ConfigurationSerializable#serialize()}
-     * and calls {@link #buildMap(Map)} on the new Map before adding to the returned list.
      * for Everything else: stores it as is in the returned List.
      */
     private List<Object> buildList(@NotNull final Collection<?> collection) {
@@ -144,8 +119,6 @@ public class SerializationHelper {
     }
 
     /**
-     * Parses through the input list to deal with serialized objects a la {@link ConfigurationSerializable}.
-     * <p>
      * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
      * lists and maps within lists.
      */
