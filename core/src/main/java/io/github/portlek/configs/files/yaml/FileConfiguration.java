@@ -162,7 +162,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         if (this.options == null) {
             this.options = new FileConfigurationOptions(this);
         }
-
         return (FileConfigurationOptions) this.options;
     }
 
