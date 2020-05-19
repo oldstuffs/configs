@@ -208,9 +208,8 @@ public class GeneralUtilities {
     @NotNull
     public List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
         final List<Object> list = new ArrayList<>(array.size());
-        for (final JsonValue element : array) {
-            GeneralUtilities.jsonValueAsObject(element).ifPresent(list::add);
-        }
+        array.forEach(element ->
+            GeneralUtilities.jsonValueAsObject(element).ifPresent(list::add));
         return list;
     }
 
