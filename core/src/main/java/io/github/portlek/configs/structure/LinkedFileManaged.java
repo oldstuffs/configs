@@ -45,7 +45,7 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     private final Supplier<String> chosen;
 
     @SafeVarargs
-    protected LinkedFileManaged(@NotNull final Supplier<String> chosen, @NotNull final Map.Entry<String, Object>... objects) {
+    public LinkedFileManaged(@NotNull final Supplier<String> chosen, @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
     }
