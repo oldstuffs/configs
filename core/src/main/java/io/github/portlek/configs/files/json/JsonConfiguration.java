@@ -102,7 +102,7 @@ public final class JsonConfiguration extends FileConfiguration {
 
     @NotNull
     @Override
-    protected String buildHeader() {
+    public String buildHeader() {
         return "";
     }
 
