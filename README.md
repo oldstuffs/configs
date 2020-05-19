@@ -257,8 +257,7 @@ public final class TestLinkedConfig extends LinkedFileManaged {
 
   @Property
   public String same_in_every_language = match(s -> 
-      Optional.of("Same in every language!")
-  );
+      Optional.of("Same in every language!"));
 
   @Property
   public String test = match(s -> {
@@ -321,8 +320,7 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
 
   @Property
   public String same_in_every_language = match(s -> 
-      Optional.of("Same in every language!")
-  );
+      Optional.of("Same in every language!"));
 
   @Property
   public String test = match(s -> {
@@ -386,8 +384,7 @@ public final class TestLinkedConfig extends NukkitLinkedManaged {
 
   @Property
   public String same_in_every_language = match(s -> 
-      Optional.of("Same in every language!")
-  );
+      Optional.of("Same in every language!"));
 
   @Property
   public String test = match(s -> {
