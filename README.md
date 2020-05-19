@@ -125,8 +125,8 @@ public final class TestConfig extends FileManaged {
   @Section(path = "test-section")
   public final class TestSection extends ConfigSection {
 
-    @Property
-    public String test_section_string = "test";
+    @Property(path = "test-section-string")
+    public String testSectionString = "test";
 
   }
 
@@ -164,8 +164,8 @@ public final class TestConfig extends BukkitManaged {
   @Section(path = "test-section")
   public final class TestSection extends BukkitSection {
 
-    @Property
-    public String test_section_string = "test";
+    @Property(path = "test-section-string")
+    public String testSectionString = "test";
 
   }
 
@@ -203,8 +203,8 @@ public final class TestConfig extends NukkitManaged {
   @Section(path = "test-section")
   public final class TestSection extends NukkitSection {
 
-    @Property
-    public String test_section_string = "test";
+    @Property(path = "test-section-string")
+    public String testSectionString = "test";
 
   }
 
