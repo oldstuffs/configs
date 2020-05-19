@@ -1213,12 +1213,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String, List)
+     * @see #getLongList(String, List)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getLongListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
-        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    default List<Long> getLongListOrEmpty(@NotNull final String path, @Nullable final List<Long> def) {
+        return this.getLongList(path, def).orElse(new ArrayList<>());
     }
 
     /**
@@ -1226,7 +1226,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see ConfigurationSection#getDoubleList(String)
+     * @see ConfigurationSection#getByteList(String)
      */
     @NotNull
     default Optional<List<Byte>> getByteList(@NotNull final String path) {
@@ -1243,11 +1243,11 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String)
+     * @see #getByteList(String)
      */
     @NotNull
-    default Optional<List<Double>> getByteList(@NotNull final String path, @Nullable final List<Double> def) {
-        final Optional<List<Double>> generic = this.getDoubleList(path);
+    default Optional<List<Byte>> getByteList(@NotNull final String path, @Nullable final List<Byte> def) {
+        final Optional<List<Byte>> generic = this.getByteList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -1260,12 +1260,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object.
-     * @see #getDoubleList(String)
+     * @see #getByteList(String)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getByteListOrEmpty(@NotNull final String path) {
-        return this.getDoubleList(path).orElse(new ArrayList<>());
+    default List<Byte> getByteListOrEmpty(@NotNull final String path) {
+        return this.getByteList(path).orElse(new ArrayList<>());
     }
 
     /**
@@ -1278,12 +1278,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String, List)
+     * @see #getByteList(String, List)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getByteListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
-        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    default List<Byte> getByteListOrEmpty(@NotNull final String path, @Nullable final List<Byte> def) {
+        return this.getByteList(path, def).orElse(new ArrayList<>());
     }
 
     /**
@@ -1308,11 +1308,11 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String)
+     * @see #getCharacterList(String)
      */
     @NotNull
-    default Optional<List<Double>> getCharacterList(@NotNull final String path, @Nullable final List<Double> def) {
-        final Optional<List<Double>> generic = this.getDoubleList(path);
+    default Optional<List<Character>> getCharacterList(@NotNull final String path, @Nullable final List<Character> def) {
+        final Optional<List<Character>> generic = this.getCharacterList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -1325,12 +1325,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object.
-     * @see #getDoubleList(String)
+     * @see #getCharacterList(String)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getCharacterListOrEmpty(@NotNull final String path) {
-        return this.getDoubleList(path).orElse(new ArrayList<>());
+    default List<Character> getCharacterListOrEmpty(@NotNull final String path) {
+        return this.getCharacterList(path).orElse(new ArrayList<>());
     }
 
     /**
@@ -1343,12 +1343,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String, List)
+     * @see #getCharacterList(String, List)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getCharacterListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
-        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    default List<Character> getCharacterListOrEmpty(@NotNull final String path, @Nullable final List<Character> def) {
+        return this.getCharacterList(path, def).orElse(new ArrayList<>());
     }
 
     /**
@@ -1356,7 +1356,7 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see ConfigurationSection#getShorList(String)
+     * @see ConfigurationSection#getShortList(String)
      */
     @NotNull
     default Optional<List<Short>> getShortList(@NotNull final String path) {
@@ -1373,11 +1373,11 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String)
+     * @see #getShortList(String)
      */
     @NotNull
-    default Optional<List<Double>> getShortList(@NotNull final String path, @Nullable final List<Double> def) {
-        final Optional<List<Double>> generic = this.getDoubleList(path);
+    default Optional<List<Short>> getShortList(@NotNull final String path, @Nullable final List<Short> def) {
+        final Optional<List<Short>> generic = this.getShortList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -1390,12 +1390,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object.
-     * @see #getDoubleList(String)
+     * @see #getShortList(String)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getShortListOrEmpty(@NotNull final String path) {
-        return this.getDoubleList(path).orElse(new ArrayList<>());
+    default List<Short> getShortListOrEmpty(@NotNull final String path) {
+        return this.getShortList(path).orElse(new ArrayList<>());
     }
 
     /**
@@ -1408,12 +1408,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String, List)
+     * @see #getShortList(String, List)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getShortListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
-        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    default List<Short> getShortListOrEmpty(@NotNull final String path, @Nullable final List<Short> def) {
+        return this.getShortList(path, def).orElse(new ArrayList<>());
     }
 
     /**
@@ -1438,11 +1438,11 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String)
+     * @see #getMapList(String)
      */
     @NotNull
-    default Optional<List<Double>> getMapList(@NotNull final String path, @Nullable final List<Double> def) {
-        final Optional<List<Double>> generic = this.getDoubleList(path);
+    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path, @Nullable final List<Map<?, ?>> def) {
+        final Optional<List<Map<?, ?>>> generic = this.getMapList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -1455,12 +1455,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object.
-     * @see #getDoubleList(String)
+     * @see #getMapList(String)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getMapListOrEmpty(@NotNull final String path) {
-        return this.getDoubleList(path).orElse(new ArrayList<>());
+    default List<Map<?, ?>> getMapListOrEmpty(@NotNull final String path) {
+        return this.getMapList(path).orElse(new ArrayList<>());
     }
 
     /**
@@ -1477,8 +1477,8 @@ public interface CfgSection {
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getMapListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
-        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    default List<Map<?, ?>> getMapListOrEmpty(@NotNull final String path, @Nullable final List<Map<?, ?>> def) {
+        return this.getMapList(path, def).orElse(new ArrayList<>());
     }
 
     /**
@@ -1486,11 +1486,11 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see ConfigurationSection#getDoubleList(String)
+     * @see ConfigurationSection#getList(String)
      */
     @NotNull
-    default Optional<List<Double>> getList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
+    default Optional<List<?>> getList(@NotNull final String path) {
+        return this.getGeneric(path, this.getConfigurationSection()::getList);
     }
 
     /**
@@ -1503,11 +1503,11 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String)
+     * @see #getList(String)
      */
     @NotNull
-    default Optional<List<Double>> getList(@NotNull final String path, @Nullable final List<Double> def) {
-        final Optional<List<Double>> generic = this.getDoubleList(path);
+    default Optional<List<?>> getList(@NotNull final String path, @Nullable final List<?> def) {
+        final Optional<List<?>> generic = this.getList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -1520,12 +1520,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object.
-     * @see #getDoubleList(String)
+     * @see #getList(String)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getListOrEmpty(@NotNull final String path) {
-        return this.getDoubleList(path).orElse(new ArrayList<>());
+    default List<?> getListOrEmpty(@NotNull final String path) {
+        return this.getList(path).orElse(new ArrayList<>());
     }
 
     /**
@@ -1538,12 +1538,12 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String, List)
+     * @see #getList(String, List)
      * @see ArrayList
      */
     @NotNull
-    default List<Double> getListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
-        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    default List<?> getListOrEmpty(@NotNull final String path, @Nullable final List<?> def) {
+        return this.getList(path, def).orElse(new ArrayList<>());
     }
 
 }
