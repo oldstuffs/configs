@@ -42,12 +42,14 @@ public interface LnkdFlManaged extends FlManaged {
 
     @Override
     default void load() {
+        this.onCreate();
         new LinkedConfigProceed(
             this,
             Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
                 .orElseThrow(() ->
                     new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!"))
         ).run();
+        this.onLoad();
     }
 
 }
