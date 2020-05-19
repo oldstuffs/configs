@@ -961,27 +961,71 @@ public interface CfgSection {
         return this.getIntegerList(path, def).orElse(new ArrayList<>());
     }
 
-//    /**
-//     * Gets the requested Object by path.
-//     *
-//     * @param path Path from the Object to get.
-//     * @return Requested Object in {@link Optional#of(Object)}.
-//     */
-//    @NotNull
-//    default Optional<List<Boolean>> getBooleanList(@NotNull final String path) {
-//        return this.getGeneric(path, this.getConfigurationSection()::getBooleanList);
-//    }
-//
-//    /**
-//     * Gets the requested Object by path.
-//     * <p>
-//     * If the Object does not exist but a default value has been specified,
-//     * this will return the default value. If the Object does not exist and no
-//     * default value was specified, this will return {@link Optional#empty()}.
-//     *
-//     * @param path Path from the Object to get.
-//     * @return Requested Object in {@link Optional#of(Object)}.
-//     */
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getBooleanList(String)
+     */
+    @NotNull
+    default Optional<List<Boolean>> getBooleanList(@NotNull final String path) {
+        return this.getGeneric(path, this.getConfigurationSection()::getBooleanList);
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getBooleanList(String)
+     */
+    @NotNull
+    default Optional<List<Boolean>> getBooleanList(@NotNull final String path, @Nullable final List<Boolean> def) {
+        final Optional<List<Boolean>> generic = this.getBooleanList(path);
+        if (generic.isPresent()) {
+            return generic;
+        }
+        return Optional.ofNullable(def);
+    }
+
+    /**
+     * Gets the requested Object by path, returning an empty list if not
+     * found.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object.
+     * @see #getBooleanList(String)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<Boolean> getBooleanListOrEmpty(@NotNull final String path) {
+        return this.getBooleanList(path).orElse(new ArrayList<>());
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found. If default value is null, returns empty list.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return empty list.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getBooleanList(String, List)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<Boolean> getBooleanListOrEmpty(@NotNull final String path, @Nullable final List<Boolean> def) {
+        return this.getBooleanList(path, def).orElse(new ArrayList<>());
+    }
+
 //    @NotNull
 //    default Optional<List<Double>> getDoubleList(@NotNull final String path) {
 //        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
