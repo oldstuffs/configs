@@ -146,8 +146,8 @@ test-section:
 <summary>Bukkit</summary>
 
 ```java
-import io.github.portlek.configs.BukkitManaged;
-import io.github.portlek.configs.BukkitSection;
+import io.github.portlek.configs.bukkit.BukkitManaged;
+import io.github.portlek.configs.bukkit.BukkitSection;
 import io.github.portlek.configs.annnotations.*;
 
 @Config(
@@ -291,7 +291,7 @@ same-in-every-language: 'Same in every language!'
 <summary>Bukkit</summary>
 
 ```java
-import io.github.portlek.configs.BukkitLinkedManaged;
+import io.github.portlek.configs.bukkit.BukkitLinkedManaged;
 import io.github.portlek.configs.util.MapEntry;
 
 @LinkedConfig(files = {
