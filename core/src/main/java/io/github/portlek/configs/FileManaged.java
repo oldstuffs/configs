@@ -27,8 +27,7 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.files.yaml.FileConfiguration;
 import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.provided.ReplaceableListProvider;
-import io.github.portlek.configs.provided.ReplaceableStringProvider;
+import io.github.portlek.configs.provided.ReplaceableProvider;
 import io.github.portlek.configs.util.Replaceable;
 import java.io.File;
 import java.util.*;
@@ -53,9 +52,7 @@ public class FileManaged extends ConfigSection implements FlManaged {
     protected FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
             this.addObject(entry.getKey(), entry.getValue()));
-        this.customs.put(Replaceable.from("").getClass(), new ReplaceableStringProvider());
-        this.customs.put(Replaceable.from(new ArrayList<>()).getClass(), new ReplaceableListProvider());
-        System.out.println(customs);
+        this.customs.put(Replaceable.class, new ReplaceableProvider());
         this.converter.put(UUID.class, UUID::fromString);
         this.converter.put(Boolean.class, Boolean::parseBoolean);
         this.converter.put(Integer.class, Integer::parseInt);
