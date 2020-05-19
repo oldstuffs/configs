@@ -25,13 +25,13 @@
 
 package io.github.portlek.configs.obj;
 
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.files.FileType;
+import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.managed.section.ConfigSection;
 import io.github.portlek.configs.util.Replaceable;
 import java.util.UUID;
 

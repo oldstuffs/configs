@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.bukkit.util.BukkitItemStackProvider;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
+import io.github.portlek.configs.provided.Provided;
+import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;

@@ -185,8 +185,8 @@ test-section:
 <summary>Nukkit</summary>
 
 ```java
-import io.github.portlek.configs.NukkitManaged;
-import io.github.portlek.configs.NukkitSection;
+import io.github.portlek.configs.nukkit.NukkitManaged;
+import io.github.portlek.configs.nukkit.NukkitSection;
 import io.github.portlek.configs.annnotations.*;
 
 @Config(
@@ -355,7 +355,7 @@ same-in-every-language: 'Same in every language!'
 <summary>Nukkit</summary>
 
 ```java
-import io.github.portlek.configs.NukkitLinkedManaged;
+import io.github.portlek.configs.nukkit.NukkitLinkedManaged;
 import io.github.portlek.configs.util.MapEntry;
 import io.github.portlek.configs.annotations.*;
 

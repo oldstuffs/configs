@@ -1,7 +1,7 @@
 package io.github.portlek.configs.obj;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.provided.Provided;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
 import java.util.UUID;
