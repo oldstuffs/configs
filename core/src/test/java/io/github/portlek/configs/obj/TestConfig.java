@@ -32,7 +32,6 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.util.Feature;
 import io.github.portlek.configs.util.Replaceable;
 import java.util.UUID;
 
@@ -45,11 +44,6 @@ public final class TestConfig extends FileManaged {
 
     @Instance
     public final TestConfig.TestSection testSection = new TestConfig.TestSection();
-
-    public Feature<UUID, User> users = this.feature("test-feature-for-user", UUID.class, User.class);
-
-    @Property
-    public User test_property_without_user_provider;
 
     @Property
     public String test = "test";
