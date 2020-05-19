@@ -5,6 +5,7 @@ import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.LinkedFile;
 import io.github.portlek.configs.structure.LnkdFlManaged;
 import java.util.Arrays;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,23 +13,19 @@ import org.jetbrains.annotations.NotNull;
 public final class LinkedConfigProceed implements Runnable {
 
     @NotNull
-    private final LnkdFlManaged linked;
+    private final LnkdFlManaged managed;
 
     @NotNull
-    private final LinkedConfig config;
+    private final LinkedConfig linked;
 
     @Override
     public void run() {
-        Arrays.stream(this.config.files())
-            .filter(linkedFile -> linkedFile.key().equals(this.linked.getChosen().get()))
+        Arrays.stream(this.linked.files())
+            .filter(linkedFile -> linkedFile.key().equals(this.managed.getChosen().get()))
             .findFirst()
             .map(LinkedFile::config)
-            .map(cnfg -> new ConfigProceed(this.linked, cnfg))
-            .ifPresent(configProceed -> {
-                configProceed.run();
-                this.linked.getClass().getDeclaredAnnotation(Comment.class);
-
-            });
+            .map(config -> new ConfigProceed(this.managed, config))
+            .ifPresent(ConfigProceed::run);
     }
 
 }

@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.annotations.Comment;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
@@ -58,6 +59,7 @@ public final class ConfigProceed implements Runnable {
         final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
         GeneralUtilities.basedir(this.managed.getClass()).ifPresent(basedir -> {
+            // Create and setup file.
             final String filelocation = GeneralUtilities.addSeparator(
                 this.config.location()
                     .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
@@ -87,6 +89,16 @@ public final class ConfigProceed implements Runnable {
             }
             final FileConfiguration configuration = type.load(file);
             this.managed.setup(file, configuration);
+            // Create and setup file.
+
+            // Parse comments
+            Optional.ofNullable(this.managed.getClass().getDeclaredAnnotation(Comment.class))
+                .map(comment ->
+                    new CommentProceed(this.managed, this.managed, "", comment))
+                .ifPresent(CommentProceed::run);
+            // Parse comments
+
+            // Does versioning stuffs.
             final Optional<String> versionoptional = this.managed.getString(versionpath);
             if (versionoptional.isPresent()) {
                 final Version fileversion = Version.from(versionoptional.get());
@@ -96,7 +108,12 @@ public final class ConfigProceed implements Runnable {
             } else {
                 version.write(versionpath, this.managed);
             }
+            // Does versioning stuffs.
+
+            // Parse fields.
             new FieldsProceed(this.managed, this.managed).run();
+            // Parse fields.
+
             this.managed.save();
         });
     }
