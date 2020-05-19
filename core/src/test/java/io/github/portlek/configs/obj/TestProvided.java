@@ -2,7 +2,7 @@ package io.github.portlek.configs.obj;
 
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.util.PutDot;
+import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +12,7 @@ public final class TestProvided implements Provided<ProvidedObject> {
     @Override
     public void set(@NotNull final ProvidedObject providedObject, @NotNull final CfgSection section,
                     @NotNull final String path) {
-        final String finalpath = new PutDot(path).value();
+        final String finalpath = GeneralUtilities.putDot(path);
         section.set(finalpath + "uuid", providedObject.getUuid().toString());
         section.set(finalpath + "name", providedObject.getName());
         section.set(finalpath + "age", providedObject.getAge());
@@ -21,7 +21,7 @@ public final class TestProvided implements Provided<ProvidedObject> {
     @NotNull
     @Override
     public Optional<ProvidedObject> get(@NotNull final CfgSection section, @NotNull final String path) {
-        final String finalpath = new PutDot(path).value();
+        final String finalpath = GeneralUtilities.putDot(path);
         final Optional<CfgSection> optional = section.getSection(finalpath);
         if (!optional.isPresent()) {
             return Optional.empty();
