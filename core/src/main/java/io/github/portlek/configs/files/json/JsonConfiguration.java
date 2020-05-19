@@ -71,11 +71,9 @@ public final class JsonConfiguration extends FileConfiguration {
     public String saveToString() {
         final JsonObject jsonObject = GeneralUtilities.mapAsJsonObject(this.getValues(false));
         final String dump = jsonObject.toString(WriterConfig.PRETTY_PRINT);
-
         if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
             return "";
         }
-
         return dump;
     }
 
@@ -109,23 +107,15 @@ public final class JsonConfiguration extends FileConfiguration {
     }
 
     private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        Map<?, ?> input1 = input;
-        final Object result = GeneralUtilities.deserialize(input1);
-
-        if (result instanceof Map) {
-            input1 = (Map<?, ?>) result;
-            for (final Map.Entry<?, ?> entry : input1.entrySet()) {
-                final String key = entry.getKey().toString();
-                final Object value = entry.getValue();
-
-                if (value instanceof Map) {
-                    this.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
-                } else {
-                    section.set(key, value);
-                }
+        final Map<String, Object> result = GeneralUtilities.deserialize(input);
+        for (final Map.Entry<?, ?> entry : result.entrySet()) {
+            final String key = entry.getKey().toString();
+            final Object value = entry.getValue();
+            if (value instanceof Map) {
+                this.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
+            } else {
+                section.set(key, value);
             }
-        } else {
-            section.set("", result);
         }
     }
 
