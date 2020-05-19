@@ -1026,11 +1026,71 @@ public interface CfgSection {
         return this.getBooleanList(path, def).orElse(new ArrayList<>());
     }
 
-//    @NotNull
-//    default Optional<List<Double>> getDoubleList(@NotNull final String path) {
-//        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
-//    }
-//
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see ConfigurationSection#getDoubleList(String)
+     */
+    @NotNull
+    default Optional<List<Double>> getDoubleList(@NotNull final String path) {
+        return this.getGeneric(path, this.getConfigurationSection()::getDoubleList);
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getDoubleList(String)
+     */
+    @NotNull
+    default Optional<List<Double>> getDoubleList(@NotNull final String path, @Nullable final List<Double> def) {
+        final Optional<List<Double>> generic = this.getDoubleList(path);
+        if (generic.isPresent()) {
+            return generic;
+        }
+        return Optional.ofNullable(def);
+    }
+
+    /**
+     * Gets the requested Object by path, returning an empty list if not
+     * found.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object.
+     * @see #getDoubleList(String)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<Double> getDoubleListOrEmpty(@NotNull final String path) {
+        return this.getDoubleList(path).orElse(new ArrayList<>());
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found. If default value is null, returns empty list.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return empty list.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getDoubleList(String, List)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<Double> getDoubleListOrEmpty(@NotNull final String path, @Nullable final List<Double> def) {
+        return this.getDoubleList(path, def).orElse(new ArrayList<>());
+    }
+
 //    @NotNull
 //    default Optional<List<Float>> getFloatList(@NotNull final String path) {
 //        return this.getGeneric(path, this.getConfigurationSection()::getFloatList);
