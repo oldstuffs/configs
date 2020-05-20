@@ -33,9 +33,8 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import org.jetbrains.annotations.NotNull;
 
-@Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD, ElementType.TYPE})
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Comment {
 
     @NotNull
