@@ -36,34 +36,41 @@ dependencies {
 
 ```xml
 <dependencies>
-    <!-- For the all project type -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-core</artifactId>
-      <version>${version}</version>
-    </dependency>
-    <!-- Don't forget to put the released .jar file into your plugins folder -->
-    <!-- For the bukkit projects -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-bukkit</artifactId>
-      <version>${version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- For the nukkit projects -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-nukkit</artifactId>
-      <version>${version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <!-- For the sponge projects -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-sponge</artifactId>
-      <version>${version}</version>
-      <scope>provided</scope>
-    </dependency>
+  <!-- For the all project type -->
+  <dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-core</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <!-- Don't forget to put the released .jar file into your plugins folder -->
+  <!-- For the bukkit projects -->
+  <!-- depend:
+         - configs-bukkit
+ -->
+  <dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-bukkit</artifactId>
+    <version>${version}</version>
+    <scope>provided</scope>
+  </dependency>
+  <!-- For the nukkit projects -->
+  <!-- depend:
+         - configs-nukkit
+ -->
+  <dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-nukkit</artifactId>
+    <version>${version}</version>
+    <scope>provided</scope>
+  </dependency>
+  <!-- For the sponge projects -->
+  <!-- @Plugin(id = "plugin-name", /** other stuffs,**/dependencies = @Dependency(id = "configs-sponge")) -->
+  <dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-sponge</artifactId>
+    <version>${version}</version>
+    <scope>provided</scope>
+  </dependency>
 </dependencies>
 ```
 </details>
@@ -196,9 +203,6 @@ test-section:
 <details>
 <summary>Sponge</summary>
 
-```java
-@Plugin(id = "plugin-name", /** other stuffs,**/dependencies = @Dependency(id = "configs-sponge"))
-```
 ```java
 @Config(
   name = "config"
