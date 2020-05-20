@@ -103,6 +103,10 @@ Also you have to make relocation for the library with;
 
 ### Config Example
 
+```java
+final TestConfig testConfig = new TestConfig();
+testConfig.load();
+```
 <details>
 <summary>Core</summary>
 
@@ -222,6 +226,10 @@ test-section:
 
 ### LinkedConfig Example
 
+```java
+final TestLinkedConfig testLinkedConfig = new TestLinkedConfig(testConfig);
+testLinkedConfig.load();
+```
 <details>
 <summary>Core</summary>
 
