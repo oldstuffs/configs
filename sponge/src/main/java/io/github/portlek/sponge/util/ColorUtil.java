@@ -52,4 +52,9 @@ public class ColorUtil {
         return TextSerializers.FORMATTING_CODE.deserialize(text);
     }
 
+    @NotNull
+    public String serialize(@NotNull final Text text) {
+        return TextSerializers.FORMATTING_CODE.serialize(text);
+    }
+
 }

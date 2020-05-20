@@ -41,7 +41,6 @@ import org.spongepowered.api.item.enchantment.EnchantmentType;
 import org.spongepowered.api.item.enchantment.EnchantmentTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.serializer.TextSerializers;
 
 public final class SpongeItemStackProvider implements Provided<ItemStack> {
 
@@ -51,19 +50,16 @@ public final class SpongeItemStackProvider implements Provided<ItemStack> {
         final String fnlpath = GeneralUtilities.putDot(path);
         section.set(fnlpath + "type", itemStack.getType().getName());
         section.set(fnlpath + "amount", itemStack.getQuantity());
-        itemStack.get(Keys.DISPLAY_NAME).ifPresent(text ->
-            section.set(
-                fnlpath + "display-name",
-                TextSerializers.FORMATTING_CODE.serialize(text)
-            ));
+        itemStack.get(Keys.DISPLAY_NAME)
+            .map(ColorUtil::serialize)
+            .ifPresent(s ->
+                section.set(fnlpath + "display-name", s));
         itemStack.get(Keys.ITEM_LORE).ifPresent(lore ->
             section.set(
                 fnlpath + "lore",
                 lore.stream()
                     .map(text -> text.replace("§", Text.of("&")))
-                    .collect(Collectors.toList())
-            )
-        );
+                    .collect(Collectors.toList())));
         itemStack.get(Keys.ITEM_ENCHANTMENTS).ifPresent(enchantments -> {
             final CfgSection enchSection = section.getOrCreateSection(fnlpath + "enchants");
             enchantments.forEach(enchantment ->
@@ -88,7 +84,7 @@ public final class SpongeItemStackProvider implements Provided<ItemStack> {
             .ifPresent(itemStack::setQuantity);
         section.getString("display-name")
             .map(ColorUtil::colored)
-            .ifPresent(literalText -> itemStack.offer(Keys.DISPLAY_NAME, literalText));
+            .ifPresent(text -> itemStack.offer(Keys.DISPLAY_NAME, text));
         section.getStringList("lore").ifPresent(lore ->
             itemStack.offer(Keys.ITEM_LORE, lore.stream()
                 .map(ColorUtil::colored)
