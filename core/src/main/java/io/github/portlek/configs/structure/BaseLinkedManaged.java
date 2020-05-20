@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.structure;
 
-public final class ConfigSection implements CfgSection {
+public final class BaseLinkedManaged implements LinkedManaged {
 
-
+    
 
 }

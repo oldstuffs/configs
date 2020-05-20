@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs.structure;
 
-public interface FlManaged extends CfgSection {
+public interface Section {
+
+
 
 }

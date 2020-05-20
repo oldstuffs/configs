@@ -25,8 +25,6 @@
 
 package io.github.portlek.configs.structure;
 
-public final class LinkedFileManaged implements LnkdFlManaged {
-
-    
+public interface Managed extends Section {
 
 }

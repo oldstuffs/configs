@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs.structure;
 
-public interface LnkdFlManaged extends FlManaged {
+public final class BaseSection implements Section {
+
+
 
 }

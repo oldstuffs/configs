@@ -25,8 +25,6 @@
 
 package io.github.portlek.configs.structure;
 
-public final class FileManaged implements FlManaged {
-
-    
+public interface LinkedManaged extends Managed {
 
 }
