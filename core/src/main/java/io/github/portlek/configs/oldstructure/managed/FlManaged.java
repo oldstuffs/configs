@@ -65,19 +65,11 @@
 //
 //    @NotNull <T> Optional<Provided<T>> getCustomValue(@NotNull Class<T> aClass);
 //
-//    default void save() {
-//        this.getConfigurationSection().save(this.getFile());
-//    }
-//
+
 //    @NotNull
 //    File getFile();
 //
 //    void addObject(@NotNull String key, @NotNull Object object);
-//
-//    boolean isAutoSave();
-//
-//    void setAutoSave(boolean autosv);
-//
-//    void autoSave();
+
 //
 //}

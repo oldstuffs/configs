@@ -26,6 +26,7 @@
 package io.github.portlek.configs.structure;
 
 import java.io.File;
+import lombok.SneakyThrows;
 import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,5 +39,16 @@ public interface Managed extends Section {
 
     @NotNull
     AbstractConfigurationLoader<?> getLoader();
+
+    @SneakyThrows
+    default void save() {
+        this.getLoader().save(this.getNode());
+    }
+
+    boolean isAutoSave();
+
+    void setAutoSave(boolean autosave);
+
+    void autoSave();
 
 }

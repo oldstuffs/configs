@@ -23,37 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.structure;
+package io.github.portlek.configs.util;
 
-import java.util.Objects;
-import ninja.leaping.configurate.ConfigurationNode;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+public interface ThrowableFunction<T, R> {
 
-public class BaseSection implements Section {
-
-    @Nullable
-    private Managed managed;
-
-    @Nullable
-    private ConfigurationNode node;
-
-    @NotNull
-    @Override
-    public final ConfigurationNode getNode() {
-        return Objects.requireNonNull(this.node);
-    }
-
-    @NotNull
-    @Override
-    public final Managed getManaged() {
-        return Objects.requireNonNull(this.managed);
-    }
-
-    @Override
-    public final void setup(@NotNull final Managed managed, @NotNull final ConfigurationNode node) {
-        this.managed = managed;
-        this.node = node;
-    }
+    R apply(T t) throws Exception;
 
 }
