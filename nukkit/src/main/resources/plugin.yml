@@ -1,0 +1,5 @@
+main: io.github.portlek.configs.nukkit.NukkitPlugin
+name: ${project.name}
+version: ${project.version}
+description: ${project.description}
+website: https://github.com/portlek/configs

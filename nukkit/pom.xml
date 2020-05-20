@@ -35,7 +35,17 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>configs-nukkit</artifactId>
+    <name>configs-nukkit</name>
     <description>Nukkit module of the library.</description>
+
+    <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+    </build>
 
     <repositories>
         <repository>
