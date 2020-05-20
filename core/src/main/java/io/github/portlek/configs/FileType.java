@@ -23,38 +23,37 @@
  *
  */
 
-package io.github.portlek.configs.files.configuration;
+package io.github.portlek.configs;
 
+import java.io.File;
+import java.util.function.Function;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import ninja.leaping.configurate.json.JSONConfigurationLoader;
+import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import ninja.leaping.configurate.xml.XMLConfigurationLoader;
+import ninja.leaping.configurate.yaml.YAMLConfigurationLoader;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Various settings for controlling the input and output from a {@link
- * FileConfiguration}
- */
-public class FileConfigurationOptions extends MemoryConfigurationOptions {
+@RequiredArgsConstructor
+public enum FileType {
 
-    protected FileConfigurationOptions(@NotNull final MemoryConfiguration configuration) {
-        super(configuration);
-    }
+    YAML(".yml", file -> YAMLConfigurationLoader.builder().setFile(file).build()),
+    JSON(".json", file -> JSONConfigurationLoader.builder().setFile(file).build()),
+    XML(".xml", file -> XMLConfigurationLoader.builder().setFile(file).build()),
+    HOCON(".hocon", file -> HoconConfigurationLoader.builder().setFile(file).build());
 
     @NotNull
-    @Override
-    public FileConfiguration configuration() {
-        return (FileConfiguration) super.configuration();
-    }
+    @Getter
+    public final String suffix;
 
     @NotNull
-    @Override
-    public FileConfigurationOptions pathSeparator(final char value) {
-        super.pathSeparator(value);
-        return this;
-    }
+    private final Function<File, AbstractConfigurationLoader<?>> loadfunction;
 
     @NotNull
-    @Override
-    public FileConfigurationOptions copyDefaults(final boolean value) {
-        super.copyDefaults(value);
-        return this;
+    public AbstractConfigurationLoader<?> load(@NotNull final File file) {
+        return this.loadfunction.apply(file);
     }
 
 }

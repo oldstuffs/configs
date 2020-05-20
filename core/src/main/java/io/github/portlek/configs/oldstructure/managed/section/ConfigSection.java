@@ -23,23 +23,44 @@
 // *
 // */
 //
-//package io.github.portlek.configs.provided;
+//package io.github.portlek.configs.oldstructure.managed.section;
 //
-//import io.github.portlek.configs.oldstructure.managed.section.CfgSection;
-//import java.util.Optional;
+//import io.github.portlek.configs.files.configuration.ConfigurationSection;
+//import io.github.portlek.configs.oldstructure.managed.FlManaged;
+//import java.util.Objects;
 //import org.jetbrains.annotations.NotNull;
+//import org.jetbrains.annotations.Nullable;
 //
-//public interface Provided<T> {
+//public class ConfigSection implements CfgSection {
 //
-//    void set(@NotNull T t, @NotNull CfgSection section, @NotNull String path);
+//    @Nullable
+//    private ConfigurationSection section;
+//
+//    @Nullable
+//    private FlManaged managed;
 //
 //    @NotNull
-//    default Optional<T> getWithField(@NotNull final T t, @NotNull final CfgSection section,
-//                                     @NotNull final String path) {
-//        return this.get(section, path);
+//    @Override
+//    public final CfgSection getBase() {
+//        return this;
 //    }
 //
 //    @NotNull
-//    Optional<T> get(@NotNull CfgSection section, @NotNull String path);
+//    @Override
+//    public ConfigurationSection getConfigurationSection() {
+//        return Objects.requireNonNull(this.section, "You have to load your class with '#load()' method");
+//    }
+//
+//    @Override
+//    @NotNull
+//    public final FlManaged getManaged() {
+//        return Objects.requireNonNull(this.managed, "You have to load your class with '#load()' method");
+//    }
+//
+//    @Override
+//    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
+//        this.section = configurationSection;
+//        this.managed = managed;
+//    }
 //
 //}

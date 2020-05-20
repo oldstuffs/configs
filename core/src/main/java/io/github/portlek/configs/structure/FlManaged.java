@@ -23,34 +23,8 @@
  *
  */
 
-package io.github.portlek.configs.files;
+package io.github.portlek.configs.structure;
 
-import io.github.portlek.configs.files.configuration.FileConfiguration;
-import io.github.portlek.configs.files.json.JsonConfiguration;
-import io.github.portlek.configs.files.yaml.YamlConfiguration;
-import java.io.File;
-import java.util.function.Function;
-import org.jetbrains.annotations.NotNull;
-
-public enum FileType {
-
-    YAML(".yml", YamlConfiguration::loadConfiguration),
-    JSON(".json", JsonConfiguration::loadConfiguration);
-
-    @NotNull
-    public final String suffix;
-
-    @NotNull
-    private final Function<File, FileConfiguration> file;
-
-    FileType(@NotNull final String sffix, @NotNull final Function<File, FileConfiguration> fle) {
-        this.suffix = sffix;
-        this.file = fle;
-    }
-
-    @NotNull
-    public FileConfiguration load(@NotNull final File file) {
-        return this.file.apply(file);
-    }
+public interface FlManaged extends CfgSection {
 
 }

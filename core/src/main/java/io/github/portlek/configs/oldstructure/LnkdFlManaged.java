@@ -23,23 +23,33 @@
 // *
 // */
 //
-//package io.github.portlek.configs.provided;
+//package io.github.portlek.configs.oldstructure;
 //
-//import io.github.portlek.configs.oldstructure.managed.section.CfgSection;
+//import io.github.portlek.configs.annotations.LinkedConfig;
+//import io.github.portlek.configs.processors.LinkedConfigProceed;
+//import io.github.portlek.configs.oldstructure.managed.FlManaged;
 //import java.util.Optional;
+//import java.util.function.Function;
+//import java.util.function.Supplier;
 //import org.jetbrains.annotations.NotNull;
 //
-//public interface Provided<T> {
+//public interface LnkdFlManaged extends FlManaged {
 //
-//    void set(@NotNull T t, @NotNull CfgSection section, @NotNull String path);
+//    @NotNull <T> T match(@NotNull Function<String, Optional<T>> function);
 //
 //    @NotNull
-//    default Optional<T> getWithField(@NotNull final T t, @NotNull final CfgSection section,
-//                                     @NotNull final String path) {
-//        return this.get(section, path);
+//    Supplier<String> getChosen();
+//
+//    @Override
+//    default void load() {
+//        this.onCreate();
+//        new LinkedConfigProceed(
+//            this,
+//            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
+//                .orElseThrow(() ->
+//                    new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!"))
+//        ).run();
+//        this.onLoad();
 //    }
-//
-//    @NotNull
-//    Optional<T> get(@NotNull CfgSection section, @NotNull String path);
 //
 //}

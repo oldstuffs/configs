@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.CfgSection;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,7 +74,7 @@ public final class Version {
     }
 
     public void write(@NotNull final String path, @NotNull final CfgSection managed) {
-        managed.set(path, this.major + "." + this.minor);
+//        managed.set(path, this.major + "." + this.minor);
     }
 
 }

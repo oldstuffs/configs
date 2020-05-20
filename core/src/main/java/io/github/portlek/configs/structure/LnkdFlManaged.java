@@ -25,31 +25,6 @@
 
 package io.github.portlek.configs.structure;
 
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.LinkedConfigProceed;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
-
 public interface LnkdFlManaged extends FlManaged {
-
-    @NotNull <T> T match(@NotNull Function<String, Optional<T>> function);
-
-    @NotNull
-    Supplier<String> getChosen();
-
-    @Override
-    default void load() {
-        this.onCreate();
-        new LinkedConfigProceed(
-            this,
-            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
-                .orElseThrow(() ->
-                    new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!"))
-        ).run();
-        this.onLoad();
-    }
 
 }

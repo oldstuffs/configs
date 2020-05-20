@@ -25,16 +25,10 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.files.configuration.ConfigurationSection;
-import io.github.portlek.configs.processors.ConfigProceed;
-import io.github.portlek.configs.util.jsonparser.Json;
-import io.github.portlek.configs.util.jsonparser.JsonArray;
-import io.github.portlek.configs.util.jsonparser.JsonObject;
-import io.github.portlek.configs.util.jsonparser.JsonValue;
 import java.io.*;
 import java.net.URI;
 import java.net.URLConnection;
-import java.util.*;
+import java.util.Optional;
 import java.util.logging.Logger;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -127,7 +121,7 @@ public class GeneralUtilities {
 
     @Nullable
     public InputStream getResource(@NotNull final String path) {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).map(url -> {
+        return Optional.ofNullable(GeneralUtilities.class.getClassLoader().getResource(path)).map(url -> {
             try {
                 final URLConnection connection = url.openConnection();
                 connection.setUseCaches(false);
@@ -184,203 +178,6 @@ public class GeneralUtilities {
         } catch (final NumberFormatException ignored) {
         }
         return 0L;
-    }
-
-    @NotNull
-    public Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
-        @Nullable final Object object;
-        if (value.isBoolean()) {
-            object = value.asBoolean();
-        } else if (value.isNumber()) {
-            object = GeneralUtilities.parseNumber(value);
-        } else if (value.isString()) {
-            object = value.asString();
-        } else if (value.isArray()) {
-            object = GeneralUtilities.jsonArrayAsList(value.asArray());
-        } else if (value.isObject()) {
-            object = GeneralUtilities.jsonObjectAsMap(value.asObject());
-        } else {
-            object = null;
-        }
-        return Optional.ofNullable(object);
-    }
-
-    @NotNull
-    public List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
-        final List<Object> list = new ArrayList<>(array.size());
-        array.forEach(element ->
-            GeneralUtilities.jsonValueAsObject(element).ifPresent(list::add));
-        return list;
-    }
-
-    @NotNull
-    public Map<String, Object> jsonObjectAsMap(@NotNull final JsonValue value) {
-        if (!(value instanceof JsonObject)) {
-            return new HashMap<>();
-        }
-        // noinspection unchecked
-        final Iterable<JsonObject.Member> jsonObject = (Iterable<JsonObject.Member>) value;
-        final Map<String, Object> map = new HashMap<>();
-        jsonObject.forEach(member ->
-            GeneralUtilities.jsonValueAsObject(member.getValue()).ifPresent(o ->
-                map.put(member.getName(), o)));
-        return map;
-    }
-
-    @NotNull
-    public Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
-        @Nullable final JsonValue value;
-        if (object instanceof Boolean) {
-            value = Json.value(object);
-        } else if (object instanceof Integer) {
-            value = Json.value(object);
-        } else if (object instanceof Long) {
-            value = Json.value(object);
-        } else if (object instanceof Float) {
-            value = Json.value(object);
-        } else if (object instanceof Double) {
-            value = Json.value(object);
-        } else if (object instanceof String) {
-            value = Json.value((String) object);
-        } else if (object instanceof Iterable<?>) {
-            value = GeneralUtilities.collectionAsJsonArray((Iterable<?>) object);
-        } else if (object instanceof Map) {
-            value = GeneralUtilities.mapAsJsonObject((Map<?, ?>) object);
-        } else if (object instanceof ConfigurationSection) {
-            value = GeneralUtilities.mapAsJsonObject(((ConfigurationSection) object).getValues(false));
-        } else {
-            value = null;
-        }
-        return Optional.ofNullable(value);
-    }
-
-    @NotNull
-    public JsonArray collectionAsJsonArray(@NotNull final Iterable<?> collection) {
-        final JsonArray array = new JsonArray();
-        collection.forEach(o ->
-            GeneralUtilities.objectAsJsonValue(o).ifPresent(array::add));
-        return array;
-    }
-
-    @NotNull
-    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
-        final JsonObject object = new JsonObject();
-        map.forEach((key, value) ->
-            GeneralUtilities.objectAsJsonValue(value).ifPresent(jsonValue ->
-                object.add(String.valueOf(key), jsonValue)));
-        return object;
-    }
-
-    @NotNull
-    public Object serialize(@NotNull final Object value) {
-        Object value1;
-        if (value instanceof Object[]) {
-            value1 = new ArrayList<>(Arrays.asList((Object[]) value));
-        } else {
-            value1 = value;
-        }
-        if (value1 instanceof ConfigurationSection) {
-            value1 = GeneralUtilities.buildMap(((ConfigurationSection) value1).getValues(false));
-        } else if (value1 instanceof Map) {
-            value1 = GeneralUtilities.buildMap((Map<?, ?>) value1);
-        } else if (value1 instanceof List) {
-            value1 = GeneralUtilities.buildList((Collection<?>) value1);
-        }
-        return value1;
-    }
-
-    @NotNull
-    public Map<String, Object> deserialize(@NotNull final Map<?, ?> input) {
-        final Map<String, Object> output = new LinkedHashMap<>(input.size());
-        for (final Map.Entry<?, ?> e : input.entrySet()) {
-            if (e.getValue() instanceof Map) {
-                output.put(e.getKey().toString(), GeneralUtilities.deserialize((Map<?, ?>) e.getValue()));
-            } else if (e.getValue() instanceof List) {
-                output.put(e.getKey().toString(), GeneralUtilities.deserialize((List<?>) e.getValue()));
-            } else {
-                output.put(e.getKey().toString(), e.getValue());
-            }
-        }
-        return output;
-    }
-
-    @Nullable
-    private Object parseNumber(@NotNull final JsonValue number) {
-        try {
-            Integer.parseInt(number.toString());
-            return number.asInt();
-        } catch (final NumberFormatException e) {
-            try {
-                Long.parseLong(number.toString());
-                return number.asLong();
-            } catch (final NumberFormatException e1) {
-                try {
-                    Double.parseDouble(number.toString());
-                    return number.asDouble();
-                } catch (final NumberFormatException ignored) {
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Takes a Map and parses through the values, to ensure that, before saving, all objects are as appropriate as
-     * possible for storage in most data formats.
-     * <p>
-     * Specifically it does the following:
-     * for Map: calls this method recursively on the Map before putting it in the returned Map.
-     * for List: calls {@link #buildList(Collection)} which functions similar to this method.
-     * for ConfigurationSection: gets the values as a map and calls this method recursively on the Map before putting
-     * it in the returned Map.
-     * for Everything else: stores it as is in the returned Map.
-     */
-    @NotNull
-    private Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
-        final Map<String, Object> result = new LinkedHashMap<>(map.size());
-        for (final Map.Entry<?, ?> entry : map.entrySet()) {
-            result.put(entry.getKey().toString(), GeneralUtilities.serialize(entry.getValue()));
-        }
-        return result;
-    }
-
-    /**
-     * Takes a Collection and parses through the values, to ensure that, before saving, all objects are as appropriate
-     * as possible for storage in most data formats.
-     * <p>
-     * Specifically it does the following:
-     * for Map: calls {@link #buildMap(Map)} on the Map before adding to the returned list.
-     * for List: calls this method recursively on the List.
-     * for ConfigurationSection: gets the values as a map and calls {@link #buildMap(Map)} on the Map
-     * before adding to the returned list.
-     * for Everything else: stores it as is in the returned List.
-     */
-    @NotNull
-    private List<Object> buildList(@NotNull final Collection<?> collection) {
-        final List<Object> result = new ArrayList<>(collection.size());
-        for (final Object o : collection) {
-            result.add(GeneralUtilities.serialize(o));
-        }
-        return result;
-    }
-
-    /**
-     * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
-     * lists and maps within lists.
-     */
-    @NotNull
-    private Collection<Object> deserialize(@NotNull final Collection<?> input) {
-        final Collection<Object> output = new ArrayList<>(input.size());
-        for (final Object o : input) {
-            if (o instanceof Map) {
-                output.add(GeneralUtilities.deserialize((Map<?, ?>) o));
-            } else if (o instanceof List) {
-                output.add(GeneralUtilities.deserialize((List<?>) o));
-            } else {
-                output.add(o);
-            }
-        }
-        return output;
     }
 
 }

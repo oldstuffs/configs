@@ -14,10 +14,6 @@ Annotation based configuration library for any Java project.
 <summary>Gradle</summary>
 
 ```gradle
-plugins {
-    id "com.github.johnrengelman.shadow" version "5.2.0"
-}
-
 repositories {
     mavenCentral()
 }
@@ -25,16 +21,12 @@ repositories {
 dependencies {
     // For the all project type
     implementation("io.github.portlek:configs-core:${version}")
-    implementation("org.yaml:snakeyaml:1.26")
     // For the bukkit projects
     implementation("io.github.portlek:configs-bukkit:${version}")
     // For the nukkit projects
     implementation("io.github.portlek:configs-nukkit:${version}")
-}
-
-shadowJar {
-    relocate('io.github.portlek.configs', "your.package.path.to.relocate")
-    // other stuffs.
+    // For the sponge projects
+    implementation("io.github.portlek:configs-sponge:${version}")
 }
 ```
 </details>
@@ -50,11 +42,6 @@ shadowJar {
       <artifactId>configs-core</artifactId>
       <version>${version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <version>1.26</version>
-    </dependency>
     <!-- For the bukkit projects -->
     <dependency>
       <groupId>io.github.portlek</groupId>
@@ -67,35 +54,13 @@ shadowJar {
       <artifactId>configs-nukkit</artifactId>
       <version>${version}</version>
     </dependency>
+    <!-- For the sponge projects -->
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-sponge</artifactId>
+      <version>${version}</version>
+    </dependency>
 </dependencies>
-```
-
-Also you have to make relocation for the library with;
-
-```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-shade-plugin</artifactId>
-    <version>3.2.2</version>
-    <configuration>
-        <!-- Other settings -->
-        <relocations>
-            <relocation>
-                <pattern>io.github.portlek.configs</pattern>
-                <!-- Replace this -->
-                <shadedPattern>[YOUR PACKAGE].configs</shadedPattern>
-            </relocation>
-        </relocations>
-    </configuration>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
 ```
 </details>
 
@@ -111,10 +76,6 @@ testConfig.load();
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -150,10 +111,6 @@ test-section:
 <summary>Bukkit</summary>
 
 ```java
-import io.github.portlek.configs.bukkit.BukkitManaged;
-import io.github.portlek.configs.bukkit.BukkitSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -189,10 +146,6 @@ test-section:
 <summary>Nukkit</summary>
 
 ```java
-import io.github.portlek.configs.nukkit.NukkitManaged;
-import io.github.portlek.configs.nukkit.NukkitSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -228,10 +181,6 @@ test-section:
 <summary>Sponge</summary>
 
 ```java
-import io.github.portlek.configs.sponge.SpongeManaged;
-import io.github.portlek.configs.sponge.SpongeSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -273,10 +222,6 @@ testLinkedConfig.load();
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.structure.LinkedFileManaged;
-import io.github.portlek.configs.util.MapEntry;
-import io.github.portlek.configs.annnotations.*;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
@@ -337,9 +282,6 @@ same-in-every-language: 'Same in every language!'
 <summary>Bukkit</summary>
 
 ```java
-import io.github.portlek.configs.bukkit.BukkitLinkedManaged;
-import io.github.portlek.configs.util.MapEntry;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
@@ -400,10 +342,6 @@ same-in-every-language: 'Same in every language!'
 <summary>Nukkit</summary>
 
 ```java
-import io.github.portlek.configs.nukkit.NukkitLinkedManaged;
-import io.github.portlek.configs.util.MapEntry;
-import io.github.portlek.configs.annotations.*;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
@@ -464,10 +402,6 @@ same-in-every-language: 'Same in every language!'
 <summary>Sponge</summary>
 
 ```java
-import io.github.portlek.configs.sponge.SpongeLinkedManaged;
-import io.github.portlek.configs.util.MapEntry;
-import io.github.portlek.configs.annotations.*;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
@@ -525,8 +459,4 @@ same-in-every-language: 'Same in every language!'
 </details>
 
 ## 3rd Party Libraries
-For JSON file type https://github.com/dumptruckman/JsonConfiguration
-
-For YAML file type and general configuration https://github.com/Carleslc/Simple-YAML
-
-For JSON parsing https://github.com/ralfstx/minimal-json
+For general configuration library https://github.com/SpongePowered/Configurate
