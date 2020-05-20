@@ -25,8 +25,6 @@
 
 package io.github.portlek.configs.structure;
 
-public final class BaseLinkedManaged implements LinkedManaged {
-
-    
+public final class BaseLinkedManaged extends BaseManaged implements LinkedManaged {
 
 }

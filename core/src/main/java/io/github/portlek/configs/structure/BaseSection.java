@@ -30,7 +30,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class BaseSection implements Section {
+public abstract class BaseSection implements Section {
 
     @Nullable
     private Managed managed;
@@ -40,18 +40,18 @@ public final class BaseSection implements Section {
 
     @NotNull
     @Override
-    public ConfigurationNode getNode() {
+    public final ConfigurationNode getNode() {
         return Objects.requireNonNull(this.node);
     }
 
     @NotNull
     @Override
-    public Managed getManaged() {
+    public final Managed getManaged() {
         return Objects.requireNonNull(this.managed);
     }
 
     @Override
-    public void setup(@NotNull final Managed managed, @NotNull final ConfigurationNode node) {
+    public final void setup(@NotNull final Managed managed, @NotNull final ConfigurationNode node) {
         this.managed = managed;
         this.node = node;
     }

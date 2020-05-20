@@ -25,8 +25,6 @@
 
 package io.github.portlek.configs.structure;
 
-public final class BaseManaged implements Managed {
-
-    
+public abstract class BaseManaged extends BaseSection implements Managed {
 
 }
