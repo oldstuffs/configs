@@ -25,6 +25,36 @@
 
 package io.github.portlek.configs.structure;
 
+import java.io.File;
+import java.util.Objects;
+import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public abstract class BaseManaged extends BaseSection implements Managed {
+
+    @Nullable
+    private File file;
+
+    @Nullable
+    private AbstractConfigurationLoader<?> loader;
+
+    @Override
+    public void setup(@NotNull final File file, final AbstractConfigurationLoader<?> loader) {
+        this.file = file;
+        this.loader = loader;
+    }
+
+    @NotNull
+    @Override
+    public final File getFile() {
+        return Objects.requireNonNull(this.file);
+    }
+
+    @NotNull
+    @Override
+    public final AbstractConfigurationLoader<?> getLoader() {
+        return Objects.requireNonNull(this.loader);
+    }
 
 }

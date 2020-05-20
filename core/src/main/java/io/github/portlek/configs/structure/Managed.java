@@ -25,6 +25,18 @@
 
 package io.github.portlek.configs.structure;
 
+import java.io.File;
+import ninja.leaping.configurate.loader.AbstractConfigurationLoader;
+import org.jetbrains.annotations.NotNull;
+
 public interface Managed extends Section {
+
+    void setup(@NotNull File file, AbstractConfigurationLoader<?> loader);
+
+    @NotNull
+    File getFile();
+
+    @NotNull
+    AbstractConfigurationLoader<?> getLoader();
 
 }

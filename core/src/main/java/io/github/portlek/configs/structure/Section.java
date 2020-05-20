@@ -25,10 +25,15 @@
 
 package io.github.portlek.configs.structure;
 
+import java.util.List;
+import java.util.Optional;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface Section {
+
+    void setup(@NotNull Managed managed, @NotNull ConfigurationNode configurationSection);
 
     @NotNull
     ConfigurationNode getNode();
@@ -36,6 +41,24 @@ public interface Section {
     @NotNull
     Managed getManaged();
 
-    void setup(@NotNull Managed managed, @NotNull ConfigurationNode configurationSection);
+    @NotNull
+    default List<? extends ConfigurationNode> getChildrenList() {
+        return this.getNode().getChildrenList();
+    }
+
+    @NotNull
+    default boolean contains(@NotNull final Object... paths) {
+        return this.getNode().getNode(paths).isVirtual();
+    }
+
+    @NotNull
+    default Optional<Object> get(@NotNull final Object... path) {
+        return Optional.ofNullable(this.getNode().getNode(path).getValue());
+    }
+
+    @NotNull
+    default Optional<Object> get(@Nullable final Object def, @NotNull final Object... path) {
+        return Optional.ofNullable(this.getNode().getNode(path).getValue(def));
+    }
 
 }

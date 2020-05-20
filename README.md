@@ -99,7 +99,7 @@ final class TestConfigLoader() {
 @Config(
   name = "config"
 )
-public final class TestConfig extends FileManaged {
+public final class TestConfig extends BaseManaged {
 
   @Instance
   public final TestConfig.TestSection testSection = new TestConfig.TestSection();
@@ -108,7 +108,7 @@ public final class TestConfig extends FileManaged {
   public String test = "test";
 
   @Section(path = "test-section")
-  public final class TestSection extends ConfigSection {
+  public final class TestSection extends BaseSection {
 
     @Property(path = "test-section-string")
     public String testSectionString = "test";
