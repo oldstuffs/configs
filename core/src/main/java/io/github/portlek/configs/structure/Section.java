@@ -36,4 +36,6 @@ public interface Section {
     @NotNull
     Managed getManaged();
 
+    void setup(@NotNull Managed managed, @NotNull ConfigurationNode configurationSection);
+
 }

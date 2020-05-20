@@ -50,4 +50,10 @@ public final class BaseSection implements Section {
         return Objects.requireNonNull(this.managed);
     }
 
+    @Override
+    public void setup(@NotNull final Managed managed, @NotNull final ConfigurationNode node) {
+        this.managed = managed;
+        this.node = node;
+    }
+
 }
