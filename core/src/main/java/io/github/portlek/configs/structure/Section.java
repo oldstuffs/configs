@@ -30,6 +30,7 @@ import io.github.portlek.configs.util.ThrowableFunction;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import ninja.leaping.configurate.ConfigurationNode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -55,8 +56,12 @@ public interface Section {
     }
 
     @NotNull
-    default List<? extends ConfigurationNode> getChildrenList() {
-        return this.getNode().getChildrenList();
+    default Set<String> getChildrenList() {
+        return this.getNode().getChildrenList().stream()
+            .map(ConfigurationNode::getKey)
+            .filter(o -> o instanceof String)
+            .map(o -> (String) o)
+            .collect(Collectors.toSet());
     }
 
     @NotNull
