@@ -15,18 +15,23 @@ Annotation based configuration library for any Java project.
 
 ```gradle
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-    // For the all project type
-    implementation("io.github.portlek:configs-core:${version}")
-    // For the bukkit projects
-    implementation("io.github.portlek:configs-bukkit:${version}")
-    // For the nukkit projects
-    implementation("io.github.portlek:configs-nukkit:${version}")
-    // For the sponge projects
-    implementation("io.github.portlek:configs-sponge:${version}")
+  // For the all project type
+  implementation("io.github.portlek:configs-core:${version}")
+  // For the bukkit projects
+  // depend:
+  //  - configs-bukkit
+  implementation("io.github.portlek:configs-bukkit:${version}")
+  // For the nukkit projects
+  // depend:
+  //  - configs-nukkit
+  implementation("io.github.portlek:configs-nukkit:${version}")
+  // For the sponge projects
+  // @Plugin(id = "plugin-name", /** other stuffs,**/dependencies = @Dependency(id = "configs-sponge"))
+  implementation("io.github.portlek:configs-sponge:${version}")
 }
 ```
 </details>
@@ -46,7 +51,7 @@ dependencies {
   <!-- For the bukkit projects -->
   <!-- depend:
          - configs-bukkit
- -->
+  -->
   <dependency>
     <groupId>io.github.portlek</groupId>
     <artifactId>configs-bukkit</artifactId>
@@ -56,7 +61,7 @@ dependencies {
   <!-- For the nukkit projects -->
   <!-- depend:
          - configs-nukkit
- -->
+  -->
   <dependency>
     <groupId>io.github.portlek</groupId>
     <artifactId>configs-nukkit</artifactId>
