@@ -197,7 +197,7 @@ test-section:
 <summary>Sponge</summary>
 
 ```java
-@Plugin(id = "plugin-name", /** other stuffs,**/dependencies = @Dependency(id = "configs-sponge", version = "${version}"))
+@Plugin(id = "plugin-name", /** other stuffs,**/dependencies = @Dependency(id = "configs-sponge"))
 ```
 ```java
 @Config(
