@@ -61,6 +61,7 @@ public final class SpongeItemStackProvider implements Provided<ItemStack> {
                     .map(text -> text.replace("§", Text.of("&")))
                     .collect(Collectors.toList())));
         itemStack.get(Keys.ITEM_ENCHANTMENTS).ifPresent(enchantments -> {
+            section.remove(fnlpath + "enchants");
             final CfgSection enchSection = section.getOrCreateSection(fnlpath + "enchants");
             enchantments.forEach(enchantment ->
                 enchSection.set(enchantment.getType().getName(), enchantment.getLevel()));

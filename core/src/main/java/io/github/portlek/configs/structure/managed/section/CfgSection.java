@@ -511,6 +511,16 @@ public interface CfgSection {
     }
 
     /**
+     * Removes the path from the file and runs auto save.
+     *
+     * @param path the path to remove
+     */
+    default void remove(@NotNull final String path) {
+        this.set(path, null);
+        this.getManaged().autoSave();
+    }
+
+    /**
      * Gets the requested section by path. Creates the section if not
      * found.
      *
