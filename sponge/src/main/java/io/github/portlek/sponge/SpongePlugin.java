@@ -25,10 +25,12 @@
 
 package io.github.portlek.sponge;
 
+import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
 
 @Plugin(id = "configs-sponge", name = "configs-sponge", version = "1.0-SNAPSHOT", authors = "portlek",
-    description = "Sponge module of the configs library.", url = "https://github.com/portlek/configs")
+    description = "Sponge module of the configs library.", url = "https://github.com/portlek/configs",
+    dependencies = @Dependency(id = "configs-sponge", version = "${version}"))
 public final class SpongePlugin {
 
 }

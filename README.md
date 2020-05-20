@@ -118,6 +118,10 @@ test-section:
 <details>
 <summary>Bukkit</summary>
 
+```yaml
+depend:
+  - configs-bukkit
+```
 ```java
 @Config(
   name = "config"
@@ -153,6 +157,10 @@ test-section:
 <details>
 <summary>Nukkit</summary>
 
+```yaml
+depend:
+  - configs-nukkit
+```
 ```java
 @Config(
   name = "config"
@@ -188,6 +196,9 @@ test-section:
 <details>
 <summary>Sponge</summary>
 
+```java
+@Plugin(id = "plugin-name", /** other stuffs,**/dependencies = @Dependency(id = "configs-sponge", version = "${version}"))
+```
 ```java
 @Config(
   name = "config"
