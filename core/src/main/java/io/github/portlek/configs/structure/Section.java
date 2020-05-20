@@ -25,8 +25,15 @@
 
 package io.github.portlek.configs.structure;
 
+import ninja.leaping.configurate.ConfigurationNode;
+import org.jetbrains.annotations.NotNull;
+
 public interface Section {
 
+    @NotNull
+    ConfigurationNode getNode();
 
+    @NotNull
+    Managed getManaged();
 
 }

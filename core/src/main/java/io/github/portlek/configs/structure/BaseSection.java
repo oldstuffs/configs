@@ -25,8 +25,29 @@
 
 package io.github.portlek.configs.structure;
 
+import java.util.Objects;
+import ninja.leaping.configurate.ConfigurationNode;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 public final class BaseSection implements Section {
 
+    @Nullable
+    private Managed managed;
 
+    @Nullable
+    private ConfigurationNode node;
+
+    @NotNull
+    @Override
+    public ConfigurationNode getNode() {
+        return Objects.requireNonNull(this.node);
+    }
+
+    @NotNull
+    @Override
+    public Managed getManaged() {
+        return Objects.requireNonNull(this.managed);
+    }
 
 }
