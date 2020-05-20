@@ -224,6 +224,45 @@ test-section:
 ```
 </details>
 
+<details>
+<summary>Sponge</summary>
+
+```java
+import io.github.portlek.configs.sponge.SpongeManaged;
+import io.github.portlek.configs.sponge.SpongeSection;
+import io.github.portlek.configs.annnotations.*;
+
+@Config(
+  name = "config"
+)
+public final class TestConfig extends SpongeManaged {
+
+  @Instance
+  public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+
+  @Property
+  public String test = "test";
+
+  @Section(path = "test-section")
+  public final class TestSection extends SpongeSection {
+
+    @Property(path = "test-section-string")
+    public String testSectionString = "test";
+
+  }
+
+}
+```
+
+The result will be like that;
+
+```yml
+test: 'test'
+test-section:
+  test-section-string: 'test'
+```
+</details>
+
 ### LinkedConfig Example
 
 ```java
@@ -380,6 +419,70 @@ import io.github.portlek.configs.annotations.*;
   ),
 })
 public final class TestLinkedConfig extends NukkitLinkedManaged {
+
+  public TestLinkedConfig(@NotNull final TestConfig testConfig) {
+    super(() -> testConfig.language, MapEntry.from("config", testConfig));
+  }
+
+  @NotNull
+  public TestConfig getConfig() {
+    return (TestConfig) this.pull("config");
+  }
+
+  @Property
+  public String same_in_every_language = match(s -> 
+      Optional.of("Same in every language!"));
+
+  @Property
+  public String test = match(s -> {
+    if (s.equals("en")) {
+      return Optional.of("English words!");
+    } else if (s.equals("tr")) {
+      return Optional.of("Türkçe kelimeler!");
+    }
+    return Optional.empty();
+  });
+
+}
+```
+
+The result will be like that;
+
+(en.yml file)
+```yml
+test: 'English words!'
+same-in-every-language: 'Same in every language!'
+```
+(tr.yml file)
+```yml
+test: 'Türkçe kelimeler!'
+same-in-every-language: 'Same in every language!'
+```
+</details>
+
+<details>
+<summary>Sponge</summary>
+
+```java
+import io.github.portlek.configs.sponge.SpongeLinkedManaged;
+import io.github.portlek.configs.util.MapEntry;
+import io.github.portlek.configs.annotations.*;
+
+@LinkedConfig(files = {
+  @LinkedFile(
+    id = "en",
+    config = @Config(
+      name = "en"
+    )
+  ),
+  @LinkedFile(
+    id = "tr",
+    config = @Config(
+      name = "tr"
+    )
+  ),
+})
+public final class TestLinkedConfig extends SpongeLinkedManaged {
 
   public TestLinkedConfig(@NotNull final TestConfig testConfig) {
     super(() -> testConfig.language, MapEntry.from("config", testConfig));
