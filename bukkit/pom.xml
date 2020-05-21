@@ -32,7 +32,7 @@
     <parent>
         <artifactId>configs-parent</artifactId>
         <groupId>io.github.portlek</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>3.1</version>
     </parent>
     <artifactId>configs-bukkit</artifactId>
     <description>Bukkit module of the library.</description>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>configs-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>3.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.cryptomorin</groupId>
