@@ -6,6 +6,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +22,7 @@ public final class Replaceable<X> {
     @NotNull
     private final List<UnaryOperator<X>> maps = new ArrayList<>();
 
+    @Getter
     @NotNull
     private final X value;
 
@@ -50,9 +52,15 @@ public final class Replaceable<X> {
     }
 
     @NotNull
+    public Replaceable<X> replace(@NotNull final Map.Entry<String, Supplier<String>>... replaces) {
+        this.replaces.putAll(Arrays.stream(replaces)
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
+        return this;
+    }
+
+    @NotNull
     public Replaceable<X> replace(@NotNull final Map<String, Supplier<String>> replaces) {
         this.replaces.putAll(replaces);
-
         return this;
     }
 
@@ -64,7 +72,6 @@ public final class Replaceable<X> {
     @NotNull
     public Replaceable<X> replaces(@NotNull final Collection<String> regex) {
         this.regex.addAll(regex);
-
         return this;
     }
 
@@ -76,79 +83,56 @@ public final class Replaceable<X> {
     @NotNull
     public Replaceable<X> map(@NotNull final Collection<UnaryOperator<X>> map) {
         this.maps.addAll(map);
-
         return this;
     }
 
     @NotNull
     public X build(@NotNull final String regex, @NotNull final Supplier<String> replace) {
-        return this.build(
-            MapEntry.from(regex, replace)
-        );
+        return this.build(MapEntry.from(regex, replace));
     }
 
     @SafeVarargs
     @NotNull
     public final X build(@NotNull final Map.Entry<String, Supplier<String>>... entries) {
-        return this.build(
-            Arrays.asList(entries)
-        );
+        return this.build(Arrays.asList(entries));
     }
 
     @NotNull
     public X build(@NotNull final Iterable<Map.Entry<String, Supplier<String>>> entries) {
         final Map<String, Supplier<String>> map = new HashMap<>();
-
         entries.forEach(entry ->
-            map.put(entry.getKey(), entry.getValue())
-        );
-
+            map.put(entry.getKey(), entry.getValue()));
         return this.build(map);
     }
 
     @NotNull
     public X build(@NotNull final Map<String, Supplier<String>> replaces) {
         final AtomicReference<X> finalValue = new AtomicReference<>(this.value);
-
         this.replaces.forEach((s, replace) ->
-            this.replace(finalValue, s, replace.get())
-        );
+            this.replace(finalValue, s, replace.get()));
         this.regex.forEach(r ->
-            Optional.ofNullable(replaces.get(r)).ifPresent(s ->
-                this.replace(finalValue, r, s.get())
-            )
-        );
+            Optional.ofNullable(replaces.get(r)).ifPresent(supplier ->
+                this.replace(finalValue, r, supplier.get())));
         this.maps.forEach(operator ->
-            finalValue.set(operator.apply(finalValue.get()))
-        );
-
+            finalValue.set(operator.apply(finalValue.get())));
         return finalValue.get();
     }
 
     @NotNull
     public <Y> Y buildMap(@NotNull final Function<X, Y> function) {
         final X built = this.build();
-
         return function.apply(built);
     }
 
     @NotNull
     public X build() {
-        return this.build(
-            Collections.emptyMap()
-        );
+        return this.build(Collections.emptyMap());
     }
 
     @NotNull
-    public <Y> Y buildMap(@NotNull final Function<X, Y> function, @NotNull final Map<String, Supplier<String>> replaces) {
-        final X built = this.build(replaces);
-
-        return function.apply(built);
-    }
-
-    @NotNull
-    public X getValue() {
-        return this.value;
+    public <Y> Y buildMap(@NotNull final Function<X, Y> function,
+                          @NotNull final Map<String, Supplier<String>> replaces) {
+        return function.apply(this.build(replaces));
     }
 
     @NotNull
@@ -167,7 +151,8 @@ public final class Replaceable<X> {
     }
 
     @SuppressWarnings("unchecked")
-    private void replace(@NotNull final AtomicReference<X> finalValue, @NotNull final CharSequence regex, @NotNull final CharSequence replace) {
+    private void replace(@NotNull final AtomicReference<X> finalValue, @NotNull final CharSequence regex,
+                         @NotNull final CharSequence replace) {
         if (this.value instanceof String) {
             finalValue.set((X) ((String) finalValue.get()).replace(regex, replace));
         } else if (this.value instanceof List<?>) {
