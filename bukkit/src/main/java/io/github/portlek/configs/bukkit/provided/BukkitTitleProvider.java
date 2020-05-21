@@ -25,44 +25,40 @@
 
 package io.github.portlek.configs.bukkit.provided;
 
-import com.cryptomorin.xseries.XSound;
-import io.github.portlek.configs.bukkit.util.BukkitVersion;
-import io.github.portlek.configs.bukkit.util.PlayableSound;
+import io.github.portlek.configs.bukkit.util.SentTitle;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
-import java.util.Objects;
 import java.util.Optional;
-import org.bukkit.Sound;
 import org.jetbrains.annotations.NotNull;
 
-public final class BukkitSoundProvider implements Provided<PlayableSound> {
-
-    private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
+public final class BukkitTitleProvider implements Provided<SentTitle> {
 
     @Override
-    public void set(@NotNull final PlayableSound sound, @NotNull final CfgSection section,
+    public void set(@NotNull final SentTitle title, @NotNull final CfgSection section,
                     @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        section.set(fnlpath + "sound", sound.getSound().name());
-        section.set(fnlpath + "volume", sound.getVolume());
-        section.set(fnlpath + "pitch", sound.getPitch());
+        section.set(fnlpath + "title", title.getTitle());
+        section.set(fnlpath + "sub-title", title.getSubTitle());
+        section.set(fnlpath + "fade-in", title.getFadeIn());
+        section.set(fnlpath + "show-time", title.getShowTime());
+        section.set(fnlpath + "fade-out", title.getFadeOut());
     }
 
     @NotNull
     @Override
-    public Optional<PlayableSound> get(@NotNull final CfgSection section, @NotNull final String path) {
+    public Optional<SentTitle> get(@NotNull final CfgSection section, @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        final Optional<Float> volume = section.getFloat(fnlpath + "volume");
-        final Optional<Float> pitch = section.getFloat(fnlpath + "pitch");
-        final Optional<Sound> sound = section.getString(fnlpath + "sound")
-            .flatMap(XSound::matchXSound)
-            .map(XSound::parseSound)
-            .filter(Objects::nonNull);
-        if (!sound.isPresent() || !volume.isPresent() || !pitch.isPresent()) {
+        final Optional<String> title = section.getString(fnlpath + "title");
+        final Optional<String> subTitle = section.getString(fnlpath + "sub-title");
+        final Optional<Integer> fadeIn = section.getInteger(fnlpath + "fade-in");
+        final Optional<Integer> showTime = section.getInteger(fnlpath + "show-time");
+        final Optional<Integer> fadeOut = section.getInteger(fnlpath + "fade-out");
+        if (!title.isPresent() || !subTitle.isPresent() || !fadeIn.isPresent() || !showTime.isPresent() ||
+            !fadeOut.isPresent()) {
             return Optional.empty();
         }
-        return Optional.of(new PlayableSound(sound.get(), volume.get(), pitch.get()));
+        return Optional.of(new SentTitle(title.get(), subTitle.get(), fadeIn.get(), showTime.get(), fadeOut.get()));
     }
 
 }
