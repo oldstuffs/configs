@@ -51,8 +51,9 @@ public final class Replaceable<X> {
         return this.replace(Collections.singletonMap(regex, replace));
     }
 
+    @SafeVarargs
     @NotNull
-    public Replaceable<X> replace(@NotNull final Map.Entry<String, Supplier<String>>... replaces) {
+    public final Replaceable<X> replace(@NotNull final Map.Entry<String, Supplier<String>>... replaces) {
         this.replaces.putAll(Arrays.stream(replaces)
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
         return this;
