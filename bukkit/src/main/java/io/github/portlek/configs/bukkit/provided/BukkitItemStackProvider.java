@@ -60,24 +60,20 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             if (itemMeta.hasDisplayName()) {
                 section.set(
                     fnlpath + "display-name",
-                    itemMeta.getDisplayName().replace("§", "&")
-                );
+                    itemMeta.getDisplayName().replace("§", "&"));
             }
             Optional.ofNullable(itemMeta.getLore()).ifPresent(lore ->
                 section.set(
                     fnlpath + "lore",
                     lore.stream()
                         .map(s -> s.replace("§", "&"))
-                        .collect(Collectors.toList())
-                )
-            );
+                        .collect(Collectors.toList())));
             section.set(fnlpath + "flags", itemMeta.getItemFlags().stream()
                 .map(Enum::name)
                 .collect(Collectors.toList()));
         });
         itemStack.getEnchantments().forEach((enchantment, integer) ->
-            section.set(fnlpath + "enchants." + enchantment.getName(), integer)
-        );
+            section.set(fnlpath + "enchants." + enchantment.getName(), integer));
     }
 
     @NotNull

@@ -38,8 +38,8 @@ public final class BukkitTitleProvider implements Provided<SentTitle> {
     public void set(@NotNull final SentTitle title, @NotNull final CfgSection section,
                     @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        section.set(fnlpath + "title", title.getTitle());
-        section.set(fnlpath + "sub-title", title.getSubTitle());
+        section.set(fnlpath + "title", title.getTitle().getValue());
+        section.set(fnlpath + "sub-title", title.getSubTitle().getValue());
         section.set(fnlpath + "fade-in", title.getFadeIn());
         section.set(fnlpath + "show-time", title.getShowTime());
         section.set(fnlpath + "fade-out", title.getFadeOut());
