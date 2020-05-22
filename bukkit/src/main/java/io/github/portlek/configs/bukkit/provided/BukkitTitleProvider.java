@@ -47,7 +47,8 @@ public final class BukkitTitleProvider implements Provided<SentTitle> {
 
     @NotNull
     @Override
-    public Optional<SentTitle> get(@NotNull final CfgSection section, @NotNull final String path) {
+    public Optional<SentTitle> getWithField(@NotNull final SentTitle sentTitle,
+                                            @NotNull final CfgSection section, @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
         final Optional<String> title = section.getString(fnlpath + "title");
         final Optional<String> subTitle = section.getString(fnlpath + "sub-title");
@@ -58,7 +59,14 @@ public final class BukkitTitleProvider implements Provided<SentTitle> {
             !fadeOut.isPresent()) {
             return Optional.empty();
         }
-        return Optional.of(new SentTitle(title.get(), subTitle.get(), fadeIn.get(), showTime.get(), fadeOut.get()));
+        return Optional.of(new SentTitle(sentTitle.getTitle().value(title.get()),
+            sentTitle.getSubTitle().value(subTitle.get()), fadeIn.get(), showTime.get(), fadeOut.get()));
+    }
+
+    @NotNull
+    @Override
+    public Optional<SentTitle> get(@NotNull final CfgSection section, @NotNull final String path) {
+        return Optional.empty();
     }
 
 }

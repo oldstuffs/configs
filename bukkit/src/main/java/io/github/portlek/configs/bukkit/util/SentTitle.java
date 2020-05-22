@@ -26,6 +26,13 @@
 package io.github.portlek.configs.bukkit.util;
 
 import com.cryptomorin.xseries.Titles;
+import io.github.portlek.configs.util.MapEntry;
+import io.github.portlek.configs.util.Replaceable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
@@ -36,10 +43,10 @@ import org.jetbrains.annotations.NotNull;
 public final class SentTitle {
 
     @NotNull
-    private final String title;
+    private final Replaceable<String> title;
 
     @NotNull
-    private final String subTitle;
+    private final Replaceable<String> subTitle;
 
     private final int fadeIn;
 
@@ -47,10 +54,41 @@ public final class SentTitle {
 
     private final int fadeOut;
 
-    public void send(@NotNull final Player player) {
+    @NotNull
+    public void buildAndSend(@NotNull final Player player, @NotNull final String regex, @NotNull final Supplier<String> replace) {
+        this.buildAndSend(player, MapEntry.from(regex, replace));
+    }
+
+    @SafeVarargs
+    @NotNull
+    public final void buildAndSend(@NotNull final Player player, @NotNull final Map.Entry<String, Supplier<String>>... entries) {
+        this.buildAndSend(player, Arrays.asList(entries));
+    }
+
+    @NotNull
+    public void buildAndSend(@NotNull final Player player,
+                             @NotNull final Iterable<Map.Entry<String, Supplier<String>>> entries) {
+        this.buildAndSend(player, new HashMap<String, Supplier<String>>() {{
+            entries.forEach(entry ->
+                this.put(entry.getKey(), entry.getValue()));
+        }});
+    }
+
+    @NotNull
+    public void buildAndSend(@NotNull final Player player) {
+        this.buildAndSend(player, Collections.emptyMap());
+    }
+
+    @NotNull
+    public void buildAndSend(@NotNull final Player player, @NotNull final Map<String, Supplier<String>> replaces) {
+        this.send(player, this.title.build(replaces), this.subTitle.build(replaces));
+    }
+
+    private void send(@NotNull final Player player, @NotNull final String builttitle,
+                      @NotNull final String builtsubtitle) {
         Titles.sendTitle(player, this.fadeIn, this.showTime, this.fadeOut,
-            this.title.isEmpty() ? null : this.title,
-            this.subTitle.isEmpty() ? null : this.subTitle);
+            builttitle.isEmpty() ? null : builttitle,
+            builtsubtitle.isEmpty() ? null : builttitle);
     }
 
 }

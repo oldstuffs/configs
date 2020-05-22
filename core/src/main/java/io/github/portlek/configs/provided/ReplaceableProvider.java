@@ -45,25 +45,15 @@ public final class ReplaceableProvider implements Provided<Replaceable<?>> {
                                                  @NotNull final CfgSection section, @NotNull final String path) {
         if (replaceable.getValue() instanceof String) {
             final Optional<String> optionalstring = section.getString(path);
-            final Replaceable<String> genericreplaceable = (Replaceable<String>) replaceable;
             if (optionalstring.isPresent()) {
-                return Optional.of(
-                    Replaceable.from(optionalstring.get())
-                        .replaces(genericreplaceable.getRegex())
-                        .replace(genericreplaceable.getReplaces())
-                        .map(genericreplaceable.getMaps())
-                );
+                return Optional.of(((Replaceable<String>) replaceable)
+                    .value(optionalstring.get()));
             }
         } else if (replaceable.getValue() instanceof List<?>) {
             final Optional<List<?>> listoptional = section.getList(path);
             if (listoptional.isPresent()) {
-                final Replaceable<List<String>> genericreplaceable = (Replaceable<List<String>>) replaceable;
-                return Optional.of(
-                    Replaceable.from((List<String>) listoptional.get())
-                        .replaces(genericreplaceable.getRegex())
-                        .replace(genericreplaceable.getReplaces())
-                        .map(genericreplaceable.getMaps())
-                );
+                return Optional.of(((Replaceable<List<String>>) replaceable)
+                    .value((List<String>) listoptional.get()));
             }
         }
         return Optional.empty();

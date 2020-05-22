@@ -47,6 +47,14 @@ public final class Replaceable<X> {
     }
 
     @NotNull
+    public Replaceable<X> value(@NotNull final X value) {
+        return new Replaceable<>(value)
+            .replaces(this.getRegex())
+            .replace(this.getReplaces())
+            .map(this.getMaps());
+    }
+
+    @NotNull
     public Replaceable<X> replace(@NotNull final String regex, @NotNull final Supplier<String> replace) {
         return this.replace(Collections.singletonMap(regex, replace));
     }
