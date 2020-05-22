@@ -27,7 +27,9 @@ package io.github.portlek.configs.bukkit;
 
 import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
+import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
 import io.github.portlek.configs.bukkit.util.PlayableSound;
+import io.github.portlek.configs.bukkit.util.SentTitle;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.FileManaged;
@@ -52,6 +54,7 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
         super(managed);
         this.addCustomValue(ItemStack.class, new BukkitItemStackProvider());
         this.addCustomValue(PlayableSound.class, new BukkitSoundProvider());
+        this.addCustomValue(SentTitle.class, new BukkitTitleProvider());
         Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }
 
