@@ -139,7 +139,6 @@ public class GeneralUtilities {
         if (object instanceof Number) {
             return ((Number) object).intValue();
         }
-
         try {
             return Integer.parseInt(object.toString());
         } catch (final NumberFormatException ignored) {
@@ -151,7 +150,6 @@ public class GeneralUtilities {
         if (object instanceof Number) {
             return ((Number) object).doubleValue();
         }
-
         try {
             return Double.parseDouble(object.toString());
         } catch (final NumberFormatException ignored) {
@@ -163,7 +161,6 @@ public class GeneralUtilities {
         if (object instanceof Number) {
             return ((Number) object).floatValue();
         }
-
         try {
             return Float.parseFloat(object.toString());
         } catch (final NumberFormatException ignored) {
