@@ -36,6 +36,6 @@ import org.jetbrains.annotations.NotNull;
 public @interface Section {
 
     @NotNull
-    String path();
+    String value();
 
 }
