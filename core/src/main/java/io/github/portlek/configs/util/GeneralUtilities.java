@@ -35,7 +35,7 @@ import java.io.*;
 import java.net.URI;
 import java.net.URLConnection;
 import java.util.*;
-import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +43,6 @@ import org.jetbrains.annotations.Nullable;
 
 @UtilityClass
 public class GeneralUtilities {
-
-    private final Logger LOG = Logger.getLogger(GeneralUtilities.class.getName());
 
     @NotNull
     public String addSeparator(@NotNull final String raw) {
@@ -109,10 +107,8 @@ public class GeneralUtilities {
         final File outfile = new File(datafolder, replace);
         if (!outfile.exists()) {
             try (final OutputStream out = new FileOutputStream(outfile);
-                 final InputStream input = GeneralUtilities.getResource(replace)) {
-                if (input == null) {
-                    throw new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!");
-                }
+                 final InputStream input = GeneralUtilities.getResource(replace).orElseThrow(() ->
+                     new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!"))) {
                 final byte[] buf = new byte[1024];
                 int len;
                 while ((len = input.read(buf)) > 0) {
@@ -125,18 +121,18 @@ public class GeneralUtilities {
         return outfile;
     }
 
-    @Nullable
-    public InputStream getResource(@NotNull final String path) {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).map(url -> {
+    @NotNull
+    public Optional<InputStream> getResource(@NotNull final String path) {
+        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).flatMap(url -> {
             try {
                 final URLConnection connection = url.openConnection();
                 connection.setUseCaches(false);
-                return connection.getInputStream();
+                return Optional.of(connection.getInputStream());
             } catch (final IOException exception) {
                 exception.printStackTrace();
             }
-            return null;
-        }).orElse(null);
+            return Optional.empty();
+        });
     }
 
     public int toInt(@NotNull final Object object) {
@@ -160,7 +156,7 @@ public class GeneralUtilities {
             return Double.parseDouble(object.toString());
         } catch (final NumberFormatException ignored) {
         }
-        return 0;
+        return 0.0d;
     }
 
     public float toFloat(@NotNull final Object object) {
@@ -172,7 +168,7 @@ public class GeneralUtilities {
             return Float.parseFloat(object.toString());
         } catch (final NumberFormatException ignored) {
         }
-        return (float) 0;
+        return 0.0f;
     }
 
     public long toLong(@NotNull final Object object) {
@@ -337,11 +333,10 @@ public class GeneralUtilities {
      */
     @NotNull
     private Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
-        final Map<String, Object> result = new LinkedHashMap<>(map.size());
-        for (final Map.Entry<?, ?> entry : map.entrySet()) {
-            result.put(entry.getKey().toString(), GeneralUtilities.serialize(entry.getValue()));
-        }
-        return result;
+        return map.entrySet().stream()
+            .collect(Collectors.toMap(
+                entry -> Objects.toString(entry.getKey()),
+                entry -> GeneralUtilities.serialize(entry.getValue())));
     }
 
     /**
@@ -357,11 +352,9 @@ public class GeneralUtilities {
      */
     @NotNull
     private List<Object> buildList(@NotNull final Collection<?> collection) {
-        final List<Object> result = new ArrayList<>(collection.size());
-        for (final Object o : collection) {
-            result.add(GeneralUtilities.serialize(o));
-        }
-        return result;
+        return collection.stream()
+            .map(GeneralUtilities::serialize)
+            .collect(Collectors.toCollection(() -> new ArrayList<>(collection.size())));
     }
 
     /**
@@ -370,17 +363,17 @@ public class GeneralUtilities {
      */
     @NotNull
     private Collection<Object> deserialize(@NotNull final Collection<?> input) {
-        final Collection<Object> output = new ArrayList<>(input.size());
-        for (final Object o : input) {
-            if (o instanceof Map) {
-                output.add(GeneralUtilities.deserialize((Map<?, ?>) o));
-            } else if (o instanceof List) {
-                output.add(GeneralUtilities.deserialize((List<?>) o));
-            } else {
-                output.add(o);
-            }
-        }
-        return output;
+        return input.stream()
+            .map(o -> {
+                if (o instanceof Map) {
+                    return GeneralUtilities.deserialize((Map<?, ?>) o);
+                }
+                if (o instanceof List<?>) {
+                    return GeneralUtilities.deserialize((List<?>) o);
+                }
+                return o;
+            })
+            .collect(Collectors.toList());
     }
 
 }
