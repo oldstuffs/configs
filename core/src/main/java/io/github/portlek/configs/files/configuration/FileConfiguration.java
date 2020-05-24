@@ -59,9 +59,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     @SneakyThrows
     public final void save(@NotNull final File file) {
         file.getParentFile().mkdirs();
-
         final String data = this.saveToString();
-
         try (final Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
             writer.write(data);
         }
