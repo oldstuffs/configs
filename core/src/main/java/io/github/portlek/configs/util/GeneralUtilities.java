@@ -291,15 +291,12 @@ public class GeneralUtilities {
     @Nullable
     private Object parseNumber(@NotNull final JsonValue number) {
         try {
-            Integer.parseInt(number.toString());
             return number.asInt();
         } catch (final NumberFormatException e) {
             try {
-                Long.parseLong(number.toString());
                 return number.asLong();
             } catch (final NumberFormatException e1) {
                 try {
-                    Double.parseDouble(number.toString());
                     return number.asDouble();
                 } catch (final NumberFormatException ignored) {
                 }
