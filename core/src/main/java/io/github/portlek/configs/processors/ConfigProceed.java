@@ -54,48 +54,47 @@ public final class ConfigProceed implements Proceed<FlManaged> {
         }
         final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
-        GeneralUtilities.basedir(managed.getClass()).ifPresent(basedir -> {
-            final String filelocation = GeneralUtilities.addSeparator(
-                this.config.location()
-                    .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
-                    .replace("/", File.separator)
+        final File basedir = GeneralUtilities.basedir(managed.getClass());
+        final String filelocation = GeneralUtilities.addSeparator(
+            this.config.location()
+                .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
+                .replace("/", File.separator)
+        );
+        final String jarlocation = GeneralUtilities.addSeparator(
+            this.config.location()
+                .replace("%basedir%", basedir.getAbsolutePath())
+                .replace("/", File.separator)
+        );
+        final File file;
+        if (this.config.copyDefault()) {
+            file = GeneralUtilities.saveResource(
+                jarlocation,
+                GeneralUtilities.addSeparator(this.config.resourcePath()) + name
             );
-            final String jarlocation = GeneralUtilities.addSeparator(
-                this.config.location()
-                    .replace("%basedir%", basedir.getAbsolutePath())
-                    .replace("/", File.separator)
-            );
-            final File file;
-            if (this.config.copyDefault()) {
-                file = GeneralUtilities.saveResource(
-                    jarlocation,
-                    GeneralUtilities.addSeparator(this.config.resourcePath()) + name
-                );
-            } else {
-                file = new File(filelocation, name);
+        } else {
+            file = new File(filelocation, name);
+        }
+        if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            try {
+                file.createNewFile();
+            } catch (final IOException e) {
+                e.printStackTrace();
             }
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                try {
-                    file.createNewFile();
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
+        }
+        final FileConfiguration configuration = type.load(file);
+        managed.setup(file, configuration);
+        final Optional<String> versionoptional = managed.getString(versionpath);
+        if (versionoptional.isPresent()) {
+            final Version fileversion = Version.from(versionoptional.get());
+            if (!version.is(fileversion)) {
+                // TODO: 29/01/2020
             }
-            final FileConfiguration configuration = type.load(file);
-            managed.setup(file, configuration);
-            final Optional<String> versionoptional = managed.getString(versionpath);
-            if (versionoptional.isPresent()) {
-                final Version fileversion = Version.from(versionoptional.get());
-                if (!version.is(fileversion)) {
-                    // TODO: 29/01/2020
-                }
-            } else {
-                version.write(versionpath, managed);
-            }
-            new FieldsProceed(managed).load(managed);
-            managed.save();
-        });
+        } else {
+            version.write(versionpath, managed);
+        }
+        new FieldsProceed(managed).load(managed);
+        managed.save();
     }
 
 }

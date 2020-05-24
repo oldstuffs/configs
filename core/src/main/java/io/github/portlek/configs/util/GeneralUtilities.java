@@ -32,7 +32,6 @@ import io.github.portlek.configs.util.jsonparser.JsonArray;
 import io.github.portlek.configs.util.jsonparser.JsonObject;
 import io.github.portlek.configs.util.jsonparser.JsonValue;
 import java.io.*;
-import java.net.URI;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -46,50 +45,40 @@ public class GeneralUtilities {
 
     @NotNull
     public String addSeparator(@NotNull final String raw) {
-        final String fnl;
         if (raw.isEmpty()) {
-            fnl = "";
-        } else if (raw.charAt(raw.length() - 1) == File.separatorChar) {
-            fnl = raw;
-        } else {
-            fnl = raw + File.separatorChar;
+            return "";
         }
-        return fnl;
+        if (raw.charAt(raw.length() - 1) == File.separatorChar) {
+            return raw;
+        }
+        return raw + File.separatorChar;
     }
 
     @SneakyThrows
     @NotNull
-    public Optional<File> basedir(@NotNull final Class<?> clazz) {
-        final URI uri = clazz.getProtectionDomain().getCodeSource().getLocation().toURI();
-        final File file = new File(uri);
-        return Optional.of(file);
+    public File basedir(@NotNull final Class<?> clazz) {
+        return new File(
+            clazz.getProtectionDomain().getCodeSource().getLocation().toURI());
     }
 
     @NotNull
     public String calculatePath(@NotNull final String regex, @NotNull final String separator, @NotNull final String rawpath,
                                 @NotNull final String fallback) {
-        final String fieldpath;
-        if (rawpath.isEmpty()) {
-            if (!regex.isEmpty() && !separator.isEmpty()) {
-                fieldpath = fallback.replace(regex, separator);
-            } else {
-                fieldpath = fallback;
-            }
-        } else {
-            fieldpath = rawpath;
+        if (!rawpath.isEmpty()) {
+            return rawpath;
         }
-        return fieldpath;
+        if (regex.isEmpty() || separator.isEmpty()) {
+            return fallback;
+        }
+        return fallback.replace(regex, separator);
     }
 
     @NotNull
     public String putDot(@NotNull final String text) {
-        final String fnltext;
         if (text.isEmpty() || text.charAt(text.length() - 1) == '.') {
-            fnltext = text;
-        } else {
-            fnltext = text + '.';
+            return text;
         }
-        return fnltext;
+        return text + '.';
     }
 
     @NotNull
@@ -266,35 +255,37 @@ public class GeneralUtilities {
 
     @NotNull
     public Object serialize(@NotNull final Object value) {
-        Object value1;
+        Object finalvalue;
         if (value instanceof Object[]) {
-            value1 = new ArrayList<>(Arrays.asList((Object[]) value));
+            finalvalue = new ArrayList<>(Arrays.asList((Object[]) value));
         } else {
-            value1 = value;
+            finalvalue = value;
         }
-        if (value1 instanceof ConfigurationSection) {
-            value1 = GeneralUtilities.buildMap(((ConfigurationSection) value1).getValues(false));
-        } else if (value1 instanceof Map) {
-            value1 = GeneralUtilities.buildMap((Map<?, ?>) value1);
-        } else if (value1 instanceof List) {
-            value1 = GeneralUtilities.buildList((Collection<?>) value1);
+        if (finalvalue instanceof ConfigurationSection) {
+            finalvalue = GeneralUtilities.buildMap(((ConfigurationSection) finalvalue).getValues(false));
+        } else if (finalvalue instanceof Map) {
+            finalvalue = GeneralUtilities.buildMap((Map<?, ?>) finalvalue);
+        } else if (finalvalue instanceof List) {
+            finalvalue = GeneralUtilities.buildList((Collection<?>) finalvalue);
         }
-        return value1;
+        return finalvalue;
     }
 
     @NotNull
     public Map<String, Object> deserialize(@NotNull final Map<?, ?> input) {
-        final Map<String, Object> output = new LinkedHashMap<>(input.size());
-        for (final Map.Entry<?, ?> e : input.entrySet()) {
-            if (e.getValue() instanceof Map) {
-                output.put(e.getKey().toString(), GeneralUtilities.deserialize((Map<?, ?>) e.getValue()));
-            } else if (e.getValue() instanceof List) {
-                output.put(e.getKey().toString(), GeneralUtilities.deserialize((List<?>) e.getValue()));
-            } else {
-                output.put(e.getKey().toString(), e.getValue());
-            }
-        }
-        return output;
+        return input.entrySet().stream()
+            .collect(Collectors.toMap(
+                entry -> Objects.toString(entry.getKey()),
+                entry -> {
+                    final Object value = entry.getValue();
+                    if (value instanceof Map<?, ?>) {
+                        return GeneralUtilities.deserialize((Map<?, ?>) value);
+                    }
+                    if (value instanceof Collection<?>) {
+                        return GeneralUtilities.deserialize((Collection<?>) entry.getValue());
+                    }
+                    return value;
+                }));
     }
 
     @Nullable
