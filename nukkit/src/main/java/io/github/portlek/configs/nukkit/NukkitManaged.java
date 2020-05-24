@@ -73,14 +73,14 @@ public class NukkitManaged extends NukkitSection implements FlManaged {
     }
 
     @Override
-    public final <T> void addCustomValue(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        this.getBase().addCustomValue(aClass, provided);
+    public final <T> void addProvidedClass(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
+        this.getBase().addProvidedClass(aClass, provided);
     }
 
     @NotNull
     @Override
-    public final <T> Optional<Provided<T>> getCustomValue(@NotNull final Class<T> aClass) {
-        return this.getBase().getCustomValue(aClass);
+    public final <T> Optional<Provided<T>> getProvidedClass(@NotNull final Class<T> aClass) {
+        return this.getBase().getProvidedClass(aClass);
     }
 
     @NotNull

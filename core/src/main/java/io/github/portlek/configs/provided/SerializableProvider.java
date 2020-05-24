@@ -25,27 +25,125 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.annotations.Property;
+import io.github.portlek.configs.processors.PropertyProceed;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
+import io.github.portlek.configs.util.MapEntry;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @RequiredArgsConstructor
 public final class SerializableProvider<T> implements Provided<T> {
 
+    @NotNull
     private final Class<T> tClass;
 
-    @Override
-    public void set(@NotNull final T t, @NotNull final CfgSection section, @NotNull final String path) {
-        final String finalpath = GeneralUtilities.putDot(path);
+    @NotNull
+    private Map.Entry<Field, Property>[] fieldAnnotatedProperty = new Map.Entry[0];
 
+    @Nullable
+    private Constructor<T> constructor;
+
+    @SneakyThrows
+    public void initiate() {
+        final Field[] fields = this.tClass.getDeclaredFields();
+        final AtomicInteger size = new AtomicInteger(0);
+        Arrays.stream(fields)
+            .map(field -> Optional.ofNullable(field.getDeclaredAnnotation(Property.class)))
+            .filter(Optional::isPresent)
+            .forEach(property -> size.incrementAndGet());
+        if (size.get() < 0) {
+            return;
+        }
+        this.fieldAnnotatedProperty = new Map.Entry[size.get()];
+        for (int index = 0; index < this.fieldAnnotatedProperty.length; index++) {
+            final Field field = fields[index];
+            final int finalindex = index;
+            Optional.ofNullable(field.getDeclaredAnnotation(Property.class)).ifPresent(property ->
+                this.fieldAnnotatedProperty[finalindex] = MapEntry.from(field, property));
+        }
+        for (final Constructor<?> cons : this.tClass.getDeclaredConstructors()) {
+            if (cons.getParameterTypes().length == this.fieldAnnotatedProperty.length) {
+                // noinspection unchecked
+                this.constructor = (Constructor<T>) cons;
+            }
+        }
     }
 
+    @SneakyThrows
+    @Override
+    public void set(@NotNull final T t, @NotNull final CfgSection section, @NotNull final String path) {
+        if (!Optional.ofNullable(this.fieldAnnotatedProperty).isPresent()) {
+            return;
+        }
+        final CfgSection finalsection;
+        if (path.isEmpty()) {
+            finalsection = section;
+        } else {
+            finalsection = section.getOrCreateSection(path);
+        }
+        for (final Map.Entry<Field, Property> entry : this.fieldAnnotatedProperty) {
+            final Property property = entry.getValue();
+            final Field field = entry.getKey();
+            final String fieldpath = GeneralUtilities.calculatePath(
+                property.regex(),
+                property.separator(),
+                property.path(),
+                field.getName());
+            final boolean accessible = field.isAccessible();
+            field.setAccessible(true);
+            PropertyProceed.set(finalsection, field.get(t), fieldpath);
+            field.setAccessible(accessible);
+        }
+    }
+
+    @SneakyThrows
     @NotNull
     @Override
     public Optional<T> get(@NotNull final CfgSection section, @NotNull final String path) {
-        return Optional.empty();
+        if (!Optional.ofNullable(this.constructor).isPresent()) {
+            return Optional.empty();
+        }
+        final CfgSection finalsection;
+        if (path.isEmpty()) {
+            finalsection = section;
+        } else {
+            finalsection = section.getOrCreateSection(path);
+        }
+        final Optional<?>[] clone = new Optional[this.constructor.getParameterTypes().length];
+        for (int index = 0; index < clone.length && index < this.fieldAnnotatedProperty.length; index++) {
+            final Map.Entry<Field, Property> entry = this.fieldAnnotatedProperty[index];
+            final Property property = entry.getValue();
+            final Field field = entry.getKey();
+            final String fieldpath = GeneralUtilities.calculatePath(
+                property.regex(),
+                property.separator(),
+                property.path(),
+                field.getName());
+            final boolean accessible = field.isAccessible();
+            field.setAccessible(true);
+            clone[index] = PropertyProceed.get(finalsection, field.getType(), fieldpath);
+            field.setAccessible(accessible);
+        }
+        final Object[] objects = new Object[clone.length];
+        for (int index = 0; index < clone.length; index++) {
+            final Optional<?> optional = clone[index];
+            if (!optional.isPresent()) {
+                return Optional.empty();
+            }
+            objects[index] = optional.get();
+        }
+        System.out.println(Arrays.toString(objects));
+        return Optional.of(this.constructor.newInstance(objects));
     }
 
 }

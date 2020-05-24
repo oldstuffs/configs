@@ -15,6 +15,9 @@ public final class FieldsProceed implements Proceed<FlManaged> {
     @NotNull
     private final CfgSection parent;
 
+    @NotNull
+    private final Object parentObject;
+
     @Override
     public void load(@NotNull final FlManaged managed) {
         for (final Field field : this.parent.getClass().getDeclaredFields()) {
@@ -24,7 +27,7 @@ public final class FieldsProceed implements Proceed<FlManaged> {
                 Optional.ofNullable(field.getDeclaredAnnotation(Instance.class))
                     .map(instance -> new InstanceProceed(managed, this.parent));
             final Optional<PropertyProceed> propertyOptional = Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
-                .map(property -> new PropertyProceed(managed, this.parent, property));
+                .map(property -> new PropertyProceed(this.parent, this.parentObject, property));
             instanceOptional.ifPresent(fieldProceed ->
                 fieldProceed.load(field));
             propertyOptional.ifPresent(propertyProceed ->

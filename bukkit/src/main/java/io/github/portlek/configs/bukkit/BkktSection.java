@@ -41,12 +41,12 @@ public interface BkktSection extends CfgSection {
 
     @NotNull
     default Optional<ItemStack> getItemStack() {
-        return this.getManaged().getCustomValue(ItemStack.class)
+        return this.getManaged().getProvidedClass(ItemStack.class)
             .flatMap(provided -> provided.get(this, ""));
     }
 
     default void setItemStack(@NotNull final ItemStack itemstack) {
-        this.getManaged().getCustomValue(ItemStack.class)
+        this.getManaged().getProvidedClass(ItemStack.class)
             .ifPresent(provided -> provided.set(itemstack, this, ""));
     }
 

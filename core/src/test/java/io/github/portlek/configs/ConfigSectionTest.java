@@ -26,9 +26,7 @@
 package io.github.portlek.configs;
 
 import static org.junit.jupiter.api.Assertions.*;
-import io.github.portlek.configs.obj.ProvidedObject;
 import io.github.portlek.configs.obj.TestConfig;
-import io.github.portlek.configs.obj.TestProvided;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.NoSuchElementException;
@@ -43,9 +41,7 @@ public final class ConfigSectionTest {
     @BeforeAll
     static void before() {
         ConfigSectionTest.config = new TestConfig();
-        ConfigSectionTest.config.addCustomValue(ProvidedObject.class, new TestProvided());
         ConfigSectionTest.config.load();
-        ConfigSectionTest.config.setAutoSave(true);
     }
 
     @Test

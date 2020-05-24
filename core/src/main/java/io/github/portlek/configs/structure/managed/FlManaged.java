@@ -26,12 +26,16 @@
 package io.github.portlek.configs.structure.managed;
 
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.ConfigSerializable;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.provided.Provided;
+import io.github.portlek.configs.provided.SerializableProvider;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.util.SpecialFunction;
 import java.io.File;
 import java.util.Optional;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
@@ -44,13 +48,11 @@ public interface FlManaged extends CfgSection {
 
     default void load() {
         this.onCreate();
-        final Config config = this.getClass().getDeclaredAnnotation(Config.class);
-        if (config != null) {
-            new ConfigProceed(config).load(this);
-            this.onLoad();
-            return;
-        }
-        throw new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!");
+        new ConfigProceed(
+            Optional.ofNullable(this.getClass().getDeclaredAnnotation(Config.class)).orElseThrow(() ->
+                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!"))
+        ).load(this);
+        this.onLoad();
     }
 
     default void onCreate() {
@@ -61,9 +63,25 @@ public interface FlManaged extends CfgSection {
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
-    <T> void addCustomValue(@NotNull Class<T> aClass, @NotNull Provided<T> provided);
+    default <T> void addSerializableClass(@NotNull final Class<T> aClass) {
+        Optional.ofNullable(aClass.getDeclaredAnnotation(ConfigSerializable.class)).orElseThrow(() ->
+            new UnsupportedOperationException(aClass.getSimpleName() + " has not `ConfigSerializable` annotation!"));
+        final SerializableProvider<T> provided = new SerializableProvider<>(aClass);
+        this.addProvidedClass(aClass, provided);
+        provided.initiate();
+    }
 
-    @NotNull <T> Optional<Provided<T>> getCustomValue(@NotNull Class<T> aClass);
+    <T> void addProvidedClass(@NotNull Class<T> aClass, @NotNull Provided<T> provided);
+
+    @NotNull <T> Optional<Provided<T>> getProvidedClass(@NotNull Class<T> aClass);
+
+    <T> void addProvidedGetMethod(@NotNull Class<T> aClass, @NotNull SpecialFunction<T> provide);
+
+    @NotNull <T> Optional<SpecialFunction<T>> getProvidedGetMethod(@NotNull Class<T> aClass);
+
+    <T> void addProvidedSetMethod(@NotNull Class<T> aClass, @NotNull Function<T, Object> provide);
+
+    @NotNull <T> Optional<Function<T, Object>> getProvidedSetMethod(@NotNull Class<T> aClass);
 
     default void save() {
         this.getConfigurationSection().save(this.getFile());

@@ -33,6 +33,8 @@ import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
 import io.github.portlek.configs.util.Replaceable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Config(
@@ -58,7 +60,20 @@ public final class TestConfig extends FileManaged {
     @Property
     public Replaceable<String> test_replaceable = Replaceable.from("Test");
 
-    @Section(path = "test-section")
+    @Property
+    public List<String> test_list = new ArrayList<>();
+
+    @Override
+    public void onCreate() {
+        this.addSerializableClass(ProvidedObject.class);
+    }
+
+    @Override
+    public void onLoad() {
+        this.setAutoSave(true);
+    }
+
+    @Section("test-section")
     public static final class TestSection extends ConfigSection {
 
         @Property

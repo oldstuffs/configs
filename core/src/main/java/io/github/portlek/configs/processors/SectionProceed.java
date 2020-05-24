@@ -45,8 +45,8 @@ public final class SectionProceed implements Proceed<CfgSection> {
 
     @Override
     public void load(@NotNull final CfgSection sctn) {
-        sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.path()).getConfigurationSection());
-        new FieldsProceed(sctn).load(this.managed);
+        sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.value()).getConfigurationSection());
+        new FieldsProceed(sctn, sctn).load(this.managed);
     }
 
 }

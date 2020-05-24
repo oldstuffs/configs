@@ -34,7 +34,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
-public final class LocationProvider implements Provided<Location> {
+public final class BukkitLocationProvider implements Provided<Location> {
 
     @Override
     public void set(@NotNull final Location location, @NotNull final CfgSection section, @NotNull final String path) {

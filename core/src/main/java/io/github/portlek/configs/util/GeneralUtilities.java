@@ -62,8 +62,8 @@ public class GeneralUtilities {
     }
 
     @NotNull
-    public String calculatePath(@NotNull final String regex, @NotNull final String separator, @NotNull final String rawpath,
-                                @NotNull final String fallback) {
+    public String calculatePath(@NotNull final String regex, @NotNull final String separator,
+                                @NotNull final String rawpath, @NotNull final String fallback) {
         if (!rawpath.isEmpty()) {
             return rawpath;
         }
