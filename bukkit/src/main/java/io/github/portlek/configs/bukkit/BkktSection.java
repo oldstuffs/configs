@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
+import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -41,12 +42,12 @@ public interface BkktSection extends CfgSection {
 
     @NotNull
     default Optional<ItemStack> getItemStack() {
-        return this.getManaged().getProvidedClass(ItemStack.class)
+        return FlManaged.getProvidedClass(ItemStack.class)
             .flatMap(provided -> provided.get(this, ""));
     }
 
     default void setItemStack(@NotNull final ItemStack itemstack) {
-        this.getManaged().getProvidedClass(ItemStack.class)
+        FlManaged.getProvidedClass(ItemStack.class)
             .ifPresent(provided -> provided.set(itemstack, this, ""));
     }
 
