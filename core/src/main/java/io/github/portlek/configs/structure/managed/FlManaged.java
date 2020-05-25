@@ -34,19 +34,19 @@ import io.github.portlek.configs.provided.SerializableProvider;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.SpecialFunction;
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
 
-    Map<Class<?>, Provided<?>> PROVIDED = new HashMap<>();
+    Map<Class<?>, Provided<?>> PROVIDED = new ConcurrentHashMap<>();
 
-    Map<Class<?>, SpecialFunction<?>> PROVIDED_GET = new HashMap<>();
+    Map<Class<?>, SpecialFunction<?>> PROVIDED_GET = new ConcurrentHashMap<>();
 
-    Map<Class<?>, Function<?, Object>> PROVIDED_SET = new HashMap<>();
+    Map<Class<?>, Function<?, Object>> PROVIDED_SET = new ConcurrentHashMap<>();
 
     @NotNull
     static <T> Optional<Provided<T>> getProvidedClass(@NotNull final Class<T> aClass) {
