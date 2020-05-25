@@ -32,10 +32,9 @@ import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.util.MapEntry;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -43,6 +42,8 @@ import org.jetbrains.annotations.Nullable;
 
 @RequiredArgsConstructor
 public final class SerializableProvider<T> implements Provided<T> {
+
+    private static final Field[] FIELDS = new Field[0];
 
     @NotNull
     private final Class<T> tClass;
@@ -53,17 +54,27 @@ public final class SerializableProvider<T> implements Provided<T> {
     @Nullable
     private Constructor<T> constructor;
 
+    @NotNull
+    public List<Field> parseFields(final Class<?> clazz) {
+        final List<Field> fields = new ArrayList<>();
+        if (!clazz.getSuperclass().equals(Object.class)) {
+            fields.addAll(this.parseFields(clazz.getSuperclass()));
+        }
+        final List<Field> collect = Arrays.stream(clazz.getDeclaredFields())
+            .filter(field -> Optional.ofNullable(field.getDeclaredAnnotation(Property.class)).isPresent())
+            .collect(Collectors.toList());
+        fields.addAll(collect);
+        return fields;
+    }
+
     @SneakyThrows
     public void initiate() {
-        final Field[] fields = this.tClass.getDeclaredFields();
+        final Field[] fields = this.parseFields(this.tClass).toArray(SerializableProvider.FIELDS);
         final AtomicInteger size = new AtomicInteger(0);
         Arrays.stream(fields)
             .map(field -> Optional.ofNullable(field.getDeclaredAnnotation(Property.class)))
             .filter(Optional::isPresent)
             .forEach(property -> size.incrementAndGet());
-        if (size.get() < 0) {
-            return;
-        }
         this.fieldAnnotatedProperty = new Map.Entry[size.get()];
         for (int index = 0; index < this.fieldAnnotatedProperty.length; index++) {
             final Field field = fields[index];

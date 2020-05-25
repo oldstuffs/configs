@@ -4,23 +4,12 @@ import io.github.portlek.configs.annotations.ConfigSerializable;
 import io.github.portlek.configs.annotations.Property;
 import java.util.UUID;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 @ConfigSerializable
-@RequiredArgsConstructor
 @ToString
 @Getter
-public final class ProvidedObject {
-
-    @Property(path = "unique-id")
-    private final UUID uuid;
-
-    @Property
-    private final String name;
-
-    @Property
-    private final int age;
+public final class ProvidedObject extends ProvidedObjectAbs {
 
     @Property
     private final String asşdjasi;
@@ -36,5 +25,15 @@ public final class ProvidedObject {
 
     @Property
     private final String qweqadsa;
+
+    public ProvidedObject(final UUID uuid, final String name, final int age, final String asşdjasi,
+                          final String asdasdasd, final String dasdas, final String asdasdadq, final String qweqadsa) {
+        super(uuid, name, age);
+        this.asşdjasi = asşdjasi;
+        this.asdasdasd = asdasdasd;
+        this.dasdas = dasdas;
+        this.asdasdadq = asdasdadq;
+        this.qweqadsa = qweqadsa;
+    }
 
 }
