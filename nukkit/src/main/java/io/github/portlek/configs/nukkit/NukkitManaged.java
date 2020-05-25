@@ -30,10 +30,12 @@ import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.util.SpecialFunction;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public class NukkitManaged extends NukkitSection implements FlManaged {
@@ -81,6 +83,28 @@ public class NukkitManaged extends NukkitSection implements FlManaged {
     @Override
     public final <T> Optional<Provided<T>> getProvidedClass(@NotNull final Class<T> aClass) {
         return this.getBase().getProvidedClass(aClass);
+    }
+
+    @Override
+    public final <T> void addProvidedGetMethod(@NotNull final Class<T> aClass, @NotNull final SpecialFunction<T> provide) {
+        this.getBase().addProvidedGetMethod(aClass, provide);
+    }
+
+    @NotNull
+    @Override
+    public final <T> Optional<SpecialFunction<T>> getProvidedGetMethod(@NotNull final Class<T> aClass) {
+        return this.getBase().getProvidedGetMethod(aClass);
+    }
+
+    @Override
+    public final <T> void addProvidedSetMethod(@NotNull final Class<T> aClass, @NotNull final Function<T, Object> provide) {
+        this.getBase().addProvidedSetMethod(aClass, provide);
+    }
+
+    @NotNull
+    @Override
+    public final <T> Optional<Function<T, Object>> getProvidedSetMethod(@NotNull final Class<T> aClass) {
+        return this.getBase().getProvidedSetMethod(aClass);
     }
 
     @NotNull
