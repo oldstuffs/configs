@@ -92,8 +92,8 @@ public interface FlManaged extends CfgSection {
         Optional.ofNullable(aClass.getDeclaredAnnotation(ConfigSerializable.class)).orElseThrow(() ->
             new UnsupportedOperationException(aClass.getSimpleName() + " has not `ConfigSerializable` annotation!"));
         final SerializableProvider<T> provided = new SerializableProvider<>(aClass);
-        FlManaged.addProvidedClass(aClass, provided);
         provided.initiate();
+        FlManaged.addProvidedClass(aClass, provided);
     }
 
     static <T> void addProvidedClass(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
