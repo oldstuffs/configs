@@ -28,7 +28,6 @@ package io.github.portlek.configs.util;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.Optional;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public interface SpecialFunction<T> extends BiFunction<CfgSection, String, Optional<T>> {
 
