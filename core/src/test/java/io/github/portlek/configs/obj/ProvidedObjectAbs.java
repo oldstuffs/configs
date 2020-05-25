@@ -23,6 +23,6 @@ public abstract class ProvidedObjectAbs {
     private final int age;
 
     @Property
-    private final Test test;
+    private final TestObject test;
 
 }

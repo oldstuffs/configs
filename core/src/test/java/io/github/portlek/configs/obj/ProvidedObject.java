@@ -26,7 +26,7 @@ public final class ProvidedObject extends ProvidedObjectAbs {
     @Property
     private final String qweqadsa;
 
-    public ProvidedObject(final UUID uuid, final String name, final int age, final Test test, final String asşdjasi,
+    public ProvidedObject(final UUID uuid, final String name, final int age, final TestObject test, final String asşdjasi,
                           final String asdasdasd, final String dasdas, final String asdasdadq, final String qweqadsa) {
         super(uuid, name, age, test);
         this.asşdjasi = asşdjasi;

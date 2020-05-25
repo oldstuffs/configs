@@ -28,10 +28,12 @@ package io.github.portlek.configs.obj;
 import io.github.portlek.configs.annotations.ConfigSerializable;
 import io.github.portlek.configs.annotations.Property;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @ConfigSerializable
 @RequiredArgsConstructor
-public final class Test {
+@ToString
+public final class TestObject {
 
     @Property
     private final String test;

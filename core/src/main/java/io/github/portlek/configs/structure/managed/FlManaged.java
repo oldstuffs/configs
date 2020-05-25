@@ -34,11 +34,73 @@ import io.github.portlek.configs.provided.SerializableProvider;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.SpecialFunction;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
+
+    Map<Class<?>, Provided<?>> PROVIDED = new HashMap<>();
+
+    Map<Class<?>, SpecialFunction<?>> PROVIDED_GET = new HashMap<>();
+
+    Map<Class<?>, Function<?, Object>> PROVIDED_SET = new HashMap<>();
+
+    @NotNull
+    static <T> Optional<Provided<T>> getProvidedClass(@NotNull final Class<T> aClass) {
+        //noinspection unchecked
+        return FlManaged.PROVIDED.keySet().stream()
+            .filter(aClass::equals)
+            .findFirst()
+            .map(clss -> (Provided<T>) FlManaged.PROVIDED.get(clss));
+    }
+
+    static <T> void addProvidedGetMethod(@NotNull final Class<T> aClass,
+                                         @NotNull final SpecialFunction<T> provide) {
+        if (!FlManaged.PROVIDED_GET.containsKey(aClass)) {
+            FlManaged.PROVIDED_GET.put(aClass, provide);
+        }
+    }
+
+    @NotNull
+    static <T> Optional<SpecialFunction<T>> getProvidedGetMethod(@NotNull final Class<T> aClass) {
+        //noinspection unchecked
+        return FlManaged.PROVIDED_GET.keySet().stream()
+            .filter(aClass::equals)
+            .findFirst()
+            .map(clss -> (SpecialFunction<T>) FlManaged.PROVIDED_GET.get(clss));
+    }
+
+    static <T> void addProvidedSetMethod(@NotNull final Class<T> aClass, @NotNull final Function<T, Object> provide) {
+        if (!FlManaged.PROVIDED_SET.containsKey(aClass)) {
+            FlManaged.PROVIDED_SET.put(aClass, provide);
+        }
+    }
+
+    @NotNull
+    static <T> Optional<Function<T, Object>> getProvidedSetMethod(@NotNull final Class<T> aClass) {
+        //noinspection unchecked
+        return FlManaged.PROVIDED_SET.keySet().stream()
+            .filter(aClass::equals)
+            .findFirst()
+            .map(clss -> (Function<T, Object>) FlManaged.PROVIDED_SET.get(clss));
+    }
+
+    static <T> void addSerializableClass(@NotNull final Class<T> aClass) {
+        Optional.ofNullable(aClass.getDeclaredAnnotation(ConfigSerializable.class)).orElseThrow(() ->
+            new UnsupportedOperationException(aClass.getSimpleName() + " has not `ConfigSerializable` annotation!"));
+        final SerializableProvider<T> provided = new SerializableProvider<>(aClass);
+        FlManaged.addProvidedClass(aClass, provided);
+        provided.initiate();
+    }
+
+    static <T> void addProvidedClass(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
+        if (!FlManaged.PROVIDED.containsKey(aClass)) {
+            FlManaged.PROVIDED.put(aClass, provided);
+        }
+    }
 
     @Override
     FileConfiguration getConfigurationSection();
@@ -62,26 +124,6 @@ public interface FlManaged extends CfgSection {
     }
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
-
-    default <T> void addSerializableClass(@NotNull final Class<T> aClass) {
-        Optional.ofNullable(aClass.getDeclaredAnnotation(ConfigSerializable.class)).orElseThrow(() ->
-            new UnsupportedOperationException(aClass.getSimpleName() + " has not `ConfigSerializable` annotation!"));
-        final SerializableProvider<T> provided = new SerializableProvider<>(aClass);
-        this.addProvidedClass(aClass, provided);
-        provided.initiate();
-    }
-
-    <T> void addProvidedClass(@NotNull Class<T> aClass, @NotNull Provided<T> provided);
-
-    @NotNull <T> Optional<Provided<T>> getProvidedClass(@NotNull Class<T> aClass);
-
-    <T> void addProvidedGetMethod(@NotNull Class<T> aClass, @NotNull SpecialFunction<T> provide);
-
-    @NotNull <T> Optional<SpecialFunction<T>> getProvidedGetMethod(@NotNull Class<T> aClass);
-
-    <T> void addProvidedSetMethod(@NotNull Class<T> aClass, @NotNull Function<T, Object> provide);
-
-    @NotNull <T> Optional<Function<T, Object>> getProvidedSetMethod(@NotNull Class<T> aClass);
 
     default void save() {
         this.getConfigurationSection().save(this.getFile());

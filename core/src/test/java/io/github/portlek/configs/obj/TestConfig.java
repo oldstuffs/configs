@@ -54,7 +54,7 @@ public final class TestConfig extends FileManaged {
     public ProvidedObject provided_object = new ProvidedObject(
         UUID.fromString("9e03090a-c24b-43a3-8c29-0d47b7e3efc5"),
         "Test",
-        22, new Test("teeeeeeeeest"), "asdas", "asdas", "asdas", "asdas", "asdasda"
+        22, new TestObject("teeeeeeeeest"), "asdas", "asdas", "asdas", "asdas", "asdasda"
     );
 
     @Property
@@ -62,12 +62,6 @@ public final class TestConfig extends FileManaged {
 
     @Property
     public List<String> test_list = new ArrayList<>();
-
-    @Override
-    public void onCreate() {
-        this.addSerializableClass(ProvidedObject.class);
-        this.addSerializableClass(Test.class);
-    }
 
     @Override
     public void onLoad() {
@@ -84,7 +78,7 @@ public final class TestConfig extends FileManaged {
         public ProvidedObject provided_object = new ProvidedObject(
             UUID.fromString("9e03090a-c24b-43a3-8c29-0d47b7e3efc5"),
             "Test",
-            22, new Test("teeeeeeest"), "asdas", "asdas", "asdas", "asdas", "asdasda"
+            22, new TestObject("teeeeeeest"), "asdas", "asdas", "asdas", "asdas", "asdasda"
         );
 
         @Property

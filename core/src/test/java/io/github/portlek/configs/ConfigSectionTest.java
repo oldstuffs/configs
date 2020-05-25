@@ -26,7 +26,9 @@
 package io.github.portlek.configs;
 
 import static org.junit.jupiter.api.Assertions.*;
+import io.github.portlek.configs.obj.ProvidedObject;
 import io.github.portlek.configs.obj.TestConfig;
+import io.github.portlek.configs.obj.TestObject;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.NoSuchElementException;
@@ -40,6 +42,8 @@ public final class ConfigSectionTest {
 
     @BeforeAll
     static void before() {
+        FlManaged.addSerializableClass(ProvidedObject.class);
+        FlManaged.addSerializableClass(TestObject.class);
         ConfigSectionTest.config = new TestConfig();
         ConfigSectionTest.config.load();
     }

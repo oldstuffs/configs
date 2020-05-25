@@ -55,10 +55,10 @@ public final class PropertyProceed implements Proceed<Field> {
         final FlManaged managed = parent.getManaged();
         // noinspection unchecked
         final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
-        return managed.getProvidedClass(aClass)
+        return FlManaged.getProvidedClass(aClass)
             .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
             .orElseGet(() ->
-                managed.getProvidedGetMethod(aClass)
+                FlManaged.getProvidedGetMethod(aClass)
                     .map(func -> func.apply(parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
@@ -67,10 +67,10 @@ public final class PropertyProceed implements Proceed<Field> {
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
                                   @NotNull final String path) {
         final FlManaged managed = parent.getManaged();
-        return managed.getProvidedClass(fieldClass)
+        return FlManaged.getProvidedClass(fieldClass)
             .map(objectProvided -> objectProvided.get(parent, path))
             .orElseGet(() ->
-                managed.getProvidedGetMethod(fieldClass)
+                FlManaged.getProvidedGetMethod(fieldClass)
                     .map(func -> func.apply(parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
@@ -79,14 +79,14 @@ public final class PropertyProceed implements Proceed<Field> {
                            @NotNull final String path) {
         final FlManaged managed = parent.getManaged();
         //noinspection unchecked
-        final Optional<Provided<Object>> optional = managed.getProvidedClass((Class<Object>) fieldValue.getClass());
+        final Optional<Provided<Object>> optional = FlManaged.getProvidedClass((Class<Object>) fieldValue.getClass());
         if (optional.isPresent()) {
             optional.get().set(fieldValue, parent, path);
             return;
         }
         //noinspection unchecked
         final Optional<Function<Object, Object>> setoptional =
-            managed.getProvidedSetMethod((Class<Object>) fieldValue.getClass());
+            FlManaged.getProvidedSetMethod((Class<Object>) fieldValue.getClass());
         if (setoptional.isPresent()) {
             parent.set(path, setoptional.get().apply(fieldValue));
         } else {
