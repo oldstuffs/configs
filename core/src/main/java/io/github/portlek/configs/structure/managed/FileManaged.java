@@ -28,6 +28,7 @@ package io.github.portlek.configs.structure.managed;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.provided.ReplaceableProvider;
+import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
 import io.github.portlek.configs.util.Replaceable;
 import io.github.portlek.configs.util.SpecialFunction;
@@ -57,7 +58,7 @@ public class FileManaged extends ConfigSection implements FlManaged {
         Arrays.asList(objects).forEach(entry ->
             this.addObject(entry.getKey(), entry.getValue()));
         this.provided.put(Replaceable.class, new ReplaceableProvider());
-        this.providedGet.put(UUID.class, (SpecialFunction<UUID>) this::getUniqueId);
+        this.providedGet.put(UUID.class, (SpecialFunction<UUID>) CfgSection::getUniqueId);
         this.providedSet.put(UUID.class, Object::toString);
     }
 
