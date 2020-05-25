@@ -22,4 +22,19 @@ public final class ProvidedObject {
     @Property
     private final int age;
 
+    @Property
+    private final String asşdjasi;
+
+    @Property
+    private final String asdasdasd;
+
+    @Property
+    private final String dasdas;
+
+    @Property
+    private final String asdasdadq;
+
+    @Property
+    private final String qweqadsa;
+
 }
