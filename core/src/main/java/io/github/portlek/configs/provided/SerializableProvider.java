@@ -54,19 +54,6 @@ public final class SerializableProvider<T> implements Provided<T> {
     @Nullable
     private Constructor<T> constructor;
 
-    @NotNull
-    public List<Field> parseFields(final Class<?> clazz) {
-        final List<Field> fields = new ArrayList<>();
-        if (!clazz.getSuperclass().equals(Object.class)) {
-            fields.addAll(this.parseFields(clazz.getSuperclass()));
-        }
-        final List<Field> collect = Arrays.stream(clazz.getDeclaredFields())
-            .filter(field -> Optional.ofNullable(field.getDeclaredAnnotation(Property.class)).isPresent())
-            .collect(Collectors.toList());
-        fields.addAll(collect);
-        return fields;
-    }
-
     @SneakyThrows
     public void initiate() {
         final Field[] fields = this.parseFields(this.tClass).toArray(SerializableProvider.FIELDS);
@@ -155,6 +142,19 @@ public final class SerializableProvider<T> implements Provided<T> {
             objects[index] = optional.get();
         }
         return Optional.of(this.constructor.newInstance(objects));
+    }
+
+    @NotNull
+    private List<Field> parseFields(final Class<?> clazz) {
+        final List<Field> fields = new ArrayList<>();
+        if (!clazz.getSuperclass().equals(Object.class)) {
+            fields.addAll(this.parseFields(clazz.getSuperclass()));
+        }
+        final List<Field> collect = Arrays.stream(clazz.getDeclaredFields())
+            .filter(field -> Optional.ofNullable(field.getDeclaredAnnotation(Property.class)).isPresent())
+            .collect(Collectors.toList());
+        fields.addAll(collect);
+        return fields;
     }
 
 }
