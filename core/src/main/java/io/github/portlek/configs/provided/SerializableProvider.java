@@ -150,10 +150,9 @@ public final class SerializableProvider<T> implements Provided<T> {
         if (!clazz.getSuperclass().equals(Object.class)) {
             fields.addAll(this.parseFields(clazz.getSuperclass()));
         }
-        final List<Field> collect = Arrays.stream(clazz.getDeclaredFields())
+        fields.addAll(Arrays.stream(clazz.getDeclaredFields())
             .filter(field -> Optional.ofNullable(field.getDeclaredAnnotation(Property.class)).isPresent())
-            .collect(Collectors.toList());
-        fields.addAll(collect);
+            .collect(Collectors.toList()));
         return fields;
     }
 
