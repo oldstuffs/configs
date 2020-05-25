@@ -5,9 +5,11 @@ import io.github.portlek.configs.annotations.Property;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 @ConfigSerializable
 @RequiredArgsConstructor
+@ToString
 @Getter
 public final class ProvidedObject {
 

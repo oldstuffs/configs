@@ -54,22 +54,24 @@ public final class PropertyProceed implements Proceed<Field> {
                                   @NotNull final String path) {
         final FlManaged managed = parent.getManaged();
         // noinspection unchecked
-        return managed.getProvidedClass((Class<Object>) fieldvalue.getClass())
-            .map(objectProvided ->
-                objectProvided.getWithField(fieldvalue, parent, path))
+        final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
+        return managed.getProvidedClass(aClass)
+            .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
             .orElseGet(() ->
-                parent.get(path));
+                managed.getProvidedGetMethod(aClass)
+                    .map(func -> func.apply(parent, path))
+                    .orElseGet(() -> parent.get(path)));
     }
 
     @NotNull
-    public static Optional<?> get(@NotNull final CfgSection parent, final Class<Object> fieldClass,
+    public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
                                   @NotNull final String path) {
         final FlManaged managed = parent.getManaged();
         return managed.getProvidedClass(fieldClass)
             .map(objectProvided -> objectProvided.get(parent, path))
             .orElseGet(() ->
                 managed.getProvidedGetMethod(fieldClass)
-                    .map(func -> func.apply(path))
+                    .map(func -> func.apply(parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
 

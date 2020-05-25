@@ -131,7 +131,8 @@ public final class SerializableProvider<T> implements Provided<T> {
                 field.getName());
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);
-            clone[index] = PropertyProceed.get(finalsection, field.getType(), fieldpath);
+            // noinspection unchecked
+            clone[index] = PropertyProceed.get(finalsection, (Class<Object>) field.getType(), fieldpath);
             field.setAccessible(accessible);
         }
         final Object[] objects = new Object[clone.length];
@@ -142,7 +143,6 @@ public final class SerializableProvider<T> implements Provided<T> {
             }
             objects[index] = optional.get();
         }
-        System.out.println(Arrays.toString(objects));
         return Optional.of(this.constructor.newInstance(objects));
     }
 
