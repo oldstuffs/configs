@@ -745,9 +745,9 @@ public class MemorySection implements ConfigurationSection {
 
     @Override
     @NotNull
-    public final List<Map<?, ?>> getMapList(@NotNull final String path) {
+    public final List<Map<Object, Object>> getMapList(@NotNull final String path) {
         final List<?> list = this.getList(path);
-        final List<Map<?, ?>> result = new ArrayList<>();
+        final List<Map<Object, Object>> result = new ArrayList<>();
 
         if (list == null) {
             return result;
@@ -755,7 +755,8 @@ public class MemorySection implements ConfigurationSection {
 
         for (final Object object : list) {
             if (object instanceof Map) {
-                result.add((Map<?, ?>) object);
+                // noinspection unchecked
+                result.add((Map<Object, Object>) object);
             }
         }
 

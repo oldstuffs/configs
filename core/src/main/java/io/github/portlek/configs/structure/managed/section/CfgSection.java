@@ -470,7 +470,8 @@ public interface CfgSection {
      * @return Requested Object.
      */
     @NotNull
-    default List<Map<?, ?>> getOrSetMapList(@NotNull final String path, @NotNull final List<Map<?, ?>> fallback) {
+    default List<Map<Object, Object>> getOrSetMapList(@NotNull final String path,
+                                                      @NotNull final List<Map<Object, Object>> fallback) {
         return this.getOrSetGeneric(path, fallback, this::getMapList);
     }
 
@@ -1424,7 +1425,7 @@ public interface CfgSection {
      * @see ConfigurationSection#getMapList(String)
      */
     @NotNull
-    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path) {
+    default Optional<List<Map<Object, Object>>> getMapList(@NotNull final String path) {
         return this.getGeneric(path, this.getConfigurationSection()::getMapList);
     }
 
@@ -1441,8 +1442,9 @@ public interface CfgSection {
      * @see #getMapList(String)
      */
     @NotNull
-    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path, @Nullable final List<Map<?, ?>> def) {
-        final Optional<List<Map<?, ?>>> generic = this.getMapList(path);
+    default Optional<List<Map<Object, Object>>> getMapList(@NotNull final String path,
+                                                           @Nullable final List<Map<Object, Object>> def) {
+        final Optional<List<Map<Object, Object>>> generic = this.getMapList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -1459,7 +1461,7 @@ public interface CfgSection {
      * @see ArrayList
      */
     @NotNull
-    default List<Map<?, ?>> getMapListOrEmpty(@NotNull final String path) {
+    default List<Map<Object, Object>> getMapListOrEmpty(@NotNull final String path) {
         return this.getMapList(path).orElse(new ArrayList<>());
     }
 
@@ -1477,7 +1479,8 @@ public interface CfgSection {
      * @see ArrayList
      */
     @NotNull
-    default List<Map<?, ?>> getMapListOrEmpty(@NotNull final String path, @Nullable final List<Map<?, ?>> def) {
+    default List<Map<Object, Object>> getMapListOrEmpty(@NotNull final String path,
+                                                        @Nullable final List<Map<Object, Object>> def) {
         return this.getMapList(path, def).orElse(new ArrayList<>());
     }
 

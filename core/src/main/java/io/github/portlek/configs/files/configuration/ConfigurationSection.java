@@ -655,7 +655,7 @@ public interface ConfigurationSection {
      * @param path Path from the List to get.
      * @return Requested List from Maps.
      */
-    @NotNull List<Map<?, ?>> getMapList(@NotNull String path);
+    @NotNull List<Map<Object, Object>> getMapList(@NotNull String path);
 
     // Bukkit
 
