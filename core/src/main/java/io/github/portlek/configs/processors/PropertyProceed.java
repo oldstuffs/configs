@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.processors;
 
+import com.sun.org.apache.regexp.internal.RE;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.FlManaged;
@@ -52,21 +53,13 @@ public final class PropertyProceed implements Proceed<Field> {
     @NotNull
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
                                   @NotNull final String path) {
-        final FlManaged managed = parent.getManaged();
         // noinspection unchecked
-        final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
-        return FlManaged.getProvidedClass(aClass)
-            .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
-            .orElseGet(() ->
-                FlManaged.getProvidedGetMethod(aClass)
-                    .map(func -> func.apply(parent, path))
-                    .orElseGet(() -> parent.get(path)));
+        return PropertyProceed.get(parent, (Class<Object>) fieldvalue.getClass(), path);
     }
 
     @NotNull
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
                                   @NotNull final String path) {
-        final FlManaged managed = parent.getManaged();
         return FlManaged.getProvidedClass(fieldClass)
             .map(objectProvided -> objectProvided.get(parent, path))
             .orElseGet(() ->
@@ -77,7 +70,6 @@ public final class PropertyProceed implements Proceed<Field> {
 
     public static void set(@NotNull final CfgSection parent, @NotNull final Object fieldValue,
                            @NotNull final String path) {
-        final FlManaged managed = parent.getManaged();
         //noinspection unchecked
         final Optional<Provided<Object>> optional = FlManaged.getProvidedClass((Class<Object>) fieldValue.getClass());
         if (optional.isPresent()) {
