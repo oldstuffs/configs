@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.processors;
 
-import com.sun.org.apache.regexp.internal.RE;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.FlManaged;
