@@ -59,6 +59,10 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
                 .map(Optional::get)
                 .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
         FlManaged.addProvidedSetMethod(Material.class, Enum::toString);
+        FlManaged.addProvidedGetMethod(XMaterial.class, (section, s) ->
+            section.getString(s)
+                .flatMap(XMaterial::matchXMaterial));
+        FlManaged.addProvidedSetMethod(XMaterial.class, Enum::toString);
     }
 
     @SafeVarargs
