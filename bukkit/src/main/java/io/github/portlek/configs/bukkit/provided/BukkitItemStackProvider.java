@@ -38,6 +38,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
@@ -85,7 +86,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             return Optional.empty();
         }
         final String mtrlstrng = optional.get();
-        final Material material;
+        @Nullable final Material material;
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() > 7) {
             final Optional<XMaterial> xmaterialoptional = XMaterial.matchXMaterial(mtrlstrng);
             if (!xmaterialoptional.isPresent()) {
@@ -99,21 +100,24 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         } else {
             material = Material.getMaterial(mtrlstrng);
         }
+        if (material == null) {
+            return Optional.empty();
+        }
         final int fnlamnt = section.getInteger(fnlpath + "amount").orElse(1);
         final ItemStack itemStack;
         if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
-            itemStack = new ItemStack(
-                material,
-                fnlamnt,
-                section.getInteger(fnlpath + "damage").orElse(0).shortValue(),
-                section.getInteger(fnlpath + "data").orElse(0).byteValue()
-            );
+            itemStack = new ItemStack(material, fnlamnt);
+            section.getInteger(fnlpath + "damage")
+                .map(Number::shortValue)
+                .ifPresent(itemStack::setDurability);
+            section.getInteger(fnlpath + "data")
+                .map(Integer::byteValue)
+                .map(material::getNewData)
+                .ifPresent(itemStack::setData);
         } else {
-            itemStack = new ItemStack(
-                material,
-                fnlamnt,
-                section.getInteger(fnlpath + "damage").orElse(0).shortValue()
-            );
+            itemStack = new ItemStack(material, fnlamnt);
+            section.getInteger(fnlpath + "damage").ifPresent(integer ->
+                itemStack.setDurability(integer.shortValue()));
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             section.getString(fnlpath + "display-name").ifPresent(s ->
