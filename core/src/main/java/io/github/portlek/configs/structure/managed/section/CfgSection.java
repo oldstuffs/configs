@@ -31,6 +31,7 @@ import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -1475,13 +1476,84 @@ public interface CfgSection {
      *
      * @param path Path from the Object to get.
      * @return Requested Object in {@link Optional#of(Object)}.
-     * @see #getDoubleList(String, List)
+     * @see #getMapList(String, List)
      * @see ArrayList
      */
     @NotNull
     default List<Map<Object, Object>> getMapListOrEmpty(@NotNull final String path,
                                                         @Nullable final List<Map<Object, Object>> def) {
         return this.getMapList(path, def).orElse(new ArrayList<>());
+    }
+
+    /**
+     * Gets the requested Object by path.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getUniqueId(String)
+     */
+    @NotNull
+    default Optional<List<UUID>> getUniqueIdList(@NotNull final String path) {
+        return this.getStringList(path).map(strings -> strings.stream()
+            .map(this::getUniqueId)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList()));
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return {@link Optional#empty()}.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getUniqueIdList(String)
+     */
+    @NotNull
+    default Optional<List<UUID>> getUniqueIdList(@NotNull final String path,
+                                                 @Nullable final List<UUID> def) {
+        final Optional<List<UUID>> generic = this.getUniqueIdList(path);
+        if (!generic.isPresent()) {
+            return generic;
+        }
+        return Optional.ofNullable(def);
+    }
+
+    /**
+     * Gets the requested Object by path, returning an empty list if not
+     * found.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object.
+     * @see #getUniqueIdList(String)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<UUID> getUniqueIdListOrEmpty(@NotNull final String path) {
+        return this.getUniqueIdList(path).orElse(new ArrayList<>());
+    }
+
+    /**
+     * Gets the requested Object by path, returning a default value if not
+     * found. If default value is null, returns empty list.
+     * <p>
+     * If the Object does not exist but a default value has been specified,
+     * this will return the default value. If the Object does not exist and no
+     * default value was specified, this will return empty list.
+     *
+     * @param path Path from the Object to get.
+     * @return Requested Object in {@link Optional#of(Object)}.
+     * @see #getUniqueIdList(String, List)
+     * @see ArrayList
+     */
+    @NotNull
+    default List<UUID> getUniqueIdListOrEmpty(@NotNull final String path,
+                                              @Nullable final List<UUID> def) {
+        return this.getUniqueIdList(path, def).orElse(new ArrayList<>());
     }
 
     /**
