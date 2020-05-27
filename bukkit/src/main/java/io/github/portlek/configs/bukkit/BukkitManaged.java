@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
+import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitLocationProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
@@ -40,6 +41,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +52,13 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
         FlManaged.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
         FlManaged.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
         FlManaged.addProvidedClass(Location.class, new BukkitLocationProvider());
+        FlManaged.addProvidedGetMethod(Material.class, (section, s) ->
+            section.getString(s)
+                .map(XMaterial::matchXMaterial)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
+        FlManaged.addProvidedSetMethod(Material.class, Enum::toString);
     }
 
     @SafeVarargs
