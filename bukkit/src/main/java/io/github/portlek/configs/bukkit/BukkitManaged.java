@@ -71,7 +71,7 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
     }
 
     @SafeVarargs
-    public BukkitManaged(@NotNull final CfgSection managed, @NotNull final Map.Entry<String, Object>... objects) {
+    public BukkitManaged(@NotNull final FileManaged managed, @NotNull final Map.Entry<String, Object>... objects) {
         super(managed);
         Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }

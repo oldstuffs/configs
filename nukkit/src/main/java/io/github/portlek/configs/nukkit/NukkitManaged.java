@@ -43,7 +43,7 @@ public class NukkitManaged extends NukkitSection implements FlManaged {
     }
 
     @SafeVarargs
-    public NukkitManaged(@NotNull final CfgSection managed, @NotNull final Map.Entry<String, Object>... objects) {
+    public NukkitManaged(@NotNull final FlManaged managed, @NotNull final Map.Entry<String, Object>... objects) {
         super(managed);
         Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }
