@@ -32,7 +32,7 @@
     <parent>
         <artifactId>configs-parent</artifactId>
         <groupId>io.github.portlek</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>3.7</version>
     </parent>
     <artifactId>configs-core</artifactId>
     <description>Core module of the library.</description>
