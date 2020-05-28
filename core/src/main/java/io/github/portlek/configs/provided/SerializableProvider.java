@@ -95,7 +95,7 @@ public final class SerializableProvider<T> implements Provided<T> {
             final String fieldpath = GeneralUtilities.calculatePath(
                 property.regex(),
                 property.separator(),
-                property.path(),
+                property.value(),
                 field.getName());
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);
@@ -125,7 +125,7 @@ public final class SerializableProvider<T> implements Provided<T> {
             final String fieldpath = GeneralUtilities.calculatePath(
                 property.regex(),
                 property.separator(),
-                property.path(),
+                property.value(),
                 field.getName());
             final boolean accessible = field.isAccessible();
             field.setAccessible(true);

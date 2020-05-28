@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 public @interface Property {
 
     @NotNull
-    String path() default "";
+    String value() default "";
 
     @NotNull
     String regex() default "_";

@@ -91,7 +91,7 @@ public final class PropertyProceed implements Proceed<Field> {
         final String path = GeneralUtilities.calculatePath(
             this.property.regex(),
             this.property.separator(),
-            this.property.path(),
+            this.property.value(),
             field.getName()
         );
         final Optional<Object> optional = Optional.ofNullable(field.get(this.parentObject));

@@ -32,52 +32,28 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * This annotation is for creating basic file
- */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Config {
 
-    /**
-     * @return The file name which you don't have to write {@link FileType#suffix}.
-     */
     @NotNull
-    String name();
+    String value();
 
-    /**
-     * @return The file version which will use on migrating system.
-     */
     @NotNull
     String version() default "1.0";
 
-    /**
-     * @return The version path where will write.
-     */
     @NotNull
     String versionPath() default "file-version";
 
-    /**
-     * @return The file location where will create.
-     */
     @NotNull
     String location() default "%basedir%";
 
-    /**
-     * @return The file type which will create as.
-     */
     @NotNull
     FileType type() default FileType.YAML;
 
-    /**
-     * @return The resource path where will create from.
-     */
     @NotNull
     String resourcePath() default "";
 
-    /**
-     * @return The copy default {@link Boolean} if you want to create the file from the {@link #resourcePath()}
-     */
     boolean copyDefault() default false;
 
 }

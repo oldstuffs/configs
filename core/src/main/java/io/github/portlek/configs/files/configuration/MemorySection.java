@@ -70,12 +70,12 @@ public class MemorySection implements ConfigurationSection {
     }
 
     /**
-     * Creates an empty MemorySection with the specified parent and path.
+     * Creates an empty MemorySection with the specified parent and value.
      *
      * @param parent Parent section that contains this own section.
      * @param path Path that you may access this section from via the root
      * {@link Configuration}.
-     * @throws IllegalArgumentException Thrown is parent or path is null, or
+     * @throws IllegalArgumentException Thrown is parent or value is null, or
      * if parent contains no root Configuration.
      */
     protected MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
@@ -86,15 +86,15 @@ public class MemorySection implements ConfigurationSection {
     }
 
     /**
-     * Creates a full path to the given {@link ConfigurationSection} from its
+     * Creates a full value to the given {@link ConfigurationSection} from its
      * root {@link Configuration}.
      * <p>
      * You may use this method for any given {@link ConfigurationSection}, not
      * only {@link MemorySection}.
      *
-     * @param section Section to create a path for.
+     * @param section Section to create a value for.
      * @param key Name from the specified section.
-     * @return Full path from the section from its root.
+     * @return Full value from the section from its root.
      */
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key) {
@@ -102,23 +102,23 @@ public class MemorySection implements ConfigurationSection {
     }
 
     /**
-     * Creates a relative path to the given {@link ConfigurationSection} from
+     * Creates a relative value to the given {@link ConfigurationSection} from
      * the given relative section.
      * <p>
      * You may use this method for any given {@link ConfigurationSection}, not
      * only {@link MemorySection}.
      *
-     * @param section Section to create a path for.
+     * @param section Section to create a value for.
      * @param key Name from the specified section.
-     * @param relativeTo Section to create the path relative to.
-     * @return Full path from the section from its root.
+     * @param relativeTo Section to create the value relative to.
+     * @return Full value from the section from its root.
      */
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key,
                                     @Nullable final ConfigurationSection relativeTo) {
         final Configuration root = section.getRoot();
         if (root == null) {
-            throw new IllegalStateException("Cannot create path without a root");
+            throw new IllegalStateException("Cannot create value without a root");
         }
         final char separator = root.options().pathSeparator();
 
@@ -827,7 +827,7 @@ public class MemorySection implements ConfigurationSection {
         final Configuration root = this.getRoot();
         return new StringBuilder()
             .append(this.getClass().getSimpleName())
-            .append("[path='")
+            .append("[value='")
             .append(this.getCurrentPath())
             .append("', root='")
             .append(root == null ? null : root.getClass().getSimpleName())

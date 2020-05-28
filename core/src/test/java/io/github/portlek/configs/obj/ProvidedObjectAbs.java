@@ -13,7 +13,6 @@ import lombok.ToString;
 @Getter
 public abstract class ProvidedObjectAbs {
 
-    @Property(path = "unique-id")
     private final UUID uuid;
 
     @Property

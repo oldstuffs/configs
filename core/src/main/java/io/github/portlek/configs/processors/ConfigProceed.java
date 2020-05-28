@@ -47,10 +47,10 @@ public final class ConfigProceed implements Proceed<FlManaged> {
     public void load(@NotNull final FlManaged managed) {
         final FileType type = this.config.type();
         final String name;
-        if (this.config.name().endsWith(type.suffix)) {
-            name = this.config.name();
+        if (this.config.value().endsWith(type.suffix)) {
+            name = this.config.value();
         } else {
-            name = this.config.name() + type.suffix;
+            name = this.config.value() + type.suffix;
         }
         final Version version = Version.from(this.config.version());
         final String versionpath = this.config.versionPath();
