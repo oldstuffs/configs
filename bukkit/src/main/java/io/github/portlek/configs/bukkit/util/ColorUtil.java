@@ -37,17 +37,17 @@ import org.jetbrains.annotations.NotNull;
 public class ColorUtil {
 
     @NotNull
-    public List<String> apply(@NotNull final String... array) {
-        return ColorUtil.apply(Arrays.asList(array));
+    public List<String> colored(@NotNull final String... array) {
+        return ColorUtil.colored(Arrays.asList(array));
     }
 
     @NotNull
-    public List<String> apply(@NotNull final Collection<String> list) {
-        return list.stream().map(ColorUtil::apply).collect(Collectors.toList());
+    public List<String> colored(@NotNull final Collection<String> list) {
+        return list.stream().map(ColorUtil::colored).collect(Collectors.toList());
     }
 
     @NotNull
-    public String apply(@NotNull final String text) {
+    public String colored(@NotNull final String text) {
         return ChatColor.translateAlternateColorCodes('&', text);
     }
 
