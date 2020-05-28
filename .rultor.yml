@@ -12,9 +12,7 @@ merge:
     mvn clean install --errors --settings /home/r/settings.xml
 deploy:
   script: |
-    cat /home/r/token.txt | docker login docker.pkg.github.com -u portlek --password-stdin
-    docker tag configs docker.pkg.github.com/portlek/configs/configs:3.7
-    docker push docker.pkg.github.com/portlek/configs/configs:3.7
+    mvn clean deploy -Pconfigs-github --settings /home/r/settings.xml
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
