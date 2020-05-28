@@ -4,6 +4,7 @@ assets:
   settings.xml: "portlek/secret-repo#configs/settings.xml"
   pubring.gpg: "portlek/secret-repo#configs/pubring.gpg"
   secring.gpg: "portlek/secret-repo#configs/secring.gpg"
+  token.txt: "portlek/secret-repo#configs/GH_TOKEN.txt"
 architect:
   - portlek
 merge:
@@ -11,7 +12,9 @@ merge:
     mvn clean install --errors --settings /home/r/settings.xml
 deploy:
   script: |
-    mvn clean deploy --errors --settings /home/r/settings.xml
+    cat /home/r/token.txt | docker login docker.pkg.github.com -u portlek --password-stdin
+    docker tag configs docker.pkg.github.com/portlek/configs/configs:3.7
+    docker push docker.pkg.github.com/portlek/configs/configs:3.7
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
