@@ -121,11 +121,11 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             section.getString(fnlpath + "display-name").ifPresent(s ->
-                itemMeta.setDisplayName(ColorUtil.colored(s))
+                itemMeta.setDisplayName(ColorUtil.apply(s))
             );
             section.getStringList(fnlpath + "lore").ifPresent(lore ->
                 itemMeta.setLore(lore.stream()
-                    .map(ColorUtil::colored)
+                    .map(ColorUtil::apply)
                     .collect(Collectors.toList())));
             section.getSection(fnlpath + "enchants").map(enchsection ->
                 enchsection.getKeys(false)
