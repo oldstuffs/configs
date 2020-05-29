@@ -53,7 +53,13 @@ public final class PropertyProceed implements Proceed<Field> {
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
                                   @NotNull final String path) {
         // noinspection unchecked
-        return PropertyProceed.get(parent, (Class<Object>) fieldvalue.getClass(), path);
+        final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
+        return FlManaged.getProvidedClass(aClass)
+            .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
+            .orElseGet(() ->
+                FlManaged.getProvidedGetMethod(aClass)
+                    .map(func -> func.apply(parent, path))
+                    .orElseGet(() -> parent.get(path)));
     }
 
     @NotNull
