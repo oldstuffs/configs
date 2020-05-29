@@ -43,7 +43,7 @@ public final class BukkitVersion {
      * (major)_(minor)_R(micro)
      */
     @NotNull
-    private static final Pattern PATTERN = Pattern.compile("v?(?<major>[0-9]+)[._](?<minor>[0-9]+)(?:[._](?<micro>[0-9]+))?(?<sub>.*)");
+    private static final Pattern PATTERN = Pattern.compile("v?(?<major>[0-9]+)[._](?<minor>[0-9]+)(?:[._]R(?<micro>[0-9]+))?(?<sub>.*)");
 
     /**
      * Server version text
