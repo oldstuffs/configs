@@ -105,10 +105,6 @@ Also you have to make relocation for the library with;
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -144,10 +140,6 @@ test-section:
 <summary>Bukkit</summary>
 
 ```java
-import io.github.portlek.configs.bukkit.BukkitManaged;
-import io.github.portlek.configs.bukkit.BukkitSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -183,10 +175,6 @@ test-section:
 <summary>Nukkit</summary>
 
 ```java
-import io.github.portlek.configs.nukkit.NukkitManaged;
-import io.github.portlek.configs.nukkit.NukkitSection;
-import io.github.portlek.configs.annnotations.*;
-
 @Config(
   name = "config"
 )
@@ -224,10 +212,6 @@ test-section:
 <summary>Core</summary>
 
 ```java
-import io.github.portlek.configs.structure.LinkedFileManaged;
-import io.github.portlek.configs.util.MapEntry;
-import io.github.portlek.configs.annnotations.*;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
@@ -288,9 +272,6 @@ same-in-every-language: 'Same in every language!'
 <summary>Bukkit</summary>
 
 ```java
-import io.github.portlek.configs.bukkit.BukkitLinkedManaged;
-import io.github.portlek.configs.util.MapEntry;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
@@ -351,10 +332,6 @@ same-in-every-language: 'Same in every language!'
 <summary>Nukkit</summary>
 
 ```java
-import io.github.portlek.configs.nukkit.NukkitLinkedManaged;
-import io.github.portlek.configs.util.MapEntry;
-import io.github.portlek.configs.annotations.*;
-
 @LinkedConfig(files = {
   @LinkedFile(
     id = "en",
