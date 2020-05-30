@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.bukkit.provided;
 
+import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.configs.bukkit.util.BukkitVersion;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -58,6 +60,10 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
             section.set(fnlpath + "damage", itemStack.getDurability());
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
+            if (itemMeta instanceof SkullMeta) {
+                Optional.of(SkullUtils.getSkinValue(itemStack)).ifPresent(s ->
+                    section.set(fnlpath + "skull-texture", s));
+            }
             if (itemMeta.hasDisplayName()) {
                 section.set(
                     fnlpath + "display-name",
@@ -120,9 +126,12 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                 itemStack.setDurability(integer.shortValue()));
         }
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
+            if (itemMeta instanceof SkullMeta) {
+                section.getString(fnlpath + "skull-texture").ifPresent(s ->
+                    SkullUtils.applySkin(itemMeta, s));
+            }
             section.getString(fnlpath + "display-name").ifPresent(s ->
-                itemMeta.setDisplayName(ColorUtil.colored(s))
-            );
+                itemMeta.setDisplayName(ColorUtil.colored(s)));
             section.getStringList(fnlpath + "lore").ifPresent(lore ->
                 itemMeta.setLore(lore.stream()
                     .map(ColorUtil::colored)
