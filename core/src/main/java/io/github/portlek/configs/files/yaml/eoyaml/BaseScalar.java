@@ -77,9 +77,9 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
      * If o is Scalar then their String values are compared lexicographically
      *
      * @param other The other AbstractNode.
-     * @return a value < 0 if this < o <br>
+     * @return a value less than 0 if this less than o <br>
      * 0 if this == o or <br>
-     * a value > 0 if this > o
+     * a value bigger than 0 if this bigger than o
      */
     @Override
     public int compareTo(final YamlNode other) {
