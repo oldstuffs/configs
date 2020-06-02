@@ -47,11 +47,6 @@ shadowJar {
       <artifactId>configs-core</artifactId>
       <version>${version}</version>
     </dependency>
-    <dependency>
-      <groupId>org.yaml</groupId>
-      <artifactId>snakeyaml</artifactId>
-      <version>1.26</version>
-    </dependency>
     <!-- For the bukkit projects -->
     <dependency>
       <groupId>io.github.portlek</groupId>
