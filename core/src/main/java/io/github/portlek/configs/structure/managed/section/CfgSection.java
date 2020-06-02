@@ -552,7 +552,7 @@ public interface CfgSection {
     @NotNull
     default Optional<List<UUID>> getUniqueIdList(@NotNull final String path) {
         return this.getStringList(path).map(strings -> strings.stream()
-            .map(this::getUniqueId)
+            .map(GeneralUtilities::parseUniqueId)
             .filter(Optional::isPresent)
             .map(Optional::get)
             .collect(Collectors.toList()));

@@ -76,14 +76,14 @@ public final class PropertyProceed implements Proceed<Field> {
     public static void set(@NotNull final CfgSection parent, @NotNull final Object fieldValue,
                            @NotNull final String path) {
         //noinspection unchecked
-        final Optional<Provided<Object>> optional = FlManaged.getProvidedClass((Class<Object>) fieldValue.getClass());
+        final Class<Object> clazz = (Class<Object>) fieldValue.getClass();
+        final Optional<Provided<Object>> optional = FlManaged.getProvidedClass(clazz);
         if (optional.isPresent()) {
             optional.get().set(fieldValue, parent, path);
             return;
         }
-        //noinspection unchecked
         final Optional<Function<Object, Object>> setoptional =
-            FlManaged.getProvidedSetMethod((Class<Object>) fieldValue.getClass());
+            FlManaged.getProvidedSetMethod(clazz);
         if (setoptional.isPresent()) {
             parent.set(path, setoptional.get().apply(fieldValue));
         } else {
