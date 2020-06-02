@@ -25,47 +25,20 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.files.configuration.Configuration;
+import com.amihaiemil.eoyaml.Yaml;
+import com.amihaiemil.eoyaml.YamlMapping;
+import com.amihaiemil.eoyaml.YamlNode;
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import java.io.File;
 import java.io.Reader;
 import java.util.Map;
+import java.util.Optional;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.representer.Representer;
 
-/**
- * An implementation from {@link Configuration} which saves all files in Yaml.
- * Note that this implementation is not synchronized.
- */
 public final class YamlConfiguration extends FileConfiguration {
 
-    private static final String COMMENT_PREFIX = "# ";
-
-    private static final String BLANK_CONFIG = "{}\n";
-
-    private final DumperOptions yamlOptions = new DumperOptions();
-
-    private final Representer yamlRepresenter = new YamlRepresenter();
-
-    private final Yaml yaml = new Yaml(new YamlConstructor(), this.yamlRepresenter, this.yamlOptions);
-
-    /**
-     * Creates a new {@link YamlConfiguration}, loading from the given file.
-     * <p>
-     * Any errors loading the Configuration will be logged and then ignored.
-     * If the specified input is not a valid config, a blank config will be
-     * returned.
-     * <p>
-     * The encoding used may follow the system dependent default.
-     *
-     * @param file Input file
-     * @return Resulting configuration
-     * @throws IllegalArgumentException Thrown if file is null
-     */
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final File file) {
         final YamlConfiguration config = new YamlConfiguration();
@@ -73,17 +46,6 @@ public final class YamlConfiguration extends FileConfiguration {
         return config;
     }
 
-    /**
-     * Creates a new {@link YamlConfiguration}, loading from the given reader.
-     * <p>
-     * Any errors loading the Configuration will be logged and then ignored.
-     * If the specified input is not a valid config, a blank config will be
-     * returned.
-     *
-     * @param reader input
-     * @return resulting configuration
-     * @throws IllegalArgumentException Thrown if stream is null
-     */
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final Reader reader) {
         final YamlConfiguration config = new YamlConfiguration();
@@ -94,27 +56,15 @@ public final class YamlConfiguration extends FileConfiguration {
     @NotNull
     @Override
     public String saveToString() {
-        this.yamlOptions.setIndent(this.options().indent());
-        this.yamlOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        this.yamlRepresenter.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-
-        String dump = this.yaml.dump(this.getValues(false));
-
-        if (dump.equals(YamlConfiguration.BLANK_CONFIG)) {
-            dump = "";
-        }
-
-        return dump;
+        return Yaml.createYamlDump(this.getValues(false))
+            .dumpMapping().toString();
     }
 
     @SneakyThrows
     @Override
     public void loadFromString(@NotNull final String contents) {
-        final Map<?, ?> input;
-        input = this.yaml.load(contents);
-        if (input != null) {
-            this.convertMapsToSections(input, this);
-        }
+        Optional.ofNullable(Yaml.createYamlInput(contents).readYamlMapping()).ifPresent(t ->
+            this.convertMapsToSections(t, this));
     }
 
     @NotNull
@@ -123,20 +73,20 @@ public final class YamlConfiguration extends FileConfiguration {
         if (this.options == null) {
             this.options = new YamlConfigurationOptions(this);
         }
-
         return (YamlConfigurationOptions) this.options;
     }
 
-    private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        for (final Map.Entry<?, ?> entry : input.entrySet()) {
-            final String key = entry.getKey().toString();
-            final Object value = entry.getValue();
-
-            if (value instanceof Map) {
-                this.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
-            } else {
-                section.set(key, value);
-            }
+    private void convertMapsToSections(@NotNull final YamlMapping mapping, @NotNull final ConfigurationSection section) {
+        for (final YamlNode node : mapping.keys()) {
+            System.out.println(node);
+//            final String key = node..getKey().toString();
+//            final Object value = entry.getValue();
+//
+//            if (value instanceof Map) {
+//                this.convertMapsToSections(value, section.createSection(key));
+//            } else {
+//                section.set(key, value);
+//            }
         }
     }
 
