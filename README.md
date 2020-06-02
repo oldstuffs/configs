@@ -240,12 +240,12 @@ public final class TestLinkedConfig extends LinkedFileManaged {
 
 The result will be like that;
 
-(en.yml file)
+(en_US.yml file)
 ```yml
 test: 'English words!'
 "same-in-every-language": 'Same in every language!'
 ```
-(tr.yml file)
+(tr_TR.yml file)
 ```yml
 test: 'Türkçe kelimeler!'
 "same-in-every-language": 'Same in every language!'
@@ -296,12 +296,12 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
 
 The result will be like that;
 
-(en.yml file)
+(en_US.yml file)
 ```yml
 test: 'English words!'
 "same-in-every-language": 'Same in every language!'
 ```
-(tr.yml file)
+(tr_TR.yml file)
 ```yml
 test: 'Türkçe kelimeler!'
 "same-in-every-language": 'Same in every language!'
@@ -352,12 +352,12 @@ public final class TestLinkedConfig extends NukkitLinkedManaged {
 
 The result will be like that;
 
-(en.yml file)
+(en_US.yml file)
 ```yml
 test: 'English words!'
 "same-in-every-language": 'Same in every language!'
 ```
-(tr.yml file)
+(tr_TR.yml file)
 ```yml
 test: 'Türkçe kelimeler!'
 "same-in-every-language": 'Same in every language!'
