@@ -31,7 +31,7 @@
 
     <groupId>io.github.portlek</groupId>
     <artifactId>configs-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>3.8.1</version>
     <name>configs-parent</name>
     <packaging>pom</packaging>
     <description>An API for creating and managing file.</description>
