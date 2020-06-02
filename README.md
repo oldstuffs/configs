@@ -23,7 +23,6 @@ repositories {
 dependencies {
     // For the all project type
     implementation("io.github.portlek:configs-core:${version}")
-    implementation("org.yaml:snakeyaml:1.26")
     // For the bukkit projects
     implementation("io.github.portlek:configs-bukkit:${version}")
     // For the nukkit projects
