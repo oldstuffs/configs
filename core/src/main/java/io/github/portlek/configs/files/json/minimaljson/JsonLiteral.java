@@ -19,36 +19,57 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package io.github.portlek.configs.util.jsonparser;
+package io.github.portlek.configs.files.json.minimaljson;
 
 import java.io.IOException;
 
 @SuppressWarnings("serial")
     // use default serial UID
-class JsonString extends JsonValue {
+class JsonLiteral extends JsonValue {
 
-    private final String string;
+    private final String value;
 
-    JsonString(final String string) {
-        if (string == null) {
-            throw new NullPointerException("string is null");
-        }
-        this.string = string;
+    private final boolean isNull;
+
+    private final boolean isTrue;
+
+    private final boolean isFalse;
+
+    JsonLiteral(final String value) {
+        this.value = value;
+        this.isNull = "null".equals(value);
+        this.isTrue = "true".equals(value);
+        this.isFalse = "false".equals(value);
     }
 
     @Override
-    public boolean isString() {
-        return true;
+    public boolean isBoolean() {
+        return this.isTrue || this.isFalse;
     }
 
     @Override
-    public String asString() {
-        return this.string;
+    public boolean isTrue() {
+        return this.isTrue;
+    }
+
+    @Override
+    public boolean isFalse() {
+        return this.isFalse;
+    }
+
+    @Override
+    public boolean isNull() {
+        return this.isNull;
+    }
+
+    @Override
+    public boolean asBoolean() {
+        return this.isNull ? super.asBoolean() : this.isTrue;
     }
 
     @Override
     public int hashCode() {
-        return this.string.hashCode();
+        return this.value.hashCode();
     }
 
     @Override
@@ -62,13 +83,18 @@ class JsonString extends JsonValue {
         if (this.getClass() != object.getClass()) {
             return false;
         }
-        final JsonString other = (JsonString) object;
-        return this.string.equals(other.string);
+        final JsonLiteral other = (JsonLiteral) object;
+        return this.value.equals(other.value);
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
     }
 
     @Override
     void write(final JsonWriter writer) throws IOException {
-        writer.writeString(this.string);
+        writer.writeLiteral(this.value);
     }
 
 }

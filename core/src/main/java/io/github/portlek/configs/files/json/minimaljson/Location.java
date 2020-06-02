@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2013, 2015 EclipseSource.
+ * Copyright (c) 2016 EclipseSource.
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -19,76 +19,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package io.github.portlek.configs.util.jsonparser;
+package io.github.portlek.configs.files.json.minimaljson;
 
-import java.io.IOException;
+import java.io.Serializable;
 
-@SuppressWarnings("serial")
-    // use default serial UID
-class JsonNumber extends JsonValue {
+/**
+ * An immutable object that represents a location in the parsed text.
+ */
+@SuppressWarnings("serial") // use default serial UID
+public final class Location implements Serializable {
 
-    private final String string;
+    /**
+     * The absolute character index, starting at 0.
+     */
+    public final int offset;
 
-    JsonNumber(final String string) {
-        if (string == null) {
-            throw new NullPointerException("string is null");
-        }
-        this.string = string;
-    }
+    /**
+     * The line number, starting at 1.
+     */
+    public final int line;
 
-    @Override
-    public boolean isNumber() {
-        return true;
-    }
+    /**
+     * The column number, starting at 1.
+     */
+    public final int column;
 
-    @Override
-    public int asInt() {
-        return Integer.parseInt(this.string, 10);
-    }
-
-    @Override
-    public long asLong() {
-        return Long.parseLong(this.string, 10);
-    }
-
-    @Override
-    public float asFloat() {
-        return Float.parseFloat(this.string);
-    }
-
-    @Override
-    public double asDouble() {
-        return Double.parseDouble(this.string);
+    Location(final int offset, final int line, final int column) {
+        this.offset = offset;
+        this.column = column;
+        this.line = line;
     }
 
     @Override
     public int hashCode() {
-        return this.string.hashCode();
+        return this.offset;
     }
 
     @Override
-    public boolean equals(final Object object) {
-        if (this == object) {
+    public boolean equals(final Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (object == null) {
+        if (obj == null) {
             return false;
         }
-        if (this.getClass() != object.getClass()) {
+        if (this.getClass() != obj.getClass()) {
             return false;
         }
-        final JsonNumber other = (JsonNumber) object;
-        return this.string.equals(other.string);
+        final Location other = (Location) obj;
+        return this.offset == other.offset && this.column == other.column && this.line == other.line;
     }
 
     @Override
     public String toString() {
-        return this.string;
-    }
-
-    @Override
-    void write(final JsonWriter writer) throws IOException {
-        writer.writeNumber(this.string);
+        return this.line + ":" + this.column;
     }
 
 }

@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.util.jsonparser;
+package io.github.portlek.configs.files.json.minimaljson;
 
 import java.lang.reflect.Array;
 import java.util.Map;

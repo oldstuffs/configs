@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 EclipseSource.
+ * Copyright (c) 2013, 2015 EclipseSource.
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -19,60 +19,56 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  ******************************************************************************/
-package io.github.portlek.configs.util.jsonparser;
+package io.github.portlek.configs.files.json.minimaljson;
 
-import java.io.Serializable;
+import java.io.IOException;
 
-/**
- * An immutable object that represents a location in the parsed text.
- */
-@SuppressWarnings("serial") // use default serial UID
-public final class Location implements Serializable {
+@SuppressWarnings("serial")
+    // use default serial UID
+class JsonString extends JsonValue {
 
-    /**
-     * The absolute character index, starting at 0.
-     */
-    public final int offset;
+    private final String string;
 
-    /**
-     * The line number, starting at 1.
-     */
-    public final int line;
+    JsonString(final String string) {
+        if (string == null) {
+            throw new NullPointerException("string is null");
+        }
+        this.string = string;
+    }
 
-    /**
-     * The column number, starting at 1.
-     */
-    public final int column;
+    @Override
+    public boolean isString() {
+        return true;
+    }
 
-    Location(final int offset, final int line, final int column) {
-        this.offset = offset;
-        this.column = column;
-        this.line = line;
+    @Override
+    public String asString() {
+        return this.string;
     }
 
     @Override
     public int hashCode() {
-        return this.offset;
+        return this.string.hashCode();
     }
 
     @Override
-    public boolean equals(final Object obj) {
-        if (this == obj) {
+    public boolean equals(final Object object) {
+        if (this == object) {
             return true;
         }
-        if (obj == null) {
+        if (object == null) {
             return false;
         }
-        if (this.getClass() != obj.getClass()) {
+        if (this.getClass() != object.getClass()) {
             return false;
         }
-        final Location other = (Location) obj;
-        return this.offset == other.offset && this.column == other.column && this.line == other.line;
+        final JsonString other = (JsonString) object;
+        return this.string.equals(other.string);
     }
 
     @Override
-    public String toString() {
-        return this.line + ":" + this.column;
+    void write(final JsonWriter writer) throws IOException {
+        writer.writeString(this.string);
     }
 
 }

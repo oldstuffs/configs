@@ -1,7 +1,5 @@
-/*
- * MIT License
- *
- * Copyright (c) 2020 Hasan Demirtaş
+/*******************************************************************************
+ * Copyright (c) 2015 EclipseSource.
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -20,20 +18,32 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
- */
-package io.github.portlek.configs.util.jsonparser;
+ ******************************************************************************/
+package io.github.portlek.configs.files.json.minimaljson;
+
+import java.io.Writer;
 
 /**
- * Objects, which implement this interface, can be directly serialized as {@link JsonValue}.
+ * Controls the formatting from the JSON output. Use one from the available constants.
  */
-public interface JsonSerializable {
+public abstract class WriterConfig {
 
     /**
-     * Serializes the object into a {@link JsonValue}
-     *
-     * @return The object as json representation
+     * Write JSON in its minimal form, without any additional whitespace. This is the default.
      */
-    JsonValue asJsonValue();
+    public static WriterConfig MINIMAL = new WriterConfig() {
+        @Override
+        JsonWriter createWriter(final Writer writer) {
+            return new JsonWriter(writer);
+        }
+    };
+
+    /**
+     * Write JSON in pretty-print, with each value on a separate line and an indentation from two
+     * spaces.
+     */
+    public static WriterConfig PRETTY_PRINT = PrettyPrint.indentWithSpaces(2);
+
+    abstract JsonWriter createWriter(Writer writer);
 
 }

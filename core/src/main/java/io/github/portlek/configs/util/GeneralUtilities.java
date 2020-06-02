@@ -27,10 +27,10 @@ package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.processors.ConfigProceed;
-import io.github.portlek.configs.util.jsonparser.Json;
-import io.github.portlek.configs.util.jsonparser.JsonArray;
-import io.github.portlek.configs.util.jsonparser.JsonObject;
-import io.github.portlek.configs.util.jsonparser.JsonValue;
+import io.github.portlek.configs.files.json.minimaljson.Json;
+import io.github.portlek.configs.files.json.minimaljson.JsonArray;
+import io.github.portlek.configs.files.json.minimaljson.JsonObject;
+import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
