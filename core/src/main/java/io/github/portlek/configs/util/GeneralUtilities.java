@@ -54,6 +54,16 @@ public class GeneralUtilities {
         return raw + File.separatorChar;
     }
 
+    @NotNull
+    public Optional<UUID> parseUniqueId(@NotNull final String uniqueId) {
+        try {
+            final Optional<String> optional = Optional.of(uniqueId);
+            return optional.map(UUID::fromString);
+        } catch (final IllegalArgumentException e) {
+            return Optional.empty();
+        }
+    }
+
     @SneakyThrows
     @NotNull
     public File basedir(@NotNull final Class<?> clazz) {

@@ -27,6 +27,7 @@ package io.github.portlek.configs.structure.managed.section;
 
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -218,42 +219,32 @@ public interface CfgSection {
 
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path) {
-        try {
-            final Optional<String> optional = Optional.ofNullable(this.getConfigurationSection().getString(path));
-            return optional.map(UUID::fromString);
-        } catch (final IllegalArgumentException e) {
-            return Optional.empty();
-        }
+        return this.getString(path).flatMap(GeneralUtilities::parseUniqueId);
     }
 
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path, @Nullable final String def) {
-        try {
-            final Optional<UUID> uuid = Optional.ofNullable(this.getConfigurationSection().getString(path, def))
-                .map(UUID::fromString);
-            if (uuid.isPresent()) {
-                return uuid;
-            }
-            return Optional.ofNullable(def).flatMap(defUniqueId ->
-                Optional.of(UUID.fromString(defUniqueId)));
-        } catch (final IllegalArgumentException e) {
-            return Optional.empty();
+        final Optional<UUID> uuid = this.getUniqueId(path);
+        if (uuid.isPresent()) {
+            return uuid;
         }
+        return Optional.ofNullable(def)
+            .flatMap(defUniqueId -> {
+                try {
+                    return Optional.of(UUID.fromString(defUniqueId));
+                } catch (final IllegalArgumentException e) {
+                    return Optional.empty();
+                }
+            });
     }
 
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path, @Nullable final UUID def) {
-        try {
-            final Optional<UUID> uuid = Optional.ofNullable(this.getConfigurationSection().getString(path))
-                .map(UUID::fromString);
-            if (uuid.isPresent()) {
-                return uuid;
-            }
-            return Optional.ofNullable(def).flatMap(defUniqueId ->
-                Optional.of(def));
-        } catch (final IllegalArgumentException e) {
-            return Optional.empty();
+        final Optional<UUID> uuid = this.getUniqueId(path);
+        if (uuid.isPresent()) {
+            return uuid;
         }
+        return Optional.ofNullable(def);
     }
 
     @NotNull
