@@ -38,12 +38,7 @@
     <description>Core module of the library.</description>
 
     <dependencies>
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.26</version>
-            <scope>provided</scope>
-        </dependency>
+        
     </dependencies>
 
 </project>
