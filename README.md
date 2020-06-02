@@ -99,9 +99,7 @@ Also you have to make relocation for the library with;
 <summary>Core</summary>
 
 ```java
-@Config(
-  name = "config"
-)
+@Config("config")
 public final class TestConfig extends FileManaged {
 
   @Instance
@@ -110,10 +108,10 @@ public final class TestConfig extends FileManaged {
   @Property
   public String test = "test";
 
-  @Section(path = "test-section")
+  @Section("test-section")
   public final class TestSection extends ConfigSection {
 
-    @Property(path = "test-section-string")
+    @Property("test-section-string")
     public String testSectionString = "test";
 
   }
@@ -134,9 +132,7 @@ test-section:
 <summary>Bukkit</summary>
 
 ```java
-@Config(
-  name = "config"
-)
+@Config("config")
 public final class TestConfig extends BukkitManaged {
 
   @Instance
@@ -145,10 +141,10 @@ public final class TestConfig extends BukkitManaged {
   @Property
   public String test = "test";
 
-  @Section(path = "test-section")
+  @Section("test-section")
   public final class TestSection extends BukkitSection {
 
-    @Property(path = "test-section-string")
+    @Property("test-section-string")
     public String testSectionString = "test";
 
   }
@@ -169,9 +165,7 @@ test-section:
 <summary>Nukkit</summary>
 
 ```java
-@Config(
-  name = "config"
-)
+@Config("config")
 public final class TestConfig extends NukkitManaged {
 
   @Instance
@@ -180,10 +174,10 @@ public final class TestConfig extends NukkitManaged {
   @Property
   public String test = "test";
 
-  @Section(path = "test-section")
+  @Section("test-section")
   public final class TestSection extends NukkitSection {
 
-    @Property(path = "test-section-string")
+    @Property("test-section-string")
     public String testSectionString = "test";
 
   }
@@ -206,18 +200,14 @@ test-section:
 <summary>Core</summary>
 
 ```java
-@LinkedConfig(files = {
+@LinkedConfig({
   @LinkedFile(
     id = "en",
-    config = Config(
-      name = "en"
-    )
+    config = Config("en_US")
   ),
   @LinkedFile(
     id = "tr",
-    config = @Config(
-      name = "tr"
-    )
+    config = @Config("tr_TR")
   ),
 })
 public final class TestLinkedConfig extends LinkedFileManaged {
@@ -266,18 +256,14 @@ same-in-every-language: 'Same in every language!'
 <summary>Bukkit</summary>
 
 ```java
-@LinkedConfig(files = {
+@LinkedConfig({
   @LinkedFile(
     id = "en",
-    config = @Config(
-      name = "en"
-    )
+    config = Config("en_US")
   ),
   @LinkedFile(
     id = "tr",
-    config = @Config(
-      name = "tr"
-    )
+    config = @Config("tr_TR")
   ),
 })
 public final class TestLinkedConfig extends BukkitLinkedManaged {
@@ -326,18 +312,14 @@ same-in-every-language: 'Same in every language!'
 <summary>Nukkit</summary>
 
 ```java
-@LinkedConfig(files = {
+@LinkedConfig({
   @LinkedFile(
     id = "en",
-    config = @Config(
-      name = "en"
-    )
+    config = Config("en_US")
   ),
   @LinkedFile(
     id = "tr",
-    config = @Config(
-      name = "tr"
-    )
+    config = @Config("tr_TR")
   ),
 })
 public final class TestLinkedConfig extends NukkitLinkedManaged {
