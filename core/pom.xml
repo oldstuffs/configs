@@ -38,7 +38,11 @@
     <description>Core module of the library.</description>
 
     <dependencies>
-        
+        <dependency>
+            <groupId>com.amihaiemil.web</groupId>
+            <artifactId>eo-yaml</artifactId>
+            <version>4.3.5</version>
+        </dependency>
     </dependencies>
 
 </project>
