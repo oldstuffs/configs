@@ -389,8 +389,10 @@ same-in-every-language: 'Same in every language!'
 </details>
 
 ## 3rd Party Libraries
-For JSON file type https://github.com/dumptruckman/JsonConfiguration
+For JSON configuration https://github.com/dumptruckman/JsonConfiguration
 
-For YAML file type and general configuration https://github.com/Carleslc/Simple-YAML
+For YAML configuration https://github.com/Carleslc/Simple-YAML
+
+For YAML parsing https://github.com/decorators-squad/eo-yaml
 
 For JSON parsing https://github.com/ralfstx/minimal-json
