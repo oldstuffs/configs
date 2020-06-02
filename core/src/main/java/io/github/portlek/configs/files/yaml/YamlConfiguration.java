@@ -34,7 +34,6 @@ import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.files.configuration.MemorySection;
 import java.io.File;
 import java.io.Reader;
-import java.util.Map;
 import java.util.Optional;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -84,7 +83,17 @@ public final class YamlConfiguration extends FileConfiguration {
 
     private void convertMapsToSections(@NotNull final YamlMapping mapping,
                                        @NotNull final ConfigurationSection section) {
-        System.out.println(mapping);
+        mapping.keys().stream()
+            .filter(key -> key instanceof Scalar)
+            .map(key -> (Scalar) key)
+            .forEach(key -> {
+                final YamlNode value = mapping.value(key);
+                if (value instanceof Scalar) {
+                    section.set(key.value(), ((Scalar) value).value());
+                } else if (value instanceof YamlMapping) {
+                    this.convertMapsToSections((YamlMapping) value, section);
+                }
+            });
     }
 
 }
