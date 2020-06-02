@@ -32,7 +32,6 @@ import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import java.io.File;
 import java.io.Reader;
-import java.util.Map;
 import java.util.Optional;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -53,11 +52,11 @@ public final class YamlConfiguration extends FileConfiguration {
         return config;
     }
 
+    @SneakyThrows
     @NotNull
     @Override
     public String saveToString() {
-        return Yaml.createYamlDump(this.getValues(false))
-            .dumpMapping().toString();
+        return Yaml.createYamlDump(this.getValues(false)).dumpMapping().toString();
     }
 
     @SneakyThrows
@@ -76,9 +75,9 @@ public final class YamlConfiguration extends FileConfiguration {
         return (YamlConfigurationOptions) this.options;
     }
 
-    private void convertMapsToSections(@NotNull final YamlMapping mapping, @NotNull final ConfigurationSection section) {
+    private void convertMapsToSections(@NotNull final YamlMapping mapping,
+                                       @NotNull final ConfigurationSection section) {
         for (final YamlNode node : mapping.keys()) {
-            
 //            final String key = node.getKey().toString();
 //            final Object value = node.getValue();
 //

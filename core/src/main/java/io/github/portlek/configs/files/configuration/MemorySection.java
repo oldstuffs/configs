@@ -172,18 +172,14 @@ public class MemorySection implements ConfigurationSection {
     @NotNull
     public final Map<String, Object> getValues(final boolean deep) {
         final Map<String, Object> result = new LinkedHashMap<>();
-
         final Configuration root = this.getRoot();
         if (root != null && root.options().copyDefaults()) {
             final ConfigurationSection defaults = this.getDefaultSection();
-
             if (defaults != null) {
                 result.putAll(defaults.getValues(deep));
             }
         }
-
         this.mapChildrenValues(result, this, deep);
-
         return result;
     }
 

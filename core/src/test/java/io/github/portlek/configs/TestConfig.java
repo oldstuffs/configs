@@ -26,13 +26,27 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
+import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.managed.section.ConfigSection;
 
 @Config("config")
 public final class TestConfig extends FileManaged {
 
+    @Instance
+    public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+
     @Property
-    public String test_test = "test";
+    public String test = "test";
+
+    @Section("section")
+    public static final class TestSection extends ConfigSection {
+
+        @Property
+        public String test = "test";
+
+    }
 
 }
