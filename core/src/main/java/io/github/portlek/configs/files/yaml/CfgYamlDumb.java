@@ -23,30 +23,34 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Instance;
-import io.github.portlek.configs.annotations.Property;
-import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
+import com.amihaiemil.eoyaml.*;
+import io.github.portlek.configs.files.configuration.ConfigurationSection;
+import io.github.portlek.configs.files.configuration.MemorySection;
+import java.util.Collection;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 
-@Config("config")
-public final class TestConfig extends FileManaged {
+@RequiredArgsConstructor
+public final class CfgYamlDumb implements YamlDump {
 
-    @Instance
-    public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+    @Nullable
+    private final Object object;
 
-    @Property
-    public String test = "test";
-
-    @Section("section-test")
-    public static final class TestSection extends ConfigSection {
-
-        @Property
-        public String test = "test";
-
+    @Override
+    public YamlNode dump() {
+        final YamlNode node;
+        if (this.object == null || ReflectedYamlDump.SCALAR_TYPES.contains(this.object.getClass())) {
+            node = new ReflectedYamlScalar(this.object);
+        } else if (this.object instanceof Collection || this.object.getClass().isArray()) {
+            node = new ReflectedYamlScalar(this.object);
+        } else if (this.object instanceof MemorySection) {
+            node = new ReflectedYamlMapping(((ConfigurationSection) this.object).getValues(false));
+        } else {
+            node = new ReflectedYamlMapping(this.object);
+        }
+        return node;
     }
 
 }

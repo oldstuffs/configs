@@ -25,18 +25,25 @@
 
 package io.github.portlek.configs.files.yaml;
 
+import com.amihaiemil.eoyaml.Scalar;
 import com.amihaiemil.eoyaml.Yaml;
 import com.amihaiemil.eoyaml.YamlMapping;
 import com.amihaiemil.eoyaml.YamlNode;
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
+import io.github.portlek.configs.files.configuration.MemorySection;
 import java.io.File;
 import java.io.Reader;
+import java.util.Map;
 import java.util.Optional;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 public final class YamlConfiguration extends FileConfiguration {
+
+    static {
+        Yaml.addCustomDumb(MemorySection.class, o -> new CfgYamlDumb(o));
+    }
 
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final File file) {
@@ -78,6 +85,9 @@ public final class YamlConfiguration extends FileConfiguration {
     private void convertMapsToSections(@NotNull final YamlMapping mapping,
                                        @NotNull final ConfigurationSection section) {
         for (final YamlNode node : mapping.keys()) {
+            if (node instanceof Scalar) {
+                System.out.println(((Scalar) node).);
+            }
 //            final String key = node.getKey().toString();
 //            final Object value = node.getValue();
 //
