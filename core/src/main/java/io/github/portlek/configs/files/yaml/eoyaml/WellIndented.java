@@ -27,7 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlIndentationException;
 import java.util.ArrayList;
 import java.util.Collection;

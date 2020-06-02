@@ -94,6 +94,16 @@
  * In order to create your own extension, you need to extend
  * {@link BaseYamlMapping} or
  * {@link BaseYamlSequence} respectively.
+ * <p>
+ * This package contains convenient extensions for both YamlMapping and
+ * YamlSequence that provide all sorts of different functionality.
+ * <p>
+ * Classes within this package are supposed to work only with the public
+ * API of this library.
+ * <p>
+ * In order to create your own extension, you need to extend
+ * {@link BaseYamlMapping} or
+ * {@link BaseYamlSequence} respectively.
  */
 /**
  * This package contains convenient extensions for both YamlMapping and

@@ -27,7 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;

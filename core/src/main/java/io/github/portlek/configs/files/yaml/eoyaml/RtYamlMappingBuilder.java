@@ -33,10 +33,10 @@ import java.util.Map;
 /**
  * YamlMappingBuilder implementation. "Rt" stands for "Runtime".
  * This class is immutable and thread-safe.
+ *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 30539bbe4deda6ffbde194a845e465a1b4b80c20 $
  * @since 1.0.0
- *
  */
 final class RtYamlMappingBuilder implements YamlMappingBuilder {
 
@@ -54,6 +54,7 @@ final class RtYamlMappingBuilder implements YamlMappingBuilder {
 
     /**
      * Constructor.
+     *
      * @param pairs Pairs used in building the YamlMapping.
      */
     RtYamlMappingBuilder(final Map<YamlNode, YamlNode> pairs) {

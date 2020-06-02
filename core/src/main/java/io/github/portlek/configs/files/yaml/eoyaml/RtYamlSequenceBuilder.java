@@ -33,6 +33,7 @@ import java.util.List;
 /**
  * YamlSequenceBuilder implementation. "Rt" stands for "Runtime".
  * This class is immutable and thread-safe.
+ *
  * @author Salavat.Yalalov (s.yalalov@gmail.com)
  * @version $Id: 79ce93ccc05fe5f26943fae0743bcbb3760d44fd $
  * @since 1.0.0
@@ -53,6 +54,7 @@ final class RtYamlSequenceBuilder implements YamlSequenceBuilder {
 
     /**
      * Constructor.
+     *
      * @param nodes Nodes used in building the YamlSequence
      */
     RtYamlSequenceBuilder(final List<YamlNode> nodes) {

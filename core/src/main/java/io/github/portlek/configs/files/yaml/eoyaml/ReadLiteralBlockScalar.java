@@ -39,10 +39,10 @@ import java.util.Iterator;
  *     line two of the scalar
  *     line three of the scalar
  * </pre>
+ *
  * @author Sherif Waly (sherifwaly95@gmail.com)
  * @version $Id: 67474478b627b55c60f9a5910ad86820367a240a $
  * @since 1.0.2
- *
  */
 final class ReadLiteralBlockScalar extends BaseScalar {
 
@@ -70,6 +70,7 @@ final class ReadLiteralBlockScalar extends BaseScalar {
 
     /**
      * Ctor.
+     *
      * @param lines All lines.
      */
     ReadLiteralBlockScalar(final AllYamlLines lines) {
@@ -78,6 +79,7 @@ final class ReadLiteralBlockScalar extends BaseScalar {
 
     /**
      * Ctor.
+     *
      * @param previous Previous YAML line.
      * @param lines All yaml lines.
      */
@@ -100,6 +102,7 @@ final class ReadLiteralBlockScalar extends BaseScalar {
 
     /**
      * Value of this scalar.
+     *
      * @return String
      */
     @Override

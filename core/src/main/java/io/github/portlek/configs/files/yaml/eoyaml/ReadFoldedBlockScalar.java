@@ -41,6 +41,7 @@ import java.util.List;
  *     several short
  *     lines for readability
  * </pre>
+ *
  * @author Sherif Waly (sherifwaly95@gmail.com)
  * @version $Id: 0c945eb27d22af6a727de674f7cbfef99019bf53 $
  * @since 1.0.2
@@ -72,6 +73,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     /**
      * Ctor.
+     *
      * @param lines All lines.
      */
     ReadFoldedBlockScalar(final AllYamlLines lines) {
@@ -80,6 +82,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     /**
      * Ctor.
+     *
      * @param previous Previous YAML line.
      * @param lines Given lines to represent.
      */
@@ -102,6 +105,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     /**
      * Value of this scalar.
+     *
      * @return String
      */
     @Override
@@ -172,6 +176,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     /**
      * Checks whether StringBuilder do not end with newline or not.
+     *
      * @param builder StringBuilder
      * @return Boolean Whether builder do not end with newline char or not
      */

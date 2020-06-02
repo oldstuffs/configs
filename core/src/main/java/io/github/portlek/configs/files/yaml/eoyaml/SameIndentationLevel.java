@@ -42,6 +42,7 @@ import java.util.List;
  *      new AllYamlLines(lines)
  *  ); //Iterates only over the lines which have the same indentation.
  * </pre>
+ *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 497093c75e0f577cb28e792adf105da5019b8c17 $
  * @since 3.0.2
@@ -55,6 +56,7 @@ final class SameIndentationLevel implements YamlLines {
 
     /**
      * Ctor.
+     *
      * @param yamlLines The Yaml lines.
      */
     SameIndentationLevel(final YamlLines yamlLines) {
@@ -77,6 +79,7 @@ final class SameIndentationLevel implements YamlLines {
      * level of indentation with the first! It breaks iteration
      * when a line with smaller indentation is met since that is the
      * beginning of another YAML object.
+     *
      * @return Iterator over these yaml lines.
      */
     @Override

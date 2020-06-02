@@ -34,6 +34,7 @@ import java.util.List;
 /**
  * YamlStreamBuilder implementation. "Rt" stands for "Runtime".
  * This class is immutable and thread-safe.
+ *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
  * @since 3.1.1
@@ -54,6 +55,7 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
     /**
      * Constructor.
+     *
      * @param documents YAML documents used in building the YamlStream.
      */
     RtYamlStreamBuilder(final List<YamlNode> documents) {
@@ -75,6 +77,7 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
     /**
      * Built YamlStream.
+     *
      * @author Mihai Andronache (amihaiemil@gmail.com)
      * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
      * @since 3.1.1
@@ -88,6 +91,7 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
         /**
          * Constructor.
+         *
          * @param documents Added YamlNodes.
          */
         BuiltYamlStream(final Collection<YamlNode> documents) {
