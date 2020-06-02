@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.files.configuration;
+package io.github.portlek.configs.configuration;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;

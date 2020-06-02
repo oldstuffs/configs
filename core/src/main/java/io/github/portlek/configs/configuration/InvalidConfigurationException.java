@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.files.configuration;
+package io.github.portlek.configs.configuration;
 
 /**
  * Exception thrown when attempting to load an invalid {@link Configuration}

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.files.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;

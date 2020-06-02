@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.files.configuration.ConfigurationSection;
-import io.github.portlek.configs.files.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.files.yaml.eoyaml.Scalar;
 import io.github.portlek.configs.files.yaml.eoyaml.Yaml;
 import io.github.portlek.configs.files.yaml.eoyaml.YamlMapping;

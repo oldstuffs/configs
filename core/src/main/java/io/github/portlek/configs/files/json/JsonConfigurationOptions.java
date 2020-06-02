@@ -28,7 +28,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.files.configuration.FileConfigurationOptions;
+import io.github.portlek.configs.configuration.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
 /**
