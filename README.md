@@ -75,7 +75,7 @@ Also you have to make relocation for the library with;
             <relocation>
                 <pattern>io.github.portlek.configs</pattern>
                 <!-- Replace this -->
-                <shadedPattern>[YOUR PACKAGE].configs</shadedPattern>
+                <shadedPattern>your.package.path.to.relocate</shadedPattern>
             </relocation>
         </relocations>
     </configuration>
