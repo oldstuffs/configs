@@ -123,8 +123,8 @@ The result will be like that;
 
 ```yml
 test: 'test'
-test-section:
-  test-section-string: 'test'
+"test-section":
+  "test-section-string": 'test'
 ```
 </details>
 
@@ -156,8 +156,8 @@ The result will be like that;
 
 ```yml
 test: 'test'
-test-section:
-  test-section-string: 'test'
+"test-section":
+  "test-section-string": 'test'
 ```
 </details>
 
@@ -189,8 +189,8 @@ The result will be like that;
 
 ```yml
 test: 'test'
-test-section:
-  test-section-string: 'test'
+"test-section":
+  "test-section-string": 'test'
 ```
 </details>
 
