@@ -25,13 +25,13 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import com.amihaiemil.eoyaml.Scalar;
-import com.amihaiemil.eoyaml.Yaml;
-import com.amihaiemil.eoyaml.YamlMapping;
-import com.amihaiemil.eoyaml.YamlNode;
 import io.github.portlek.configs.files.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.configuration.FileConfiguration;
 import io.github.portlek.configs.files.configuration.MemorySection;
+import io.github.portlek.configs.files.yaml.eoyaml.Scalar;
+import io.github.portlek.configs.files.yaml.eoyaml.Yaml;
+import io.github.portlek.configs.files.yaml.eoyaml.YamlMapping;
+import io.github.portlek.configs.files.yaml.eoyaml.YamlNode;
 import java.io.File;
 import java.io.Reader;
 import java.util.Optional;
@@ -39,10 +39,6 @@ import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 public final class YamlConfiguration extends FileConfiguration {
-
-    static {
-        Yaml.addCustomDumb(MemorySection.class, o -> new CfgYamlDumb(o));
-    }
 
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final File file) {
