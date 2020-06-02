@@ -89,7 +89,7 @@ public final class YamlConfiguration extends FileConfiguration {
             .forEach(key -> {
                 final YamlNode value = mapping.value(key);
                 if (value instanceof Scalar) {
-                    section.set(key.value(), ((Scalar) value).value());
+                    section.set(key.value().replace("\"", ""), ((Scalar) value).value());
                 } else if (value instanceof YamlMapping) {
                     this.convertMapsToSections((YamlMapping) value, section);
                 }
