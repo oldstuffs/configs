@@ -37,7 +37,6 @@ import java.util.List;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 7de3e67db263c1940c02a9049eb1822e7b543f14 $
- * @checkstyle LineLength (100 lines)
  * @since 4.3.3
  */
 public final class ReflectedYamlDump implements YamlDump {
