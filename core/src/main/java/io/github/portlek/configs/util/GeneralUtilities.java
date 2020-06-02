@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.files.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonArray;

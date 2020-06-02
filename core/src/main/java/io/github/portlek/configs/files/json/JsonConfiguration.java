@@ -28,8 +28,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.files.configuration.ConfigurationSection;
-import io.github.portlek.configs.files.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;

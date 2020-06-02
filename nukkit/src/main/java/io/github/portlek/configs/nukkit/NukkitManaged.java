@@ -25,10 +25,9 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.files.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
