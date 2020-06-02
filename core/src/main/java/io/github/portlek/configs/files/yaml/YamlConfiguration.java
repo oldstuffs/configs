@@ -84,19 +84,7 @@ public final class YamlConfiguration extends FileConfiguration {
 
     private void convertMapsToSections(@NotNull final YamlMapping mapping,
                                        @NotNull final ConfigurationSection section) {
-        for (final YamlNode node : mapping.keys()) {
-            if (node instanceof Scalar) {
-                System.out.println(((Scalar) node).);
-            }
-//            final String key = node.getKey().toString();
-//            final Object value = node.getValue();
-//
-//            if (value instanceof Map) {
-//                this.convertMapsToSections(value, section.createSection(key));
-//            } else {
-//                section.set(key, value);
-//            }
-        }
+        System.out.println(mapping);
     }
 
 }
