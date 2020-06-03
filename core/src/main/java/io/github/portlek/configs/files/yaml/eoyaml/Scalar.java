@@ -30,6 +30,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Yaml Scalar.
@@ -53,13 +54,41 @@ public interface Scalar extends YamlNode {
      */
     String value();
 
-    @NotNull
-    default Optional<?> getAsAll() {
-        final Optional<Integer> optional = this.getAsInteger();
-        if (!optional.isPresent()) {
-            return this.getAsLong();
+    @Nullable
+    default Object getAsAll() {
+        final Optional<Integer> optional1 = this.getAsInteger();
+        if (optional1.isPresent()) {
+            return optional1.get();
         }
-        return optional;
+        final Optional<Long> optional2 = this.getAsLong();
+        if (optional2.isPresent()) {
+            return optional2.get();
+        }
+        final Optional<Float> optional3 = this.getAsFloat();
+        if (optional3.isPresent()) {
+            return optional3.get();
+        }
+        final Optional<Double> optional4 = this.getAsDouble();
+        if (optional4.isPresent()) {
+            return optional4.get();
+        }
+        final Optional<Short> optional5 = this.getAsShort();
+        if (optional5.isPresent()) {
+            return optional5.get();
+        }
+        final Optional<Boolean> optional6 = this.getAsBoolean();
+        if (optional6.isPresent()) {
+            return optional6.get();
+        }
+        final Optional<Character> optional7 = this.getAsCharacter();
+        if (optional7.isPresent()) {
+            return optional7.get();
+        }
+        final Optional<Byte> optional8 = this.getAsByte();
+        if (optional8.isPresent()) {
+            return optional8.get();
+        }
+        return this.getAsString().orElse(null);
     }
 
     @NotNull

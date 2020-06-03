@@ -91,7 +91,7 @@ public final class YamlConfiguration extends FileConfiguration {
     @NotNull
     private Optional<Object> convertNodeToSections(@NotNull final YamlNode value) {
         if (value instanceof Scalar) {
-            return Optional.ofNullable(((Scalar) value).raw());
+            return Optional.ofNullable(((Scalar) value).getAsAll());
         }
         if (value instanceof YamlSequence) {
             return Optional.ofNullable(((YamlSequence) value).values());
