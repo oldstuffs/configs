@@ -31,6 +31,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.stream.Collectors;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A Yaml mapping.
@@ -63,11 +65,9 @@ public interface YamlMapping extends YamlNode {
      * @return Collection of {@link YamlNode}
      */
     default Collection<YamlNode> values() {
-        final List<YamlNode> values = new LinkedList<>();
-        for (final YamlNode key : this.keys()) {
-            values.add(this.value(key));
-        }
-        return values;
+        return this.keys().stream()
+            .map(this::value)
+            .collect(Collectors.toCollection(LinkedList::new));
     }
 
     /**
@@ -92,8 +92,8 @@ public interface YamlMapping extends YamlNode {
      */
     default YamlMapping yamlMapping(final YamlNode key) {
         final YamlNode value = this.value(key);
-        final YamlMapping found;
-        if (value != null && value instanceof YamlMapping) {
+        final @Nullable YamlMapping found;
+        if (value instanceof YamlMapping) {
             found = (YamlMapping) value;
         } else {
             found = null;
@@ -124,7 +124,7 @@ public interface YamlMapping extends YamlNode {
     default YamlSequence yamlSequence(final YamlNode key) {
         final YamlNode value = this.value(key);
         final YamlSequence found;
-        if (value != null && value instanceof YamlSequence) {
+        if (value instanceof YamlSequence) {
             found = (YamlSequence) value;
         } else {
             found = null;
@@ -155,7 +155,7 @@ public interface YamlMapping extends YamlNode {
     default String string(final YamlNode key) {
         final YamlNode value = this.value(key);
         final String found;
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             found = ((Scalar) value).value();
         } else {
             found = null;
@@ -186,7 +186,7 @@ public interface YamlMapping extends YamlNode {
     default String foldedBlockScalar(final YamlNode key) {
         final YamlNode value = this.value(key);
         final String found;
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             found = ((Scalar) value).value();
         } else {
             found = null;
@@ -217,7 +217,7 @@ public interface YamlMapping extends YamlNode {
      * or not pointing to a literal block scalar.
      */
     default Collection<String> literalBlockScalar(final YamlNode key) {
-        final Collection<String> found;
+        final @Nullable Collection<String> found;
         final YamlNode value = this.value(key);
         if (value instanceof Scalar) {
             found = Arrays.asList(
@@ -279,7 +279,7 @@ public interface YamlMapping extends YamlNode {
      */
     default int integer(final YamlNode key) {
         final YamlNode value = this.value(key);
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             return Integer.parseInt(((Scalar) value).value());
         }
         return -1;
@@ -321,7 +321,7 @@ public interface YamlMapping extends YamlNode {
      */
     default float floatNumber(final YamlNode key) {
         final YamlNode value = this.value(key);
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             return Float.parseFloat(((Scalar) value).value());
         }
         return -1;
@@ -363,7 +363,7 @@ public interface YamlMapping extends YamlNode {
      */
     default double doubleNumber(final YamlNode key) {
         final YamlNode value = this.value(key);
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             return Double.parseDouble(((Scalar) value).value());
         }
         return -1.0;
@@ -405,7 +405,7 @@ public interface YamlMapping extends YamlNode {
      */
     default long longNumber(final YamlNode key) {
         final YamlNode value = this.value(key);
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             return Long.parseLong(((Scalar) value).value());
         }
         return -1L;
@@ -443,9 +443,9 @@ public interface YamlMapping extends YamlNode {
      * or the value is not a Scalar.
      * @throws DateTimeParseException - if the Scalar value cannot be parsed.
      */
-    default LocalDate date(final YamlNode key) {
+    default @Nullable LocalDate date(final YamlNode key) {
         final YamlNode value = this.value(key);
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             return LocalDate.parse(((Scalar) value).value());
         }
         return null;
@@ -483,9 +483,9 @@ public interface YamlMapping extends YamlNode {
      * or the value is not a Scalar.
      * @throws DateTimeParseException - if the Scalar value cannot be parsed.
      */
-    default LocalDateTime dateTime(final YamlNode key) {
+    default @Nullable LocalDateTime dateTime(final YamlNode key) {
         final YamlNode value = this.value(key);
-        if (value != null && value instanceof Scalar) {
+        if (value instanceof Scalar) {
             return LocalDateTime.parse(((Scalar) value).value());
         }
         return null;

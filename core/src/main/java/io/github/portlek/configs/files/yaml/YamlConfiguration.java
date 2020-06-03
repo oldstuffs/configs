@@ -27,12 +27,11 @@ package io.github.portlek.configs.files.yaml;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.files.yaml.eoyaml.Scalar;
-import io.github.portlek.configs.files.yaml.eoyaml.Yaml;
-import io.github.portlek.configs.files.yaml.eoyaml.YamlMapping;
-import io.github.portlek.configs.files.yaml.eoyaml.YamlNode;
+import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.io.File;
 import java.io.Reader;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -83,12 +82,32 @@ public final class YamlConfiguration extends FileConfiguration {
             .map(key -> (Scalar) key)
             .forEach(key -> {
                 final YamlNode value = mapping.value(key);
-                if (value instanceof Scalar) {
-                    section.set(key.value().replace("\"", ""), ((Scalar) value).value());
-                } else if (value instanceof YamlMapping) {
-                    this.convertMapsToSections((YamlMapping) value, section);
-                }
+                final String finalkey = key.value().replace("\"", "");
+                this.convertNodeToSections(value).ifPresent(o ->
+                    section.set(finalkey, o));
             });
+    }
+
+    @NotNull
+    private Optional<Object> convertNodeToSections(@NotNull final YamlNode value) {
+        if (value instanceof Scalar) {
+            return Optional.of(((Scalar) value).value());
+        }
+        if (value instanceof YamlSequence) {
+            return Optional.ofNullable(((YamlSequence) value).values());
+        }
+        if (value instanceof YamlStream) {
+            return Optional.ofNullable(((YamlStream) value).values());
+        }
+        if (value instanceof YamlMapping) {
+            final Map<String, Object> convertedmap = new HashMap<>();
+            final YamlMapping mapvalue = (YamlMapping) value;
+            mapvalue.keys().forEach(node ->
+                this.convertNodeToSections(mapvalue.value(node)).ifPresent(o ->
+                    convertedmap.put(((Scalar) node).value(), o)));
+            return Optional.of(convertedmap);
+        }
+        return Optional.empty();
     }
 
 }
