@@ -30,11 +30,11 @@ package io.github.portlek.configs.files.json;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import io.github.portlek.configs.files.json.minimaljson.WriterConfig;
+import io.github.portlek.configs.util.GeneralUtilities;
 import java.io.File;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;

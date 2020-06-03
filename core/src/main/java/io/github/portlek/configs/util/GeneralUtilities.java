@@ -204,9 +204,11 @@ public class GeneralUtilities {
         if (object instanceof Boolean) {
             return Optional.of((Boolean) object);
         }
-        try {
-            return Optional.of(Boolean.parseBoolean(object.toString()));
-        } catch (final NumberFormatException ignored) {
+        if ("true".equalsIgnoreCase(object.toString())) {
+            return Optional.of(true);
+        }
+        if ("false".equalsIgnoreCase(object.toString())) {
+            return Optional.of(false);
         }
         return Optional.empty();
     }
