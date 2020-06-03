@@ -379,13 +379,13 @@ public class MemorySection implements ConfigurationSection {
     @Override
     public final int getInt(@NotNull final String path) {
         final Object def = this.getDefault(path);
-        return this.getInt(path, def instanceof Number ? GeneralUtilities.toInt(def) : 0);
+        return this.getInt(path, GeneralUtilities.toInt(def).orElse(0));
     }
 
     @Override
     public final int getInt(@NotNull final String path, final int def) {
         final Object val = this.get(path, def);
-        return val instanceof Number ? GeneralUtilities.toInt(val) : def;
+        return GeneralUtilities.toInt(val).orElse(def);
     }
 
     @Override
@@ -403,7 +403,7 @@ public class MemorySection implements ConfigurationSection {
     @Override
     public final boolean getBoolean(@NotNull final String path, final boolean def) {
         final Object val = this.get(path, def);
-        return val instanceof Boolean ? (Boolean) val : def;
+        return GeneralUtilities.toBoolean(val).orElse(def);
     }
 
     @Override
@@ -415,25 +415,25 @@ public class MemorySection implements ConfigurationSection {
     @Override
     public final float getFloat(@NotNull final String path) {
         final Object def = this.getDefault(path);
-        return this.getFloat(path, def instanceof Number ? GeneralUtilities.toFloat(def) : 0.0f);
+        return this.getFloat(path, GeneralUtilities.toFloat(def).orElse(0.0f));
     }
 
     @Override
     public final float getFloat(@NotNull final String path, final float def) {
         final Object val = this.get(path, def);
-        return val instanceof Number ? GeneralUtilities.toFloat(val) : def;
+        return GeneralUtilities.toFloat(val).orElse(def);
     }
 
     @Override
     public final double getDouble(@NotNull final String path) {
         final Object def = this.getDefault(path);
-        return this.getDouble(path, def instanceof Number ? GeneralUtilities.toDouble(def) : 0.0d);
+        return this.getDouble(path, GeneralUtilities.toDouble(def).orElse(0.0d));
     }
 
     @Override
     public final double getDouble(@NotNull final String path, final double def) {
         final Object val = this.get(path, def);
-        return val instanceof Number ? GeneralUtilities.toDouble(val) : def;
+        return GeneralUtilities.toDouble(val).orElse(def);
     }
 
     @Override
@@ -445,13 +445,13 @@ public class MemorySection implements ConfigurationSection {
     @Override
     public final long getLong(@NotNull final String path) {
         final Object def = this.getDefault(path);
-        return this.getLong(path, def instanceof Number ? GeneralUtilities.toLong(def) : 0L);
+        return this.getLong(path, GeneralUtilities.toLong(def).orElse(0L));
     }
 
     @Override
     public final long getLong(@NotNull final String path, final long def) {
         final Object val = this.get(path, def);
-        return val instanceof Number ? GeneralUtilities.toLong(val) : def;
+        return GeneralUtilities.toLong(val).orElse(def);
     }
 
     @Override

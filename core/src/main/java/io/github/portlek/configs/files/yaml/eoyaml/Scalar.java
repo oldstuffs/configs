@@ -27,6 +27,10 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
+import io.github.portlek.configs.util.GeneralUtilities;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Yaml Scalar.
  *
@@ -48,5 +52,67 @@ public interface Scalar extends YamlNode {
      * supposed to be.
      */
     String value();
+
+    @NotNull
+    default Optional<?> getAsAll() {
+        final Optional<Integer> optional = this.getAsInteger();
+        if (!optional.isPresent()) {
+            return this.getAsLong();
+        }
+        return optional;
+    }
+
+    @NotNull
+    default Optional<Integer> getAsInteger() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toInt);
+    }
+
+    @NotNull
+    default Optional<Long> getAsLong() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toLong);
+    }
+
+    @NotNull
+    default Optional<Float> getAsFloat() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toFloat);
+    }
+
+    @NotNull
+    default Optional<Double> getAsDouble() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toDouble);
+    }
+
+    @NotNull
+    default Optional<Short> getAsShort() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toShort);
+    }
+
+    @NotNull
+    default Optional<String> getAsString() {
+        return Optional.ofNullable(this.value());
+    }
+
+    @NotNull
+    default Optional<Boolean> getAsBoolean() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toBoolean);
+    }
+
+    @NotNull
+    default Optional<Character> getAsCharacter() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toCharacter);
+    }
+
+    @NotNull
+    default Optional<Byte> getAsByte() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toByte);
+    }
 
 }

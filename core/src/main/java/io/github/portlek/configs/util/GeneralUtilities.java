@@ -26,11 +26,11 @@
 package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonArray;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
+import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
@@ -134,48 +134,88 @@ public class GeneralUtilities {
         });
     }
 
-    public int toInt(@NotNull final Object object) {
+    public Optional<Integer> toInt(@NotNull final Object object) {
         if (object instanceof Number) {
-            return ((Number) object).intValue();
+            return Optional.of(((Number) object).intValue());
         }
         try {
-            return Integer.parseInt(object.toString());
+            return Optional.of(Integer.parseInt(object.toString()));
         } catch (final NumberFormatException ignored) {
         }
-        return 0;
+        return Optional.empty();
     }
 
-    public double toDouble(@NotNull final Object object) {
+    public Optional<Double> toDouble(@NotNull final Object object) {
         if (object instanceof Number) {
-            return ((Number) object).doubleValue();
+            return Optional.of(((Number) object).doubleValue());
         }
         try {
-            return Double.parseDouble(object.toString());
+            return Optional.of(Double.parseDouble(object.toString()));
         } catch (final NumberFormatException ignored) {
         }
-        return 0.0d;
+        return Optional.empty();
     }
 
-    public float toFloat(@NotNull final Object object) {
+    public Optional<Float> toFloat(@NotNull final Object object) {
         if (object instanceof Number) {
-            return ((Number) object).floatValue();
+            return Optional.of(((Number) object).floatValue());
         }
         try {
-            return Float.parseFloat(object.toString());
+            return Optional.of(Float.parseFloat(object.toString()));
         } catch (final NumberFormatException ignored) {
         }
-        return 0.0f;
+        return Optional.empty();
     }
 
-    public long toLong(@NotNull final Object object) {
+    public Optional<Long> toLong(@NotNull final Object object) {
         if (object instanceof Number) {
-            return ((Number) object).longValue();
+            return Optional.of(((Number) object).longValue());
         }
         try {
-            return Long.parseLong(object.toString());
+            return Optional.of(Long.parseLong(object.toString()));
         } catch (final NumberFormatException ignored) {
         }
-        return 0L;
+        return Optional.empty();
+    }
+
+    public Optional<Byte> toByte(@NotNull final Object object) {
+        if (object instanceof Number) {
+            return Optional.of(((Number) object).byteValue());
+        }
+        try {
+            return Optional.of(Byte.parseByte(object.toString()));
+        } catch (final NumberFormatException ignored) {
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Short> toShort(@NotNull final Object object) {
+        if (object instanceof Number) {
+            return Optional.of(((Number) object).shortValue());
+        }
+        try {
+            return Optional.of(Short.parseShort(object.toString()));
+        } catch (final NumberFormatException ignored) {
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Boolean> toBoolean(@NotNull final Object object) {
+        if (object instanceof Boolean) {
+            return Optional.of((Boolean) object);
+        }
+        try {
+            return Optional.of(Boolean.parseBoolean(object.toString()));
+        } catch (final NumberFormatException ignored) {
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Character> toCharacter(@NotNull final Object object) {
+        if (object instanceof Character) {
+            return Optional.of((Character) object);
+        }
+        return Optional.empty();
     }
 
     @NotNull
