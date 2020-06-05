@@ -978,14 +978,14 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
 
         /**
          * Indicates whether a given object is "equal to" this JsonObject. An object is considered equal
-         * if it is also a <code>JsonObject</code> and both objects contain the same members <em>in
+         * if it is also a {@code JsonObject} and both objects contain the same members <em>in
          * the same order</em>.
          * <p>
          * If two JsonObjects are equal, they will also produce the same JSON output.
          * </p>
          *
          * @param object the object to be compared with this JsonObject
-         * @return <tt>true</tt> if the specified object is equal to this JsonObject, <code>false</code>
+         * @return {@code true} if the specified object is equal to this JsonObject, {@code false}
          * otherwise
          */
         @Override
