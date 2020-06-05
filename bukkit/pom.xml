@@ -51,6 +51,11 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>io.github.portlek</groupId>
+            <artifactId>bukkit-version</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.github.cryptomorin</groupId>
             <artifactId>XSeries</artifactId>
             <version>5.3.1</version>

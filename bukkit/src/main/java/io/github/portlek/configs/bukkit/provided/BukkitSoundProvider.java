@@ -26,7 +26,6 @@
 package io.github.portlek.configs.bukkit.provided;
 
 import com.cryptomorin.xseries.XSound;
-import io.github.portlek.configs.bukkit.util.BukkitVersion;
 import io.github.portlek.configs.bukkit.util.PlayableSound;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
@@ -37,8 +36,6 @@ import org.bukkit.Sound;
 import org.jetbrains.annotations.NotNull;
 
 public final class BukkitSoundProvider implements Provided<PlayableSound> {
-
-    private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
 
     @Override
     public void set(@NotNull final PlayableSound sound, @NotNull final CfgSection section,

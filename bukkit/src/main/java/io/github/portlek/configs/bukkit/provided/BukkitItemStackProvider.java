@@ -28,7 +28,7 @@ package io.github.portlek.configs.bukkit.provided;
 import com.cryptomorin.xseries.SkullUtils;
 import com.cryptomorin.xseries.XEnchantment;
 import com.cryptomorin.xseries.XMaterial;
-import io.github.portlek.configs.bukkit.util.BukkitVersion;
+import io.github.portlek.bukkitversion.BukkitVersion;
 import io.github.portlek.configs.bukkit.util.ColorUtil;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
@@ -44,7 +44,8 @@ import org.jetbrains.annotations.Nullable;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
-    private static final BukkitVersion BUKKIT_VERSION = new BukkitVersion();
+    private static final int VERSION = new BukkitVersion()
+        .minor();
 
     @Override
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
@@ -52,7 +53,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         final String fnlpath = GeneralUtilities.putDot(path);
         section.set(fnlpath + "material", itemStack.getType().name());
         section.set(fnlpath + "amount", itemStack.getAmount());
-        if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
+        if (BukkitItemStackProvider.VERSION < 13) {
             Optional.ofNullable(itemStack.getData()).ifPresent(materialData ->
                 section.set(fnlpath + "data", (int) materialData.getData()));
         }
@@ -93,7 +94,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         }
         final String mtrlstrng = optional.get();
         @Nullable final Material material;
-        if (BukkitItemStackProvider.BUKKIT_VERSION.minor() > 7) {
+        if (BukkitItemStackProvider.VERSION > 7) {
             final Optional<XMaterial> xmaterialoptional = XMaterial.matchXMaterial(mtrlstrng);
             if (!xmaterialoptional.isPresent()) {
                 return Optional.empty();
@@ -111,7 +112,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         }
         final int fnlamnt = section.getInteger(fnlpath + "amount").orElse(1);
         final ItemStack itemStack;
-        if (BukkitItemStackProvider.BUKKIT_VERSION.minor() < 13) {
+        if (BukkitItemStackProvider.VERSION < 13) {
             itemStack = new ItemStack(material, fnlamnt);
             section.getInteger(fnlpath + "damage")
                 .map(Number::shortValue)
