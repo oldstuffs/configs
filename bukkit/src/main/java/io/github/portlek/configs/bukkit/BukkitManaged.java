@@ -50,7 +50,6 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
         FlManaged.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
         FlManaged.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
         FlManaged.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
-        FlManaged.addProvidedClass(Location.class, new BukkitLocationProvider());
         FlManaged.addProvidedGetMethod(Material.class, (section, s) ->
             section.getString(s)
                 .map(XMaterial::matchXMaterial)
@@ -62,6 +61,10 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
             section.getString(s)
                 .flatMap(XMaterial::matchXMaterial));
         FlManaged.addProvidedSetMethod(XMaterial.class, Enum::toString);
+        FlManaged.addProvidedGetMethod(Location.class, (section, s) ->
+            section.getString(s)
+                .flatMap(LocationUtil::fromKey));
+        FlManaged.addProvidedSetMethod(Location.class, LocationUtil::toKey);
     }
 
     @SafeVarargs
