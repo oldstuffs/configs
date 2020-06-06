@@ -25,43 +25,29 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
-import io.github.portlek.configs.util.Replaceable;
-import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public final class ReplaceableProvider implements Provided<Replaceable<?>> {
+public final class ReplaceableStringProvider implements Provided<ReplaceableString> {
 
     @Override
-    public void set(@NotNull final Replaceable<?> replaceable, @NotNull final CfgSection section,
+    public void set(@NotNull final ReplaceableString replaceable, @NotNull final CfgSection section,
                     @NotNull final String path) {
         section.set(path, replaceable.getValue());
     }
 
     @NotNull
     @Override
-    public Optional<Replaceable<?>> getWithField(@NotNull final Replaceable<?> replaceable,
-                                                 @NotNull final CfgSection section, @NotNull final String path) {
-        if (replaceable.getValue() instanceof String) {
-            final Optional<String> optionalstring = section.getString(path);
-            if (optionalstring.isPresent()) {
-                return Optional.of(((Replaceable<String>) replaceable)
-                    .value(optionalstring.get()));
-            }
-        } else if (replaceable.getValue() instanceof List<?>) {
-            final Optional<List<?>> listoptional = section.getList(path);
-            if (listoptional.isPresent()) {
-                return Optional.of(((Replaceable<List<String>>) replaceable)
-                    .value((List<String>) listoptional.get()));
-            }
-        }
-        return Optional.empty();
+    public Optional<ReplaceableString> getWithField(@NotNull final ReplaceableString replaceable,
+                                                    @NotNull final CfgSection section, @NotNull final String path) {
+        return section.getString(path).map(replaceable::value);
     }
 
     @NotNull
     @Override
-    public Optional<Replaceable<?>> get(@NotNull final CfgSection section, @NotNull final String path) {
+    public Optional<ReplaceableString> get(@NotNull final CfgSection section, @NotNull final String path) {
         return Optional.empty();
     }
 

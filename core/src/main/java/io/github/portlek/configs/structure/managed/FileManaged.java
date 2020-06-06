@@ -29,7 +29,7 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.provided.ReplaceableProvider;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import io.github.portlek.configs.util.Replaceable;
+import io.github.portlek.configs.replaceable.ReplaceableEnvelope;
 import java.io.File;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
 public class FileManaged extends ConfigSection implements FlManaged {
 
     static {
-        FlManaged.PROVIDED.put(Replaceable.class, new ReplaceableProvider());
+        FlManaged.addProvidedClass(ReplaceableEnvelope.class, new ReplaceableProvider());
         FlManaged.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
         FlManaged.addProvidedSetMethod(UUID.class, Object::toString);
     }
