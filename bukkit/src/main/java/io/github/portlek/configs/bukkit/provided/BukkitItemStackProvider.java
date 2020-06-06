@@ -34,6 +34,7 @@ import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -53,13 +54,19 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         final String fnlpath = GeneralUtilities.putDot(path);
         section.set(fnlpath + "material", itemStack.getType().name());
         section.set(fnlpath + "amount", itemStack.getAmount());
+        section.remove(fnlpath + "data");
         if (BukkitItemStackProvider.VERSION < 13) {
-            Optional.ofNullable(itemStack.getData()).ifPresent(materialData ->
-                section.set(fnlpath + "data", (int) materialData.getData()));
+            Optional.ofNullable(itemStack.getData())
+                .filter(materialData -> (int) materialData.getData() != 0)
+                .ifPresent(materialData ->
+                    section.set(fnlpath + "data", (int) materialData.getData()));
         }
         if ((int) itemStack.getDurability() != 0) {
             section.set(fnlpath + "damage", itemStack.getDurability());
         }
+        section.remove(fnlpath + "skull-texture");
+        section.remove(fnlpath + "display-name");
+        section.remove(fnlpath + "lore");
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             if (itemMeta instanceof SkullMeta) {
                 Optional.of(SkullUtils.getSkinValue(itemStack)).ifPresent(s ->
@@ -76,10 +83,15 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                     lore.stream()
                         .map(s -> s.replace("§", "&"))
                         .collect(Collectors.toList())));
-            section.set(fnlpath + "flags", itemMeta.getItemFlags().stream()
-                .map(Enum::name)
-                .collect(Collectors.toList()));
+            final Set<ItemFlag> flags = itemMeta.getItemFlags();
+            section.remove(fnlpath + "flags");
+            if (!flags.isEmpty()) {
+                section.set(fnlpath + "flags", flags.stream()
+                    .map(Enum::name)
+                    .collect(Collectors.toList()));
+            }
         });
+        section.remove(fnlpath + "enchants");
         itemStack.getEnchantments().forEach((enchantment, integer) ->
             section.set(fnlpath + "enchants." + enchantment.getName(), integer));
     }
