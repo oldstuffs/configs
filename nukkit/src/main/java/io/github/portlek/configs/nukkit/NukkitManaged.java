@@ -25,16 +25,16 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public class NukkitManaged extends NukkitSection implements FlManaged {
+public class NukkitManaged implements NkktManaged {
+
+    @NotNull
+    private final FlManaged base;
 
     @SafeVarargs
     public NukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
@@ -42,58 +42,15 @@ public class NukkitManaged extends NukkitSection implements FlManaged {
     }
 
     @SafeVarargs
-    public NukkitManaged(@NotNull final FlManaged managed, @NotNull final Map.Entry<String, Object>... objects) {
-        super(managed);
+    private NukkitManaged(@NotNull final FileManaged base, @NotNull final Map.Entry<String, Object>... objects) {
+        this.base = base;
         Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }
 
     @NotNull
     @Override
-    public FlManaged getBase() {
-        return (FlManaged) super.getBase();
-    }
-
-    @NotNull
-    @Override
-    public final FileConfiguration getConfigurationSection() {
-        return this.getBase().getConfigurationSection();
-    }
-
-    @NotNull
-    @Override
-    public final Optional<Object> pull(@NotNull final String id) {
-        return this.getBase().pull(id);
-    }
-
-    @Override
-    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        this.getBase().setup(file, fileConfiguration);
-    }
-
-    @NotNull
-    @Override
-    public final File getFile() {
-        return this.getBase().getFile();
-    }
-
-    @Override
-    public final void addObject(@NotNull final String key, @NotNull final Object object) {
-        this.getBase().addObject(key, object);
-    }
-
-    @Override
-    public final boolean isAutoSave() {
-        return this.getBase().isAutoSave();
-    }
-
-    @Override
-    public final void setAutoSave(final boolean autosv) {
-        this.getBase().setAutoSave(autosv);
-    }
-
-    @Override
-    public final void autoSave() {
-        this.getBase().autoSave();
+    public final FlManaged base() {
+        return this.base;
     }
 
 }

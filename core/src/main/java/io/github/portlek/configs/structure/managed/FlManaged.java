@@ -26,87 +26,14 @@
 package io.github.portlek.configs.structure.managed;
 
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.ConfigSerializable;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.processors.ConfigProceed;
-import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.provided.SerializableProvider;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
-import io.github.portlek.configs.util.SpecialFunction;
 import java.io.File;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
 
 public interface FlManaged extends CfgSection {
-
-    Map<Class<?>, Provided<?>> PROVIDED = new ConcurrentHashMap<>();
-
-    Map<Class<?>, SpecialFunction<?>> PROVIDED_GET = new ConcurrentHashMap<>();
-
-    Map<Class<?>, Function<?, Object>> PROVIDED_SET = new ConcurrentHashMap<>();
-
-    @NotNull
-    static <T> Optional<Provided<T>> getProvidedClass(@NotNull final Class<T> aClass) {
-        //noinspection unchecked
-        return FlManaged.PROVIDED.keySet().stream()
-            .filter(aClass::equals)
-            .findFirst()
-            .map(clss -> (Provided<T>) FlManaged.PROVIDED.get(clss));
-    }
-
-    static <T> void addProvidedGetMethod(@NotNull final Class<T> aClass,
-                                         @NotNull final SpecialFunction<T> provide) {
-        if (!FlManaged.PROVIDED_GET.containsKey(aClass)) {
-            FlManaged.PROVIDED_GET.put(aClass, provide);
-        }
-    }
-
-    @NotNull
-    static <T> Optional<SpecialFunction<T>> getProvidedGetMethod(@NotNull final Class<T> aClass) {
-        //noinspection unchecked
-        return FlManaged.PROVIDED_GET.keySet().stream()
-            .filter(aClass::equals)
-            .findFirst()
-            .map(clss -> (SpecialFunction<T>) FlManaged.PROVIDED_GET.get(clss));
-    }
-
-    static <T> void addProvidedSetMethod(@NotNull final Class<T> aClass, @NotNull final Function<T, Object> provide) {
-        if (!FlManaged.PROVIDED_SET.containsKey(aClass)) {
-            FlManaged.PROVIDED_SET.put(aClass, provide);
-        }
-    }
-
-    @NotNull
-    static <T> Optional<Function<T, Object>> getProvidedSetMethod(@NotNull final Class<T> aClass) {
-        //noinspection unchecked
-        return FlManaged.PROVIDED_SET.keySet().stream()
-            .filter(aClass::equals)
-            .findFirst()
-            .map(clss -> (Function<T, Object>) FlManaged.PROVIDED_SET.get(clss));
-    }
-
-    static <T> void addSerializableClass(@NotNull final Class<T> aClass) {
-        Optional.ofNullable(aClass.getDeclaredAnnotation(ConfigSerializable.class)).orElseThrow(() ->
-            new UnsupportedOperationException(aClass.getSimpleName() + " has not `ConfigSerializable` annotation!"));
-        final SerializableProvider<T> provided = new SerializableProvider<>(aClass);
-        provided.initiate();
-        FlManaged.addProvidedClass(aClass, provided);
-    }
-
-    static <T> void addProvidedClass(@NotNull final Class<T> aClass, @NotNull final Provided<T> provided) {
-        if (!FlManaged.PROVIDED.containsKey(aClass)) {
-            FlManaged.PROVIDED.put(aClass, provided);
-        }
-    }
-
-    @Override
-    FileConfiguration getConfigurationSection();
-
-    @NotNull
-    Optional<Object> pull(@NotNull String id);
 
     default void load() {
         this.onCreate();
@@ -122,6 +49,12 @@ public interface FlManaged extends CfgSection {
 
     default void onLoad() {
     }
+
+    @Override
+    FileConfiguration getConfigurationSection();
+
+    @NotNull
+    Optional<Object> pull(@NotNull String id);
 
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 

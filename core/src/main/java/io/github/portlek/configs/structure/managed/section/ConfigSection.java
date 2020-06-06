@@ -26,24 +26,30 @@
 package io.github.portlek.configs.structure.managed.section;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.provided.ReplaceableListProvider;
+import io.github.portlek.configs.provided.ReplaceableStringProvider;
+import io.github.portlek.configs.replaceable.ReplaceableList;
+import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.Objects;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ConfigSection implements CfgSection {
+
+    static {
+        CfgSection.addProvidedClass(ReplaceableString.class, new ReplaceableStringProvider());
+        CfgSection.addProvidedClass(ReplaceableList.class, new ReplaceableListProvider());
+        CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
+        CfgSection.addProvidedSetMethod(UUID.class, Object::toString);
+    }
 
     @Nullable
     private ConfigurationSection section;
 
     @Nullable
     private FlManaged managed;
-
-    @NotNull
-    @Override
-    public final CfgSection getBase() {
-        return this;
-    }
 
     @NotNull
     @Override

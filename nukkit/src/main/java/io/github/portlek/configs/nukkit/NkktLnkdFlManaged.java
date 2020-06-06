@@ -25,38 +25,20 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.LnkdFlManaged;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public interface NkktSection extends CfgSection {
-
-    @NotNull
-    CfgSection base();
-
-    @NotNull
-    @Override
-    default ConfigurationSection getConfigurationSection() {
-        return this.base().getConfigurationSection();
-    }
+public interface NkktLnkdFlManaged extends NkktManaged, LnkdFlManaged {
 
     @Override
     @NotNull
-    default FlManaged getManaged() {
-        return this.base().getManaged();
-    }
+    LnkdFlManaged base();
 
     @Override
     @NotNull
-    default Supplier<CfgSection> getNewSection() {
-        return NukkitSection::new;
-    }
-
-    @Override
-    default void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.base().setup(managed, section);
+    default Supplier<String> getChosen() {
+        return this.base().getChosen();
     }
 
 }

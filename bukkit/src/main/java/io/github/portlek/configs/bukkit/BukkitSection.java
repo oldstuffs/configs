@@ -25,13 +25,43 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.structure.managed.FlManaged;
+import com.cryptomorin.xseries.XMaterial;
+import io.github.portlek.bukkitlocation.LocationUtil;
+import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
+import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
+import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
+import io.github.portlek.configs.bukkit.util.PlayableSound;
+import io.github.portlek.configs.bukkit.util.SentTitle;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
+import java.util.Optional;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class BukkitSection implements BkktSection {
+
+    static {
+        CfgSection.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
+        CfgSection.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
+        CfgSection.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
+        CfgSection.addProvidedGetMethod(Material.class, (section, s) ->
+            section.getString(s)
+                .map(XMaterial::matchXMaterial)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
+        CfgSection.addProvidedSetMethod(Material.class, Enum::toString);
+        CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
+            section.getString(s)
+                .flatMap(XMaterial::matchXMaterial));
+        CfgSection.addProvidedSetMethod(XMaterial.class, Enum::toString);
+        CfgSection.addProvidedGetMethod(Location.class, (section, s) ->
+            section.getString(s)
+                .flatMap(LocationUtil::fromKey));
+        CfgSection.addProvidedSetMethod(Location.class, LocationUtil::toKey);
+    }
 
     @NotNull
     private final CfgSection base;
@@ -40,31 +70,14 @@ public class BukkitSection implements BkktSection {
         this(new ConfigSection());
     }
 
-    public BukkitSection(@NotNull final CfgSection base) {
+    private BukkitSection(@NotNull final CfgSection base) {
         this.base = base;
     }
 
     @NotNull
     @Override
-    public CfgSection getBase() {
+    public final CfgSection base() {
         return this.base;
-    }
-
-    @NotNull
-    @Override
-    public ConfigurationSection getConfigurationSection() {
-        return this.getBase().getConfigurationSection();
-    }
-
-    @Override
-    @NotNull
-    public final FlManaged getManaged() {
-        return this.getBase().getManaged();
-    }
-
-    @Override
-    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.getBase().setup(managed, section);
     }
 
 }

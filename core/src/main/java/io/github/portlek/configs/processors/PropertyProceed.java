@@ -27,7 +27,6 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.lang.reflect.Field;
@@ -54,10 +53,10 @@ public final class PropertyProceed implements Proceed<Field> {
                                   @NotNull final String path) {
         // noinspection unchecked
         final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
-        return FlManaged.getProvidedClass(aClass)
+        return CfgSection.getProvidedClass(aClass)
             .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
             .orElseGet(() ->
-                FlManaged.getProvidedGetMethod(aClass)
+                CfgSection.getProvidedGetMethod(aClass)
                     .map(func -> func.apply(parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
@@ -65,10 +64,10 @@ public final class PropertyProceed implements Proceed<Field> {
     @NotNull
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
                                   @NotNull final String path) {
-        return FlManaged.getProvidedClass(fieldClass)
+        return CfgSection.getProvidedClass(fieldClass)
             .map(objectProvided -> objectProvided.get(parent, path))
             .orElseGet(() ->
-                FlManaged.getProvidedGetMethod(fieldClass)
+                CfgSection.getProvidedGetMethod(fieldClass)
                     .map(func -> func.apply(parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
@@ -77,13 +76,13 @@ public final class PropertyProceed implements Proceed<Field> {
                            @NotNull final String path) {
         //noinspection unchecked
         final Class<Object> clazz = (Class<Object>) fieldValue.getClass();
-        final Optional<Provided<Object>> optional = FlManaged.getProvidedClass(clazz);
+        final Optional<Provided<Object>> optional = CfgSection.getProvidedClass(clazz);
         if (optional.isPresent()) {
             optional.get().set(fieldValue, parent, path);
             return;
         }
         final Optional<Function<Object, Object>> setoptional =
-            FlManaged.getProvidedSetMethod(clazz);
+            CfgSection.getProvidedSetMethod(clazz);
         if (setoptional.isPresent()) {
             parent.set(path, setoptional.get().apply(fieldValue));
         } else {

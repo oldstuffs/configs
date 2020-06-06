@@ -27,30 +27,32 @@ package io.github.portlek.configs.nukkit;
 
 import io.github.portlek.configs.structure.LinkedFileManaged;
 import io.github.portlek.configs.structure.LnkdFlManaged;
+import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class NukkitLinkedManaged extends NukkitManaged implements LnkdFlManaged {
+public class NukkitLinkedManaged implements NkktLnkdFlManaged {
+
+    @NotNull
+    private final LnkdFlManaged base;
 
     @SafeVarargs
     public NukkitLinkedManaged(@NotNull final Supplier<String> chosen,
                                @NotNull final Map.Entry<String, Object>... objects) {
-        super(new LinkedFileManaged(chosen), objects);
+        this(new LinkedFileManaged(chosen), objects);
+    }
+
+    @SafeVarargs
+    private NukkitLinkedManaged(@NotNull final LnkdFlManaged base, @NotNull final Map.Entry<String, Object>... objects) {
+        this.base = base;
+        Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }
 
     @NotNull
     @Override
-    public final LnkdFlManaged getBase() {
-        return (LnkdFlManaged) super.getBase();
-    }
-
-    @NotNull
-    @Override
-    public final Supplier<String> getChosen() {
-        return this.getBase().getChosen();
+    public final LnkdFlManaged base() {
+        return this.base;
     }
 
 }

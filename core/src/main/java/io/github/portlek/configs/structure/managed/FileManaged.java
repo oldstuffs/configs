@@ -26,22 +26,13 @@
 package io.github.portlek.configs.structure.managed;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.provided.ReplaceableProvider;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import io.github.portlek.configs.replaceable.ReplaceableEnvelope;
 import java.io.File;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FileManaged extends ConfigSection implements FlManaged {
-
-    static {
-        FlManaged.addProvidedClass(ReplaceableEnvelope.class, new ReplaceableProvider());
-        FlManaged.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
-        FlManaged.addProvidedSetMethod(UUID.class, Object::toString);
-    }
 
     private final Map<String, Object> objects = new HashMap<>();
 
@@ -63,9 +54,9 @@ public class FileManaged extends ConfigSection implements FlManaged {
     }
 
     @Override
-    public void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+    public void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
         this.file = file;
-        this.setup(this, fileConfiguration);
+        this.setup(this, section);
     }
 
     @NotNull

@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import org.jetbrains.annotations.NotNull;
 
-public interface Replaceable<S extends Replaceable<?, ?>, X> {
+public interface Replaceable<S extends Replaceable<S, X>, X> {
 
     @NotNull
     static ReplaceableString from(@NotNull final StringBuilder builder) {
@@ -149,12 +149,12 @@ public interface Replaceable<S extends Replaceable<?, ?>, X> {
     X getValue();
 
     @NotNull
-    List<String> getRegex();
+    Collection<String> getRegex();
 
     @NotNull
     Map<String, Supplier<String>> getReplaces();
 
     @NotNull
-    List<UnaryOperator<X>> getMaps();
+    Collection<UnaryOperator<X>> getMaps();
 
 }

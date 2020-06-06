@@ -25,38 +25,58 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
-import java.util.function.Supplier;
+import java.io.File;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public interface NkktSection extends CfgSection {
-
-    @NotNull
-    CfgSection base();
+public interface NkktManaged extends NkktSection, FlManaged {
 
     @NotNull
     @Override
-    default ConfigurationSection getConfigurationSection() {
+    FlManaged base();
+
+    @Override
+    default FileConfiguration getConfigurationSection() {
         return this.base().getConfigurationSection();
     }
 
-    @Override
     @NotNull
-    default FlManaged getManaged() {
-        return this.base().getManaged();
+    @Override
+    default Optional<Object> pull(@NotNull final String id) {
+        return this.base().pull(id);
     }
 
     @Override
+    default void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+        this.base().setup(file, fileConfiguration);
+    }
+
     @NotNull
-    default Supplier<CfgSection> getNewSection() {
-        return NukkitSection::new;
+    @Override
+    default File getFile() {
+        return this.base().getFile();
     }
 
     @Override
-    default void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.base().setup(managed, section);
+    default void addObject(@NotNull final String key, @NotNull final Object object) {
+        this.base().addObject(key, object);
+    }
+
+    @Override
+    default boolean isAutoSave() {
+        return this.base().isAutoSave();
+    }
+
+    @Override
+    default void setAutoSave(final boolean autosv) {
+        this.base().setAutoSave(autosv);
+    }
+
+    @Override
+    default void autoSave() {
+        this.base().autoSave();
     }
 
 }

@@ -25,47 +25,16 @@
 
 package io.github.portlek.configs.bukkit;
 
-import com.cryptomorin.xseries.XMaterial;
-import io.github.portlek.bukkitlocation.LocationUtil;
-import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
-import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
-import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
-import io.github.portlek.configs.bukkit.util.PlayableSound;
-import io.github.portlek.configs.bukkit.util.SentTitle;
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitManaged extends BukkitSection implements FlManaged {
+public class BukkitManaged implements BkktManaged {
 
-    static {
-        FlManaged.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
-        FlManaged.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
-        FlManaged.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
-        FlManaged.addProvidedGetMethod(Material.class, (section, s) ->
-            section.getString(s)
-                .map(XMaterial::matchXMaterial)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
-        FlManaged.addProvidedSetMethod(Material.class, Enum::toString);
-        FlManaged.addProvidedGetMethod(XMaterial.class, (section, s) ->
-            section.getString(s)
-                .flatMap(XMaterial::matchXMaterial));
-        FlManaged.addProvidedSetMethod(XMaterial.class, Enum::toString);
-        FlManaged.addProvidedGetMethod(Location.class, (section, s) ->
-            section.getString(s)
-                .flatMap(LocationUtil::fromKey));
-        FlManaged.addProvidedSetMethod(Location.class, LocationUtil::toKey);
-    }
+    @NotNull
+    private final FlManaged base;
 
     @SafeVarargs
     public BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
@@ -73,58 +42,15 @@ public class BukkitManaged extends BukkitSection implements FlManaged {
     }
 
     @SafeVarargs
-    public BukkitManaged(@NotNull final FileManaged managed, @NotNull final Map.Entry<String, Object>... objects) {
-        super(managed);
+    private BukkitManaged(@NotNull final FileManaged base, @NotNull final Map.Entry<String, Object>... objects) {
+        this.base = base;
         Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
     }
 
     @NotNull
     @Override
-    public FlManaged getBase() {
-        return (FlManaged) super.getBase();
-    }
-
-    @NotNull
-    @Override
-    public final FileConfiguration getConfigurationSection() {
-        return this.getBase().getConfigurationSection();
-    }
-
-    @NotNull
-    @Override
-    public final Optional<Object> pull(@NotNull final String id) {
-        return this.getBase().pull(id);
-    }
-
-    @Override
-    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        this.getBase().setup(file, fileConfiguration);
-    }
-
-    @NotNull
-    @Override
-    public final File getFile() {
-        return this.getBase().getFile();
-    }
-
-    @Override
-    public final void addObject(@NotNull final String key, @NotNull final Object object) {
-        this.getBase().addObject(key, object);
-    }
-
-    @Override
-    public final boolean isAutoSave() {
-        return this.getBase().isAutoSave();
-    }
-
-    @Override
-    public final void setAutoSave(final boolean autosv) {
-        this.getBase().setAutoSave(autosv);
-    }
-
-    @Override
-    public final void autoSave() {
-        this.getBase().autoSave();
+    public final FlManaged base() {
+        return this.base;
     }
 
 }

@@ -25,28 +25,24 @@
 
 package io.github.portlek.configs.replaceable;
 
-import io.github.portlek.configs.util.MapEntry;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public abstract class ReplaceableEnvelope<S extends ReplaceableEnvelope<?, ?>, X> implements Replaceable<S, X> {
+public abstract class ReplaceableEnvelope<S extends ReplaceableEnvelope<S, X>, X> implements Replaceable<S, X> {
 
     @NotNull
-    private final List<String> regex = new ArrayList<>();
+    private final Collection<String> regex = new ArrayList<>();
 
     @NotNull
     private final Map<String, Supplier<String>> replaces = new HashMap<>();
 
     @NotNull
-    private final List<UnaryOperator<X>> maps = new ArrayList<>();
+    private final Collection<UnaryOperator<X>> maps = new ArrayList<>();
 
     @NotNull
     private final X value;
@@ -89,8 +85,8 @@ public abstract class ReplaceableEnvelope<S extends ReplaceableEnvelope<?, ?>, X
 
     @NotNull
     @Override
-    public final List<String> getRegex() {
-        return Collections.unmodifiableList(this.regex);
+    public final Collection<String> getRegex() {
+        return Collections.unmodifiableCollection(this.regex);
     }
 
     @NotNull
@@ -101,8 +97,8 @@ public abstract class ReplaceableEnvelope<S extends ReplaceableEnvelope<?, ?>, X
 
     @NotNull
     @Override
-    public final List<UnaryOperator<X>> getMaps() {
-        return Collections.unmodifiableList(this.maps);
+    public final Collection<UnaryOperator<X>> getMaps() {
+        return Collections.unmodifiableCollection(this.maps);
     }
 
 }

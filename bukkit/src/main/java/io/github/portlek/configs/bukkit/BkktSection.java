@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.Optional;
@@ -34,20 +35,40 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BkktSection extends CfgSection {
 
+    @NotNull
+    CfgSection base();
+
+    @NotNull
+    @Override
+    default ConfigurationSection getConfigurationSection() {
+        return this.base().getConfigurationSection();
+    }
+
+    @Override
+    @NotNull
+    default FlManaged getManaged() {
+        return this.base().getManaged();
+    }
+
     @Override
     @NotNull
     default Supplier<CfgSection> getNewSection() {
         return BukkitSection::new;
     }
 
+    @Override
+    default void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
+        this.base().setup(managed, section);
+    }
+
     @NotNull
     default Optional<ItemStack> getItemStack() {
-        return FlManaged.getProvidedClass(ItemStack.class)
+        return CfgSection.getProvidedClass(ItemStack.class)
             .flatMap(provided -> provided.get(this, ""));
     }
 
     default void setItemStack(@NotNull final ItemStack itemstack) {
-        FlManaged.getProvidedClass(ItemStack.class)
+        CfgSection.getProvidedClass(ItemStack.class)
             .ifPresent(provided -> provided.set(itemstack, this, ""));
     }
 

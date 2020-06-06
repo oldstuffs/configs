@@ -31,8 +31,6 @@ import io.github.portlek.configs.util.MapEntry;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +43,8 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     private final Supplier<String> chosen;
 
     @SafeVarargs
-    public LinkedFileManaged(@NotNull final Supplier<String> chosen, @NotNull final Map.Entry<String, Object>... objects) {
+    public LinkedFileManaged(@NotNull final Supplier<String> chosen,
+                             @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
     }
@@ -57,12 +56,11 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     }
 
     @Override
-    public final void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        super.setup(file, fileConfiguration);
+    public final void setup(@NotNull final File file, final @NotNull FileConfiguration section) {
+        super.setup(file, section);
         this.linkedFiles.put(
             this.chosen.get(),
-            MapEntry.from(file, fileConfiguration)
-        );
+            MapEntry.from(file, section));
     }
 
 }

@@ -25,39 +25,29 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.replaceable.ReplaceableList;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
-import io.github.portlek.configs.replaceable.ReplaceableEnvelope;
-import java.util.List;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public final class ReplaceableProvider implements Provided<ReplaceableEnvelope<?>> {
+public final class ReplaceableListProvider implements Provided<ReplaceableList> {
 
     @Override
-    public void set(@NotNull final ReplaceableEnvelope<?> replaceable, @NotNull final CfgSection section,
+    public void set(@NotNull final ReplaceableList replaceable, @NotNull final CfgSection section,
                     @NotNull final String path) {
         section.set(path, replaceable.getValue());
     }
 
     @NotNull
     @Override
-    public Optional<ReplaceableEnvelope<?>> getWithField(@NotNull final ReplaceableEnvelope<?> replaceable,
-                                                         @NotNull final CfgSection section, @NotNull final String path) {
-        if (replaceable.getValue() instanceof String) {
-            final Optional<String> optionalstring = section.getString(path);
-            if (optionalstring.isPresent()) {
-                return Optional.of(((ReplaceableEnvelope<String>) replaceable)
-                    .value(optionalstring.get()));
-            }
-        } else if (replaceable.getValue() instanceof List<?>) {
-
-        }
-        return Optional.empty();
+    public Optional<ReplaceableList> getWithField(@NotNull final ReplaceableList replaceableList,
+                                                  @NotNull final CfgSection section, @NotNull final String path) {
+        return section.getStringList(path).map(replaceableList::value);
     }
 
     @NotNull
     @Override
-    public Optional<ReplaceableEnvelope<?>> get(@NotNull final CfgSection section, @NotNull final String path) {
+    public Optional<ReplaceableList> get(@NotNull final CfgSection section, @NotNull final String path) {
         return Optional.empty();
     }
 
