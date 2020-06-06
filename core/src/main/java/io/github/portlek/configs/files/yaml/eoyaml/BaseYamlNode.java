@@ -30,6 +30,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlPrintException;
 import java.io.IOException;
 import java.io.StringWriter;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Base YAML Node. This is the first class in the hierarchy
@@ -73,5 +74,8 @@ abstract class BaseYamlNode implements YamlNode {
      * @return True or false.
      */
     abstract boolean isEmpty();
+
+    @NotNull
+    abstract String emptyCase();
 
 }

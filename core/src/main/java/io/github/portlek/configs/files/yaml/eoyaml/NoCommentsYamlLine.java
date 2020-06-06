@@ -27,6 +27,8 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * A decorator class for YamlLine to remove comments from a given YamlLine.
  *
@@ -61,14 +63,15 @@ final class NoCommentsYamlLine implements YamlLine {
      * @return String
      */
     @Override
-    public String trimmed() {
+    public @NotNull String trimmed() {
         String trimmed = this.line.trimmed();
         int i = 0;
         while (i < trimmed.length()) {
             if (trimmed.charAt(i) == '#') {
                 trimmed = trimmed.substring(0, i);
                 break;
-            } else if (trimmed.charAt(i) == '"') {
+            }
+            if (trimmed.charAt(i) == '"') {
                 i++;
                 while (i < trimmed.length() && trimmed.charAt(i) != '"') {
                     i++;

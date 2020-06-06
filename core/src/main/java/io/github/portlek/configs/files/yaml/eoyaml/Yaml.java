@@ -72,15 +72,6 @@ public final class Yaml {
     }
 
     /**
-     * Create a {@link YamlStreamBuilder}.
-     *
-     * @return Builder of YamlStream.
-     */
-    public static YamlStreamBuilder createYamlStreamBuilder() {
-        return new RtYamlStreamBuilder();
-    }
-
-    /**
      * Create a {@link YamlInput} from a File.
      *
      * @param input File to read from.

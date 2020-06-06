@@ -30,7 +30,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Base implementation of YamlPrinter. "Rt" stands for "Runtime".
@@ -70,42 +70,9 @@ final class RtYamlPrinter implements YamlPrinter {
             } else if (node instanceof YamlMapping) {
                 this.printPossibleComment(node, "");
                 this.printMapping((YamlMapping) node, 0);
-            } else if (node instanceof YamlStream) {
-                this.printStream((YamlStream) node, 0);
             }
         } finally {
             this.writer.close();
-        }
-    }
-
-    /**
-     * Print a YAML Stream of documents.
-     *
-     * @param stream Given YamlStream.
-     * @param indentation Level of indentation of the printed stream.
-     * @throws IOException If an I/O problem occurs.
-     */
-    private void printStream(
-        final YamlStream stream,
-        final int indentation
-    ) throws IOException {
-        final String newLine = System.lineSeparator();
-        int spaces = indentation;
-        final StringBuilder indent = new StringBuilder();
-        while (spaces > 0) {
-            indent.append(" ");
-            spaces--;
-        }
-        final Iterator<YamlNode> valuesIt = stream.values().iterator();
-        while (valuesIt.hasNext()) {
-            final YamlNode document = valuesIt.next();
-            this.writer
-                .append(indent)
-                .append("---");
-            this.printNode(document, true, indentation + 2);
-            if (valuesIt.hasNext()) {
-                this.writer.append(newLine);
-            }
         }
     }
 
@@ -209,49 +176,14 @@ final class RtYamlPrinter implements YamlPrinter {
         final Scalar scalar,
         final int indentation
     ) throws IOException {
-        if (scalar instanceof BaseFoldedScalar) {
-            final BaseFoldedScalar foldedScalar = (BaseFoldedScalar) scalar;
-            this.writer
-                .append(">");
-            if (!scalar.comment().value().isEmpty()) {
-                this.writer.append(" # ").append(scalar.comment().value());
-            }
-            this.writer.append(System.lineSeparator());
-            final List<String> unfolded = foldedScalar.unfolded();
-            for (int idx = 0; idx < unfolded.size(); idx++) {
-                this.writer.append(
-                    this.indent(
-                        unfolded.get(idx).trim(),
-                        indentation + 2
-                    )
-                );
-                if (idx < unfolded.size() - 1) {
-                    this.writer.append(System.lineSeparator());
-                }
-            }
-        } else if (scalar instanceof RtYamlScalarBuilder.BuiltLiteralBlockScalar
-            || scalar instanceof ReadLiteralBlockScalar
-        ) {
-            this.writer
-                .append("|");
-            if (!scalar.comment().value().isEmpty()) {
-                this.writer.append(" # ").append(scalar.comment().value());
-            }
-            this.writer
-                .append(System.lineSeparator())
-                .append(
-                    this.indent(scalar.value(), indentation + 2)
-                );
-        } else {
-            this.writer.append(
-                this.indent(
-                    new RtYamlPrinter.Escaped(scalar).value(),
-                    indentation
-                )
-            );
-            if (!scalar.comment().value().isEmpty()) {
-                this.writer.append(" # ").append(scalar.comment().value());
-            }
+        this.writer.append(
+            this.indent(
+                new RtYamlPrinter.Escaped(scalar).value(),
+                indentation
+            )
+        );
+        if (!scalar.comment().value().isEmpty()) {
+            this.writer.append(" # ").append(scalar.comment().value());
         }
     }
 
@@ -265,12 +197,12 @@ final class RtYamlPrinter implements YamlPrinter {
      * @throws IOException If any I/O error occurs.
      */
     private void printNode(
-        final YamlNode node,
+        @NotNull final YamlNode node,
         final boolean onNewLine,
         final int indentation
     ) throws IOException {
-        if (node == null || ((BaseYamlNode) node).isEmpty()) {
-            this.writer.append(" ").append("null");
+        if (node instanceof BaseYamlNode && ((BaseYamlNode) node).isEmpty()) {
+            this.writer.append(" ").append(((BaseYamlNode) node).emptyCase());
         } else {
             if (onNewLine) {
                 this.writer.append(System.lineSeparator());
@@ -283,8 +215,6 @@ final class RtYamlPrinter implements YamlPrinter {
                 this.printSequence((YamlSequence) node, indentation);
             } else if (node instanceof YamlMapping) {
                 this.printMapping((YamlMapping) node, indentation);
-            } else if (node instanceof YamlStream) {
-                this.printStream((YamlStream) node, indentation);
             }
         }
     }

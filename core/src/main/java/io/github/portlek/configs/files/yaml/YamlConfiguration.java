@@ -102,14 +102,6 @@ public final class YamlConfiguration extends FileConfiguration {
                     .map(Optional::get)
                     .collect(Collectors.toList()));
         }
-        if (value instanceof YamlStream) {
-            return Optional.of(
-                ((YamlStream) value)
-                    .map(this::convertNodeToSections)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList()));
-        }
         if (value instanceof YamlMapping) {
             final Map<String, Object> convertedmap = new HashMap<>();
             final YamlMapping mapvalue = (YamlMapping) value;

@@ -32,14 +32,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * YAML mapping implementation (rt means runtime).
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 4a7f68598d2e4f09e027c5bdba01d3dd8f588983 $
- * @see http://yaml.org/spec/1.2/spec.html#mapping//
- * @since 1.0.0
- */
 final class RtYamlMapping extends BaseYamlMapping {
 
     /**
