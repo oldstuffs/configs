@@ -49,12 +49,6 @@ public class NukkitLinkedManaged extends NukkitManaged implements LnkdFlManaged 
 
     @NotNull
     @Override
-    public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        return this.getBase().match(function);
-    }
-
-    @NotNull
-    @Override
     public final Supplier<String> getChosen() {
         return this.getBase().getChosen();
     }

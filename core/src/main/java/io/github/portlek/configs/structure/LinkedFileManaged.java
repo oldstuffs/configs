@@ -52,14 +52,6 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
 
     @NotNull
     @Override
-    public final <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        return function.apply(this.chosen.get()).orElseThrow(() ->
-            new IllegalStateException("Cannot found match with the file key > " + this.chosen)
-        );
-    }
-
-    @NotNull
-    @Override
     public final Supplier<String> getChosen() {
         return this.chosen;
     }

@@ -35,7 +35,12 @@ import org.jetbrains.annotations.NotNull;
 
 public interface LnkdFlManaged extends FlManaged {
 
-    @NotNull <T> T match(@NotNull Function<String, Optional<T>> function);
+    @NotNull
+    default <T> T match(@NotNull final Function<String, Optional<T>> function) {
+        final String chosen = this.getChosen().get();
+        return function.apply(chosen).orElseThrow(() ->
+            new IllegalStateException("Cannot found match with the file key > " + chosen));
+    }
 
     @NotNull
     Supplier<String> getChosen();
