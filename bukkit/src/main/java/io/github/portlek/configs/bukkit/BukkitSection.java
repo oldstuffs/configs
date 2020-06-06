@@ -52,15 +52,15 @@ public class BukkitSection implements BkktSection {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
-        CfgSection.addProvidedSetMethod(Material.class, Enum::toString);
+        CfgSection.addProvidedSetMethod(Material.class, (material, section, path) -> section.set(path, material.name()));
         CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
             section.getString(s)
                 .flatMap(XMaterial::matchXMaterial));
-        CfgSection.addProvidedSetMethod(XMaterial.class, Enum::toString);
+        CfgSection.addProvidedSetMethod(XMaterial.class, (xMaterial, section, path) -> section.set(path, xMaterial.name()));
         CfgSection.addProvidedGetMethod(Location.class, (section, s) ->
             section.getString(s)
                 .flatMap(LocationUtil::fromKey));
-        CfgSection.addProvidedSetMethod(Location.class, LocationUtil::toKey);
+        CfgSection.addProvidedSetMethod(Location.class, (location, section, path) -> section.set(path, LocationUtil.toKey(location)));
     }
 
     @NotNull

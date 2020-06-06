@@ -27,11 +27,11 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
+import io.github.portlek.configs.provided.ProvidedSet;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.lang.reflect.Field;
 import java.util.Optional;
-import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -57,7 +57,7 @@ public final class PropertyProceed implements Proceed<Field> {
             .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
             .orElseGet(() ->
                 CfgSection.getProvidedGetMethod(aClass)
-                    .map(func -> func.apply(parent, path))
+                    .map(func -> func.getWithField(fieldvalue, parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
 
@@ -68,7 +68,7 @@ public final class PropertyProceed implements Proceed<Field> {
             .map(objectProvided -> objectProvided.get(parent, path))
             .orElseGet(() ->
                 CfgSection.getProvidedGetMethod(fieldClass)
-                    .map(func -> func.apply(parent, path))
+                    .map(func -> func.get(parent, path))
                     .orElseGet(() -> parent.get(path)));
     }
 
@@ -81,10 +81,9 @@ public final class PropertyProceed implements Proceed<Field> {
             optional.get().set(fieldValue, parent, path);
             return;
         }
-        final Optional<Function<Object, Object>> setoptional =
-            CfgSection.getProvidedSetMethod(clazz);
+        final Optional<ProvidedSet<Object>> setoptional = CfgSection.getProvidedSetMethod(clazz);
         if (setoptional.isPresent()) {
-            parent.set(path, setoptional.get().apply(fieldValue));
+            setoptional.get().set(fieldValue, parent, path);
         } else {
             parent.set(path, fieldValue);
         }

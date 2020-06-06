@@ -25,6 +25,11 @@
 
 package io.github.portlek.configs.provided;
 
-public interface Provided<T> extends ProvidedSet<T>, ProvidedGet<T> {
+import io.github.portlek.configs.structure.managed.section.CfgSection;
+import org.jetbrains.annotations.NotNull;
+
+public interface ProvidedSet<T> {
+
+    void set(@NotNull T t, @NotNull CfgSection section, @NotNull String path);
 
 }

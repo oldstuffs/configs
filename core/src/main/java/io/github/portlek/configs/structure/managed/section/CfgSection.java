@@ -29,10 +29,11 @@ import io.github.portlek.configs.annotations.ConfigSerializable;
 import io.github.portlek.configs.annotations.Unstable;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.provided.Provided;
+import io.github.portlek.configs.provided.ProvidedGet;
+import io.github.portlek.configs.provided.ProvidedSet;
 import io.github.portlek.configs.provided.SerializableProvider;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.util.GeneralUtilities;
-import io.github.portlek.configs.util.SpecialFunction;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -45,9 +46,9 @@ public interface CfgSection {
 
     Map<Class<?>, Provided<?>> PROVIDED = new ConcurrentHashMap<>();
 
-    Map<Class<?>, SpecialFunction<?>> PROVIDED_GET = new ConcurrentHashMap<>();
+    Map<Class<?>, ProvidedGet<?>> PROVIDED_GET = new ConcurrentHashMap<>();
 
-    Map<Class<?>, Function<?, Object>> PROVIDED_SET = new ConcurrentHashMap<>();
+    Map<Class<?>, ProvidedSet<?>> PROVIDED_SET = new ConcurrentHashMap<>();
 
     @NotNull
     static <T> Optional<Provided<T>> getProvidedClass(@NotNull final Class<T> aClass) {
@@ -59,34 +60,34 @@ public interface CfgSection {
     }
 
     static <T> void addProvidedGetMethod(@NotNull final Class<T> aClass,
-                                         @NotNull final SpecialFunction<T> provide) {
+                                         @NotNull final ProvidedGet<T> provide) {
         if (!CfgSection.PROVIDED_GET.containsKey(aClass)) {
             CfgSection.PROVIDED_GET.put(aClass, provide);
         }
     }
 
     @NotNull
-    static <T> Optional<SpecialFunction<T>> getProvidedGetMethod(@NotNull final Class<T> aClass) {
+    static <T> Optional<ProvidedGet<T>> getProvidedGetMethod(@NotNull final Class<T> aClass) {
         //noinspection unchecked
         return CfgSection.PROVIDED_GET.keySet().stream()
             .filter(aClass::equals)
             .findFirst()
-            .map(clss -> (SpecialFunction<T>) CfgSection.PROVIDED_GET.get(clss));
+            .map(clss -> (ProvidedGet<T>) CfgSection.PROVIDED_GET.get(clss));
     }
 
-    static <T> void addProvidedSetMethod(@NotNull final Class<T> aClass, @NotNull final Function<T, Object> provide) {
+    static <T> void addProvidedSetMethod(@NotNull final Class<T> aClass, @NotNull final ProvidedSet<T> provide) {
         if (!CfgSection.PROVIDED_SET.containsKey(aClass)) {
             CfgSection.PROVIDED_SET.put(aClass, provide);
         }
     }
 
     @NotNull
-    static <T> Optional<Function<T, Object>> getProvidedSetMethod(@NotNull final Class<T> aClass) {
+    static <T> Optional<ProvidedSet<T>> getProvidedSetMethod(@NotNull final Class<T> aClass) {
         //noinspection unchecked
         return CfgSection.PROVIDED_SET.keySet().stream()
             .filter(aClass::equals)
             .findFirst()
-            .map(clss -> (Function<T, Object>) CfgSection.PROVIDED_SET.get(clss));
+            .map(clss -> (ProvidedSet<T>) CfgSection.PROVIDED_SET.get(clss));
     }
 
     @Unstable

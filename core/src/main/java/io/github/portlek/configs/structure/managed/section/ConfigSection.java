@@ -42,7 +42,7 @@ public class ConfigSection implements CfgSection {
         CfgSection.addProvidedClass(ReplaceableString.class, new ReplaceableStringProvider());
         CfgSection.addProvidedClass(ReplaceableList.class, new ReplaceableListProvider());
         CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
-        CfgSection.addProvidedSetMethod(UUID.class, Object::toString);
+        CfgSection.addProvidedSetMethod(UUID.class, (uuid, sctn, path) -> sctn.set(path, uuid.toString()));
     }
 
     @Nullable
