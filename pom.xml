@@ -61,6 +61,7 @@
         <module>core</module>
         <module>bukkit</module>
         <module>nukkit</module>
+        <module>bungeecord</module>
     </modules>
 
     <scm>
