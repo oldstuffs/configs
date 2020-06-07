@@ -144,10 +144,8 @@ public final class ReflectedYamlMapping extends BaseYamlMapping {
             ) {
                 try {
                     value = method.invoke(this.bean);
-                } catch (final IllegalAccessException iae) {
+                } catch (final IllegalAccessException | InvocationTargetException iae) {
                     throw new IllegalStateException(iae);
-                } catch (final InvocationTargetException ite) {
-                    throw new IllegalStateException(ite);
                 }
             }
         }

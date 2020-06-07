@@ -82,8 +82,8 @@ final class Skip implements YamlLines {
             while (iterator.hasNext()) {
                 boolean skip = false;
                 final YamlLine current = iterator.next();
-                for (int idx = 0; idx < this.conditions.length; idx++) {
-                    if (this.conditions[idx].isMet(current)) {
+                for (final Skip.Condition condition : this.conditions) {
+                    if (condition.isMet(current)) {
                         skip = true;
                         break;
                     }

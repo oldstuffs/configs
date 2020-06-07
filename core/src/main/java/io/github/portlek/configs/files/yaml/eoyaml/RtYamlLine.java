@@ -146,7 +146,7 @@ final class RtYamlLine implements YamlLine {
 
     @Override
     public int compareTo(final YamlLine other) {
-        int result = -1;
+        final int result;
         if (this == other) {
             result = 0;
         } else if (other == null) {
