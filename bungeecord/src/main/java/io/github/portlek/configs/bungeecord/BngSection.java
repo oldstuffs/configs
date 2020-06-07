@@ -25,38 +25,16 @@
 
 package io.github.portlek.configs.bungeecord;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.managed.section.CfgSection;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public interface BngSection extends CfgSection {
 
-    @NotNull
-    CfgSection base();
-
-    @NotNull
-    @Override
-    default ConfigurationSection getConfigurationSection() {
-        return this.base().getConfigurationSection();
-    }
-
-    @Override
-    @NotNull
-    default FlManaged getManaged() {
-        return this.base().getManaged();
-    }
-
     @Override
     @NotNull
     default Supplier<CfgSection> getNewSection() {
         return BungeeSection::new;
-    }
-
-    @Override
-    default void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.base().setup(managed, section);
     }
 
 }

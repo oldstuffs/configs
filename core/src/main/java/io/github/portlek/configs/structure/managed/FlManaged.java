@@ -50,27 +50,47 @@ public interface FlManaged extends CfgSection {
     default void onLoad() {
     }
 
-    @Override
-    FileConfiguration getConfigurationSection();
-
-    @NotNull
-    Optional<Object> pull(@NotNull String id);
-
-    void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
-
     default void save() {
         this.getConfigurationSection().save(this.getFile());
     }
 
+    @Override
+    default FileConfiguration getConfigurationSection() {
+        return this.base().getConfigurationSection();
+    }
+
     @NotNull
-    File getFile();
+    @Override
+    FlManaged base();
 
-    void addObject(@NotNull String key, @NotNull Object object);
+    @NotNull
+    default Optional<Object> pull(@NotNull final String id) {
+        return this.base().pull(id);
+    }
 
-    boolean isAutoSave();
+    default void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
+        this.base().setup(file, fileConfiguration);
+    }
 
-    void setAutoSave(boolean autosv);
+    @NotNull
+    default File getFile() {
+        return this.base().getFile();
+    }
 
-    void autoSave();
+    default void addObject(@NotNull final String key, @NotNull final Object object) {
+        this.base().addObject(key, object);
+    }
+
+    default boolean isAutoSave() {
+        return this.base().isAutoSave();
+    }
+
+    default void setAutoSave(final boolean autosv) {
+        this.base().setAutoSave(autosv);
+    }
+
+    default void autoSave() {
+        this.base().autoSave();
+    }
 
 }

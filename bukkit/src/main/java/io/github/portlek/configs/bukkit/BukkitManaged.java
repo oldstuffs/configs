@@ -26,31 +26,14 @@
 package io.github.portlek.configs.bukkit;
 
 import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import java.util.Arrays;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitManaged implements BkktManaged {
-
-    @NotNull
-    private final FlManaged base;
+public class BukkitManaged extends FileManaged implements BkktManaged {
 
     @SafeVarargs
-    public BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
-        this(new FileManaged(), objects);
-    }
-
-    @SafeVarargs
-    private BukkitManaged(@NotNull final FileManaged base, @NotNull final Map.Entry<String, Object>... objects) {
-        this.base = base;
-        Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
-    }
-
-    @NotNull
-    @Override
-    public final FlManaged base() {
-        return this.base;
+    private BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
+        super(objects);
     }
 
 }

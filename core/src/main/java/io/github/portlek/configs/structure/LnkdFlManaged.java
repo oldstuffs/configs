@@ -42,9 +42,6 @@ public interface LnkdFlManaged extends FlManaged {
             new IllegalStateException("Cannot found match with the file key > " + chosen));
     }
 
-    @NotNull
-    Supplier<String> getChosen();
-
     @Override
     default void load() {
         this.onCreate();
@@ -53,6 +50,15 @@ public interface LnkdFlManaged extends FlManaged {
                 new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!"))
         ).load(this);
         this.onLoad();
+    }
+
+    @Override
+    @NotNull
+    LnkdFlManaged base();
+
+    @NotNull
+    default Supplier<String> getChosen() {
+        return this.base().getChosen();
     }
 
 }

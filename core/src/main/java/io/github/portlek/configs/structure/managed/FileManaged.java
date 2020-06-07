@@ -93,4 +93,10 @@ public class FileManaged extends ConfigSection implements FlManaged {
         return (FileConfiguration) super.getConfigurationSection();
     }
 
+    @NotNull
+    @Override
+    public FlManaged base() {
+        return this;
+    }
+
 }

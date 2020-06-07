@@ -40,7 +40,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitSection implements BkktSection {
+public class BukkitSection extends ConfigSection implements BkktSection {
 
     static {
         CfgSection.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
@@ -61,23 +61,6 @@ public class BukkitSection implements BkktSection {
             section.getString(s)
                 .flatMap(LocationUtil::fromKey));
         CfgSection.addProvidedSetMethod(Location.class, (location, section, path) -> section.set(path, LocationUtil.toKey(location)));
-    }
-
-    @NotNull
-    private final CfgSection base;
-
-    public BukkitSection() {
-        this(new ConfigSection());
-    }
-
-    private BukkitSection(@NotNull final CfgSection base) {
-        this.base = base;
-    }
-
-    @NotNull
-    @Override
-    public final CfgSection base() {
-        return this.base;
     }
 
 }

@@ -26,31 +26,14 @@
 package io.github.portlek.configs.bungeecord;
 
 import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import java.util.Arrays;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-public class BungeeManaged implements BngManaged {
-
-    @NotNull
-    private final FlManaged base;
+public class BungeeManaged extends FileManaged implements BngManaged {
 
     @SafeVarargs
     public BungeeManaged(@NotNull final Map.Entry<String, Object>... objects) {
-        this(new FileManaged(), objects);
-    }
-
-    @SafeVarargs
-    private BungeeManaged(@NotNull final FileManaged base, @NotNull final Map.Entry<String, Object>... objects) {
-        this.base = base;
-        Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
-    }
-
-    @NotNull
-    @Override
-    public final FlManaged base() {
-        return this.base;
+        super(objects);
     }
 
 }

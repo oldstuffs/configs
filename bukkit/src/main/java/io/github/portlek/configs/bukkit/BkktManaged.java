@@ -25,58 +25,8 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import java.io.File;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
 
 public interface BkktManaged extends BkktSection, FlManaged {
-
-    @NotNull
-    @Override
-    FlManaged base();
-
-    @Override
-    default FileConfiguration getConfigurationSection() {
-        return this.base().getConfigurationSection();
-    }
-
-    @NotNull
-    @Override
-    default Optional<Object> pull(@NotNull final String id) {
-        return this.base().pull(id);
-    }
-
-    @Override
-    default void setup(@NotNull final File file, @NotNull final FileConfiguration fileConfiguration) {
-        this.base().setup(file, fileConfiguration);
-    }
-
-    @NotNull
-    @Override
-    default File getFile() {
-        return this.base().getFile();
-    }
-
-    @Override
-    default void addObject(@NotNull final String key, @NotNull final Object object) {
-        this.base().addObject(key, object);
-    }
-
-    @Override
-    default boolean isAutoSave() {
-        return this.base().isAutoSave();
-    }
-
-    @Override
-    default void setAutoSave(final boolean autosv) {
-        this.base().setAutoSave(autosv);
-    }
-
-    @Override
-    default void autoSave() {
-        this.base().autoSave();
-    }
 
 }

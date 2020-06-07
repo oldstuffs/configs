@@ -26,19 +26,7 @@
 package io.github.portlek.configs.nukkit;
 
 import io.github.portlek.configs.structure.LnkdFlManaged;
-import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
 
 public interface NkktLnkdFlManaged extends NkktManaged, LnkdFlManaged {
-
-    @Override
-    @NotNull
-    LnkdFlManaged base();
-
-    @Override
-    @NotNull
-    default Supplier<String> getChosen() {
-        return this.base().getChosen();
-    }
 
 }

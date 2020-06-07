@@ -26,31 +26,14 @@
 package io.github.portlek.configs.nukkit;
 
 import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import java.util.Arrays;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-public class NukkitManaged implements NkktManaged {
-
-    @NotNull
-    private final FlManaged base;
+public class NukkitManaged extends FileManaged implements NkktManaged {
 
     @SafeVarargs
     public NukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
-        this(new FileManaged(), objects);
-    }
-
-    @SafeVarargs
-    private NukkitManaged(@NotNull final FileManaged base, @NotNull final Map.Entry<String, Object>... objects) {
-        this.base = base;
-        Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
-    }
-
-    @NotNull
-    @Override
-    public final FlManaged base() {
-        return this.base;
+        super(objects);
     }
 
 }

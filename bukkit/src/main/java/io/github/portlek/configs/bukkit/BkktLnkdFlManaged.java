@@ -31,14 +31,4 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BkktLnkdFlManaged extends BkktManaged, LnkdFlManaged {
 
-    @Override
-    @NotNull
-    LnkdFlManaged base();
-
-    @Override
-    @NotNull
-    default Supplier<String> getChosen() {
-        return this.base().getChosen();
-    }
-
 }

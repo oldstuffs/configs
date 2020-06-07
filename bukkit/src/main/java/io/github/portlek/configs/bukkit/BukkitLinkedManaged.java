@@ -26,34 +26,16 @@
 package io.github.portlek.configs.bukkit;
 
 import io.github.portlek.configs.structure.LinkedFileManaged;
-import io.github.portlek.configs.structure.LnkdFlManaged;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitLinkedManaged implements BkktLnkdFlManaged {
-
-    @NotNull
-    private final LnkdFlManaged base;
+public class BukkitLinkedManaged extends LinkedFileManaged implements BkktLnkdFlManaged {
 
     @SafeVarargs
     public BukkitLinkedManaged(@NotNull final Supplier<String> chosen,
                                @NotNull final Map.Entry<String, Object>... objects) {
-        this(new LinkedFileManaged(chosen), objects);
-    }
-
-    @SafeVarargs
-    private BukkitLinkedManaged(@NotNull final LnkdFlManaged base,
-                                @NotNull final Map.Entry<String, Object>... objects) {
-        this.base = base;
-        Arrays.stream(objects).forEach(entry -> this.addObject(entry.getKey(), entry.getValue()));
-    }
-
-    @NotNull
-    @Override
-    public final LnkdFlManaged base() {
-        return this.base;
+        super(chosen, objects);
     }
 
 }

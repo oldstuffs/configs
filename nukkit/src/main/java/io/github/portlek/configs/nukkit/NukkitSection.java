@@ -25,27 +25,8 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import org.jetbrains.annotations.NotNull;
 
-public class NukkitSection implements NkktSection {
-
-    @NotNull
-    private final CfgSection base;
-
-    public NukkitSection() {
-        this(new ConfigSection());
-    }
-
-    private NukkitSection(@NotNull final CfgSection base) {
-        this.base = base;
-    }
-
-    @NotNull
-    @Override
-    public final CfgSection base() {
-        return this.base;
-    }
+public class NukkitSection extends ConfigSection implements NkktSection {
 
 }

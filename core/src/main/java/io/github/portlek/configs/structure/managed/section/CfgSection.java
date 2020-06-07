@@ -105,13 +105,24 @@ public interface CfgSection {
         }
     }
 
+    default void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
+        this.base().setup(managed, section);
+    }
+
+    @NotNull
+    default ConfigurationSection getConfigurationSection() {
+        return this.base().getConfigurationSection();
+    }
+
+    @NotNull
+    default FlManaged getManaged() {
+        return this.base().getManaged();
+    }
+
     @NotNull
     default String getName() {
         return this.getConfigurationSection().getName();
     }
-
-    @NotNull
-    ConfigurationSection getConfigurationSection();
 
     @NotNull
     default Set<String> getKeys(final boolean deep) {
@@ -125,9 +136,6 @@ public interface CfgSection {
     default void remove(@NotNull final String path) {
         this.set(path, null);
     }
-
-    @NotNull
-    FlManaged getManaged();
 
     @NotNull
     default Optional<Object> get(@NotNull final String path, @Nullable final Object def) {
@@ -279,8 +287,6 @@ public interface CfgSection {
     default Supplier<CfgSection> getNewSection() {
         return ConfigSection::new;
     }
-
-    void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection configurationSection);
 
     @NotNull
     default Optional<UUID> getUniqueId(@NotNull final String path) {
@@ -667,5 +673,8 @@ public interface CfgSection {
     default List<?> getListOrEmpty(@NotNull final String path, @Nullable final List<?> def) {
         return this.getList(path, def).orElse(new ArrayList<>());
     }
+
+    @NotNull
+    CfgSection base();
 
 }

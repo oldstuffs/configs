@@ -63,4 +63,10 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
             MapEntry.from(file, section));
     }
 
+    @NotNull
+    @Override
+    public LnkdFlManaged base() {
+        return this;
+    }
+
 }

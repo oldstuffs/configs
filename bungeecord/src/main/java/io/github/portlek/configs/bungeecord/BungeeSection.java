@@ -29,23 +29,6 @@ import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
 import org.jetbrains.annotations.NotNull;
 
-public class BungeeSection implements BngSection {
-
-    @NotNull
-    private final CfgSection base;
-
-    public BungeeSection() {
-        this(new ConfigSection());
-    }
-
-    private BungeeSection(@NotNull final CfgSection base) {
-        this.base = base;
-    }
-
-    @NotNull
-    @Override
-    public final CfgSection base() {
-        return this.base;
-    }
+public class BungeeSection extends ConfigSection implements BngSection {
 
 }

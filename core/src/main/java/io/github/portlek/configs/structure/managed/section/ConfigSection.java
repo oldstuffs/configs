@@ -51,6 +51,12 @@ public class ConfigSection implements CfgSection {
     @Nullable
     private FlManaged managed;
 
+    @Override
+    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
+        this.section = configurationSection;
+        this.managed = managed;
+    }
+
     @NotNull
     @Override
     public ConfigurationSection getConfigurationSection() {
@@ -63,10 +69,10 @@ public class ConfigSection implements CfgSection {
         return Objects.requireNonNull(this.managed, "You have to load your class with '#load()' method");
     }
 
+    @NotNull
     @Override
-    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
-        this.section = configurationSection;
-        this.managed = managed;
+    public CfgSection base() {
+        return this;
     }
 
 }
