@@ -194,6 +194,39 @@ test: 'test'
 ```
 </details>
 
+<details>
+<summary>BungeeCord</summary>
+
+```java
+@Config("config")
+public final class TestConfig extends BungeeManaged {
+
+  @Instance
+  public final TestConfig.TestSection testSection = new TestConfig.TestSection();
+
+  @Property
+  public String test = "test";
+
+  @Section("test-section")
+  public final class TestSection extends NukkitSection {
+
+    @Property("test-section-string")
+    public String testSectionString = "test";
+
+  }
+
+}
+```
+
+The result will be like that;
+
+```yml
+test: 'test'
+"test-section":
+  "test-section-string": 'test'
+```
+</details>
+
 ### LinkedConfig Example
 
 <details>
@@ -323,6 +356,62 @@ test: 'Türkçe kelimeler!'
   ),
 })
 public final class TestLinkedConfig extends NukkitLinkedManaged {
+
+  public TestLinkedConfig(@NotNull final TestConfig testConfig) {
+    super(() -> testConfig.language, MapEntry.from("config", testConfig));
+  }
+
+  @NotNull
+  public TestConfig getConfig() {
+    return (TestConfig) this.pull("config");
+  }
+
+  @Property
+  public String same_in_every_language = match(s -> 
+      Optional.of("Same in every language!"));
+
+  @Property
+  public String test = match(s -> {
+    if (s.equals("en")) {
+      return Optional.of("English words!");
+    } else if (s.equals("tr")) {
+      return Optional.of("Türkçe kelimeler!");
+    }
+    return Optional.empty();
+  });
+
+}
+```
+
+The result will be like that;
+
+(en_US.yml file)
+```yml
+test: 'English words!'
+"same-in-every-language": 'Same in every language!'
+```
+(tr_TR.yml file)
+```yml
+test: 'Türkçe kelimeler!'
+"same-in-every-language": 'Same in every language!'
+```
+</details>
+
+<details>
+<summary>BungeeCord</summary>
+
+```java
+@LinkedConfig({
+  @LinkedFile(
+    id = "en",
+    config = Config("en_US")
+  ),
+  @LinkedFile(
+    id = "tr",
+    config = @Config("tr_TR")
+  ),
+})
+public final class TestLinkedConfig extends BungeeLinkedManaged {
 
   public TestLinkedConfig(@NotNull final TestConfig testConfig) {
     super(() -> testConfig.language, MapEntry.from("config", testConfig));
