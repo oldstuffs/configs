@@ -70,8 +70,6 @@ public final class ReflectedYamlDump implements YamlDump {
             node = new ReflectedYamlScalar(this.object);
         } else if (this.object instanceof Collection || this.object.getClass().isArray()) {
             node = new ReflectedYamlSequence(this.object);
-        } else if (this.object instanceof ConfigurationSection) {
-            node = new ReflectedYamlMapping(((ConfigurationSection) this.object).getValues(false));
         } else {
             node = new ReflectedYamlMapping(this.object);
         }

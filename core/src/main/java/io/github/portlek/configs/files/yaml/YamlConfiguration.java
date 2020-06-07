@@ -53,11 +53,24 @@ public final class YamlConfiguration extends FileConfiguration {
         return config;
     }
 
+    @NotNull
+    private static Map<String, Object> withoutMemorySection(@NotNull final Map<String, Object> values) {
+        final Map<String, Object> map = new HashMap<>();
+        values.forEach((s, o) -> {
+            if (o instanceof ConfigurationSection) {
+                map.put(s, YamlConfiguration.withoutMemorySection(((ConfigurationSection) o).getValues(false)));
+            } else {
+                map.put(s, o);
+            }
+        });
+        return map;
+    }
+
     @SneakyThrows
     @NotNull
     @Override
     public String saveToString() {
-        return Yaml.createYamlDump(this.getValues(false)).dumpMapping().toString();
+        return Yaml.createYamlDump(YamlConfiguration.withoutMemorySection(this.getValues(false))).dumpMapping().toString();
     }
 
     @SneakyThrows
