@@ -70,7 +70,10 @@ public final class YamlConfiguration extends FileConfiguration {
     @NotNull
     @Override
     public String saveToString() {
-        return Yaml.createYamlDump(YamlConfiguration.withoutMemorySection(this.getValues(false))).dumpMapping().toString();
+        final Map<String, Object> map = YamlConfiguration.withoutMemorySection(this.getValues(false));
+        final YamlMappingBuilder builder = Yaml.createYamlMappingBuilder();
+        this.buildMap(builder, map);
+        return builder.build().toString();
     }
 
     @SneakyThrows
@@ -87,6 +90,12 @@ public final class YamlConfiguration extends FileConfiguration {
             this.options = new YamlConfigurationOptions(this);
         }
         return (YamlConfigurationOptions) this.options;
+    }
+
+    private void buildMap(@NotNull final YamlMappingBuilder builder, @NotNull final Map<String, Object> map) {
+        map.forEach((s, o) -> {
+            
+        });
     }
 
     private void convertMapsToSections(@NotNull final YamlMapping mapping,
