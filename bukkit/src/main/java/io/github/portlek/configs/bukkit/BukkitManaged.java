@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 public class BukkitManaged extends FileManaged implements BkktManaged {
 
     @SafeVarargs
-    private BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
+    public BukkitManaged(@NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
     }
 

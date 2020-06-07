@@ -26,8 +26,6 @@
 package io.github.portlek.configs.bungeecord;
 
 import io.github.portlek.configs.structure.LnkdFlManaged;
-import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
 
 public interface BngLnkdFlManaged extends BngManaged, LnkdFlManaged {
 

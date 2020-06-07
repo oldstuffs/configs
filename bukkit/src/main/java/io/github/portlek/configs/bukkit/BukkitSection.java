@@ -38,7 +38,6 @@ import java.util.Optional;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.NotNull;
 
 public class BukkitSection extends ConfigSection implements BkktSection {
 

@@ -25,9 +25,7 @@
 
 package io.github.portlek.configs.bungeecord;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
-import org.jetbrains.annotations.NotNull;
 
 public class BungeeSection extends ConfigSection implements BngSection {
 
