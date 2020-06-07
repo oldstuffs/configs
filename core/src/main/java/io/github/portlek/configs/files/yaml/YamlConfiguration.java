@@ -30,9 +30,11 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.io.File;
 import java.io.Reader;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -66,14 +68,54 @@ public final class YamlConfiguration extends FileConfiguration {
         return map;
     }
 
+    private static void buildMap(@NotNull final AtomicReference<YamlMappingBuilder> builder,
+                                 @NotNull final Map<String, Object> map) {
+        map.forEach((s, o) ->
+            YamlConfiguration.parseNode(o).ifPresent(node ->
+                builder.set(builder.get().add(s, node))));
+    }
+
+    private static void buildSequence(@NotNull final AtomicReference<YamlSequenceBuilder> builder,
+                                      @NotNull final Collection<?> objects) {
+        objects.stream()
+            .map(YamlConfiguration::parseNode)
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .forEach(node -> builder.set(builder.get().add(node)));
+    }
+
+    @NotNull
+    private static Optional<YamlNode> parseNode(final Object o) {
+        if (o instanceof Collection<?>) {
+            final AtomicReference<YamlSequenceBuilder> sequenceBuilder = new AtomicReference<>(Yaml.createYamlSequenceBuilder());
+            YamlConfiguration.buildSequence(sequenceBuilder, (Collection<?>) o);
+            return Optional.ofNullable(sequenceBuilder.get().build());
+        }
+        if (o instanceof Map<?, ?>) {
+            final Map<String, Object> objectmap = (Map<String, Object>) o;
+            final AtomicReference<YamlMappingBuilder> mappingBuilder = new AtomicReference<>(Yaml.createYamlMappingBuilder());
+            YamlConfiguration.buildMap(mappingBuilder, objectmap);
+            return Optional.ofNullable(mappingBuilder.get().build());
+        }
+        if (ReflectedYamlDump.SCALAR_TYPES.contains(o.getClass())) {
+            final String value = String.valueOf(o);
+            final YamlScalarBuilder scalarBuilder = Yaml.createYamlScalarBuilder()
+                .addLine(value);
+            if (value.contains("\n")) {
+                return Optional.ofNullable(scalarBuilder.buildFoldedBlockScalar());
+            }
+            return Optional.ofNullable(scalarBuilder.buildPlainScalar());
+        }
+        return Optional.empty();
+    }
+
     @SneakyThrows
     @NotNull
     @Override
     public String saveToString() {
-        final Map<String, Object> map = YamlConfiguration.withoutMemorySection(this.getValues(false));
-        final YamlMappingBuilder builder = Yaml.createYamlMappingBuilder();
-        this.buildMap(builder, map);
-        return builder.build().toString();
+        final AtomicReference<YamlMappingBuilder> builder = new AtomicReference<>(Yaml.createYamlMappingBuilder());
+        YamlConfiguration.buildMap(builder, YamlConfiguration.withoutMemorySection(this.getValues(false)));
+        return builder.get().build().toString();
     }
 
     @SneakyThrows
@@ -90,12 +132,6 @@ public final class YamlConfiguration extends FileConfiguration {
             this.options = new YamlConfigurationOptions(this);
         }
         return (YamlConfigurationOptions) this.options;
-    }
-
-    private void buildMap(@NotNull final YamlMappingBuilder builder, @NotNull final Map<String, Object> map) {
-        map.forEach((s, o) -> {
-            
-        });
     }
 
     private void convertMapsToSections(@NotNull final YamlMapping mapping,

@@ -27,7 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -44,7 +43,7 @@ public final class ReflectedYamlDump implements YamlDump {
     /**
      * If the value is any of these types, it is a Scalar.
      */
-    private static final List<Class> SCALAR_TYPES = Arrays.asList(
+    public static final List<Class> SCALAR_TYPES = Arrays.asList(
         Integer.class, Long.class, Float.class, Double.class, Short.class,
         String.class, Boolean.class, Character.class, Byte.class
     );
