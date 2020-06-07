@@ -208,7 +208,7 @@ public final class TestConfig extends BungeeManaged {
   public String test = "test";
 
   @Section("test-section")
-  public final class TestSection extends NukkitSection {
+  public final class TestSection extends BungeeSection {
 
     @Property("test-section-string")
     public String testSectionString = "test";
