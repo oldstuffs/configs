@@ -27,63 +27,59 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * YAML sequence implementation (rt means runtime).
+ * Nested Yaml types. If a YAML line ends with one
+ * of these, it means a certain type of YAML Node follows.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b92ff2168827dc07f133ac0f7304e16b7c096e9f $
- * @see http://yaml.org/spec/1.2/spec.html#sequence//
- * @since 1.0.0
+ * @version $Id: af6f85c38951818fe986ace378db53fce3893d7e $
+ * @since 1.0.2
  */
-final class RtYamlSequence extends BaseYamlSequence {
+final class Follows {
 
     /**
-     * Nodes in this sequence.
+     * If this is the last char on a line, it means a folded block scalar
+     * should be nested bellow (see Example 2.15 from YAML spec 1.2).
+     * <pre>
+     *   foldedScalar: >
+     *     a long line split into
+     *     several short
+     *     lines for readability
+     * </pre>
      */
-    private final List<YamlNode> nodes = new LinkedList<>();
+    static final String FOLDED_BLOCK_SCALAR = ">";
 
     /**
-     * Comments referring to this sequence.
+     * If this is the last char on a line, it means a literal block scalar
+     * should be nested bellow.
+     * <pre>
+     *   literalScalar: |
+     *     line 1
+     *     line 2
+     *     line 3
+     * </pre>
      */
-    private final Comment comment;
+    static final String LITERAL_BLOCK_SCALAR = "|";
 
     /**
-     * Ctor.
-     *
-     * @param elements Elements of this sequence.
+     * If the line ends with this, it means a folded sequence follows after it.
+     * This is a RegEx pattern because we want it to work even if there are
+     * spaces between the | and the -. Both "| -" and "|-" line endings
+     * should be fine.
+     * E.g.
+     * <pre>
+     *     foldedSequence: |-
+     *       some
+     *       sequence
+     *       values
+     * </pre>
      */
-    RtYamlSequence(final Collection<YamlNode> elements) {
-        this(elements, "");
-    }
+    static final String FOLDED_SEQUENCE = "^.+\\|[ ]*\\-$";
 
     /**
-     * Constructor.
-     *
-     * @param elements Elements of this sequence.
-     * @param comment Comment referring to this sequence itself.
+     * Hidden ctor.
      */
-    RtYamlSequence(
-        final Collection<YamlNode> elements,
-        final String comment
-    ) {
-        this.nodes.addAll(elements);
-        this.comment = new BuiltComment(this, comment);
-    }
-
-    @Override
-    public Collection<YamlNode> values() {
-        final List<YamlNode> children = new LinkedList<>();
-        children.addAll(this.nodes);
-        return children;
-    }
-
-    @Override
-    public Comment comment() {
-        return this.comment;
+    private Follows() {
     }
 
 }

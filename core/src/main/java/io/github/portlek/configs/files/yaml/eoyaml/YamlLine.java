@@ -27,8 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * A line of yaml.
  *
@@ -43,7 +41,6 @@ interface YamlLine extends Comparable<YamlLine> {
      *
      * @return String contents.
      */
-    @NotNull
     String trimmed();
 
     /**
@@ -82,7 +79,7 @@ interface YamlLine extends Comparable<YamlLine> {
     class NullYamlLine implements YamlLine {
 
         @Override
-        public @NotNull String trimmed() {
+        public String trimmed() {
             return "";
         }
 

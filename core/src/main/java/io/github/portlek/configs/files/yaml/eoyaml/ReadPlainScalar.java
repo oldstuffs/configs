@@ -27,8 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * A plain scalar value read from somewhere.
  *
@@ -64,30 +62,6 @@ final class ReadPlainScalar extends BaseScalar {
     }
 
     /**
-     * Remove the possible escaping quotes or apostrophes surrounding the
-     * given value.
-     *
-     * @param value The value to unescape.
-     * @return The value without quotes or apostrophes.
-     */
-    @NotNull
-    private static String unescape(@NotNull final String value) {
-        @NotNull final String unescaped;
-        if (value.length() <= 2) {
-            unescaped = value;
-        } else {
-            if (value.charAt(0) == '\"' && value.charAt(value.length() - 1) == '\"') {
-                unescaped = value.substring(1, value.length() - 1);
-            } else if (value.charAt(0) == '\'' && value.charAt(value.length() - 1) == '\'') {
-                unescaped = value.substring(1, value.length() - 1);
-            } else {
-                unescaped = value;
-            }
-        }
-        return unescaped;
-    }
-
-    /**
      * Unescaped String value of this scalar. Pay attention, if the
      * scalar's value is the "null" String, then we return null, because
      * "null" is a reserved keyword in YAML, indicating a null Scalar.
@@ -96,21 +70,21 @@ final class ReadPlainScalar extends BaseScalar {
      * @checkstyle ReturnCount (50 lines)
      */
     @Override
-    @NotNull
     public String value() {
         final String value;
         final String trimmed = this.scalar.trimmed();
-        if (!trimmed.isEmpty() && trimmed.charAt(0) == '-' && trimmed.length() > 1) {
+        if (trimmed.startsWith("-") && trimmed.length() > 1) {
             value = trimmed.substring(trimmed.indexOf('-') + 1).trim();
-        } else if (trimmed.contains(":") && trimmed.charAt(trimmed.length() - 1) != ':') {
-            value = trimmed.substring(trimmed.indexOf(':') + 1).trim();
+        } else if (trimmed.contains(":") && !trimmed.endsWith(":")) {
+            value = trimmed.substring(trimmed.indexOf(":") + 1).trim();
         } else {
             value = trimmed;
         }
-        if (value.isEmpty()) {
-            return "";
+        if ("null".equals(value)) {
+            return null;
+        } else {
+            return this.unescape(value);
         }
-        return ReadPlainScalar.unescape(value);
     }
 
     @Override
@@ -130,6 +104,29 @@ final class ReadPlainScalar extends BaseScalar {
             );
         }
         return comment;
+    }
+
+    /**
+     * Remove the possible escaping quotes or apostrophes surrounding the
+     * given value.
+     *
+     * @param value The value to unescape.
+     * @return The value without quotes or apostrophes.
+     */
+    private String unescape(final String value) {
+        final String unescaped;
+        if (value == null || value.length() <= 2) {
+            unescaped = value;
+        } else {
+            if (value.startsWith("\"") && value.endsWith("\"")) {
+                unescaped = value.substring(1, value.length() - 1);
+            } else if (value.startsWith("'") && value.endsWith("'")) {
+                unescaped = value.substring(1, value.length() - 1);
+            } else {
+                unescaped = value;
+            }
+        }
+        return unescaped;
     }
 
 }

@@ -27,63 +27,28 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * YAML sequence implementation (rt means runtime).
+ * Builder of YamlStream. Implementations should be immutable and thread-safe.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b92ff2168827dc07f133ac0f7304e16b7c096e9f $
- * @see http://yaml.org/spec/1.2/spec.html#sequence//
- * @since 1.0.0
+ * @version $Id: e0fe348daa925a06849bf7c61c1845bb9bb8953a $
+ * @since 3.1.1
  */
-final class RtYamlSequence extends BaseYamlSequence {
+public interface YamlStreamBuilder {
 
     /**
-     * Nodes in this sequence.
-     */
-    private final List<YamlNode> nodes = new LinkedList<>();
-
-    /**
-     * Comments referring to this sequence.
-     */
-    private final Comment comment;
-
-    /**
-     * Ctor.
+     * Add a YAML to the Stream.
      *
-     * @param elements Elements of this sequence.
+     * @param document YamlNode
+     * @return This builder
      */
-    RtYamlSequence(final Collection<YamlNode> elements) {
-        this(elements, "");
-    }
+    YamlStreamBuilder add(YamlNode document);
 
     /**
-     * Constructor.
+     * Build the YamlStream.
      *
-     * @param elements Elements of this sequence.
-     * @param comment Comment referring to this sequence itself.
+     * @return Built YamlStream.
      */
-    RtYamlSequence(
-        final Collection<YamlNode> elements,
-        final String comment
-    ) {
-        this.nodes.addAll(elements);
-        this.comment = new BuiltComment(this, comment);
-    }
-
-    @Override
-    public Collection<YamlNode> values() {
-        final List<YamlNode> children = new LinkedList<>();
-        children.addAll(this.nodes);
-        return children;
-    }
-
-    @Override
-    public Comment comment() {
-        return this.comment;
-    }
+    YamlStream build();
 
 }

@@ -69,6 +69,11 @@ final class RtYamlInput implements YamlInput {
     }
 
     @Override
+    public YamlStream readYamlStream() throws IOException {
+        return new ReadYamlStream(this.readInput());
+    }
+
+    @Override
     public Scalar readPlainScalar() throws IOException {
         final ReadPlainScalar read;
         final AllYamlLines all = this.readInput();
@@ -86,6 +91,16 @@ final class RtYamlInput implements YamlInput {
             read = new ReadPlainScalar(all, iterator.next());
         }
         return read;
+    }
+
+    @Override
+    public Scalar readFoldedBlockScalar() throws IOException {
+        return new ReadFoldedBlockScalar(this.readInput());
+    }
+
+    @Override
+    public Scalar readLiteralBlockScalar() throws IOException {
+        return new ReadLiteralBlockScalar(this.readInput());
     }
 
     /**

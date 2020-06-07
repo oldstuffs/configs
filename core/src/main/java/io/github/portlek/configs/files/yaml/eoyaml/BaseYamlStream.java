@@ -27,11 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
- * Base YamlMapping which all implementations of YamlMapping should extend.
+ * Base YamlStream which all implementations should extend.
  * It implementing toString(), equals, hashcode and compareTo methods.
  * <br><br>
  * These methods should be default methods on the interface,
@@ -39,91 +39,80 @@ import java.util.Set;
  * methods.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 7450487421a81126a50eab74769488b8af3571fd $
+ * @version $Id: 4bab463fc8d514c1d25e39098ed0fb7aaff90ff1 $
  * @since 4.0.0
  */
-public abstract class BaseYamlMapping
-    extends BaseYamlNode implements YamlMapping {
+abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         int hash = 0;
-        for (final YamlNode key : this.keys()) {
-            hash += key.hashCode();
-        }
-        for (final YamlNode value : this.values()) {
-            hash += value.hashCode();
+        for (final YamlNode node : this.values()) {
+            hash += node.hashCode();
         }
         return hash;
     }
 
     /**
-     * Equals method for YamlMapping. It returns true if the compareTo(...)
+     * Equals method for YamlStream. It returns true if the compareTo(...)
      * method returns 0.
      *
-     * @param other The YamlMapping to which this is compared.
-     * @return True or false.
+     * @param other The YamlStream to which this is compared.
+     * @return True or false
      */
     @Override
-    public final boolean equals(final Object other) {
+    public boolean equals(final Object other) {
         final boolean result;
-        if (other == null || !(other instanceof YamlMapping)) {
+        if (other == null || !(other instanceof YamlStream)) {
             result = false;
         } else if (this == other) {
             result = true;
         } else {
-            result = this.compareTo((YamlMapping) other) == 0;
+            result = this.compareTo((YamlStream) other) == 0;
         }
         return result;
     }
 
     /**
-     * Compare this Mapping to another node.<br><br>
+     * Compare this Sequence to another node.<br><br>
      * <p>
-     * A Mapping is always considered greater than a Scalar or a Sequence.<br>
+     * A YamlStream is always considered greater than a Scalar,
+     * a YamlSequence or a YamlMapping.
      * <p>
-     * If other is a Mapping, their integer lengths are compared - the one with
-     * the greater length is considered greater. If the lengths are equal,
-     * then the 2 Mappings are equal if all elements are equal (K==K and V==V).
-     * If the elements are not identical, the comparison of the first unequal
+     * If other is a YamlStream, their integer lengths are compared - the one
+     * with the greater length is considered greater. If the lengths are equal,
+     * then the 2 YamlStreams are equal if all elements are equal. If the
+     * elements are not identical, the comparison of the first unequal
      * elements is returned.
      *
-     * @param other The other AbstractNode.
+     * @param other The other YamlNode.
      * @return a value &lt; 0 if this &lt; other <br>
      * 0 if this == other or <br>
      * a value &gt; 0 if this &gt; other
+     * @checkstyle NestedIfDepth (100 lines)
      */
     @Override
-    public final int compareTo(final YamlNode other) {
+    public int compareTo(final YamlNode other) {
         int result = 0;
-        if (other == null || !(other instanceof YamlMapping)) {
+        if (other == null || other instanceof Scalar) {
+            result = 1;
+        } else if (other instanceof YamlSequence) {
+            result = 1;
+        } else if (other instanceof YamlMapping) {
             result = 1;
         } else if (this != other) {
-            final BaseYamlMapping map = (BaseYamlMapping) other;
-            final Set<YamlNode> keys = this.keys();
-            final Set<YamlNode> otherKeys = map.keys();
-            if (keys.size() > otherKeys.size()) {
+            final Collection<YamlNode> nodes = this.values();
+            final Collection<YamlNode> others = ((YamlStream) other).values();
+            if (nodes.size() > others.size()) {
                 result = 1;
-            } else if (keys.size() < otherKeys.size()) {
+            } else if (nodes.size() < others.size()) {
                 result = -1;
             } else {
-                final Iterator<YamlNode> keysIt = keys.iterator();
-                final Iterator<YamlNode> otherKeysIt = otherKeys.iterator();
-                final Iterator<YamlNode> values = this.values().iterator();
-                final Iterator<YamlNode> otherVals = map.values().iterator();
-                int keysComparison;
-                int valuesComparison;
-                while (values.hasNext()) {
-                    keysComparison = keysIt.next()
-                        .compareTo(otherKeysIt.next());
-                    valuesComparison = values.next()
-                        .compareTo(otherVals.next());
-                    if (keysComparison != 0) {
-                        result = keysComparison;
-                        break;
-                    }
-                    if (valuesComparison != 0) {
-                        result = valuesComparison;
+                final Iterator<YamlNode> iterator = others.iterator();
+                final Iterator<YamlNode> here = nodes.iterator();
+                while (iterator.hasNext()) {
+                    result = here.next().compareTo(iterator.next());
+                    if (result != 0) {
                         break;
                     }
                 }
@@ -134,7 +123,7 @@ public abstract class BaseYamlMapping
 
     @Override
     final boolean isEmpty() {
-        return this.keys().isEmpty();
+        return this.values().isEmpty();
     }
 
 }

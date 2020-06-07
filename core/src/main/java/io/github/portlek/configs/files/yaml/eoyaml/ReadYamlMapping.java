@@ -109,22 +109,23 @@ final class ReadYamlMapping extends BaseYamlMapping {
         final Set<YamlNode> keys = new LinkedHashSet<>();
         for (final YamlLine line : this.significant) {
             final String trimmed = line.trimmed();
-            if (!trimmed.isEmpty() && trimmed.charAt(0) == ':') {
+            if (trimmed.startsWith(":")) {
+                continue;
             } else if ("?".equals(trimmed)) {
                 keys.add(this.significant.toYamlNode(line));
             } else {
                 if (!trimmed.contains(":")) {
                     throw new YamlReadingException(
                         "Expected scalar key on line "
-                            + (line.number() + 1) + '.'
+                            + (line.number() + 1) + "."
                             + " The line should have the format "
                             + "'key: value' or 'key:'. "
                             + "Instead, the line is: "
-                            + '[' + line.trimmed() + "]."
+                            + "[" + line.trimmed() + "]."
                     );
                 }
                 final String key = trimmed.substring(
-                    0, trimmed.indexOf(':')).trim();
+                    0, trimmed.indexOf(":")).trim();
                 if (!key.isEmpty()) {
                     keys.add(new PlainStringScalar(key));
                 }
@@ -167,7 +168,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
                         },
                         line -> line.trimmed().startsWith("---"),
                         line -> line.trimmed().startsWith("..."),
-                        line -> !line.trimmed().isEmpty() && line.trimmed().charAt(0) == '%',
+                        line -> line.trimmed().startsWith("%"),
                         line -> line.trimmed().startsWith("!!")
                     )
                 )
@@ -186,12 +187,12 @@ final class ReadYamlMapping extends BaseYamlMapping {
         YamlNode value = null;
         for (final YamlLine line : this.significant) {
             final String trimmed = line.trimmed();
-            if (trimmed.endsWith(key + ':')
-                || trimmed.matches('^' + key + "\\:[ ]*\\>$")
-                || trimmed.matches('^' + key + "\\:[ ]*\\|$")
+            if (trimmed.endsWith(key + ":")
+                || trimmed.matches("^" + key + "\\:[ ]*\\>$")
+                || trimmed.matches("^" + key + "\\:[ ]*\\|$")
             ) {
                 value = this.significant.toYamlNode(line);
-            } else if (trimmed.startsWith(key + ':')
+            } else if (trimmed.startsWith(key + ":")
                 && trimmed.length() > 1
             ) {
                 value = new ReadPlainScalar(this.all, line);
@@ -222,7 +223,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
                         || colonLine.trimmed().matches("^\\:[ ]*\\|$")
                     ) {
                         value = this.significant.toYamlNode(colonLine);
-                    } else if (!colonLine.trimmed().isEmpty() && colonLine.trimmed().charAt(0) == ':'
+                    } else if (colonLine.trimmed().startsWith(":")
                         && colonLine.trimmed().length() > 1
                     ) {
                         value = new ReadPlainScalar(this.all, colonLine);

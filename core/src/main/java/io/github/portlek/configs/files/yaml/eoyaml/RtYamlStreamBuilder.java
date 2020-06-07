@@ -32,58 +32,77 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * YAML sequence implementation (rt means runtime).
+ * YamlStreamBuilder implementation. "Rt" stands for "Runtime".
+ * This class is immutable and thread-safe.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b92ff2168827dc07f133ac0f7304e16b7c096e9f $
- * @see http://yaml.org/spec/1.2/spec.html#sequence//
- * @since 1.0.0
+ * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
+ * @since 3.1.1
  */
-final class RtYamlSequence extends BaseYamlSequence {
+final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
     /**
-     * Nodes in this sequence.
+     * Added nodes.
      */
-    private final List<YamlNode> nodes = new LinkedList<>();
+    private final List<YamlNode> documents;
 
     /**
-     * Comments referring to this sequence.
+     * Default ctor.
      */
-    private final Comment comment;
-
-    /**
-     * Ctor.
-     *
-     * @param elements Elements of this sequence.
-     */
-    RtYamlSequence(final Collection<YamlNode> elements) {
-        this(elements, "");
+    RtYamlStreamBuilder() {
+        this(new LinkedList<YamlNode>());
     }
 
     /**
      * Constructor.
      *
-     * @param elements Elements of this sequence.
-     * @param comment Comment referring to this sequence itself.
+     * @param documents YAML documents used in building the YamlStream.
      */
-    RtYamlSequence(
-        final Collection<YamlNode> elements,
-        final String comment
-    ) {
-        this.nodes.addAll(elements);
-        this.comment = new BuiltComment(this, comment);
+    RtYamlStreamBuilder(final List<YamlNode> documents) {
+        this.documents = documents;
     }
 
     @Override
-    public Collection<YamlNode> values() {
-        final List<YamlNode> children = new LinkedList<>();
-        children.addAll(this.nodes);
-        return children;
+    public YamlStreamBuilder add(final YamlNode document) {
+        final List<YamlNode> list = new LinkedList<>();
+        list.addAll(this.documents);
+        list.add(document);
+        return new RtYamlStreamBuilder(list);
     }
 
     @Override
-    public Comment comment() {
-        return this.comment;
+    public YamlStream build() {
+        return new RtYamlStreamBuilder.BuiltYamlStream(this.documents);
+    }
+
+    /**
+     * Built YamlStream.
+     *
+     * @author Mihai Andronache (amihaiemil@gmail.com)
+     * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
+     * @since 3.1.1
+     */
+    static class BuiltYamlStream extends BaseYamlStream {
+
+        /**
+         * Documents as a List.
+         */
+        private final Collection<YamlNode> documents;
+
+        /**
+         * Constructor.
+         *
+         * @param documents Added YamlNodes.
+         */
+        BuiltYamlStream(final Collection<YamlNode> documents) {
+            this.documents = documents;
+        }
+
+        @Override
+        public Collection<YamlNode> values() {
+            return this.documents;
+        }
+
     }
 
 }

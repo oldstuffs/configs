@@ -27,63 +27,26 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
- * YAML sequence implementation (rt means runtime).
+ * Base folded block scalar which can give us the scalar's lines.
+ * We need this in order to properly print the scalar, since the value()
+ * method returns the folded value whereas in printing, we need to use the
+ * original, unfolded one.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b92ff2168827dc07f133ac0f7304e16b7c096e9f $
- * @see http://yaml.org/spec/1.2/spec.html#sequence//
- * @since 1.0.0
+ * @version $Id: 1315c2500e8709343e55b467bb0f17fa7924a668 $
+ * @since 4.3.1
  */
-final class RtYamlSequence extends BaseYamlSequence {
+abstract class BaseFoldedScalar extends BaseScalar {
 
     /**
-     * Nodes in this sequence.
-     */
-    private final List<YamlNode> nodes = new LinkedList<>();
-
-    /**
-     * Comments referring to this sequence.
-     */
-    private final Comment comment;
-
-    /**
-     * Ctor.
+     * Return the unfolded value of this scalar. This method
+     * should not be visible to the public.
      *
-     * @param elements Elements of this sequence.
+     * @return List of String lines.
      */
-    RtYamlSequence(final Collection<YamlNode> elements) {
-        this(elements, "");
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param elements Elements of this sequence.
-     * @param comment Comment referring to this sequence itself.
-     */
-    RtYamlSequence(
-        final Collection<YamlNode> elements,
-        final String comment
-    ) {
-        this.nodes.addAll(elements);
-        this.comment = new BuiltComment(this, comment);
-    }
-
-    @Override
-    public Collection<YamlNode> values() {
-        final List<YamlNode> children = new LinkedList<>();
-        children.addAll(this.nodes);
-        return children;
-    }
-
-    @Override
-    public Comment comment() {
-        return this.comment;
-    }
+    abstract List<String> unfolded();
 
 }

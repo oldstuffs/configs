@@ -27,8 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import org.jetbrains.annotations.NotNull;
-
 /**
  * Default implementation of {@link YamlLine}.
  * "Rt" stands for "Runtime".
@@ -62,7 +60,7 @@ final class RtYamlLine implements YamlLine {
     }
 
     @Override
-    public @NotNull String trimmed() {
+    public String trimmed() {
         String trimmed = this.value.trim();
         int i = 0;
         while (i < trimmed.length()) {
@@ -71,8 +69,7 @@ final class RtYamlLine implements YamlLine {
             ) {
                 trimmed = trimmed.substring(0, i);
                 break;
-            }
-            if (trimmed.charAt(i) == '"') {
+            } else if (trimmed.charAt(i) == '"') {
                 i++;
                 while (i < trimmed.length() && trimmed.charAt(i) != '"') {
                     i++;

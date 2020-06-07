@@ -27,63 +27,87 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
- * YAML sequence implementation (rt means runtime).
+ * Decorator class to cache values of trimmed() and indentation() method for
+ * a YamlLine.
  *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b92ff2168827dc07f133ac0f7304e16b7c096e9f $
- * @see http://yaml.org/spec/1.2/spec.html#sequence//
+ * @author Sherif Waly (sherifwaly95@gmail.com)
+ * @version $Id: 0c17524800cdf33b78d3fa7b46d0cbd69a4bf4eb $
  * @since 1.0.0
  */
-final class RtYamlSequence extends BaseYamlSequence {
+final class CachedYamlLine implements YamlLine {
 
     /**
-     * Nodes in this sequence.
+     * Content line.
      */
-    private final List<YamlNode> nodes = new LinkedList<>();
+    private final YamlLine line;
 
     /**
-     * Comments referring to this sequence.
+     * Cached trimmed line.
      */
-    private final Comment comment;
+    private String trimmed;
+
+    /**
+     * Cached indentation.
+     */
+    private int indentation = -1;
+
+    /**
+     * Cached value.
+     */
+    private Boolean hasNestedNode;
 
     /**
      * Ctor.
      *
-     * @param elements Elements of this sequence.
+     * @param line YamlLine
      */
-    RtYamlSequence(final Collection<YamlNode> elements) {
-        this(elements, "");
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param elements Elements of this sequence.
-     * @param comment Comment referring to this sequence itself.
-     */
-    RtYamlSequence(
-        final Collection<YamlNode> elements,
-        final String comment
-    ) {
-        this.nodes.addAll(elements);
-        this.comment = new BuiltComment(this, comment);
+    CachedYamlLine(final YamlLine line) {
+        this.line = line;
     }
 
     @Override
-    public Collection<YamlNode> values() {
-        final List<YamlNode> children = new LinkedList<>();
-        children.addAll(this.nodes);
-        return children;
+    public int compareTo(final YamlLine other) {
+        return this.line.compareTo(other);
     }
 
     @Override
-    public Comment comment() {
-        return this.comment;
+    public String trimmed() {
+        if (this.trimmed == null) {
+            this.trimmed = this.line.trimmed();
+        }
+        return this.trimmed;
+    }
+
+    @Override
+    public String comment() {
+        return this.line.comment();
+    }
+
+    @Override
+    public int number() {
+        return this.line.number();
+    }
+
+    @Override
+    public int indentation() {
+        if (this.indentation == -1) {
+            this.indentation = this.line.indentation();
+        }
+        return this.indentation;
+    }
+
+    @Override
+    public boolean requireNestedIndentation() {
+        if (this.hasNestedNode == null) {
+            this.hasNestedNode = this.line.requireNestedIndentation();
+        }
+        return this.hasNestedNode;
+    }
+
+    @Override
+    public String toString() {
+        return this.line.toString();
     }
 
 }
