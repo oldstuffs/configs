@@ -27,8 +27,7 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 
 /**
  * Yaml.
@@ -82,6 +81,18 @@ public final class Yaml {
     }
 
     /**
+     * Create a {@link YamlInput} from a File.
+     *
+     * @param input File to read from.
+     * @return YamlInput, reader of Yaml.
+     * @throws FileNotFoundException If the file is not found.
+     */
+    public static YamlInput createYamlInput(final File input)
+        throws FileNotFoundException {
+        return Yaml.createYamlInput(new FileInputStream(input));
+    }
+
+    /**
      * Create a {@link YamlInput} from a String.
      *
      * @param input String to read from.
@@ -99,6 +110,24 @@ public final class Yaml {
      */
     public static YamlInput createYamlInput(final InputStream input) {
         return new RtYamlInput(input);
+    }
+
+    /**
+     * Create a YamlPrinter to write a YamlNode somewhere. If you want to
+     * print a YamlNode to String, just use YamlNode.toString() -- it is a
+     * convenience equivalent to:
+     * <pre>
+     *   final YamlNode yaml = ...;
+     *   final StringWriter stgWriter = new StringWriter();
+     *   Yaml.createYamlPrinter(stgWriter).print(yaml);
+     *   System.out.println(stgWriter.toString());
+     * </pre>
+     *
+     * @param destination Writer where the YamlNode will be printed.
+     * @return YamlPrinter.
+     */
+    public static YamlPrinter createYamlPrinter(final Writer destination) {
+        return new RtYamlPrinter(destination);
     }
 
     /**
