@@ -31,6 +31,8 @@ import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.section.ConfigSection;
+import java.util.Arrays;
+import java.util.List;
 
 @Config("config")
 public final class TestConfig extends FileManaged {
@@ -45,6 +47,11 @@ public final class TestConfig extends FileManaged {
         .append("test-2")
         .toString();
 
+    @Property
+    public List<String> test_list = Arrays.asList("test",
+        "test2",
+        "test3");
+
     public static void main(final String[] args) {
         new TestConfig().load();
     }
@@ -54,6 +61,11 @@ public final class TestConfig extends FileManaged {
 
         @Property
         public String test = "test-2";
+
+        @Property
+        public List<String> test_list = Arrays.asList("test",
+            "test2",
+            "test3");
 
     }
 
