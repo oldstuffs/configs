@@ -55,8 +55,8 @@ public class FileManaged extends ConfigSection implements FlManaged {
 
     @Override
     public void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
-        this.file = file;
         this.setup(this, section);
+        this.file = file;
     }
 
     @NotNull
