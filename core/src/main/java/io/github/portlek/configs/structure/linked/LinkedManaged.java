@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
+public class LinkedManaged extends FileManaged implements LnkdManaged {
 
     @NotNull
     private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();
@@ -43,8 +43,8 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
     private final Supplier<String> chosen;
 
     @SafeVarargs
-    public LinkedFileManaged(@NotNull final Supplier<String> chosen,
-                             @NotNull final Map.Entry<String, Object>... objects) {
+    public LinkedManaged(@NotNull final Supplier<String> chosen,
+                         @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
     }
@@ -65,7 +65,7 @@ public class LinkedFileManaged extends FileManaged implements LnkdFlManaged {
 
     @NotNull
     @Override
-    public LnkdFlManaged base() {
+    public LnkdManaged base() {
         return this;
     }
 

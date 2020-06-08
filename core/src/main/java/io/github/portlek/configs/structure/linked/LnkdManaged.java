@@ -33,7 +33,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public interface LnkdFlManaged extends FlManaged {
+public interface LnkdManaged extends FlManaged {
 
     @NotNull
     default <T> T match(@NotNull final Function<String, Optional<T>> function) {
@@ -55,7 +55,7 @@ public interface LnkdFlManaged extends FlManaged {
 
     @Override
     @NotNull
-    LnkdFlManaged base();
+    LnkdManaged base();
 
     @NotNull
     default Supplier<String> getChosen() {

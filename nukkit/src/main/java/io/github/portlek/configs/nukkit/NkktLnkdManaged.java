@@ -23,10 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.bukkit;
+package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.linked.LnkdFlManaged;
+import io.github.portlek.configs.structure.linked.LnkdManaged;
 
-public interface BkktLnkdFlManaged extends BkktManaged, LnkdFlManaged {
+public interface NkktLnkdManaged extends NkktManaged, LnkdManaged {
 
 }

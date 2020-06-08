@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.bungeecord;
 
-import io.github.portlek.configs.structure.linked.LinkedFileManaged;
+import io.github.portlek.configs.structure.linked.LinkedManaged;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class BungeeLinkedManaged extends LinkedFileManaged implements BngLnkdFlManaged {
+public class BungeeLinkedManaged extends LinkedManaged implements BngLnkdManaged {
 
     @SafeVarargs
     public BungeeLinkedManaged(@NotNull final Supplier<String> chosen,

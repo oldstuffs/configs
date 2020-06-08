@@ -23,10 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.bungeecord;
+package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.linked.LnkdFlManaged;
+import io.github.portlek.configs.structure.linked.LnkdManaged;
 
-public interface BngLnkdFlManaged extends BngManaged, LnkdFlManaged {
+public interface BkktLnkdManaged extends BkktManaged, LnkdManaged {
 
 }

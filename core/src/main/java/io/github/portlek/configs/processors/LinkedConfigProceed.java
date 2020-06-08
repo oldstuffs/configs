@@ -2,7 +2,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.LinkedFile;
-import io.github.portlek.configs.structure.linked.LnkdFlManaged;
+import io.github.portlek.configs.structure.linked.LnkdManaged;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +14,7 @@ public final class LinkedConfigProceed {
     private final LinkedConfig config;
 
     @NotNull
-    private final LnkdFlManaged linked;
+    private final LnkdManaged linked;
 
     public void load() {
         Arrays.stream(this.config.value())

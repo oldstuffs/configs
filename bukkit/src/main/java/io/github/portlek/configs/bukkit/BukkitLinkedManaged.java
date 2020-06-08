@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.linked.LinkedFileManaged;
+import io.github.portlek.configs.structure.linked.LinkedManaged;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitLinkedManaged extends LinkedFileManaged implements BkktLnkdFlManaged {
+public class BukkitLinkedManaged extends LinkedManaged implements BkktLnkdManaged {
 
     @SafeVarargs
     public BukkitLinkedManaged(@NotNull final Supplier<String> chosen,
