@@ -27,6 +27,8 @@ dependencies {
     implementation("io.github.portlek:configs-bukkit:${version}")
     // For the nukkit projects
     implementation("io.github.portlek:configs-nukkit:${version}")
+    // For the bungeecord projects
+    implementation("io.github.portlek:configs-bungeecord:${version}")
 }
 
 shadowJar {
@@ -57,6 +59,12 @@ shadowJar {
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-nukkit</artifactId>
+      <version>${version}</version>
+    </dependency>
+    <!-- For the bungeecord projects -->
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-bungeecord</artifactId>
       <version>${version}</version>
     </dependency>
 </dependencies>
