@@ -29,13 +29,12 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import java.io.File;
 import java.util.Map;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class PerObjectManaged extends FileManaged implements PrObjctManaged {
+public class ComparableManaged extends FileManaged implements CmprblManaged {
 
     @SafeVarargs
-    public PerObjectManaged(@NotNull final Map.Entry<String, Object>... objects) {
+    public ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
     }
 
@@ -46,7 +45,7 @@ public class PerObjectManaged extends FileManaged implements PrObjctManaged {
 
     @NotNull
     @Override
-    public PrObjctManaged base() {
+    public CmprblManaged base() {
         return this;
     }
 

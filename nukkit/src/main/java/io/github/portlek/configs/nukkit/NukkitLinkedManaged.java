@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.linked.LinkedFileManaged;
+import io.github.portlek.configs.structure.linked.LinkedManaged;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public class NukkitLinkedManaged extends LinkedFileManaged implements NkktLnkdFlManaged {
+public class NukkitLinkedManaged extends LinkedManaged implements NkktLnkdManaged {
 
     @SafeVarargs
     public NukkitLinkedManaged(@NotNull final Supplier<String> chosen,

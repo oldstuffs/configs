@@ -31,7 +31,7 @@ import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public interface PrObjctManaged extends FlManaged {
+public interface CmprblManaged extends FlManaged {
 
     @Override
     default void load() {
@@ -46,6 +46,6 @@ public interface PrObjctManaged extends FlManaged {
 
     @Override
     @NotNull
-    PrObjctManaged base();
+    CmprblManaged base();
 
 }
