@@ -3,7 +3,7 @@ package io.github.portlek.configs.processors;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import java.lang.reflect.Field;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

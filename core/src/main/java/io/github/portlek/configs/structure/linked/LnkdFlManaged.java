@@ -23,18 +23,43 @@
  *
  */
 
-package io.github.portlek.configs.bungeecord;
+package io.github.portlek.configs.structure.linked;
 
-import io.github.portlek.configs.structure.section.CfgSection;
+import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.processors.LinkedConfigProceed;
+import io.github.portlek.configs.structure.managed.FlManaged;
+import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public interface BngSection extends CfgSection {
+public interface LnkdFlManaged extends FlManaged {
+
+    @NotNull
+    default <T> T match(@NotNull final Function<String, Optional<T>> function) {
+        final String chosen = this.getChosen().get();
+        return function.apply(chosen).orElseThrow(() ->
+            new IllegalStateException("Cannot found match with the file key > " + chosen));
+    }
+
+    @Override
+    default void load() {
+        this.onCreate();
+        new LinkedConfigProceed(
+            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
+                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
+            this
+        ).load();
+        this.onLoad();
+    }
 
     @Override
     @NotNull
-    default Supplier<CfgSection> getNewSection() {
-        return BungeeSection::new;
+    LnkdFlManaged base();
+
+    @NotNull
+    default Supplier<String> getChosen() {
+        return this.base().getChosen();
     }
 
 }

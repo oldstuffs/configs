@@ -2,7 +2,7 @@ package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.LinkedFile;
-import io.github.portlek.configs.structure.LnkdFlManaged;
+import io.github.portlek.configs.structure.linked.LnkdFlManaged;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.provided;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import org.jetbrains.annotations.NotNull;
 
 public interface ProvidedSet<T> {

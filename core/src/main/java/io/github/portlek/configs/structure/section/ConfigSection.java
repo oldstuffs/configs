@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.structure.managed.section;
+package io.github.portlek.configs.structure.section;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.provided.ReplaceableListProvider;

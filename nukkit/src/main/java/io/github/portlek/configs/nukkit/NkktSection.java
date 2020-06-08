@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 

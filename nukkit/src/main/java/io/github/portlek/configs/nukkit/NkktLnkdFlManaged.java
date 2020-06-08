@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.LnkdFlManaged;
+import io.github.portlek.configs.structure.linked.LnkdFlManaged;
 
 public interface NkktLnkdFlManaged extends NkktManaged, LnkdFlManaged {
 

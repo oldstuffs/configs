@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import java.util.Optional;
 import java.util.function.BiFunction;
 

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.LinkedFileManaged;
+import io.github.portlek.configs.structure.linked.LinkedFileManaged;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;

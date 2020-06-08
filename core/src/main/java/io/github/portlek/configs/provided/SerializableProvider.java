@@ -27,7 +27,7 @@ package io.github.portlek.configs.provided;
 
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.processors.PropertyProceed;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.configs.util.MapEntry;
 import java.lang.reflect.Constructor;

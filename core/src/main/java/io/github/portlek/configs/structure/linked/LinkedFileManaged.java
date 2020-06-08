@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.structure;
+package io.github.portlek.configs.structure.linked;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;

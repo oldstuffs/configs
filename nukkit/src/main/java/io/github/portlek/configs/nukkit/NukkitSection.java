@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
+import io.github.portlek.configs.structure.section.ConfigSection;
 
 public class NukkitSection extends ConfigSection implements NkktSection {
 

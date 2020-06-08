@@ -30,7 +30,7 @@ import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
+import io.github.portlek.configs.structure.section.ConfigSection;
 import java.util.Arrays;
 import java.util.List;
 

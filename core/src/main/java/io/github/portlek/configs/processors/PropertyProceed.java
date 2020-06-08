@@ -28,7 +28,7 @@ package io.github.portlek.configs.processors;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.provided.ProvidedSet;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.lang.reflect.Field;
 import java.util.Optional;

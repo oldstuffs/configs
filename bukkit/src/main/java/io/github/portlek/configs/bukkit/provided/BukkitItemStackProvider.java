@@ -31,7 +31,7 @@ import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.bukkitversion.BukkitVersion;
 import io.github.portlek.configs.bukkit.util.ColorUtil;
 import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.structure.managed.section.CfgSection;
+import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
 import java.util.Set;

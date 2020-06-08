@@ -23,43 +23,34 @@
  *
  */
 
-package io.github.portlek.configs.structure;
+package io.github.portlek.configs.structure.perobject;
 
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.LinkedConfigProceed;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import java.util.Optional;
-import java.util.function.Function;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.util.MapEntry;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public interface LnkdFlManaged extends FlManaged {
+public class PerObjectFileManaged extends FileManaged implements PrObjctFlManaged {
 
-    @NotNull
-    default <T> T match(@NotNull final Function<String, Optional<T>> function) {
-        final String chosen = this.getChosen().get();
-        return function.apply(chosen).orElseThrow(() ->
-            new IllegalStateException("Cannot found match with the file key > " + chosen));
+    @SafeVarargs
+    public PerObjectFileManaged(@NotNull final Supplier<String> chosen,
+                                @NotNull final Map.Entry<String, Object>... objects) {
+        super(objects);
     }
 
     @Override
-    default void load() {
-        this.onCreate();
-        new LinkedConfigProceed(
-            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
-                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
-            this
-        ).load();
-        this.onLoad();
+    public final void setup(@NotNull final File file, final @NotNull FileConfiguration section) {
+        super.setup(file, section);
     }
 
+    @NotNull
     @Override
-    @NotNull
-    LnkdFlManaged base();
-
-    @NotNull
-    default Supplier<String> getChosen() {
-        return this.base().getChosen();
+    public PrObjctFlManaged base() {
+        return this;
     }
 
 }

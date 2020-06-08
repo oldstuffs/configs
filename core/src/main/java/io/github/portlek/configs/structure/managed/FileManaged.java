@@ -26,7 +26,7 @@
 package io.github.portlek.configs.structure.managed;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.structure.managed.section.ConfigSection;
+import io.github.portlek.configs.structure.section.ConfigSection;
 import java.io.File;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
