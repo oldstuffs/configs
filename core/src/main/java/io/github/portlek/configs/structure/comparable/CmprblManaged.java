@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.structure.perobject;
+package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.PerObjectConfigProceed;
