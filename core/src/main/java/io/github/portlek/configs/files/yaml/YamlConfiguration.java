@@ -30,10 +30,7 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.io.File;
 import java.io.Reader;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import lombok.SneakyThrows;
@@ -99,12 +96,13 @@ public final class YamlConfiguration extends FileConfiguration {
         }
         if (ReflectedYamlDump.SCALAR_TYPES.contains(o.getClass())) {
             final String value = String.valueOf(o);
-            final YamlScalarBuilder scalarBuilder = Yaml.createYamlScalarBuilder()
-                .addLine(value);
+            final AtomicReference<YamlScalarBuilder> atomic = new AtomicReference<>(Yaml.createYamlScalarBuilder());
             if (value.contains("\n")) {
-                return Optional.ofNullable(scalarBuilder.buildFoldedBlockScalar());
+                Arrays.stream(value.split("\n")).forEach(s ->
+                    atomic.set(atomic.get().addLine(s)));
+                return Optional.ofNullable(atomic.get().buildFoldedBlockScalar());
             }
-            return Optional.ofNullable(scalarBuilder.buildPlainScalar());
+            return Optional.ofNullable(atomic.get().addLine(value).buildPlainScalar());
         }
         return Optional.empty();
     }
