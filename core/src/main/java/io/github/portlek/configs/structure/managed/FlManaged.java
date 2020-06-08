@@ -39,8 +39,9 @@ public interface FlManaged extends CfgSection {
         this.onCreate();
         new ConfigProceed(
             Optional.ofNullable(this.getClass().getDeclaredAnnotation(Config.class)).orElseThrow(() ->
-                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!"))
-        ).load(this);
+                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!")),
+            this
+        ).load();
         this.onLoad();
     }
 
