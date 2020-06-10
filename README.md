@@ -470,4 +470,4 @@ For YAML parsing https://github.com/decorators-squad/eo-yaml
 
 For JSON parsing https://github.com/ralfstx/minimal-json
 
-![https://www.jetbrains.com/?from=configs](jetbrains/jetbrains.svg)
+[![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
