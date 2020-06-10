@@ -7,7 +7,6 @@ Annotation based configuration library for any Java project.
 [![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=version)
 
-[![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
 ## Setup
 
 <details>
@@ -471,3 +470,7 @@ For YAML configuration https://github.com/Carleslc/Simple-YAML
 For YAML parsing https://github.com/decorators-squad/eo-yaml
 
 For JSON parsing https://github.com/ralfstx/minimal-json
+
+## Supporters
+
+[![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
