@@ -31,10 +31,9 @@ import io.github.portlek.configs.structure.managed.FlManaged;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public class ComparableManaged extends FileManaged implements CmprblManaged {
+public abstract class ComparableManaged<S extends CmprblManaged<S>> extends FileManaged implements CmprblManaged<S> {
 
     private final Map<String, FlManaged> comparable = new HashMap<>();
 
@@ -50,9 +49,8 @@ public class ComparableManaged extends FileManaged implements CmprblManaged {
 
     @NotNull
     @Override
-    public final FlManaged key(@NotNull final String key) throws RuntimeException {
-        return Optional.ofNullable(this.comparable.get(key)).orElseThrow(() ->
-            new RuntimeException("The key " + key + " could not found!"));
+    public final S key(@NotNull final String key) throws RuntimeException {
+        return this.self();
     }
 
     @Override
