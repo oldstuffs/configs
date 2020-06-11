@@ -47,12 +47,6 @@ public class ComparableManaged extends FileManaged implements CmprblManaged {
 
     }
 
-    @NotNull
-    @Override
-    public CmprblManaged base() {
-        return this;
-    }
-
     @Override
     public void setup(@NotNull final String key, @NotNull final FlManaged managed) {
 
