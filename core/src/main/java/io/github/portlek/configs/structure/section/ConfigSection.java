@@ -52,7 +52,8 @@ public class ConfigSection implements CfgSection {
     private FlManaged managed;
 
     @Override
-    public final void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection configurationSection) {
+    public final void setup(@NotNull final FlManaged managed,
+                            @NotNull final ConfigurationSection configurationSection) {
         this.section = configurationSection;
         this.managed = managed;
     }

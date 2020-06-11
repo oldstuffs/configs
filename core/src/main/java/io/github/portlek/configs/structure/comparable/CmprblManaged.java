@@ -26,7 +26,7 @@
 package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.PerObjectConfigProceed;
+import io.github.portlek.configs.processors.ComparableConfigProceed;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +36,7 @@ public interface CmprblManaged extends FlManaged {
     @Override
     default void load() {
         this.onCreate();
-        new PerObjectConfigProceed(
+        new ComparableConfigProceed(
             Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
                 new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
             this

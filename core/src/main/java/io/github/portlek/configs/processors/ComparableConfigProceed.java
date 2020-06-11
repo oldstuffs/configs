@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class PerObjectConfigProceed {
+public final class ComparableConfigProceed {
 
     @NotNull
     private final LinkedConfig config;

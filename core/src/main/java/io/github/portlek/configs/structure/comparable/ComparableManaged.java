@@ -27,7 +27,9 @@ package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,8 +41,8 @@ public class ComparableManaged extends FileManaged implements CmprblManaged {
     }
 
     @Override
-    public final void setup(@NotNull final File file, final @NotNull FileConfiguration section) {
-        super.setup(file, section);
+    public final void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
+
     }
 
     @NotNull
