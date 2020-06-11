@@ -44,6 +44,9 @@ public interface CmprblManaged extends FlManaged {
         this.onLoad();
     }
 
+    @NotNull
+    FlManaged key(@NotNull String key) throws RuntimeException;
+
     void setup(@NotNull String key, @NotNull FlManaged managed);
 
 }

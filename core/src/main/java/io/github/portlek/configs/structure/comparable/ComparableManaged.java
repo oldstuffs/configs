@@ -31,6 +31,7 @@ import io.github.portlek.configs.structure.managed.FlManaged;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 public class ComparableManaged extends FileManaged implements CmprblManaged {
@@ -44,12 +45,19 @@ public class ComparableManaged extends FileManaged implements CmprblManaged {
 
     @Override
     public final void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
+        // lock.
+    }
 
+    @NotNull
+    @Override
+    public final FlManaged key(@NotNull final String key) throws RuntimeException {
+        return Optional.ofNullable(this.comparable.get(key)).orElseThrow(() ->
+            new RuntimeException("The key " + key + " could not found!"));
     }
 
     @Override
-    public void setup(@NotNull final String key, @NotNull final FlManaged managed) {
-
+    public final void setup(@NotNull final String key, @NotNull final FlManaged managed) {
+        this.comparable.put(key, managed);
     }
 
 }
