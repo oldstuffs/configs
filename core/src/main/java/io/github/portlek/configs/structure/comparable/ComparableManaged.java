@@ -35,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class ComparableManaged extends FileManaged implements CmprblManaged {
 
+    private final Map<String, FlManaged> comparable = new HashMap<>();
+
     @SafeVarargs
     public ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
@@ -49,6 +51,11 @@ public class ComparableManaged extends FileManaged implements CmprblManaged {
     @Override
     public CmprblManaged base() {
         return this;
+    }
+
+    @Override
+    public void setup(@NotNull final String key, @NotNull final FlManaged managed) {
+
     }
 
 }

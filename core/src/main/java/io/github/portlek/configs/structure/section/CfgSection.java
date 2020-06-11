@@ -105,20 +105,6 @@ public interface CfgSection {
         }
     }
 
-    default void setup(@NotNull final FlManaged managed, @NotNull final ConfigurationSection section) {
-        this.base().setup(managed, section);
-    }
-
-    @NotNull
-    default ConfigurationSection getConfigurationSection() {
-        return this.base().getConfigurationSection();
-    }
-
-    @NotNull
-    default FlManaged getManaged() {
-        return this.base().getManaged();
-    }
-
     @NotNull
     default String getName() {
         return this.getConfigurationSection().getName();
@@ -674,7 +660,12 @@ public interface CfgSection {
         return this.getList(path, def).orElse(new ArrayList<>());
     }
 
+    void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection section);
+
     @NotNull
-    CfgSection base();
+    ConfigurationSection getConfigurationSection();
+
+    @NotNull
+    FlManaged getManaged();
 
 }

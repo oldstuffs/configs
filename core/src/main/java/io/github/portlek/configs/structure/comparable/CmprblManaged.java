@@ -48,8 +48,6 @@ public interface CmprblManaged extends FlManaged {
     @NotNull
     CmprblManaged base();
 
-    default void setup(@NotNull final String key, @NotNull final FlManaged managed) {
-        this.base().setup(key, managed);
-    }
+    void setup(@NotNull String key, @NotNull FlManaged managed);
 
 }

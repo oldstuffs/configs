@@ -53,13 +53,7 @@ public interface LnkdManaged extends FlManaged {
         this.onLoad();
     }
 
-    @Override
     @NotNull
-    LnkdManaged base();
-
-    @NotNull
-    default Supplier<String> getChosen() {
-        return this.base().getChosen();
-    }
+    Supplier<String> getChosen();
 
 }
