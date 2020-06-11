@@ -44,6 +44,10 @@ public interface CmprblManaged extends FlManaged {
         this.onLoad();
     }
 
+    default void setup(@NotNull String key, @NotNull ) {
+        this.base().setup();
+    }
+
     @Override
     @NotNull
     CmprblManaged base();
