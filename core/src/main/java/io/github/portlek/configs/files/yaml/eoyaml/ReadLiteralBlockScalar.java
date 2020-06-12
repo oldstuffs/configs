@@ -120,7 +120,7 @@ final class ReadLiteralBlockScalar extends BaseScalar {
     @Override
     public Comment comment() {
         return new ReadComment(
-            //@checkstyle LineLength (50 lines)
+            //LineLength (50 lines)
             new Backwards(
                 new FirstCommentFound(
                     new Backwards(

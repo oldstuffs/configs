@@ -67,7 +67,7 @@ final class ReadPlainScalar extends BaseScalar {
      * "null" is a reserved keyword in YAML, indicating a null Scalar.
      *
      * @return String or null if the Strings value is "null".
-     * @checkstyle ReturnCount (50 lines)
+     * ReturnCount (50 lines)
      */
     @Override
     public String value() {

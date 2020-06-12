@@ -39,8 +39,8 @@ import java.util.Collection;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 9aa2eabe5a7e96e47d05b0e4dc178d11b1b57925 $
- * @checkstyle ExecutableStatementCount (400 lines)
- * @checkstyle CyclomaticComplexity (400 lines)
+ * ExecutableStatementCount (400 lines)
+ * CyclomaticComplexity (400 lines)
  * @since 1.0.0
  */
 final class AllYamlLines implements YamlLines {

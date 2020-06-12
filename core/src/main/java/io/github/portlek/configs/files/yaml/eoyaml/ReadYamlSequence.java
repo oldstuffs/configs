@@ -119,7 +119,7 @@ final class ReadYamlSequence extends BaseYamlSequence {
 
     @Override
     public Comment comment() {
-        //@checkstyle LineLength (50 lines)
+        //LineLength (50 lines)
         return new ReadComment(
             new Backwards(
                 new FirstCommentFound(

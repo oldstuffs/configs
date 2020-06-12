@@ -39,7 +39,7 @@ import java.util.Set;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 110ad7a1b6bbd8510e34a01bcae3093e2de29b49 $
- * @checkstyle CyclomaticComplexity (300 lines)
+ * CyclomaticComplexity (300 lines)
  * @since 1.0.0
  */
 final class ReadYamlMapping extends BaseYamlMapping {
@@ -147,7 +147,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
 
     @Override
     public Comment comment() {
-        //@checkstyle LineLength (50 lines)
+        //LineLength (50 lines)
         return new ReadComment(
             new Backwards(
                 new FirstCommentFound(
