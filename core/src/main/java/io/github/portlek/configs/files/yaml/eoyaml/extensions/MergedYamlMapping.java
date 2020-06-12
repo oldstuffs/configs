@@ -27,6 +27,7 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml.extensions;
 
+import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.util.Set;
 import java.util.function.Supplier;
 
