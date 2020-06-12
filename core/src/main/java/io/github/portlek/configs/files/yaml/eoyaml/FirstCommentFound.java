@@ -38,7 +38,7 @@ import java.util.List;
  * of the first comment from a given YamlLines, if it exists.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: a315780dbfba6704a6c1a30d32efd6ed6d8eaf26 $
+ * @version $Id: 47d3e7a94282f5a37d84e3b66a89049f9815a582 $
  * @since 4.2.0
  */
 final class FirstCommentFound implements YamlLines {
@@ -49,22 +49,32 @@ final class FirstCommentFound implements YamlLines {
     private final YamlLines lines;
 
     /**
+     * Are we looking for inline comments?
+     * E.g. Comments after a scalar:
+     * <pre>
+     *   some: scalar # this comment
+     * </pre>
+     */
+    private final boolean inLine;
+
+    /**
      * Ctor.
      *
      * @param lines The Yaml lines where we look for the comment.
      */
     FirstCommentFound(final YamlLines lines) {
+        this(lines, false);
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param lines The Yaml lines where we look for the comment.
+     * @param inLine Looking for inline comment or not?
+     */
+    FirstCommentFound(final YamlLines lines, final boolean inLine) {
         this.lines = lines;
-    }
-
-    @Override
-    public Collection<YamlLine> original() {
-        return this.lines.original();
-    }
-
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.lines.toYamlNode(prev);
+        this.inLine = inLine;
     }
 
     /**
@@ -80,7 +90,11 @@ final class FirstCommentFound implements YamlLines {
             while (iterator.hasNext()) {
                 final YamlLine line = iterator.next();
                 if (!line.comment().isEmpty()) {
-                    comment.add(line);
+                    if (line.trimmed().startsWith("#")) {
+                        comment.add(line);
+                    } else if (this.inLine) {
+                        comment.add(line);
+                    }
                 } else {
                     break;
                 }
@@ -88,6 +102,16 @@ final class FirstCommentFound implements YamlLines {
             iterator = comment.iterator();
         }
         return iterator;
+    }
+
+    @Override
+    public Collection<YamlLine> original() {
+        return this.lines.original();
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.lines.toYamlNode(prev);
     }
 
 }

@@ -82,16 +82,6 @@ final class WellIndented implements YamlLines {
         this.yamlLines = yamlLines;
     }
 
-    @Override
-    public Collection<YamlLine> original() {
-        return this.yamlLines.original();
-    }
-
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
-    }
-
     /**
      * Returns an iterator over these Yaml lines.
      * It will verify that each line is properly indented in relation
@@ -139,6 +129,16 @@ final class WellIndented implements YamlLines {
             }
         }
         return wellIndented.iterator();
+    }
+
+    @Override
+    public Collection<YamlLine> original() {
+        return this.yamlLines.original();
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
     }
 
 }

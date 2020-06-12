@@ -31,7 +31,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
  * A plain scalar value read from somewhere.
  *
  * @author Mihai Andronace (amihaiemil@gmail.com)
- * @version $Id: 9aaba5df469cd962ba07166d4e515511942d124a $
+ * @version $Id: 32cf294fe5b46877dbd29ce3c0882145413e75c5 $
  * @since 3.1.3
  */
 final class ReadPlainScalar extends BaseScalar {
@@ -98,7 +98,8 @@ final class ReadPlainScalar extends BaseScalar {
                     new Skip(
                         this.all,
                         line -> line.number() != this.scalar.number()
-                    )
+                    ),
+                    Boolean.TRUE
                 ),
                 this
             );

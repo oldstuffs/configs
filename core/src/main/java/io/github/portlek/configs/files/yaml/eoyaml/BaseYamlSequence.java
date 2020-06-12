@@ -39,11 +39,16 @@ import java.util.Iterator;
  * methods.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 61e318c050cc68d3147b3664c0568058abfb19e8 $
+ * @version $Id: 5e891803ada03f82506c69795561d255acbfe958 $
  * @since 4.0.0
  */
 public abstract class BaseYamlSequence
     extends BaseYamlNode implements YamlSequence {
+
+    @Override
+    public final Node type() {
+        return Node.SEQUENCE;
+    }
 
     @Override
     public final int hashCode() {
@@ -90,6 +95,8 @@ public abstract class BaseYamlSequence
      * @return a value &lt; 0 if this &lt; other <br>
      * 0 if this == other or <br>
      * a value &gt; 0 if this &gt; other
+     * @checkstyle NestedIfDepth (100 lines)
+     * @checkstyle LineLength (100 lines)
      */
     @Override
     public final int compareTo(final YamlNode other) {

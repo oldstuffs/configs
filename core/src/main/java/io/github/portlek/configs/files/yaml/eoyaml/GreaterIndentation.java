@@ -69,11 +69,6 @@ final class GreaterIndentation implements YamlLines {
         return this.yamlLines.original();
     }
 
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
-    }
-
     /**
      * Returns an iterator over these Yaml lines.
      * It <b>only</b> iterates over the lines which have a greater
@@ -101,6 +96,11 @@ final class GreaterIndentation implements YamlLines {
             iterator = greater.iterator();
         }
         return iterator;
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
     }
 
 }

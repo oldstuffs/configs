@@ -40,9 +40,10 @@ import java.util.Set;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: b09d17a137ca82e387dfec05a86595db90e3e39f $
+ * @checkstyle BooleanExpressionComplexity (300 lines)
  * @since 4.3.3
  */
-public final class ReflectedYamlMapping extends BaseYamlMapping {
+final class ReflectedYamlMapping extends BaseYamlMapping {
 
     /**
      * Java Bean being reflected.
@@ -54,7 +55,7 @@ public final class ReflectedYamlMapping extends BaseYamlMapping {
      *
      * @param bean Serializable get/set Java Bean.
      */
-    public ReflectedYamlMapping(final Object bean) {
+    ReflectedYamlMapping(final Object bean) {
         if (bean instanceof Collection || bean.getClass().isArray()) {
             throw new IllegalArgumentException(
                 "YamlMapping can only be reflected "
@@ -144,8 +145,10 @@ public final class ReflectedYamlMapping extends BaseYamlMapping {
             ) {
                 try {
                     value = method.invoke(this.bean);
-                } catch (final IllegalAccessException | InvocationTargetException iae) {
+                } catch (final IllegalAccessException iae) {
                     throw new IllegalStateException(iae);
+                } catch (final InvocationTargetException ite) {
+                    throw new IllegalStateException(ite);
                 }
             }
         }

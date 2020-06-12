@@ -39,11 +39,16 @@ import java.util.Set;
  * methods.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 7450487421a81126a50eab74769488b8af3571fd $
+ * @version $Id: 12386f2fc68d478ff1163bbe309fd5950367830b $
  * @since 4.0.0
  */
 public abstract class BaseYamlMapping
     extends BaseYamlNode implements YamlMapping {
+
+    @Override
+    public final Node type() {
+        return Node.MAPPING;
+    }
 
     @Override
     public final int hashCode() {
@@ -92,6 +97,8 @@ public abstract class BaseYamlMapping
      * @return a value &lt; 0 if this &lt; other <br>
      * 0 if this == other or <br>
      * a value &gt; 0 if this &gt; other
+     * @checkstyle NestedIfDepth (100 lines)
+     * @checkstyle ExecutableStatementCount (100 lines)
      */
     @Override
     public final int compareTo(final YamlNode other) {

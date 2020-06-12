@@ -27,6 +27,18 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
+/**
+ * YAML Plain scalar from String. Use this class when dealing with
+ * built YAML or in the unit tests.
+ * <p>
+ * DO NOT use it when READING yaml. For reading use
+ * {@link ReadPlainScalar}!
+ *
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id: e30e1b2a445853208af79cca6a1c997795b98a8a $
+ * @see http://yaml.org/spec/1.2/spec.html#scalar//
+ * @since 1.0.0
+ */
 final class PlainStringScalar extends BaseScalar {
 
     /**

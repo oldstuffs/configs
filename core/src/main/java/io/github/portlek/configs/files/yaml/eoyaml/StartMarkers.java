@@ -57,16 +57,6 @@ final class StartMarkers implements YamlLines {
         this.yamlLines = yamlLines;
     }
 
-    @Override
-    public Collection<YamlLine> original() {
-        return this.yamlLines.original();
-    }
-
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
-    }
-
     /**
      * Returns an iterator containing only the Start Marker lines (---),
      * with the possible exception of the FIRST line, which can also be
@@ -108,6 +98,16 @@ final class StartMarkers implements YamlLines {
             iterator = docsStart.iterator();
         }
         return iterator;
+    }
+
+    @Override
+    public Collection<YamlLine> original() {
+        return this.yamlLines.original();
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
     }
 
 }

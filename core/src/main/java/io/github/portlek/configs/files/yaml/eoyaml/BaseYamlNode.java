@@ -28,6 +28,7 @@
 package io.github.portlek.configs.files.yaml.eoyaml;
 
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlPrintException;
+import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingException;
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -40,10 +41,45 @@ import java.io.StringWriter;
  * to make public on the YamlNode interface.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 458182ad16066aefa30671972a204b2482846805 $
+ * @version $Id: 9847d69ff233d786249a66df496ce6d86912ba37 $
  * @since 4.0.0
  */
 abstract class BaseYamlNode implements YamlNode {
+
+    @Override
+    public final Scalar asScalar()
+        throws YamlReadingException, ClassCastException {
+        return this.asClass(Scalar.class, Node.SCALAR);
+    }
+
+    @Override
+    public final YamlMapping asMapping()
+        throws YamlReadingException, ClassCastException {
+        return this.asClass(YamlMapping.class, Node.MAPPING);
+    }
+
+    @Override
+    public final YamlSequence asSequence()
+        throws YamlReadingException, ClassCastException {
+        return this.asClass(YamlSequence.class, Node.SEQUENCE);
+    }
+
+    @Override
+    public final YamlStream asStream()
+        throws YamlReadingException, ClassCastException {
+        return this.asClass(YamlStream.class, Node.STREAM);
+    }
+
+    @Override
+    public final <T extends YamlNode> T asClass(final Class<T> clazz,
+                                                final Node type)
+        throws YamlReadingException, ClassCastException {
+        if (this.type() != type) {
+            throw new YamlReadingException(
+                "The YamlNode is not a " + clazz.getSimpleName() + '!');
+        }
+        return clazz.cast(this);
+    }
 
     /**
      * Print this YamlNode using a StringWriter to create its

@@ -39,10 +39,15 @@ import java.util.Iterator;
  * methods.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 4bab463fc8d514c1d25e39098ed0fb7aaff90ff1 $
+ * @version $Id: ebaf12690984f0d1a236d85ac1a01caff5e7de64 $
  * @since 4.0.0
  */
 abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
+
+    @Override
+    public final Node type() {
+        return Node.STREAM;
+    }
 
     @Override
     public int hashCode() {

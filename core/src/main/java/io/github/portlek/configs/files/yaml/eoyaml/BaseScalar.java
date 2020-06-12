@@ -36,10 +36,15 @@ package io.github.portlek.configs.files.yaml.eoyaml;
  * methods.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: f29a77218517327e3c8ff2795426bc17abdc49eb $
+ * @version $Id: f6720ac7d3a0318ac4d5281ec2854c8ea44f3c95 $
  * @since 4.0.0
  */
 abstract class BaseScalar extends BaseYamlNode implements Scalar {
+
+    @Override
+    public final Node type() {
+        return Node.SCALAR;
+    }
 
     /**
      * Hash Code of this scalar.
@@ -77,9 +82,9 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
      * If o is Scalar then their String values are compared lexicographically
      *
      * @param other The other AbstractNode.
-     * @return a value less than 0 if this less than o <br>
+     * @return a value < 0 if this < o <br>
      * 0 if this == o or <br>
-     * a value bigger than 0 if this bigger than o
+     * a value > 0 if this > o
      */
     @Override
     public int compareTo(final YamlNode other) {

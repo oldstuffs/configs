@@ -65,16 +65,6 @@ final class Skip implements YamlLines {
     }
 
     @Override
-    public Collection<YamlLine> original() {
-        return this.yamlLines.original();
-    }
-
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
-    }
-
-    @Override
     public Iterator<YamlLine> iterator() {
         Iterator<YamlLine> iterator = this.yamlLines.iterator();
         if (iterator.hasNext()) {
@@ -82,8 +72,8 @@ final class Skip implements YamlLines {
             while (iterator.hasNext()) {
                 boolean skip = false;
                 final YamlLine current = iterator.next();
-                for (final Skip.Condition condition : this.conditions) {
-                    if (condition.isMet(current)) {
+                for (int idx = 0; idx < this.conditions.length; idx++) {
+                    if (this.conditions[idx].isMet(current)) {
                         skip = true;
                         break;
                     }
@@ -95,6 +85,16 @@ final class Skip implements YamlLines {
             iterator = notSkipped.iterator();
         }
         return iterator;
+    }
+
+    @Override
+    public Collection<YamlLine> original() {
+        return this.yamlLines.original();
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
     }
 
     /**

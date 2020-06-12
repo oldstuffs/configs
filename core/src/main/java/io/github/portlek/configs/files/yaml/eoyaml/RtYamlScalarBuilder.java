@@ -30,7 +30,6 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -66,14 +65,15 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
 
     @Override
     public YamlScalarBuilder addLine(final String value) {
-        final List<String> all = new LinkedList<>(this.lines);
+        final List<String> all = new LinkedList<>();
+        all.addAll(this.lines);
         all.add(value);
         return new RtYamlScalarBuilder(all);
     }
 
     @Override
     public Scalar buildPlainScalar(final String comment) {
-        final String plain = this.lines.stream().filter(Objects::nonNull).map(
+        final String plain = this.lines.stream().filter(line -> line != null).map(
             line -> line.replaceAll(System.lineSeparator(), " ")
         ).collect(Collectors.joining(" "));
         return new PlainStringScalar(plain, comment);

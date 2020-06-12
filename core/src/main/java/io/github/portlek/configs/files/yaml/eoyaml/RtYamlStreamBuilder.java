@@ -50,7 +50,7 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
      * Default ctor.
      */
     RtYamlStreamBuilder() {
-        this(new LinkedList<>());
+        this(new LinkedList<YamlNode>());
     }
 
     /**

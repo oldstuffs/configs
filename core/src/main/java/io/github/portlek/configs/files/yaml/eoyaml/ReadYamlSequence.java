@@ -35,7 +35,7 @@ import java.util.List;
  * YamlSequence read from somewhere.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: dcaf8cd0c90b1dc05aed7c4b81af329823e18e84 $
+ * @version $Id: 098ab6b30b6b2af12983385b1b05db14ad36a9a6 $
  * @since 1.0.0
  */
 final class ReadYamlSequence extends BaseYamlSequence {
@@ -119,29 +119,32 @@ final class ReadYamlSequence extends BaseYamlSequence {
 
     @Override
     public Comment comment() {
+        //@checkstyle LineLength (50 lines)
         return new ReadComment(
-            new FirstCommentFound(
-                new Backwards(
-                    new Skip(
-                        this.all,
-                        line -> {
-                            final boolean skip;
-                            if (this.previous.number() < 0) {
-                                if (this.significant.iterator().hasNext()) {
-                                    skip = line.number() >= this.significant
-                                        .iterator().next().number();
+            new Backwards(
+                new FirstCommentFound(
+                    new Backwards(
+                        new Skip(
+                            this.all,
+                            line -> {
+                                final boolean skip;
+                                if (this.previous.number() < 0) {
+                                    if (this.significant.iterator().hasNext()) {
+                                        skip = line.number() >= this.significant
+                                            .iterator().next().number();
+                                    } else {
+                                        skip = false;
+                                    }
                                 } else {
-                                    skip = false;
+                                    skip = line.number() >= this.previous.number();
                                 }
-                            } else {
-                                skip = line.number() >= this.previous.number();
-                            }
-                            return skip;
-                        },
-                        line -> line.trimmed().startsWith("---"),
-                        line -> line.trimmed().startsWith("..."),
-                        line -> line.trimmed().startsWith("%"),
-                        line -> line.trimmed().startsWith("!!")
+                                return skip;
+                            },
+                            line -> line.trimmed().startsWith("---"),
+                            line -> line.trimmed().startsWith("..."),
+                            line -> line.trimmed().startsWith("%"),
+                            line -> line.trimmed().startsWith("!!")
+                        )
                     )
                 )
             ),

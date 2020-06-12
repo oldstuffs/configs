@@ -99,7 +99,9 @@ public final class Yaml {
      * @return YamlInput, reader of Yaml.
      */
     public static YamlInput createYamlInput(final String input) {
-        return Yaml.createYamlInput(new ByteArrayInputStream(input.getBytes()));
+        return Yaml.createYamlInput(
+            new ByteArrayInputStream(input.getBytes())
+        );
     }
 
     /**

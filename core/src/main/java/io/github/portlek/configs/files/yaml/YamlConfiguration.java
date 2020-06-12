@@ -27,7 +27,6 @@ package io.github.portlek.configs.files.yaml;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.io.File;
 import java.io.Reader;
 import java.util.*;

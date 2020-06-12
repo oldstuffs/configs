@@ -125,6 +125,24 @@ final class RtYamlLine implements YamlLine {
     }
 
     @Override
+    public String toString() {
+        return this.value;
+    }
+
+    @Override
+    public int compareTo(final YamlLine other) {
+        int result = -1;
+        if (this == other) {
+            result = 0;
+        } else if (other == null) {
+            result = 1;
+        } else {
+            result = this.trimmed().compareTo(other.trimmed());
+        }
+        return result;
+    }
+
+    @Override
     public boolean requireNestedIndentation() {
         final boolean result;
 
@@ -135,24 +153,6 @@ final class RtYamlLine implements YamlLine {
             final CharSequence prevLineLastChar =
                 this.trimmed().substring(this.trimmed().length() - 1);
             result = specialCharacters.contains(prevLineLastChar);
-        }
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return this.value;
-    }
-
-    @Override
-    public int compareTo(final YamlLine other) {
-        final int result;
-        if (this == other) {
-            result = 0;
-        } else if (other == null) {
-            result = 1;
-        } else {
-            result = this.trimmed().compareTo(other.trimmed());
         }
         return result;
     }

@@ -35,15 +35,16 @@ import java.util.List;
  * A YamlDump that works with the Reflection API.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 7de3e67db263c1940c02a9049eb1822e7b543f14 $
+ * @version $Id: 3c4c63e0c1ae23f1095433ae80598939447b00da $
+ * @checkstyle LineLength (100 lines)
  * @since 4.3.3
  */
-public final class ReflectedYamlDump implements YamlDump {
+final class ReflectedYamlDump implements YamlDump {
 
     /**
      * If the value is any of these types, it is a Scalar.
      */
-    public static final List<Class> SCALAR_TYPES = Arrays.asList(
+    private static final List<Class> SCALAR_TYPES = Arrays.asList(
         Integer.class, Long.class, Float.class, Double.class, Short.class,
         String.class, Boolean.class, Character.class, Byte.class
     );

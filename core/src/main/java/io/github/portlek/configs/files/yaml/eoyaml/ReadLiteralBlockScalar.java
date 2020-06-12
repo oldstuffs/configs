@@ -41,7 +41,7 @@ import java.util.Iterator;
  * </pre>
  *
  * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id: 67474478b627b55c60f9a5910ad86820367a240a $
+ * @version $Id: 679f052b5eac9eec0b0d15d99212404d62002ec7 $
  * @since 1.0.2
  */
 final class ReadLiteralBlockScalar extends BaseScalar {
@@ -105,7 +105,6 @@ final class ReadLiteralBlockScalar extends BaseScalar {
      *
      * @return String
      */
-    @Override
     public String value() {
         final StringBuilder builder = new StringBuilder();
         final Iterator<YamlLine> linesIt = this.significant.iterator();
@@ -121,28 +120,31 @@ final class ReadLiteralBlockScalar extends BaseScalar {
     @Override
     public Comment comment() {
         return new ReadComment(
-            new FirstCommentFound(
-                new Backwards(
-                    new Skip(
-                        this.all,
-                        line -> {
-                            final boolean skip;
-                            if (this.previous.number() < 0) {
-                                if (this.significant.iterator().hasNext()) {
-                                    skip = line.number() >= this.significant
-                                        .iterator().next().number();
+            //@checkstyle LineLength (50 lines)
+            new Backwards(
+                new FirstCommentFound(
+                    new Backwards(
+                        new Skip(
+                            this.all,
+                            line -> {
+                                final boolean skip;
+                                if (this.previous.number() < 0) {
+                                    if (this.significant.iterator().hasNext()) {
+                                        skip = line.number() >= this.significant
+                                            .iterator().next().number();
+                                    } else {
+                                        skip = false;
+                                    }
                                 } else {
-                                    skip = false;
+                                    skip = line.number() >= this.previous.number();
                                 }
-                            } else {
-                                skip = line.number() >= this.previous.number();
-                            }
-                            return skip;
-                        },
-                        line -> line.trimmed().startsWith("---"),
-                        line -> line.trimmed().startsWith("..."),
-                        line -> line.trimmed().startsWith("%"),
-                        line -> line.trimmed().startsWith("!!")
+                                return skip;
+                            },
+                            line -> line.trimmed().startsWith("---"),
+                            line -> line.trimmed().startsWith("..."),
+                            line -> line.trimmed().startsWith("%"),
+                            line -> line.trimmed().startsWith("!!")
+                        )
                     )
                 )
             ),
