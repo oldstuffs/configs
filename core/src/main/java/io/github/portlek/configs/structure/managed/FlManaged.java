@@ -30,6 +30,7 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.structure.section.CfgSection;
 import java.io.File;
+import java.util.Collection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,15 +59,18 @@ public interface FlManaged extends CfgSection {
     @Override
     FileConfiguration getConfigurationSection();
 
-    @NotNull
-    Optional<Object> pull(@NotNull String id);
-
     void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
 
     @NotNull
     File getFile();
 
-    void addObject(@NotNull String key, @NotNull Object object);
+    void object(@NotNull String key, @NotNull Object object);
+
+    @NotNull
+    Optional<Object> object(@NotNull String id);
+
+    @NotNull
+    Collection<Object> objects();
 
     boolean isAutoSave();
 

@@ -44,13 +44,7 @@ public class FileManaged extends ConfigSection implements FlManaged {
     @SafeVarargs
     public FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
         Arrays.asList(objects).forEach(entry ->
-            this.addObject(entry.getKey(), entry.getValue()));
-    }
-
-    @NotNull
-    @Override
-    public final Optional<Object> pull(@NotNull final String id) {
-        return Optional.ofNullable(this.objects.get(id));
+            this.object(entry.getKey(), entry.getValue()));
     }
 
     @Override
@@ -66,8 +60,20 @@ public class FileManaged extends ConfigSection implements FlManaged {
     }
 
     @Override
-    public final void addObject(@NotNull final String key, @NotNull final Object object) {
+    public final void object(@NotNull final String key, @NotNull final Object object) {
         this.objects.put(key, object);
+    }
+
+    @NotNull
+    @Override
+    public final Optional<Object> object(@NotNull final String id) {
+        return Optional.ofNullable(this.objects.get(id));
+    }
+
+    @NotNull
+    @Override
+    public final Collection<Object> objects() {
+        return this.objects.values();
     }
 
     @Override
