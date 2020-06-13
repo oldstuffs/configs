@@ -31,11 +31,16 @@ import io.github.portlek.configs.structure.managed.FlManaged;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class ComparableManaged<S extends CmprblManaged<S>> extends FileManaged implements CmprblManaged<S> {
 
     private final Map<String, FlManaged> comparable = new HashMap<>();
+
+    @Nullable
+    private transient FlManaged current;
 
     @SafeVarargs
     public ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
@@ -47,9 +52,16 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
         // lock.
     }
 
+    @Override
+    public final void loadAll() {
+        this.comparable.keySet().forEach(this::key);
+    }
+
     @NotNull
     @Override
     public final S key(@NotNull final String key) throws RuntimeException {
+        this.current = Optional.ofNullable(this.comparable.get(key)).orElseThrow(() ->
+            new RuntimeException("The key " + key + " not found!"));
         return this.self();
     }
 

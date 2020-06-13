@@ -26,47 +26,16 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.Instance;
-import io.github.portlek.configs.annotations.Property;
-import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.structure.managed.FileManaged;
-import io.github.portlek.configs.structure.section.ConfigSection;
-import java.util.Arrays;
-import java.util.List;
+import io.github.portlek.configs.structure.comparable.ComparableManaged;
+import org.jetbrains.annotations.NotNull;
 
 @Config("config")
-public final class TestConfig extends FileManaged {
+public final class TestConfig extends ComparableManaged<TestConfig> {
 
-    @Instance
-    public final TestConfig.TestSection testSection = new TestConfig.TestSection();
-
-    @Property
-    public String test = new StringBuilder()
-        .append("test")
-        .append('\n')
-        .append("test-2")
-        .toString();
-
-    @Property
-    public List<String> test_list = Arrays.asList("test",
-        "test2",
-        "test3");
-
-    public static void main(final String[] args) {
-        new TestConfig().load();
-    }
-
-    @Section("test-section")
-    public static final class TestSection extends ConfigSection {
-
-        @Property
-        public String test = "test-2";
-
-        @Property
-        public List<String> test_list = Arrays.asList("test",
-            "test2",
-            "test3");
-
+    @NotNull
+    @Override
+    public TestConfig self() {
+        return this;
     }
 
 }

@@ -41,8 +41,11 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
                 new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
             this
         ).load();
+        this.loadAll();
         this.onLoad();
     }
+
+    void loadAll();
 
     @NotNull
     S key(@NotNull String key) throws RuntimeException;
