@@ -25,10 +25,8 @@
 
 package io.github.portlek.configs.structure.comparable;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -45,11 +43,6 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
     @SafeVarargs
     public ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
-    }
-
-    @Override
-    public final void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
-        // lock.
     }
 
     @Override

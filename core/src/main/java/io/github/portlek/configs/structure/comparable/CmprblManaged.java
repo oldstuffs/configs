@@ -26,8 +26,10 @@
 package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.processors.ComparableConfigProceed;
 import io.github.portlek.configs.structure.managed.FlManaged;
+import java.io.File;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,6 +45,10 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
         ).load();
         this.loadAll();
         this.onLoad();
+    }
+
+    @Override
+    default void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
     }
 
     void loadAll();
