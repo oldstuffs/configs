@@ -45,11 +45,6 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
         super(objects);
     }
 
-    @Override
-    public final void loadAll() {
-        this.comparable.keySet().forEach(this::key);
-    }
-
     @NotNull
     @Override
     public final S key(@NotNull final String key) throws RuntimeException {
@@ -60,6 +55,9 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
 
     @Override
     public final void setup(@NotNull final String key, @NotNull final FlManaged managed) {
+        if (!Optional.ofNullable(this.current).isPresent()) {
+            this.current = managed;
+        }
         this.comparable.put(key, managed);
     }
 
