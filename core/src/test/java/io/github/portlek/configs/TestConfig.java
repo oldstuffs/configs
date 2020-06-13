@@ -26,11 +26,24 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.annotations.LinkedFile;
 import io.github.portlek.configs.structure.comparable.ComparableManaged;
 import org.jetbrains.annotations.NotNull;
 
-@Config("config")
+@LinkedConfig({
+    @LinkedFile(
+        key = "tr_TR",
+        config = @Config("tr")
+    ),
+    @LinkedFile(
+        key = "en_US",
+        config = @Config("en")
+    )
+})
 public final class TestConfig extends ComparableManaged<TestConfig> {
+
+
 
     @NotNull
     @Override
