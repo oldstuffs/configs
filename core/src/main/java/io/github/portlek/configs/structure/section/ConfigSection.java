@@ -26,6 +26,8 @@
 package io.github.portlek.configs.structure.section;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.languageable.Languageable;
+import io.github.portlek.configs.provided.LanguageableProvider;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
 import io.github.portlek.configs.replaceable.ReplaceableList;
@@ -39,6 +41,7 @@ import org.jetbrains.annotations.Nullable;
 public class ConfigSection implements CfgSection {
 
     static {
+        CfgSection.PROVIDED.put(Languageable.class, new LanguageableProvider());
         CfgSection.addProvidedClass(ReplaceableString.class, new ReplaceableStringProvider());
         CfgSection.addProvidedClass(ReplaceableList.class, new ReplaceableListProvider());
         CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
