@@ -23,32 +23,28 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.languageable;
 
-import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.annotations.LinkedFile;
-import io.github.portlek.configs.structure.comparable.ComparableManaged;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@LinkedConfig({
-    @LinkedFile(
-        key = "tr_TR",
-        config = @Config("tr")
-    ),
-    @LinkedFile(
-        key = "en_US",
-        config = @Config("en")
-    )
-})
-public final class TestConfig extends ComparableManaged<TestConfig> {
-
-
+@RequiredArgsConstructor
+@Getter
+public final class Languageable<T> implements Function<Object, T> {
 
     @NotNull
+    private final Map<Object, T> values;
+
     @Override
-    public TestConfig self() {
-        return this;
+    public T apply(final Object key) {
+        if (this.values.isEmpty()) {
+            throw new RuntimeException("The values are empty!");
+        }
+        return Optional.ofNullable(this.values.get(key)).orElse(this.values.get(0));
     }
 
 }

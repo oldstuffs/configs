@@ -30,10 +30,8 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.util.GeneralUtilities;
-import io.github.portlek.configs.util.Version;
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -54,8 +52,6 @@ public final class ConfigProceed {
         } else {
             name = this.config.value() + type.suffix;
         }
-        final Version version = Version.from(this.config.version());
-        final String versionpath = this.config.versionPath();
         final File basedir = GeneralUtilities.basedir(this.managed.getClass());
         final String filelocation = GeneralUtilities.addSeparator(
             this.config.location()
@@ -86,15 +82,17 @@ public final class ConfigProceed {
         }
         final FileConfiguration configuration = type.load(file);
         this.managed.setup(file, configuration);
-        final Optional<String> versionoptional = this.managed.getString(versionpath);
-        if (versionoptional.isPresent()) {
-            final Version fileversion = Version.from(versionoptional.get());
-            if (!version.is(fileversion)) {
-                // TODO: 29/01/2020
-            }
-        } else {
-            version.write(versionpath, this.managed);
-        }
+//        final Version version = Version.from(this.config.version());
+//        final String versionpath = this.config.versionPath();
+//        final Optional<String> versionoptional = this.managed.getString(versionpath);
+//        if (versionoptional.isPresent()) {
+//            final Version fileversion = Version.from(versionoptional.get());
+//            if (!version.is(fileversion)) {
+//                // TODO: 29/01/2020
+//            }
+//        } else {
+//            version.write(versionpath, this.managed);
+//        }
         new FieldsProceed(this.managed, this.managed, this.managed).load();
         this.managed.save();
     }
