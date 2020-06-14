@@ -27,6 +27,10 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
+import io.github.portlek.configs.util.GeneralUtilities;
+import java.util.Optional;
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Yaml Scalar.
  *
@@ -48,5 +52,93 @@ public interface Scalar extends YamlNode {
      * supposed to be.
      */
     String value();
+    @Nullable
+    default Object getAsAll() {
+        final Optional<Integer> optional1 = this.getAsInteger();
+        if (optional1.isPresent()) {
+            return optional1.get();
+        }
+        final Optional<Long> optional2 = this.getAsLong();
+        if (optional2.isPresent()) {
+            return optional2.get();
+        }
+        final Optional<Float> optional3 = this.getAsFloat();
+        if (optional3.isPresent()) {
+            return optional3.get();
+        }
+        final Optional<Double> optional4 = this.getAsDouble();
+        if (optional4.isPresent()) {
+            return optional4.get();
+        }
+        final Optional<Short> optional5 = this.getAsShort();
+        if (optional5.isPresent()) {
+            return optional5.get();
+        }
+        final Optional<Boolean> optional6 = this.getAsBoolean();
+        if (optional6.isPresent()) {
+            return optional6.get();
+        }
+        final Optional<Character> optional7 = this.getAsCharacter();
+        if (optional7.isPresent()) {
+            return optional7.get();
+        }
+        final Optional<Byte> optional8 = this.getAsByte();
+        if (optional8.isPresent()) {
+            return optional8.get();
+        }
+        return this.getAsString().orElse(null);
+    }
 
+    @NotNull
+    default Optional<Integer> getAsInteger() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toInt);
+    }
+
+    @NotNull
+    default Optional<Long> getAsLong() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toLong);
+    }
+
+    @NotNull
+    default Optional<Float> getAsFloat() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toFloat);
+    }
+
+    @NotNull
+    default Optional<Double> getAsDouble() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toDouble);
+    }
+
+    @NotNull
+    default Optional<Short> getAsShort() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toShort);
+    }
+
+    @NotNull
+    default Optional<String> getAsString() {
+        return Optional.ofNullable(this.value());
+    }
+
+    @NotNull
+    default Optional<Boolean> getAsBoolean() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toBoolean);
+    }
+
+    @NotNull
+    default Optional<Character> getAsCharacter() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toCharacter);
+    }
+
+    @NotNull
+    default Optional<Byte> getAsByte() {
+        return Optional.ofNullable(this.value())
+            .flatMap(GeneralUtilities::toByte);
+    }
 }
