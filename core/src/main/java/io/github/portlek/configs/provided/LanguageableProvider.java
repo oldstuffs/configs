@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.provided;
 
-import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.configs.structure.section.CfgSection;
+import io.github.portlek.configs.util.Languageable;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 

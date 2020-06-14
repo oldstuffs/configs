@@ -26,13 +26,13 @@
 package io.github.portlek.configs.structure.section;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.configs.provided.LanguageableProvider;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
 import io.github.portlek.configs.replaceable.ReplaceableList;
 import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.util.Languageable;
 import java.util.Objects;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;

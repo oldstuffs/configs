@@ -97,9 +97,9 @@ final class WellIndented implements YamlLines {
      * It will verify that each line is properly indented in relation
      * to the previous one and will complain if the indentation is not
      * correct.
+     * LineLength (50 lines)
      *
      * @return Iterator over these yaml lines.
-     * LineLength (50 lines)
      */
     @Override
     public Iterator<YamlLine> iterator() {

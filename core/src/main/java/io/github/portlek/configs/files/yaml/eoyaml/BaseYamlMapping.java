@@ -94,11 +94,11 @@ public abstract class BaseYamlMapping
      * elements is returned.
      *
      * @param other The other AbstractNode.
+     * NestedIfDepth (100 lines)
+     * ExecutableStatementCount (100 lines)
      * @return a value &lt; 0 if this &lt; other <br>
      * 0 if this == other or <br>
      * a value &gt; 0 if this &gt; other
-     * NestedIfDepth (100 lines)
-     * ExecutableStatementCount (100 lines)
      */
     @Override
     public final int compareTo(final YamlNode other) {

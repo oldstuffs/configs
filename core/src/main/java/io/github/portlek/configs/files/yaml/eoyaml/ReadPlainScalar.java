@@ -65,9 +65,9 @@ final class ReadPlainScalar extends BaseScalar {
      * Unescaped String value of this scalar. Pay attention, if the
      * scalar's value is the "null" String, then we return null, because
      * "null" is a reserved keyword in YAML, indicating a null Scalar.
+     * ReturnCount (50 lines)
      *
      * @return String or null if the Strings value is "null".
-     * ReturnCount (50 lines)
      */
     @Override
     public String value() {

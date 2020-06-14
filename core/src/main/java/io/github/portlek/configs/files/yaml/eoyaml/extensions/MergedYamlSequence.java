@@ -130,14 +130,14 @@ public final class MergedYamlSequence extends BaseYamlSequence {
 
     /**
      * Merge the two sequences.
+     * CyclomaticComplexity (100 lines)
+     * ExecutableStatementCount (100 lines)
      *
      * @param original Original sequence.
      * @param changed Changed sequence.
      * @param overrideIndices Should the existing indices be overriden
      * or not?
      * @return Merged YamlSequence.
-     * CyclomaticComplexity (100 lines)
-     * ExecutableStatementCount (100 lines)
      */
     private static YamlSequence merge(
         final YamlSequence original,

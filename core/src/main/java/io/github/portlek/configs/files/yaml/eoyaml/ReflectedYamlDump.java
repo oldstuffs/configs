@@ -39,12 +39,12 @@ import java.util.List;
  * LineLength (100 lines)
  * @since 4.3.3
  */
-public final class ReflectedYamlDump implements YamlDump {
+final class ReflectedYamlDump implements YamlDump {
 
     /**
      * If the value is any of these types, it is a Scalar.
      */
-    public static final List<Class> SCALAR_TYPES = Arrays.asList(
+    private static final List<Class> SCALAR_TYPES = Arrays.asList(
         Integer.class, Long.class, Float.class, Double.class, Short.class,
         String.class, Boolean.class, Character.class, Byte.class
     );

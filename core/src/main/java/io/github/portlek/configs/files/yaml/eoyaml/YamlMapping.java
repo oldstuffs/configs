@@ -34,11 +34,11 @@ import java.util.*;
 
 /**
  * A Yaml mapping.
+ * ExecutableStatementCount (300 lines)
+ * ReturnCount (1000 lines)
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 64c8f3c72feccf3b9dfbe994bb8d814466f6cd42 $
- * ExecutableStatementCount (300 lines)
- * ReturnCount (1000 lines)
  * @since 1.0.0
  */
 public interface YamlMapping extends YamlNode {

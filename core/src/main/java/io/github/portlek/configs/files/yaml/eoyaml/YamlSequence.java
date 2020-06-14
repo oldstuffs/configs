@@ -36,10 +36,10 @@ import java.util.Iterator;
 
 /**
  * A Yaml sequence.
+ * ReturnCount (400 lines)
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: 68d9eef07b5e32f27e1c498d4a749161dd84534c $
- * ReturnCount (400 lines)
  * @since 1.0.0
  */
 public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
