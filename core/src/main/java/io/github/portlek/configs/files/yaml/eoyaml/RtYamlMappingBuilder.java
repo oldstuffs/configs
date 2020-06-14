@@ -75,11 +75,6 @@ final class RtYamlMappingBuilder implements YamlMappingBuilder {
     }
 
     @Override
-    public YamlMappingBuilder add(final String key, final YamlNode value) {
-        return this.add(new PlainStringScalar(key), value);
-    }
-
-    @Override
     public YamlMappingBuilder add(final YamlNode key, final YamlNode value) {
         if (key == null || ((BaseYamlNode) key).isEmpty()) {
             throw new IllegalArgumentException(
@@ -90,6 +85,11 @@ final class RtYamlMappingBuilder implements YamlMappingBuilder {
         withAdded.putAll(this.pairs);
         withAdded.put(key, value);
         return new RtYamlMappingBuilder(withAdded);
+    }
+
+    @Override
+    public YamlMappingBuilder add(final String key, final YamlNode value) {
+        return this.add(new PlainStringScalar(key), value);
     }
 
     @Override

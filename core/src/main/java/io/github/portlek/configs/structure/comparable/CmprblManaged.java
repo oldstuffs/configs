@@ -57,7 +57,7 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
 
     default <T> Languageable<T> languageable(@NotNull final Class<T> tclass,
                                              @NotNull final Map.Entry<Object, T>... entries) {
-        return this.languageable(tclass,Arrays.asList(entries));
+        return this.languageable(tclass, Arrays.asList(entries));
     }
 
     default <T> Languageable<T> languageable(@NotNull final Class<T> tclass,

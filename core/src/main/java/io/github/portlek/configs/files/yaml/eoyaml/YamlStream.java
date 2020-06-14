@@ -55,6 +55,7 @@ public interface YamlStream extends YamlNode, Stream<YamlNode> {
      */
     Collection<YamlNode> values();
 
+    @Override
     default Comment comment() {
         return new BuiltComment(this, "");
     }

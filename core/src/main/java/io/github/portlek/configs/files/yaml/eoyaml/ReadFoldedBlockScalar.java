@@ -108,6 +108,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
      *
      * @return String
      */
+    @Override
     public String value() {
         final StringBuilder builder = new StringBuilder();
         final String newLine = System.lineSeparator();

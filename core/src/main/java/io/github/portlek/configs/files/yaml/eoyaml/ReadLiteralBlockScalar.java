@@ -105,6 +105,7 @@ final class ReadLiteralBlockScalar extends BaseScalar {
      *
      * @return String
      */
+    @Override
     public String value() {
         final StringBuilder builder = new StringBuilder();
         final Iterator<YamlLine> linesIt = this.significant.iterator();

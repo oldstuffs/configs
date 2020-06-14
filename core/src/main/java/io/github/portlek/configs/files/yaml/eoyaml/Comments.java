@@ -27,7 +27,6 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 

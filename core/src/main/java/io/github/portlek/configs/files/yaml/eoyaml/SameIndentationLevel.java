@@ -63,6 +63,16 @@ final class SameIndentationLevel implements YamlLines {
         this.yamlLines = yamlLines;
     }
 
+    @Override
+    public Collection<YamlLine> original() {
+        return this.yamlLines.original();
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.yamlLines.toYamlNode(prev);
+    }
+
     /**
      * Returns an iterator over these Yaml lines.
      * It <b>only</b> iterates over the lines which are at the same
@@ -90,16 +100,6 @@ final class SameIndentationLevel implements YamlLines {
             iterator = sameIndentation.iterator();
         }
         return iterator;
-    }
-
-    @Override
-    public Collection<YamlLine> original() {
-        return this.yamlLines.original();
-    }
-
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
     }
 
 }

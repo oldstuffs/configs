@@ -77,6 +77,16 @@ final class FirstCommentFound implements YamlLines {
         this.inLine = inLine;
     }
 
+    @Override
+    public Collection<YamlLine> original() {
+        return this.lines.original();
+    }
+
+    @Override
+    public YamlNode toYamlNode(final YamlLine prev) {
+        return this.lines.toYamlNode(prev);
+    }
+
     /**
      * Returns an iterator over the lines of the first found comment.
      *
@@ -102,16 +112,6 @@ final class FirstCommentFound implements YamlLines {
             iterator = comment.iterator();
         }
         return iterator;
-    }
-
-    @Override
-    public Collection<YamlLine> original() {
-        return this.lines.original();
-    }
-
-    @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.lines.toYamlNode(prev);
     }
 
 }
