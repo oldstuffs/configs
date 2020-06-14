@@ -55,17 +55,20 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
     default void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
     }
 
-    default <T> Languageable<T> languageable(@NotNull final Map.Entry<Object, T>... entries) {
-        return this.languageable(Arrays.asList(entries));
+    default <T> Languageable<T> languageable(@NotNull final Class<T> tclass,
+                                             @NotNull final Map.Entry<Object, T>... entries) {
+        return this.languageable(tclass,Arrays.asList(entries));
     }
 
-    default <T> Languageable<T> languageable(@NotNull final List<Map.Entry<Object, T>> entries) {
-        return this.languageable(entries.stream()
+    default <T> Languageable<T> languageable(@NotNull final Class<T> tclass,
+                                             @NotNull final List<Map.Entry<Object, T>> entries) {
+        return this.languageable(tclass, entries.stream()
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));
     }
 
-    default <T> Languageable<T> languageable(@NotNull final Map<Object, T> entries) {
-        return new Languageable<>(entries);
+    default <T> Languageable<T> languageable(@NotNull final Class<T> tclass,
+                                             @NotNull final Map<Object, T> entries) {
+        return new Languageable<>(tclass, entries);
     }
 
     @NotNull

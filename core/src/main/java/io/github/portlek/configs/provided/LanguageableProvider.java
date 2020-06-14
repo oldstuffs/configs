@@ -23,31 +23,31 @@
  *
  */
 
-package io.github.portlek.configs.languageable;
+package io.github.portlek.configs.provided;
 
-import java.util.Map;
+import io.github.portlek.configs.languageable.Languageable;
+import io.github.portlek.configs.structure.section.CfgSection;
 import java.util.Optional;
-import java.util.function.Function;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
-@Getter
-public final class Languageable<T> implements Function<Object, T> {
+public final class LanguageableProvider implements Provided<Languageable<?>> {
 
     @NotNull
-    private final Class<T> tClass;
+    @Override
+    public Optional<Languageable<?>> getWithField(@NotNull final Languageable<?> languageable,
+                                                  @NotNull final CfgSection section, @NotNull final String path) {
+        return Optional.empty();
+    }
 
     @NotNull
-    private final Map<Object, T> values;
+    @Override
+    public Optional<Languageable<?>> get(@NotNull final CfgSection section, @NotNull final String path) {
+        return Optional.empty();
+    }
 
     @Override
-    public T apply(final Object key) {
-        if (this.values.isEmpty()) {
-            throw new RuntimeException("The values are empty!");
-        }
-        return Optional.ofNullable(this.values.get(key)).orElse(this.values.get(0));
+    public void set(@NotNull final Languageable<?> languageable, @NotNull final CfgSection section,
+                    @NotNull final String path) {
     }
 
 }
