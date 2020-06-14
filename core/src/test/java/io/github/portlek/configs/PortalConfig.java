@@ -62,11 +62,13 @@ public final class PortalConfig extends ComparableManaged<PortalConfig> {
 
     @Property
     public Languageable<ReplaceableString> test = this.languageable(
+        ReplaceableString.class,
         PortalConfig.getReplaces(replaceableString ->
             replaceableString.replaces("%player_name%")));
 
     @Property
     public Languageable<ReplaceableString> test_2 = this.languageable(
+        ReplaceableString.class,
         PortalConfig.getReplaces(replaceableString ->
             replaceableString.replaces("%player_name%")));
 
