@@ -30,6 +30,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Yaml Scalar.
