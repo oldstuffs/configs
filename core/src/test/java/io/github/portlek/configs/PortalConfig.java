@@ -28,7 +28,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.ComparableConfig;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Property;
-import io.github.portlek.configs.languageable.Languageable;
+import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.configs.replaceable.Replaceable;
 import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.comparable.ComparableManaged;

@@ -27,7 +27,7 @@ package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.ComparableConfig;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.languageable.Languageable;
+import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.configs.processors.ComparableConfigProceed;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import java.io.File;

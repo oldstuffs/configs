@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.languageable;
+package io.github.portlek.configs.util;
 
 import java.util.Map;
 import java.util.Optional;

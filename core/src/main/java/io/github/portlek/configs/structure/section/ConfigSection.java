@@ -26,7 +26,7 @@
 package io.github.portlek.configs.structure.section;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.languageable.Languageable;
+import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.configs.provided.LanguageableProvider;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
