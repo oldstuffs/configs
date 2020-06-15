@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.util;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -33,9 +34,9 @@ import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-@Getter
 public final class Languageable<T> implements Function<Object, T> {
 
+    @Getter
     @NotNull
     private final Class<T> tClass;
 
@@ -48,6 +49,11 @@ public final class Languageable<T> implements Function<Object, T> {
             throw new RuntimeException("The values are empty!");
         }
         return Optional.ofNullable(this.values.get(key)).orElse(this.values.get(0));
+    }
+
+    @NotNull
+    public Map<Object, T> getValues() {
+        return Collections.unmodifiableMap(this.values);
     }
 
 }
