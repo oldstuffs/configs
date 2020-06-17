@@ -25,60 +25,49 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.ComparableConfig;
 import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.annotations.LinkedFile;
 import io.github.portlek.configs.annotations.Property;
-import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.configs.replaceable.Replaceable;
 import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.comparable.ComparableManaged;
-import io.github.portlek.configs.util.MapEntry;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import io.github.portlek.configs.util.Languageable;
 import org.jetbrains.annotations.NotNull;
 
-@ComparableConfig({
-    @Config(
-        value = "portal",
-        copyDefault = true,
-        location = "%basedir%/MinecraftEvi/languages",
-        resourcePath = "tr"
+@LinkedConfig({
+    @LinkedFile(
+        key = "TR",
+        config = @Config(
+            value = "tr",
+            location = "%basedir%/Test",
+            resourcePath = "tr",
+            copyDefault = true
+        )
     ),
-    @Config(
-        value = "portal",
-        copyDefault = true,
-        location = "%basedir%/MinecraftEvi/languages",
-        resourcePath = "en"
+    @LinkedFile(
+        key = "EN",
+        config = @Config(
+            value = "en",
+            location = "%basedir%/Test",
+            resourcePath = "en",
+            copyDefault = true
+        )
     )
 })
 public final class PortalConfig extends ComparableManaged<PortalConfig> {
 
-    private static final String[] LANGUAGES = {
-        "TR", "EN"
-    };
-
     @Property
     public Languageable<ReplaceableString> test = this.languageable(
-        ReplaceableString.class,
-        PortalConfig.getReplaces(replaceableString ->
-            replaceableString.replaces("%player_name%")));
+        () -> Replaceable.from(""),
+        (s, replaceable) -> replaceable
+            .replaces("%player_name%"));
 
     @Property
     public Languageable<ReplaceableString> test_2 = this.languageable(
-        ReplaceableString.class,
-        PortalConfig.getReplaces(replaceableString ->
-            replaceableString.replaces("%player_name%")));
-
-    @NotNull
-    private static List<Map.Entry<Object, ReplaceableString>> getReplaces(
-        @NotNull final Function<ReplaceableString, ReplaceableString> func) {
-        return Arrays.stream(PortalConfig.LANGUAGES)
-            .map(s -> MapEntry.from((Object) s, func.apply(Replaceable.from(""))))
-            .collect(Collectors.toList());
-    }
+        () -> Replaceable.from(""),
+        (s, replaceable) -> replaceable
+            .replaces("%player_name%"));
 
     @Override
     public void onCreate() {
@@ -97,6 +86,12 @@ public final class PortalConfig extends ComparableManaged<PortalConfig> {
     @Override
     public PortalConfig self() {
         return this;
+    }
+
+    public static void main(String[] args) {
+        final PortalConfig portalConfig = new PortalConfig();
+        portalConfig.load();
+
     }
 
 }

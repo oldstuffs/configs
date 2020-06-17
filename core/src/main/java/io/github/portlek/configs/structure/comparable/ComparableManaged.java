@@ -25,11 +25,13 @@
 
 package io.github.portlek.configs.structure.comparable;
 
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +43,7 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
     private transient FlManaged current;
 
     @SafeVarargs
-    public ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
+    protected ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
     }
 
@@ -53,12 +55,33 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
         return this.self();
     }
 
+    @NotNull
+    @Override
+    public final Set<String> comparableKeys() {
+        return this.comparable.keySet();
+    }
+
+    @NotNull
+    @Override
+    public final Optional<FlManaged> comparable(@NotNull final String key) {
+        return Optional.ofNullable(this.comparable.get(key));
+    }
+
     @Override
     public final void setup(@NotNull final String key, @NotNull final FlManaged managed) {
         if (!Optional.ofNullable(this.current).isPresent()) {
             this.current = managed;
         }
         this.comparable.put(key, managed);
+    }
+
+    @NotNull
+    @Override
+    public FileConfiguration getConfigurationSection() {
+        return Optional.ofNullable(this.current).orElseThrow(() ->
+            new RuntimeException(
+                "The current is null, please don't use #getConfigurationSection() before run #load() method!")
+        ).getConfigurationSection();
     }
 
 }

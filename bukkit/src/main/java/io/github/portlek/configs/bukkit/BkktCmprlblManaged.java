@@ -26,7 +26,16 @@
 package io.github.portlek.configs.bukkit;
 
 import io.github.portlek.configs.structure.comparable.CmprblManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
+import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
 public interface BkktCmprlblManaged<S extends CmprblManaged<S>> extends BkktManaged, CmprblManaged<S> {
+
+    @NotNull
+    @Override
+    default Supplier<FlManaged> getNewManaged() {
+        return BukkitManaged::new;
+    }
 
 }

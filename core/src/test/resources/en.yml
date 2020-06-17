@@ -1,0 +1,2 @@
+test: "en %player_name% en"
+test_2: "en en %player_name% en en"

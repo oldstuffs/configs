@@ -26,7 +26,16 @@
 package io.github.portlek.configs.nukkit;
 
 import io.github.portlek.configs.structure.comparable.CmprblManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
+import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
 public interface NkktCmprlblManaged<S extends CmprblManaged<S>> extends NkktManaged, CmprblManaged<S> {
+
+    @NotNull
+    @Override
+    default Supplier<FlManaged> getNewManaged() {
+        return NukkitManaged::new;
+    }
 
 }

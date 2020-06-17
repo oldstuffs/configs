@@ -106,6 +106,11 @@ public interface CfgSection {
     }
 
     @NotNull
+    default SectionBuilder builder() {
+        return new SectionBuilder(this);
+    }
+
+    @NotNull
     default String getName() {
         return this.getConfigurationSection().getName();
     }
@@ -147,13 +152,13 @@ public interface CfgSection {
     }
 
     @NotNull
-    default UUID getOrSetUniqueId(@NotNull final String path, @NotNull final String fallback) {
-        return this.getOrSetGeneric(path, UUID.fromString(fallback), this::getUniqueId);
+    default UUID getOrSetUniqueId(@NotNull final String path, @NotNull final UUID fallback) {
+        return this.getOrSetGeneric(path, fallback, this::getUniqueId);
     }
 
     @NotNull
-    default UUID getOrSetUniqueId(@NotNull final String path, @NotNull final UUID fallback) {
-        return this.getOrSetGeneric(path, fallback, this::getUniqueId);
+    default UUID getOrSetUniqueId(@NotNull final String path, @NotNull final String fallback) {
+        return this.getOrSetUniqueId(path, UUID.fromString(fallback));
     }
 
     default String getOrSetString(@NotNull final String path, @NotNull final String fallback) {

@@ -25,9 +25,12 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.processors.PropertyProceed;
+import io.github.portlek.configs.structure.comparable.CmprblManaged;
 import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.Languageable;
 import java.util.Optional;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public final class LanguageableProvider implements Provided<Languageable<?>> {
@@ -36,7 +39,19 @@ public final class LanguageableProvider implements Provided<Languageable<?>> {
     @Override
     public Optional<Languageable<?>> getWithField(@NotNull final Languageable<?> languageable,
                                                   @NotNull final CfgSection section, @NotNull final String path) {
-        return Optional.empty();
+        if (!(section.getManaged() instanceof CmprblManaged<?>)) {
+            return Optional.empty();
+        }
+        final CmprblManaged<?> managed = (CmprblManaged<?>) section.getManaged();
+        // noinspection unchecked
+        return Optional.of(managed.languageable((Supplier<Object>) languageable.getDefaultValue(), (s, o) -> {
+            final Object object = languageable.apply(s);
+            final Optional<?> optional = PropertyProceed.get(section, object, path);
+            if (!optional.isPresent()) {
+                return object;
+            }
+            return optional.get();
+        }));
     }
 
     @NotNull
@@ -48,6 +63,13 @@ public final class LanguageableProvider implements Provided<Languageable<?>> {
     @Override
     public void set(@NotNull final Languageable<?> languageable, @NotNull final CfgSection section,
                     @NotNull final String path) {
+        if (!(section.getManaged() instanceof CmprblManaged<?>)) {
+            return;
+        }
+        final CmprblManaged<?> managed = (CmprblManaged<?>) section.getManaged();
+        managed.comparableKeys().forEach(s ->
+            managed.comparable(s).ifPresent(flManaged ->
+                PropertyProceed.set(section, languageable.apply(s), path)));
     }
 
 }

@@ -29,31 +29,37 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class Languageable<T> implements Function<Object, T> {
+public final class Languageable<T> implements Function<String, T> {
 
     @Getter
     @NotNull
-    private final Class<T> tClass;
+    private final Supplier<T> defaultValue;
 
     @NotNull
-    private final Map<Object, T> values;
+    private final Supplier<Map<String, T>> values;
 
     @Override
-    public T apply(final Object key) {
-        if (this.values.isEmpty()) {
-            throw new RuntimeException("The values are empty!");
+    public T apply(@NotNull final String key) {
+        final Map<String, T> map = this.values.get();
+        final Optional<T> optional = Optional.ofNullable(map.get(key));
+        if (optional.isPresent()) {
+            return optional.get();
         }
-        return Optional.ofNullable(this.values.get(key)).orElse(this.values.get(0));
+        for (final Map.Entry<String, T> entry : map.entrySet()) {
+            return entry.getValue();
+        }
+        throw new RuntimeException("The values are empty!");
     }
 
     @NotNull
     public Map<Object, T> getValues() {
-        return Collections.unmodifiableMap(this.values);
+        return Collections.unmodifiableMap(this.values.get());
     }
 
 }

@@ -44,6 +44,13 @@ public final class ConfigProceed {
     @NotNull
     private final FlManaged managed;
 
+    @NotNull
+    private final FlManaged theoriginal;
+
+    public ConfigProceed(@NotNull final Config config, @NotNull final FlManaged managed) {
+        this(config, managed, managed);
+    }
+
     public void load() {
         final FileType type = this.config.type();
         final String name;
@@ -93,7 +100,7 @@ public final class ConfigProceed {
 //        } else {
 //            version.write(versionpath, this.managed);
 //        }
-        new FieldsProceed(this.managed, this.managed, this.managed).load();
+        new FieldsProceed(this.theoriginal, this.theoriginal, this.managed).load();
         this.managed.save();
     }
 

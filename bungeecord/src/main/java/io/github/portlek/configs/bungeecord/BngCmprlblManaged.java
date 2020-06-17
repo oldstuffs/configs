@@ -26,7 +26,16 @@
 package io.github.portlek.configs.bungeecord;
 
 import io.github.portlek.configs.structure.comparable.CmprblManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
+import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
 public interface BngCmprlblManaged<S extends CmprblManaged<S>> extends BngManaged, CmprblManaged<S> {
+
+    @NotNull
+    @Override
+    default Supplier<FlManaged> getNewManaged() {
+        return BungeeManaged::new;
+    }
 
 }

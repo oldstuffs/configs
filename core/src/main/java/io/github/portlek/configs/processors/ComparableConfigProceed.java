@@ -1,24 +1,28 @@
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.annotations.ComparableConfig;
+import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.structure.comparable.CmprblManaged;
+import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class ComparableConfigProceed<S extends CmprblManaged<S>> {
+public final class ComparableConfigProceed {
 
     @NotNull
-    private final ComparableConfig comparable;
+    private final LinkedConfig linked;
 
     @NotNull
-    private final CmprblManaged<S> managed;
+    private final CmprblManaged<?> managed;
 
     public void load() {
-        Arrays.stream(this.comparable.value())
-            .map(config -> new ConfigProceed(config, this.managed))
-            .forEach(ConfigProceed::load);
+        Arrays.stream(this.linked.value()).forEach(linkedFile -> {
+            final FlManaged flmanaged = this.managed.getManaged();
+            this.managed.setup(linkedFile.key(), flmanaged);
+            new ConfigProceed(linkedFile.config(), flmanaged, this.managed).load();
+            flmanaged.setAutoSave(this.managed.isAutoSave());
+        });
     }
 
 }

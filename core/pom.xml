@@ -37,4 +37,13 @@
     <artifactId>configs-core</artifactId>
     <description>Core module of the library.</description>
 
+    <build>
+        <testResources>
+            <testResource>
+                <filtering>true</filtering>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+    </build>
+
 </project>

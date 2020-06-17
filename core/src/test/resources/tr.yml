@@ -1,0 +1,2 @@
+test: "tr %player_name% tr"
+test_2: "tr tr %player_name% tr tr"

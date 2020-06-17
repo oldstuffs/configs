@@ -95,7 +95,7 @@ public class FileManaged extends ConfigSection implements FlManaged {
 
     @NotNull
     @Override
-    public final FileConfiguration getConfigurationSection() {
+    public FileConfiguration getConfigurationSection() {
         return (FileConfiguration) super.getConfigurationSection();
     }
 
