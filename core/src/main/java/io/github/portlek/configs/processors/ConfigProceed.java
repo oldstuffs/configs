@@ -59,7 +59,7 @@ public final class ConfigProceed {
         } else {
             name = this.config.value() + type.suffix;
         }
-        final File basedir = GeneralUtilities.basedir(this.managed.getClass());
+        final File basedir = GeneralUtilities.basedir(this.theoriginal.getClass());
         final String filelocation = GeneralUtilities.addSeparator(
             this.config.location()
                 .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
