@@ -135,7 +135,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     @Override
     public Comment comment() {
-        //LineLength (50 lines)
+        //@checkstyle LineLength (50 lines)
         return new ReadComment(
             new Backwards(
                 new FirstCommentFound(

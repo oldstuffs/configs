@@ -31,7 +31,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
  * A plain scalar value read from somewhere.
  *
  * @author Mihai Andronace (amihaiemil@gmail.com)
- * @version $Id: 32cf294fe5b46877dbd29ce3c0882145413e75c5 $
+ * @version $Id: 255238e9d81df409e196491168fa2d951b5d3ec5 $
  * @since 3.1.3
  */
 final class ReadPlainScalar extends BaseScalar {
@@ -65,18 +65,18 @@ final class ReadPlainScalar extends BaseScalar {
      * Unescaped String value of this scalar. Pay attention, if the
      * scalar's value is the "null" String, then we return null, because
      * "null" is a reserved keyword in YAML, indicating a null Scalar.
-     * ReturnCount (50 lines)
      *
      * @return String or null if the Strings value is "null".
+     * @checkstyle ReturnCount (50 lines)
      */
     @Override
     public String value() {
         final String value;
         final String trimmed = this.scalar.trimmed();
-        if (trimmed.startsWith("-") && trimmed.length() > 1) {
-            value = trimmed.substring(trimmed.indexOf('-') + 1).trim();
-        } else if (trimmed.contains(":") && !trimmed.endsWith(":")) {
+        if (trimmed.contains(":") && !trimmed.endsWith(":")) {
             value = trimmed.substring(trimmed.indexOf(":") + 1).trim();
+        } else if (trimmed.startsWith("-") && trimmed.length() > 1) {
+            value = trimmed.substring(trimmed.indexOf('-') + 1).trim();
         } else {
             value = trimmed;
         }

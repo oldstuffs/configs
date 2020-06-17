@@ -35,7 +35,7 @@ import java.util.List;
  * YamlSequence read from somewhere.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 098ab6b30b6b2af12983385b1b05db14ad36a9a6 $
+ * @version $Id: 7761b4eb7a7218ad0b43c23ccd9b9e3ec97bce5a $
  * @since 1.0.0
  */
 final class ReadYamlSequence extends BaseYamlSequence {
@@ -103,15 +103,31 @@ final class ReadYamlSequence extends BaseYamlSequence {
     @Override
     public Collection<YamlNode> values() {
         final List<YamlNode> kids = new LinkedList<>();
+        final boolean foldedSequence = this.previous.trimmed().matches(
+            "^.*\\|.*\\-$"
+        );
         for (final YamlLine line : this.significant) {
             final String trimmed = line.trimmed();
-            if ("-".equals(trimmed)
-                || trimmed.endsWith("|")
-                || trimmed.endsWith(">")
-            ) {
-                kids.add(this.significant.toYamlNode(line));
-            } else {
-                kids.add(new ReadPlainScalar(this.all, line));
+            if (foldedSequence || trimmed.startsWith("-")) {
+                if ("-".equals(trimmed)
+                    || trimmed.endsWith("|")
+                    || trimmed.endsWith(">")
+                ) {
+                    kids.add(this.significant.toYamlNode(line));
+                } else {
+                    if (trimmed.matches("^.*\\-.*\\:.*$")) {
+                        kids.add(
+                            new ReadYamlMapping(
+                                new RtYamlLine(
+                                    "# Mapping at dash line", line.number() - 1
+                                ),
+                                this.all
+                            )
+                        );
+                    } else {
+                        kids.add(new ReadPlainScalar(this.all, line));
+                    }
+                }
             }
         }
         return kids;
@@ -119,7 +135,7 @@ final class ReadYamlSequence extends BaseYamlSequence {
 
     @Override
     public Comment comment() {
-        //LineLength (50 lines)
+        //@checkstyle LineLength (50 lines)
         return new ReadComment(
             new Backwards(
                 new FirstCommentFound(

@@ -36,11 +36,11 @@ import java.util.Collection;
  * are cases where we need to iterate only over the lines which are
  * at the same indentation level and for that we use the decorator
  * {@link SameIndentationLevel}.
- * ExecutableStatementCount (400 lines)
- * CyclomaticComplexity (400 lines)
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 9aa2eabe5a7e96e47d05b0e4dc178d11b1b57925 $
+ * @version $Id: 6b8e12c2b4ce4877cc158ba1e59ba339ab1016e3 $
+ * @checkstyle ExecutableStatementCount (400 lines)
+ * @checkstyle CyclomaticComplexity (400 lines)
  * @since 1.0.0
  */
 final class AllYamlLines implements YamlLines {
@@ -96,8 +96,8 @@ final class AllYamlLines implements YamlLines {
     }
 
     /**
-     * Try to figure out what YAML node (mapping, sequence or scalar) do these
-     * lines represent.
+     * Try to figure out what YAML node (mapping, sequence or scalar) is found
+     * after the given line.
      *
      * @param prev YamlLine just previous to the node we're trying to find.
      * @return Found YamlNode.

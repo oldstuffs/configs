@@ -36,15 +36,14 @@ import java.util.stream.*;
  * This interface also offers integrations with Java 8's Stream API.<br>
  * All the methods have a default implementations based on the YamlNode
  * values Collection.
- * <p>
- * FinalParameters (400 lines)
- * JavadocMethod (400 lines)
- * LineLength (400 lines)
- * ParameterName (400 lines)
- * FinalParameters (400 lines)
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: aad913b2279664e8464f5d0a6f56bb4658687351 $
+ * @checkstyle FinalParameters (400 lines)
+ * @checkstyle JavadocMethod (400 lines)
+ * @checkstyle LineLength (400 lines)
+ * @checkstyle ParameterName (400 lines)
+ * @checkstyle FinalParameters (400 lines)
  * @since 3.1.1
  */
 public interface YamlStream extends YamlNode, Stream<YamlNode> {

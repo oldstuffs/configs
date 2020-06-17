@@ -32,8 +32,8 @@
  * API of this library.
  * <p>
  * In order to create your own extension, you need to extend
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlMapping} or
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlSequence} respectively.
+ * {@link com.amihaiemil.eoyaml.BaseYamlMapping} or
+ * {@link com.amihaiemil.eoyaml.BaseYamlSequence} respectively.
  * <p>
  * This package contains convenient extensions for both YamlMapping and
  * YamlSequence that provide all sorts of different functionality.
@@ -42,28 +42,8 @@
  * API of this library.
  * <p>
  * In order to create your own extension, you need to extend
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlMapping} or
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlSequence} respectively.
- * <p>
- * This package contains convenient extensions for both YamlMapping and
- * YamlSequence that provide all sorts of different functionality.
- * <p>
- * Classes within this package are supposed to work only with the public
- * API of this library.
- * <p>
- * In order to create your own extension, you need to extend
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlMapping} or
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlSequence} respectively.
- * <p>
- * This package contains convenient extensions for both YamlMapping and
- * YamlSequence that provide all sorts of different functionality.
- * <p>
- * Classes within this package are supposed to work only with the public
- * API of this library.
- * <p>
- * In order to create your own extension, you need to extend
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlMapping} or
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlSequence} respectively.
+ * {@link com.amihaiemil.eoyaml.BaseYamlMapping} or
+ * {@link com.amihaiemil.eoyaml.BaseYamlSequence} respectively.
  */
 /**
  * This package contains convenient extensions for both YamlMapping and
@@ -73,7 +53,7 @@
  * API of this library.
  *
  * In order to create your own extension, you need to extend
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlMapping} or
- * {@link io.github.portlek.configs.files.yaml.eoyaml.BaseYamlSequence} respectively.
+ * {@link com.amihaiemil.eoyaml.BaseYamlMapping} or
+ * {@link com.amihaiemil.eoyaml.BaseYamlSequence} respectively.
  */
 package io.github.portlek.configs.files.yaml.eoyaml.extensions;

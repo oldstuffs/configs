@@ -36,10 +36,10 @@ import java.util.Set;
  * YamlMapping read from somewhere. YAML directives and
  * document start/end markers are ignored. This is assumed
  * to be a plain YAML mapping.
- * CyclomaticComplexity (300 lines)
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: cedd536337768b51e0b5116e265157e3fbfe49b8 $
+ * @version $Id: f884e0efeae541d11f7b36e5084cbf770115a104 $
+ * @checkstyle CyclomaticComplexity (300 lines)
  * @since 1.0.0
  */
 final class ReadYamlMapping extends BaseYamlMapping {
@@ -107,29 +107,35 @@ final class ReadYamlMapping extends BaseYamlMapping {
     @Override
     public Set<YamlNode> keys() {
         final Set<YamlNode> keys = new LinkedHashSet<>();
+        YamlLine prev = new YamlLine.NullYamlLine();
         for (final YamlLine line : this.significant) {
             final String trimmed = line.trimmed();
-            if (trimmed.startsWith(":")) {
+            if (trimmed.startsWith(":")
+                || trimmed.startsWith("-")
+                && !(prev instanceof YamlLine.NullYamlLine)
+            ) {
                 continue;
             } else if ("?".equals(trimmed)) {
                 keys.add(this.significant.toYamlNode(line));
             } else {
                 if (!trimmed.contains(":")) {
-                    throw new YamlReadingException(
-                        "Expected scalar key on line "
-                            + (line.number() + 1) + "."
-                            + " The line should have the format "
-                            + "'key: value' or 'key:'. "
-                            + "Instead, the line is: "
-                            + "[" + line.trimmed() + "]."
-                    );
+                    continue;
                 }
-                final String key = trimmed.substring(
-                    0, trimmed.indexOf(":")).trim();
+                final String key;
+                if (trimmed.startsWith("-")) {
+                    key = trimmed.substring(
+                        1, trimmed.indexOf(":")
+                    ).trim();
+                } else {
+                    key = trimmed.substring(
+                        0, trimmed.indexOf(":")
+                    ).trim();
+                }
                 if (!key.isEmpty()) {
                     keys.add(new PlainStringScalar(key));
                 }
             }
+            prev = line;
         }
         return keys;
     }
@@ -147,7 +153,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
 
     @Override
     public Comment comment() {
-        //LineLength (50 lines)
+        //@checkstyle LineLength (50 lines)
         return new ReadComment(
             new Backwards(
                 new FirstCommentFound(
@@ -185,7 +191,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
      *
      * @param key String key.
      * @return YamlNode.
-     * ReturnCount (50 lines)
+     * @checkstyle ReturnCount (50 lines)
      */
     private YamlNode valueOfStringKey(final String key) {
         YamlNode value = null;
@@ -202,7 +208,8 @@ final class ReadYamlMapping extends BaseYamlMapping {
                     || trimmed.matches("^" + tryKey + "\\:[ ]*\\|$")
                 ) {
                     value = this.significant.toYamlNode(line);
-                } else if (trimmed.startsWith(tryKey + ":")
+                } else if ((trimmed.startsWith(tryKey + ":")
+                    || trimmed.startsWith("- " + tryKey + ":"))
                     && trimmed.length() > 1
                 ) {
                     value = new ReadPlainScalar(this.all, line);

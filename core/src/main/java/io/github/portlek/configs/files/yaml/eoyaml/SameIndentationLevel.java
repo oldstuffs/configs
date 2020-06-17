@@ -44,7 +44,7 @@ import java.util.List;
  * </pre>
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 497093c75e0f577cb28e792adf105da5019b8c17 $
+ * @version $Id: 0161b24727c4c419fff4fed6301ed264c5e599f9 $
  * @since 3.0.2
  */
 final class SameIndentationLevel implements YamlLines {
@@ -89,11 +89,15 @@ final class SameIndentationLevel implements YamlLines {
             final List<YamlLine> sameIndentation = new ArrayList<>();
             final YamlLine first = iterator.next();
             sameIndentation.add(first);
+            int firstIndentation = first.indentation();
+            if (first.trimmed().matches("^[ ]*\\-.*\\:.+$")) {
+                firstIndentation += 2;
+            }
             while (iterator.hasNext()) {
                 final YamlLine current = iterator.next();
-                if (current.indentation() == first.indentation()) {
+                if (current.indentation() == firstIndentation) {
                     sameIndentation.add(current);
-                } else if (current.indentation() < first.indentation()) {
+                } else if (current.indentation() < firstIndentation) {
                     break;
                 }
             }

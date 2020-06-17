@@ -70,10 +70,10 @@ interface YamlLines extends Iterable<YamlLine> {
 
     /**
      * Get a certain YamlLine.
-     * ReturnCount (50 lines)
      *
      * @param number Number of the line.
      * @return YamlLine or throws {@link IndexOutOfBoundsException}.
+     * @checkstyle ReturnCount (50 lines)
      */
     default YamlLine line(final int number) {
         final Collection<YamlLine> lines = this.original();

@@ -63,7 +63,7 @@ import java.util.List;
  * </pre>
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: c738ec88d299f34ef2d2ef186805b768d4a67520 $
+ * @version $Id: 6a5fad304d6f6557c0576d9e3cfafee05548ff00 $
  * @since 3.1.2
  */
 final class WellIndented implements YamlLines {
@@ -97,9 +97,9 @@ final class WellIndented implements YamlLines {
      * It will verify that each line is properly indented in relation
      * to the previous one and will complain if the indentation is not
      * correct.
-     * LineLength (50 lines)
      *
      * @return Iterator over these yaml lines.
+     * @checkstyle LineLength (50 lines)
      */
     @Override
     public Iterator<YamlLine> iterator() {
@@ -112,7 +112,10 @@ final class WellIndented implements YamlLines {
             while (iterator.hasNext()) {
                 final YamlLine line = iterator.next();
                 if (!(previous instanceof YamlLine.NullYamlLine)) {
-                    final int prevIndent = previous.indentation();
+                    int prevIndent = previous.indentation();
+                    if (previous.trimmed().matches("^[ ]*\\-.*\\:.*$")) {
+                        prevIndent += 2;
+                    }
                     final int lineIndent = line.indentation();
                     if (previous.requireNestedIndentation()) {
                         if (lineIndent != prevIndent + 2) {

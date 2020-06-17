@@ -40,7 +40,7 @@ import java.util.Set;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: b09d17a137ca82e387dfec05a86595db90e3e39f $
- * BooleanExpressionComplexity (300 lines)
+ * @checkstyle BooleanExpressionComplexity (300 lines)
  * @since 4.3.3
  */
 final class ReflectedYamlMapping extends BaseYamlMapping {
