@@ -1,2 +1,5 @@
 test: "tr %player_name% tr"
-test_2: "tr tr %player_name% tr tr"
+test-2: "tr tr %player_name% tr tr"
+test-section:
+  test: "tr %player_name% tr"
+  test-2: "tr tr %player_name% tr tr"

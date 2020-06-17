@@ -1,2 +1,5 @@
 test: "en %player_name% en"
-test_2: "en en %player_name% en en"
+test-2: "en en %player_name% en en"
+test-section:
+  test: "en %player_name% en"
+  test-2: "en en %player_name% en en"

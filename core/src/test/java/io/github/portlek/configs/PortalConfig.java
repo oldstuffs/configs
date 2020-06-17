@@ -25,13 +25,11 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.annotations.LinkedFile;
-import io.github.portlek.configs.annotations.Property;
+import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.replaceable.Replaceable;
 import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.comparable.ComparableManaged;
+import io.github.portlek.configs.structure.section.ConfigSection;
 import io.github.portlek.configs.util.Languageable;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,6 +53,9 @@ import org.jetbrains.annotations.NotNull;
 })
 public final class PortalConfig extends ComparableManaged<PortalConfig> {
 
+    @Instance
+    public final PortalConfig.TestSection testSection = new PortalConfig.TestSection();
+
     @Property
     public Languageable<ReplaceableString> test = this.languageable(
         () -> Replaceable.from(""),
@@ -69,12 +70,6 @@ public final class PortalConfig extends ComparableManaged<PortalConfig> {
 
     @Override
     public void onCreate() {
-
-    }
-
-    @Override
-    public void onLoad() {
-        this.save();
         this.setAutoSave(false);
     }
 
@@ -82,6 +77,23 @@ public final class PortalConfig extends ComparableManaged<PortalConfig> {
     @Override
     public PortalConfig self() {
         return this;
+    }
+
+    @Section("test-section")
+    public final class TestSection extends ConfigSection {
+
+        @Property
+        public Languageable<ReplaceableString> test = PortalConfig.this.languageable(
+            () -> Replaceable.from(""),
+            (s, replaceable) -> replaceable
+                .replaces("%player_name%"));
+
+        @Property
+        public Languageable<ReplaceableString> test_2 = PortalConfig.this.languageable(
+            () -> Replaceable.from(""),
+            (s, replaceable) -> replaceable
+                .replaces("%player_name%"));
+
     }
 
 }
