@@ -84,4 +84,10 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
         ).getConfigurationSection();
     }
 
+    @NotNull
+    @Override
+    public final FlManaged getManaged() {
+        return this;
+    }
+
 }

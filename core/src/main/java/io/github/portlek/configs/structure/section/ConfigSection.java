@@ -69,7 +69,7 @@ public class ConfigSection implements CfgSection {
 
     @Override
     @NotNull
-    public final FlManaged getManaged() {
+    public FlManaged getManaged() {
         return Objects.requireNonNull(this.managed, "You have to load your class with '#load()' method");
     }
 
