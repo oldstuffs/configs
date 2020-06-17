@@ -28,6 +28,7 @@ package io.github.portlek.configs.structure.comparable;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -77,11 +78,22 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
 
     @NotNull
     @Override
-    public FileConfiguration getConfigurationSection() {
+    public final FlManaged current() {
         return Optional.ofNullable(this.current).orElseThrow(() ->
             new RuntimeException(
-                "The current is null, please don't use #getConfigurationSection() before run #load() method!")
-        ).getConfigurationSection();
+                "The current is null, please don't use #getConfigurationSection() before run #load() method!"));
+    }
+
+    @NotNull
+    @Override
+    public final File getFile() {
+        return this.current().getFile();
+    }
+
+    @NotNull
+    @Override
+    public FileConfiguration getConfigurationSection() {
+        return this.current().getConfigurationSection();
     }
 
     @NotNull

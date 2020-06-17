@@ -84,4 +84,7 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
     @NotNull
     S self();
 
+    @NotNull
+    FlManaged current();
+
 }

@@ -55,7 +55,7 @@ public class FileManaged extends ConfigSection implements FlManaged {
 
     @NotNull
     @Override
-    public final File getFile() {
+    public File getFile() {
         return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
     }
 
