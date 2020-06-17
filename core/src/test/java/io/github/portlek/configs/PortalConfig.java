@@ -69,6 +69,12 @@ public final class PortalConfig extends ComparableManaged<PortalConfig> {
         (s, replaceable) -> replaceable
             .replaces("%player_name%"));
 
+    public static void main(String[] args) {
+        final PortalConfig portalConfig = new PortalConfig();
+        portalConfig.load();
+
+    }
+
     @Override
     public void onCreate() {
 
@@ -86,12 +92,6 @@ public final class PortalConfig extends ComparableManaged<PortalConfig> {
     @Override
     public PortalConfig self() {
         return this;
-    }
-
-    public static void main(String[] args) {
-        final PortalConfig portalConfig = new PortalConfig();
-        portalConfig.load();
-
     }
 
 }

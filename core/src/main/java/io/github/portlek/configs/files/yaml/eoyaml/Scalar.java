@@ -53,6 +53,7 @@ public interface Scalar extends YamlNode {
      * supposed to be.
      */
     String value();
+
     @Nullable
     default Object getAsAll() {
         final Optional<Integer> optional1 = this.getAsInteger();
@@ -142,4 +143,5 @@ public interface Scalar extends YamlNode {
         return Optional.ofNullable(this.value())
             .flatMap(GeneralUtilities::toByte);
     }
+
 }
