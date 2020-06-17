@@ -16,9 +16,6 @@ public final class FieldsProceed {
     private final CfgSection parent;
 
     @NotNull
-    private final Object parentObject;
-
-    @NotNull
     private final FlManaged managed;
 
     public void load() {
@@ -29,7 +26,7 @@ public final class FieldsProceed {
                 .map(instance -> new InstanceProceed(this.managed, this.parent, field))
                 .ifPresent(InstanceProceed::load);
             Optional.ofNullable(field.getDeclaredAnnotation(Property.class))
-                .map(property -> new PropertyProceed(this.parent, this.parentObject, property, field))
+                .map(property -> new PropertyProceed(this.parent, property, field))
                 .ifPresent(PropertyProceed::load);
             field.setAccessible(accessible);
         }

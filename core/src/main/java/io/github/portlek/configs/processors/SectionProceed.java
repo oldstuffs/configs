@@ -48,7 +48,7 @@ public final class SectionProceed {
 
     public void load() {
         this.sctn.setup(this.managed, this.parent.getOrCreateSection(this.section.value()).getConfigurationSection());
-        new FieldsProceed(this.sctn, this.sctn, this.managed).load();
+        new FieldsProceed(this.sctn, this.managed).load();
     }
 
 }

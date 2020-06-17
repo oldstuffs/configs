@@ -43,9 +43,6 @@ public final class PropertyProceed {
     private final CfgSection parent;
 
     @NotNull
-    private final Object parentObject;
-
-    @NotNull
     private final Property property;
 
     @NotNull
@@ -100,14 +97,14 @@ public final class PropertyProceed {
             this.property.value(),
             this.field.getName()
         );
-        final Optional<Object> optional = Optional.ofNullable(this.field.get(this.parentObject));
+        final Optional<Object> optional = Optional.ofNullable(this.field.get(this.parent));
         if (!optional.isPresent()) {
             return;
         }
         final Object fieldvalue = optional.get();
         final Optional<?> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
         if (filevalueoptional.isPresent()) {
-            this.field.set(this.parentObject, filevalueoptional.get());
+            this.field.set(this.parent, filevalueoptional.get());
         } else {
             PropertyProceed.set(this.parent, fieldvalue, path);
         }

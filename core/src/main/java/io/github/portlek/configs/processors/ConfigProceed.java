@@ -100,7 +100,7 @@ public final class ConfigProceed {
 //        } else {
 //            version.write(versionpath, this.managed);
 //        }
-        new FieldsProceed(this.theoriginal, this.theoriginal, this.managed).load();
+        new FieldsProceed(this.theoriginal, this.managed).load();
         this.managed.save();
     }
 
