@@ -33,7 +33,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: c6f158411ad66edd69b68677fe27670a4caef003 $
- * @checkstyle CyclomaticComplexity (200 lines)
+ * CyclomaticComplexity (200 lines)
  * @since 1.0.0
  */
 final class RtYamlLine implements YamlLine {

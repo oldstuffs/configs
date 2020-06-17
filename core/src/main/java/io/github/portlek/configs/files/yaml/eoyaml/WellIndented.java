@@ -99,7 +99,7 @@ final class WellIndented implements YamlLines {
      * correct.
      *
      * @return Iterator over these yaml lines.
-     * @checkstyle LineLength (50 lines)
+     * LineLength (50 lines)
      */
     @Override
     public Iterator<YamlLine> iterator() {

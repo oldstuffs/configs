@@ -37,8 +37,8 @@ import java.util.List;
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
  * @version $Id: c7e0f666d0ed192c5f0173ae96345c7147204139 $
- * @checkstyle ExecutableStatementCount (400 lines)
- * @checkstyle CyclomaticComplexity (400 lines)
+ * ExecutableStatementCount (400 lines)
+ * CyclomaticComplexity (400 lines)
  * @since 4.3.1
  */
 final class RtYamlPrinter implements YamlPrinter {

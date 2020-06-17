@@ -136,8 +136,8 @@ public final class MergedYamlSequence extends BaseYamlSequence {
      * @param overrideIndices Should the existing indices be overriden
      * or not?
      * @return Merged YamlSequence.
-     * @checkstyle CyclomaticComplexity (100 lines)
-     * @checkstyle ExecutableStatementCount (100 lines)
+     * CyclomaticComplexity (100 lines)
+     * ExecutableStatementCount (100 lines)
      */
     private static YamlSequence merge(
         final YamlSequence original,
