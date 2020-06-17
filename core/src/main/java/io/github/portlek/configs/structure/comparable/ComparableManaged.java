@@ -41,7 +41,7 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
     private final Map<String, FlManaged> comparable = new HashMap<>();
 
     @Nullable
-    private transient FlManaged current;
+    private FlManaged current;
 
     @SafeVarargs
     protected ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {

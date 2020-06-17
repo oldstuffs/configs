@@ -40,18 +40,7 @@ final class RunTest {
 
     @Test
     void test() {
-        System.out.println(RunTest.portalConfig.test.apply("TR")
-            .build("%player_name%", () -> "portlek"));
-        System.out.println(RunTest.portalConfig.test.apply("EN")
-            .build("%player_name%", () -> "portlek"));
-        System.out.println(RunTest.portalConfig.test_2.apply("TR")
-            .build("%player_name%", () -> "portlek"));
-        System.out.println(RunTest.portalConfig.test_2.apply("EN")
-            .build("%player_name%", () -> "portlek"));
-        RunTest.portalConfig.key("TR").getString("test").ifPresent(System.out::println);
-        RunTest.portalConfig.key("EN").getString("test").ifPresent(System.out::println);
-        RunTest.portalConfig.key("TR").getString("test_2").ifPresent(System.out::println);
-        RunTest.portalConfig.key("EN").getString("test_2").ifPresent(System.out::println);
+
     }
 
 }
