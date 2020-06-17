@@ -18,7 +18,7 @@ public final class ComparableConfigProceed {
 
     public void load() {
         Arrays.stream(this.linked.value()).forEach(linkedFile -> {
-            final FlManaged flmanaged = this.managed.getManaged();
+            final FlManaged flmanaged = this.managed.getNewManaged().get();
             this.managed.setup(linkedFile.key(), flmanaged);
             new ConfigProceed(linkedFile.config(), flmanaged, this.managed).load();
             flmanaged.setAutoSave(this.managed.isAutoSave());
