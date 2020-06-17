@@ -41,7 +41,6 @@ import org.jetbrains.annotations.NotNull;
         config = @Config(
             value = "tr",
             location = "%basedir%/Test",
-            resourcePath = "tr",
             copyDefault = true
         )
     ),
@@ -50,7 +49,6 @@ import org.jetbrains.annotations.NotNull;
         config = @Config(
             value = "en",
             location = "%basedir%/Test",
-            resourcePath = "en",
             copyDefault = true
         )
     )
