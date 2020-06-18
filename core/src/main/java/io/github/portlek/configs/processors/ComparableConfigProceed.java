@@ -21,7 +21,7 @@ public final class ComparableConfigProceed {
             final FlManaged flmanaged = this.managed.getNewManaged().get();
             this.managed.setup(linkedFile.key(), flmanaged);
             this.managed.key(linkedFile.key());
-            
+
             flmanaged.setAutoSave(this.managed.isAutoSave());
         });
     }
