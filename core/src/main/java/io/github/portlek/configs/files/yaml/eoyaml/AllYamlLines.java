@@ -29,6 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingException;
 import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * YamlLines default implementation. "All" refers to the fact that
@@ -36,11 +37,11 @@ import java.util.Collection;
  * are cases where we need to iterate only over the lines which are
  * at the same indentation level and for that we use the decorator
  * {@link SameIndentationLevel}.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 6b8e12c2b4ce4877cc158ba1e59ba339ab1016e3 $
  * ExecutableStatementCount (400 lines)
  * CyclomaticComplexity (400 lines)
+ *
+ * @author Mihai Andronache (amihaiemil@gmail.com)
+ * @version $Id: 2067a51a435ad0898e85e707094a1000e6c7205d $
  * @since 1.0.0
  */
 final class AllYamlLines implements YamlLines {
@@ -74,11 +75,14 @@ final class AllYamlLines implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
+    public YamlNode toYamlNode(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
         final YamlNode node;
         final String prevLine = prev.trimmed();
         if (prevLine.isEmpty()) {
-            node = this.mappingSequenceOrPlainScalar(prev);
+            node = this.mappingSequenceOrPlainScalar(prev, guessIndentation);
         } else {
             final String lastChar = prevLine.substring(prevLine.length() - 1);
 
@@ -87,12 +91,19 @@ final class AllYamlLines implements YamlLines {
             } else if (lastChar.equals(Follows.FOLDED_BLOCK_SCALAR)) {
                 node = new ReadFoldedBlockScalar(prev, this);
             } else if (prevLine.matches(Follows.FOLDED_SEQUENCE)) {
-                node = new ReadYamlSequence(prev, this);
+                node = new ReadYamlSequence(prev, this, guessIndentation);
             } else {
-                node = this.mappingSequenceOrPlainScalar(prev);
+                node = this.mappingSequenceOrPlainScalar(
+                    prev, guessIndentation
+                );
             }
         }
         return node;
+    }
+
+    @Override
+    public Iterator<YamlLine> iterator() {
+        return this.lines.iterator();
     }
 
     /**
@@ -100,9 +111,14 @@ final class AllYamlLines implements YamlLines {
      * after the given line.
      *
      * @param prev YamlLine just previous to the node we're trying to find.
+     * @param guessIndentation If true, we will guess the correct indentation,
+     * if any YAML line is misplaced.
      * @return Found YamlNode.
      */
-    private YamlNode mappingSequenceOrPlainScalar(final YamlLine prev) {
+    private YamlNode mappingSequenceOrPlainScalar(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
         final YamlNode node;
         final YamlLine first = new Skip(
             this,
@@ -114,13 +130,12 @@ final class AllYamlLines implements YamlLines {
             line -> line.trimmed().startsWith("!!")
         ).iterator().next();
         if (first.trimmed().startsWith("-")) {
-            node = new ReadYamlSequence(prev, this);
+            node = new ReadYamlSequence(prev, this, guessIndentation);
         } else if (first.trimmed().contains(":")) {
-            node = new ReadYamlMapping(prev, this);
+            node = new ReadYamlMapping(prev, this, guessIndentation);
         } else if (this.original().size() == 1) {
             node = new ReadPlainScalar(this, first);
         } else {
-            System.out.println("LINE IS: [" + first.trimmed() + "]");
             throw new YamlReadingException(
                 "Could not parse YAML starting at line " + (first.number() + 1)
                     + " . It should be a sequence (line should start with '-'), "

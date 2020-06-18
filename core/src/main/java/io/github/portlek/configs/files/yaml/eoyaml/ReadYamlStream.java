@@ -35,7 +35,7 @@ import java.util.List;
  * Read YAML Stream of documents.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 6872c5283ef30491bc0a8d88ffe08950a78b39ed $
+ * @version $Id: 8cdc558ff5ebbb5b1373ed3424bfe1562b27fe72 $
  * @since 3.1.4
  */
 final class ReadYamlStream extends BaseYamlStream {
@@ -51,11 +51,28 @@ final class ReadYamlStream extends BaseYamlStream {
     private final YamlLines startMarkers;
 
     /**
+     * If set to true we will try to guess the correct indentation
+     * of misplaced lines.
+     */
+    private final boolean guessIndentation;
+
+    /**
      * Constructor.
      *
      * @param lines All YAML lines as they are read from the input.
      */
     ReadYamlStream(final AllYamlLines lines) {
+        this(lines, false);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param lines All YAML lines as they are read from the input.
+     * @param guessIndentation If set to true, we will try to guess
+     * the correct indentation of misplaced lines.
+     */
+    ReadYamlStream(final AllYamlLines lines, final boolean guessIndentation) {
         this.startMarkers = new WellIndented(
             new StartMarkers(
                 new Skip(
@@ -70,6 +87,7 @@ final class ReadYamlStream extends BaseYamlStream {
             line -> line.trimmed().startsWith("#"),
             line -> line.trimmed().startsWith("%")
         );
+        this.guessIndentation = guessIndentation;
     }
 
     @Override
@@ -78,7 +96,11 @@ final class ReadYamlStream extends BaseYamlStream {
         for (final YamlLine startDoc : this.startMarkers) {
             final YamlLines document = this.readDocument(startDoc);
             if (!document.original().isEmpty()) {
-                values.add(document.toYamlNode(startDoc));
+                values.add(
+                    document.toYamlNode(
+                        startDoc, this.guessIndentation
+                    )
+                );
             }
         }
         return values;

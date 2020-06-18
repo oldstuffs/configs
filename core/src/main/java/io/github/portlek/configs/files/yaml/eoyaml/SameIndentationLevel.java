@@ -44,7 +44,7 @@ import java.util.List;
  * </pre>
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 0161b24727c4c419fff4fed6301ed264c5e599f9 $
+ * @version $Id: 7b3abca9e2554489a462d8ed44003ebcd9c87039 $
  * @since 3.0.2
  */
 final class SameIndentationLevel implements YamlLines {
@@ -69,8 +69,11 @@ final class SameIndentationLevel implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
+    public YamlNode toYamlNode(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
+        return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
     /**

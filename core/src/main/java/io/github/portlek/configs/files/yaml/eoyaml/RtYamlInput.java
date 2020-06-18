@@ -39,7 +39,7 @@ import java.util.List;
  * Implementation for {@link YamlInput}. "Rt" stands for "Runtime".
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 932c03da969f39342196296705c2fc4872ff51e2 $
+ * @version $Id: 8656316740105525d386408aa0eb94845b6fe0b4 $
  * @since 1.0.0
  */
 final class RtYamlInput implements YamlInput {
@@ -50,27 +50,45 @@ final class RtYamlInput implements YamlInput {
     private final InputStream source;
 
     /**
+     * If set to true, we will try to guess the correct indentation
+     * of misplaced lines.
+     */
+    private final boolean guessIndentation;
+
+    /**
      * Ctor.
      *
      * @param source Given source.
      */
     RtYamlInput(final InputStream source) {
+        this(source, false);
+    }
+
+    /**
+     * Ctor.
+     *
+     * @param source Given source.
+     * @param guessIndentation If set to true, we will try to guess
+     * the correct indentation of misplaced lines.
+     */
+    RtYamlInput(final InputStream source, final boolean guessIndentation) {
         this.source = source;
+        this.guessIndentation = guessIndentation;
     }
 
     @Override
     public YamlMapping readYamlMapping() throws IOException {
-        return new ReadYamlMapping(this.readInput());
+        return new ReadYamlMapping(this.readInput(), this.guessIndentation);
     }
 
     @Override
     public YamlSequence readYamlSequence() throws IOException {
-        return new ReadYamlSequence(this.readInput());
+        return new ReadYamlSequence(this.readInput(), this.guessIndentation);
     }
 
     @Override
     public YamlStream readYamlStream() throws IOException {
-        return new ReadYamlStream(this.readInput());
+        return new ReadYamlStream(this.readInput(), this.guessIndentation);
     }
 
     @Override

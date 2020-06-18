@@ -27,68 +27,65 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 /**
- * Iterable yaml lines.
+ * An YAML Line indented by us. We override the line's
+ * initial indentation with a given value.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 3ca17cbba924aa21654b7659a4bfce0bec120426 $
- * @since 1.0.0
+ * @version $Id: 053a3c611266e43e6a487697b0af0ef833a74733 $
+ * @since 5.1.0
  */
-interface YamlLines extends Iterable<YamlLine> {
+final class Indented implements YamlLine {
 
     /**
-     * Return all the original underlying lines. No matter what
-     * decorators are added on top of the base YamlLines implementation,
-     * the call to this method should always be delegated down to the
-     * base method, with no changes.
-     *
-     * @return The original YamlLines as a Collection.
+     * Original YAML line.
      */
-    Collection<YamlLine> original();
+    private final YamlLine original;
 
     /**
-     * Turn these lines into a YamlNode.
-     *
-     * @param prev Previous YamlLine
-     * @param guessIndentation If set to true, we will try to guess
-     * the correct indentation of misplaced lines.
-     * @return YamlNode
+     * Given indentation.
      */
-    YamlNode toYamlNode(YamlLine prev, boolean guessIndentation);
+    private final int indentation;
 
     /**
-     * Default iterator which doesn't skip any line,
-     * iterates over all of them.
+     * Ctor.
      *
-     * @return Iterator of YamlLine.
+     * @param original Original YamlLine.
+     * @param indentation Given indentation.
      */
+    Indented(final YamlLine original, final int indentation) {
+        this.original = original;
+        this.indentation = indentation;
+    }
+
     @Override
-    Iterator<YamlLine> iterator();
+    public String trimmed() {
+        return this.original.trimmed();
+    }
 
-    /**
-     * Get a certain YamlLine.
-     * ReturnCount (50 lines)
-     *
-     * @param number Number of the line.
-     * @return YamlLine or throws {@link IndexOutOfBoundsException}.
-     */
-    default YamlLine line(final int number) {
-        final Collection<YamlLine> lines = this.original();
-        if (number < 0 && lines.size() > 0) {
-            return lines.iterator().next();
-        }
-        for (final YamlLine line : lines) {
-            if (line.number() == number) {
-                return line;
-            }
-        }
-        throw new IllegalArgumentException(
-            "Couldn't find line " + number
-                + ". Pay attention, there are "
-                + this.original().size() + " lines!");
+    @Override
+    public String comment() {
+        return this.original.comment();
+    }
+
+    @Override
+    public int number() {
+        return this.original.number();
+    }
+
+    @Override
+    public int indentation() {
+        return this.indentation;
+    }
+
+    @Override
+    public boolean requireNestedIndentation() {
+        return this.original.requireNestedIndentation();
+    }
+
+    @Override
+    public int compareTo(final YamlLine other) {
+        return this.original.compareTo(other);
     }
 
 }

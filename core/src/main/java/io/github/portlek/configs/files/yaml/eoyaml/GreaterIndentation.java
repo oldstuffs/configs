@@ -38,7 +38,7 @@ import java.util.List;
  * The lines "nested" after the given reference line.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: f4d667a9f9af46afbb42953608b13c2b888eedec $
+ * @version $Id: 107b69bda1d265572886b3b4da1cc502e9b2c848 $
  * @since 4.2.0
  */
 final class GreaterIndentation implements YamlLines {
@@ -70,8 +70,11 @@ final class GreaterIndentation implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
+    public YamlNode toYamlNode(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
+        return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
     /**

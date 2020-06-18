@@ -38,7 +38,7 @@ import java.util.List;
  * of the first comment from a given YamlLines, if it exists.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 47d3e7a94282f5a37d84e3b66a89049f9815a582 $
+ * @version $Id: 18aaaed9edd69314f9b65db91c7c72495533362f $
  * @since 4.2.0
  */
 final class FirstCommentFound implements YamlLines {
@@ -83,8 +83,11 @@ final class FirstCommentFound implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.lines.toYamlNode(prev);
+    public YamlNode toYamlNode(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
+        return this.lines.toYamlNode(prev, guessIndentation);
     }
 
     /**

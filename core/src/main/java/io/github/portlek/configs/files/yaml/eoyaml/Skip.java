@@ -38,7 +38,7 @@ import java.util.List;
  * iteration.
  *
  * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 35ec6b8e13c9e2f2b294dd0f3949aabca16291fb $
+ * @version $Id: 96f19a40716340ea632341b74a6bd3caae682935 $
  * @since 4.2.0
  */
 final class Skip implements YamlLines {
@@ -70,8 +70,11 @@ final class Skip implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
+    public YamlNode toYamlNode(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
+        return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
     @Override
@@ -102,7 +105,7 @@ final class Skip implements YamlLines {
      * skipped/ignored from iteration.
      *
      * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: 35ec6b8e13c9e2f2b294dd0f3949aabca16291fb $
+     * @version $Id: 96f19a40716340ea632341b74a6bd3caae682935 $
      * @since 4.2.0
      */
     interface Condition {

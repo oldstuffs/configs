@@ -38,7 +38,7 @@ import java.util.List;
  * It is used by {@link ReadYamlStream} to separate YAML documents.
  *
  * @author Mihai Andronache(amihaiemil@gmail.com)
- * @version $Id: 386e4cbed745d3413612360e6ad9b78fe26b6fec $
+ * @version $Id: 9a316878752a6a3002ce39edaa9b39c46bdaf4ab $
  * @since 3.1.4
  */
 final class StartMarkers implements YamlLines {
@@ -63,8 +63,11 @@ final class StartMarkers implements YamlLines {
     }
 
     @Override
-    public YamlNode toYamlNode(final YamlLine prev) {
-        return this.yamlLines.toYamlNode(prev);
+    public YamlNode toYamlNode(
+        final YamlLine prev,
+        final boolean guessIndentation
+    ) {
+        return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
     /**
