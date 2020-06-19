@@ -25,74 +25,37 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.*;
-import io.github.portlek.configs.replaceable.Replaceable;
-import io.github.portlek.configs.replaceable.ReplaceableString;
-import io.github.portlek.configs.structure.comparable.ComparableManaged;
+import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.Property;
+import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.section.ConfigSection;
-import io.github.portlek.configs.util.Languageable;
-import org.jetbrains.annotations.NotNull;
 
-@LinkedConfig({
-    @LinkedFile(
-        key = "TR",
-        config = @Config(
-            value = "tr",
-            location = "%basedir%/Test",
-            copyDefault = true
-        )
-    ),
-    @LinkedFile(
-        key = "EN",
-        config = @Config(
-            value = "en",
-            location = "%basedir%/Test",
-            copyDefault = true
-        )
-    )
-})
-public final class PortalConfig extends ComparableManaged<PortalConfig> {
+@Config(
+    value = "tr",
+    location = "%basedir%/Test",
+    copyDefault = true
+)
+public final class PortalConfig extends FileManaged {
 
     @Instance
     public final PortalConfig.TestSection testSection = new PortalConfig.TestSection();
 
     @Property
-    public Languageable<ReplaceableString> test = this.languageable(
-        () -> Replaceable.from(""),
-        (s, replaceable) -> replaceable
-            .replaces("%player_name%"));
+    public String test = "";
 
     @Property
-    public Languageable<ReplaceableString> test_2 = this.languageable(
-        () -> Replaceable.from(""),
-        (s, replaceable) -> replaceable
-            .replaces("%player_name%"));
-
-    @Override
-    public void onCreate() {
-        this.setAutoSave(false);
-    }
-
-    @NotNull
-    @Override
-    public PortalConfig self() {
-        return this;
-    }
+    public String test_2 = "";
 
     @Section("test-section")
     public final class TestSection extends ConfigSection {
 
         @Property
-        public Languageable<ReplaceableString> test = PortalConfig.this.languageable(
-            () -> Replaceable.from(""),
-            (s, replaceable) -> replaceable
-                .replaces("%player_name%"));
+        public String test = "";
 
         @Property
-        public Languageable<ReplaceableString> test_2 = PortalConfig.this.languageable(
-            () -> Replaceable.from(""),
-            (s, replaceable) -> replaceable
-                .replaces("%player_name%"));
+        public String test_2 = "";
 
     }
 

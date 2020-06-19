@@ -26,12 +26,10 @@
 package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.io.File;
-import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,48 +50,20 @@ public final class ConfigProceed {
         } else {
             name = this.config.value() + type.suffix;
         }
-        final File basedir = GeneralUtilities.basedir(this.managed.getClass());
-        final String filelocation = GeneralUtilities.addSeparator(
-            this.config.location()
-                .replace("%basedir%", basedir.getParentFile().getAbsolutePath())
-                .replace("/", File.separator)
-        );
-        final String jarlocation = GeneralUtilities.addSeparator(
-            this.config.location()
-                .replace("%basedir%", basedir.getAbsolutePath())
-                .replace("/", File.separator)
-        );
-        final File file;
-        if (this.config.copyDefault()) {
-            file = GeneralUtilities.saveResource(
-                jarlocation,
-                GeneralUtilities.addSeparator(this.config.resourcePath()) + name
-            );
-        } else {
-            file = new File(filelocation, name);
+        final File file = new File(
+            GeneralUtilities.addSeparator(
+                this.config.location()
+                    .replace("%basedir%",
+                        GeneralUtilities.basedir(this.managed.getClass()).getParentFile().getAbsolutePath())
+                    .replace("/", File.separator)),
+            name);
+        if (this.config.copyDefault() && !file.exists()) {
+            GeneralUtilities.saveResource(
+                file,
+                GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
         }
-        if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            try {
-                file.createNewFile();
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-        }
-        final FileConfiguration configuration = type.load(file);
-        this.managed.setup(file, configuration);
-//        final Version version = Version.from(this.config.version());
-//        final String versionpath = this.config.versionPath();
-//        final Optional<String> versionoptional = this.managed.getString(versionpath);
-//        if (versionoptional.isPresent()) {
-//            final Version fileversion = Version.from(versionoptional.get());
-//            if (!version.is(fileversion)) {
-//                // TODO: 29/01/2020
-//            }
-//        } else {
-//            version.write(versionpath, this.managed);
-//        }
-        new FieldsProceed(this.managed, this.managed).load();
+        this.managed.setup(file, type.load(file));
+        new FieldsProceed(this.managed).load();
         this.managed.save();
     }
 

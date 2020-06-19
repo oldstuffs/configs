@@ -91,47 +91,42 @@ public class GeneralUtilities {
         return text + '.';
     }
 
+    @SneakyThrows
     @NotNull
-    public File saveResource(@NotNull final String datafolder, @NotNull final String path) {
+    public File saveResource(@NotNull final File outFile, @NotNull final String path) {
         if (path.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be empty");
         }
-        final String replace = path.replace('\\', '/');
-        final int lastindex = replace.lastIndexOf(47);
-        final File outdir = new File(datafolder, replace.substring(0, Math.max(lastindex, 0)));
-        if (!outdir.exists()) {
-            outdir.getParentFile().mkdirs();
-            outdir.mkdirs();
+        if (!outFile.exists()) {
+            outFile.getParentFile().mkdirs();
+            outFile.createNewFile();
         }
-        final File outfile = new File(datafolder, replace);
-        if (!outfile.exists()) {
-            try (final OutputStream out = new FileOutputStream(outfile);
-                 final InputStream input = GeneralUtilities.getResource(replace).orElseThrow(() ->
-                     new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!"))) {
-                final byte[] buf = new byte[1024];
-                int len;
-                while ((len = input.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-            } catch (final IOException exception) {
-                exception.printStackTrace();
+        final String replace = path.replace('\\', File.separatorChar);
+        try (final OutputStream out = new FileOutputStream(outFile);
+             final InputStream input = GeneralUtilities.getResource(replace).orElseThrow(() ->
+                 new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!"))) {
+            final byte[] buf = new byte[1024];
+            int len;
+            while ((len = input.read(buf)) > 0) {
+                out.write(buf, 0, len);
             }
         }
-        return outfile;
+        return outFile;
     }
 
     @NotNull
     public Optional<InputStream> getResource(@NotNull final String path) {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path)).flatMap(url -> {
-            try {
-                final URLConnection connection = url.openConnection();
-                connection.setUseCaches(false);
-                return Optional.of(connection.getInputStream());
-            } catch (final IOException exception) {
-                exception.printStackTrace();
-            }
-            return Optional.empty();
-        });
+        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path))
+            .flatMap(url -> {
+                try {
+                    final URLConnection connection = url.openConnection();
+                    connection.setUseCaches(false);
+                    return Optional.of(connection.getInputStream());
+                } catch (final IOException exception) {
+                    exception.printStackTrace();
+                }
+                return Optional.empty();
+            });
     }
 
     public Optional<Integer> toInt(@NotNull final Object object) {

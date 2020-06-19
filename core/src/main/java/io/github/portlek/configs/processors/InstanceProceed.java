@@ -26,9 +26,7 @@
 package io.github.portlek.configs.processors;
 
 import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.structure.section.CfgSection;
-import java.lang.reflect.Field;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -38,25 +36,14 @@ import org.jetbrains.annotations.NotNull;
 public final class InstanceProceed {
 
     @NotNull
-    private final FlManaged managed;
-
-    @NotNull
     private final CfgSection parent;
 
     @NotNull
-    private final Field field;
+    private final CfgSection initiatedCfgSection;
 
     @SneakyThrows
     public void load() {
-        Optional.ofNullable(this.field.get(this.parent)).ifPresent(o ->
-            Optional.ofNullable(o.getClass().getDeclaredAnnotation(Section.class)).ifPresent(section ->
-                new SectionProceed(
-                    this.managed,
-                    this.parent,
-                    section,
-                    (CfgSection) o
-                ).load())
-        );
+
 
     }
 

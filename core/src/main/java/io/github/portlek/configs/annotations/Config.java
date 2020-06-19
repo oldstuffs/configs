@@ -40,12 +40,6 @@ public @interface Config {
     String value();
 
     @NotNull
-    String version() default "1.0";
-
-    @NotNull
-    String versionPath() default "file-version";
-
-    @NotNull
     String location() default "%basedir%";
 
     @NotNull
