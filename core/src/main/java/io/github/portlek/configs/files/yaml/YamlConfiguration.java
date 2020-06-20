@@ -107,6 +107,38 @@ public final class YamlConfiguration extends FileConfiguration {
         return Optional.empty();
     }
 
+    @NotNull
+    private static Optional<Object> convertNodeToSections(@NotNull final YamlNode value) {
+        if (value instanceof Scalar) {
+            return Optional.ofNullable(((Scalar) value).getAsAll());
+        }
+        if (value instanceof YamlSequence) {
+            return Optional.of(
+                ((YamlSequence) value).values().stream()
+                    .map(YamlConfiguration::convertNodeToSections)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList()));
+        }
+        if (value instanceof YamlStream) {
+            return Optional.of(
+                ((YamlStream) value)
+                    .map(YamlConfiguration::convertNodeToSections)
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .collect(Collectors.toList()));
+        }
+        if (value instanceof YamlMapping) {
+            final Map<String, Object> convertedmap = new HashMap<>();
+            final YamlMapping mapvalue = (YamlMapping) value;
+            mapvalue.keys().forEach(node ->
+                YamlConfiguration.convertNodeToSections(mapvalue.value(node)).ifPresent(o ->
+                    convertedmap.put(((Scalar) node).value(), o)));
+            return Optional.of(convertedmap);
+        }
+        return Optional.empty();
+    }
+
     @SneakyThrows
     @NotNull
     @Override
@@ -119,8 +151,18 @@ public final class YamlConfiguration extends FileConfiguration {
     @SneakyThrows
     @Override
     public void loadFromString(@NotNull final String contents) {
-        Optional.ofNullable(Yaml.createYamlInput(contents).readYamlMapping()).ifPresent(t ->
-            this.convertMapsToSections(t, this));
+        Optional.ofNullable(Yaml.createYamlInput(contents).readYamlMapping()).ifPresent(mapping ->
+            mapping.keys().stream()
+                .filter(key -> key instanceof Scalar)
+                .map(key -> (Scalar) key)
+                .forEach(key -> {
+                    final YamlNode value = mapping.value(key);
+                    final String finalkey = key.value().replace("\"", "");
+                    YamlConfiguration.convertNodeToSections(value).ifPresent(o -> {
+                        this.set(finalkey, o);
+                    });
+                }));
+        System.out.println(getKeys(false));
     }
 
     @NotNull
@@ -130,51 +172,6 @@ public final class YamlConfiguration extends FileConfiguration {
             this.options = new YamlConfigurationOptions(this);
         }
         return (YamlConfigurationOptions) this.options;
-    }
-
-    private void convertMapsToSections(@NotNull final YamlMapping mapping,
-                                       @NotNull final ConfigurationSection section) {
-        mapping.keys().stream()
-            .filter(key -> key instanceof Scalar)
-            .map(key -> (Scalar) key)
-            .forEach(key -> {
-                final YamlNode value = mapping.value(key);
-                final String finalkey = key.value().replace("\"", "");
-                this.convertNodeToSections(value).ifPresent(o ->
-                    section.set(finalkey, o));
-            });
-    }
-
-    @NotNull
-    private Optional<Object> convertNodeToSections(@NotNull final YamlNode value) {
-        if (value instanceof Scalar) {
-            return Optional.ofNullable(((Scalar) value).getAsAll());
-        }
-        if (value instanceof YamlSequence) {
-            return Optional.of(
-                ((YamlSequence) value).values().stream()
-                    .map(this::convertNodeToSections)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList()));
-        }
-        if (value instanceof YamlStream) {
-            return Optional.of(
-                ((YamlStream) value)
-                    .map(this::convertNodeToSections)
-                    .filter(Optional::isPresent)
-                    .map(Optional::get)
-                    .collect(Collectors.toList()));
-        }
-        if (value instanceof YamlMapping) {
-            final Map<String, Object> convertedmap = new HashMap<>();
-            final YamlMapping mapvalue = (YamlMapping) value;
-            mapvalue.keys().forEach(node ->
-                this.convertNodeToSections(mapvalue.value(node)).ifPresent(o ->
-                    convertedmap.put(((Scalar) node).value(), o)));
-            return Optional.of(convertedmap);
-        }
-        return Optional.empty();
     }
 
 }

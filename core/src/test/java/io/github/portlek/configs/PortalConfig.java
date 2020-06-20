@@ -29,12 +29,14 @@ import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.files.FileType;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.section.ConfigSection;
 
 @Config(
     value = "tr",
     location = "%basedir%/Test",
+    type = FileType.YAML,
     copyDefault = true
 )
 public final class PortalConfig extends FileManaged {

@@ -7,7 +7,6 @@ import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.reflection.RefClass;
 import io.github.portlek.reflection.clazz.ClassOf;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
@@ -16,7 +15,6 @@ public final class FieldsProceed {
     @NotNull
     private final CfgSection parent;
 
-    @SneakyThrows
     public void load() {
         final RefClass<CfgSection> parentclass = new ClassOf<>(this.parent);
         parentclass

@@ -47,13 +47,9 @@ final class RunTest {
      */
     @Test
     void test() {
-        System.out.println(RunTest.portalConfig.test);
         assert "tr %player_name% tr".equals(RunTest.portalConfig.test);
-        System.out.println(RunTest.portalConfig.test_2);
         assert "tr tr %player_name% tr tr".equals(RunTest.portalConfig.test_2);
-        System.out.println(RunTest.portalConfig.testSection.test);
         assert "tr %player_name% tr".equals(RunTest.portalConfig.testSection.test);
-        System.out.println(RunTest.portalConfig.testSection.test_2);
         assert "tr tr %player_name% tr tr".equals(RunTest.portalConfig.testSection.test_2);
     }
 
