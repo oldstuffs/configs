@@ -25,16 +25,13 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.files.json.minimaljson.Json;
-import io.github.portlek.configs.files.json.minimaljson.JsonArray;
-import io.github.portlek.configs.files.json.minimaljson.JsonObject;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -216,109 +213,6 @@ public class GeneralUtilities {
     }
 
     @NotNull
-    public Optional<Object> jsonValueAsObject(@NotNull final JsonValue value) {
-        @Nullable final Object object;
-        if (value.isBoolean()) {
-            object = value.asBoolean();
-        } else if (value.isNumber()) {
-            object = GeneralUtilities.parseNumber(value);
-        } else if (value.isString()) {
-            object = value.asString();
-        } else if (value.isArray()) {
-            object = GeneralUtilities.jsonArrayAsList(value.asArray());
-        } else if (value.isObject()) {
-            object = GeneralUtilities.jsonObjectAsMap(value.asObject());
-        } else {
-            object = null;
-        }
-        return Optional.ofNullable(object);
-    }
-
-    @NotNull
-    public List<Object> jsonArrayAsList(@NotNull final JsonArray array) {
-        final List<Object> list = new ArrayList<>(array.size());
-        array.forEach(element ->
-            GeneralUtilities.jsonValueAsObject(element).ifPresent(list::add));
-        return list;
-    }
-
-    @NotNull
-    public Map<String, Object> jsonObjectAsMap(@NotNull final JsonValue value) {
-        if (!(value instanceof JsonObject)) {
-            return new HashMap<>();
-        }
-        // noinspection unchecked
-        final Iterable<JsonObject.Member> jsonObject = (Iterable<JsonObject.Member>) value;
-        final Map<String, Object> map = new HashMap<>();
-        jsonObject.forEach(member ->
-            GeneralUtilities.jsonValueAsObject(member.getValue()).ifPresent(o ->
-                map.put(member.getName(), o)));
-        return map;
-    }
-
-    @NotNull
-    public Optional<JsonValue> objectAsJsonValue(@NotNull final Object object) {
-        @Nullable final JsonValue value;
-        if (object instanceof Boolean) {
-            value = Json.value(object);
-        } else if (object instanceof Integer) {
-            value = Json.value(object);
-        } else if (object instanceof Long) {
-            value = Json.value(object);
-        } else if (object instanceof Float) {
-            value = Json.value(object);
-        } else if (object instanceof Double) {
-            value = Json.value(object);
-        } else if (object instanceof String) {
-            value = Json.value((String) object);
-        } else if (object instanceof Iterable<?>) {
-            value = GeneralUtilities.collectionAsJsonArray((Iterable<?>) object);
-        } else if (object instanceof Map) {
-            value = GeneralUtilities.mapAsJsonObject((Map<?, ?>) object);
-        } else if (object instanceof ConfigurationSection) {
-            value = GeneralUtilities.mapAsJsonObject(((ConfigurationSection) object).getValues(false));
-        } else {
-            value = null;
-        }
-        return Optional.ofNullable(value);
-    }
-
-    @NotNull
-    public JsonArray collectionAsJsonArray(@NotNull final Iterable<?> collection) {
-        final JsonArray array = new JsonArray();
-        collection.forEach(o ->
-            GeneralUtilities.objectAsJsonValue(o).ifPresent(array::add));
-        return array;
-    }
-
-    @NotNull
-    public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
-        final JsonObject object = new JsonObject();
-        map.forEach((key, value) ->
-            GeneralUtilities.objectAsJsonValue(value).ifPresent(jsonValue ->
-                object.add(String.valueOf(key), jsonValue)));
-        return object;
-    }
-
-    @NotNull
-    public Object serialize(@NotNull final Object value) {
-        Object finalvalue;
-        if (value instanceof Object[]) {
-            finalvalue = new ArrayList<>(Arrays.asList((Object[]) value));
-        } else {
-            finalvalue = value;
-        }
-        if (finalvalue instanceof ConfigurationSection) {
-            finalvalue = GeneralUtilities.buildMap(((ConfigurationSection) finalvalue).getValues(false));
-        } else if (finalvalue instanceof Map) {
-            finalvalue = GeneralUtilities.buildMap((Map<?, ?>) finalvalue);
-        } else if (finalvalue instanceof List) {
-            finalvalue = GeneralUtilities.buildList((Collection<?>) finalvalue);
-        }
-        return finalvalue;
-    }
-
-    @NotNull
     public Map<String, Object> deserialize(@NotNull final Map<?, ?> input) {
         return input.entrySet().stream()
             .collect(Collectors.toMap(
@@ -328,15 +222,18 @@ public class GeneralUtilities {
                     if (value instanceof Map<?, ?>) {
                         return GeneralUtilities.deserialize((Map<?, ?>) value);
                     }
-                    if (value instanceof Collection<?>) {
-                        return GeneralUtilities.deserialize((Collection<?>) entry.getValue());
+                    if (value instanceof Iterable<?>) {
+                        return GeneralUtilities.deserialize((Iterable<?>) value);
+                    }
+                    if (value instanceof Stream<?>) {
+                        return GeneralUtilities.deserialize(((Stream<?>) value).collect(Collectors.toList()));
                     }
                     return value;
                 }));
     }
 
     @Nullable
-    private Object parseNumber(@NotNull final JsonValue number) {
+    public Object parseNumber(@NotNull final JsonValue number) {
         try {
             return number.asInt();
         } catch (final NumberFormatException e) {
@@ -353,59 +250,22 @@ public class GeneralUtilities {
     }
 
     /**
-     * Takes a Map and parses through the values, to ensure that, before saving, all objects are as appropriate as
-     * possible for storage in most data formats.
-     * <p>
-     * Specifically it does the following:
-     * for Map: calls this method recursively on the Map before putting it in the returned Map.
-     * for List: calls {@link #buildList(Collection)} which functions similar to this method.
-     * for ConfigurationSection: gets the values as a map and calls this method recursively on the Map before putting
-     * it in the returned Map.
-     * for Everything else: stores it as is in the returned Map.
-     */
-    @NotNull
-    private Map<String, Object> buildMap(@NotNull final Map<?, ?> map) {
-        return map.entrySet().stream()
-            .collect(Collectors.toMap(
-                entry -> Objects.toString(entry.getKey()),
-                entry -> GeneralUtilities.serialize(entry.getValue())));
-    }
-
-    /**
-     * Takes a Collection and parses through the values, to ensure that, before saving, all objects are as appropriate
-     * as possible for storage in most data formats.
-     * <p>
-     * Specifically it does the following:
-     * for Map: calls {@link #buildMap(Map)} on the Map before adding to the returned list.
-     * for List: calls this method recursively on the List.
-     * for ConfigurationSection: gets the values as a map and calls {@link #buildMap(Map)} on the Map
-     * before adding to the returned list.
-     * for Everything else: stores it as is in the returned List.
-     */
-    @NotNull
-    private List<Object> buildList(@NotNull final Collection<?> collection) {
-        return collection.stream()
-            .map(GeneralUtilities::serialize)
-            .collect(Collectors.toCollection(() -> new ArrayList<>(collection.size())));
-    }
-
-    /**
      * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
      * lists and maps within lists.
      */
     @NotNull
-    private Collection<Object> deserialize(@NotNull final Collection<?> input) {
-        return input.stream()
-            .map(o -> {
-                if (o instanceof Map) {
-                    return GeneralUtilities.deserialize((Map<?, ?>) o);
-                }
-                if (o instanceof List<?>) {
-                    return GeneralUtilities.deserialize((List<?>) o);
-                }
-                return o;
-            })
-            .collect(Collectors.toList());
+    private Collection<Object> deserialize(@NotNull final Iterable<?> input) {
+        final Collection<Object> objects = new ArrayList<>();
+        input.forEach(o -> {
+            if (o instanceof Map) {
+                objects.add(GeneralUtilities.deserialize((Map<?, ?>) o));
+            } else if (o instanceof List<?>) {
+                objects.add(GeneralUtilities.deserialize((Iterable<?>) o));
+            } else {
+                objects.add(o);
+            }
+        });
+        return objects;
     }
 
 }

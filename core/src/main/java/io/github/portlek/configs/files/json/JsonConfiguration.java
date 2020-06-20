@@ -28,15 +28,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import io.github.portlek.configs.files.json.minimaljson.WriterConfig;
-import io.github.portlek.configs.util.GeneralUtilities;
 import java.io.File;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -70,7 +67,7 @@ public final class JsonConfiguration extends FileConfiguration {
     @NotNull
     @Override
     public String saveToString() {
-        final JsonObject jsonObject = GeneralUtilities.mapAsJsonObject(this.getValues(false));
+        final JsonObject jsonObject = Helper.mapAsJsonObject(this.getValues(false));
         final String dump = jsonObject.toString(WriterConfig.PRETTY_PRINT);
         if (dump.equals(JsonConfiguration.BLANK_CONFIG)) {
             return "";
@@ -84,8 +81,10 @@ public final class JsonConfiguration extends FileConfiguration {
             return;
         }
         final JsonValue parse = Json.parse(contents);
-        final Map<String, Object> input = GeneralUtilities.jsonObjectAsMap(parse);
-        this.convertMapsToSections(input, this);
+        if (!parse.isObject()) {
+            return;
+        }
+        Helper.convertMapsToSections(Helper.jsonObjectAsMap(parse.asObject()), this);
     }
 
     @NotNull
@@ -96,19 +95,6 @@ public final class JsonConfiguration extends FileConfiguration {
         }
 
         return (JsonConfigurationOptions) this.options;
-    }
-
-    private void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        final Map<String, Object> result = GeneralUtilities.deserialize(input);
-        for (final Map.Entry<?, ?> entry : result.entrySet()) {
-            final String key = entry.getKey().toString();
-            final Object value = entry.getValue();
-            if (value instanceof Map) {
-                this.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
-            } else {
-                section.set(key, value);
-            }
-        }
     }
 
 }
