@@ -25,18 +25,14 @@ public final class FieldsProceed {
             });
         parentclass
             .declaredFieldsWithAnnotation(Instance.class, (refField, instance) -> {
-                if (CfgSection.class.isAssignableFrom(refField.type())) {
-                    refField.of(this.parent).get()
-                        .map(o -> (CfgSection) o)
-                        .ifPresent(initiatedCfgSection -> {
-                            new ClassOf<>(initiatedCfgSection).annotation(Section.class, section -> {
-                                final CfgSection newsection = this.parent.getOrCreateSection(section.value());
-                                initiatedCfgSection.setup(this.parent.getManaged(),
-                                    newsection.getConfigurationSection());
-                                new FieldsProceed(initiatedCfgSection).load();
-                            });
-                        });
-                }
+                refField.of(this.parent).get()
+                    .ifPresent(initiatedCfgSection ->
+                        new ClassOf<>(initiatedCfgSection).annotation(Section.class, section -> {
+                            final CfgSection newsection = this.parent.getOrCreateSection(section.value());
+                            newsection.setup(this.parent.getManaged(),
+                                newsection.getConfigurationSection());
+                            new FieldsProceed(newsection).load();
+                        }));
             });
     }
 
