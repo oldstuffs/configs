@@ -27,6 +27,8 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Base Yaml Scalar which all implementations of Scalar should extend.
  * It implementing toString(), equals, hashcode and compareTo methods.
@@ -44,6 +46,12 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
     @Override
     public final Node type() {
         return Node.SCALAR;
+    }
+
+    @NotNull
+    @Override
+    public final String emptyValue() {
+        return "";
     }
 
     /**

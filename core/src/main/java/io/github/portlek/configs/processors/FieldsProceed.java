@@ -4,6 +4,7 @@ import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.configs.structure.section.CfgSection;
+import io.github.portlek.reflection.RefClass;
 import io.github.portlek.reflection.clazz.ClassOf;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -17,20 +18,21 @@ public final class FieldsProceed {
 
     @SneakyThrows
     public void load() {
-        final ClassOf<CfgSection> parentClass = new ClassOf<>(this.parent);
-        parentClass
+        final RefClass<CfgSection> parentclass = new ClassOf<>(this.parent);
+        parentclass
             .declaredFieldsWithAnnotation(Property.class, (refField, property) -> {
                 new PropertyProceed(this.parent, property, refField).load();
             });
-        parentClass
+        parentclass
             .declaredFieldsWithAnnotation(Instance.class, (refField, instance) -> {
                 if (CfgSection.class.isAssignableFrom(refField.type())) {
                     refField.of(this.parent).get()
                         .map(o -> (CfgSection) o)
                         .ifPresent(initiatedCfgSection -> {
                             new ClassOf<>(initiatedCfgSection).annotation(Section.class, section -> {
+                                final CfgSection newsection = this.parent.getOrCreateSection(section.value());
                                 initiatedCfgSection.setup(this.parent.getManaged(),
-                                    this.parent.getOrCreateSection(section.value()).getConfigurationSection());
+                                    newsection.getConfigurationSection());
                                 new FieldsProceed(initiatedCfgSection).load();
                             });
                         });

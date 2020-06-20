@@ -29,6 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Collection;
 import java.util.Iterator;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Base YamlStream which all implementations should extend.
@@ -47,6 +48,12 @@ abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
     @Override
     public final Node type() {
         return Node.STREAM;
+    }
+
+    @NotNull
+    @Override
+    public final String emptyValue() {
+        return "[]";
     }
 
     @Override

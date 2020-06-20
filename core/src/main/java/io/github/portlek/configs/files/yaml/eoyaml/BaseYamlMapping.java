@@ -29,6 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Iterator;
 import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Base YamlMapping which all implementations of YamlMapping should extend.
@@ -48,6 +49,12 @@ public abstract class BaseYamlMapping
     @Override
     public final Node type() {
         return Node.MAPPING;
+    }
+
+    @NotNull
+    @Override
+    public final String emptyValue() {
+        return "{}";
     }
 
     @Override

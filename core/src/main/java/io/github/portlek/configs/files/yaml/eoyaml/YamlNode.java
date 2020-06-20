@@ -28,6 +28,7 @@
 package io.github.portlek.configs.files.yaml.eoyaml;
 
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingException;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * YAML node.
@@ -111,5 +112,8 @@ public interface YamlNode extends Comparable<YamlNode> {
      */
     <T extends YamlNode> T asClass(Class<T> clazz, Node type)
         throws YamlReadingException, ClassCastException;
+
+    @Nullable
+    String emptyValue();
 
 }

@@ -29,6 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Collection;
 import java.util.Iterator;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Base YamlSequence which all implementations should extend.
@@ -48,6 +49,12 @@ public abstract class BaseYamlSequence
     @Override
     public final Node type() {
         return Node.SEQUENCE;
+    }
+
+    @NotNull
+    @Override
+    public final String emptyValue() {
+        return "[]";
     }
 
     @Override
