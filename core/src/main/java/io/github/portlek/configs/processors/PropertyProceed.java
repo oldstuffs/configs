@@ -30,7 +30,7 @@ import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.provided.ProvidedSet;
 import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
-import java.lang.reflect.Field;
+import io.github.portlek.reflection.RefField;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -46,7 +46,7 @@ public final class PropertyProceed {
     private final Property property;
 
     @NotNull
-    private final Field field;
+    private final RefField field;
 
     @NotNull
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
@@ -91,20 +91,19 @@ public final class PropertyProceed {
 
     @SneakyThrows
     public void load() {
+        final Optional<Object> optional = this.field.of(this.parent).get();
+        if (!optional.isPresent()) {
+            return;
+        }
         final String path = GeneralUtilities.calculatePath(
             this.property.regex(),
             this.property.separator(),
             this.property.value(),
-            this.field.getName()
-        );
-        final Optional<Object> optional = Optional.ofNullable(this.field.get(this.parent));
-        if (!optional.isPresent()) {
-            return;
-        }
+            this.field.name());
         final Object fieldvalue = optional.get();
         final Optional<?> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
         if (filevalueoptional.isPresent()) {
-            this.field.set(this.parent, filevalueoptional.get());
+            this.field.of(this.parent).set(filevalueoptional.get());
         } else {
             PropertyProceed.set(this.parent, fieldvalue, path);
         }

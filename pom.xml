@@ -202,6 +202,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.github.portlek</groupId>
+            <artifactId>reflection</artifactId>
+            <version>3.1.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>19.0.0</version>
