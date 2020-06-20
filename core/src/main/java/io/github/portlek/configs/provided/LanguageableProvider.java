@@ -40,7 +40,7 @@ public final class LanguageableProvider implements Provided<Languageable<?>> {
     @Override
     public Optional<Languageable<?>> getWithField(@NotNull final Languageable<?> languageable,
                                                   @NotNull final CfgSection section, @NotNull final String path) {
-        final FlManaged flmanaged = section.getManaged();
+        final FlManaged flmanaged = section.getParent();
         if (!(flmanaged instanceof CmprblManaged<?>)) {
             return Optional.empty();
         }
@@ -65,7 +65,7 @@ public final class LanguageableProvider implements Provided<Languageable<?>> {
     @Override
     public void set(@NotNull final Languageable<?> languageable, @NotNull final CfgSection section,
                     @NotNull final String path) {
-        final FlManaged parentmanaged = section.getManaged();
+        final FlManaged parentmanaged = section.getParent();
         if (!(parentmanaged instanceof CmprblManaged<?>)) {
             return;
         }

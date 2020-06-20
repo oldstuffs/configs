@@ -96,9 +96,8 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
         return this.current().getConfigurationSection();
     }
 
-    @NotNull
     @Override
-    public final FlManaged getManaged() {
+    public final @NotNull FlManaged getParent() {
         return this;
     }
 

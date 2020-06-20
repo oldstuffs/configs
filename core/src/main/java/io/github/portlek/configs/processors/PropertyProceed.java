@@ -101,8 +101,6 @@ public final class PropertyProceed {
             this.property.value(),
             this.field.name());
         final Object fieldvalue = optional.get();
-        System.out.println(this.parent.getManaged().getFile());
-        System.out.println(this.parent.getManaged().getConfigurationSection());
         final Optional<?> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
         if (filevalueoptional.isPresent()) {
             this.field.of(this.parent).set(filevalueoptional.get());

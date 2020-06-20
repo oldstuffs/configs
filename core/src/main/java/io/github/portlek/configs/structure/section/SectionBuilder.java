@@ -170,10 +170,10 @@ public final class SectionBuilder {
     }
 
     public void build() {
-        final boolean save = this.section.getManaged().isAutoSave();
-        this.section.getManaged().setAutoSave(false);
+        final boolean save = this.section.getParent().isAutoSave();
+        this.section.getParent().setAutoSave(false);
         SectionBuilder.buildParents(this);
-        this.section.getManaged().setAutoSave(save);
+        this.section.getParent().setAutoSave(save);
     }
 
     @NotNull

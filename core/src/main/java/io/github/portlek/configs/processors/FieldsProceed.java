@@ -20,20 +20,19 @@ public final class FieldsProceed {
     public void load() {
         final RefClass<CfgSection> parentclass = new ClassOf<>(this.parent);
         parentclass
-            .declaredFieldsWithAnnotation(Property.class, (refField, property) -> {
-                new PropertyProceed(this.parent, property, refField).load();
-            });
+            .declaredFieldsWithAnnotation(Property.class, (refField, property) ->
+                new PropertyProceed(this.parent, property, refField).load());
         parentclass
-            .declaredFieldsWithAnnotation(Instance.class, (refField, instance) -> {
+            .declaredFieldsWithAnnotation(Instance.class, (refField, instance) ->
                 refField.of(this.parent).get()
+                    .filter(o -> CfgSection.class.isAssignableFrom(o.getClass()))
+                    .map(o -> (CfgSection) o)
                     .ifPresent(initiatedCfgSection ->
                         new ClassOf<>(initiatedCfgSection).annotation(Section.class, section -> {
-                            final CfgSection newsection = this.parent.getOrCreateSection(section.value());
-                            newsection.setup(this.parent.getManaged(),
-                                newsection.getConfigurationSection());
-                            new FieldsProceed(newsection).load();
-                        }));
-            });
+                            initiatedCfgSection.setup(this.parent.getParent(),
+                                this.parent.getOrCreateSection(section.value()).getConfigurationSection());
+                            new FieldsProceed(initiatedCfgSection).load();
+                        })));
     }
 
 }

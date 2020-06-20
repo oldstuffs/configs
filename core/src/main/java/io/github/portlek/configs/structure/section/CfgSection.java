@@ -248,7 +248,7 @@ public interface CfgSection {
 
     default void set(@NotNull final String path, @Nullable final Object object) {
         this.getConfigurationSection().set(path, object);
-        this.getManaged().autoSave();
+        this.getParent().autoSave();
     }
 
     @NotNull
@@ -261,7 +261,7 @@ public interface CfgSection {
         return Optional.ofNullable(this.getConfigurationSection().getConfigurationSection(path))
             .map(configurationsection -> {
                 final CfgSection configsection = this.getNewSection().get();
-                configsection.setup(this.getManaged(), configurationsection);
+                configsection.setup(this.getParent(), configurationsection);
                 return configsection;
             });
     }
@@ -269,8 +269,8 @@ public interface CfgSection {
     @NotNull
     default CfgSection createSection(@NotNull final String path) {
         final CfgSection configsection = this.getNewSection().get();
-        configsection.setup(this.getManaged(), this.getConfigurationSection().createSection(path));
-        this.getManaged().autoSave();
+        configsection.setup(this.getParent(), this.getConfigurationSection().createSection(path));
+        this.getParent().autoSave();
         return configsection;
     }
 
@@ -665,12 +665,12 @@ public interface CfgSection {
         return this.getList(path, def).orElse(new ArrayList<>());
     }
 
-    void setup(@NotNull FlManaged managed, @NotNull ConfigurationSection section);
+    void setup(@NotNull FlManaged parent, @NotNull ConfigurationSection section);
 
     @NotNull
     ConfigurationSection getConfigurationSection();
 
     @NotNull
-    FlManaged getManaged();
+    FlManaged getParent();
 
 }
