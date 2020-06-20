@@ -51,7 +51,7 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
     @NotNull
     @Override
     public final String emptyValue() {
-        return "";
+        return "\"\"";
     }
 
     /**
