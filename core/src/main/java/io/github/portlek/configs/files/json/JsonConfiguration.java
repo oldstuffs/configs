@@ -84,7 +84,7 @@ public final class JsonConfiguration extends FileConfiguration {
         if (!parse.isObject()) {
             return;
         }
-        Helper.convertMapsToSections(Helper.jsonObjectAsMap(parse.asObject()), this);
+        Helper.convertMapToSection(parse.asObject(), this);
     }
 
     @NotNull

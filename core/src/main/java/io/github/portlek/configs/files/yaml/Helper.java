@@ -39,7 +39,7 @@ import org.jetbrains.annotations.Nullable;
 class Helper {
 
     public void convertMapToSection(@NotNull final YamlMapping mapping, @NotNull final ConfigurationSection section) {
-        Helper.convertMapToSection(Helper.yamlMappingAsMap(mapping), section);
+        GeneralUtilities.convertMapToSection(Helper.yamlMappingAsMap(mapping), section);
     }
 
     @NotNull
@@ -55,24 +55,11 @@ class Helper {
         mapping.keys().stream()
             .filter(node -> node instanceof Scalar)
             .map(YamlNode::asScalar)
-            .forEach(keyNode ->
+            .forEach(keyNode -> {
                 Helper.yamlNodeAsObject(mapping.value(keyNode)).ifPresent(o ->
-                    map.put(keyNode.value(), o)));
+                    map.put(keyNode.value().replace("\"", ""), o));
+            });
         return map;
-    }
-
-    private void convertMapToSection(@NotNull final Map<?, ?> input,
-                                     @NotNull final ConfigurationSection section) {
-        final Map<String, Object> result = GeneralUtilities.deserialize(input);
-        for (final Map.Entry<?, ?> entry : result.entrySet()) {
-            final String key = entry.getKey().toString();
-            final Object value = entry.getValue();
-            if (value instanceof Map) {
-                Helper.convertMapToSection((Map<?, ?>) value, section.createSection(key));
-            } else {
-                section.set(key, value);
-            }
-        }
     }
 
     @NotNull

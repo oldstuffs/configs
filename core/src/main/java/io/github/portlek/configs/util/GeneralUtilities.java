@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.*;
@@ -210,6 +211,20 @@ public class GeneralUtilities {
             return Optional.of((Character) object);
         }
         return Optional.empty();
+    }
+
+    public void convertMapToSection(@NotNull final Map<?, ?> input,
+                                    @NotNull final ConfigurationSection section) {
+        final Map<String, Object> result = GeneralUtilities.deserialize(input);
+        for (final Map.Entry<?, ?> entry : result.entrySet()) {
+            final String key = entry.getKey().toString();
+            final Object value = entry.getValue();
+            if (value instanceof Map<?, ?>) {
+                GeneralUtilities.convertMapToSection((Map<?, ?>) value, section.createSection(key));
+            } else {
+                section.set(key, value);
+            }
+        }
     }
 
     @NotNull

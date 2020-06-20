@@ -39,17 +39,9 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 class Helper {
 
-    public void convertMapsToSections(@NotNull final Map<?, ?> input, @NotNull final ConfigurationSection section) {
-        final Map<String, Object> result = GeneralUtilities.deserialize(input);
-        for (final Map.Entry<?, ?> entry : result.entrySet()) {
-            final String key = entry.getKey().toString();
-            final Object value = entry.getValue();
-            if (value instanceof Map) {
-                Helper.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
-            } else {
-                section.set(key, value);
-            }
-        }
+    public void convertMapToSection(@NotNull final JsonObject object,
+                                    @NotNull final ConfigurationSection section) {
+        GeneralUtilities.convertMapToSection(Helper.jsonObjectAsMap(object), section);
     }
 
     @NotNull
