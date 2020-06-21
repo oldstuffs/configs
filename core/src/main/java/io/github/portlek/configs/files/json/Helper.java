@@ -45,21 +45,21 @@ class Helper {
     }
 
     @NotNull
-    public Map<String, Object> jsonObjectAsMap(@NotNull final JsonObject object) {
-        final Map<String, Object> map = new HashMap<>();
-        object.forEach(member ->
-            Helper.jsonValueAsObject(member.getValue()).ifPresent(o ->
-                map.put(member.getName(), o)));
-        return map;
-    }
-
-    @NotNull
     public JsonObject mapAsJsonObject(@NotNull final Map<?, ?> map) {
         final JsonObject object = new JsonObject();
         map.forEach((key, value) ->
             Helper.objectAsJsonValue(value).ifPresent(jsonValue ->
                 object.add(String.valueOf(key), jsonValue)));
         return object;
+    }
+
+    @NotNull
+    private Map<String, Object> jsonObjectAsMap(@NotNull final JsonObject object) {
+        final Map<String, Object> map = new HashMap<>();
+        object.forEach(member ->
+            Helper.jsonValueAsObject(member.getValue()).ifPresent(o ->
+                map.put(member.getName(), o)));
+        return map;
     }
 
     @NotNull
