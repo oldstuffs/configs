@@ -32,12 +32,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
-
 public final class MergedYamlSequence extends BaseYamlSequence {
 
-
     private final YamlSequence merged;
-
 
     public MergedYamlSequence(
         final YamlSequence original,
@@ -46,14 +43,12 @@ public final class MergedYamlSequence extends BaseYamlSequence {
         this(original, changed, false);
     }
 
-
     public MergedYamlSequence(
         final YamlSequence original,
         final Supplier<YamlSequence> changed
     ) {
         this(original, changed, false);
     }
-
 
     public MergedYamlSequence(
         final YamlSequence original,
@@ -62,7 +57,6 @@ public final class MergedYamlSequence extends BaseYamlSequence {
     ) {
         this(original, changed.get(), overrideIndices);
     }
-
 
     public MergedYamlSequence(
         final YamlSequence original,
@@ -77,7 +71,6 @@ public final class MergedYamlSequence extends BaseYamlSequence {
             this.merged = MergedYamlSequence.merge(original, changed, overrideIndices);
         }
     }
-
 
     private static YamlSequence merge(
         final YamlSequence original,

@@ -32,15 +32,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class Skip implements YamlLines {
-
 
     private final YamlLines yamlLines;
 
-
     private final Skip.Condition[] conditions;
-
 
     Skip(final YamlLines yamlLines, final Skip.Condition... conditions) {
         this.yamlLines = yamlLines;
@@ -83,9 +79,7 @@ final class Skip implements YamlLines {
         return iterator;
     }
 
-
     interface Condition {
-
 
         boolean isMet(YamlLine line);
 

@@ -32,7 +32,6 @@ import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingExcepti
 import java.io.IOException;
 import java.io.StringWriter;
 
-
 abstract class BaseYamlNode implements YamlNode {
 
     @Override
@@ -70,7 +69,6 @@ abstract class BaseYamlNode implements YamlNode {
         return clazz.cast(this);
     }
 
-
     @Override
     public final String toString() {
         final StringWriter writer = new StringWriter();
@@ -84,7 +82,6 @@ abstract class BaseYamlNode implements YamlNode {
             );
         }
     }
-
 
     abstract boolean isEmpty();
 

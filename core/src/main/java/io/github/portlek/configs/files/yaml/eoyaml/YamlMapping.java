@@ -29,7 +29,6 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public interface YamlMapping extends YamlNode {
@@ -216,7 +215,6 @@ public interface YamlMapping extends YamlNode {
             Yaml.createYamlScalarBuilder().addLine(key).buildPlainScalar()
         );
     }
-
 
     default LocalDateTime dateTime(final YamlNode key) {
         final YamlNode value = this.value(key);

@@ -28,7 +28,6 @@ package io.github.portlek.configs.files.yaml;
 import io.github.portlek.configs.configuration.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
-
 public class YamlConfigurationOptions extends FileConfigurationOptions {
 
     private int indent = 2;
@@ -57,11 +56,9 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
         return this;
     }
 
-
     public final int indent() {
         return this.indent;
     }
-
 
     @NotNull
     public final YamlConfigurationOptions indent(final int value) {

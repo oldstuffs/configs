@@ -35,20 +35,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class RtYamlInput implements YamlInput {
-
 
     private final InputStream source;
 
-
     private final boolean guessIndentation;
-
 
     RtYamlInput(final InputStream source) {
         this(source, false);
     }
-
 
     RtYamlInput(final InputStream source, final boolean guessIndentation) {
         this.source = source;
@@ -99,7 +94,6 @@ final class RtYamlInput implements YamlInput {
     public Scalar readLiteralBlockScalar() throws IOException {
         return new ReadLiteralBlockScalar(this.readInput());
     }
-
 
     private AllYamlLines readInput() throws IOException {
         final List<YamlLine> lines = new ArrayList<>();

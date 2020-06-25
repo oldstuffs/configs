@@ -32,17 +32,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 final class RtYamlScalarBuilder implements YamlScalarBuilder {
 
-
     private final List<String> lines;
-
 
     RtYamlScalarBuilder() {
         this(new LinkedList<>());
     }
-
 
     RtYamlScalarBuilder(final List<String> lines) {
         this.lines = lines;
@@ -74,20 +70,15 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
         return new RtYamlScalarBuilder.BuiltLiteralBlockScalar(this.lines, comment);
     }
 
-
     static class BuiltFoldedBlockScalar extends BaseFoldedScalar {
-
 
         private final Comment comment;
 
-
         private final List<String> lines;
-
 
         BuiltFoldedBlockScalar(final List<String> lines) {
             this(lines, "");
         }
-
 
         BuiltFoldedBlockScalar(
             final List<String> lines, final String comment
@@ -95,7 +86,6 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
             this.lines = lines;
             this.comment = new BuiltComment(this, comment);
         }
-
 
         @Override
         public String value() {
@@ -118,20 +108,15 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
 
     }
 
-
     static class BuiltLiteralBlockScalar extends BaseScalar {
-
 
         private final Comment comment;
 
-
         private final List<String> lines;
-
 
         BuiltLiteralBlockScalar(final List<String> lines) {
             this(lines, "");
         }
-
 
         BuiltLiteralBlockScalar(
             final List<String> lines, final String comment
@@ -139,7 +124,6 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
             this.lines = lines;
             this.comment = new BuiltComment(this, comment);
         }
-
 
         @Override
         public String value() {

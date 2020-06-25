@@ -27,12 +27,9 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public interface YamlStreamBuilder {
 
-
     YamlStreamBuilder add(YamlNode document);
-
 
     YamlStream build();
 

@@ -27,22 +27,17 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public interface YamlDump {
 
-
     YamlNode dump();
-
 
     default YamlMapping dumpMapping() {
         return (YamlMapping) this.dump();
     }
 
-
     default YamlSequence dumpSequence() {
         return (YamlSequence) this.dump();
     }
-
 
     default Scalar dumpScalar() {
         return (Scalar) this.dump();

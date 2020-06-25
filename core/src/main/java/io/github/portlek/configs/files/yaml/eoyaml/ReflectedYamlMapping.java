@@ -35,12 +35,9 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 final class ReflectedYamlMapping extends BaseYamlMapping {
 
-
     private final Object bean;
-
 
     ReflectedYamlMapping(final Object bean) {
         if (bean instanceof Collection || bean.getClass().isArray()) {
@@ -113,7 +110,6 @@ final class ReflectedYamlMapping extends BaseYamlMapping {
         };
     }
 
-
     private Object invokeMethod(final String keyName) {
         Object value = null;
         final Method[] methods = this.bean.getClass().getDeclaredMethods();
@@ -136,17 +132,13 @@ final class ReflectedYamlMapping extends BaseYamlMapping {
         return value;
     }
 
-
     private YamlNode objectToYamlNode(final Object value) {
         return Yaml.createYamlDump(value).dump();
     }
 
-
     static class MethodKey extends BaseScalar {
 
-
         private final Method method;
-
 
         MethodKey(final Method method) {
             this.method = method;

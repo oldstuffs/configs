@@ -33,20 +33,15 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class WellIndented implements YamlLines {
-
 
     private final YamlLines yamlLines;
 
-
     private final boolean guessIndentation;
-
 
     WellIndented(final YamlLines yamlLines) {
         this(yamlLines, false);
     }
-
 
     WellIndented(final YamlLines yamlLines, final boolean guessIndentation) {
         this.yamlLines = yamlLines;
@@ -65,7 +60,6 @@ final class WellIndented implements YamlLines {
     ) {
         return this.yamlLines.toYamlNode(prev, guessIndent);
     }
-
 
     @Override
     public Iterator<YamlLine> iterator() {

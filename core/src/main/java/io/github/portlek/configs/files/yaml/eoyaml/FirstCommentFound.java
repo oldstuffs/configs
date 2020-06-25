@@ -32,20 +32,15 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class FirstCommentFound implements YamlLines {
-
 
     private final YamlLines lines;
 
-
     private final boolean inLine;
-
 
     FirstCommentFound(final YamlLines lines) {
         this(lines, false);
     }
-
 
     FirstCommentFound(final YamlLines lines, final boolean inLine) {
         this.lines = lines;
@@ -64,7 +59,6 @@ final class FirstCommentFound implements YamlLines {
     ) {
         return this.lines.toYamlNode(prev, guessIndentation);
     }
-
 
     @Override
     public Iterator<YamlLine> iterator() {

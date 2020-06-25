@@ -27,18 +27,13 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class Follows {
-
 
     static final String FOLDED_BLOCK_SCALAR = ">";
 
-
     static final String LITERAL_BLOCK_SCALAR = "|";
 
-
     static final String FOLDED_SEQUENCE = "^.+\\|[ ]*\\-$";
-
 
     private Follows() {
     }

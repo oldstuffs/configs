@@ -30,12 +30,9 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class BuiltComments implements Comments {
 
-
     private final List<Comment> comments;
-
 
     BuiltComments(final List<Comment> comments) {
         this.comments = comments;

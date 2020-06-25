@@ -30,9 +30,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.Collections;
 import java.util.Iterator;
 
-
 interface Comments extends Iterable<Comment> {
-
 
     default Comment referringTo(final String plainScalar) {
         return this.referringTo(
@@ -42,9 +40,7 @@ interface Comments extends Iterable<Comment> {
         );
     }
 
-
     Comment referringTo(YamlNode node);
-
 
     class Empty implements Comments {
 

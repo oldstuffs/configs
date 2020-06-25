@@ -31,17 +31,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-
 final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
-
     private final List<YamlNode> documents;
-
 
     RtYamlStreamBuilder() {
         this(new LinkedList<YamlNode>());
     }
-
 
     RtYamlStreamBuilder(final List<YamlNode> documents) {
         this.documents = documents;
@@ -60,12 +56,9 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
         return new RtYamlStreamBuilder.BuiltYamlStream(this.documents);
     }
 
-
     static class BuiltYamlStream extends BaseYamlStream {
 
-
         private final Collection<YamlNode> documents;
-
 
         BuiltYamlStream(final Collection<YamlNode> documents) {
             this.documents = documents;

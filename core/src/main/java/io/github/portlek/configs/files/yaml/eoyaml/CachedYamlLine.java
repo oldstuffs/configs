@@ -27,21 +27,15 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class CachedYamlLine implements YamlLine {
-
 
     private final YamlLine line;
 
-
     private String trimmed;
-
 
     private int indentation = -1;
 
-
     private Boolean hasNestedNode;
-
 
     CachedYamlLine(final YamlLine line) {
         this.line = line;
