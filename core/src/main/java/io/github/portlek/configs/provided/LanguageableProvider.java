@@ -47,10 +47,10 @@ public final class LanguageableProvider implements Provided<Languageable<?>> {
         final CmprblManaged<?> managed = (CmprblManaged<?>) flmanaged;
         // noinspection unchecked
         return Optional.of(managed.languageable((Supplier<Object>) languageable.getDefaultValue(), (s, o) -> {
-            final Object object = languageable.apply(s);
-            final Optional<?> optional = PropertyProceed.get(section, object, path);
+            final Object fieldvalue = languageable.apply(s);
+            final Optional<?> optional = PropertyProceed.get(section, fieldvalue, path);
             if (!optional.isPresent()) {
-                return object;
+                return fieldvalue;
             }
             return optional.get();
         }));
@@ -69,10 +69,8 @@ public final class LanguageableProvider implements Provided<Languageable<?>> {
         if (!(parentmanaged instanceof CmprblManaged<?>)) {
             return;
         }
-        final CmprblManaged<?> managed = (CmprblManaged<?>) parentmanaged;
-        managed.comparableKeys().forEach(s ->
-            managed.comparable(s).ifPresent(flManaged ->
-                PropertyProceed.set(section, languageable.apply(s), path)));
+        ((CmprblManaged<?>) parentmanaged).comparableKeys().forEach(key ->
+            PropertyProceed.set(section, languageable.apply(key), path));
     }
 
 }

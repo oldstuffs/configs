@@ -1,5 +1,5 @@
 test-1: "tr-1"
 test-2: "tr-2"
 test-section:
-  test-3: "tr 3"
-  test-4: "tr 4"
+  test-3: "tr-3"
+  test-4: "tr-4"
