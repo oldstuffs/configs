@@ -29,24 +29,17 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.io.IOException;
 
-
 public interface YamlInput {
-
 
     YamlMapping readYamlMapping() throws IOException;
 
-
     YamlSequence readYamlSequence() throws IOException;
-
 
     YamlStream readYamlStream() throws IOException;
 
-
     Scalar readPlainScalar() throws IOException;
 
-
     Scalar readFoldedBlockScalar() throws IOException;
-
 
     Scalar readLiteralBlockScalar() throws IOException;
 

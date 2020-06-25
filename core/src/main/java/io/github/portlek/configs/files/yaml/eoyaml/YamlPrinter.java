@@ -29,9 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.io.IOException;
 
-
 public interface YamlPrinter {
-
 
     void print(YamlNode node) throws IOException;
 

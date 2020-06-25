@@ -29,9 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml.exceptions;
 
 import java.io.IOException;
 
-
 public final class YamlPrintException extends RuntimeException {
-
 
     public YamlPrintException(
         final String message,

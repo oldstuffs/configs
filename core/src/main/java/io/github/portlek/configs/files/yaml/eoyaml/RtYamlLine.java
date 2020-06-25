@@ -27,15 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class RtYamlLine implements YamlLine {
-
 
     private final String value;
 
-
     private final int number;
-
 
     RtYamlLine(final String value, final int number) {
         this.value = value;

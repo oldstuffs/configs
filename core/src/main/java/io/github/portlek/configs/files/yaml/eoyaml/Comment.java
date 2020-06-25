@@ -27,12 +27,9 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public interface Comment {
 
-
     YamlNode yamlNode();
-
 
     String value();
 

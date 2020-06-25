@@ -33,24 +33,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-
 public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
 
-
     Collection<YamlNode> values();
-
 
     @Override
     default Iterator<YamlNode> iterator() {
         return this.values().iterator();
     }
 
-
     default int size() {
         return this.values().size();
     }
-
-
 
     default YamlMapping yamlMapping(final int index) {
         YamlMapping mapping = null;
@@ -64,7 +58,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         return mapping;
     }
 
-
     default YamlSequence yamlSequence(final int index) {
         YamlSequence sequence = null;
         int count = 0;
@@ -76,7 +69,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         }
         return sequence;
     }
-
 
     default String string(final int index) {
         String value = null;
@@ -91,7 +83,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         return value;
     }
 
-
     default String foldedBlockScalar(final int index) {
         String value = null;
         int count = 0;
@@ -104,7 +95,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         }
         return value;
     }
-
 
     default Collection<String> literalBlockScalar(final int index) {
         Collection<String> value = null;
@@ -122,7 +112,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         return value;
     }
 
-
     default int integer(final int index) {
         final String value = this.string(index);
         if (value != null && !value.isEmpty()) {
@@ -130,7 +119,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         }
         return -1;
     }
-
 
     default float floatNumber(final int index) {
         final String value = this.string(index);
@@ -140,7 +128,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         return -1;
     }
 
-
     default double doubleNumber(final int index) {
         final String value = this.string(index);
         if (value != null && !value.isEmpty()) {
@@ -148,7 +135,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         }
         return -1.0;
     }
-
 
     default long longNumber(final int index) {
         final String value = this.string(index);
@@ -158,7 +144,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         return -1L;
     }
 
-
     default LocalDate date(final int index) {
         final String value = this.string(index);
         if (value != null && !value.isEmpty()) {
@@ -166,7 +151,6 @@ public interface YamlSequence extends YamlNode, Iterable<YamlNode> {
         }
         return null;
     }
-
 
     default LocalDateTime dateTime(final int index) {
         final String value = this.string(index);

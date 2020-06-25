@@ -30,27 +30,19 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingException;
 import org.jetbrains.annotations.Nullable;
 
-
 public interface YamlNode extends Comparable<YamlNode> {
-
 
     Comment comment();
 
-
     Node type();
-
 
     Scalar asScalar() throws YamlReadingException, ClassCastException;
 
-
     YamlMapping asMapping() throws YamlReadingException, ClassCastException;
-
 
     YamlSequence asSequence() throws YamlReadingException, ClassCastException;
 
-
     YamlStream asStream() throws YamlReadingException, ClassCastException;
-
 
     <T extends YamlNode> T asClass(Class<T> clazz, Node type)
         throws YamlReadingException, ClassCastException;

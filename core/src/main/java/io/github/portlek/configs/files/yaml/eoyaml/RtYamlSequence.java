@@ -31,20 +31,15 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-
 final class RtYamlSequence extends BaseYamlSequence {
-
 
     private final List<YamlNode> nodes = new LinkedList<>();
 
-
     private final Comment comment;
-
 
     RtYamlSequence(final Collection<YamlNode> elements) {
         this(elements, "");
     }
-
 
     RtYamlSequence(
         final Collection<YamlNode> elements,

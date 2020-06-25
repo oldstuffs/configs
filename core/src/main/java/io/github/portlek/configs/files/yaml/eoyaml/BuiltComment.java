@@ -27,15 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 class BuiltComment implements Comment {
-
 
     private final YamlNode node;
 
-
     private final String value;
-
 
     BuiltComment(final YamlNode node, final String value) {
         this.node = node;

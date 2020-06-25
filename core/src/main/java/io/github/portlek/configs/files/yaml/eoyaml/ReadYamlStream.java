@@ -31,23 +31,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 final class ReadYamlStream extends BaseYamlStream {
-
 
     private final YamlLines all;
 
-
     private final YamlLines startMarkers;
 
-
     private final boolean guessIndentation;
-
 
     ReadYamlStream(final AllYamlLines lines) {
         this(lines, false);
     }
-
 
     ReadYamlStream(final AllYamlLines lines, final boolean guessIndentation) {
         this.startMarkers = new WellIndented(
@@ -82,7 +76,6 @@ final class ReadYamlStream extends BaseYamlStream {
         }
         return values;
     }
-
 
     private YamlLines readDocument(final YamlLine start) {
         final List<YamlLine> yamlDocLines = new ArrayList<>();

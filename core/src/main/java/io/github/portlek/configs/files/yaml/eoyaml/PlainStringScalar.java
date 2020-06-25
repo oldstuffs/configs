@@ -27,26 +27,20 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class PlainStringScalar extends BaseScalar {
-
 
     private final Comment comment;
 
-
     private final String value;
-
 
     PlainStringScalar(final String value) {
         this(value, "");
     }
 
-
     PlainStringScalar(final String value, final String comment) {
         this.value = value;
         this.comment = new BuiltComment(this, comment);
     }
-
 
     @Override
     public String value() {

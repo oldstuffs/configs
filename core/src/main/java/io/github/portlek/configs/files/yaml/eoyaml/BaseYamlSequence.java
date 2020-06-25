@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.jetbrains.annotations.NotNull;
 
-
 public abstract class BaseYamlSequence
     extends BaseYamlNode implements YamlSequence {
 
@@ -55,7 +54,6 @@ public abstract class BaseYamlSequence
         return hash;
     }
 
-
     @Override
     public final boolean equals(final Object other) {
         final boolean result;
@@ -68,7 +66,6 @@ public abstract class BaseYamlSequence
         }
         return result;
     }
-
 
     @Override
     public final int compareTo(final YamlNode other) {

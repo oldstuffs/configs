@@ -32,12 +32,9 @@ import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class RtYamlPrinter implements YamlPrinter {
 
-
     private final Writer writer;
-
 
     RtYamlPrinter(final Writer writer) {
         this.writer = writer;
@@ -64,7 +61,6 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-
     private void printStream(
         final YamlStream stream,
         final int indentation
@@ -88,7 +84,6 @@ final class RtYamlPrinter implements YamlPrinter {
             }
         }
     }
-
 
     private void printMapping(
         final YamlMapping mapping,
@@ -133,7 +128,6 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-
     private void printSequence(
         final YamlSequence sequence,
         final int indentation
@@ -165,7 +159,6 @@ final class RtYamlPrinter implements YamlPrinter {
             }
         }
     }
-
 
     private void printScalar(
         final Scalar scalar,
@@ -217,7 +210,6 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-
     private void printNode(
         final YamlNode node,
         final boolean onNewLine,
@@ -245,7 +237,6 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-
     private void printPossibleComment(
         final YamlNode node,
         final String alignment
@@ -264,7 +255,6 @@ final class RtYamlPrinter implements YamlPrinter {
             }
         }
     }
-
 
     private String indent(final String value, final int indentation) {
         final StringBuilder alignment = new StringBuilder();
@@ -285,15 +275,11 @@ final class RtYamlPrinter implements YamlPrinter {
         return printed.toString();
     }
 
-
     static class Escaped extends BaseScalar {
-
 
         private final String RESERVED = "#:->|$%&";
 
-
         private final Scalar original;
-
 
         Escaped(final Scalar original) {
             this.original = original;

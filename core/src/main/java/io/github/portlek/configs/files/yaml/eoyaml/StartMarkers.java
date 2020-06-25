@@ -32,12 +32,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class StartMarkers implements YamlLines {
 
-
     private final YamlLines yamlLines;
-
 
     StartMarkers(final YamlLines yamlLines) {
         this.yamlLines = yamlLines;
@@ -55,7 +52,6 @@ final class StartMarkers implements YamlLines {
     ) {
         return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
-
 
     @Override
     public Iterator<YamlLine> iterator() {

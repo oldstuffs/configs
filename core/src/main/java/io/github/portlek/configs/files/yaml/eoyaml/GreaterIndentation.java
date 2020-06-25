@@ -32,15 +32,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-
 final class GreaterIndentation implements YamlLines {
-
 
     private final YamlLines yamlLines;
 
-
     private final YamlLine reference;
-
 
     GreaterIndentation(final YamlLine reference, final YamlLines yamlLines) {
         this.reference = reference;
@@ -59,7 +55,6 @@ final class GreaterIndentation implements YamlLines {
     ) {
         return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
-
 
     @Override
     public Iterator<YamlLine> iterator() {

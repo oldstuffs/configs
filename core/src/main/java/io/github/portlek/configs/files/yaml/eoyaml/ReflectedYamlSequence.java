@@ -32,12 +32,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-
 final class ReflectedYamlSequence extends BaseYamlSequence {
 
-
     private final Collection<Object> sequence;
-
 
     ReflectedYamlSequence(final Object sequence) {
         if (sequence instanceof Collection) {

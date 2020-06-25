@@ -27,15 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class Indented implements YamlLine {
-
 
     private final YamlLine original;
 
-
     private final int indentation;
-
 
     Indented(final YamlLine original, final int indentation) {
         this.original = original;

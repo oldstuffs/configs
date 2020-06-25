@@ -27,22 +27,17 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public final class YamlNodeNotFoundException extends RuntimeException {
 
-
     private static final long serialVersionUID = 1L;
-
 
     public YamlNodeNotFoundException(final String msg) {
         super(msg);
     }
 
-
     public YamlNodeNotFoundException(final Throwable init) {
         this("", init);
     }
-
 
     public YamlNodeNotFoundException(final String msg, final Throwable init) {
         super(msg, init);

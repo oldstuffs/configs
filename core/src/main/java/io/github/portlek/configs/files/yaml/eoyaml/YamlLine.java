@@ -27,24 +27,17 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 interface YamlLine extends Comparable<YamlLine> {
-
 
     String trimmed();
 
-
     String comment();
-
 
     int number();
 
-
     int indentation();
 
-
     boolean requireNestedIndentation();
-
 
     class NullYamlLine implements YamlLine {
 

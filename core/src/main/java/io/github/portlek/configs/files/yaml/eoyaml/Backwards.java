@@ -29,12 +29,9 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.*;
 
-
 final class Backwards implements YamlLines {
 
-
     private final YamlLines lines;
-
 
     Backwards(final YamlLines lines) {
         this.lines = lines;

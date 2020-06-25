@@ -31,12 +31,9 @@ import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingExcepti
 import java.util.Collection;
 import java.util.Iterator;
 
-
 final class AllYamlLines implements YamlLines {
 
-
     private final Collection<YamlLine> lines;
-
 
     AllYamlLines(final Collection<YamlLine> lines) {
         this.lines = lines;
@@ -87,7 +84,6 @@ final class AllYamlLines implements YamlLines {
     public Iterator<YamlLine> iterator() {
         return this.lines.iterator();
     }
-
 
     private YamlNode mappingSequenceOrPlainScalar(
         final YamlLine prev,

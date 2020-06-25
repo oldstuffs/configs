@@ -32,21 +32,16 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 final class RtYamlMapping extends BaseYamlMapping {
-
 
     private final Map<YamlNode, YamlNode> mappings =
         new LinkedHashMap<>();
 
-
     private final Comment comment;
-
 
     RtYamlMapping(final Map<YamlNode, YamlNode> entries) {
         this(entries, "");
     }
-
 
     RtYamlMapping(
         final Map<YamlNode, YamlNode> entries,

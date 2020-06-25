@@ -29,9 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.List;
 
-
 abstract class BaseFoldedScalar extends BaseScalar {
-
 
     abstract List<String> unfolded();
 

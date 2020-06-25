@@ -27,15 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class ReadComment implements Comment {
-
 
     private final YamlLines lines;
 
-
     private final YamlNode node;
-
 
     ReadComment(final YamlLines lines, final YamlNode node) {
         this.lines = lines;

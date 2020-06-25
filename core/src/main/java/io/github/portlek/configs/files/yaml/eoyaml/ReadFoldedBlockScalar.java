@@ -30,23 +30,17 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.ArrayList;
 import java.util.List;
 
-
 final class ReadFoldedBlockScalar extends BaseFoldedScalar {
-
 
     private final YamlLine previous;
 
-
     private final AllYamlLines all;
 
-
     private final YamlLines significant;
-
 
     ReadFoldedBlockScalar(final AllYamlLines lines) {
         this(new YamlLine.NullYamlLine(), lines);
     }
-
 
     ReadFoldedBlockScalar(final YamlLine previous, final AllYamlLines lines) {
         this.previous = previous;
@@ -64,7 +58,6 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
             )
         );
     }
-
 
     @Override
     public String value() {
@@ -134,7 +127,6 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
         }
         return unfolded;
     }
-
 
     private boolean doNotEndWithNewLine(final StringBuilder builder) {
         return builder.length() > 0

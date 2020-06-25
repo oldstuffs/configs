@@ -29,23 +29,17 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Iterator;
 
-
 final class ReadLiteralBlockScalar extends BaseScalar {
-
 
     private final YamlLine previous;
 
-
     private final AllYamlLines all;
 
-
     private final YamlLines significant;
-
 
     ReadLiteralBlockScalar(final AllYamlLines lines) {
         this(new YamlLine.NullYamlLine(), lines);
     }
-
 
     ReadLiteralBlockScalar(final YamlLine previous, final AllYamlLines lines) {
         this.previous = previous;
@@ -63,7 +57,6 @@ final class ReadLiteralBlockScalar extends BaseScalar {
             )
         );
     }
-
 
     @Override
     public String value() {

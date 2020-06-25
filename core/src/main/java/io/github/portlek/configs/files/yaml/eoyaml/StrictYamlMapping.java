@@ -29,13 +29,10 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Set;
 
-
 @Deprecated
 public final class StrictYamlMapping extends BaseYamlMapping {
 
-
     private final YamlMapping decorated;
-
 
     public StrictYamlMapping(final YamlMapping decorated) {
         this.decorated = decorated;

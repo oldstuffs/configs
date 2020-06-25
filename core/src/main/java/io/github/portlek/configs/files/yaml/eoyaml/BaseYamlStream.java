@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.jetbrains.annotations.NotNull;
 
-
 abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
 
     @Override
@@ -54,7 +53,6 @@ abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
         return hash;
     }
 
-
     @Override
     public boolean equals(final Object other) {
         final boolean result;
@@ -67,7 +65,6 @@ abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
         }
         return result;
     }
-
 
     @Override
     public int compareTo(final YamlNode other) {

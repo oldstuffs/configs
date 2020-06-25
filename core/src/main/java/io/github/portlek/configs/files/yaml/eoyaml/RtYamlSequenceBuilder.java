@@ -30,17 +30,13 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.LinkedList;
 import java.util.List;
 
-
 final class RtYamlSequenceBuilder implements YamlSequenceBuilder {
 
-
     private final List<YamlNode> nodes;
-
 
     RtYamlSequenceBuilder() {
         this(new LinkedList<>());
     }
-
 
     RtYamlSequenceBuilder(final List<YamlNode> nodes) {
         this.nodes = nodes;

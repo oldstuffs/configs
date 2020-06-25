@@ -30,17 +30,13 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-
 final class RtYamlMappingBuilder implements YamlMappingBuilder {
 
-
     private final Map<YamlNode, YamlNode> pairs;
-
 
     RtYamlMappingBuilder() {
         this(new LinkedHashMap<>());
     }
-
 
     RtYamlMappingBuilder(final Map<YamlNode, YamlNode> pairs) {
         this.pairs = pairs;

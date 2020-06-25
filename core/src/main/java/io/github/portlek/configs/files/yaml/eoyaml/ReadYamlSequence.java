@@ -31,26 +31,19 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-
 final class ReadYamlSequence extends BaseYamlSequence {
-
 
     private final YamlLine previous;
 
-
     private final AllYamlLines all;
-
 
     private final YamlLines significant;
 
-
     private final boolean guessIndentation;
-
 
     ReadYamlSequence(final AllYamlLines lines) {
         this(lines, false);
     }
-
 
     ReadYamlSequence(
         final AllYamlLines lines,
@@ -59,11 +52,9 @@ final class ReadYamlSequence extends BaseYamlSequence {
         this(new YamlLine.NullYamlLine(), lines, guessIndentation);
     }
 
-
     ReadYamlSequence(final YamlLine previous, final AllYamlLines lines) {
         this(previous, lines, false);
     }
-
 
     ReadYamlSequence(
         final YamlLine previous,

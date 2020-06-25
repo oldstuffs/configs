@@ -27,26 +27,19 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public interface YamlMappingBuilder {
-
 
     YamlMappingBuilder add(String key, String value);
 
-
     YamlMappingBuilder add(YamlNode key, String value);
-
 
     YamlMappingBuilder add(YamlNode key, YamlNode value);
 
-
     YamlMappingBuilder add(String key, YamlNode value);
-
 
     default YamlMapping build() {
         return this.build("");
     }
-
 
     YamlMapping build(String comment);
 

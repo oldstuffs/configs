@@ -27,33 +27,25 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public interface YamlScalarBuilder {
 
-
     YamlScalarBuilder addLine(String value);
-
 
     default Scalar buildPlainScalar() {
         return this.buildPlainScalar("");
     }
 
-
     default Scalar buildFoldedBlockScalar() {
         return this.buildFoldedBlockScalar("");
     }
-
 
     default Scalar buildLiteralBlockScalar() {
         return this.buildLiteralBlockScalar("");
     }
 
-
     Scalar buildPlainScalar(String comment);
 
-
     Scalar buildFoldedBlockScalar(String comment);
-
 
     Scalar buildLiteralBlockScalar(String comment);
 

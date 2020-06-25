@@ -27,20 +27,15 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 public interface YamlSequenceBuilder {
-
 
     YamlSequenceBuilder add(String value);
 
-
     YamlSequenceBuilder add(YamlNode node);
-
 
     default YamlSequence build() {
         return this.build("");
     }
-
 
     YamlSequence build(String comment);
 

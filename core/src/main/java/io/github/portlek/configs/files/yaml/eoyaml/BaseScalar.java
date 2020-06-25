@@ -29,7 +29,6 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import org.jetbrains.annotations.NotNull;
 
-
 abstract class BaseScalar extends BaseYamlNode implements Scalar {
 
     @Override
@@ -43,12 +42,10 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
         return "\"\"";
     }
 
-
     @Override
     public int hashCode() {
         return this.value().hashCode();
     }
-
 
     @Override
     public boolean equals(final Object other) {
@@ -62,7 +59,6 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
         }
         return result;
     }
-
 
     @Override
     public int compareTo(final YamlNode other) {

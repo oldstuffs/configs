@@ -27,14 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml.exceptions;
 
-
 public final class YamlReadingException extends RuntimeException {
-
 
     public YamlReadingException() {
         this("Something went wrong while reading YAML.");
     }
-
 
     public YamlReadingException(final String message) {
         super(message);

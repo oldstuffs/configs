@@ -27,21 +27,16 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class ReadPlainScalar extends BaseScalar {
-
 
     private final AllYamlLines all;
 
-
     private final YamlLine scalar;
-
 
     ReadPlainScalar(final AllYamlLines all, final YamlLine scalar) {
         this.all = all;
         this.scalar = scalar;
     }
-
 
     @Override
     public String value() {
@@ -80,7 +75,6 @@ final class ReadPlainScalar extends BaseScalar {
         }
         return comment;
     }
-
 
     private String unescape(final String value) {
         final String unescaped;

@@ -29,39 +29,31 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.io.*;
 
-
 public final class Yaml {
-
 
     private Yaml() {
     }
-
 
     public static YamlMappingBuilder createYamlMappingBuilder() {
         return new RtYamlMappingBuilder();
     }
 
-
     public static YamlSequenceBuilder createYamlSequenceBuilder() {
         return new RtYamlSequenceBuilder();
     }
-
 
     public static YamlScalarBuilder createYamlScalarBuilder() {
         return new RtYamlScalarBuilder();
     }
 
-
     public static YamlStreamBuilder createYamlStreamBuilder() {
         return new RtYamlStreamBuilder();
     }
-
 
     public static YamlInput createYamlInput(final File input)
         throws FileNotFoundException {
         return Yaml.createYamlInput(input, Boolean.FALSE);
     }
-
 
     public static YamlInput createYamlInput(
         final File input,
@@ -73,11 +65,9 @@ public final class Yaml {
         );
     }
 
-
     public static YamlInput createYamlInput(final String input) {
         return Yaml.createYamlInput(input, Boolean.FALSE);
     }
-
 
     public static YamlInput createYamlInput(
         final String input,
@@ -89,11 +79,9 @@ public final class Yaml {
         );
     }
 
-
     public static YamlInput createYamlInput(final InputStream input) {
         return Yaml.createYamlInput(input, Boolean.FALSE);
     }
-
 
     public static YamlInput createYamlInput(
         final InputStream input,
@@ -102,11 +90,9 @@ public final class Yaml {
         return new RtYamlInput(input, guessIndentation);
     }
 
-
     public static YamlPrinter createYamlPrinter(final Writer destination) {
         return new RtYamlPrinter(destination);
     }
-
 
     public static YamlDump createYamlDump(final Object object) {
         return new ReflectedYamlDump(object);

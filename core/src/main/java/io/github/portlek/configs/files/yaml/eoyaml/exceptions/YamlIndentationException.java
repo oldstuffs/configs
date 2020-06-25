@@ -27,14 +27,11 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml.exceptions;
 
-
 public final class YamlIndentationException extends RuntimeException {
-
 
     public YamlIndentationException() {
         this("Indentation is not ok.");
     }
-
 
     public YamlIndentationException(final String message) {
         super(message);

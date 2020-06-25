@@ -27,12 +27,9 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-
 final class ReflectedYamlScalar extends BaseScalar {
 
-
     private final Object scalar;
-
 
     ReflectedYamlScalar(final Object scalar) {
         this.scalar = scalar;

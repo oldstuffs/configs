@@ -32,9 +32,7 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 public interface Scalar extends YamlNode {
-
 
     String value();
 

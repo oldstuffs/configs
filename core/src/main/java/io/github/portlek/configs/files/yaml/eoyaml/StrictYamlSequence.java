@@ -29,13 +29,10 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Collection;
 
-
 @Deprecated
 public final class StrictYamlSequence extends BaseYamlSequence {
 
-
     private final YamlSequence decorated;
-
 
     public StrictYamlSequence(final YamlSequence decorated) {
         this.decorated = decorated;
@@ -45,7 +42,6 @@ public final class StrictYamlSequence extends BaseYamlSequence {
     public Collection<YamlNode> values() {
         return this.decorated.values();
     }
-
 
     @Override
     public YamlMapping yamlMapping(final int index) {
@@ -58,7 +54,6 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return found;
     }
 
-
     @Override
     public YamlSequence yamlSequence(final int index) {
         final YamlSequence found = this.decorated.yamlSequence(index);
@@ -69,7 +64,6 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         }
         return found;
     }
-
 
     @Override
     public String string(final int index) {
@@ -82,7 +76,6 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return found;
     }
 
-
     @Override
     public String foldedBlockScalar(final int index) {
         final String found = this.decorated.foldedBlockScalar(index);
@@ -93,7 +86,6 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         }
         return found;
     }
-
 
     @Override
     public Collection<String> literalBlockScalar(final int index) {

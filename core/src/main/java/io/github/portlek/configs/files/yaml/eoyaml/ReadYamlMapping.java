@@ -32,26 +32,19 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-
 final class ReadYamlMapping extends BaseYamlMapping {
-
 
     private final AllYamlLines all;
 
-
     private final YamlLines significant;
-
 
     private final boolean guessIndentation;
 
-
     private final YamlLine previous;
-
 
     ReadYamlMapping(final AllYamlLines lines) {
         this(lines, Boolean.FALSE);
     }
-
 
     ReadYamlMapping(
         final AllYamlLines lines,
@@ -60,11 +53,9 @@ final class ReadYamlMapping extends BaseYamlMapping {
         this(new YamlLine.NullYamlLine(), lines, guessIndentation);
     }
 
-
     ReadYamlMapping(final YamlLine previous, final AllYamlLines lines) {
         this(previous, lines, Boolean.FALSE);
     }
-
 
     ReadYamlMapping(
         final YamlLine previous,
@@ -174,7 +165,6 @@ final class ReadYamlMapping extends BaseYamlMapping {
         );
     }
 
-
     private YamlNode valueOfStringKey(final String key) {
         YamlNode value = null;
         final String[] keys = {
@@ -205,7 +195,6 @@ final class ReadYamlMapping extends BaseYamlMapping {
         }
         return null;
     }
-
 
     private YamlNode valueOfNodeKey(final YamlNode key) {
         YamlNode value = null;

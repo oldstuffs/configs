@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
-
 public abstract class BaseYamlMapping
     extends BaseYamlNode implements YamlMapping {
 
@@ -58,7 +57,6 @@ public abstract class BaseYamlMapping
         return hash;
     }
 
-
     @Override
     public final boolean equals(final Object other) {
         final boolean result;
@@ -71,7 +69,6 @@ public abstract class BaseYamlMapping
         }
         return result;
     }
-
 
     @Override
     public final int compareTo(final YamlNode other) {

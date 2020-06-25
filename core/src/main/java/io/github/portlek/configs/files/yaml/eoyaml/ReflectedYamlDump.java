@@ -31,18 +31,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-
 public final class ReflectedYamlDump implements YamlDump {
-
 
     public static final List<Class> SCALAR_TYPES = Arrays.asList(
         Integer.class, Long.class, Float.class, Double.class, Short.class,
         String.class, Boolean.class, Character.class, Byte.class
     );
 
-
     private final Object object;
-
 
     ReflectedYamlDump(final Object object) {
         this.object = object;

@@ -30,19 +30,14 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.Collection;
 import java.util.Iterator;
 
-
 interface YamlLines extends Iterable<YamlLine> {
-
 
     Collection<YamlLine> original();
 
-
     YamlNode toYamlNode(YamlLine prev, boolean guessIndentation);
-
 
     @Override
     Iterator<YamlLine> iterator();
-
 
     default YamlLine line(final int number) {
         final Collection<YamlLine> lines = this.original();

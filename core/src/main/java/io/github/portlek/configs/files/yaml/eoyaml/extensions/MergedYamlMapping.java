@@ -31,12 +31,9 @@ import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.util.Set;
 import java.util.function.Supplier;
 
-
 public final class MergedYamlMapping extends BaseYamlMapping {
 
-
     private final YamlMapping merged;
-
 
     public MergedYamlMapping(
         final YamlMapping original,
@@ -45,14 +42,12 @@ public final class MergedYamlMapping extends BaseYamlMapping {
         this(original, changed, false);
     }
 
-
     public MergedYamlMapping(
         final YamlMapping original,
         final Supplier<YamlMapping> changed
     ) {
         this(original, changed, false);
     }
-
 
     public MergedYamlMapping(
         final YamlMapping original,
@@ -61,7 +56,6 @@ public final class MergedYamlMapping extends BaseYamlMapping {
     ) {
         this(original, changed.get(), overrideConflicts);
     }
-
 
     public MergedYamlMapping(
         final YamlMapping original,
@@ -76,7 +70,6 @@ public final class MergedYamlMapping extends BaseYamlMapping {
             this.merged = MergedYamlMapping.merge(original, changed, overrideConflicts);
         }
     }
-
 
     private static YamlMapping merge(
         final YamlMapping original,
