@@ -124,26 +124,15 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
 
         private final Comment comment;
 
-        /**
-         * Lines of this scalar.
-         */
+
         private final List<String> lines;
 
-        /**
-         * Ctor.
-         *
-         * @param lines Given string lines.
-         */
+
         BuiltLiteralBlockScalar(final List<String> lines) {
             this(lines, "");
         }
 
-        /**
-         * Ctor.
-         *
-         * @param lines Given string lines.
-         * @param comment Comment referring to this scalar.
-         */
+
         BuiltLiteralBlockScalar(
             final List<String> lines, final String comment
         ) {
@@ -151,11 +140,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
             this.comment = new BuiltComment(this, comment);
         }
 
-        /**
-         * Return the value of this literal scalar.
-         *
-         * @return String value.
-         */
+
         @Override
         public String value() {
             return this.lines.stream().collect(
