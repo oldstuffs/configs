@@ -31,162 +31,111 @@ import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 public interface ConfigurationSection {
-
 
     @NotNull Set<String> getKeys(boolean deep);
 
-
     @NotNull Map<String, Object> getValues(boolean deep);
-
 
     boolean contains(@NotNull String path);
 
-
     boolean contains(@NotNull String path, boolean ignoreDefault);
-
 
     boolean isSet(@NotNull String path);
 
-
     @Nullable String getCurrentPath();
-
 
     @NotNull String getName();
 
-
     @Nullable Configuration getRoot();
-
 
     @Nullable ConfigurationSection getParent();
 
-
     @Nullable Object get(@NotNull String path);
-
 
     @Nullable Object get(@NotNull String path, @Nullable Object def);
 
-
     void set(@NotNull String path, @Nullable Object value);
 
-
     @NotNull ConfigurationSection createSection(@NotNull String path);
-
 
     @NotNull ConfigurationSection createSection(@NotNull String path, @NotNull Map<?, ?> map);
 
     // Primitives
 
-
     @Nullable String getString(@NotNull String path);
-
 
     @Nullable String getString(@NotNull String path, @Nullable String def);
 
-
     boolean isString(@NotNull String path);
-
 
     int getInt(@NotNull String path);
 
-
     int getInt(@NotNull String path, int def);
-
 
     boolean isInt(@NotNull String path);
 
-
     boolean getBoolean(@NotNull String path);
-
 
     boolean getBoolean(@NotNull String path, boolean def);
 
-
     boolean isBoolean(@NotNull String path);
-
 
     float getFloat(@NotNull String path);
 
-
     float getFloat(@NotNull String path, float def);
-
 
     double getDouble(@NotNull String path);
 
-
     double getDouble(@NotNull String path, double def);
-
 
     boolean isDouble(@NotNull String path);
 
-
     long getLong(@NotNull String path);
 
-
     long getLong(@NotNull String path, long def);
-
 
     boolean isLong(@NotNull String path);
 
     // Java
 
-
     @Nullable List<?> getList(@NotNull String path);
-
 
     @Nullable List<?> getList(@NotNull String path, @Nullable List<?> def);
 
-
     boolean isList(@NotNull String path);
-
 
     @NotNull List<String> getStringList(@NotNull String path);
 
-
     @NotNull List<Integer> getIntegerList(@NotNull String path);
-
 
     @NotNull List<Boolean> getBooleanList(@NotNull String path);
 
-
     @NotNull List<Double> getDoubleList(@NotNull String path);
-
 
     @NotNull List<Float> getFloatList(@NotNull String path);
 
-
     @NotNull List<Long> getLongList(@NotNull String path);
-
 
     @NotNull List<Byte> getByteList(@NotNull String path);
 
-
     @NotNull List<Character> getCharacterList(@NotNull String path);
 
-
     @NotNull List<Short> getShortList(@NotNull String path);
-
 
     @NotNull List<Map<Object, Object>> getMapList(@NotNull String path);
 
     // Bukkit
 
-
     @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz);
-
 
     @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
 
-
     @Nullable ConfigurationSection getConfigurationSection(@NotNull String path);
-
 
     boolean isConfigurationSection(@NotNull String path);
 
-
     @Nullable ConfigurationSection getDefaultSection();
-
 
     void addDefault(@NotNull String path, @Nullable Object value);
 

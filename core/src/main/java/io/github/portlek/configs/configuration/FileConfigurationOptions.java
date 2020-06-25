@@ -27,7 +27,6 @@ package io.github.portlek.configs.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
-
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
 
     protected FileConfigurationOptions(@NotNull final MemoryConfiguration configuration) {

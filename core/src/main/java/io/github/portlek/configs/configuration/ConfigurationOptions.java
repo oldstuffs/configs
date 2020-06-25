@@ -27,7 +27,6 @@ package io.github.portlek.configs.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
-
 public class ConfigurationOptions {
 
     private final Configuration configuration;
@@ -40,17 +39,14 @@ public class ConfigurationOptions {
         this.configuration = configuration;
     }
 
-
     @NotNull
     public Configuration configuration() {
         return this.configuration;
     }
 
-
     public final char pathSeparator() {
         return this.pathSeparator;
     }
-
 
     @NotNull
     public ConfigurationOptions pathSeparator(final char value) {
@@ -58,11 +54,9 @@ public class ConfigurationOptions {
         return this;
     }
 
-
     public final boolean copyDefaults() {
         return this.copyDefaults;
     }
-
 
     @NotNull
     public ConfigurationOptions copyDefaults(final boolean value) {

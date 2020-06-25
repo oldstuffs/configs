@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-
 @RequiredArgsConstructor
 @Getter
 public final class MapEntry<X, Y> implements Map.Entry<X, Y> {

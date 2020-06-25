@@ -30,7 +30,6 @@ import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 public class MemorySection implements ConfigurationSection {
 
     protected final Map<String, Object> map = new LinkedHashMap<>();
@@ -44,7 +43,6 @@ public class MemorySection implements ConfigurationSection {
 
     private final String fullPath;
 
-
     protected MemorySection() {
         if (!(this instanceof Configuration)) {
             throw new IllegalStateException("Cannot construct a root MemorySection when not a Configuration");
@@ -56,7 +54,6 @@ public class MemorySection implements ConfigurationSection {
         this.root = (Configuration) this;
     }
 
-
     protected MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
         this.path = path;
         this.parent = parent;
@@ -64,12 +61,10 @@ public class MemorySection implements ConfigurationSection {
         this.fullPath = MemorySection.createPath(parent, path);
     }
 
-
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key) {
         return MemorySection.createPath(section, key, section == null ? null : section.getRoot());
     }
-
 
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key,

@@ -31,14 +31,11 @@ import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
-
 public abstract class FileConfiguration extends MemoryConfiguration {
-
 
     protected FileConfiguration() {
         super();
     }
-
 
     @SneakyThrows
     public final void save(@NotNull final File file) {
@@ -49,22 +46,18 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         }
     }
 
-
     @NotNull
     public abstract String saveToString();
-
 
     public final void load(@NotNull final String file) {
         this.load(new File(file));
     }
-
 
     @SneakyThrows
     public final void load(@NotNull final File file) {
         final FileInputStream stream = new FileInputStream(file);
         this.load(new InputStreamReader(stream, StandardCharsets.UTF_8));
     }
-
 
     @SneakyThrows
     public final void load(@NotNull final Reader reader) {
@@ -83,7 +76,6 @@ public abstract class FileConfiguration extends MemoryConfiguration {
         }
         this.loadFromString(builder.toString());
     }
-
 
     public abstract void loadFromString(@NotNull String contents);
 

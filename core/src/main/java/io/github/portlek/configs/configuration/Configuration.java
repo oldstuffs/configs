@@ -29,21 +29,15 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
 public interface Configuration extends ConfigurationSection {
-
 
     void addDefaults(@NotNull Map<String, Object> defaults);
 
-
     void addDefaults(@NotNull Configuration defaults);
-
 
     @Nullable Configuration getDefaults();
 
-
     void setDefaults(@NotNull Configuration defaults);
-
 
     @NotNull ConfigurationOptions options();
 
