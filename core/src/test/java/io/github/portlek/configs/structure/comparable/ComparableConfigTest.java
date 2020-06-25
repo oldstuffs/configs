@@ -27,6 +27,7 @@ package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.*;
 import io.github.portlek.configs.structure.section.ConfigSection;
+import io.github.portlek.configs.util.Languageable;
 import org.jetbrains.annotations.NotNull;
 
 @LinkedConfig({
@@ -53,10 +54,12 @@ public final class ComparableConfigTest extends ComparableManaged<ComparableConf
     public final ComparableConfigTest.TestSection testSection = new ComparableConfigTest.TestSection();
 
     @Property
-    public String test_1 = "";
+    public Languageable<String> test_1 = this.languageable(() -> "", (s, s2) ->
+        s);
 
     @Property
-    public String test_2 = "";
+    public Languageable<String> test_2 = this.languageable(() -> "", (s, s2) ->
+        s);
 
     @NotNull
     @Override
@@ -65,13 +68,15 @@ public final class ComparableConfigTest extends ComparableManaged<ComparableConf
     }
 
     @Section("test-section")
-    public static final class TestSection extends ConfigSection {
+    public final class TestSection extends ConfigSection {
 
         @Property
-        public String test_3 = "";
+        public Languageable<String> test_1 = ComparableConfigTest.this.languageable(() -> "", (s, s2) ->
+            s);
 
         @Property
-        public String test_4 = "";
+        public Languageable<String> test_2 = ComparableConfigTest.this.languageable(() -> "", (s, s2) ->
+            s);
 
     }
 

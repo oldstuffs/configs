@@ -40,7 +40,10 @@ final class RunnerTest {
 
     @Test
     void readTest() {
-
+        System.out.println("TR test_1 > " + RunnerTest.comparableConfigTest.test_1.apply("TR"));
+        System.out.println("TR test_2 > " + RunnerTest.comparableConfigTest.test_2.apply("TR"));
+        System.out.println("EN test_1 > " + RunnerTest.comparableConfigTest.test_1.apply("EN"));
+        System.out.println("EN test_2 > " + RunnerTest.comparableConfigTest.test_2.apply("EN"));
     }
 
 }

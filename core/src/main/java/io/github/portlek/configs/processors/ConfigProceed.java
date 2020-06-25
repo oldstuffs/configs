@@ -31,6 +31,7 @@ import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.io.File;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
@@ -49,6 +50,7 @@ public final class ConfigProceed {
         this(config, managed, managed);
     }
 
+    @SneakyThrows
     public void load() {
         final FileType type = this.config.type();
         final String name;
@@ -68,6 +70,9 @@ public final class ConfigProceed {
             GeneralUtilities.saveResource(
                 file,
                 GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
+        } else if (!file.exists()) {
+            file.getParentFile().mkdirs();
+            file.createNewFile();
         }
         this.managed.setup(file, type.load(file));
         new FieldsProceed(this.parentObject, this.managed).load();

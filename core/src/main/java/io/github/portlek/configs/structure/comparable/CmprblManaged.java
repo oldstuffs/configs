@@ -71,7 +71,7 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
     }
 
     @NotNull
-    S key(@NotNull String key) throws RuntimeException;
+    S current(@NotNull String key) throws RuntimeException;
 
     @NotNull
     Set<String> comparableKeys();

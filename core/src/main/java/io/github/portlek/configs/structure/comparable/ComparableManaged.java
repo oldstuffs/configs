@@ -50,7 +50,7 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
 
     @NotNull
     @Override
-    public final S key(@NotNull final String key) throws RuntimeException {
+    public final S current(@NotNull final String key) throws RuntimeException {
         this.current = Optional.ofNullable(this.comparable.get(key)).orElseThrow(() ->
             new RuntimeException("The key " + key + " not found!"));
         return this.self();
