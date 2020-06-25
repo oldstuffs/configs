@@ -40,7 +40,14 @@ public final class ConfigProceed {
     private final Config config;
 
     @NotNull
+    private final Object parentObject;
+
+    @NotNull
     private final FlManaged managed;
+
+    public ConfigProceed(@NotNull final Config config, @NotNull final FlManaged managed) {
+        this(config, managed, managed);
+    }
 
     public void load() {
         final FileType type = this.config.type();
@@ -63,7 +70,7 @@ public final class ConfigProceed {
                 GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
         }
         this.managed.setup(file, type.load(file));
-        new FieldsProceed(this.managed).load();
+        new FieldsProceed(this.parentObject, this.managed).load();
         this.managed.save();
     }
 

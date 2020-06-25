@@ -23,13 +23,24 @@
  *
  */
 
-package io.github.portlek.configs.structure.managed;
+package io.github.portlek.configs.structure;
 
-import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.structure.comparable.ComparableConfigTest;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-@Config("config")
-public final class TestManagedConfig extends FileManaged {
+final class RunnerTest {
 
-    
+    private static final ComparableConfigTest comparableConfigTest = new ComparableConfigTest();
+
+    @BeforeAll
+    static void before() {
+        RunnerTest.comparableConfigTest.load();
+    }
+
+    @Test
+    void readTest() {
+
+    }
 
 }

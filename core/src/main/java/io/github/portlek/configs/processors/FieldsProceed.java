@@ -13,16 +13,23 @@ import org.jetbrains.annotations.NotNull;
 public final class FieldsProceed {
 
     @NotNull
+    private final Object parentObject;
+
+    @NotNull
     private final CfgSection parent;
 
+    public FieldsProceed(@NotNull final CfgSection parent) {
+        this(parent, parent);
+    }
+
     public void load() {
-        final RefClass<CfgSection> parentclass = new ClassOf<>(this.parent);
+        final RefClass<Object> parentclass = new ClassOf<>(this.parentObject);
         parentclass
             .declaredFieldsWithAnnotation(Property.class, (refField, property) ->
-                new PropertyProceed(this.parent, property, refField).load());
+                new PropertyProceed(property, this.parentObject, this.parent, refField).load());
         parentclass
             .declaredFieldsWithAnnotation(Instance.class, (refField, instance) ->
-                refField.of(this.parent).get()
+                refField.of(this.parentObject).get()
                     .filter(o -> CfgSection.class.isAssignableFrom(o.getClass()))
                     .map(o -> (CfgSection) o)
                     .ifPresent(initiatedCfgSection ->

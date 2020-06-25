@@ -40,13 +40,20 @@ import org.jetbrains.annotations.NotNull;
 public final class PropertyProceed {
 
     @NotNull
-    private final CfgSection parent;
-
-    @NotNull
     private final Property property;
 
     @NotNull
+    private final Object parentObject;
+
+    @NotNull
+    private final CfgSection parent;
+
+    @NotNull
     private final RefField field;
+
+    public PropertyProceed(@NotNull final CfgSection parent, @NotNull final Property property, @NotNull final RefField field) {
+        this(property, parent, parent, field);
+    }
 
     @NotNull
     public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
@@ -91,7 +98,7 @@ public final class PropertyProceed {
 
     @SneakyThrows
     public void load() {
-        final Optional<Object> optional = this.field.of(this.parent).get();
+        final Optional<Object> optional = this.field.of(this.parentObject).get();
         if (!optional.isPresent()) {
             return;
         }
@@ -103,7 +110,7 @@ public final class PropertyProceed {
         final Object fieldvalue = optional.get();
         final Optional<?> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
         if (filevalueoptional.isPresent()) {
-            this.field.of(this.parent).set(filevalueoptional.get());
+            this.field.of(this.parentObject).set(filevalueoptional.get());
         } else {
             PropertyProceed.set(this.parent, fieldvalue, path);
         }
