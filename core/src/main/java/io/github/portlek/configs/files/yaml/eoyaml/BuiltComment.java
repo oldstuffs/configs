@@ -27,31 +27,16 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * This is a comment used when building YAML.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 75bfa5906b35525e908a0f53d4a36457fe04501a $
- * @since 4.2.0
- */
+
 class BuiltComment implements Comment {
 
-    /**
-     * Node to which this comment refers.
-     */
+
     private final YamlNode node;
 
-    /**
-     * The actual comment's value.
-     */
+
     private final String value;
 
-    /**
-     * Constructor.
-     *
-     * @param node Yaml node to which this comment refers.
-     * @param value The String comment.
-     */
+
     BuiltComment(final YamlNode node, final String value) {
         this.node = node;
         this.value = value;

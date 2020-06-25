@@ -27,54 +27,23 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * In YAML, "dumping" means representing the state of an Object as YAML.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 31e32467ccd9f865ee17cbc4342df72a114f938e $
- * @since 4.3.3
- */
+
 public interface YamlDump {
 
-    /**
-     * Dump an Object, represent it as YAML.
-     * Generally, if the Object is a Collection or on Array, the resulting
-     * YamlNode will be a YamlSequence.<br><br>
-     * If the Object is a Map or other kind of Object, the resulting
-     * YamlNode will be a YamlSequence.<br><br>
-     * If the Object is a String, LocalDate, LocaDateTime or a primitive,
-     * the resulting YamlNode will be a plain Scalar.
-     *
-     * @return YAML Representation.
-     */
+
     YamlNode dump();
 
-    /**
-     * Convenience method, equivalent to calling the
-     * dump(...) method and casting the YamlNode to YamlMapping.
-     *
-     * @return YamlMapping.
-     */
+
     default YamlMapping dumpMapping() {
         return (YamlMapping) this.dump();
     }
 
-    /**
-     * Convenience method, equivalent to calling the
-     * dump(...) method and casting the YamlNode to YamlSequence.
-     *
-     * @return YamlSequence.
-     */
+
     default YamlSequence dumpSequence() {
         return (YamlSequence) this.dump();
     }
 
-    /**
-     * Convenience method, equivalent to calling the
-     * dump(...) method and casting the YamlNode to Scalar.
-     *
-     * @return Scalar.
-     */
+
     default Scalar dumpScalar() {
         return (Scalar) this.dump();
     }

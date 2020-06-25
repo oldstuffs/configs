@@ -31,41 +31,21 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * YAML sequence implementation (rt means runtime).
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b92ff2168827dc07f133ac0f7304e16b7c096e9f $
- * @see http://yaml.org/spec/1.2/spec.html#sequence//
- * @since 1.0.0
- */
+
 final class RtYamlSequence extends BaseYamlSequence {
 
-    /**
-     * Nodes in this sequence.
-     */
+
     private final List<YamlNode> nodes = new LinkedList<>();
 
-    /**
-     * Comments referring to this sequence.
-     */
+
     private final Comment comment;
 
-    /**
-     * Ctor.
-     *
-     * @param elements Elements of this sequence.
-     */
+
     RtYamlSequence(final Collection<YamlNode> elements) {
         this(elements, "");
     }
 
-    /**
-     * Constructor.
-     *
-     * @param elements Elements of this sequence.
-     * @param comment Comment referring to this sequence itself.
-     */
+
     RtYamlSequence(
         final Collection<YamlNode> elements,
         final String comment

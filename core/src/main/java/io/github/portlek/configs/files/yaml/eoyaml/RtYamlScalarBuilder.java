@@ -43,11 +43,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
         this(new LinkedList<>());
     }
 
-    /**
-     * Constructor.
-     *
-     * @param lines String lines of the Scalar.
-     */
+
     RtYamlScalarBuilder(final List<String> lines) {
         this.lines = lines;
     }
@@ -78,40 +74,21 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
         return new RtYamlScalarBuilder.BuiltLiteralBlockScalar(this.lines, comment);
     }
 
-    /**
-     * A built folded block Scalar.
-     *
-     * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: f17b8fb221296c86bfe360ffff4481ca4526bd5a $
-     * @since 4.0.0
-     */
+
     static class BuiltFoldedBlockScalar extends BaseFoldedScalar {
 
-        /**
-         * Comments referring to this scalar.
-         */
+
         private final Comment comment;
 
-        /**
-         * Lines of this scalar.
-         */
+
         private final List<String> lines;
 
-        /**
-         * Ctor.
-         *
-         * @param lines Given string lines.
-         */
+
         BuiltFoldedBlockScalar(final List<String> lines) {
             this(lines, "");
         }
 
-        /**
-         * Ctor.
-         *
-         * @param comment Comment referring to this scalar.
-         * @param lines Given string lines.
-         */
+
         BuiltFoldedBlockScalar(
             final List<String> lines, final String comment
         ) {
@@ -119,16 +96,7 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
             this.comment = new BuiltComment(this, comment);
         }
 
-        /**
-         * Return the value of this folded block scalar.
-         *
-         * @return String value.
-         * @todo #244:30min This method is not correct. When returning
-         * the value we should indeed fold the new lines, with the exception
-         * that we should preserve the blank lines and new lines of more inner
-         * indented lines. See how ReadFoldedBlockScalar.value()
-         * is implemented.
-         */
+
         @Override
         public String value() {
             return this.lines.stream().map(
@@ -150,18 +118,10 @@ final class RtYamlScalarBuilder implements YamlScalarBuilder {
 
     }
 
-    /**
-     * A built literal block Scalar.
-     *
-     * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: f17b8fb221296c86bfe360ffff4481ca4526bd5a $
-     * @since 4.0.0
-     */
+
     static class BuiltLiteralBlockScalar extends BaseScalar {
 
-        /**
-         * Comments referring to this scalar.
-         */
+
         private final Comment comment;
 
         /**

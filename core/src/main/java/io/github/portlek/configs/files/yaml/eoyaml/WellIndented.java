@@ -33,68 +33,21 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * YamlLines decorator which iterates over them and verifies
- * that their indentation is correct.<br><br>
- * <p>
- * This class can be used as follows:
- *
- * <pre>
- *
- * YamlLines wellIndented = new SameIndentationLevel(
- *     new WellIndented(lines)
- * );//Iterate over the lines which are at the same indentation level
- * </pre>
- * or
- * <pre>
- *
- * YamlLines wellIndented = new SameIndentationLevel(
- *     new WellIndented(
- *         new NoDirectivesOrMarkers(
- *             lines
- *         )//ignore markers or directives
- *     )
- * );//Iterate over the lines which are at the same indentation level
- * </pre>
- * ExecutableStatementCount (400 lines)
- * CyclomaticComplexity (400 lines)
- * NestedIfDepth (400 lines)
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 03a33a2aabef3433778f0ce492bd5b193c01a393 $
- * @since 3.1.2
- */
+
 final class WellIndented implements YamlLines {
 
-    /**
-     * YamlLines.
-     */
+
     private final YamlLines yamlLines;
 
-    /**
-     * If this is true, then we will try to adjust a wrong indentation,
-     * instead of throwin an exception. This mechanism is not safe becuase
-     * the resulting YAML might not be the expected one.
-     */
+
     private final boolean guessIndentation;
 
-    /**
-     * Ctor.
-     *
-     * @param yamlLines The Yaml lines.
-     */
+
     WellIndented(final YamlLines yamlLines) {
         this(yamlLines, false);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param yamlLines The Yaml lines.
-     * @param guessIndentation If indentation is not correct, try to
-     * adjust it instead of throwing an exception. This mechanism is not
-     * safe because the resulting YAML might not be the expected one.
-     */
+
     WellIndented(final YamlLines yamlLines, final boolean guessIndentation) {
         this.yamlLines = yamlLines;
         this.guessIndentation = guessIndentation;
@@ -113,15 +66,7 @@ final class WellIndented implements YamlLines {
         return this.yamlLines.toYamlNode(prev, guessIndent);
     }
 
-    /**
-     * Returns an iterator over these Yaml lines.
-     * It will verify that each line is properly indented in relation
-     * to the previous one and will complain if the indentation is not
-     * correct.
-     * LineLength (50 lines)
-     *
-     * @return Iterator over these yaml lines.
-     */
+
     @Override
     public Iterator<YamlLine> iterator() {
         final Iterator<YamlLine> iterator = this.yamlLines.iterator();

@@ -42,14 +42,7 @@ final class ReadPlainScalar extends BaseScalar {
         this.scalar = scalar;
     }
 
-    /**
-     * Unescaped String value of this scalar. Pay attention, if the
-     * scalar's value is the "null" String, then we return null, because
-     * "null" is a reserved keyword in YAML, indicating a null Scalar.
-     *
-     * @return String or null if the Strings value is "null".
-     * ReturnCount (50 lines)
-     */
+
     @Override
     public String value() {
         final String value;
@@ -88,13 +81,7 @@ final class ReadPlainScalar extends BaseScalar {
         return comment;
     }
 
-    /**
-     * Remove the possible escaping quotes or apostrophes surrounding the
-     * given value.
-     *
-     * @param value The value to unescape.
-     * @return The value without quotes or apostrophes.
-     */
+
     private String unescape(final String value) {
         final String unescaped;
         if (value == null || value.length() <= 2) {

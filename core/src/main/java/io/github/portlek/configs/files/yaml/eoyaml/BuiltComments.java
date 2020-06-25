@@ -30,17 +30,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Built Comments. These are comments within a YamlNode which
- * have been added by the user when building it!
- * <p>
- * Use this class when building YAML. For reading YAML, there
- * should be an analogue implementation working with YamlLines.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 46ffdeb7930d104873fdd44fdda9ed0c13428b10 $
- * @since 4.2.0
- */
+
 final class BuiltComments implements Comments {
 
 

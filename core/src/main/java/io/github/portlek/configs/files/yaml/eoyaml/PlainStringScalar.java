@@ -27,55 +27,27 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * YAML Plain scalar from String. Use this class when dealing with
- * built YAML or in the unit tests.
- * <p>
- * DO NOT use it when READING yaml. For reading use
- * {@link ReadPlainScalar}!
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: e30e1b2a445853208af79cca6a1c997795b98a8a $
- * @see http://yaml.org/spec/1.2/spec.html#scalar//
- * @since 1.0.0
- */
+
 final class PlainStringScalar extends BaseScalar {
 
-    /**
-     * Comments referring to this scalar.
-     */
+
     private final Comment comment;
 
-    /**
-     * This scalar's value.
-     */
+
     private final String value;
 
-    /**
-     * Ctor.
-     *
-     * @param value Given value for this scalar.
-     */
+
     PlainStringScalar(final String value) {
         this(value, "");
     }
 
-    /**
-     * Ctor.
-     *
-     * @param comment Comment referring to this Scalar.
-     * @param value Given value for this scalar.
-     */
+
     PlainStringScalar(final String value, final String comment) {
         this.value = value;
         this.comment = new BuiltComment(this, comment);
     }
 
-    /**
-     * Value of this scalar.
-     *
-     * @return Value of type T.
-     */
+
     @Override
     public String value() {
         return this.value;

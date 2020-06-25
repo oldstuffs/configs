@@ -30,33 +30,18 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * YamlSequenceBuilder implementation. "Rt" stands for "Runtime".
- * This class is immutable and thread-safe.
- *
- * @author Salavat.Yalalov (s.yalalov@gmail.com)
- * @version $Id: 79ce93ccc05fe5f26943fae0743bcbb3760d44fd $
- * @since 1.0.0
- */
+
 final class RtYamlSequenceBuilder implements YamlSequenceBuilder {
 
-    /**
-     * Added nodes.
-     */
+
     private final List<YamlNode> nodes;
 
-    /**
-     * Default ctor.
-     */
+
     RtYamlSequenceBuilder() {
         this(new LinkedList<>());
     }
 
-    /**
-     * Constructor.
-     *
-     * @param nodes Nodes used in building the YamlSequence
-     */
+
     RtYamlSequenceBuilder(final List<YamlNode> nodes) {
         this.nodes = nodes;
     }

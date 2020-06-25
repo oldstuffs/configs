@@ -37,18 +37,12 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
     private final List<YamlNode> documents;
 
-    /**
-     * Default ctor.
-     */
+
     RtYamlStreamBuilder() {
         this(new LinkedList<YamlNode>());
     }
 
-    /**
-     * Constructor.
-     *
-     * @param documents YAML documents used in building the YamlStream.
-     */
+
     RtYamlStreamBuilder(final List<YamlNode> documents) {
         this.documents = documents;
     }
@@ -66,25 +60,13 @@ final class RtYamlStreamBuilder implements YamlStreamBuilder {
         return new RtYamlStreamBuilder.BuiltYamlStream(this.documents);
     }
 
-    /**
-     * Built YamlStream.
-     *
-     * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
-     * @since 3.1.1
-     */
+
     static class BuiltYamlStream extends BaseYamlStream {
 
-        /**
-         * Documents as a List.
-         */
+
         private final Collection<YamlNode> documents;
 
-        /**
-         * Constructor.
-         *
-         * @param documents Added YamlNodes.
-         */
+
         BuiltYamlStream(final Collection<YamlNode> documents) {
             this.documents = documents;
         }

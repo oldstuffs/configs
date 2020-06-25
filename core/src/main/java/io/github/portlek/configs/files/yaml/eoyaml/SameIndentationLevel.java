@@ -56,15 +56,7 @@ final class SameIndentationLevel implements YamlLines {
         return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
-    /**
-     * Returns an iterator over these Yaml lines.
-     * It <b>only</b> iterates over the lines which are at the same
-     * level of indentation with the first! It breaks iteration
-     * when a line with smaller indentation is met since that is the
-     * beginning of another YAML object.
-     *
-     * @return Iterator over these yaml lines.
-     */
+
     @Override
     public Iterator<YamlLine> iterator() {
         Iterator<YamlLine> iterator = this.yamlLines.iterator();

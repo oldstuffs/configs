@@ -29,79 +29,40 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.io.*;
 
-/**
- * Yaml.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 7c26c4645cf5312dbb8ce4d95e8b719e10e97022 $
- * @since 1.0.0
- */
+
 public final class Yaml {
 
-    /**
-     * Hidden ctor.
-     */
+
     private Yaml() {
     }
 
-    /**
-     * Create a {@link YamlMappingBuilder}.
-     *
-     * @return Builder of YamlMapping.
-     */
+
     public static YamlMappingBuilder createYamlMappingBuilder() {
         return new RtYamlMappingBuilder();
     }
 
-    /**
-     * Create a {@link YamlSequenceBuilder}.
-     *
-     * @return Builder of YamlMapping.
-     */
+
     public static YamlSequenceBuilder createYamlSequenceBuilder() {
         return new RtYamlSequenceBuilder();
     }
 
-    /**
-     * Create a {@link YamlScalarBuilder}.
-     *
-     * @return Builder of Yaml Scalars.
-     */
+
     public static YamlScalarBuilder createYamlScalarBuilder() {
         return new RtYamlScalarBuilder();
     }
 
-    /**
-     * Create a {@link YamlStreamBuilder}.
-     *
-     * @return Builder of YamlStream.
-     */
+
     public static YamlStreamBuilder createYamlStreamBuilder() {
         return new RtYamlStreamBuilder();
     }
 
-    /**
-     * Create a {@link YamlInput} from a File.
-     *
-     * @param input File to read from.
-     * @return YamlInput, reader of Yaml.
-     * @throws FileNotFoundException If the file is not found.
-     */
+
     public static YamlInput createYamlInput(final File input)
         throws FileNotFoundException {
         return Yaml.createYamlInput(input, Boolean.FALSE);
     }
 
-    /**
-     * Create a {@link YamlInput} from a File.
-     *
-     * @param input File to read from.
-     * @param guessIndentation If set to true, we will try to guess the correct
-     * indentation of misplaced lines. The default value is false
-     * and an exception is thrown if indentation is not correct.
-     * @return YamlInput, reader of Yaml.
-     * @throws FileNotFoundException If the file is not found.
-     */
+
     public static YamlInput createYamlInput(
         final File input,
         final boolean guessIndentation
@@ -112,25 +73,12 @@ public final class Yaml {
         );
     }
 
-    /**
-     * Create a {@link YamlInput} from a String.
-     *
-     * @param input String to read from.
-     * @return YamlInput, reader of Yaml.
-     */
+
     public static YamlInput createYamlInput(final String input) {
         return Yaml.createYamlInput(input, Boolean.FALSE);
     }
 
-    /**
-     * Create a {@link YamlInput} from a String.
-     *
-     * @param input String to read from.
-     * @param guessIndentation If set to true, we will try to guess the correct
-     * indentation of misplaced lines. The default value is false
-     * and an exception is thrown if indentation is not correct.
-     * @return YamlInput, reader of Yaml.
-     */
+
     public static YamlInput createYamlInput(
         final String input,
         final boolean guessIndentation
@@ -141,25 +89,12 @@ public final class Yaml {
         );
     }
 
-    /**
-     * Create a {@link YamlInput} from an InputStream.
-     *
-     * @param input InputStream to read from.
-     * @return YamlInput, reader of Yaml.
-     */
+
     public static YamlInput createYamlInput(final InputStream input) {
         return Yaml.createYamlInput(input, Boolean.FALSE);
     }
 
-    /**
-     * Create a {@link YamlInput} from an InputStream.
-     *
-     * @param input InputStream to read from.
-     * @param guessIndentation If set to true, we will try to guess the correct
-     * indentation of misplaced lines. The default value is false
-     * and an exception is thrown if indentation is not correct.
-     * @return YamlInput, reader of Yaml.
-     */
+
     public static YamlInput createYamlInput(
         final InputStream input,
         final boolean guessIndentation
@@ -167,30 +102,12 @@ public final class Yaml {
         return new RtYamlInput(input, guessIndentation);
     }
 
-    /**
-     * Create a YamlPrinter to write a YamlNode somewhere. If you want to
-     * print a YamlNode to String, just use YamlNode.toString() -- it is a
-     * convenience equivalent to:
-     * <pre>
-     *   final YamlNode yaml = ...;
-     *   final StringWriter stgWriter = new StringWriter();
-     *   Yaml.createYamlPrinter(stgWriter).print(yaml);
-     *   System.out.println(stgWriter.toString());
-     * </pre>
-     *
-     * @param destination Writer where the YamlNode will be printed.
-     * @return YamlPrinter.
-     */
+
     public static YamlPrinter createYamlPrinter(final Writer destination) {
         return new RtYamlPrinter(destination);
     }
 
-    /**
-     * Create a YAML dump to represent the given object as YAML.
-     *
-     * @param object Object to dump.
-     * @return YamlDump.
-     */
+
     public static YamlDump createYamlDump(final Object object) {
         return new ReflectedYamlDump(object);
     }

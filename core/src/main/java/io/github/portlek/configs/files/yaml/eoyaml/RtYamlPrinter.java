@@ -43,16 +43,10 @@ import java.util.List;
  */
 final class RtYamlPrinter implements YamlPrinter {
 
-    /**
-     * Writer where the given YAML will be printed.
-     */
+
     private final Writer writer;
 
-    /**
-     * Constructor.
-     *
-     * @param writer Destination writer.
-     */
+
     RtYamlPrinter(final Writer writer) {
         this.writer = writer;
     }
@@ -78,13 +72,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * Print a YAML Stream of documents.
-     *
-     * @param stream Given YamlStream.
-     * @param indentation Level of indentation of the printed stream.
-     * @throws IOException If an I/O problem occurs.
-     */
+
     private void printStream(
         final YamlStream stream,
         final int indentation
@@ -109,13 +97,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * Print a YAML Mapping.
-     *
-     * @param mapping Given YamlMapping.
-     * @param indentation Level of indentation of the printed mapping.
-     * @throws IOException If an I/O problem occurs.
-     */
+
     private void printMapping(
         final YamlMapping mapping,
         final int indentation
@@ -159,13 +141,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * Print a YAML Sequence.
-     *
-     * @param sequence Given YamlSequence.
-     * @param indentation Level of indentation of the printed Scalar.
-     * @throws IOException If an I/O problem occurs.
-     */
+
     private void printSequence(
         final YamlSequence sequence,
         final int indentation
@@ -198,13 +174,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * Print a YAML Scalar.
-     *
-     * @param scalar Given Scalar.
-     * @param indentation Level of indentation of the printed Scalar.
-     * @throws IOException If an I/O problem occurs.
-     */
+
     private void printScalar(
         final Scalar scalar,
         final int indentation

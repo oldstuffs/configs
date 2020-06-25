@@ -36,31 +36,18 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
     private final YamlLine previous;
 
-    /**
-     * All lines of the YAML document.
-     */
+
     private final AllYamlLines all;
 
-    /**
-     * The significant lines of this folded block scalar.
-     */
+
     private final YamlLines significant;
 
-    /**
-     * Ctor.
-     *
-     * @param lines All lines.
-     */
+
     ReadFoldedBlockScalar(final AllYamlLines lines) {
         this(new YamlLine.NullYamlLine(), lines);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param previous Previous YAML line.
-     * @param lines Given lines to represent.
-     */
+
     ReadFoldedBlockScalar(final YamlLine previous, final AllYamlLines lines) {
         this.previous = previous;
         this.all = lines;
@@ -78,11 +65,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
         );
     }
 
-    /**
-     * Value of this scalar.
-     *
-     * @return String
-     */
+
     @Override
     public String value() {
         final StringBuilder builder = new StringBuilder();
@@ -152,12 +135,7 @@ final class ReadFoldedBlockScalar extends BaseFoldedScalar {
         return unfolded;
     }
 
-    /**
-     * Checks whether StringBuilder do not end with newline or not.
-     *
-     * @param builder StringBuilder
-     * @return Boolean Whether builder do not end with newline char or not
-     */
+
     private boolean doNotEndWithNewLine(final StringBuilder builder) {
         return builder.length() > 0
             && !builder.toString().endsWith(System.lineSeparator());

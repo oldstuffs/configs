@@ -29,34 +29,14 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Set;
 
-/**
- * Decorator for a {@link YamlMapping} which throws
- * YamlNodenotFoundException, instead of returning null,
- * if a given key doesn't exist in the mapping, or if it points
- * to a different type of node than the demanded one.<br><br>
- * It is based on the fail-fast and null-is-bad idea <br>
- * see here: http://www.yegor256.com/2014/05/13/why-null-is-bad.html
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 31dd44906ab8f91053b0c35c9ffa0f2f40a101a5 $
- * @since 1.0.0
- * @deprecated This class will be moved to the extensions package in one
- * of the future releases. There will be no changes to it other than a
- * more suitable package.
- */
+
 @Deprecated
 public final class StrictYamlMapping extends BaseYamlMapping {
 
-    /**
-     * Original YamlMapping.
-     */
+
     private final YamlMapping decorated;
 
-    /**
-     * Ctor.
-     *
-     * @param decorated Original YamlMapping
-     */
+
     public StrictYamlMapping(final YamlMapping decorated) {
         this.decorated = decorated;
     }

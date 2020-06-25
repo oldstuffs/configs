@@ -29,32 +29,14 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Collection;
 
-/**
- * Decorator for a {@link YamlSequence} which throws YamlNodeNotFoundException
- * if any of the methods of the decorated YamlSequence returns null
- * (if the given index points to a YamlNode that is not a YamlMapping,
- * for instance).
- *
- * @author Salavat.Yalalov (s.yalalov@gmail.com)
- * @version $Id: c32b6632b2c99a3df79ee916cb880567a288494c $
- * @since 1.0.0
- * @deprecated This class will be moved to the extensions package in one
- * of the future releases. There will be no changes to it other than a
- * more suitable package.
- */
+
 @Deprecated
 public final class StrictYamlSequence extends BaseYamlSequence {
 
-    /**
-     * Original YamlSequence.
-     */
+
     private final YamlSequence decorated;
 
-    /**
-     * Ctor.
-     *
-     * @param decorated Original YamlSequence
-     */
+
     public StrictYamlSequence(final YamlSequence decorated) {
         this.decorated = decorated;
     }
@@ -64,12 +46,7 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return this.decorated.values();
     }
 
-    /**
-     * Get the Yaml mapping  from the given index.
-     *
-     * @param index Integer index.
-     * @return Yaml mapping
-     */
+
     @Override
     public YamlMapping yamlMapping(final int index) {
         final YamlMapping found = this.decorated.yamlMapping(index);
@@ -81,12 +58,7 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return found;
     }
 
-    /**
-     * Get the Yaml sequence  from the given index.
-     *
-     * @param index Integer index.
-     * @return Yaml sequence
-     */
+
     @Override
     public YamlSequence yamlSequence(final int index) {
         final YamlSequence found = this.decorated.yamlSequence(index);
@@ -98,12 +70,7 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return found;
     }
 
-    /**
-     * Get the String from the given index.
-     *
-     * @param index Integer index.
-     * @return String
-     */
+
     @Override
     public String string(final int index) {
         final String found = this.decorated.string(index);
@@ -115,12 +82,7 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return found;
     }
 
-    /**
-     * Get the folded block String from the given index.
-     *
-     * @param index Integer index.
-     * @return String
-     */
+
     @Override
     public String foldedBlockScalar(final int index) {
         final String found = this.decorated.foldedBlockScalar(index);
@@ -132,12 +94,7 @@ public final class StrictYamlSequence extends BaseYamlSequence {
         return found;
     }
 
-    /**
-     * Get the literal block Strings from the given index.
-     *
-     * @param index Integer index.
-     * @return Collection of String lines of the literal.
-     */
+
     @Override
     public Collection<String> literalBlockScalar(final int index) {
         final Collection<String> found = this.decorated.literalBlockScalar(index);

@@ -31,31 +31,13 @@ import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingExcepti
 import java.util.Collection;
 import java.util.Iterator;
 
-/**
- * YamlLines default implementation. "All" refers to the fact that
- * we iterate over all of them, irrespective of indentation. There
- * are cases where we need to iterate only over the lines which are
- * at the same indentation level and for that we use the decorator
- * {@link SameIndentationLevel}.
- * ExecutableStatementCount (400 lines)
- * CyclomaticComplexity (400 lines)
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 2067a51a435ad0898e85e707094a1000e6c7205d $
- * @since 1.0.0
- */
+
 final class AllYamlLines implements YamlLines {
 
-    /**
-     * Yaml lines.
-     */
+
     private final Collection<YamlLine> lines;
 
-    /**
-     * Ctor.
-     *
-     * @param lines Yaml lines collection.
-     */
+
     AllYamlLines(final Collection<YamlLine> lines) {
         this.lines = lines;
     }
@@ -106,15 +88,7 @@ final class AllYamlLines implements YamlLines {
         return this.lines.iterator();
     }
 
-    /**
-     * Try to figure out what YAML node (mapping, sequence or scalar) is found
-     * after the given line.
-     *
-     * @param prev YamlLine just previous to the node we're trying to find.
-     * @param guessIndentation If true, we will guess the correct indentation,
-     * if any YAML line is misplaced.
-     * @return Found YamlNode.
-     */
+
     private YamlNode mappingSequenceOrPlainScalar(
         final YamlLine prev,
         final boolean guessIndentation
