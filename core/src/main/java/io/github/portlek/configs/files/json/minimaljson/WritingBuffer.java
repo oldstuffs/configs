@@ -24,7 +24,6 @@ package io.github.portlek.configs.files.json.minimaljson;
 import java.io.IOException;
 import java.io.Writer;
 
-
 class WritingBuffer extends Writer {
 
     private final Writer writer;
@@ -76,13 +75,11 @@ class WritingBuffer extends Writer {
         this.fill += len;
     }
 
-
     @Override
     public void flush() throws IOException {
         this.writer.write(this.buffer, 0, this.fill);
         this.fill = 0;
     }
-
 
     @Override
     public void close() throws IOException {

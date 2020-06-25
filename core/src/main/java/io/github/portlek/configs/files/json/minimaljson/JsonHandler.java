@@ -75,14 +75,11 @@ public abstract class JsonHandler<A, O> {
     public void endObjectName(final O object, final String name) {
     }
 
-
     public void startObjectValue(final O object, final String name) {
     }
 
-
     public void endObjectValue(final O object, final String name) {
     }
-
 
     protected Location getLocation() {
         return this.parser.getLocation();

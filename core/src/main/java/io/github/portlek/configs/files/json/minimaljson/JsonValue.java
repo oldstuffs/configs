@@ -84,86 +84,69 @@ public abstract class JsonValue implements Serializable {
         return false;
     }
 
-
     public boolean isArray() {
         return false;
     }
-
 
     public boolean isNumber() {
         return false;
     }
 
-
     public boolean isString() {
         return false;
     }
-
 
     public boolean isBoolean() {
         return false;
     }
 
-
     public boolean isTrue() {
         return false;
     }
-
 
     public boolean isFalse() {
         return false;
     }
 
-
     public boolean isNull() {
         return false;
     }
-
 
     public JsonObject asObject() {
         throw new UnsupportedOperationException(JsonValue.NOT_AN_OBJECT + this.toString());
     }
 
-
     public JsonArray asArray() {
         throw new UnsupportedOperationException(JsonValue.NOT_AN_ARRAY + this.toString());
     }
-
 
     public int asInt() {
         throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
 
-
     public long asLong() {
         throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
-
 
     public float asFloat() {
         throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
 
-
     public double asDouble() {
         throw new UnsupportedOperationException(JsonValue.NOT_A_NUMBER + this.toString());
     }
-
 
     public String asString() {
         throw new UnsupportedOperationException(JsonValue.NOT_A_STRING + this.toString());
     }
 
-
     public boolean asBoolean() {
         throw new UnsupportedOperationException(JsonValue.NOT_A_BOOLEAN + this.toString());
     }
 
-
     public void writeTo(final Writer writer) throws IOException {
         this.writeTo(writer, WriterConfig.MINIMAL);
     }
-
 
     public void writeTo(final Writer writer, final WriterConfig config) throws IOException {
         if (writer == null) {
@@ -176,7 +159,6 @@ public abstract class JsonValue implements Serializable {
         this.write(config.createWriter(buffer));
         buffer.flush();
     }
-
 
     public String toString(final WriterConfig config) {
         final StringWriter writer = new StringWriter();
@@ -194,12 +176,10 @@ public abstract class JsonValue implements Serializable {
         return super.hashCode();
     }
 
-
     @Override
     public boolean equals(final Object object) {
         return super.equals(object);
     }
-
 
     @Override
     public String toString() {

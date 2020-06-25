@@ -116,30 +116,25 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         return this;
     }
 
-
     public JsonArray set(final int index, final float value) {
         this.values.set(index, Json.value(value));
         return this;
     }
-
 
     public JsonArray set(final int index, final double value) {
         this.values.set(index, Json.value(value));
         return this;
     }
 
-
     public JsonArray set(final int index, final boolean value) {
         this.values.set(index, Json.value(value));
         return this;
     }
 
-
     public JsonArray set(final int index, final String value) {
         this.values.set(index, Json.value(value));
         return this;
     }
-
 
     public JsonArray set(final int index, final JsonValue value) {
         if (value == null) {
@@ -149,32 +144,26 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
         return this;
     }
 
-
     public JsonArray remove(final int index) {
         this.values.remove(index);
         return this;
     }
 
-
     public int size() {
         return this.values.size();
     }
-
 
     public boolean isEmpty() {
         return this.values.isEmpty();
     }
 
-
     public JsonValue get(final int index) {
         return this.values.get(index);
     }
 
-
     public List<JsonValue> values() {
         return Collections.unmodifiableList(this.values);
     }
-
 
     @Override
     public Iterator<JsonValue> iterator() {
@@ -212,7 +201,6 @@ public class JsonArray extends JsonValue implements Iterable<JsonValue> {
     public int hashCode() {
         return this.values.hashCode();
     }
-
 
     @Override
     public boolean equals(final Object object) {

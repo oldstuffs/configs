@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-
 public class JsonParser {
 
     private static final int MAX_NESTING_LEVEL = 1000;
@@ -58,9 +57,6 @@ public class JsonParser {
 
     private int nestingLevel;
 
-
-
-
     @SuppressWarnings("unchecked")
     public JsonParser(final JsonHandler<?, ?> handler) {
         if (handler == null) {
@@ -69,7 +65,6 @@ public class JsonParser {
         this.handler = (JsonHandler<Object, Object>) handler;
         handler.parser = this;
     }
-
 
     public void parse(final String string) {
         if (string == null) {
@@ -84,11 +79,9 @@ public class JsonParser {
         }
     }
 
-
     public void parse(final Reader reader) throws IOException {
         this.parse(reader, JsonParser.DEFAULT_BUFFER_SIZE);
     }
-
 
     public void parse(final Reader reader, final int buffersize) throws IOException {
         if (reader == null) {

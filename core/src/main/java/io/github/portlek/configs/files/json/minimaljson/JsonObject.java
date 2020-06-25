@@ -26,7 +26,6 @@ import java.io.ObjectInputStream;
 import java.io.Reader;
 import java.util.*;
 
-
 @SuppressWarnings("serial") // use default serial UID
 public class JsonObject extends JsonValue implements Iterable<JsonObject.Member> {
 
@@ -42,13 +41,11 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
 
     private transient JsonObject.HashIndexTable table;
 
-
     public JsonObject() {
         this.names = new ArrayList<String>();
         this.values = new ArrayList<JsonValue>();
         this.table = new JsonObject.HashIndexTable();
     }
-
 
     public JsonObject(final JsonObject object) {
         this(object, false);
@@ -69,59 +66,49 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         this.updateHashIndex();
     }
 
-
     @Deprecated
     public static JsonObject readFrom(final Reader reader) throws IOException {
         return JsonValue.readFrom(reader).asObject();
     }
-
 
     @Deprecated
     public static JsonObject readFrom(final String string) {
         return JsonValue.readFrom(string).asObject();
     }
 
-
     public static JsonObject unmodifiableObject(final JsonObject object) {
         return new JsonObject(object, true);
     }
-
 
     public JsonObject add(final String name, final int value) {
         this.add(name, Json.value(value));
         return this;
     }
 
-
     public JsonObject add(final String name, final long value) {
         this.add(name, Json.value(value));
         return this;
     }
-
 
     public JsonObject add(final String name, final float value) {
         this.add(name, Json.value(value));
         return this;
     }
 
-
     public JsonObject add(final String name, final double value) {
         this.add(name, Json.value(value));
         return this;
     }
-
 
     public JsonObject add(final String name, final boolean value) {
         this.add(name, Json.value(value));
         return this;
     }
 
-
     public JsonObject add(final String name, final String value) {
         this.add(name, Json.value(value));
         return this;
     }
-
 
     public JsonObject add(final String name, final JsonValue value) {
         if (name == null) {
@@ -136,53 +123,44 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return this;
     }
 
-
     public Optional<Float> getFloat(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? Optional.of(value.asFloat()) : Optional.empty();
     }
-
 
     public OptionalDouble getDouble(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? OptionalDouble.of(value.asDouble()) : OptionalDouble.empty();
     }
 
-
     public JsonObject getObject(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? value.asObject() : null;
     }
-
 
     public Optional<Boolean> getBoolean(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? Optional.of(value.asBoolean()) : Optional.empty();
     }
 
-
     public Optional<String> getString(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? Optional.of(value.asString()) : Optional.empty();
     }
-
 
     public OptionalLong getLong(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? OptionalLong.of(value.asLong()) : OptionalLong.empty();
     }
 
-
     public Optional<JsonValue> getOptional(final String name) {
         return Optional.ofNullable(this.get(name));
     }
-
 
     public OptionalInt getInt(final String name) {
         final JsonValue value = this.get(name);
         return value != null ? OptionalInt.of(value.asInt()) : OptionalInt.empty();
     }
-
 
     public JsonObject deepMerge(final JsonObject object) {
         if (object == null) {
@@ -202,42 +180,35 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return this;
     }
 
-
     public JsonObject set(final String name, final int value) {
         this.set(name, Json.value(value));
         return this;
     }
-
 
     public JsonObject set(final String name, final long value) {
         this.set(name, Json.value(value));
         return this;
     }
 
-
     public JsonObject set(final String name, final float value) {
         this.set(name, Json.value(value));
         return this;
     }
-
 
     public JsonObject set(final String name, final double value) {
         this.set(name, Json.value(value));
         return this;
     }
 
-
     public JsonObject set(final String name, final boolean value) {
         this.set(name, Json.value(value));
         return this;
     }
 
-
     public JsonObject set(final String name, final String value) {
         this.set(name, Json.value(value));
         return this;
     }
-
 
     public JsonObject set(final String name, final JsonValue value) {
         if (name == null) {
@@ -257,7 +228,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return this;
     }
 
-
     public JsonObject remove(final String name) {
         if (name == null) {
             throw new NullPointerException(JsonObject.NAME_IS_NULL);
@@ -271,11 +241,9 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return this;
     }
 
-
     public boolean contains(final String name) {
         return this.names.contains(name);
     }
-
 
     public JsonObject merge(final JsonObject object) {
         if (object == null) {
@@ -287,7 +255,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return this;
     }
 
-
     public JsonValue get(final String name) {
         if (name == null) {
             throw new NullPointerException(JsonObject.NAME_IS_NULL);
@@ -296,57 +263,47 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         return index != -1 ? this.values.get(index) : null;
     }
 
-
     public int getInt(final String name, final int defaultValue) {
         final JsonValue value = this.get(name);
         return value != null ? value.asInt() : defaultValue;
     }
-
 
     public long getLong(final String name, final long defaultValue) {
         final JsonValue value = this.get(name);
         return value != null ? value.asLong() : defaultValue;
     }
 
-
     public float getFloat(final String name, final float defaultValue) {
         final JsonValue value = this.get(name);
         return value != null ? value.asFloat() : defaultValue;
     }
-
 
     public double getDouble(final String name, final double defaultValue) {
         final JsonValue value = this.get(name);
         return value != null ? value.asDouble() : defaultValue;
     }
 
-
     public boolean getBoolean(final String name, final boolean defaultValue) {
         final JsonValue value = this.get(name);
         return value != null ? value.asBoolean() : defaultValue;
     }
-
 
     public String getString(final String name, final String defaultValue) {
         final JsonValue value = this.get(name);
         return value != null ? value.asString() : defaultValue;
     }
 
-
     public int size() {
         return this.names.size();
     }
-
 
     public boolean isEmpty() {
         return this.names.isEmpty();
     }
 
-
     public List<String> names() {
         return Collections.unmodifiableList(this.names);
     }
-
 
     @Override
     public Iterator<JsonObject.Member> iterator() {
@@ -448,7 +405,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
         }
     }
 
-
     public static class Member {
 
         private final String name;
@@ -460,11 +416,9 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             this.value = value;
         }
 
-
         public String getName() {
             return this.name;
         }
-
 
         public JsonValue getValue() {
             return this.value;
@@ -477,7 +431,6 @@ public class JsonObject extends JsonValue implements Iterable<JsonObject.Member>
             result = 31 * result + this.value.hashCode();
             return result;
         }
-
 
         @Override
         public boolean equals(final Object object) {

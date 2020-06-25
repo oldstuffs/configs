@@ -74,16 +74,13 @@ public final class Json {
         return string == null ? Json.NULL : new JsonString(string);
     }
 
-
     public static JsonValue value(final boolean value) {
         return value ? Json.TRUE : Json.FALSE;
     }
 
-
     public static JsonArray array() {
         return new JsonArray();
     }
-
 
     public static JsonArray array(final int... values) {
         if (values == null) {
@@ -96,7 +93,6 @@ public final class Json {
         return array;
     }
 
-
     public static JsonArray array(final long... values) {
         if (values == null) {
             throw new NullPointerException(Json.VALUES_IS_NULL);
@@ -107,7 +103,6 @@ public final class Json {
         }
         return array;
     }
-
 
     public static JsonArray array(final float... values) {
         if (values == null) {
@@ -120,7 +115,6 @@ public final class Json {
         return array;
     }
 
-
     public static JsonArray array(final double... values) {
         if (values == null) {
             throw new NullPointerException(Json.VALUES_IS_NULL);
@@ -131,7 +125,6 @@ public final class Json {
         }
         return array;
     }
-
 
     public static JsonArray array(final boolean... values) {
         if (values == null) {
@@ -144,7 +137,6 @@ public final class Json {
         return array;
     }
 
-
     public static JsonArray array(final String... strings) {
         if (strings == null) {
             throw new NullPointerException(Json.VALUES_IS_NULL);
@@ -156,11 +148,9 @@ public final class Json {
         return array;
     }
 
-
     public static JsonObject object() {
         return new JsonObject();
     }
-
 
     public static JsonValue parse(final String string) {
         if (string == null) {
@@ -170,7 +160,6 @@ public final class Json {
         new JsonParser(handler).parse(string);
         return handler.getValue();
     }
-
 
     public static JsonValue parse(final Reader reader) throws IOException {
         if (reader == null) {
