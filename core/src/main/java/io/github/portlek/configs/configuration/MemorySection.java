@@ -30,11 +30,7 @@ import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * A type from {@link ConfigurationSection} that is stored in memory.
- *
- * @author Carlos Lazaro Costa (removed Bukkit-dependent accessors)
- */
+
 public class MemorySection implements ConfigurationSection {
 
     protected final Map<String, Object> map = new LinkedHashMap<>();
@@ -48,16 +44,7 @@ public class MemorySection implements ConfigurationSection {
 
     private final String fullPath;
 
-    /**
-     * Creates an empty MemorySection for use as a root {@link Configuration}
-     * section.
-     * <p>
-     * Note that calling this without being yourself a {@link Configuration}
-     * will throw an exception!
-     *
-     * @throws IllegalStateException Thrown if this is not a {@link
-     * Configuration} root.
-     */
+
     protected MemorySection() {
         if (!(this instanceof Configuration)) {
             throw new IllegalStateException("Cannot construct a root MemorySection when not a Configuration");
@@ -69,15 +56,7 @@ public class MemorySection implements ConfigurationSection {
         this.root = (Configuration) this;
     }
 
-    /**
-     * Creates an empty MemorySection with the specified parent and value.
-     *
-     * @param parent Parent section that contains this own section.
-     * @param path Path that you may access this section from via the root
-     * {@link Configuration}.
-     * @throws IllegalArgumentException Thrown is parent or value is null, or
-     * if parent contains no root Configuration.
-     */
+
     protected MemorySection(@NotNull final ConfigurationSection parent, @NotNull final String path) {
         this.path = path;
         this.parent = parent;
@@ -85,34 +64,13 @@ public class MemorySection implements ConfigurationSection {
         this.fullPath = MemorySection.createPath(parent, path);
     }
 
-    /**
-     * Creates a full value to the given {@link ConfigurationSection} from its
-     * root {@link Configuration}.
-     * <p>
-     * You may use this method for any given {@link ConfigurationSection}, not
-     * only {@link MemorySection}.
-     *
-     * @param section Section to create a value for.
-     * @param key Name from the specified section.
-     * @return Full value from the section from its root.
-     */
+
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key) {
         return MemorySection.createPath(section, key, section == null ? null : section.getRoot());
     }
 
-    /**
-     * Creates a relative value to the given {@link ConfigurationSection} from
-     * the given relative section.
-     * <p>
-     * You may use this method for any given {@link ConfigurationSection}, not
-     * only {@link MemorySection}.
-     *
-     * @param section Section to create a value for.
-     * @param key Name from the specified section.
-     * @param relativeTo Section to create the value relative to.
-     * @return Full value from the section from its root.
-     */
+
     @NotNull
     public static String createPath(@NotNull final ConfigurationSection section, @Nullable final String key,
                                     @Nullable final ConfigurationSection relativeTo) {

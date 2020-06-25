@@ -5,12 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Immutable Entry
- *
- * @param <X> the key
- * @param <Y> the value
- */
+
 @RequiredArgsConstructor
 @Getter
 public final class MapEntry<X, Y> implements Map.Entry<X, Y> {
