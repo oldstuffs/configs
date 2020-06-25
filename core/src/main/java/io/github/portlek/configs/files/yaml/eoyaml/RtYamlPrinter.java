@@ -32,15 +32,7 @@ import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Base implementation of YamlPrinter. "Rt" stands for "Runtime".
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: c7e0f666d0ed192c5f0173ae96345c7147204139 $
- * ExecutableStatementCount (400 lines)
- * CyclomaticComplexity (400 lines)
- * @since 4.3.1
- */
+
 final class RtYamlPrinter implements YamlPrinter {
 
 
@@ -225,15 +217,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * This method should be used when printing children
-     * nodes of a complex Node (mapping, scalar, stream etc).
-     *
-     * @param node YAML Node to print.
-     * @param onNewLine Should the child node be printed on a new line?
-     * @param indentation Indentation of the print.
-     * @throws IOException If any I/O error occurs.
-     */
+
     private void printNode(
         final YamlNode node,
         final boolean onNewLine,
@@ -261,15 +245,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * Print a comment. Make sure to split the lines if there are more
-     * lines separated by NewLine and also add a '# ' in front of each
-     * line.
-     *
-     * @param node Node containing the Comment.
-     * @param alignment Indentation.
-     * @throws IOException If any I/O problem occurs.
-     */
+
     private void printPossibleComment(
         final YamlNode node,
         final String alignment
@@ -289,14 +265,7 @@ final class RtYamlPrinter implements YamlPrinter {
         }
     }
 
-    /**
-     * Indent a given String value. If the String has multiple lines,
-     * they will all be indented together.
-     *
-     * @param value String to indent.
-     * @param indentation Indentation level.
-     * @return Indented String.
-     */
+
     private String indent(final String value, final int indentation) {
         final StringBuilder alignment = new StringBuilder();
         int spaces = indentation;
@@ -316,30 +285,16 @@ final class RtYamlPrinter implements YamlPrinter {
         return printed.toString();
     }
 
-    /**
-     * A scalar which escapes its value.
-     *
-     * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: c7e0f666d0ed192c5f0173ae96345c7147204139 $
-     * @since 4.3.1
-     */
+
     static class Escaped extends BaseScalar {
 
-        /**
-         * Special chars that need escaping.
-         */
+
         private final String RESERVED = "#:->|$%&";
 
-        /**
-         * Original unescaped scalar.
-         */
+
         private final Scalar original;
 
-        /**
-         * Ctor.
-         *
-         * @param original Unescaped scalar.
-         */
+
         Escaped(final Scalar original) {
             this.original = original;
         }
