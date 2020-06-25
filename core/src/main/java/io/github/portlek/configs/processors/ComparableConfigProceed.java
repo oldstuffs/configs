@@ -22,6 +22,7 @@ public final class ComparableConfigProceed {
             final FlManaged flmanaged = this.managed.getNewManaged().get();
             flmanaged.setAutoSave(this.managed.isAutoSave());
             final String key = linkedFile.key();
+            this.managed.setup(key, flmanaged);
             this.managed.key(key);
             final Config config = linkedFile.config();
             new ConfigProceed(config, this.managed, flmanaged).load();
