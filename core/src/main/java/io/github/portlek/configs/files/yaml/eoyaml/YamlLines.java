@@ -30,51 +30,20 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.Collection;
 import java.util.Iterator;
 
-/**
- * Iterable yaml lines.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 3ca17cbba924aa21654b7659a4bfce0bec120426 $
- * @since 1.0.0
- */
+
 interface YamlLines extends Iterable<YamlLine> {
 
-    /**
-     * Return all the original underlying lines. No matter what
-     * decorators are added on top of the base YamlLines implementation,
-     * the call to this method should always be delegated down to the
-     * base method, with no changes.
-     *
-     * @return The original YamlLines as a Collection.
-     */
+
     Collection<YamlLine> original();
 
-    /**
-     * Turn these lines into a YamlNode.
-     *
-     * @param prev Previous YamlLine
-     * @param guessIndentation If set to true, we will try to guess
-     * the correct indentation of misplaced lines.
-     * @return YamlNode
-     */
+
     YamlNode toYamlNode(YamlLine prev, boolean guessIndentation);
 
-    /**
-     * Default iterator which doesn't skip any line,
-     * iterates over all of them.
-     *
-     * @return Iterator of YamlLine.
-     */
+
     @Override
     Iterator<YamlLine> iterator();
 
-    /**
-     * Get a certain YamlLine.
-     * ReturnCount (50 lines)
-     *
-     * @param number Number of the line.
-     * @return YamlLine or throws {@link IndexOutOfBoundsException}.
-     */
+
     default YamlLine line(final int number) {
         final Collection<YamlLine> lines = this.original();
         if (number < 0 && lines.size() > 0) {

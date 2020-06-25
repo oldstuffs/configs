@@ -32,18 +32,7 @@ import io.github.portlek.configs.files.yaml.eoyaml.exceptions.YamlReadingExcepti
 import java.io.IOException;
 import java.io.StringWriter;
 
-/**
- * Base YAML Node. This is the first class in the hierarchy
- * for any kind of YAML node.
- * <p>
- * So far, the purpose of this base class is to hide methods that should
- * be applicable to all types of YamlNode and which we do not want
- * to make public on the YamlNode interface.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 9847d69ff233d786249a66df496ce6d86912ba37 $
- * @since 4.0.0
- */
+
 abstract class BaseYamlNode implements YamlNode {
 
     @Override
@@ -81,14 +70,7 @@ abstract class BaseYamlNode implements YamlNode {
         return clazz.cast(this);
     }
 
-    /**
-     * Print this YamlNode using a StringWriter to create its
-     * String representation.
-     *
-     * @return String print of this YamlNode.
-     * @throws YamlPrintException If there is any I/O problem
-     * when printing the YAML.
-     */
+
     @Override
     public final String toString() {
         final StringWriter writer = new StringWriter();
@@ -103,11 +85,7 @@ abstract class BaseYamlNode implements YamlNode {
         }
     }
 
-    /**
-     * Is this YamlNode empty?
-     *
-     * @return True or false.
-     */
+
     abstract boolean isEmpty();
 
 }

@@ -27,25 +27,13 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * YAML Scalar reflected from an Object.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: bfd0c9e15131ae8d55a4212cadbc48fee250fd1b $
- * @since 4.3.3
- */
+
 final class ReflectedYamlScalar extends BaseScalar {
 
-    /**
-     * Scalar object being reflected.
-     */
+
     private final Object scalar;
 
-    /**
-     * Constructor.
-     *
-     * @param scalar Scalar Object
-     */
+
     ReflectedYamlScalar(final Object scalar) {
         this.scalar = scalar;
     }

@@ -31,64 +31,27 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * YamlSequence read from somewhere.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 9a0c9470e924496a87d584981c831601f46d18b4 $
- * @since 1.0.0
- */
+
 final class ReadYamlSequence extends BaseYamlSequence {
 
-    /**
-     * Yaml line just previous to the one where this sequence starts. E.g.
-     * <pre>
-     * 0  sequence:
-     * 1    - elem1
-     * 2    - elem2
-     * </pre>
-     * In the above example the sequence consists of elem1 and elem2, while
-     * "previous" is line 0. If the sequence starts at the root, then line
-     * "previous" is {@link YamlLine.NullYamlLine}; E.g.
-     * <pre>
-     * 0  - elem1
-     * 1  - elem2
-     * </pre>
-     */
+
     private final YamlLine previous;
 
-    /**
-     * All lines of the YAML document.
-     */
+
     private final AllYamlLines all;
 
-    /**
-     * Only the significant lines of this sequence.
-     */
+
     private final YamlLines significant;
 
-    /**
-     * If set to true we will try to guess the correct indentation
-     * of misplaced lines.
-     */
+
     private final boolean guessIndentation;
 
-    /**
-     * Ctor.
-     *
-     * @param lines Given lines.
-     */
+
     ReadYamlSequence(final AllYamlLines lines) {
         this(lines, false);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param lines Given lines.
-     * @param guessIndentation If set to true, we will try to
-     * guess the correct indentation of misplaced lines.
-     */
+
     ReadYamlSequence(
         final AllYamlLines lines,
         final boolean guessIndentation
@@ -96,24 +59,12 @@ final class ReadYamlSequence extends BaseYamlSequence {
         this(new YamlLine.NullYamlLine(), lines, guessIndentation);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param previous Line just before the start of this sequence.
-     * @param lines Given lines.
-     */
+
     ReadYamlSequence(final YamlLine previous, final AllYamlLines lines) {
         this(previous, lines, false);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param previous Line just before the start of this sequence.
-     * @param lines Given lines.
-     * @param guessIndentation If set to true, we will try to guess the
-     * correct indentation of misplaced lines.
-     */
+
     ReadYamlSequence(
         final YamlLine previous,
         final AllYamlLines lines,

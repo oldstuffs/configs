@@ -27,66 +27,27 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Builder of YamlMapping. Implementations should be immutable and thread-safe.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 874262715a92df86ed142c9e7f098a2c4e102f99 $
- * @since 1.0.0
- */
+
 public interface YamlMappingBuilder {
 
-    /**
-     * Add a pair to the mapping.
-     *
-     * @param key String
-     * @param value String
-     * @return This builder
-     */
+
     YamlMappingBuilder add(String key, String value);
 
-    /**
-     * Add a pair to the mapping.
-     *
-     * @param key YamlNode (sequence or mapping)
-     * @param value String
-     * @return This builder
-     */
+
     YamlMappingBuilder add(YamlNode key, String value);
 
-    /**
-     * Add a pair to the mapping.
-     *
-     * @param key YamlNode (sequence or mapping)
-     * @param value YamlNode (sequence or mapping)
-     * @return This builder
-     */
+
     YamlMappingBuilder add(YamlNode key, YamlNode value);
 
-    /**
-     * Add a pair to the mapping.
-     *
-     * @param key String
-     * @param value YamlNode (sequence or mapping)
-     * @return This builder
-     */
+
     YamlMappingBuilder add(String key, YamlNode value);
 
-    /**
-     * Build the YamlMapping.
-     *
-     * @return Built YamlMapping.
-     */
+
     default YamlMapping build() {
         return this.build("");
     }
 
-    /**
-     * Build the YamlMapping.
-     *
-     * @param comment Comment on top of the YamlMapping.
-     * @return Built YamlMapping.
-     */
+
     YamlMapping build(String comment);
 
 }

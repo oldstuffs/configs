@@ -32,27 +32,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * StartMarkers. Decorator over some YamlLines, that
- * only iterates over the YAML Document start markers (---).<br><br>
- * It is used by {@link ReadYamlStream} to separate YAML documents.
- *
- * @author Mihai Andronache(amihaiemil@gmail.com)
- * @version $Id: 9a316878752a6a3002ce39edaa9b39c46bdaf4ab $
- * @since 3.1.4
- */
+
 final class StartMarkers implements YamlLines {
 
-    /**
-     * Yaml lines.
-     */
+
     private final YamlLines yamlLines;
 
-    /**
-     * Constructor.
-     *
-     * @param yamlLines The YAML Lines.
-     */
+
     StartMarkers(final YamlLines yamlLines) {
         this.yamlLines = yamlLines;
     }
@@ -70,26 +56,7 @@ final class StartMarkers implements YamlLines {
         return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
-    /**
-     * Returns an iterator containing only the Start Marker lines (---),
-     * with the possible exception of the FIRST line, which can also be
-     * the NullYamlLine (in YAML Streams, the Start Marker
-     * of the first document can be missing). e.g. Both are valid:
-     * <pre>
-     * ---
-     * test: 1
-     * ---
-     * test 2
-     * </pre>
-     * and
-     * <pre>
-     * test: 1
-     * ---
-     * test: 2
-     * </pre>
-     *
-     * @return Iterator over these yaml lines.
-     */
+
     @Override
     public Iterator<YamlLine> iterator() {
         Iterator<YamlLine> iterator = this.yamlLines.iterator();

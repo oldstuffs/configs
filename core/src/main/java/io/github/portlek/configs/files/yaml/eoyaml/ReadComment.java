@@ -27,31 +27,16 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * A comment which has been read from somewhere.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b9d6aaf089cfadbf68635feb7d3b383383d361bd $
- * @since 4.2.0
- */
+
 final class ReadComment implements Comment {
 
-    /**
-     * Lines of this comment.
-     */
+
     private final YamlLines lines;
 
-    /**
-     * Node to which this comment refers.
-     */
+
     private final YamlNode node;
 
-    /**
-     * Constructor.
-     *
-     * @param lines Lines of this comment.
-     * @param node Node to which it refers.
-     */
+
     ReadComment(final YamlLines lines, final YamlNode node) {
         this.lines = lines;
         this.node = node;

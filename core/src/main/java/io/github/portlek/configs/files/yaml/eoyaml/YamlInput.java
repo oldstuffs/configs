@@ -29,50 +29,19 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.io.IOException;
 
-/**
- * Yaml input.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b2f1463fc24dde66e8e44f98ed2bd40afd37ba56 $
- * @since 1.0.0
- */
+
 public interface YamlInput {
 
-    /**
-     * Read the given input as a Yaml mapping.
-     *
-     * @return Read YamlMapping.
-     * @throws IOException if the input cannot be read for some reason
-     */
+
     YamlMapping readYamlMapping() throws IOException;
 
-    /**
-     * Read the given input as a Yaml sequence.
-     *
-     * @return Read YamlSequence.
-     * @throws IOException if the input cannot be read for some reason
-     */
+
     YamlSequence readYamlSequence() throws IOException;
 
-    /**
-     * Read the given input as a Yaml stream.
-     *
-     * @return Read YamlStream.
-     * @throws IOException if the input cannot be read for some reason
-     */
+
     YamlStream readYamlStream() throws IOException;
 
-    /**
-     * Read the given input as a plain scalar. e.g.
-     * <pre>
-     * ---
-     * lonelyScalar
-     * ...
-     * </pre>
-     *
-     * @return Read Scalar.
-     * @throws IOException if the input cannot be read for some reason
-     */
+
     Scalar readPlainScalar() throws IOException;
 
     /**

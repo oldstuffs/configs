@@ -29,24 +29,10 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.io.IOException;
 
-/**
- * YAML Printer.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 560dee29ca1faa319d79dee1ae1ebb5cabc4eff2 $
- * @since 4.3.1
- */
+
 public interface YamlPrinter {
 
-    /**
-     * Print a YAML Node. YamlNode is the base interface for all types
-     * of YAML.
-     *
-     * @param node YAML node to print.
-     * @throws IOException If any I/O problem is encountered. It will also
-     * throw an exception if you call this method more than once (because
-     * the underlying stream is closed at the end of the printing).
-     */
+
     void print(YamlNode node) throws IOException;
 
 }

@@ -27,55 +27,25 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * A line of yaml.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: d4ef4af50345bb94cbbeaa49e068fcef32efb045 $
- * @since 1.0.0
- */
+
 interface YamlLine extends Comparable<YamlLine> {
 
-    /**
-     * The line's trimmed contents with comments, aliases etc removed.
-     *
-     * @return String contents.
-     */
+
     String trimmed();
 
-    /**
-     * Return the comment, if any, from this line.
-     *
-     * @return Comment of empty string.
-     */
+
     String comment();
 
-    /**
-     * Number of the line (count start from 0).
-     *
-     * @return Integer.
-     */
+
     int number();
 
-    /**
-     * This line's indentation (number of spaces at the beginning of it).>br>
-     * Should be a multiple of 2! If not, IllegalStateException is thrown.
-     *
-     * @return Integer.
-     * @throws IllegalStateException if the indentation is not multiple of 2.
-     */
+
     int indentation();
 
-    /**
-     * Do the following line(s) require a deeper indentation than this line's?
-     *
-     * @return True or false
-     */
+
     boolean requireNestedIndentation();
 
-    /**
-     * YamlLine null object.
-     */
+
     class NullYamlLine implements YamlLine {
 
         @Override

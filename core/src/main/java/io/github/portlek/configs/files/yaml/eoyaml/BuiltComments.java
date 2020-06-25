@@ -43,16 +43,10 @@ import java.util.List;
  */
 final class BuiltComments implements Comments {
 
-    /**
-     * The list of comments.
-     */
+
     private final List<Comment> comments;
 
-    /**
-     * Constructor.
-     *
-     * @param comments The comments.
-     */
+
     BuiltComments(final List<Comment> comments) {
         this.comments = comments;
     }

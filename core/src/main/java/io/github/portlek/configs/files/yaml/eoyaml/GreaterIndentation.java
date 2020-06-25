@@ -32,33 +32,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * YamlLines implementation that looks for the lines which have
- * an indentation level greater the one of a given reference line.
- * The lines "nested" after the given reference line.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 107b69bda1d265572886b3b4da1cc502e9b2c848 $
- * @since 4.2.0
- */
+
 final class GreaterIndentation implements YamlLines {
 
-    /**
-     * YamlLines.
-     */
+
     private final YamlLines yamlLines;
 
-    /**
-     * Reference YAML line.
-     */
+
     private final YamlLine reference;
 
-    /**
-     * Ctor.
-     *
-     * @param reference Reference YAML Line.
-     * @param yamlLines The Yaml lines.
-     */
+
     GreaterIndentation(final YamlLine reference, final YamlLines yamlLines) {
         this.reference = reference;
         this.yamlLines = yamlLines;
@@ -77,15 +60,7 @@ final class GreaterIndentation implements YamlLines {
         return this.yamlLines.toYamlNode(prev, guessIndentation);
     }
 
-    /**
-     * Returns an iterator over these Yaml lines.
-     * It <b>only</b> iterates over the lines which have a greater
-     * indentation than the reference line. It breaks iteration when
-     * a line with a lesser or equal indentation is met, since that should
-     * be the beginning of another YAML object.
-     *
-     * @return Iterator over these yaml lines.
-     */
+
     @Override
     public Iterator<YamlLine> iterator() {
         Iterator<YamlLine> iterator = this.yamlLines.iterator();

@@ -27,10 +27,6 @@ package io.github.portlek.configs.configuration;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Various settings for controlling the input and output from a {@link
- * MemoryConfiguration}
- */
 public class MemoryConfigurationOptions extends ConfigurationOptions {
 
     protected MemoryConfigurationOptions(@NotNull final Configuration configuration) {

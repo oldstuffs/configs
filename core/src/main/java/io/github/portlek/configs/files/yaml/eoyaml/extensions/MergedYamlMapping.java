@@ -31,42 +31,13 @@ import io.github.portlek.configs.files.yaml.eoyaml.*;
 import java.util.Set;
 import java.util.function.Supplier;
 
-/**
- * Merge two YAML Mappings into a single one. Very useful in implementing
- * Updating of an existing YamlMapping. Use it like this:
- * <pre>
- *     final YamlMapping original = ...;
- *     final YamlMapping changed = ...;
- *     final YamlMapping merged = new MergedYamlMapping(
- *         original, changed, true|false
- *     );
- *     //or, via the Supplier constructor:
- *     final YamlMapping merged = new MergedYamlMapping(
- *         original,
- *         () -&gt; {
- *             //create the changed version on-the-fly, right here.
- *         },
- *         true|false
- *     );
- * </pre>
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 153341905ef1951cd922740f68f97826fc68483e $
- * @since 4.1.0
- */
+
 public final class MergedYamlMapping extends BaseYamlMapping {
 
-    /**
-     * The merged YamlMapping.
-     */
+
     private final YamlMapping merged;
 
-    /**
-     * Constructor. By default, conflicting keys will not be overriden.
-     *
-     * @param original YamlMapping in which the changes will be merged.
-     * @param changed YamlMapping containing the differences.
-     */
+
     public MergedYamlMapping(
         final YamlMapping original,
         final YamlMapping changed
@@ -74,12 +45,7 @@ public final class MergedYamlMapping extends BaseYamlMapping {
         this(original, changed, false);
     }
 
-    /**
-     * Constructor. By default, conflicting keys will not be overriden.
-     *
-     * @param original YamlMapping in which the changes will be merged.
-     * @param changed Supplier of YamlMapping containing the differences.
-     */
+
     public MergedYamlMapping(
         final YamlMapping original,
         final Supplier<YamlMapping> changed
@@ -87,14 +53,7 @@ public final class MergedYamlMapping extends BaseYamlMapping {
         this(original, changed, false);
     }
 
-    /**
-     * Constructor. You can choose whether conflicting keys will be
-     * overriden or not.
-     *
-     * @param original YamlMapping in which the changes will be merged.
-     * @param changed YamlMapping containing the differences.
-     * @param overrideConflicts Override key conflicts or not?
-     */
+
     public MergedYamlMapping(
         final YamlMapping original,
         final Supplier<YamlMapping> changed,
@@ -103,14 +62,7 @@ public final class MergedYamlMapping extends BaseYamlMapping {
         this(original, changed.get(), overrideConflicts);
     }
 
-    /**
-     * Constructor. You can choose whether conflicting keys will be
-     * overriden or not.
-     *
-     * @param original YamlMapping in which the changes will be merged.
-     * @param changed YamlMapping containing the differences.
-     * @param overrideConflicts Override key conflicts or not?
-     */
+
     public MergedYamlMapping(
         final YamlMapping original,
         final YamlMapping changed,
@@ -125,14 +77,7 @@ public final class MergedYamlMapping extends BaseYamlMapping {
         }
     }
 
-    /**
-     * Merge the two mappings.
-     *
-     * @param original Original mapping.
-     * @param changed Changed mapping.
-     * @param overrideConflicts Should conflicting keys be overriden or not?
-     * @return Merged mapping.
-     */
+
     private static YamlMapping merge(
         final YamlMapping original,
         final YamlMapping changed,

@@ -31,19 +31,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * YamlStreamBuilder implementation. "Rt" stands for "Runtime".
- * This class is immutable and thread-safe.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 559858292b99713877a7f877a21cc5f0db8c51ba $
- * @since 3.1.1
- */
+
 final class RtYamlStreamBuilder implements YamlStreamBuilder {
 
-    /**
-     * Added nodes.
-     */
+
     private final List<YamlNode> documents;
 
     /**

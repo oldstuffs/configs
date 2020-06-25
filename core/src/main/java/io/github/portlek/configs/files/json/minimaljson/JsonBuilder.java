@@ -28,24 +28,8 @@ package io.github.portlek.configs.files.json.minimaljson;
 import java.lang.reflect.Array;
 import java.util.Map;
 
-/**
- * A simple builder which allows to create a JsonValue from a java object. As this is part from
- * the minimal-json library, it is a minimal converter, and therefore does <b>not</b> resolve cyclic
- * structures.
- *
- * @author Pascal Bihler
- */
 public final class JsonBuilder {
 
-    /**
-     * Creates a JsonValue from a Java object. If the object implements {@link JsonSerializable}, its
-     * {@link JsonSerializable#asJsonValue()} method is called and the result returned.
-     * <p>
-     * Converts null values to null literals and non-trivial objects to their string representation.
-     *
-     * @param object The object to convert to json
-     * @return The Java object as {@link JsonValue}
-     */
     public static JsonValue toJsonValue(final Object object) {
         if (object == null) {
             return Json.NULL;
@@ -78,9 +62,6 @@ public final class JsonBuilder {
         }
     }
 
-    /**
-     * Creates a JsonArray from a collection object.
-     */
     static JsonArray iterableToJsonValue(final Iterable<?> collection) {
         final JsonArray array = new JsonArray();
         for (final Object element : collection) {
@@ -89,9 +70,6 @@ public final class JsonBuilder {
         return array;
     }
 
-    /**
-     * Creates a JsonObject from a Java Map
-     */
     static JsonObject mapToJsonValue(final Map<?, ?> map) {
         final JsonObject object = new JsonObject();
         for (final Map.Entry<?, ?> entry : map.entrySet()) {
@@ -100,9 +78,6 @@ public final class JsonBuilder {
         return object;
     }
 
-    /**
-     * Creates a JsonArray from an array.
-     */
     static JsonValue arrayToJsonValue(final Object inputArray) {
         final JsonArray array = new JsonArray();
         final int arrayLength = Array.getLength(inputArray);

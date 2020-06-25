@@ -31,28 +31,10 @@ import java.util.*;
 import java.util.function.*;
 import java.util.stream.*;
 
-/**
- * A YAML Stream of documents. Documents are separated by 3 dashes (---).<br>
- * This interface also offers integrations with Java 8's Stream API.<br>
- * All the methods have a default implementations based on the YamlNode
- * values Collection.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: aad913b2279664e8464f5d0a6f56bb4658687351 $
- * FinalParameters (400 lines)
- * JavadocMethod (400 lines)
- * LineLength (400 lines)
- * ParameterName (400 lines)
- * FinalParameters (400 lines)
- * @since 3.1.1
- */
+
 public interface YamlStream extends YamlNode, Stream<YamlNode> {
 
-    /**
-     * Fetch the values from this stream.
-     *
-     * @return Collection of {@link YamlNode}
-     */
+
     Collection<YamlNode> values();
 
     @Override

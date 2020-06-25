@@ -32,26 +32,10 @@ import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Yaml Scalar.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: a3fc0cf8017a486e72dca505f285e3d20dca5a58 $
- * @since 3.1.3
- */
+
 public interface Scalar extends YamlNode {
 
-    /**
-     * Value of this scalar. The value returned by this
-     * method should be un-escaped. e.g. if the scalar is
-     * escaped, say '#404040', the returned value should be
-     * #404040.
-     *
-     * @return String value.
-     * @throws IllegalStateException In the case of reading YAML,
-     * this exception is thrown if the Scalar isn't found where it's
-     * supposed to be.
-     */
+
     String value();
 
     @Nullable

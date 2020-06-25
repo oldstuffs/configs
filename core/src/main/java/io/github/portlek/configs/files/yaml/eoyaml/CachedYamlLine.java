@@ -27,41 +27,22 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Decorator class to cache values of trimmed() and indentation() method for
- * a YamlLine.
- *
- * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id: 0c17524800cdf33b78d3fa7b46d0cbd69a4bf4eb $
- * @since 1.0.0
- */
+
 final class CachedYamlLine implements YamlLine {
 
-    /**
-     * Content line.
-     */
+
     private final YamlLine line;
 
-    /**
-     * Cached trimmed line.
-     */
+
     private String trimmed;
 
-    /**
-     * Cached indentation.
-     */
+
     private int indentation = -1;
 
-    /**
-     * Cached value.
-     */
+
     private Boolean hasNestedNode;
 
-    /**
-     * Ctor.
-     *
-     * @param line YamlLine
-     */
+
     CachedYamlLine(final YamlLine line) {
         this.line = line;
     }

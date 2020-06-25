@@ -32,24 +32,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Implementation for {@link YamlScalarBuilder}. "Rt" stands for "Runtime.
- * This class is immutable and thread-safe.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: f17b8fb221296c86bfe360ffff4481ca4526bd5a $
- * @since 4.0.0
- */
+
 final class RtYamlScalarBuilder implements YamlScalarBuilder {
 
-    /**
-     * Added lines.
-     */
+
     private final List<String> lines;
 
-    /**
-     * Default ctor.
-     */
+
     RtYamlScalarBuilder() {
         this(new LinkedList<>());
     }

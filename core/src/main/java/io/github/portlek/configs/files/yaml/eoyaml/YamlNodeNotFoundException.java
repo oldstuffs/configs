@@ -27,44 +27,23 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Exception thrown when a YamlNode cannot be cast to a given type.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: ca82a5b3710d71d51ede9f73249d2d46a811a10c $
- * @since 1.0.0
- */
+
 public final class YamlNodeNotFoundException extends RuntimeException {
 
-    /**
-     * Serial version id.
-     */
+
     private static final long serialVersionUID = 1L;
 
-    /**
-     * Ctor.
-     *
-     * @param msg Message
-     */
+
     public YamlNodeNotFoundException(final String msg) {
         super(msg);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param init Initial exception
-     */
+
     public YamlNodeNotFoundException(final Throwable init) {
         this("", init);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param msg Message.
-     * @param init Initial exception.
-     */
+
     public YamlNodeNotFoundException(final String msg, final Throwable init) {
         super(msg, init);
     }

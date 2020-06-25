@@ -29,24 +29,10 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.List;
 
-/**
- * Base folded block scalar which can give us the scalar's lines.
- * We need this in order to properly print the scalar, since the value()
- * method returns the folded value whereas in printing, we need to use the
- * original, unfolded one.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 1315c2500e8709343e55b467bb0f17fa7924a668 $
- * @since 4.3.1
- */
+
 abstract class BaseFoldedScalar extends BaseScalar {
 
-    /**
-     * Return the unfolded value of this scalar. This method
-     * should not be visible to the public.
-     *
-     * @return List of String lines.
-     */
+
     abstract List<String> unfolded();
 
 }

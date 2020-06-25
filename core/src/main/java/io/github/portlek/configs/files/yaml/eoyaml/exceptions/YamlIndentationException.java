@@ -27,27 +27,15 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml.exceptions;
 
-/**
- * Represents an indentation exception.
- *
- * @author Aislan Nadrowski (aislan.nadrowski@gmail.com)
- * @version $Id: 4b5b2fcc87a82ea4c103898bf9f735b59e0a06bc $
- * @since 3.1.5
- */
+
 public final class YamlIndentationException extends RuntimeException {
 
-    /**
-     * Constructor without parameters.
-     */
+
     public YamlIndentationException() {
         this("Indentation is not ok.");
     }
 
-    /**
-     * Constructor with parameters.
-     *
-     * @param message Exception message.
-     */
+
     public YamlIndentationException(final String message) {
         super(message);
     }

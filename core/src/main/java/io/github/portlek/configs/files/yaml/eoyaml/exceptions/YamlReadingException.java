@@ -27,27 +27,15 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml.exceptions;
 
-/**
- * Represents a reading exception.
- *
- * @author Aislan Nadrowski (aislan.nadrowski@gmail.com)
- * @version $Id: 7c82a4f364a62f477377a5ecd0fd2275c5e6e922 $
- * @since 3.1.5
- */
+
 public final class YamlReadingException extends RuntimeException {
 
-    /**
-     * Constructor without parameters.
-     */
+
     public YamlReadingException() {
         this("Something went wrong while reading YAML.");
     }
 
-    /**
-     * Constructor with parameters.
-     *
-     * @param message Exception message.
-     */
+
     public YamlReadingException(final String message) {
         super(message);
     }

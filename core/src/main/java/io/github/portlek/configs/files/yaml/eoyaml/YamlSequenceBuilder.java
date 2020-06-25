@@ -27,46 +27,21 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Builder of YamlSequence. Implementations should be immutable and thread-safe.
- *
- * @author Salavat.Yalalov (s.yalalov@gmail.com)
- * @version $Id: 8f41be132072bc442d4c890d977e3da700cb0fd7 $
- * @since 1.0.0
- */
+
 public interface YamlSequenceBuilder {
 
-    /**
-     * Add a value to the sequence.
-     *
-     * @param value String
-     * @return This builder
-     */
+
     YamlSequenceBuilder add(String value);
 
-    /**
-     * Add a value to the sequence.
-     *
-     * @param node YamlNode
-     * @return This builder
-     */
+
     YamlSequenceBuilder add(YamlNode node);
 
-    /**
-     * Build the YamlSequence.
-     *
-     * @return Built YamlSequence
-     */
+
     default YamlSequence build() {
         return this.build("");
     }
 
-    /**
-     * Build the YamlSequence and specify a comment referring to it.
-     *
-     * @param comment Comment about the built YamlSequence.
-     * @return Built YamlSequence
-     */
+
     YamlSequence build(String comment);
 
 }

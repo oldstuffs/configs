@@ -32,46 +32,21 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Iterate over the lines which are YAML comments (begin with "#") and break
- * iteration when a non-comment line is found. In essence, this reads the lines
- * of the first comment from a given YamlLines, if it exists.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 18aaaed9edd69314f9b65db91c7c72495533362f $
- * @since 4.2.0
- */
+
 final class FirstCommentFound implements YamlLines {
 
-    /**
-     * Lines where we look for the comment.
-     */
+
     private final YamlLines lines;
 
-    /**
-     * Are we looking for inline comments?
-     * E.g. Comments after a scalar:
-     * <pre>
-     *   some: scalar # this comment
-     * </pre>
-     */
+
     private final boolean inLine;
 
-    /**
-     * Ctor.
-     *
-     * @param lines The Yaml lines where we look for the comment.
-     */
+
     FirstCommentFound(final YamlLines lines) {
         this(lines, false);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param lines The Yaml lines where we look for the comment.
-     * @param inLine Looking for inline comment or not?
-     */
+
     FirstCommentFound(final YamlLines lines, final boolean inLine) {
         this.lines = lines;
         this.inLine = inLine;
@@ -90,11 +65,7 @@ final class FirstCommentFound implements YamlLines {
         return this.lines.toYamlNode(prev, guessIndentation);
     }
 
-    /**
-     * Returns an iterator over the lines of the first found comment.
-     *
-     * @return Iterator over these yaml lines.
-     */
+
     @Override
     public Iterator<YamlLine> iterator() {
         Iterator<YamlLine> iterator = this.lines.iterator();

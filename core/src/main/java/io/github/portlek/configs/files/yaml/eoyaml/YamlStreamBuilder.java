@@ -27,28 +27,13 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Builder of YamlStream. Implementations should be immutable and thread-safe.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: e0fe348daa925a06849bf7c61c1845bb9bb8953a $
- * @since 3.1.1
- */
+
 public interface YamlStreamBuilder {
 
-    /**
-     * Add a YAML to the Stream.
-     *
-     * @param document YamlNode
-     * @return This builder
-     */
+
     YamlStreamBuilder add(YamlNode document);
 
-    /**
-     * Build the YamlStream.
-     *
-     * @return Built YamlStream.
-     */
+
     YamlStream build();
 
 }

@@ -31,47 +31,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Read YAML Stream of documents.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 8cdc558ff5ebbb5b1373ed3424bfe1562b27fe72 $
- * @since 3.1.4
- */
+
 final class ReadYamlStream extends BaseYamlStream {
 
-    /**
-     * All the lines of this YamlStream.
-     */
+
     private final YamlLines all;
 
-    /**
-     * Read lines of this YAML Stream.
-     */
+
     private final YamlLines startMarkers;
 
-    /**
-     * If set to true we will try to guess the correct indentation
-     * of misplaced lines.
-     */
+
     private final boolean guessIndentation;
 
-    /**
-     * Constructor.
-     *
-     * @param lines All YAML lines as they are read from the input.
-     */
+
     ReadYamlStream(final AllYamlLines lines) {
         this(lines, false);
     }
 
-    /**
-     * Constructor.
-     *
-     * @param lines All YAML lines as they are read from the input.
-     * @param guessIndentation If set to true, we will try to guess
-     * the correct indentation of misplaced lines.
-     */
+
     ReadYamlStream(final AllYamlLines lines, final boolean guessIndentation) {
         this.startMarkers = new WellIndented(
             new StartMarkers(
@@ -106,12 +83,7 @@ final class ReadYamlStream extends BaseYamlStream {
         return values;
     }
 
-    /**
-     * Read a document from this Stream.
-     *
-     * @param start Start marker of the document.
-     * @return YamlLines of the read document.
-     */
+
     private YamlLines readDocument(final YamlLine start) {
         final List<YamlLine> yamlDocLines = new ArrayList<>();
         final YamlLine startLine = this.all.line(start.number());

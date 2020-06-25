@@ -24,12 +24,7 @@ package io.github.portlek.configs.files.json.minimaljson;
 import java.io.IOException;
 import java.io.Writer;
 
-/**
- * A lightweight writing buffer to reduce the amount from write operations to be performed on the
- * underlying writer. This implementation is not thread-safe. It deliberately deviates from the
- * contract from Writer. In particular, it does not flush or close the wrapped writer nor does it
- * ensure that the wrapped writer is open.
- */
+
 class WritingBuffer extends Writer {
 
     private final Writer writer;
@@ -81,18 +76,14 @@ class WritingBuffer extends Writer {
         this.fill += len;
     }
 
-    /**
-     * Flushes the internal buffer but does not flush the wrapped writer.
-     */
+
     @Override
     public void flush() throws IOException {
         this.writer.write(this.buffer, 0, this.fill);
         this.fill = 0;
     }
 
-    /**
-     * Does not close or flush the wrapped writer.
-     */
+
     @Override
     public void close() throws IOException {
     }

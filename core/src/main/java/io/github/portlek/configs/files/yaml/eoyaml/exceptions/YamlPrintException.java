@@ -29,23 +29,10 @@ package io.github.portlek.configs.files.yaml.eoyaml.exceptions;
 
 import java.io.IOException;
 
-/**
- * If there is any problem while printing a YamlNode, this
- * runtime exception is thrown, encapsulating the original
- * IOException.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 672155148c8e1e640e4d98a3f6ec66f21bc6bfe7 $
- * @since 4.3.1
- */
+
 public final class YamlPrintException extends RuntimeException {
 
-    /**
-     * Constructor with parameters.
-     *
-     * @param message Exception message.
-     * @param original Original IOException thrown while printing.
-     */
+
     public YamlPrintException(
         final String message,
         final IOException original

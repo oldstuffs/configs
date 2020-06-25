@@ -25,9 +25,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 
-/**
- * A streaming parser for JSON text. The parser reports all events to a given handler.
- */
+
 public class JsonParser {
 
     private static final int MAX_NESTING_LEVEL = 1000;
@@ -60,21 +58,9 @@ public class JsonParser {
 
     private int nestingLevel;
 
-    /*
-     * |                      bufferOffset
-     *                        v
-     * [a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t]        < input
-     *                       [l|m|n|o|p|q|r|s|t|?|?]    < buffer
-     *                          ^               ^
-     *                       |  index           fill
-     */
 
-    /**
-     * Creates a new JsonParser with the given handler. The parser will report all parser events to
-     * this handler.
-     *
-     * @param handler the handler to process parser events
-     */
+
+
     @SuppressWarnings("unchecked")
     public JsonParser(final JsonHandler<?, ?> handler) {
         if (handler == null) {
@@ -84,13 +70,7 @@ public class JsonParser {
         handler.parser = this;
     }
 
-    /**
-     * Parses the given input string. The input must contain a valid JSON value, optionally padded
-     * with whitespace.
-     *
-     * @param string the input string, must be valid JSON
-     * @throws ParseException if the input is not valid JSON
-     */
+
     public void parse(final String string) {
         if (string == null) {
             throw new NullPointerException("string is null");
@@ -104,35 +84,12 @@ public class JsonParser {
         }
     }
 
-    /**
-     * Reads the entire input from the given reader and parses it as JSON. The input must contain a
-     * valid JSON value, optionally padded with whitespace.
-     * <p>
-     * Characters are read in chunks into a default-sized input buffer. Hence, wrapping a reader in an
-     * additional <code>BufferedReader</code> likely won't improve reading performance.
-     * </p>
-     *
-     * @param reader the reader to read the input from
-     * @throws IOException if an I/O error occurs in the reader
-     * @throws ParseException if the input is not valid JSON
-     */
+
     public void parse(final Reader reader) throws IOException {
         this.parse(reader, JsonParser.DEFAULT_BUFFER_SIZE);
     }
 
-    /**
-     * Reads the entire input from the given reader and parses it as JSON. The input must contain a
-     * valid JSON value, optionally padded with whitespace.
-     * <p>
-     * Characters are read in chunks into an input buffer from the given size. Hence, wrapping a reader
-     * in an additional <code>BufferedReader</code> likely won't improve reading performance.
-     * </p>
-     *
-     * @param reader the reader to read the input from
-     * @param buffersize the size from the input buffer in chars
-     * @throws IOException if an I/O error occurs in the reader
-     * @throws ParseException if the input is not valid JSON
-     */
+
     public void parse(final Reader reader, final int buffersize) throws IOException {
         if (reader == null) {
             throw new NullPointerException("reader is null");

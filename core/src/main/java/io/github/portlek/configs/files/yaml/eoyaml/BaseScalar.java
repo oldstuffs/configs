@@ -29,18 +29,7 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Base Yaml Scalar which all implementations of Scalar should extend.
- * It implementing toString(), equals, hashcode and compareTo methods.
- * <br><br>
- * These methods should be default methods on the interface,
- * but we are not allowed to have default implementations of java.lang.Object
- * methods.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: f6720ac7d3a0318ac4d5281ec2854c8ea44f3c95 $
- * @since 4.0.0
- */
+
 abstract class BaseScalar extends BaseYamlNode implements Scalar {
 
     @Override
@@ -54,22 +43,13 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
         return "\"\"";
     }
 
-    /**
-     * Hash Code of this scalar.
-     *
-     * @return Value of hashCode() of type int.
-     */
+
     @Override
     public int hashCode() {
         return this.value().hashCode();
     }
 
-    /**
-     * Equality of two objects.
-     *
-     * @param other Reference to the right hand Scalar
-     * @return True if object are equal and False if are not.
-     */
+
     @Override
     public boolean equals(final Object other) {
         final boolean result;
@@ -83,17 +63,7 @@ abstract class BaseScalar extends BaseYamlNode implements Scalar {
         return result;
     }
 
-    /**
-     * Compare this Scalar to another node.<br><br>
-     * <p>
-     * A Scalar is always considered less than a Sequence or a Mapping.<br>
-     * If o is Scalar then their String values are compared lexicographically
-     *
-     * @param other The other AbstractNode.
-     * @return a value < 0 if this < o <br>
-     * 0 if this == o or <br>
-     * a value > 0 if this > o
-     */
+
     @Override
     public int compareTo(final YamlNode other) {
         int result = -1;

@@ -31,18 +31,7 @@ import java.util.Iterator;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Base YamlMapping which all implementations of YamlMapping should extend.
- * It implementing toString(), equals, hashcode and compareTo methods.
- * <br><br>
- * These methods should be default methods on the interface,
- * but we are not allowed to have default implementations of java.lang.Object
- * methods.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 12386f2fc68d478ff1163bbe309fd5950367830b $
- * @since 4.0.0
- */
+
 public abstract class BaseYamlMapping
     extends BaseYamlNode implements YamlMapping {
 
@@ -69,13 +58,7 @@ public abstract class BaseYamlMapping
         return hash;
     }
 
-    /**
-     * Equals method for YamlMapping. It returns true if the compareTo(...)
-     * method returns 0.
-     *
-     * @param other The YamlMapping to which this is compared.
-     * @return True or false.
-     */
+
     @Override
     public final boolean equals(final Object other) {
         final boolean result;
@@ -89,24 +72,7 @@ public abstract class BaseYamlMapping
         return result;
     }
 
-    /**
-     * Compare this Mapping to another node.<br><br>
-     * <p>
-     * A Mapping is always considered greater than a Scalar or a Sequence.<br>
-     * <p>
-     * If other is a Mapping, their integer lengths are compared - the one with
-     * the greater length is considered greater. If the lengths are equal,
-     * then the 2 Mappings are equal if all elements are equal (K==K and V==V).
-     * If the elements are not identical, the comparison of the first unequal
-     * elements is returned.
-     *
-     * @param other The other AbstractNode.
-     * @return a value &lt; 0 if this &lt; other <br>
-     * 0 if this == other or <br>
-     * a value &gt; 0 if this &gt; other
-     * NestedIfDepth (100 lines)
-     * ExecutableStatementCount (100 lines)
-     */
+
     @Override
     public final int compareTo(final YamlNode other) {
         int result = 0;

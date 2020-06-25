@@ -27,35 +27,16 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * A plain scalar value read from somewhere.
- *
- * @author Mihai Andronace (amihaiemil@gmail.com)
- * @version $Id: 255238e9d81df409e196491168fa2d951b5d3ec5 $
- * @since 3.1.3
- */
+
 final class ReadPlainScalar extends BaseScalar {
 
-    /**
-     * All YAML Lines of the document.
-     */
+
     private final AllYamlLines all;
 
-    /**
-     * Line where the plain scalar value is supposed to be found.
-     * The Scalar can be either after the ":" character, if this
-     * line is from a mapping, or after the "-" character, if
-     * this line is from a sequence, or it represents the whole line,
-     * if no "-" or ":" are found.
-     */
+
     private final YamlLine scalar;
 
-    /**
-     * Constructor.
-     *
-     * @param all All lines of the document.
-     * @param scalar YamlLine containing the scalar.
-     */
+
     ReadPlainScalar(final AllYamlLines all, final YamlLine scalar) {
         this.all = all;
         this.scalar = scalar;

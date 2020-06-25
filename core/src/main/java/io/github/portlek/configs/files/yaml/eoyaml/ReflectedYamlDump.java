@@ -31,34 +31,19 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * A YamlDump that works with the Reflection API.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 3c4c63e0c1ae23f1095433ae80598939447b00da $
- * LineLength (100 lines)
- * @since 4.3.3
- */
+
 public final class ReflectedYamlDump implements YamlDump {
 
-    /**
-     * If the value is any of these types, it is a Scalar.
-     */
+
     public static final List<Class> SCALAR_TYPES = Arrays.asList(
         Integer.class, Long.class, Float.class, Double.class, Short.class,
         String.class, Boolean.class, Character.class, Byte.class
     );
 
-    /**
-     * Object to dump.
-     */
+
     private final Object object;
 
-    /**
-     * Constructor.
-     *
-     * @param object Object to dump.
-     */
+
     ReflectedYamlDump(final Object object) {
         this.object = object;
     }

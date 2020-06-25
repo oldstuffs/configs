@@ -32,33 +32,16 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Decorator over some YamlLines which makes sure that lines
- * which satisfy one of the given conditions are ignored from
- * iteration.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 96f19a40716340ea632341b74a6bd3caae682935 $
- * @since 4.2.0
- */
+
 final class Skip implements YamlLines {
 
-    /**
-     * YamlLines.
-     */
+
     private final YamlLines yamlLines;
 
-    /**
-     * If a YamlLine meets any of these conditions, it is skipped.
-     */
+
     private final Skip.Condition[] conditions;
 
-    /**
-     * Ctor.
-     *
-     * @param yamlLines The Yaml lines.
-     * @param conditions Conditions.
-     */
+
     Skip(final YamlLines yamlLines, final Skip.Condition... conditions) {
         this.yamlLines = yamlLines;
         this.conditions = conditions;
@@ -100,22 +83,10 @@ final class Skip implements YamlLines {
         return iterator;
     }
 
-    /**
-     * Condition that a YamlLine has to satisfy in order to be
-     * skipped/ignored from iteration.
-     *
-     * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: 96f19a40716340ea632341b74a6bd3caae682935 $
-     * @since 4.2.0
-     */
+
     interface Condition {
 
-        /**
-         * Is this condition met or not?
-         *
-         * @param line YamlLine.
-         * @return True or false.
-         */
+
         boolean isMet(YamlLine line);
 
     }

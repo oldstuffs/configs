@@ -27,33 +27,16 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Default implementation of {@link YamlLine}.
- * "Rt" stands for "Runtime".
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: c6f158411ad66edd69b68677fe27670a4caef003 $
- * CyclomaticComplexity (200 lines)
- * @since 1.0.0
- */
+
 final class RtYamlLine implements YamlLine {
 
-    /**
-     * Content.
-     */
+
     private final String value;
 
-    /**
-     * Line nr.
-     */
+
     private final int number;
 
-    /**
-     * Ctor.
-     *
-     * @param value Contents of this line.
-     * @param number Number of the line.
-     */
+
     RtYamlLine(final String value, final int number) {
         this.value = value;
         this.number = number;

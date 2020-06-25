@@ -32,42 +32,22 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * YAML mapping implementation (rt means runtime).
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 4a7f68598d2e4f09e027c5bdba01d3dd8f588983 $
- * @see http://yaml.org/spec/1.2/spec.html#mapping//
- * @since 1.0.0
- */
+
 final class RtYamlMapping extends BaseYamlMapping {
 
-    /**
-     * Key:value linked map (maintains the order of insertion).
-     */
+
     private final Map<YamlNode, YamlNode> mappings =
         new LinkedHashMap<>();
 
-    /**
-     * Comments referring to this mapping.
-     */
+
     private final Comment comment;
 
-    /**
-     * Ctor.
-     *
-     * @param entries Entries contained in this mapping.
-     */
+
     RtYamlMapping(final Map<YamlNode, YamlNode> entries) {
         this(entries, "");
     }
 
-    /**
-     * Ctor.
-     *
-     * @param entries Entries contained in this mapping.
-     * @param comment Comment on top of this YamlMapping.
-     */
+
     RtYamlMapping(
         final Map<YamlNode, YamlNode> entries,
         final String comment

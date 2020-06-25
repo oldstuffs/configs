@@ -31,18 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Base YamlSequence which all implementations should extend.
- * It implementing toString(), equals, hashcode and compareTo methods.
- * <br><br>
- * These methods should be default methods on the interface,
- * but we are not allowed to have default implementations of java.lang.Object
- * methods.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 5e891803ada03f82506c69795561d255acbfe958 $
- * @since 4.0.0
- */
+
 public abstract class BaseYamlSequence
     extends BaseYamlNode implements YamlSequence {
 
@@ -66,13 +55,7 @@ public abstract class BaseYamlSequence
         return hash;
     }
 
-    /**
-     * Equals method for YamlSequence. It returns true if the compareTo(...)
-     * method returns 0.
-     *
-     * @param other The YamlSequence to which this is compared.
-     * @return True or false
-     */
+
     @Override
     public final boolean equals(final Object other) {
         final boolean result;
@@ -86,25 +69,7 @@ public abstract class BaseYamlSequence
         return result;
     }
 
-    /**
-     * Compare this Sequence to another node.<br><br>
-     * <p>
-     * A Sequence is always considered greater than a Scalar and less than
-     * a Mapping.<br>
-     * <p>
-     * If other is a Sequence, their integer lengths are compared - the one with
-     * the greater length is considered greater. If the lengths are equal,
-     * then the 2 Sequences are equal if all elements are equal. If the
-     * elements are not identical, the comparison of the first unequal
-     * elements is returned.
-     *
-     * @param other The other YamlNode.
-     * @return a value &lt; 0 if this &lt; other <br>
-     * 0 if this == other or <br>
-     * a value &gt; 0 if this &gt; other
-     * NestedIfDepth (100 lines)
-     * LineLength (100 lines)
-     */
+
     @Override
     public final int compareTo(final YamlNode other) {
         int result = 0;

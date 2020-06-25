@@ -30,35 +30,10 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Read Yaml folded block Scalar. This is a Scalar spanning multiple lines.
- * This Scalar's newlines will be ignored ("folded"), the scalar's value
- * is a single line of text split in multiple lines for readability.<br><br>
- * Example of Folded Block Scalar:
- * <pre>
- *   folded block scalar: >
- *     a long line split into
- *     several short
- *     lines for readability
- * </pre>
- *
- * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id: 34269ef5370463a3aa4170c76634ad8f385435a7 $
- * @since 1.0.2
- */
+
 final class ReadFoldedBlockScalar extends BaseFoldedScalar {
 
-    /**
-     * Yaml line just previous to the one where this scalar starts. E.g.
-     * <pre>
-     * 0  folded:>
-     * 1    folded scalar on more
-     * 2    lines for more
-     * 3    readability
-     * </pre>
-     * In the above example the scalar consists of line1 and line2, while
-     * "previous" is line 0.
-     */
+
     private final YamlLine previous;
 
     /**

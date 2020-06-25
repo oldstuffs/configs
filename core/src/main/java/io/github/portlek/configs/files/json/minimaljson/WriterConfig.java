@@ -23,14 +23,8 @@ package io.github.portlek.configs.files.json.minimaljson;
 
 import java.io.Writer;
 
-/**
- * Controls the formatting from the JSON output. Use one from the available constants.
- */
 public abstract class WriterConfig {
 
-    /**
-     * Write JSON in its minimal form, without any additional whitespace. This is the default.
-     */
     public static WriterConfig MINIMAL = new WriterConfig() {
         @Override
         JsonWriter createWriter(final Writer writer) {
@@ -38,10 +32,6 @@ public abstract class WriterConfig {
         }
     };
 
-    /**
-     * Write JSON in pretty-print, with each value on a separate line and an indentation from two
-     * spaces.
-     */
     public static WriterConfig PRETTY_PRINT = PrettyPrint.indentWithSpaces(2);
 
     abstract JsonWriter createWriter(Writer writer);

@@ -35,26 +35,13 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * YamlMapping reflected from a Java Bean.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: b09d17a137ca82e387dfec05a86595db90e3e39f $
- * BooleanExpressionComplexity (300 lines)
- * @since 4.3.3
- */
+
 final class ReflectedYamlMapping extends BaseYamlMapping {
 
-    /**
-     * Java Bean being reflected.
-     */
+
     private final Object bean;
 
-    /**
-     * Constructor.
-     *
-     * @param bean Serializable get/set Java Bean.
-     */
+
     ReflectedYamlMapping(final Object bean) {
         if (bean instanceof Collection || bean.getClass().isArray()) {
             throw new IllegalArgumentException(
@@ -126,13 +113,7 @@ final class ReflectedYamlMapping extends BaseYamlMapping {
         };
     }
 
-    /**
-     * Invoke the method represented by given YamlNode key, on the
-     * encapsulated Java Bean.
-     *
-     * @param keyName String key in the YamlMapping, representing a method.
-     * @return Object, the result of the method's invocation.
-     */
+
     private Object invokeMethod(final String keyName) {
         Object value = null;
         final Method[] methods = this.bean.getClass().getDeclaredMethods();
@@ -155,33 +136,18 @@ final class ReflectedYamlMapping extends BaseYamlMapping {
         return value;
     }
 
-    /**
-     * Turn a Java Object to an appropriate YAML Node.
-     *
-     * @param value Object value.
-     * @return YamlNode.
-     */
+
     private YamlNode objectToYamlNode(final Object value) {
         return Yaml.createYamlDump(value).dump();
     }
 
-    /**
-     * A YAML Scalar which will be the key in this reflected
-     * YamlMapping.
-     */
+
     static class MethodKey extends BaseScalar {
 
-        /**
-         * The object's method which is the key in the
-         * reflected YamlMapping.
-         */
+
         private final Method method;
 
-        /**
-         * Constructor.
-         *
-         * @param method Method key.
-         */
+
         MethodKey(final Method method) {
             this.method = method;
         }

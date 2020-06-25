@@ -32,25 +32,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * YamlSequence reflected from a Collection or an array of Object.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: bf7105fd4a67657a10207dedcd0d6354f62aab9b $
- * @since 4.3.3
- */
+
 final class ReflectedYamlSequence extends BaseYamlSequence {
 
-    /**
-     * Object sequence.
-     */
+
     private final Collection<Object> sequence;
 
-    /**
-     * Constructor.
-     *
-     * @param sequence Collection or array of Object.
-     */
+
     ReflectedYamlSequence(final Object sequence) {
         if (sequence instanceof Collection) {
             this.sequence = (Collection<Object>) sequence;

@@ -27,30 +27,13 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * A YAML comment.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: aff7134e2607b5f6db740ef27a5aed734008e092 $
- * @since 4.2.0
- */
+
 public interface Comment {
 
-    /**
-     * Yaml node to which this comment refers.
-     *
-     * @return YamlNode.
-     */
+
     YamlNode yamlNode();
 
-    /**
-     * The actual comment.
-     *
-     * @return String value or empty String if there is
-     * no comment. This method should always return the
-     * comment without the "#" at the beginning. The hash symbol
-     * will be added when printing.
-     */
+
     String value();
 
 }

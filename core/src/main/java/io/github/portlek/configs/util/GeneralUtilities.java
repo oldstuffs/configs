@@ -264,10 +264,6 @@ public class GeneralUtilities {
         return null;
     }
 
-    /**
-     * Functions similarly to {@link #deserialize(Map)} but only for detecting lists within
-     * lists and maps within lists.
-     */
     @NotNull
     private Collection<Object> deserialize(@NotNull final Iterable<?> input) {
         final Collection<Object> objects = new ArrayList<>();

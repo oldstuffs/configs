@@ -31,18 +31,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Base YamlStream which all implementations should extend.
- * It implementing toString(), equals, hashcode and compareTo methods.
- * <br><br>
- * These methods should be default methods on the interface,
- * but we are not allowed to have default implementations of java.lang.Object
- * methods.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: ebaf12690984f0d1a236d85ac1a01caff5e7de64 $
- * @since 4.0.0
- */
+
 abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
 
     @Override
@@ -65,13 +54,7 @@ abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
         return hash;
     }
 
-    /**
-     * Equals method for YamlStream. It returns true if the compareTo(...)
-     * method returns 0.
-     *
-     * @param other The YamlStream to which this is compared.
-     * @return True or false
-     */
+
     @Override
     public boolean equals(final Object other) {
         final boolean result;
@@ -85,24 +68,7 @@ abstract class BaseYamlStream extends BaseYamlNode implements YamlStream {
         return result;
     }
 
-    /**
-     * Compare this Sequence to another node.<br><br>
-     * <p>
-     * A YamlStream is always considered greater than a Scalar,
-     * a YamlSequence or a YamlMapping.
-     * <p>
-     * If other is a YamlStream, their integer lengths are compared - the one
-     * with the greater length is considered greater. If the lengths are equal,
-     * then the 2 YamlStreams are equal if all elements are equal. If the
-     * elements are not identical, the comparison of the first unequal
-     * elements is returned.
-     *
-     * @param other The other YamlNode.
-     * @return a value &lt; 0 if this &lt; other <br>
-     * 0 if this == other or <br>
-     * a value &gt; 0 if this &gt; other
-     * NestedIfDepth (100 lines)
-     */
+
     @Override
     public int compareTo(final YamlNode other) {
         int result = 0;

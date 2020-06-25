@@ -29,25 +29,13 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.*;
 
-/**
- * YamlLines which are being iterated backwards.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 02d2695bd9f7fc5c32713f493cef8007c5c0b5b8 $
- * @since 4.2.0
- */
+
 final class Backwards implements YamlLines {
 
-    /**
-     * YamlLines.
-     */
+
     private final YamlLines lines;
 
-    /**
-     * Ctor.
-     *
-     * @param lines The Yaml lines.
-     */
+
     Backwards(final YamlLines lines) {
         this.lines = lines;
     }

@@ -25,39 +25,17 @@
 
 package io.github.portlek.configs.configuration;
 
-/**
- * Exception thrown when attempting to load an invalid {@link Configuration}
- */
 @SuppressWarnings("serial")
 public class InvalidConfigurationException extends Exception {
 
-    /**
-     * Constructs an instance from InvalidConfigurationException with the
-     * specified message.
-     *
-     * @param msg The details from the exception.
-     */
     public InvalidConfigurationException(final String msg) {
         super(msg);
     }
 
-    /**
-     * Constructs an instance from InvalidConfigurationException with the
-     * specified cause.
-     *
-     * @param cause The cause from the exception.
-     */
     public InvalidConfigurationException(final Throwable cause) {
         super(cause);
     }
 
-    /**
-     * Constructs an instance from InvalidConfigurationException with the
-     * specified message and cause.
-     *
-     * @param cause The cause from the exception.
-     * @param msg The details from the exception.
-     */
     public InvalidConfigurationException(final String msg, final Throwable cause) {
         super(msg, cause);
     }

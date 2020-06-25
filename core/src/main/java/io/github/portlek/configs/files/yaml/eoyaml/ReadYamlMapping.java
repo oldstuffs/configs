@@ -32,67 +32,27 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-/**
- * YamlMapping read from somewhere. YAML directives and
- * document start/end markers are ignored. This is assumed
- * to be a plain YAML mapping.
- * CyclomaticComplexity (300 lines)
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 4e0ec4294a6c0a8ddb97ce0fe24e90f0ec81ebd2 $
- * @since 1.0.0
- */
+
 final class ReadYamlMapping extends BaseYamlMapping {
 
-    /**
-     * All the lines of this YAML document.
-     */
+
     private final AllYamlLines all;
 
-    /**
-     * Only the significant lines of this YamlMapping.
-     */
+
     private final YamlLines significant;
 
-    /**
-     * If set to true we will try to guess the correct indentation
-     * of misplaced lines.
-     */
+
     private final boolean guessIndentation;
 
-    /**
-     * Yaml line just previous to the one where this mapping starts. E.g.
-     * <pre>
-     * 0  mapping:
-     * 1    key1: elem1
-     * 2    key2: elem2
-     * </pre>
-     * In the above example the mapping consists of keys key1 and key2, while
-     * "previous" is line 0. If the mapping starts at the root, then line
-     * "previous" is {@link YamlLine.NullYamlLine}; E.g.
-     * <pre>
-     * 0  key1: elem1
-     * 1  key2: elem2
-     * </pre>
-     */
+
     private final YamlLine previous;
 
-    /**
-     * Ctor.
-     *
-     * @param lines Given lines.
-     */
+
     ReadYamlMapping(final AllYamlLines lines) {
         this(lines, Boolean.FALSE);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param lines Given lines.
-     * @param guessIndentation If true, we will try to guess the correct
-     * indentation of misplaced lines.
-     */
+
     ReadYamlMapping(
         final AllYamlLines lines,
         final boolean guessIndentation
@@ -100,24 +60,12 @@ final class ReadYamlMapping extends BaseYamlMapping {
         this(new YamlLine.NullYamlLine(), lines, guessIndentation);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param previous Line just before the start of this mapping.
-     * @param lines Given lines.
-     */
+
     ReadYamlMapping(final YamlLine previous, final AllYamlLines lines) {
         this(previous, lines, Boolean.FALSE);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param previous Line just before the start of this mapping.
-     * @param lines Given lines.
-     * @param guessIndentation If true, we will try to guess the correct
-     * indentation of misplaced lines.
-     */
+
     ReadYamlMapping(
         final YamlLine previous,
         final AllYamlLines lines,
@@ -226,13 +174,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
         );
     }
 
-    /**
-     * The YamlNode value associated with a String (scalar) key.
-     *
-     * @param key String key.
-     * @return YamlNode.
-     * ReturnCount (50 lines)
-     */
+
     private YamlNode valueOfStringKey(final String key) {
         YamlNode value = null;
         final String[] keys = {
@@ -264,13 +206,7 @@ final class ReadYamlMapping extends BaseYamlMapping {
         return null;
     }
 
-    /**
-     * The YamlNode value associated with a YamlNode key
-     * (a "complex" key starting with '?').
-     *
-     * @param key YamlNode key.
-     * @return YamlNode.
-     */
+
     private YamlNode valueOfNodeKey(final YamlNode key) {
         YamlNode value = null;
         final Iterator<YamlLine> linesIt = this.significant.iterator();

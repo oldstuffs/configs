@@ -27,32 +27,16 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * An YAML Line indented by us. We override the line's
- * initial indentation with a given value.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 053a3c611266e43e6a487697b0af0ef833a74733 $
- * @since 5.1.0
- */
+
 final class Indented implements YamlLine {
 
-    /**
-     * Original YAML line.
-     */
+
     private final YamlLine original;
 
-    /**
-     * Given indentation.
-     */
+
     private final int indentation;
 
-    /**
-     * Ctor.
-     *
-     * @param original Original YamlLine.
-     * @param indentation Given indentation.
-     */
+
     Indented(final YamlLine original, final int indentation) {
         this.original = original;
         this.indentation = indentation;

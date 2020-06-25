@@ -27,104 +27,34 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Builder of Yaml Scalar. Implementations should be immutable and thread-safe.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 285d8f45f2567168b838ee922e95ea04bd695c0a $
- * @since 4.0.0
- */
+
 public interface YamlScalarBuilder {
 
-    /**
-     * Add a line of text this Scalar. You can use this multiple
-     * times or just once, if your String already contains NEW_LINE
-     * chars.
-     *
-     * @param value String
-     * @return An instance of this builder.
-     */
+
     YamlScalarBuilder addLine(String value);
 
-    /**
-     * Build a plain Scalar. Ideally, you should use this when
-     * your scalar is short, a single line of text.<br><br>
-     * If you added more lines of text, all of them will be put together,
-     * separated by spaces.
-     *
-     * @return The built Scalar.
-     */
+
     default Scalar buildPlainScalar() {
         return this.buildPlainScalar("");
     }
 
-    /**
-     * Build a Folded Block Scalar. Use this when your scalar has multiple
-     * lines of text, but you don't care about the newlines, you want them
-     * all separated by spaces. <br><br>
-     * <p>
-     * The difference from buildPlainScalar() comes when you are printing
-     * the created YAML:
-     * <pre>
-     *     plain: a very long scalar which should have been built as Folded
-     *     folded:&gt;
-     *       a very long scalar which
-     *       has been folded for readability
-     * </pre>
-     *
-     * @return The built Scalar.
-     */
+
     default Scalar buildFoldedBlockScalar() {
         return this.buildFoldedBlockScalar("");
     }
 
-    /**
-     * Build a Literal Block Scalar. Use this when your scalar has multiple
-     * lines and you want these lines to be separated.
-     *
-     * @return The built Scalar.
-     */
+
     default Scalar buildLiteralBlockScalar() {
         return this.buildLiteralBlockScalar("");
     }
 
-    /**
-     * Build a plain Scalar. Ideally, you should use this when
-     * your scalar is short, a single line of text.<br><br>
-     * If you added more lines of text, all of them will be put together,
-     * separated by spaces.
-     *
-     * @param comment Comment referring to the built scalar.
-     * @return The built Scalar.
-     */
+
     Scalar buildPlainScalar(String comment);
 
-    /**
-     * Build a Folded Block Scalar. Use this when your scalar has multiple
-     * lines of text, but you don't care about the newlines, you want them
-     * all separated by spaces. <br><br>
-     * <p>
-     * The difference from buildPlainScalar() comes when you are printing
-     * the created YAML:
-     * <pre>
-     *     plain: a very long scalar which should have been built as Folded
-     *     folded:&gt;
-     *       a very long scalar which
-     *       has been folded for readability
-     * </pre>
-     *
-     * @param comment Comment referring to the built scalar.
-     * @return The built Scalar.
-     */
+
     Scalar buildFoldedBlockScalar(String comment);
 
-    /**
-     * Build a Literal Block Scalar. Use this when your scalar has multiple
-     * lines and you want these lines to be separated.
-     *
-     * @param comment Comment referring to the built scalar.
-     * @return The built Scalar.
-     */
+
     Scalar buildLiteralBlockScalar(String comment);
 
 }

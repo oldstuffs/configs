@@ -35,42 +35,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Implementation for {@link YamlInput}. "Rt" stands for "Runtime".
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 8656316740105525d386408aa0eb94845b6fe0b4 $
- * @since 1.0.0
- */
+
 final class RtYamlInput implements YamlInput {
 
-    /**
-     * Source of the input.
-     */
+
     private final InputStream source;
 
-    /**
-     * If set to true, we will try to guess the correct indentation
-     * of misplaced lines.
-     */
+
     private final boolean guessIndentation;
 
-    /**
-     * Ctor.
-     *
-     * @param source Given source.
-     */
+
     RtYamlInput(final InputStream source) {
         this(source, false);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param source Given source.
-     * @param guessIndentation If set to true, we will try to guess
-     * the correct indentation of misplaced lines.
-     */
+
     RtYamlInput(final InputStream source, final boolean guessIndentation) {
         this.source = source;
         this.guessIndentation = guessIndentation;
@@ -121,12 +100,7 @@ final class RtYamlInput implements YamlInput {
         return new ReadLiteralBlockScalar(this.readInput());
     }
 
-    /**
-     * Read the input's lines.
-     *
-     * @return All read YamlLines
-     * @throws IOException If something goes wrong while reading the input.
-     */
+
     private AllYamlLines readInput() throws IOException {
         final List<YamlLine> lines = new ArrayList<>();
         try (

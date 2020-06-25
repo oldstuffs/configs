@@ -32,43 +32,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
-/**
- * Merge two YAML Sequences into a single one. Very useful in implementing
- * Updating of an existing YamlSequence. Use it like this:
- * <pre>
- *     final YamlSequence original = ...;
- *     final YamlSequence changed = ...;
- *     final YamlSequence merged = new MergedYamlSequence(
- *         original, changed, true|false
- *     );
- *     //or, via the Supplier constructor:
- *     final YamlSequence merged = new MergedYamlSequence(
- *         original,
- *         () -&gt; {
- *             //create the changed version on-the-fly, right here.
- *         },
- *         true|false
- *     );
- * </pre>
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: bccefba7fdc4dce03915f593f66a535f304e8c22 $
- * @since 4.1.0
- */
+
 public final class MergedYamlSequence extends BaseYamlSequence {
 
-    /**
-     * The merged YamlSequence.
-     */
+
     private final YamlSequence merged;
 
-    /**
-     * Constructor. By default, it's simply going to add the elements
-     * of changed to the ones of original.
-     *
-     * @param original YamlSequence in which the changes will be merged.
-     * @param changed YamlSequence containing the differences.
-     */
+
     public MergedYamlSequence(
         final YamlSequence original,
         final YamlSequence changed
@@ -76,13 +46,7 @@ public final class MergedYamlSequence extends BaseYamlSequence {
         this(original, changed, false);
     }
 
-    /**
-     * Constructor. By default, it's simply going to add the elements
-     * of changed to the ones of original.
-     *
-     * @param original YamlSequence in which the changes will be merged.
-     * @param changed Supplier of YamlSequence containing the differences.
-     */
+
     public MergedYamlSequence(
         final YamlSequence original,
         final Supplier<YamlSequence> changed
@@ -90,14 +54,7 @@ public final class MergedYamlSequence extends BaseYamlSequence {
         this(original, changed, false);
     }
 
-    /**
-     * Constructor. You can choose whether to override existing indices
-     * or not.
-     *
-     * @param original YamlSequence in which the changes will be merged.
-     * @param changed YamlSequence containing the differences.
-     * @param overrideIndices Override existing indices or not?
-     */
+
     public MergedYamlSequence(
         final YamlSequence original,
         final Supplier<YamlSequence> changed,
@@ -106,14 +63,7 @@ public final class MergedYamlSequence extends BaseYamlSequence {
         this(original, changed.get(), overrideIndices);
     }
 
-    /**
-     * Constructor. You can choose whether conflicting keys will be
-     * overriden or not.
-     *
-     * @param original YamlMapping in which the changes will be merged.
-     * @param changed YamlMapping containing the differences.
-     * @param overrideIndices Override existing indices or not?
-     */
+
     public MergedYamlSequence(
         final YamlSequence original,
         final YamlSequence changed,
@@ -128,17 +78,7 @@ public final class MergedYamlSequence extends BaseYamlSequence {
         }
     }
 
-    /**
-     * Merge the two sequences.
-     *
-     * @param original Original sequence.
-     * @param changed Changed sequence.
-     * @param overrideIndices Should the existing indices be overriden
-     * or not?
-     * @return Merged YamlSequence.
-     * CyclomaticComplexity (100 lines)
-     * ExecutableStatementCount (100 lines)
-     */
+
     private static YamlSequence merge(
         final YamlSequence original,
         final YamlSequence changed,

@@ -27,58 +27,19 @@
  */
 package io.github.portlek.configs.files.yaml.eoyaml;
 
-/**
- * Nested Yaml types. If a YAML line ends with one
- * of these, it means a certain type of YAML Node follows.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: af6f85c38951818fe986ace378db53fce3893d7e $
- * @since 1.0.2
- */
+
 final class Follows {
 
-    /**
-     * If this is the last char on a line, it means a folded block scalar
-     * should be nested bellow (see Example 2.15 from YAML spec 1.2).
-     * <pre>
-     *   foldedScalar: >
-     *     a long line split into
-     *     several short
-     *     lines for readability
-     * </pre>
-     */
+
     static final String FOLDED_BLOCK_SCALAR = ">";
 
-    /**
-     * If this is the last char on a line, it means a literal block scalar
-     * should be nested bellow.
-     * <pre>
-     *   literalScalar: |
-     *     line 1
-     *     line 2
-     *     line 3
-     * </pre>
-     */
+
     static final String LITERAL_BLOCK_SCALAR = "|";
 
-    /**
-     * If the line ends with this, it means a folded sequence follows after it.
-     * This is a RegEx pattern because we want it to work even if there are
-     * spaces between the | and the -. Both "| -" and "|-" line endings
-     * should be fine.
-     * E.g.
-     * <pre>
-     *     foldedSequence: |-
-     *       some
-     *       sequence
-     *       values
-     * </pre>
-     */
+
     static final String FOLDED_SEQUENCE = "^.+\\|[ ]*\\-$";
 
-    /**
-     * Hidden ctor.
-     */
+
     private Follows() {
     }
 

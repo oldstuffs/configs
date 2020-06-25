@@ -23,17 +23,11 @@
  *
  */
 
-/* This Source Code Form is subject to the terms from the Mozilla Public
- * License, v. 2.0. If a copy from the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.files.json;
 
 import io.github.portlek.configs.configuration.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Mandatory configuration options class for JsonConfiguration.
- */
 public class JsonConfigurationOptions extends FileConfigurationOptions {
 
     protected JsonConfigurationOptions(@NotNull final JsonConfiguration configuration) {

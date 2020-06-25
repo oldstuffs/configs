@@ -29,60 +29,24 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 
 import java.util.Iterator;
 
-/**
- * Read Yaml literal block Scalar. This is a Scalar spanning multiple lines.
- * This Scalar's lines will be treated as separate lines and won't be folded
- * into a single line. Example of Literal Block Scalar:
- * <pre>
- *   literal block scalar: |
- *     a multiline text
- *     line two of the scalar
- *     line three of the scalar
- * </pre>
- *
- * @author Sherif Waly (sherifwaly95@gmail.com)
- * @version $Id: 679f052b5eac9eec0b0d15d99212404d62002ec7 $
- * @since 1.0.2
- */
+
 final class ReadLiteralBlockScalar extends BaseScalar {
 
-    /**
-     * Yaml line just previous to the one where this scalar starts. E.g.
-     * <pre>
-     * 0  block:|
-     * 1    line1
-     * 2    line2
-     * </pre>
-     * In the above example the scalar consists of line1 and line2, while
-     * "previous" is line 0.
-     */
+
     private final YamlLine previous;
 
-    /**
-     * All lines of the YAML document.
-     */
+
     private final AllYamlLines all;
 
-    /**
-     * The significant lines of this literal block scalar.
-     */
+
     private final YamlLines significant;
 
-    /**
-     * Ctor.
-     *
-     * @param lines All lines.
-     */
+
     ReadLiteralBlockScalar(final AllYamlLines lines) {
         this(new YamlLine.NullYamlLine(), lines);
     }
 
-    /**
-     * Ctor.
-     *
-     * @param previous Previous YAML line.
-     * @param lines All yaml lines.
-     */
+
     ReadLiteralBlockScalar(final YamlLine previous, final AllYamlLines lines) {
         this.previous = previous;
         this.all = lines;
@@ -100,11 +64,7 @@ final class ReadLiteralBlockScalar extends BaseScalar {
         );
     }
 
-    /**
-     * Value of this scalar.
-     *
-     * @return String
-     */
+
     @Override
     public String value() {
         final StringBuilder builder = new StringBuilder();

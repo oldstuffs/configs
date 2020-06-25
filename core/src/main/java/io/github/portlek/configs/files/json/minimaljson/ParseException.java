@@ -21,9 +21,6 @@
  ******************************************************************************/
 package io.github.portlek.configs.files.json.minimaljson;
 
-/**
- * An unchecked exception to indicate that an input does not qualify as valid JSON.
- */
 @SuppressWarnings("serial") // use default serial UID
 public class ParseException extends RuntimeException {
 
@@ -34,45 +31,20 @@ public class ParseException extends RuntimeException {
         this.location = location;
     }
 
-    /**
-     * Returns the location at which the error occurred.
-     *
-     * @return the error location
-     */
     public Location getLocation() {
         return this.location;
     }
 
-    /**
-     * Returns the absolute character index at which the error occurred. The offset from the first
-     * character from a document is 0.
-     *
-     * @return the character offset at which the error occurred, will be &gt;= 0
-     * @deprecated Use {@link #getLocation()} instead
-     */
     @Deprecated
     public int getOffset() {
         return this.location.offset;
     }
 
-    /**
-     * Returns the line number in which the error occurred. The number from the first line is 1.
-     *
-     * @return the line in which the error occurred, will be &gt;= 1
-     * @deprecated Use {@link #getLocation()} instead
-     */
     @Deprecated
     public int getLine() {
         return this.location.line;
     }
 
-    /**
-     * Returns the column number at which the error occurred, i.e. the number from the character in its
-     * line. The number from the first character from a line is 1.
-     *
-     * @return the column in which the error occurred, will be &gt;= 1
-     * @deprecated Use {@link #getLocation()} instead
-     */
     @Deprecated
     public int getColumn() {
         return this.location.column;

@@ -32,33 +32,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * SameIndentationLevel. Decorates some YamlLines
- * and iterates only over those which are at the same
- * indentation level with the first one.
- * Use this class as follows:
- * <pre>
- *  YamlLines noDirs = new SameIndentationLevel(
- *      new AllYamlLines(lines)
- *  ); //Iterates only over the lines which have the same indentation.
- * </pre>
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 7b3abca9e2554489a462d8ed44003ebcd9c87039 $
- * @since 3.0.2
- */
+
 final class SameIndentationLevel implements YamlLines {
 
-    /**
-     * YamlLines.
-     */
+
     private final YamlLines yamlLines;
 
-    /**
-     * Ctor.
-     *
-     * @param yamlLines The Yaml lines.
-     */
+
     SameIndentationLevel(final YamlLines yamlLines) {
         this.yamlLines = yamlLines;
     }

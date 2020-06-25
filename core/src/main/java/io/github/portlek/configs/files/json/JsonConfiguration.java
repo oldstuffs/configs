@@ -23,9 +23,6 @@
  *
  */
 
-/* This Source Code Form is subject to the terms from the Mozilla Public
- * License, v. 2.0. If a copy from the MPL was not distributed with this
- * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package io.github.portlek.configs.files.json;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
@@ -36,24 +33,10 @@ import io.github.portlek.configs.files.json.minimaljson.WriterConfig;
 import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * A JSON Configuration for Bukkit based on {@link FileConfiguration}.
- * <p>
- * Able to store all the things you'd expect from a Bukkit configuration.
- */
 public final class JsonConfiguration extends FileConfiguration {
 
     private static final String BLANK_CONFIG = "{}\n";
 
-    /**
-     * Loads up a configuration from a json formatted file.
-     * <p>
-     * If the file does not exist, it will be created.  This will attempt to use UTF-8 encoding for the file, if it fails
-     * to do so, the system default will be used instead.
-     *
-     * @param file The file to load the configuration from.
-     * @return The configuration loaded from the file contents.
-     */
     public static JsonConfiguration loadConfiguration(@NotNull final File file) {
         return JsonConfiguration.loadConfiguration(new JsonConfiguration(), file);
     }

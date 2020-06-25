@@ -28,10 +28,7 @@ package io.github.portlek.configs.files.yaml;
 import io.github.portlek.configs.configuration.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Various settings for controlling the input and output from a {@link
- * YamlConfiguration}
- */
+
 public class YamlConfigurationOptions extends FileConfigurationOptions {
 
     private int indent = 2;
@@ -60,25 +57,12 @@ public class YamlConfigurationOptions extends FileConfigurationOptions {
         return this;
     }
 
-    /**
-     * Gets how much spaces should be used to indent each line.
-     * <p>
-     * The minimum value this may be is 2, and the maximum is 9.
-     *
-     * @return How much to indent by
-     */
+
     public final int indent() {
         return this.indent;
     }
 
-    /**
-     * Sets how much spaces should be used to indent each line.
-     * <p>
-     * The minimum value this may be is 2, and the maximum is 9.
-     *
-     * @param value New indent
-     * @return This object, for chaining
-     */
+
     @NotNull
     public final YamlConfigurationOptions indent(final int value) {
         if (value < 2) {

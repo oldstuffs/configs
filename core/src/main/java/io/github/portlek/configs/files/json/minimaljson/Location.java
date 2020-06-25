@@ -23,25 +23,13 @@ package io.github.portlek.configs.files.json.minimaljson;
 
 import java.io.Serializable;
 
-/**
- * An immutable object that represents a location in the parsed text.
- */
 @SuppressWarnings("serial") // use default serial UID
 public final class Location implements Serializable {
 
-    /**
-     * The absolute character index, starting at 0.
-     */
     public final int offset;
 
-    /**
-     * The line number, starting at 1.
-     */
     public final int line;
 
-    /**
-     * The column number, starting at 1.
-     */
     public final int column;
 
     Location(final int offset, final int line, final int column) {

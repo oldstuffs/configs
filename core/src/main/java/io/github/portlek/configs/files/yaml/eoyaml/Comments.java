@@ -30,24 +30,10 @@ package io.github.portlek.configs.files.yaml.eoyaml;
 import java.util.Collections;
 import java.util.Iterator;
 
-/**
- * These are all the comments within a YAML node.<br><br>
- * For example, in the case of a mapping, they are the comments
- * referring to the key:value pairs. In the case of a sequence,
- * these are the comments referring to its elements.
- *
- * @author Mihai Andronache (amihaiemil@gmail.com)
- * @version $Id: 16cbafd276747fbce4bc4b83aaab37f59bad5bdf $
- * @since 4.2.0
- */
+
 interface Comments extends Iterable<Comment> {
 
-    /**
-     * Get the Comment referring to the specified YamlNode.
-     *
-     * @param plainScalar The plain scalar YAML node as String.
-     * @return Comment.
-     */
+
     default Comment referringTo(final String plainScalar) {
         return this.referringTo(
             Yaml.createYamlScalarBuilder()
@@ -56,22 +42,10 @@ interface Comments extends Iterable<Comment> {
         );
     }
 
-    /**
-     * Get the Comment referring to the specified YamlNode.
-     *
-     * @param node YamlNode for which we search the referring comment.
-     * @return Comment.
-     */
+
     Comment referringTo(YamlNode node);
 
-    /**
-     * Empty comments. Use this as an alternative to null, when you have no
-     * Comments to give.
-     *
-     * @author Mihai Andronache (amihaiemil@gmail.com)
-     * @version $Id: 16cbafd276747fbce4bc4b83aaab37f59bad5bdf $
-     * @since 4.2.0
-     */
+
     class Empty implements Comments {
 
         @Override

@@ -24,16 +24,8 @@
  */
 package io.github.portlek.configs.files.json.minimaljson;
 
-/**
- * Objects, which implement this interface, can be directly serialized as {@link JsonValue}.
- */
 public interface JsonSerializable {
 
-    /**
-     * Serializes the object into a {@link JsonValue}
-     *
-     * @return The object as json representation
-     */
     JsonValue asJsonValue();
 
 }
