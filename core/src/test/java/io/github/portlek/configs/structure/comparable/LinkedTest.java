@@ -36,13 +36,22 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-@LinkedConfig(@LinkedFile(
-    key = "en",
-    config = @Config(
-        value = "en",
-        location = "%basedir%/Test"
+@LinkedConfig({
+    @LinkedFile(
+        key = "tr",
+        config = @Config(
+            value = "tr",
+            location = "%basedir%/Test"
+        )
+    ),
+    @LinkedFile(
+        key = "en",
+        config = @Config(
+            value = "en",
+            location = "%basedir%/Test"
+        )
     )
-))
+})
 public final class LinkedTest extends LinkedManaged {
 
     @Property
@@ -51,9 +60,29 @@ public final class LinkedTest extends LinkedManaged {
             return Optional.of(
                 Replaceable.from(
                     new StringBuilder()
-                        .append("test")
+                        .append("&a====== %prefix% Player Commands &a======")
                         .append('\n')
-                        .append("test")));
+                        .append("&7/kekorank &r> &eShows help message.")
+                        .append('\n')
+                        .append("&7/kekorank help &r> &eShows help message.")
+                        .append('\n')
+                        .append("&7/rank menu &r> &eOpens your profile menu.")
+                        .append('\n')
+                        .append("&7/rank check &r> &eCheck and promote your rank.")
+                        .append('\n')
+                        .append("&7/rank list &r> &eShows all ranks.")
+                        .append('\n')
+                        .append("&a====== %prefix% Admin Commands &a======")
+                        .append('\n')
+                        .append("&7/kekorank reload &r> &eReloads the plugin.")
+                        .append('\n')
+                        .append("&7/rank version &r> &eChecks for update.")
+                        .append('\n')
+                        .append("&7/rank promote <player> &r> &eInstantly promote the player.")
+                        .append('\n')
+                        .append("&7/rank set <player> <rank> &r> &eChange the player rank.")
+                        .append('\n')
+                        .append("&7/rank menu <target> &r> &eShows profile menu of the target.")));
         }
         return Optional.empty();
     });
