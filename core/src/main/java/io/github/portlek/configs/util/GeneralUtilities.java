@@ -127,7 +127,10 @@ public class GeneralUtilities {
             });
     }
 
-    public Optional<Integer> toInt(@NotNull final Object object) {
+    public Optional<Integer> toInt(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Number) {
             return Optional.of(((Number) object).intValue());
         }
@@ -138,7 +141,10 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Double> toDouble(@NotNull final Object object) {
+    public Optional<Double> toDouble(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Number) {
             return Optional.of(((Number) object).doubleValue());
         }
@@ -149,7 +155,10 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Float> toFloat(@NotNull final Object object) {
+    public Optional<Float> toFloat(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Number) {
             return Optional.of(((Number) object).floatValue());
         }
@@ -160,7 +169,10 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Long> toLong(@NotNull final Object object) {
+    public Optional<Long> toLong(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Number) {
             return Optional.of(((Number) object).longValue());
         }
@@ -171,7 +183,10 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Byte> toByte(@NotNull final Object object) {
+    public Optional<Byte> toByte(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Number) {
             return Optional.of(((Number) object).byteValue());
         }
@@ -182,7 +197,10 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Short> toShort(@NotNull final Object object) {
+    public Optional<Short> toShort(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Number) {
             return Optional.of(((Number) object).shortValue());
         }
@@ -193,7 +211,10 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Boolean> toBoolean(@NotNull final Object object) {
+    public Optional<Boolean> toBoolean(@Nullable final Object object) {
+        if (object == null) {
+            return Optional.empty();
+        }
         if (object instanceof Boolean) {
             return Optional.of((Boolean) object);
         }
@@ -206,7 +227,7 @@ public class GeneralUtilities {
         return Optional.empty();
     }
 
-    public Optional<Character> toCharacter(@NotNull final Object object) {
+    public Optional<Character> toCharacter(@Nullable final Object object) {
         if (object instanceof Character) {
             return Optional.of((Character) object);
         }

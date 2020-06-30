@@ -110,6 +110,12 @@
                         <configuration>
                             <minimizeJar>true</minimizeJar>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.amihaiemil.eoyaml</pattern>
+                                    <shadedPattern>io.github.portlek.configs.files.yaml.eoyaml</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
@@ -201,6 +207,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>com.amihaiemil.web</groupId>
+            <artifactId>eo-yaml</artifactId>
+            <version>5.1.2</version>
+        </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>reflection</artifactId>

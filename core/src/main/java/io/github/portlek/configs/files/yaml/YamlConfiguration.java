@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.files.yaml;
 
+import com.amihaiemil.eoyaml.Yaml;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.files.yaml.eoyaml.Yaml;
 import java.io.File;
 import java.io.Reader;
 import java.util.Optional;
@@ -59,8 +59,7 @@ public final class YamlConfiguration extends FileConfiguration {
     @SneakyThrows
     @Override
     public void loadFromString(@NotNull final String contents) {
-        Optional.ofNullable(Yaml.createYamlInput(contents).readYamlMapping()).ifPresent(t ->
-            Helper.convertMapToSection(t, this));
+        Helper.loadFromString(this, contents);
     }
 
     @NotNull

@@ -25,25 +25,22 @@
 
 package io.github.portlek.configs.structure;
 
-import io.github.portlek.configs.structure.comparable.ComparableConfigTest;
+import io.github.portlek.configs.structure.comparable.LinkedTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 final class RunnerTest {
 
-    private static final ComparableConfigTest comparableConfigTest = new ComparableConfigTest();
+    private static final LinkedTest LINKED_TEST = new LinkedTest(() -> "en");
 
     @BeforeAll
     static void before() {
-        RunnerTest.comparableConfigTest.load();
+        RunnerTest.LINKED_TEST.load();
     }
 
     @Test
     void readTest() {
-        System.out.println("TR test_1 > " + RunnerTest.comparableConfigTest.test_1.apply("TR"));
-        System.out.println("TR test_2 > " + RunnerTest.comparableConfigTest.test_2.apply("TR"));
-        System.out.println("EN test_1 > " + RunnerTest.comparableConfigTest.test_1.apply("EN"));
-        System.out.println("EN test_2 > " + RunnerTest.comparableConfigTest.test_2.apply("EN"));
+
     }
 
 }

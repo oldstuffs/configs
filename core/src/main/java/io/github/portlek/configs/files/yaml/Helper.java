@@ -25,9 +25,10 @@
 
 package io.github.portlek.configs.files.yaml;
 
+import com.amihaiemil.eoyaml.*;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.files.yaml.eoyaml.*;
 import io.github.portlek.configs.util.GeneralUtilities;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -38,8 +39,13 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 class Helper {
 
-    public void convertMapToSection(@NotNull final YamlMapping mapping, @NotNull final ConfigurationSection section) {
-        GeneralUtilities.convertMapToSection(Helper.yamlMappingAsMap(mapping), section);
+    private final List<Class<?>> SCALAR_TYPES = Arrays.asList(
+        Integer.class, Long.class, Float.class, Double.class, Short.class, String.class, Boolean.class, Character.class,
+        Byte.class);
+
+    public void loadFromString(@NotNull final ConfigurationSection section, @NotNull final String contents) throws IOException {
+        Optional.ofNullable(Yaml.createYamlInput(contents).readYamlMapping()).ifPresent(t ->
+            Helper.convertMapToSection(t, section));
     }
 
     @NotNull
@@ -49,16 +55,19 @@ class Helper {
         return builder.get().build();
     }
 
+    private void convertMapToSection(@NotNull final YamlMapping mapping, @NotNull final ConfigurationSection section) {
+        GeneralUtilities.convertMapToSection(Helper.yamlMappingAsMap(mapping), section);
+    }
+
     @NotNull
     private Map<String, Object> yamlMappingAsMap(@NotNull final YamlMapping mapping) {
         final Map<String, Object> map = new HashMap<>();
         mapping.keys().stream()
             .filter(node -> node instanceof Scalar)
             .map(YamlNode::asScalar)
-            .forEach(keyNode -> {
+            .forEach(keyNode ->
                 Helper.yamlNodeAsObject(mapping.value(keyNode)).ifPresent(o ->
-                    map.put(keyNode.value().replace("\"", ""), o));
-            });
+                    map.put(keyNode.value().replace("\"", ""), o)));
         return map;
     }
 
@@ -122,13 +131,13 @@ class Helper {
             Helper.buildMap(mappingBuilder, objectmap);
             return Optional.ofNullable(mappingBuilder.get().build());
         }
-        if (ReflectedYamlDump.SCALAR_TYPES.contains(o.getClass())) {
+        if (Helper.SCALAR_TYPES.contains(o.getClass())) {
             final String value = String.valueOf(o);
             final AtomicReference<YamlScalarBuilder> atomic = new AtomicReference<>(Yaml.createYamlScalarBuilder());
             if (value.contains("\n")) {
                 Arrays.stream(value.split("\n")).forEach(s ->
                     atomic.set(atomic.get().addLine(s)));
-                return Optional.ofNullable(atomic.get().buildFoldedBlockScalar());
+                return Optional.of(atomic.get().buildFoldedBlockScalar());
             }
             return Optional.ofNullable(atomic.get().addLine(value).buildPlainScalar());
         }
@@ -139,7 +148,7 @@ class Helper {
     private Optional<Object> yamlNodeAsObject(@NotNull final YamlNode value) {
         @Nullable final Object object;
         if (value instanceof Scalar) {
-            object = ((Scalar) value).getAsAll();
+            object = Helper.getAsAll((Scalar) value);
         } else if (value instanceof YamlSequence) {
             object = Helper.sequenceAsList(value.asSequence());
         } else if (value instanceof YamlStream) {
@@ -150,6 +159,96 @@ class Helper {
             object = null;
         }
         return Optional.ofNullable(object);
+    }
+
+    @Nullable
+    private Object getAsAll(@NotNull final Scalar scalar) {
+        final Optional<Integer> optional1 = Helper.getAsInteger(scalar);
+        if (optional1.isPresent()) {
+            return optional1.get();
+        }
+        final Optional<Long> optional2 = Helper.getAsLong(scalar);
+        if (optional2.isPresent()) {
+            return optional2.get();
+        }
+        final Optional<Float> optional3 = Helper.getAsFloat(scalar);
+        if (optional3.isPresent()) {
+            return optional3.get();
+        }
+        final Optional<Double> optional4 = Helper.getAsDouble(scalar);
+        if (optional4.isPresent()) {
+            return optional4.get();
+        }
+        final Optional<Short> optional5 = Helper.getAsShort(scalar);
+        if (optional5.isPresent()) {
+            return optional5.get();
+        }
+        final Optional<Boolean> optional6 = Helper.getAsBoolean(scalar);
+        if (optional6.isPresent()) {
+            return optional6.get();
+        }
+        final Optional<Character> optional7 = Helper.getAsCharacter(scalar);
+        if (optional7.isPresent()) {
+            return optional7.get();
+        }
+        final Optional<Byte> optional8 = Helper.getAsByte(scalar);
+        if (optional8.isPresent()) {
+            return optional8.get();
+        }
+        return Helper.getAsString(scalar).orElse(null);
+    }
+
+    @NotNull
+    private Optional<Integer> getAsInteger(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toInt);
+    }
+
+    @NotNull
+    private Optional<Long> getAsLong(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toLong);
+    }
+
+    @NotNull
+    private Optional<Float> getAsFloat(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toFloat);
+    }
+
+    @NotNull
+    private Optional<Double> getAsDouble(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toDouble);
+    }
+
+    @NotNull
+    private Optional<Short> getAsShort(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toShort);
+    }
+
+    @NotNull
+    private Optional<String> getAsString(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value());
+    }
+
+    @NotNull
+    private Optional<Boolean> getAsBoolean(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toBoolean);
+    }
+
+    @NotNull
+    private Optional<Character> getAsCharacter(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toCharacter);
+    }
+
+    @NotNull
+    private Optional<Byte> getAsByte(@NotNull final Scalar scalar) {
+        return Optional.ofNullable(scalar.value())
+            .flatMap(GeneralUtilities::toByte);
     }
 
 }

@@ -69,7 +69,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         section.remove(fnlpath + "lore");
         Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
             if (itemMeta instanceof SkullMeta) {
-                Optional.of(SkullUtils.getSkinValue(itemStack)).ifPresent(s ->
+                Optional.ofNullable(SkullUtils.getSkinValue(itemStack)).ifPresent(s ->
                     section.set(fnlpath + "skull-texture", s));
             }
             if (itemMeta.hasDisplayName()) {
