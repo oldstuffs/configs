@@ -25,11 +25,12 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import com.amihaiemil.eoyaml.Yaml;
-import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.exceptions.InvalidConfigurationException;
+import io.github.portlek.configs.configuration.file.FileConfiguration;
 import java.io.File;
-import java.io.Reader;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,15 +38,17 @@ public final class YamlConfiguration extends FileConfiguration {
 
     @NotNull
     public static YamlConfiguration loadConfiguration(@NotNull final File file) {
-        final YamlConfiguration config = new YamlConfiguration();
-        config.load(file);
-        return config;
+        return YamlConfiguration.run(config -> config.load(file));
     }
 
     @NotNull
-    public static YamlConfiguration loadConfiguration(@NotNull final Reader reader) {
+    private static YamlConfiguration run(@NotNull final YamlConfiguration.YamlRunnable runnable) {
         final YamlConfiguration config = new YamlConfiguration();
-        config.load(reader);
+        try {
+            runnable.run(config);
+        } catch (final IOException | InvalidConfigurationException ex) {
+            Logger.getLogger(YamlConfiguration.class.getName()).log(Level.SEVERE, "Cannot load configuration from stream", ex);
+        }
         return config;
     }
 
@@ -69,6 +72,12 @@ public final class YamlConfiguration extends FileConfiguration {
             this.options = new YamlConfigurationOptions(this);
         }
         return (YamlConfigurationOptions) this.options;
+    }
+
+    private interface YamlRunnable {
+
+        void run(@NotNull YamlConfiguration config) throws IOException, InvalidConfigurationException;
+
     }
 
 }

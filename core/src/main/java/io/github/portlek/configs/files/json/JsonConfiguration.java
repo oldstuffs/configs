@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;

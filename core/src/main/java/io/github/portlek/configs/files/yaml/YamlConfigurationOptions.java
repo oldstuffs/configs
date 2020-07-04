@@ -25,48 +25,48 @@
 
 package io.github.portlek.configs.files.yaml;
 
-import io.github.portlek.configs.configuration.FileConfigurationOptions;
+import io.github.portlek.configs.configuration.file.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
-public class YamlConfigurationOptions extends FileConfigurationOptions {
+public final class YamlConfigurationOptions extends FileConfigurationOptions {
 
     private int indent = 2;
 
-    protected YamlConfigurationOptions(@NotNull final YamlConfiguration configuration) {
+    public YamlConfigurationOptions(@NotNull final YamlConfiguration configuration) {
         super(configuration);
     }
 
     @NotNull
     @Override
-    public final YamlConfiguration configuration() {
+    public YamlConfiguration configuration() {
         return (YamlConfiguration) super.configuration();
     }
 
     @NotNull
     @Override
-    public final YamlConfigurationOptions pathSeparator(final char value) {
+    public YamlConfigurationOptions pathSeparator(final char value) {
         super.pathSeparator(value);
         return this;
     }
 
     @NotNull
     @Override
-    public final YamlConfigurationOptions copyDefaults(final boolean value) {
+    public YamlConfigurationOptions copyDefaults(final boolean value) {
         super.copyDefaults(value);
         return this;
     }
 
-    public final int indent() {
+    public int indent() {
         return this.indent;
     }
 
     @NotNull
-    public final YamlConfigurationOptions indent(final int value) {
-        if (value < 2) {
-            throw new IllegalStateException("Indent must be at least 2 characters");
-        }
+    public YamlConfigurationOptions indent(final int value) {
         if (value > 9) {
-            throw new IllegalStateException("Indent cannot be greater than 9 characters");
+            throw new RuntimeException("Indent cannot be greater than 9 characters");
+        }
+        if (value < 2) {
+            throw new RuntimeException("Indent must be at least 2 characters");
         }
         this.indent = value;
         return this;

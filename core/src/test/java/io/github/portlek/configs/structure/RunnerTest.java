@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.structure;
 
-import io.github.portlek.configs.structure.comparable.LinkedTest;
+import io.github.portlek.configs.structure.configs.LinkedTest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

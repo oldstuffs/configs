@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.structure.linked;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.util.MapEntry;
 import java.io.File;

@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.structure.comparable;
+package io.github.portlek.configs.structure.configs;
 
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;

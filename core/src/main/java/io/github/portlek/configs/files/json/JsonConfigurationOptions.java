@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.FileConfigurationOptions;
+import io.github.portlek.configs.configuration.file.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
 public class JsonConfigurationOptions extends FileConfigurationOptions {

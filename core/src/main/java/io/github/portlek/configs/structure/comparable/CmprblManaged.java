@@ -26,7 +26,7 @@
 package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.processors.ComparableConfigProceed;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
