@@ -268,7 +268,7 @@ public final class TestLinkedConfig extends LinkedFileManaged {
       Optional.of("Same in every language!"));
 
   @Property
-  public String test = match(s -> {
+  public String test = match(m -> {
     m.put("en", "English words!");
     m.put("tr", "Türkçe kelimeler!");
   });
@@ -316,7 +316,7 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
   }
 
   @Property
-  public String same_in_every_language = match(s -> 
+  public String same_in_every_language = match(m -> 
       Optional.of("Same in every language!"));
 
   @Property
@@ -368,7 +368,7 @@ public final class TestLinkedConfig extends NukkitLinkedManaged {
   }
 
   @Property
-  public String same_in_every_language = match(s -> 
+  public String same_in_every_language = match(m -> 
       Optional.of("Same in every language!"));
 
   @Property
@@ -420,7 +420,7 @@ public final class TestLinkedConfig extends BungeeLinkedManaged {
   }
 
   @Property
-  public String same_in_every_language = match(s -> 
+  public String same_in_every_language = match(m -> 
       Optional.of("Same in every language!"));
 
   @Property
