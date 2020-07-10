@@ -26,6 +26,7 @@
 package io.github.portlek.configs.provided;
 
 import io.github.portlek.configs.processors.PropertyProceed;
+import io.github.portlek.configs.structure.linked.LnkdManaged;
 import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.Scalar;
 import java.util.Optional;
@@ -35,10 +36,13 @@ public final class ScalarProvider implements Provided<Scalar<Object>> {
 
     @NotNull
     @Override
-    public Optional<Scalar<Object>> getWithField(@NotNull final Scalar<Object> objectScalar,
+    public Optional<Scalar<Object>> getWithField(@NotNull final Scalar<Object> scalar,
                                                  @NotNull final CfgSection section, @NotNull final String path) {
-        return PropertyProceed.get(section, objectScalar.get(), path)
-            .map(o -> objectScalar);
+        if (!(section.getParent() instanceof LnkdManaged)) {
+            return Optional.empty();
+        }
+        return PropertyProceed.get(section, scalar.get(), path)
+            .map(scalar::change);
     }
 
     @NotNull

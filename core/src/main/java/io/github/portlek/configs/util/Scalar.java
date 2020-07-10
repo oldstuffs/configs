@@ -25,6 +25,9 @@
 
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.structure.linked.LnkdManaged;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -33,11 +36,22 @@ import org.jetbrains.annotations.NotNull;
 public final class Scalar<T> implements Supplier<T> {
 
     @NotNull
-    private final Supplier<T> supplier;
+    private final LnkdManaged managed;
+
+    @NotNull
+    private final Map<String, T> map;
 
     @Override
     public T get() {
-        return this.supplier.get();
+        final String chosen = this.managed.getChosen().get();
+        return Optional.ofNullable(this.map.get(chosen)).orElseThrow(() ->
+            new IllegalStateException("Cannot found match a with the file key > " + chosen));
+    }
+
+    @NotNull
+    public Scalar<T> change(@NotNull final T t) {
+        this.map.put(this.managed.getChosen().get(), t);
+        return new Scalar<>(this.managed, this.map);
     }
 
 }

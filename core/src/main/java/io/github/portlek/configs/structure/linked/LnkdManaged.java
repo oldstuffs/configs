@@ -29,20 +29,20 @@ import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import io.github.portlek.configs.util.Scalar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public interface LnkdManaged extends FlManaged {
 
     @NotNull
-    default <T> Scalar<T> match(@NotNull final Function<String, Optional<T>> function) {
-        return new Scalar<>(() -> {
-            final String chosen = this.getChosen().get();
-            return function.apply(chosen).orElseThrow(() ->
-                new IllegalStateException("Cannot found match a with the file key > " + chosen));
-        });
+    default <T> Scalar<T> match(@NotNull final Consumer<Map<String, T>> consumer) {
+        final Map<String, T> map = new HashMap<>();
+        consumer.accept(map);
+        return new Scalar<>(this, map);
     }
 
     @Override
