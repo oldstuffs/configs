@@ -269,12 +269,8 @@ public final class TestLinkedConfig extends LinkedFileManaged {
 
   @Property
   public String test = match(s -> {
-    if (s.equals("en")) {
-      return Optional.of("English words!");
-    } else if (s.equals("tr")) {
-      return Optional.of("Türkçe kelimeler!");
-    }
-    return Optional.empty();
+    m.put("en", "English words!");
+    m.put("tr", "Türkçe kelimeler!");
   });
 
 }
@@ -325,12 +321,8 @@ public final class TestLinkedConfig extends BukkitLinkedManaged {
 
   @Property
   public String test = match(s -> {
-    if (s.equals("en")) {
-      return Optional.of("English words!");
-    } else if (s.equals("tr")) {
-      return Optional.of("Türkçe kelimeler!");
-    }
-    return Optional.empty();
+    m.put("en", "English words!");
+    m.put("tr", "Türkçe kelimeler!");
   });
 
 }
@@ -381,12 +373,8 @@ public final class TestLinkedConfig extends NukkitLinkedManaged {
 
   @Property
   public String test = match(s -> {
-    if (s.equals("en")) {
-      return Optional.of("English words!");
-    } else if (s.equals("tr")) {
-      return Optional.of("Türkçe kelimeler!");
-    }
-    return Optional.empty();
+    m.put("en", "English words!");
+    m.put("tr", "Türkçe kelimeler!");
   });
 
 }
@@ -436,13 +424,9 @@ public final class TestLinkedConfig extends BungeeLinkedManaged {
       Optional.of("Same in every language!"));
 
   @Property
-  public String test = match(s -> {
-    if (s.equals("en")) {
-      return Optional.of("English words!");
-    } else if (s.equals("tr")) {
-      return Optional.of("Türkçe kelimeler!");
-    }
-    return Optional.empty();
+  public String test = match(m -> {
+    m.put("en", "English words!");
+    m.put("en", "Türkçe kelimeler!");
   });
 
 }
