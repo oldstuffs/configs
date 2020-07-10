@@ -25,9 +25,19 @@
 
 package io.github.portlek.configs.util;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
-public interface Scalar<T> extends Supplier<T> {
+@RequiredArgsConstructor
+public final class Scalar<T> implements Supplier<T> {
+
+    @NotNull
+    private final Supplier<T> supplier;
+
+    @Override
+    public T get() {
+        return this.supplier.get();
+    }
 
 }

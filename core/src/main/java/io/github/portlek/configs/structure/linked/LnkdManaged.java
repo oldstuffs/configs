@@ -38,11 +38,11 @@ public interface LnkdManaged extends FlManaged {
 
     @NotNull
     default <T> Scalar<T> match(@NotNull final Function<String, Optional<T>> function) {
-        return () -> {
+        return new Scalar<>(() -> {
             final String chosen = this.getChosen().get();
             return function.apply(chosen).orElseThrow(() ->
                 new IllegalStateException("Cannot found match a with the file key > " + chosen));
-        };
+        });
     }
 
     @Override
