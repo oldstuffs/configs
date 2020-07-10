@@ -39,11 +39,13 @@ final class RunnerTest {
 
     @BeforeAll
     static void before() {
+        LINKED_TEST.setAutoSave(true);
         RunnerTest.LINKED_TEST.load();
     }
 
     @Test
     void readTest() {
+        RunnerTest.language = "en";
         System.out.println(RunnerTest.LINKED_TEST.help_messages.get().build());
     }
 
