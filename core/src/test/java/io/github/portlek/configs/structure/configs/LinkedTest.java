@@ -32,6 +32,7 @@ import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.replaceable.Replaceable;
 import io.github.portlek.configs.replaceable.ReplaceableString;
 import io.github.portlek.configs.structure.linked.LinkedManaged;
+import io.github.portlek.configs.util.Scalar;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
@@ -55,16 +56,16 @@ import org.jetbrains.annotations.NotNull;
 public final class LinkedTest extends LinkedManaged {
 
     @Property
-    public ReplaceableString help_messages = this.match(s -> {
+    public Scalar<ReplaceableString> help_messages = this.match(s -> {
         if ("en".equals(s)) {
             return Optional.of(
                 Replaceable.from(
                     new StringBuilder()
                         .append("&a====== %prefix% Player Commands &a======")
                         .append('\n')
-                        .append("&7/kekorank &r> &eShows help message.")
+                        .append("&7/rank &r> &eShows help message.")
                         .append('\n')
-                        .append("&7/kekorank help &r> &eShows help message.")
+                        .append("&7/rank help &r> &eShows help message.")
                         .append('\n')
                         .append("&7/rank menu &r> &eOpens your profile menu.")
                         .append('\n')
@@ -74,7 +75,7 @@ public final class LinkedTest extends LinkedManaged {
                         .append('\n')
                         .append("&a====== %prefix% Admin Commands &a======")
                         .append('\n')
-                        .append("&7/kekorank reload &r> &eReloads the plugin.")
+                        .append("&7/rank reload &r> &eReloads the plugin.")
                         .append('\n')
                         .append("&7/rank version &r> &eChecks for update.")
                         .append('\n')
@@ -83,6 +84,32 @@ public final class LinkedTest extends LinkedManaged {
                         .append("&7/rank set <player> <rank> &r> &eChange the player rank.")
                         .append('\n')
                         .append("&7/rank menu <target> &r> &eShows profile menu of the target.")));
+        }
+        if ("tr".equals(s)) {
+            return Optional.of(
+                Replaceable.from(
+                    new StringBuilder()
+                        .append("&a====== %prefix% Oyuncu Komutları &a======")
+                        .append('\n')
+                        .append("&7/rank &r> &eYardım mesajını görüntüler.")
+                        .append('\n')
+                        .append("&7/rank help &r> &eYardım mesajını görüntüler.")
+                        .append('\n')
+                        .append("&7/rank menu &r> &eProfil menünü açar.")
+                        .append('\n')
+                        .append("&7/rank check &r> &eRankını kontrol eder ve rank atlatır.")
+                        .append('\n')
+                        .append("&7/rank list &r> &eTÜm rankları gösterir.")
+                        .append('\n')
+                        .append("&a====== %prefix% Admin Komutları &a======")
+                        .append('\n')
+                        .append("&7/rank reload &r> &eEklentiyi yeniden başlatır.")
+                        .append('\n')
+                        .append("&7/rank promote <player> &r> &eOyuncuyu anında rank atlatır.")
+                        .append('\n')
+                        .append("&7/rank set <player> <rank> &r> &eOyuncunun rankını değiştirir.")
+                        .append('\n')
+                        .append("&7/rank menu <target> &r> &eOyuncunun profile menüsünü gösterir.")));
         }
         return Optional.empty();
     });

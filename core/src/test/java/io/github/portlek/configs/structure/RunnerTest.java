@@ -26,12 +26,16 @@
 package io.github.portlek.configs.structure;
 
 import io.github.portlek.configs.structure.configs.LinkedTest;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 final class RunnerTest {
 
-    private static final LinkedTest LINKED_TEST = new LinkedTest(() -> "en");
+    private static final LinkedTest LINKED_TEST = new LinkedTest(() -> RunnerTest.language);
+
+    @NotNull
+    private static String language = "en";
 
     @BeforeAll
     static void before() {
@@ -40,7 +44,14 @@ final class RunnerTest {
 
     @Test
     void readTest() {
+        System.out.println(RunnerTest.LINKED_TEST.help_messages.get().build());
+    }
 
+    @Test
+    void anotherReadTest() {
+        RunnerTest.language = "tr";
+        RunnerTest.LINKED_TEST.load();
+        System.out.println(RunnerTest.LINKED_TEST.help_messages.get().build());
     }
 
 }
