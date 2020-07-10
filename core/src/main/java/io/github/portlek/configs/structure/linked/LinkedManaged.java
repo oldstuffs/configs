@@ -26,8 +26,11 @@
 package io.github.portlek.configs.structure.linked;
 
 import io.github.portlek.configs.configuration.file.FileConfiguration;
+import io.github.portlek.configs.provided.ScalarProvider;
 import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.MapEntry;
+import io.github.portlek.configs.util.Scalar;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +38,10 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 public class LinkedManaged extends FileManaged implements LnkdManaged {
+
+    static {
+        CfgSection.PROVIDED.put(Scalar.class, new ScalarProvider());
+    }
 
     @NotNull
     private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();
