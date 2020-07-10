@@ -56,7 +56,7 @@ public final class PropertyProceed {
     }
 
     @NotNull
-    public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
+    public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
                                   @NotNull final String path) {
         // noinspection unchecked
         final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
@@ -69,7 +69,7 @@ public final class PropertyProceed {
     }
 
     @NotNull
-    public static Optional<?> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
+    public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
                                   @NotNull final String path) {
         return CfgSection.getProvidedClass(fieldClass)
             .map(objectProvided -> objectProvided.get(parent, path))
@@ -108,7 +108,7 @@ public final class PropertyProceed {
             this.property.value(),
             this.field.name());
         final Object fieldvalue = optional.get();
-        final Optional<?> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
+        final Optional<Object> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
         if (filevalueoptional.isPresent()) {
             this.field.of(this.parentObject).set(filevalueoptional.get());
         } else {

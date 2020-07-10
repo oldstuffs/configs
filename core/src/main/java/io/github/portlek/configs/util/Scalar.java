@@ -23,40 +23,11 @@
  *
  */
 
-package io.github.portlek.configs.structure.linked;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.LinkedConfigProceed;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.util.Scalar;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
 
-public interface LnkdManaged extends FlManaged {
-
-    @NotNull
-    default <T> Scalar<T> match(@NotNull final Function<String, Optional<T>> function) {
-        return () -> {
-            final String chosen = this.getChosen().get();
-            return function.apply(chosen).orElseThrow(() ->
-                new IllegalStateException("Cannot found match a with the file key > " + chosen));
-        };
-    }
-
-    @Override
-    default void load() {
-        this.onCreate();
-        new LinkedConfigProceed(
-            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
-                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
-            this
-        ).load();
-        this.onLoad();
-    }
-
-    @NotNull
-    Supplier<String> getChosen();
+public interface Scalar<T> extends Supplier<T> {
 
 }

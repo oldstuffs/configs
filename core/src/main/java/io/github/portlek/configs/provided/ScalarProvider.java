@@ -23,40 +23,34 @@
  *
  */
 
-package io.github.portlek.configs.structure.linked;
+package io.github.portlek.configs.provided;
 
-import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.processors.LinkedConfigProceed;
-import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.processors.PropertyProceed;
+import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.Scalar;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public interface LnkdManaged extends FlManaged {
+public final class ScalarProvider implements Provided<Scalar<Object>> {
 
     @NotNull
-    default <T> Scalar<T> match(@NotNull final Function<String, Optional<T>> function) {
-        return () -> {
-            final String chosen = this.getChosen().get();
-            return function.apply(chosen).orElseThrow(() ->
-                new IllegalStateException("Cannot found match a with the file key > " + chosen));
-        };
+    @Override
+    public Optional<Scalar<Object>> getWithField(@NotNull final Scalar<Object> objectScalar,
+                                                 @NotNull final CfgSection section, @NotNull final String path) {
+        return PropertyProceed.get(section, objectScalar.get(), path)
+            .map(o -> objectScalar);
+    }
+
+    @NotNull
+    @Override
+    public Optional<Scalar<Object>> get(@NotNull final CfgSection section, @NotNull final String path) {
+        return Optional.empty();
     }
 
     @Override
-    default void load() {
-        this.onCreate();
-        new LinkedConfigProceed(
-            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
-                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
-            this
-        ).load();
-        this.onLoad();
+    public void set(@NotNull final Scalar<Object> scalar, @NotNull final CfgSection section,
+                    @NotNull final String path) {
+        PropertyProceed.set(section, scalar.get(), path);
     }
-
-    @NotNull
-    Supplier<String> getChosen();
 
 }
