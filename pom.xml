@@ -210,7 +210,7 @@
         <dependency>
             <groupId>com.amihaiemil.web</groupId>
             <artifactId>eo-yaml</artifactId>
-            <version>5.1.3</version>
+            <version>5.1.4</version>
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
