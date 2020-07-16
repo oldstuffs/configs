@@ -66,6 +66,11 @@
             <version>6.2.0</version>
         </dependency>
         <dependency>
+            <groupId>io.github.portlek</groupId>
+            <artifactId>BukkitItemBuilder</artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
@@ -73,8 +78,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.seeseemelk</groupId>
-            <artifactId>MockBukkit-v1.14</artifactId>
-            <version>0.2.2</version>
+            <artifactId>MockBukkit-v1.15</artifactId>
+            <version>0.3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

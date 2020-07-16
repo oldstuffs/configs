@@ -25,23 +25,16 @@
 
 package io.github.portlek.configs.bukkit.provided;
 
-import com.cryptomorin.xseries.SkullUtils;
-import com.cryptomorin.xseries.XEnchantment;
-import com.cryptomorin.xseries.XMaterial;
+import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
 import io.github.portlek.bukkitversion.BukkitVersion;
-import io.github.portlek.configs.bukkit.util.ColorUtil;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
@@ -52,120 +45,29 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
                     @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        section.set(fnlpath + "material", itemStack.getType().name());
-        section.set(fnlpath + "amount", itemStack.getAmount());
-        section.remove(fnlpath + "data");
-        if (BukkitItemStackProvider.VERSION < 13) {
-            Optional.ofNullable(itemStack.getData())
-                .filter(materialData -> (int) materialData.getData() != 0)
-                .ifPresent(materialData ->
-                    section.set(fnlpath + "data", (int) materialData.getData()));
-        }
-        if ((int) itemStack.getDurability() != 0) {
-            section.set(fnlpath + "damage", itemStack.getDurability());
-        }
-        section.remove(fnlpath + "skull-texture");
-        section.remove(fnlpath + "display-name");
-        section.remove(fnlpath + "lore");
-        Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
-            if (itemMeta instanceof SkullMeta) {
-                Optional.ofNullable(SkullUtils.getSkinValue(itemStack)).ifPresent(s ->
-                    section.set(fnlpath + "skull-texture", s));
-            }
-            if (itemMeta.hasDisplayName()) {
-                section.set(
-                    fnlpath + "display-name",
-                    itemMeta.getDisplayName().replace("§", "&"));
-            }
-            Optional.ofNullable(itemMeta.getLore()).ifPresent(lore ->
-                section.set(
-                    fnlpath + "lore",
-                    lore.stream()
-                        .map(s -> s.replace("§", "&"))
-                        .collect(Collectors.toList())));
-            final Set<ItemFlag> flags = itemMeta.getItemFlags();
-            section.remove(fnlpath + "flags");
-            if (!flags.isEmpty()) {
-                section.set(fnlpath + "flags", flags.stream()
-                    .map(Enum::name)
-                    .collect(Collectors.toList()));
-            }
-        });
-        section.remove(fnlpath + "enchants");
-        itemStack.getEnchantments().forEach((enchantment, integer) ->
-            section.set(fnlpath + "enchants." + enchantment.getName(), integer));
+        this.to(section.getOrCreateSection(fnlpath.substring(0, fnlpath.length() - 1))
+                .getConfigurationSection(),
+            itemStack);
     }
 
     @NotNull
     @Override
     public Optional<ItemStack> get(@NotNull final CfgSection section, @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        final Optional<String> optional = section.getString(fnlpath + "material");
-        if (!optional.isPresent()) {
-            return Optional.empty();
-        }
-        final String mtrlstrng = optional.get();
-        @Nullable final Material material;
-        if (BukkitItemStackProvider.VERSION > 7) {
-            final Optional<XMaterial> xmaterialoptional = XMaterial.matchXMaterial(mtrlstrng);
-            if (!xmaterialoptional.isPresent()) {
-                return Optional.empty();
+        return ItemStackUtil.from(
+            section.getOrCreateSection(fnlpath.substring(0, fnlpath.length() - 1))
+                .getConfigurationSection().getValues(false));
+    }
+
+    private void to(@NotNull final ConfigurationSection section, @NotNull final ItemStack itemStack) {
+        final Map<String, Object> map = ItemStackUtil.to(itemStack);
+        map.forEach((key, value) -> {
+            if (value instanceof Map<?, ?>) {
+                this.to(section.createSection(key), itemStack);
+            } else {
+                section.set(key, value);
             }
-            final Optional<Material> mtrloptnl = Optional.ofNullable(xmaterialoptional.get().parseMaterial());
-            if (!mtrloptnl.isPresent()) {
-                return Optional.empty();
-            }
-            material = mtrloptnl.get();
-        } else {
-            material = Material.getMaterial(mtrlstrng);
-        }
-        if (material == null) {
-            return Optional.empty();
-        }
-        final int fnlamnt = section.getInteger(fnlpath + "amount").orElse(1);
-        final ItemStack itemStack;
-        if (BukkitItemStackProvider.VERSION < 13) {
-            itemStack = new ItemStack(material, fnlamnt);
-            section.getInteger(fnlpath + "damage")
-                .map(Number::shortValue)
-                .ifPresent(itemStack::setDurability);
-            section.getInteger(fnlpath + "data")
-                .map(Integer::byteValue)
-                .map(material::getNewData)
-                .ifPresent(itemStack::setData);
-        } else {
-            itemStack = new ItemStack(material, fnlamnt);
-            section.getInteger(fnlpath + "damage").ifPresent(integer ->
-                itemStack.setDurability(integer.shortValue()));
-        }
-        Optional.ofNullable(itemStack.getItemMeta()).ifPresent(itemMeta -> {
-            if (itemMeta instanceof SkullMeta) {
-                section.getString(fnlpath + "skull-texture").ifPresent(s ->
-                    SkullUtils.applySkin(itemMeta, s));
-            }
-            section.getString(fnlpath + "display-name").ifPresent(s ->
-                itemMeta.setDisplayName(ColorUtil.colored(s)));
-            section.getStringList(fnlpath + "lore").ifPresent(lore ->
-                itemMeta.setLore(lore.stream()
-                    .map(ColorUtil::colored)
-                    .collect(Collectors.toList())));
-            section.getSection(fnlpath + "enchants").map(enchsection ->
-                enchsection.getKeys(false)
-            ).ifPresent(set ->
-                set.forEach(s ->
-                    XEnchantment.matchXEnchantment(s).flatMap(xEnchantment ->
-                        Optional.ofNullable(xEnchantment.parseEnchantment())
-                    ).ifPresent(enchantment ->
-                        itemMeta.addEnchant(
-                            enchantment,
-                            section.getInteger(fnlpath + "enchants." + s).orElse(1), true))));
-            section.getStringList(fnlpath + "flags").ifPresent(flags ->
-                flags.stream()
-                    .map(ItemFlag::valueOf)
-                    .forEach(itemMeta::addItemFlags));
-            itemStack.setItemMeta(itemMeta);
         });
-        return Optional.of(itemStack);
     }
 
 }
