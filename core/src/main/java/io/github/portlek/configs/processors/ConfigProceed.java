@@ -63,13 +63,10 @@ public final class ConfigProceed {
             GeneralUtilities.addSeparator(
                 this.config.location()
                     .replace("%basedir%",
-                        GeneralUtilities.basedir(this.managed.getClass()).getParentFile().getAbsolutePath())
-                    .replace("/", File.separator)),
+                        GeneralUtilities.basedir(this.managed.getClass()).getParentFile().getAbsolutePath())),
             name);
         if (this.config.copyDefault() && !file.exists()) {
-            GeneralUtilities.saveResource(
-                file,
-                GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
+            GeneralUtilities.saveResource(file, GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
         } else if (!file.exists()) {
             file.getParentFile().mkdirs();
             file.createNewFile();

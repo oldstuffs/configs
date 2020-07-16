@@ -27,7 +27,6 @@ package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
-import io.github.portlek.configs.processors.ConfigProceed;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
@@ -46,10 +45,10 @@ public class GeneralUtilities {
         if (raw.isEmpty()) {
             return "";
         }
-        if (raw.charAt(raw.length() - 1) == File.separatorChar) {
+        if (raw.charAt(raw.length() - 1) == '/') {
             return raw;
         }
-        return raw + File.separatorChar;
+        return raw + '/';
     }
 
     @NotNull
@@ -91,7 +90,7 @@ public class GeneralUtilities {
 
     @SneakyThrows
     @NotNull
-    public File saveResource(@NotNull final File outFile, @NotNull final String path) {
+    public void saveResource(@NotNull final File outFile, @NotNull final String path) {
         if (path.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be empty");
         }
@@ -99,29 +98,26 @@ public class GeneralUtilities {
             outFile.getParentFile().mkdirs();
             outFile.createNewFile();
         }
-        final String replace = path.replace('\\', File.separatorChar);
         try (final OutputStream out = new FileOutputStream(outFile);
-             final InputStream input = GeneralUtilities.getResource(replace).orElseThrow(() ->
-                 new IllegalArgumentException("The embedded resource '" + replace + "' cannot be found!"))) {
+             final InputStream input = GeneralUtilities.getResource(path).orElseThrow(() ->
+                 new IllegalArgumentException("The embedded resource '" + path + "' cannot be found!"))) {
             final byte[] buf = new byte[1024];
             int len;
             while ((len = input.read(buf)) > 0) {
                 out.write(buf, 0, len);
             }
         }
-        return outFile;
     }
 
     @NotNull
     public Optional<InputStream> getResource(@NotNull final String path) {
-        return Optional.ofNullable(ConfigProceed.class.getClassLoader().getResource(path))
+        return Optional.ofNullable(GeneralUtilities.class.getClassLoader().getResource(path))
             .flatMap(url -> {
                 try {
                     final URLConnection connection = url.openConnection();
                     connection.setUseCaches(false);
                     return Optional.of(connection.getInputStream());
-                } catch (final IOException exception) {
-                    exception.printStackTrace();
+                } catch (final IOException ignored) {
                 }
                 return Optional.empty();
             });
