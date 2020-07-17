@@ -37,7 +37,7 @@ subprojects {
     }
 
     shadowJar {
-        dependsOn(this.wrapper)
+        depend this.wrapper
         minimize()
         setArchivesBaseName(this.name)
         archiveClassifier.set("")
