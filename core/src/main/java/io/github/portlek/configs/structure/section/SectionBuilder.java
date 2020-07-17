@@ -84,11 +84,6 @@ public final class SectionBuilder {
     }
 
     @NotNull
-    public SectionBuilder setIfAbsentFloat(@NotNull final String path, @NotNull final Float fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getFloat);
-    }
-
-    @NotNull
     public SectionBuilder setIfAbsentBoolean(@NotNull final String path, @NotNull final Boolean fallback) {
         return this.setIfAbsentGeneric(path, fallback, this.section::getBoolean);
     }
@@ -141,12 +136,6 @@ public final class SectionBuilder {
     @NotNull
     public SectionBuilder setIfAbsentShortList(@NotNull final String path, @NotNull final List<Short> fallback) {
         return this.setIfAbsentGeneric(path, fallback, this.section::getShortList);
-    }
-
-    @NotNull
-    public SectionBuilder setIfAbsentMapList(@NotNull final String path,
-                                             @NotNull final List<Map<Object, Object>> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getMapList);
     }
 
     @NotNull
