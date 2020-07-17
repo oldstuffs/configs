@@ -1,11 +1,13 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "com.bmuschko.nexus" version "2.3.1"
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'com.github.johnrengelman.shadow'
+    apply plugin: 'com.bmuschko.nexus'
 
     group = "io.github.portlek"
     version = properties.configsVersion
@@ -35,5 +37,52 @@ subprojects {
         setArchivesBaseName(this.name)
         archiveClassifier.set("")
         archiveVersion.set("")
+    }
+    modifyPom {
+        project {
+            name 'configs'
+            description 'Annotation based configuration library for any Java project.'
+            url 'https://github.com/portlek/configs'
+            inceptionYear '2019'
+
+            scm {
+                url 'https://github.com/portlek/configs'
+                connection 'scm:git:git://github.com/portlek/configs.git'
+                developerConnection 'scm:git:ssh://github.com/portlek/configs.git'
+            }
+
+            licenses {
+                license {
+                    name 'MIT License'
+                    url 'https://opensource.org/licenses/mit-license.php'
+                    distribution 'repo'
+                }
+            }
+
+            developers {
+                developer {
+                    id 'portlek'
+                    name 'Hasan Demirtaş'
+                    email 'utsukushihito@outlook.com'
+                    url 'https://github.com/portlek'
+                    roles {
+                        role 'Architect'
+                        role 'Developer'
+                    }
+                    timezone '+3'
+                }
+            }
+
+        }
+    }
+    extraArchive {
+        sources = false
+        tests = true
+        javadoc = false
+    }
+    nexus {
+        sign = true
+        repositoryUrl = 'http://localhost:8081/nexus/content/repositories/internal/'
+        snapshotRepositoryUrl = 'http://localhost:8081/nexus/content/repositories/internal-snapshots/'
     }
 }
