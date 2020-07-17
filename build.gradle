@@ -9,7 +9,7 @@ subprojects {
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group = "io.github.portlek"
-    version = "1.0-SNAPSHOT"
+    version = ${configsVersion}
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
