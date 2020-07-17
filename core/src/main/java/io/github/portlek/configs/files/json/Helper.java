@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonArray;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;
@@ -35,6 +34,7 @@ import java.util.*;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 @UtilityClass
 class Helper {

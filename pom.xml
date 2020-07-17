@@ -112,8 +112,12 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>com.amihaiemil.eoyaml</pattern>
-                                    <shadedPattern>io.github.portlek.configs.files.yaml.eoyaml</shadedPattern>
+                                    <pattern>org.simpleyaml</pattern>
+                                    <shadedPattern>io.github.portlek.configs.files.yaml.simpleyaml</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.yaml</pattern>
+                                    <shadedPattern>io.github.portlek.configs.files.yaml.snakeyaml</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -206,11 +210,18 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
-            <groupId>com.amihaiemil.web</groupId>
-            <artifactId>eo-yaml</artifactId>
-            <version>5.1.4</version>
+            <groupId>com.github.Carleslc</groupId>
+            <artifactId>Simple-YAML</artifactId>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>

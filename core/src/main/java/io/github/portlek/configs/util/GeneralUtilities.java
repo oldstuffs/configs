@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import java.io.*;
 import java.net.URLConnection;
@@ -36,6 +35,7 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 @UtilityClass
 public class GeneralUtilities {

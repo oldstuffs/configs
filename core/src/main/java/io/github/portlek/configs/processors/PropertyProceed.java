@@ -57,7 +57,7 @@ public final class PropertyProceed {
 
     @NotNull
     public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
-                                  @NotNull final String path) {
+                                       @NotNull final String path) {
         // noinspection unchecked
         final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
         return CfgSection.getProvidedClass(aClass)
@@ -70,7 +70,7 @@ public final class PropertyProceed {
 
     @NotNull
     public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
-                                  @NotNull final String path) {
+                                       @NotNull final String path) {
         return CfgSection.getProvidedClass(fieldClass)
             .map(objectProvided -> objectProvided.get(parent, path))
             .orElseGet(() ->

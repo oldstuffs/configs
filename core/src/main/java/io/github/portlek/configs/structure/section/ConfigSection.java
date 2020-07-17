@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.structure.section;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.provided.LanguageableProvider;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
@@ -37,6 +36,7 @@ import java.util.Objects;
 import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 public class ConfigSection implements CfgSection {
 

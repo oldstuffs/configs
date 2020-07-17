@@ -50,8 +50,8 @@ public final class BukkitSoundProvider implements Provided<PlayableSound> {
     @Override
     public Optional<PlayableSound> get(@NotNull final CfgSection section, @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        final Optional<Float> volume = section.getFloat(fnlpath + "volume");
-        final Optional<Float> pitch = section.getFloat(fnlpath + "pitch");
+        final Optional<Double> volume = section.getDouble(fnlpath + "volume");
+        final Optional<Double> pitch = section.getDouble(fnlpath + "pitch");
         final Optional<Sound> sound = section.getString(fnlpath + "sound")
             .flatMap(XSound::matchXSound)
             .map(XSound::parseSound)

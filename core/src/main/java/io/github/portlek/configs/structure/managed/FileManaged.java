@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.structure.managed;
 
-import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.structure.section.ConfigSection;
 import java.io.File;
 import java.util.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public class FileManaged extends ConfigSection implements FlManaged {
 

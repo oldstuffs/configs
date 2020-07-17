@@ -27,7 +27,6 @@ package io.github.portlek.configs.bukkit.provided;
 
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
 import io.github.portlek.bukkitversion.BukkitVersion;
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
@@ -35,6 +34,7 @@ import java.util.Map;
 import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 

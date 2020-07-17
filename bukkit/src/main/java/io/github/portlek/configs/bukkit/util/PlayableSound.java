@@ -39,16 +39,16 @@ public final class PlayableSound {
     @NotNull
     private final Sound sound;
 
-    private final float volume;
+    private final Double volume;
 
-    private final float pitch;
+    private final Double pitch;
 
     public void play(@NotNull final Player player) {
         this.play(player, player.getLocation());
     }
 
     public void play(@NotNull final Player player, @NotNull final Location location) {
-        player.playSound(location, this.sound, this.volume, this.pitch);
+        player.playSound(location, this.sound, this.volume.floatValue(), this.pitch.floatValue());
     }
 
 }

@@ -25,22 +25,25 @@
 
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.files.json.minimaljson.Json;
 import io.github.portlek.configs.files.json.minimaljson.JsonObject;
 import io.github.portlek.configs.files.json.minimaljson.JsonValue;
 import io.github.portlek.configs.files.json.minimaljson.WriterConfig;
 import java.io.File;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public final class JsonConfiguration extends FileConfiguration {
 
     private static final String BLANK_CONFIG = "{}\n";
 
+    @SneakyThrows
     public static JsonConfiguration loadConfiguration(@NotNull final File file) {
         return JsonConfiguration.loadConfiguration(new JsonConfiguration(), file);
     }
 
+    @SneakyThrows
     private static JsonConfiguration loadConfiguration(@NotNull final JsonConfiguration config,
                                                        @NotNull final File file) {
         config.load(file);
@@ -68,6 +71,11 @@ public final class JsonConfiguration extends FileConfiguration {
             return;
         }
         Helper.convertMapToSection(parse.asObject(), this);
+    }
+
+    @Override
+    protected String buildHeader() {
+        return "";
     }
 
     @NotNull

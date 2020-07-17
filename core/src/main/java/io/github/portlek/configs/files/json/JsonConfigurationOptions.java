@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.files.json;
 
-import io.github.portlek.configs.configuration.file.FileConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfigurationOptions;
 
 public class JsonConfigurationOptions extends FileConfigurationOptions {
 
@@ -42,15 +42,15 @@ public class JsonConfigurationOptions extends FileConfigurationOptions {
 
     @NotNull
     @Override
-    public final JsonConfigurationOptions pathSeparator(final char value) {
-        super.pathSeparator(value);
+    public final JsonConfigurationOptions copyDefaults(final boolean value) {
+        super.copyDefaults(value);
         return this;
     }
 
     @NotNull
     @Override
-    public final JsonConfigurationOptions copyDefaults(final boolean value) {
-        super.copyDefaults(value);
+    public final JsonConfigurationOptions pathSeparator(final char value) {
+        super.pathSeparator(value);
         return this;
     }
 

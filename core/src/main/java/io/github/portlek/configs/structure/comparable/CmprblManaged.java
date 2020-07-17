@@ -26,7 +26,6 @@
 package io.github.portlek.configs.structure.comparable;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.processors.ComparableConfigProceed;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
@@ -40,6 +39,7 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
 

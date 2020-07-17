@@ -26,13 +26,14 @@
 package io.github.portlek.configs.structure.managed;
 
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.processors.ConfigProceed;
 import io.github.portlek.configs.structure.section.CfgSection;
 import java.io.File;
 import java.util.Collection;
 import java.util.Optional;
+import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface FlManaged extends CfgSection {
 
@@ -52,6 +53,7 @@ public interface FlManaged extends CfgSection {
     default void onLoad() {
     }
 
+    @SneakyThrows
     default void save() {
         this.getConfigurationSection().save(this.getFile());
     }

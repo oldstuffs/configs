@@ -27,7 +27,6 @@ package io.github.portlek.configs.structure.section;
 
 import io.github.portlek.configs.annotations.ConfigSerializable;
 import io.github.portlek.configs.annotations.Unstable;
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.provided.Provided;
 import io.github.portlek.configs.provided.ProvidedGet;
 import io.github.portlek.configs.provided.ProvidedSet;
@@ -41,6 +40,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.ConfigurationSection;
 
 public interface CfgSection {
 
@@ -176,11 +176,6 @@ public interface CfgSection {
     }
 
     @NotNull
-    default Float getOrSetFloat(@NotNull final String path, @NotNull final Float fallback) {
-        return this.getOrSetGeneric(path, fallback, this::getFloat);
-    }
-
-    @NotNull
     default Boolean getOrSetBoolean(@NotNull final String path, @NotNull final Boolean fallback) {
         return this.getOrSetGeneric(path, fallback, this::getBoolean);
     }
@@ -236,8 +231,8 @@ public interface CfgSection {
     }
 
     @NotNull
-    default List<Map<Object, Object>> getOrSetMapList(@NotNull final String path,
-                                                      @NotNull final List<Map<Object, Object>> fallback) {
+    default List<Map<?, ?>> getOrSetMapList(@NotNull final String path,
+                                            @NotNull final List<Map<?, ?>> fallback) {
         return this.getOrSetGeneric(path, fallback, this::getMapList);
     }
 
@@ -351,14 +346,6 @@ public interface CfgSection {
 
     default double getDouble(@NotNull final String path, final double def) {
         return this.getConfigurationSection().getDouble(path, def);
-    }
-
-    default Optional<Float> getFloat(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getFloat);
-    }
-
-    default float getFloat(@NotNull final String path, final float def) {
-        return this.getConfigurationSection().getFloat(path, def);
     }
 
     default Optional<Long> getLong(@NotNull final String path) {
@@ -586,14 +573,15 @@ public interface CfgSection {
     }
 
     @NotNull
-    default Optional<List<Map<Object, Object>>> getMapList(@NotNull final String path) {
-        return this.getGeneric(path, this.getConfigurationSection()::getMapList);
+    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path) {
+        return this.getGeneric(path, s ->
+            this.getConfigurationSection().getMapList(s));
     }
 
     @NotNull
-    default Optional<List<Map<Object, Object>>> getMapList(@NotNull final String path,
-                                                           @Nullable final List<Map<Object, Object>> def) {
-        final Optional<List<Map<Object, Object>>> generic = this.getMapList(path);
+    default Optional<List<Map<?, ?>>> getMapList(@NotNull final String path,
+                                                 @Nullable final List<Map<?, ?>> def) {
+        final Optional<List<Map<?, ?>>> generic = this.getMapList(path);
         if (generic.isPresent()) {
             return generic;
         }
@@ -601,13 +589,13 @@ public interface CfgSection {
     }
 
     @NotNull
-    default List<Map<Object, Object>> getMapListOrEmpty(@NotNull final String path) {
+    default List<Map<?, ?>> getMapListOrEmpty(@NotNull final String path) {
         return this.getMapList(path).orElse(new ArrayList<>());
     }
 
     @NotNull
-    default List<Map<Object, Object>> getMapListOrEmpty(@NotNull final String path,
-                                                        @Nullable final List<Map<Object, Object>> def) {
+    default List<Map<?, ?>> getMapListOrEmpty(@NotNull final String path,
+                                              @Nullable final List<Map<?, ?>> def) {
         return this.getMapList(path, def).orElse(new ArrayList<>());
     }
 

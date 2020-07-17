@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.structure.comparable;
 
-import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.structure.managed.FileManaged;
 import io.github.portlek.configs.structure.managed.FlManaged;
 import java.io.File;
@@ -35,6 +34,7 @@ import java.util.Optional;
 import java.util.Set;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public abstract class ComparableManaged<S extends CmprblManaged<S>> extends FileManaged implements CmprblManaged<S> {
 
