@@ -24,4 +24,11 @@ subprojects {
         annotationProcessor("org.projectlombok:lombok:1.18.12")
         testCompile("org.junit.jupiter:junit-jupiter:5.6.2")
     }
+
+    shadowJar {
+        minimize()
+        setArchivesBaseName(this.name)
+        archiveClassifier.set("")
+        archiveVersion.set("")
+    }
 }
