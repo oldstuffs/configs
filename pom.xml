@@ -112,10 +112,6 @@
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <relocations>
                                 <relocation>
-                                    <pattern>org.simpleyaml</pattern>
-                                    <shadedPattern>io.github.portlek.configs.files.yaml.simpleyaml</shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>org.yaml</pattern>
                                     <shadedPattern>io.github.portlek.configs.files.yaml.snakeyaml</shadedPattern>
                                 </relocation>
