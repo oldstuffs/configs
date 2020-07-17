@@ -3,10 +3,6 @@ plugins {
     id "com.bmuschko.nexus" version "2.3.1"
 }
 
-task gradleVersion(type: Wrapper) {
-    gradleVersion = '6.5.1'
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
@@ -37,7 +33,6 @@ subprojects {
     }
 
     shadowJar {
-        depend this.wrapper
         minimize()
         setArchivesBaseName(this.name)
         archiveClassifier.set("")
@@ -94,4 +89,8 @@ subprojects {
         snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
 
+}
+
+task gradleVersion(type: Wrapper) {
+    gradleVersion = '6.5.1'
 }
