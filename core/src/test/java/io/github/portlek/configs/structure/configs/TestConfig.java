@@ -23,24 +23,33 @@
  *
  */
 
-package io.github.portlek.configs.structure;
+package io.github.portlek.configs.structure.configs;
 
-import io.github.portlek.configs.structure.configs.TestConfig;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import io.github.portlek.configs.annotations.Config;
+import io.github.portlek.configs.annotations.Instance;
+import io.github.portlek.configs.annotations.Property;
+import io.github.portlek.configs.annotations.Section;
+import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.structure.section.ConfigSection;
 
-final class RunnerTest {
+@Config("config")
+public final class TestConfig extends FileManaged {
 
-    private static final TestConfig TEST_CONFIG = new TestConfig();
+    @Property
+    public String test = "test";
 
-    @BeforeAll
-    static void before() {
-        RunnerTest.TEST_CONFIG.load();
-    }
+    @Instance
+    public TestConfig.TestSection section = new TestConfig.TestSection();
 
-    @Test
-    void readTest() {
-        System.out.println(TEST_CONFIG.getConfigurationSection().getValues(false));
+    @Section("test-section")
+    public static final class TestSection extends ConfigSection {
+
+        @Property
+        public String test = "test";
+
+        @Property
+        public String test_2 = "test-2";
+
     }
 
 }

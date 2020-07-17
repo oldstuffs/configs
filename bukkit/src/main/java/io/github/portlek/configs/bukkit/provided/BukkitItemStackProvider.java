@@ -47,7 +47,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
         final String fnlpath = GeneralUtilities.putDot(path);
         this.to(section.getOrCreateSection(fnlpath.substring(0, fnlpath.length() - 1))
                 .getConfigurationSection(),
-            itemStack);
+            ItemStackUtil.to(itemStack));
     }
 
     @NotNull
@@ -59,11 +59,10 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                 .getConfigurationSection().getValues(false));
     }
 
-    private void to(@NotNull final ConfigurationSection section, @NotNull final ItemStack itemStack) {
-        final Map<String, Object> map = ItemStackUtil.to(itemStack);
+    private void to(@NotNull final ConfigurationSection section, @NotNull final Map<String, Object> map) {
         map.forEach((key, value) -> {
             if (value instanceof Map<?, ?>) {
-                this.to(section.createSection(key), itemStack);
+                this.to(section.createSection(key), (Map<String, Object>) value);
             } else {
                 section.set(key, value);
             }
