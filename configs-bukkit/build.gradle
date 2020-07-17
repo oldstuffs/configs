@@ -1,0 +1,12 @@
+plugins {
+    id 'kr.entree.spigradle' version '2.0.1'
+}
+
+repositories {
+    spigot()
+}
+
+dependencies {
+    implementation(":configs-core")
+    compileOnly spigot()
+}
