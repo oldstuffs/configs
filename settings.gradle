@@ -1,2 +1,2 @@
 rootProject.name = 'configs-parent'
-
+include("configs-core")

@@ -1,0 +1,16 @@
+repositories {
+    maven {
+        url 'https://jitpack.io'
+    }
+}
+
+dependencies {
+    implementation("com.github.Carleslc:Simple-YAML:1.6.1")
+}
+
+shadowJar {
+    minimize()
+    setArchivesBaseName(this.name)
+    archiveClassifier.set("")
+    archiveVersion.set("")
+}

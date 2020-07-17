@@ -1,6 +1,5 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "6.0.0"
-    id "com.github.ben-manes.versions" version "0.29.0"
 }
 
 subprojects {
@@ -9,7 +8,7 @@ subprojects {
     apply plugin: 'com.github.johnrengelman.shadow'
 
     group = "io.github.portlek"
-    version = ${configsVersion}
+    version = properties.configsVersion
 
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
