@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.ConfigurationSection;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
@@ -42,7 +41,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                     @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
         this.to(section.getOrCreateSection(
-            fnlpath.substring(0, fnlpath.length() - 1)).getConfigurationSection(),
+            fnlpath.substring(0, fnlpath.length() - 1)),
             ItemStackUtil.to(itemStack));
     }
 
@@ -55,7 +54,7 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
                 .getConfigurationSection().getValues(false));
     }
 
-    private void to(@NotNull final ConfigurationSection section, @NotNull final Map<String, Object> map) {
+    private void to(@NotNull final CfgSection section, @NotNull final Map<String, Object> map) {
         map.forEach((key, value) -> {
             if (value instanceof Map<?, ?>) {
                 this.to(section.createSection(key), (Map<String, Object>) value);

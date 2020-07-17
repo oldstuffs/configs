@@ -200,19 +200,7 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <dependency>
-            <groupId>com.github.Carleslc</groupId>
-            <artifactId>Simple-YAML</artifactId>
-            <version>1.6.1</version>
-        </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>reflection</artifactId>
