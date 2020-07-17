@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.files;
 
-import io.github.portlek.configs.configuration.file.FileConfiguration;
 import io.github.portlek.configs.files.json.JsonConfiguration;
-import io.github.portlek.configs.files.yaml.YamlConfiguration;
 import java.io.File;
 import java.util.function.Function;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.configuration.file.YamlConfiguration;
 
 public enum FileType {
 
