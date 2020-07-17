@@ -38,6 +38,7 @@ subprojects {
         archiveClassifier.set("")
         archiveVersion.set("")
     }
+
     modifyPom {
         project {
             name 'configs'
@@ -75,14 +76,16 @@ subprojects {
 
         }
     }
+
     extraArchive {
         sources = false
         tests = true
         javadoc = false
     }
+
     nexus {
         sign = true
-        repositoryUrl = 'http://localhost:8081/nexus/content/repositories/internal/'
-        snapshotRepositoryUrl = 'http://localhost:8081/nexus/content/repositories/internal-snapshots/'
+        repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+        snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
 }
