@@ -38,9 +38,6 @@ import org.simpleyaml.configuration.ConfigurationSection;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
-    private static final int VERSION = new BukkitVersion()
-        .minor();
-
     @Override
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
                     @NotNull final String path) {
