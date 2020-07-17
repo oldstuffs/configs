@@ -45,8 +45,8 @@ public final class BukkitItemStackProvider implements Provided<ItemStack> {
     public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
                     @NotNull final String path) {
         final String fnlpath = GeneralUtilities.putDot(path);
-        this.to(section.getOrCreateSection(fnlpath.substring(0, fnlpath.length() - 1))
-                .getConfigurationSection(),
+        this.to(section.getOrCreateSection(
+            fnlpath.substring(0, fnlpath.length() - 1)).getConfigurationSection(),
             ItemStackUtil.to(itemStack));
     }
 
