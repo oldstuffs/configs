@@ -15,10 +15,15 @@ subprojects {
 
     repositories {
         mavenCentral()
+        jcenter()
+        maven {
+            url 'https://jitpack.io/'
+        }
     }
 
     dependencies {
         implementation("io.github.portlek:reflection:3.1.2")
+        implementation("com.github.Carleslc:Simple-YAML:1.6.1")
         compileOnly("org.jetbrains:annotations:19.0.0")
         compileOnly("org.projectlombok:lombok:1.18.12")
         annotationProcessor("org.projectlombok:lombok:1.18.12")
