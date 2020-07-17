@@ -1,0 +1,27 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.0.0"
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    group = "io.github.portlek"
+    version = "1.0-SNAPSHOT"
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation("io.github.portlek:reflection:3.1.2")
+        compileOnly("org.jetbrains:annotations:19.0.0")
+        compileOnly("org.projectlombok:lombok:1.18.12")
+        annotationProcessor("org.projectlombok:lombok:1.18.12")
+        testCompile("org.junit.jupiter:junit-jupiter:5.6.2")
+    }
+}
