@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    implementation(":configs-core")
+    implementation project(":configs-core")
     compileOnly spigot()
 }
