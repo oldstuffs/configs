@@ -8,8 +8,10 @@ architect:
   - portlek
 merge:
   script: |
+    chmod +x gradlew
     ./gradlew shadowjar
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
+    chmod +x gradlew
     ./gradlew -PconfigsVersion="${tag}" uploadArchives
