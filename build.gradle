@@ -1,13 +1,12 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "6.0.0"
-    id "com.bmuschko.nexus" version "2.3.1"
 }
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
+    apply plugin: 'maven'
+    apply plugin: 'signing'
     apply plugin: 'com.github.johnrengelman.shadow'
-    apply plugin: 'com.bmuschko.nexus'
 
     group = "io.github.portlek"
     version = properties.configsVersion
@@ -32,6 +31,16 @@ subprojects {
         testCompile("org.junit.jupiter:junit-jupiter:5.6.2")
     }
 
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
     shadowJar {
         minimize()
         setArchivesBaseName(this.name)
@@ -39,56 +48,57 @@ subprojects {
         archiveVersion.set("")
     }
 
-    modifyPom {
-        project {
-            name 'configs'
-            description 'Annotation based configuration library for any Java project.'
-            url 'https://github.com/portlek/configs'
-            inceptionYear '2019'
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
 
-            scm {
-                url 'https://github.com/portlek/configs'
-                connection 'scm:git:git://github.com/portlek/configs.git'
-                developerConnection 'scm:git:ssh://github.com/portlek/configs.git'
-            }
+    signing {
+        sign configurations.archives
+    }
 
-            licenses {
-                license {
-                    name 'MIT License'
-                    url 'https://opensource.org/licenses/mit-license.php'
-                    distribution 'repo'
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: nexusUsername, password: nexusPassword)
                 }
-            }
 
-            developers {
-                developer {
-                    id 'portlek'
-                    name 'Hasan Demirtaş'
-                    email 'utsukushihito@outlook.com'
-                    url 'https://github.com/portlek'
-                    roles {
-                        role 'Architect'
-                        role 'Developer'
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: nexusUsername, password: nexusPassword)
+                }
+
+                pom.project {
+                    name 'configs'
+                    packaging 'jar'
+                    description 'Annotation based configuration library for any Java project.'
+                    url 'https://github.com/portlek/configs'
+
+                    scm {
+                        connection 'scm:svn:http://foo.googlecode.com/svn/trunk/'
+                        developerConnection 'scm:svn:https://foo.googlecode.com/svn/trunk/'
+                        url 'http://foo.googlecode.com/svn/trunk/'
                     }
-                    timezone '+3'
+
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'manfred'
+                            name 'Manfred Moser'
+                            email 'manfred@sonatype.com'
+                        }
+                    }
                 }
             }
-
         }
     }
-
-    extraArchive {
-        sources = false
-        tests = true
-        javadoc = false
-    }
-
-    nexus {
-        sign = true
-        repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-        snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
-
 }
 
 task gradleVersion(type: Wrapper) {
