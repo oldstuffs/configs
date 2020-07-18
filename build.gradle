@@ -76,23 +76,28 @@ subprojects {
                     url 'https://github.com/portlek/configs'
 
                     scm {
-                        connection 'scm:svn:http://foo.googlecode.com/svn/trunk/'
-                        developerConnection 'scm:svn:https://foo.googlecode.com/svn/trunk/'
-                        url 'http://foo.googlecode.com/svn/trunk/'
+                        connection 'scm:git:git://github.com/portlek/configs.git'
+                        developerConnection 'scm:git:ssh://github.com/portlek/configs.git'
+                        url 'https://github.com/portlek/configs'
                     }
 
                     licenses {
                         license {
-                            name 'The Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            name 'MIT License'
+                            url 'https://opensource.org/licenses/mit-license.php'
                         }
                     }
 
                     developers {
                         developer {
-                            id 'manfred'
-                            name 'Manfred Moser'
-                            email 'manfred@sonatype.com'
+                            id 'portlek'
+                            name 'Hasan Demirtaş'
+                            email 'hasan@infumia.com.tr'
+                            roles {
+                                role 'Architect'
+                                role 'Developer'
+                            }
+                            timezone '+3'
                         }
                     }
                 }
