@@ -10,9 +10,9 @@ architect:
 merge:
   script: |
     chmod +x gradlew
-    ./gradlew shadowjar
+    ./gradlew -Dfile.encoding=utf-8 shadowjar
 release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
     chmod +x gradlew
-    ./gradlew -Dgradle.user.home="/home/r" -PconfigsVersion="${tag}" uploadArchives
+    ./gradlew -Dgradle.user.home="/home/r" -Dfile.encoding=utf-8 -PconfigsVersion="${tag}" uploadArchives
