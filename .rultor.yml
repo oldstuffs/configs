@@ -4,6 +4,7 @@ assets:
   settings.xml: "portlek/secret-repo#configs/settings.xml"
   pubring.gpg: "portlek/secret-repo#configs/pubring.gpg"
   secring.gpg: "portlek/secret-repo#configs/secring.gpg"
+  "gradle.properties": "portlek/secret-repo#configs/gradle.properties" 
 architect:
   - portlek
 merge:
@@ -14,4 +15,4 @@ release:
   script: |-
     [[ "${tag}" =~ ^[0-9]+(\.[0-9]+)*$ ]] || exit -1
     chmod +x gradlew
-    ./gradlew -PconfigsVersion="${tag}" uploadArchives
+    ./gradlew -Dgradle.user.home="/home/r" -PconfigsVersion="${tag}" uploadArchives
