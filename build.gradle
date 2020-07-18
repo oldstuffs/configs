@@ -1,11 +1,21 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-nexus-plugin:2.3.1'
+    }
+}
+
 plugins {
     id "com.github.johnrengelman.shadow" version "6.0.0"
+    id 'io.codearte.nexus-staging' version '0.11.0'
 }
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'maven'
-    apply plugin: 'signing'
+    apply plugin: 'maven-publish'
+    apply plugin: 'com.bmuschko.nexus'
     apply plugin: 'com.github.johnrengelman.shadow'
 
     compileJava {
@@ -35,16 +45,6 @@ subprojects {
         testCompile("org.junit.jupiter:junit-jupiter:5.6.2")
     }
 
-    task javadocJar(type: Jar) {
-        classifier = 'javadoc'
-        from javadoc
-    }
-
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
     shadowJar {
         minimize()
         setArchivesBaseName(this.name)
@@ -52,61 +52,51 @@ subprojects {
         archiveVersion.set("")
     }
 
-    artifacts {
-        archives javadocJar, sourcesJar
+    extraArchive {
+        sources = true
+        tests = true
+        javadoc = true
     }
 
-    signing {
-        sign configurations.archives
-    }
+    modifyPom {
+        project {
+            name 'configs'
+            packaging 'jar'
+            description 'Annotation based configuration library for any Java project.'
+            url 'https://github.com/portlek/configs'
 
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+            scm {
+                connection 'scm:git:git://github.com/portlek/configs.git'
+                developerConnection 'scm:git:ssh://github.com/portlek/configs.git'
+                url 'https://github.com/portlek/configs'
+            }
 
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: nexusUsername, password: nexusPassword)
+            licenses {
+                license {
+                    name 'MIT License'
+                    url 'https://opensource.org/licenses/mit-license.php'
                 }
+            }
 
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: nexusUsername, password: nexusPassword)
-                }
-
-                pom.project {
-                    name 'configs'
-                    packaging 'jar'
-                    description 'Annotation based configuration library for any Java project.'
-                    url 'https://github.com/portlek/configs'
-
-                    scm {
-                        connection 'scm:git:git://github.com/portlek/configs.git'
-                        developerConnection 'scm:git:ssh://github.com/portlek/configs.git'
-                        url 'https://github.com/portlek/configs'
+            developers {
+                developer {
+                    id 'portlek'
+                    name 'Hasan Demirtaş'
+                    email 'hasan@infumia.com.tr'
+                    roles {
+                        role 'Architect'
+                        role 'Developer'
                     }
-
-                    licenses {
-                        license {
-                            name 'MIT License'
-                            url 'https://opensource.org/licenses/mit-license.php'
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id 'portlek'
-                            name 'Hasan Demirtaş'
-                            email 'hasan@infumia.com.tr'
-                            roles {
-                                role 'Architect'
-                                role 'Developer'
-                            }
-                            timezone '+3'
-                        }
-                    }
+                    timezone '+3'
                 }
             }
         }
+    }
+
+    nexus {
+        sign = true
+        repositoryUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+        snapshotRepositoryUrl = 'https://oss.sonatype.org/content/repositories/snapshots/'
     }
 }
 
