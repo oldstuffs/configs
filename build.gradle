@@ -28,6 +28,10 @@ subprojects {
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
 
+    task gradleVersion(type: Wrapper) {
+        gradleVersion = '6.5.1'
+    }
+
     repositories {
         mavenCentral()
         jcenter()
@@ -103,8 +107,4 @@ subprojects {
         packageGroup = 'io.github.portlek'
         stagingProfileId = "io.github.portlek"
     }
-}
-
-task gradleVersion(type: Wrapper) {
-    gradleVersion = '6.5.1'
 }
