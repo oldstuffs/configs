@@ -8,6 +8,10 @@ subprojects {
     apply plugin: 'signing'
     apply plugin: 'com.github.johnrengelman.shadow'
 
+    compileJava {
+        options.encoding = 'UTF-8'
+    }
+
     group = "io.github.portlek"
     version = properties.configsVersion
 
