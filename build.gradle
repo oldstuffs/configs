@@ -62,11 +62,13 @@ subprojects {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                 repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: nexusUsername, password: nexusPassword)
+                    authentication(userName: hasProperty('nexusUsername') ? nexusUsername : 'null',
+                        password: hasProperty('nexusPassword') ? nexusPassword: 'null')
                 }
 
                 snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: nexusUsername, password: nexusPassword)
+                    authentication(userName: hasProperty('nexusUsername') ? nexusUsername : 'null',
+                        password: hasProperty('nexusPassword') ? nexusPassword: 'null')
                 }
 
                 pom.project {
