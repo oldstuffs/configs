@@ -72,8 +72,8 @@ subprojects {
 
     modifyPom {
         project {
-            name 'configs'
-            packaging 'jar'
+            name project.name
+            packaging project.jar.enabled ? 'jar' : 'pom'
             description 'Annotation based configuration library for any Java project.'
             url 'https://github.com/portlek/configs'
 
