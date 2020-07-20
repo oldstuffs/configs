@@ -27,12 +27,12 @@ package io.github.portlek.configs.bukkit;
 
 import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.bukkitlocation.LocationUtil;
+import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
 import io.github.portlek.configs.bukkit.util.PlayableSound;
 import io.github.portlek.configs.bukkit.util.SentTitle;
-import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.section.ConfigSection;
 import java.util.Optional;
 import org.bukkit.Location;
@@ -50,7 +50,7 @@ public class BukkitSection extends ConfigSection implements BkktSection {
                 .map(XMaterial::matchXMaterial)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
+                .flatMap(XMaterial::parseMaterial));
         CfgSection.addProvidedSetMethod(Material.class, (material, section, path) -> section.set(path, material.name()));
         CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
             section.getString(s)
