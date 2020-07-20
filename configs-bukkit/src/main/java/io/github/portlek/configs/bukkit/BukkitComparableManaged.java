@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.comparable.CmprblManaged;
-import io.github.portlek.configs.structure.comparable.ComparableManaged;
+import io.github.portlek.configs.CmprblManaged;
+import io.github.portlek.configs.comparable.ComparableManaged;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 

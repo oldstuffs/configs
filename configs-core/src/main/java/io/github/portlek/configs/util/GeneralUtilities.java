@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.files.json.minimaljson.JsonValue;
+import io.github.portlek.configs.json.minimaljson.JsonValue;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
@@ -54,8 +54,7 @@ public class GeneralUtilities {
     @NotNull
     public Optional<UUID> parseUniqueId(@NotNull final String uniqueId) {
         try {
-            final Optional<String> optional = Optional.of(uniqueId);
-            return optional.map(UUID::fromString);
+            return Optional.of(uniqueId).map(UUID::fromString);
         } catch (final IllegalArgumentException e) {
             return Optional.empty();
         }
@@ -91,6 +90,12 @@ public class GeneralUtilities {
     @SneakyThrows
     @NotNull
     public void saveResource(@NotNull final File outFile, @NotNull final String path) {
+        GeneralUtilities.saveResource(GeneralUtilities.class, outFile, path);
+    }
+
+    @SneakyThrows
+    @NotNull
+    public void saveResource(@NotNull final Class<?> clazz, @NotNull final File outFile, @NotNull final String path) {
         if (path.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be empty");
         }
@@ -99,7 +104,7 @@ public class GeneralUtilities {
             outFile.createNewFile();
         }
         try (final OutputStream out = new FileOutputStream(outFile);
-             final InputStream input = GeneralUtilities.getResource(path).orElseThrow(() ->
+             final InputStream input = GeneralUtilities.getResource(clazz, path).orElseThrow(() ->
                  new IllegalArgumentException("The embedded resource '" + path + "' cannot be found!"))) {
             final byte[] buf = new byte[1024];
             int len;
@@ -111,7 +116,12 @@ public class GeneralUtilities {
 
     @NotNull
     public Optional<InputStream> getResource(@NotNull final String path) {
-        return Optional.ofNullable(GeneralUtilities.class.getClassLoader().getResource(path))
+        return GeneralUtilities.getResource(GeneralUtilities.class, path);
+    }
+
+    @NotNull
+    public Optional<InputStream> getResource(@NotNull final Class<?> clazz, @NotNull final String path) {
+        return Optional.ofNullable(clazz.getClassLoader().getResource(path))
             .flatMap(url -> {
                 try {
                     final URLConnection connection = url.openConnection();

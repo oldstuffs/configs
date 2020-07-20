@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.annotations;
 
-import io.github.portlek.configs.files.FileType;
+import io.github.portlek.configs.util.FileType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

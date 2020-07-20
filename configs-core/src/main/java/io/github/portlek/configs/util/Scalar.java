@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.structure.linked.LnkdManaged;
+import io.github.portlek.configs.LnkdManaged;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;

@@ -26,8 +26,8 @@
 package io.github.portlek.configs.bukkit.provided;
 
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
-import io.github.portlek.configs.provided.Provided;
-import io.github.portlek.configs.structure.section.CfgSection;
+import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Map;
 import java.util.Optional;

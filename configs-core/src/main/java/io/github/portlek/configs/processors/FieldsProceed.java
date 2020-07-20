@@ -25,10 +25,10 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.annotations.Instance;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
-import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.reflection.RefClass;
 import io.github.portlek.reflection.clazz.ClassOf;
 import lombok.RequiredArgsConstructor;

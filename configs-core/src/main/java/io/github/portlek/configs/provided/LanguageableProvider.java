@@ -25,10 +25,11 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.CmprblManaged;
+import io.github.portlek.configs.FlManaged;
+import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.processors.PropertyProceed;
-import io.github.portlek.configs.structure.comparable.CmprblManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
-import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.Languageable;
 import java.util.Optional;
 import java.util.function.Supplier;

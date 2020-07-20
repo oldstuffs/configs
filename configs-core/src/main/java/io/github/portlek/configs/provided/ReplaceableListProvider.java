@@ -25,8 +25,9 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.replaceable.ReplaceableList;
-import io.github.portlek.configs.structure.section.CfgSection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 

@@ -25,10 +25,10 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.CmprblManaged;
+import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
-import io.github.portlek.configs.structure.comparable.CmprblManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;

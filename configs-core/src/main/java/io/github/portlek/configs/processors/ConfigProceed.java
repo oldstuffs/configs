@@ -25,9 +25,9 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.files.FileType;
-import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.io.File;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +66,8 @@ public final class ConfigProceed {
                         GeneralUtilities.basedir(this.managed.getClass()).getParentFile().getAbsolutePath())),
             name);
         if (this.config.copyDefault() && !file.exists()) {
-            GeneralUtilities.saveResource(file, GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
+            GeneralUtilities.saveResource(this.parentObject.getClass(), file,
+                GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
         } else if (!file.exists()) {
             file.getParentFile().mkdirs();
             file.createNewFile();

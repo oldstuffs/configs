@@ -25,9 +25,10 @@
 
 package io.github.portlek.configs.provided;
 
+import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.LnkdManaged;
+import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.processors.PropertyProceed;
-import io.github.portlek.configs.structure.linked.LnkdManaged;
-import io.github.portlek.configs.structure.section.CfgSection;
 import io.github.portlek.configs.util.Scalar;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;

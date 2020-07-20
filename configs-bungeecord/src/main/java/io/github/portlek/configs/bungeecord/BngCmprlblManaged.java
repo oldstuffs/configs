@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.bungeecord;
 
-import io.github.portlek.configs.structure.comparable.CmprblManaged;
-import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.CmprblManaged;
+import io.github.portlek.configs.FlManaged;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 

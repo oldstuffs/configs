@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.bungeecord;
 
-import io.github.portlek.configs.structure.managed.FileManaged;
+import io.github.portlek.configs.managed.FileManaged;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 

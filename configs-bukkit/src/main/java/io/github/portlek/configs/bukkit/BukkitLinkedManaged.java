@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.linked.LinkedManaged;
+import io.github.portlek.configs.linked.LinkedManaged;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;

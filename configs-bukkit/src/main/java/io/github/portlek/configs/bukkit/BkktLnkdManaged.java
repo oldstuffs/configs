@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.linked.LnkdManaged;
+import io.github.portlek.configs.LnkdManaged;
 
 public interface BkktLnkdManaged extends BkktManaged, LnkdManaged {
 

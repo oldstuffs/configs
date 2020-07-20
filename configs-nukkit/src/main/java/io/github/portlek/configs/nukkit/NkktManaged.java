@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.nukkit;
 
-import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.FlManaged;
 
 public interface NkktManaged extends NkktSection, FlManaged {
 

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.structure.managed.FlManaged;
+import io.github.portlek.configs.FlManaged;
 
 public interface BkktManaged extends BkktSection, FlManaged {
 

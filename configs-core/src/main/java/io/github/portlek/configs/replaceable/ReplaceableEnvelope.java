@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.replaceable;
 
+import io.github.portlek.configs.Replaceable;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
