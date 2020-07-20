@@ -1,3 +1,7 @@
+jar {
+    enabled = true
+}
+
 dependencies {
     implementation project(":configs-core")
 }

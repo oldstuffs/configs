@@ -1,3 +1,7 @@
+jar {
+    enabled = true
+}
+
 repositories {
     maven {
         url = 'https://repo.codemc.org/repository/maven-public'

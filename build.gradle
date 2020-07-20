@@ -18,6 +18,10 @@ subprojects {
     apply plugin: 'com.bmuschko.nexus'
     apply plugin: 'com.github.johnrengelman.shadow'
 
+    jar {
+        enabled = false
+    }
+
     compileJava {
         options.encoding = 'UTF-8'
     }
@@ -55,9 +59,9 @@ subprojects {
 
     shadowJar {
         minimize()
-        setArchivesBaseName(this.name)
+        setArchivesBaseName(project.name)
         archiveClassifier.set("")
-        archiveVersion.set("")
+        archiveVersion.set(project.version)
     }
 
     extraArchive {
