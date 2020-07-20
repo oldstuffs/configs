@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.json.minimaljson.JsonValue;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
@@ -34,8 +33,6 @@ import java.util.stream.Stream;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.simpleyaml.configuration.ConfigurationSection;
 
 @UtilityClass
 public class GeneralUtilities {
@@ -89,12 +86,6 @@ public class GeneralUtilities {
 
     @SneakyThrows
     @NotNull
-    public void saveResource(@NotNull final File outFile, @NotNull final String path) {
-        GeneralUtilities.saveResource(GeneralUtilities.class, outFile, path);
-    }
-
-    @SneakyThrows
-    @NotNull
     public void saveResource(@NotNull final Class<?> clazz, @NotNull final File outFile, @NotNull final String path) {
         if (path.isEmpty()) {
             throw new IllegalArgumentException("ResourcePath cannot be empty");
@@ -115,11 +106,6 @@ public class GeneralUtilities {
     }
 
     @NotNull
-    public Optional<InputStream> getResource(@NotNull final String path) {
-        return GeneralUtilities.getResource(GeneralUtilities.class, path);
-    }
-
-    @NotNull
     public Optional<InputStream> getResource(@NotNull final Class<?> clazz, @NotNull final String path) {
         return Optional.ofNullable(clazz.getClassLoader().getResource(path))
             .flatMap(url -> {
@@ -131,127 +117,6 @@ public class GeneralUtilities {
                 }
                 return Optional.empty();
             });
-    }
-
-    public Optional<Integer> toInt(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Number) {
-            return Optional.of(((Number) object).intValue());
-        }
-        try {
-            return Optional.of(Integer.parseInt(object.toString()));
-        } catch (final NumberFormatException ignored) {
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Double> toDouble(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Number) {
-            return Optional.of(((Number) object).doubleValue());
-        }
-        try {
-            return Optional.of(Double.parseDouble(object.toString()));
-        } catch (final NumberFormatException ignored) {
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Float> toFloat(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Number) {
-            return Optional.of(((Number) object).floatValue());
-        }
-        try {
-            return Optional.of(Float.parseFloat(object.toString()));
-        } catch (final NumberFormatException ignored) {
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Long> toLong(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Number) {
-            return Optional.of(((Number) object).longValue());
-        }
-        try {
-            return Optional.of(Long.parseLong(object.toString()));
-        } catch (final NumberFormatException ignored) {
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Byte> toByte(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Number) {
-            return Optional.of(((Number) object).byteValue());
-        }
-        try {
-            return Optional.of(Byte.parseByte(object.toString()));
-        } catch (final NumberFormatException ignored) {
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Short> toShort(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Number) {
-            return Optional.of(((Number) object).shortValue());
-        }
-        try {
-            return Optional.of(Short.parseShort(object.toString()));
-        } catch (final NumberFormatException ignored) {
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Boolean> toBoolean(@Nullable final Object object) {
-        if (object == null) {
-            return Optional.empty();
-        }
-        if (object instanceof Boolean) {
-            return Optional.of((Boolean) object);
-        }
-        if ("true".equalsIgnoreCase(object.toString())) {
-            return Optional.of(true);
-        }
-        if ("false".equalsIgnoreCase(object.toString())) {
-            return Optional.of(false);
-        }
-        return Optional.empty();
-    }
-
-    public Optional<Character> toCharacter(@Nullable final Object object) {
-        if (object instanceof Character) {
-            return Optional.of((Character) object);
-        }
-        return Optional.empty();
-    }
-
-    public void convertMapToSection(@NotNull final Map<?, ?> input,
-                                    @NotNull final ConfigurationSection section) {
-        final Map<String, Object> result = GeneralUtilities.deserialize(input);
-        for (final Map.Entry<?, ?> entry : result.entrySet()) {
-            final String key = entry.getKey().toString();
-            final Object value = entry.getValue();
-            if (value instanceof Map<?, ?>) {
-                GeneralUtilities.convertMapToSection((Map<?, ?>) value, section.createSection(key));
-            } else {
-                section.set(key, value);
-            }
-        }
     }
 
     @NotNull
@@ -272,23 +137,6 @@ public class GeneralUtilities {
                     }
                     return value;
                 }));
-    }
-
-    @Nullable
-    public Object parseNumber(@NotNull final JsonValue number) {
-        try {
-            return number.asInt();
-        } catch (final NumberFormatException e) {
-            try {
-                return number.asLong();
-            } catch (final NumberFormatException e1) {
-                try {
-                    return number.asDouble();
-                } catch (final NumberFormatException ignored) {
-                }
-            }
-        }
-        return null;
     }
 
     @NotNull

@@ -4,7 +4,7 @@ assets:
   settings.xml: "portlek/secret-repo#configs/settings.xml"
   pubring.gpg: "portlek/secret-repo#configs/pubring.gpg"
   secring.gpg: "portlek/secret-repo#configs/secring.gpg"
-  "gradle.properties": "portlek/secret-repo#configs/gradle.properties" 
+  "gradle.properties": "portlek/secret-repo#configs/gradle.properties"
 architect:
   - portlek
 merge:

@@ -30,8 +30,8 @@ import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.provided.LanguageableProvider;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
-import io.github.portlek.configs.replaceable.ReplaceableList;
-import io.github.portlek.configs.replaceable.ReplaceableString;
+import io.github.portlek.configs.replaceable.RpList;
+import io.github.portlek.configs.replaceable.RpString;
 import io.github.portlek.configs.util.Languageable;
 import java.util.Objects;
 import java.util.UUID;
@@ -43,8 +43,8 @@ public class ConfigSection implements CfgSection {
 
     static {
         CfgSection.PROVIDED.put(Languageable.class, new LanguageableProvider());
-        CfgSection.addProvidedClass(ReplaceableString.class, new ReplaceableStringProvider());
-        CfgSection.addProvidedClass(ReplaceableList.class, new ReplaceableListProvider());
+        CfgSection.addProvidedClass(RpString.class, new ReplaceableStringProvider());
+        CfgSection.addProvidedClass(RpList.class, new ReplaceableListProvider());
         CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
         CfgSection.addProvidedSetMethod(UUID.class, (uuid, sctn, path) -> sctn.set(path, uuid.toString()));
     }

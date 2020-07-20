@@ -26,8 +26,7 @@
 package io.github.portlek.configs.bukkit.util;
 
 import com.cryptomorin.xseries.messages.Titles;
-import io.github.portlek.configs.replaceable.ReplaceableString;
-import io.github.portlek.configs.util.MapEntry;
+import io.github.portlek.configs.replaceable.RpString;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -43,10 +42,10 @@ import org.jetbrains.annotations.NotNull;
 public final class SentTitle {
 
     @NotNull
-    private final ReplaceableString title;
+    private final RpString title;
 
     @NotNull
-    private final ReplaceableString subTitle;
+    private final RpString subTitle;
 
     private final int fadeIn;
 

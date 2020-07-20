@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.annotations;
 
-import io.github.portlek.configs.util.FileType;
+import io.github.portlek.configs.FileType;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -43,7 +43,7 @@ public @interface Config {
     String location() default "%basedir%";
 
     @NotNull
-    FileType type() default FileType.YAML;
+    Class<? extends FileType> type() default FileType.class;
 
     @NotNull
     String resourcePath() default "";

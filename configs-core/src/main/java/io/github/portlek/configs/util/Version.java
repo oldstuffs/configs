@@ -40,14 +40,14 @@ public final class Version {
     public static Version from(@NotNull final String versionString) {
         if (!versionString.contains(".")) {
             throw new UnsupportedOperationException("Make sure the string that you want to convert as a " +
-                "'io.github.portlek.configs.util.Version' class have '.' between version numbers!");
+                "'Version' class have '.' between version numbers!");
         }
 
         final String[] split = versionString.split("\\.");
 
         if (split.length != 2) {
             throw new UnsupportedOperationException("Make sure pattern from the string that you want to convert as a " +
-                "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
+                "'Version' class is like '<any-number>.<any-number>'");
         }
 
         try {
@@ -57,7 +57,7 @@ public final class Version {
             );
         } catch (final Exception exception) {
             throw new UnsupportedOperationException("Make sure pattern from the string that you want to convert as a " +
-                "'io.github.portlek.configs.util.Version' class is like '<any-number>.<any-number>'");
+                "'Version' class is like '<any-number>.<any-number>'");
         }
     }
 

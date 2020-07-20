@@ -30,7 +30,6 @@ import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.processors.PropertyProceed;
 import io.github.portlek.configs.util.GeneralUtilities;
-import io.github.portlek.configs.util.MapEntry;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.*;

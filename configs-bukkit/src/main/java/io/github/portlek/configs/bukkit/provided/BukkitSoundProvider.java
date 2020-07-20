@@ -26,9 +26,9 @@
 package io.github.portlek.configs.bukkit.provided;
 
 import com.cryptomorin.xseries.XSound;
-import io.github.portlek.configs.bukkit.util.PlayableSound;
-import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.bukkit.util.PlayableSound;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Objects;
 import java.util.Optional;

@@ -23,34 +23,13 @@
  *
  */
 
-package io.github.portlek.configs.replaceable;
+package io.github.portlek.configs;
 
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
-public final class ReplaceableString extends ReplaceableEnvelope<ReplaceableString, String> {
-
-    public ReplaceableString(@NotNull final String value) {
-        super(value);
-    }
+public interface FileType {
 
     @NotNull
-    @Override
-    public ReplaceableString self() {
-        return this;
-    }
-
-    @NotNull
-    @Override
-    public Supplier<ReplaceableString> newSelf(final String value) {
-        return () -> new ReplaceableString(value);
-    }
-
-    @Override
-    public void replace(@NotNull final AtomicReference<String> value, @NotNull final CharSequence regex,
-                        @NotNull final CharSequence replace) {
-        value.set(value.get().replace(regex, replace));
-    }
+    String suffix();
 
 }

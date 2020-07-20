@@ -25,11 +25,13 @@
 
 package io.github.portlek.configs.processors;
 
+import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
-import io.github.portlek.configs.util.FileType;
 import io.github.portlek.configs.util.GeneralUtilities;
+import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
@@ -52,12 +54,19 @@ public final class ConfigProceed {
 
     @SneakyThrows
     public void load() {
-        final FileType type = this.config.type();
+        final Class<? extends FileType> fileTypeClass = this.config.type();
+        final FileType fileType = new ClassOf<>(fileTypeClass).constructor()
+            .map(refConstructed -> refConstructed.create())
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .orElseThrow(() ->
+                new RuntimeException("No file type such " + fileTypeClass.getSimpleName() + '!'));
         final String name;
-        if (this.config.value().endsWith(type.suffix)) {
+        final String suffix = fileType.suffix();
+        if (this.config.value().endsWith(suffix)) {
             name = this.config.value();
         } else {
-            name = this.config.value() + type.suffix;
+            name = this.config.value() + suffix;
         }
         final File file = new File(
             GeneralUtilities.addSeparator(
@@ -72,7 +81,7 @@ public final class ConfigProceed {
             file.getParentFile().mkdirs();
             file.createNewFile();
         }
-        this.managed.setup(file, type.load(file));
+        this.managed.setup(file, fileType.load(file));
         new FieldsProceed(this.parentObject, this.managed).load();
         this.managed.save();
     }

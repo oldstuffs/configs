@@ -25,9 +25,9 @@
 
 package io.github.portlek.configs.bukkit.provided;
 
-import io.github.portlek.configs.bukkit.util.SentTitle;
-import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.Provided;
+import io.github.portlek.configs.bukkit.util.SentTitle;
 import io.github.portlek.configs.util.GeneralUtilities;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
