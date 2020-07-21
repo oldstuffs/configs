@@ -49,6 +49,7 @@ subprojects {
         implementation("io.github.portlek:jsongration:1.0")
         implementation("io.github.portlek:replaceable:1.0")
         implementation("io.github.portlek:version:1.0")
+        implementation("io.github.portlek:serializable:1.0")
         implementation("com.github.Carleslc:Simple-YAML:1.6.1")
         compileOnly("org.jetbrains:annotations:19.0.0")
         compileOnly("org.projectlombok:lombok:1.18.12")
