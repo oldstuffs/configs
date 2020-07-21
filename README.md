@@ -446,15 +446,6 @@ test: 'Türkçe kelimeler!'
 ```
 </details>
 
-## 3rd Party Libraries
-For JSON configuration https://github.com/dumptruckman/JsonConfiguration
-
-For YAML configuration https://github.com/Carleslc/Simple-YAML
-
-For YAML parsing https://github.com/decorators-squad/eo-yaml
-
-For JSON parsing https://github.com/ralfstx/minimal-json
-
 ## Supporters
 
 [![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
