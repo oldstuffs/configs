@@ -28,6 +28,7 @@ package io.github.portlek.configs.util;
 import java.io.*;
 import java.net.URLConnection;
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.SneakyThrows;
@@ -49,12 +50,17 @@ public class GeneralUtilities {
     }
 
     @NotNull
-    public Optional<UUID> parseUniqueId(@NotNull final String uniqueId) {
+    public <T> Optional<T> instanceOptional(@NotNull final Supplier<T> supplier) {
         try {
-            return Optional.of(uniqueId).map(UUID::fromString);
-        } catch (final IllegalArgumentException e) {
+            return Optional.ofNullable(supplier.get());
+        } catch (final Throwable exception) {
             return Optional.empty();
         }
+    }
+
+    @NotNull
+    public Optional<UUID> parseUniqueId(@NotNull final String uniqueId) {
+        return GeneralUtilities.instanceOptional(() -> UUID.fromString(uniqueId));
     }
 
     @SneakyThrows
