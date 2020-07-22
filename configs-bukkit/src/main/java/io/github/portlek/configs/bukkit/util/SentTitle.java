@@ -26,6 +26,8 @@
 package io.github.portlek.configs.bukkit.util;
 
 import com.cryptomorin.xseries.messages.Titles;
+import io.github.portlek.mapentry.MapEntry;
+import io.github.portlek.replaceable.rp.RpString;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
