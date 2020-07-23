@@ -4,6 +4,6 @@ jar {
 
 subprojects {
     dependencies {
-        implementation project(":configs-core")
+        compileOnly project(":configs-core")
     }
 }
