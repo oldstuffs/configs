@@ -1,8 +1,0 @@
-jar {
-    enabled = true
-}
-
-dependencies {
-    implementation("com.github.Carleslc.Simple-YAML:Simple-Yaml:master-SNAPSHOT")
-    compileOnly project(":configs-core")
-}

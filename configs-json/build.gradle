@@ -1,8 +1,0 @@
-jar {
-    enabled = true
-}
-
-dependencies {
-    implementation("io.github.portlek:jsongration:1.1")
-    compileOnly project(":configs-core")
-}
