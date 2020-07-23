@@ -38,6 +38,34 @@ shadowJar {
 
 
 ```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <version>3.2.4</version>
+            <configuration>
+                <!-- Other settings -->
+                <relocations>
+                    <relocation>
+                        <pattern>io.github.portlek.configs</pattern>
+                        <!-- Replace this -->
+                        <shadedPattern>your.package.path.to.relocate</shadedPattern>
+                    </relocation>
+                </relocations>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>shade</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+
 <dependencies>
     <!-- The main dependency(Required) -->
     <dependency>
@@ -64,34 +92,6 @@ shadowJar {
       <version>${version}</version>
     </dependency>
 </dependencies>
-```
-
-Also you have to make relocation for the library with;
-
-```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-shade-plugin</artifactId>
-    <version>3.2.4</version>
-    <configuration>
-        <!-- Other settings -->
-        <relocations>
-            <relocation>
-                <pattern>io.github.portlek.configs</pattern>
-                <!-- Replace this -->
-                <shadedPattern>your.package.path.to.relocate</shadedPattern>
-            </relocation>
-        </relocations>
-    </configuration>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
 ```
 
 ## Supporters
