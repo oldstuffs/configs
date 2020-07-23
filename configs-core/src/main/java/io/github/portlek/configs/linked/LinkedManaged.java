@@ -33,13 +33,11 @@ import io.github.portlek.configs.provided.ScalarProvider;
 import io.github.portlek.configs.util.Scalar;
 import io.github.portlek.mapentry.MapEntry;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
-import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 public class LinkedManaged extends FileManaged implements LnkdManaged {
 
