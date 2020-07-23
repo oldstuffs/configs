@@ -14,7 +14,7 @@ repositories {
 dependencies {
     implementation("io.github.portlek:bukkit-location:1.0")
     implementation("com.github.cryptomorin:XSeries:6.3.2.1")
-    implementation("io.github.portlek:BukkitItemBuilder:1.6.5")
+    implementation("io.github.portlek:BukkitItemBuilder:1.6.6")
     compileOnly project(":configs-core")
     compileOnly("org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT")
 }
