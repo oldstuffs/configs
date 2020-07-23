@@ -94,11 +94,15 @@ shadowJar {
 </dependencies>
 ```
 
+## 
+
 ## Extensions
 
 ### Bukkit
 First of all you need `configs-bukkit` dependencies.
+
 Secondly, you have to run `BukkitExtensions.registerExtensions();` code before the all things.
+
 Done.
 
 ## Supporters
