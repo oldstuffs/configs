@@ -18,7 +18,7 @@ The main dependency(Required)
     <version>${version}</version>
 </dependency>
 ```
-```gradle
+```groovy
 implementation("io.github.portlek:configs-core:${version}")
 ```
 Add Yaml support(Optional)
@@ -29,7 +29,7 @@ Add Yaml support(Optional)
     <version>${version}</version>
 </dependency>
 ```
-```gradle
+```groovy
 implementation("io.github.portlek:configs-yaml:${version}")
 ```
 Add Json support(Optional)
@@ -40,7 +40,7 @@ Add Json support(Optional)
     <version>${version}</version>
 </dependency>
 ```
-```gradle
+```groovy
 implementation("io.github.portlek:configs-json:${version}")
 ```
 Add Bukkit extensions(Optional)
@@ -51,7 +51,7 @@ Add Bukkit extensions(Optional)
     <version>${version}</version>
 </dependency>
 ```
-```gradle
+```groovy
 implementation("io.github.portlek:configs-bukkit:${version}")
 ```
 **Do not forget to relocate `io.github.portlek.configs` package into your package.**
@@ -87,7 +87,7 @@ Here is the examples for maven and gradle:
 </details>
 <details>
 <summary>Gradle</summary>
-```gradle
+```groovy
 plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
 }
