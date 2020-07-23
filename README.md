@@ -10,24 +10,86 @@ Annotation based configuration library for any Java project.
 
 ## How to use
 
+The main dependency(Required)
+```xml
+<dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-core</artifactId>
+    <version>${version}</version>
+</dependency>
+```
+```gradle
+implementation("io.github.portlek:configs-core:${version}")
+```
+Add Yaml support(Optional)
+```xml
+<dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-yaml</artifactId>
+    <version>${version}</version>
+</dependency>
+```
+```gradle
+implementation("io.github.portlek:configs-yaml:${version}")
+```
+Add Json support(Optional)
+```xml
+<dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-json</artifactId>
+    <version>${version}</version>
+</dependency>
+```
+```gradle
+implementation("io.github.portlek:configs-json:${version}")
+```
+Add Bukkit extensions(Optional)
+```xml
+<dependency>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-bukkit</artifactId>
+    <version>${version}</version>
+</dependency>
+```
+```gradle
+implementation("io.github.portlek:configs-bukkit:${version}")
+```
+**Do not forget to relocate `io.github.portlek.configs` package into your package.**
+
+Here is the examples for maven and gradle:
+<details>
+<summary>Maven</summary>
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-shade-plugin</artifactId>
+    <version>3.2.4</version>
+    <configuration>
+        <!-- Other settings -->
+        <relocations>
+            <relocation>
+                <pattern>io.github.portlek.configs</pattern>
+                <!-- Replace this -->
+                <shadedPattern>your.package.path.to.relocate</shadedPattern>
+            </relocation>
+        </relocations>
+    </configuration>
+    <executions>
+        <execution>
+            <phase>package</phase>
+            <goals>
+                <goal>shade</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+</details>
+<details>
+<summary>Gradle</summary>
 ```gradle
 plugins {
     id "com.github.johnrengelman.shadow" version "5.2.0"
-}
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    // The main dependency(Required)
-    implementation("io.github.portlek:configs-core:${version}")
-    // Add Yaml support(Optional)
-    implementation("io.github.portlek:configs-yaml:${version}")
-    // Add Json support(Optional)
-    implementation("io.github.portlek:configs-json:${version}")
-    // Add bukkit extensions(Optional)
-    implementation("io.github.portlek:configs-bukkit:${version}")
 }
 
 shadowJar {
@@ -35,64 +97,7 @@ shadowJar {
     // other stuffs.
 }
 ```
-
-
-```xml
-<build>
-    <plugins>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>3.2.4</version>
-            <configuration>
-                <!-- Other settings -->
-                <relocations>
-                    <relocation>
-                        <pattern>io.github.portlek.configs</pattern>
-                        <!-- Replace this -->
-                        <shadedPattern>your.package.path.to.relocate</shadedPattern>
-                    </relocation>
-                </relocations>
-            </configuration>
-            <executions>
-                <execution>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>shade</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
-    </plugins>
-</build>
-
-<dependencies>
-    <!-- The main dependency(Required) -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-core</artifactId>
-      <version>${version}</version>
-    </dependency>
-    <!-- Add Yaml support(Optional) -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-yaml</artifactId>
-      <version>${version}</version>
-    </dependency>
-    <!-- Add Json support(Optional) -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-json</artifactId>
-      <version>${version}</version>
-    </dependency>
-    <!-- Add Bukkit extensions(Optional) -->
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-bukkit</artifactId>
-      <version>${version}</version>
-    </dependency>
-</dependencies>
-```
+</details>
 
 ## Loading a file.
 Loading and getting ready a file is just 1 method called FlManaged#load();
