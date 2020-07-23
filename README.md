@@ -102,7 +102,7 @@ shadowJar {
 </details>
 
 ## Loading a file.
-Loading and getting ready a file is just 1 method called FlManaged#load();
+To load and get ready a file with FlManaged#load() method. Here is the example:
 ```java
 final class CreatingConfigClass {
     void createConfig() {
@@ -115,6 +115,8 @@ final class CreatingConfigClass {
 ```
 
 ## FileManaged
+Your class that extends FileManaged is your actual file interface. 
+You can put sections and properties into it.
 ```java
 public final class ExampleConfigFile extends FileManaged {
 
