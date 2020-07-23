@@ -30,6 +30,7 @@ import io.github.portlek.configs.LnkdManaged;
 import io.github.portlek.configs.managed.FileManaged;
 import io.github.portlek.configs.provided.ScalarProvider;
 import io.github.portlek.configs.util.Scalar;
+import io.github.portlek.mapentry.MapEntry;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;

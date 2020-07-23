@@ -29,6 +29,7 @@ import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.managed.FileManaged;
 import io.github.portlek.configs.processors.ComparableConfigProceed;
 import io.github.portlek.configs.util.Languageable;
+import io.github.portlek.mapentry.MapEntry;
 import java.io.File;
 import java.util.Map;
 import java.util.Optional;
