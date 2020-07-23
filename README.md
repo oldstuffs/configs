@@ -55,7 +55,6 @@ Add Bukkit extensions(Optional)
 implementation("io.github.portlek:configs-bukkit:${version}")
 ```
 **Do not forget to relocate `io.github.portlek.configs` package into your package.**
-
 Here is the examples for maven and gradle:
 <details>
 <summary>Maven</summary>
@@ -113,7 +112,6 @@ final class CreatingConfigClass {
     }
 }
 ```
-
 ## FileManaged
 Your class that extends FileManaged is your actual file interface. You can put sections and properties into it.
 ```java
