@@ -43,7 +43,7 @@ public @interface Config {
     String location() default "%basedir%";
 
     @NotNull
-    Class<? extends FileType> type() default FileType.class;
+    Class<? extends FileType> type();
 
     @NotNull
     String resourcePath() default "";
