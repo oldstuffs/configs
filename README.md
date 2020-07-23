@@ -94,6 +94,17 @@ shadowJar {
 </dependencies>
 ```
 
+## Extensions
+
+### Bukkit
+To activate the Bukkit's extensions you have to run that code before all things.
+```java
+public void registering() {
+    BukkitExtensions.registerExtensions();
+    // Config loading...
+}
+```
+
 ## Supporters
 
 [![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
