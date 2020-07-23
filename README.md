@@ -109,8 +109,6 @@ public void createConfig() {
 ```java
 public final class ExampleConfigFile extends FileManaged {
 
-    
-
 }
 ```
 
