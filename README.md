@@ -173,13 +173,10 @@ public final class ExampleConfigFile extends FileManaged {
 ## ConfigSection
 ## Extensions
 ### Bukkit
-First of all you need `configs-bukkit` dependency.
-
-Secondly, you have to run `BukkitExtensions.registerExtensions();` before the all things.
-
-You can also use BukkitComparable/BukkitLinked/BukkitManaged/BukkitSection classes instead of the core classes.
-
-Done.
+- First of all you need `configs-bukkit` dependency.
+- Secondly, you have to run `BukkitExtensions.registerExtensions();` before the all things.
+- You can also use BukkitComparable/BukkitLinked/BukkitManaged/BukkitSection classes instead of the core classes.
+- Done.
 
 ## How to contribute?
 Just fork the repo and send us a pull request.
