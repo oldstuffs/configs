@@ -123,6 +123,13 @@ You can also use BukkitComparable/BukkitLinked/BukkitManaged/BukkitSection class
 
 Done.
 
+## How to contribute?
+Just fork the repo and send us a pull request.
+
+Make sure your branch builds without any warnings/issues:
+
+`gradle shadowjar`
+
 ## Supporters
 
 [![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
