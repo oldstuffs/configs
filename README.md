@@ -97,13 +97,7 @@ shadowJar {
 ## Extensions
 
 ### Bukkit
-To activate the Bukkit's extensions you have to run that code before all things.
-```java
-public void registering() {
-    BukkitExtensions.registerExtensions();
-    // Config loading...
-}
-```
+To activate the Bukkit's extensions you have to run `BukkitExtensions.registerExtensions();` code before all things.
 
 ## Supporters
 
