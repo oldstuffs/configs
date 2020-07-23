@@ -10,7 +10,7 @@ Annotation based configuration library for any Java project.
 
 ## How to use
 
-The main dependency(Required)
+The main dependency(Required). You have to add at least 1 dependency which is `Optional Required`
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -21,7 +21,7 @@ The main dependency(Required)
 ```groovy
 implementation("io.github.portlek:configs-core:${version}")
 ```
-Add Yaml support(Optional)
+Add Yaml support(Optional Required)
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -32,7 +32,7 @@ Add Yaml support(Optional)
 ```groovy
 implementation("io.github.portlek:configs-yaml:${version}")
 ```
-Add Json support(Optional)
+Add Json support(Optional Required)
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -117,7 +117,10 @@ final class CreatingConfigClass {
 ## FileManaged
 Your class that extends FileManaged is your actual file interface. You can put sections and properties into it.
 ```java
-@Config("config")
+@Config(
+    name = "config",
+    type = YamlFileType.class // JsonFileType.class
+)
 public final class ExampleConfigFile extends FileManaged {
 
     // You have to add this instance.

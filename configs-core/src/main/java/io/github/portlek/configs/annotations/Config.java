@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 public @interface Config {
 
     @NotNull
-    String value();
+    String name();
 
     @NotNull
     String location() default "%basedir%";
