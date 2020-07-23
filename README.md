@@ -97,7 +97,9 @@ shadowJar {
 ## Extensions
 
 ### Bukkit
-To activate the Bukkit's extensions you have to run `BukkitExtensions.registerExtensions();` code before the all things.
+First of all you need `configs-bukkit` dependencies.
+Secondly, you have to run `BukkitExtensions.registerExtensions();` code before the all things.
+Done.
 
 ## Supporters
 
