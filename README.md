@@ -87,6 +87,7 @@ Here is the examples for maven and gradle:
 </details>
 <details>
 <summary>Gradle</summary>
+
 ```groovy
 plugins {
     id "com.github.johnrengelman.shadow" version "6.0.0"
