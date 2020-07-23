@@ -23,16 +23,16 @@
  *
  */
 
-package io.github.portlek.configs.extensions.bukkit;
+package io.github.portlek.configs.bukkit;
 
 import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.bukkitlocation.LocationUtil;
 import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.extensions.bukkit.provided.BukkitItemStackProvider;
-import io.github.portlek.configs.extensions.bukkit.provided.BukkitSoundProvider;
-import io.github.portlek.configs.extensions.bukkit.provided.BukkitTitleProvider;
-import io.github.portlek.configs.extensions.bukkit.util.PlayableSound;
-import io.github.portlek.configs.extensions.bukkit.util.SentTitle;
+import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
+import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
+import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
+import io.github.portlek.configs.bukkit.util.PlayableSound;
+import io.github.portlek.configs.bukkit.util.SentTitle;
 import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Location;

@@ -1,9 +1,0 @@
-jar {
-    enabled = false
-}
-
-subprojects {
-    dependencies {
-        compileOnly project(":configs-core")
-    }
-}

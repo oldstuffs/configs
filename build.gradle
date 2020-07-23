@@ -61,7 +61,6 @@ subprojects {
     }
 
     shadowJar {
-        minimize()
         setArchivesBaseName(project.name)
         archiveClassifier.set("")
         archiveVersion.set(project.version)

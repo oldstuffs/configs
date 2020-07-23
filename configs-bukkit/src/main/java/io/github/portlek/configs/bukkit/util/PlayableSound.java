@@ -23,32 +23,32 @@
  *
  */
 
-package io.github.portlek.configs.extensions.bukkit.util;
+package io.github.portlek.configs.bukkit.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import lombok.experimental.UtilityClass;
-import org.bukkit.ChatColor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-@UtilityClass
-public class ColorUtil {
+@RequiredArgsConstructor
+@Getter
+public final class PlayableSound {
 
     @NotNull
-    public List<String> colored(@NotNull final String... array) {
-        return ColorUtil.colored(Arrays.asList(array));
+    private final Sound sound;
+
+    private final Double volume;
+
+    private final Double pitch;
+
+    public void play(@NotNull final Player player) {
+        this.play(player, player.getLocation());
     }
 
-    @NotNull
-    public List<String> colored(@NotNull final Collection<String> list) {
-        return list.stream().map(ColorUtil::colored).collect(Collectors.toList());
-    }
-
-    @NotNull
-    public String colored(@NotNull final String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
+    public void play(@NotNull final Player player, @NotNull final Location location) {
+        player.playSound(location, this.sound, this.volume.floatValue(), this.pitch.floatValue());
     }
 
 }

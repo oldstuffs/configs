@@ -23,32 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.extensions.bukkit.util;
+package io.github.portlek.configs.bukkit;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import io.github.portlek.configs.section.ConfigSection;
 
-@RequiredArgsConstructor
-@Getter
-public final class PlayableSound {
-
-    @NotNull
-    private final Sound sound;
-
-    private final Double volume;
-
-    private final Double pitch;
-
-    public void play(@NotNull final Player player) {
-        this.play(player, player.getLocation());
-    }
-
-    public void play(@NotNull final Player player, @NotNull final Location location) {
-        player.playSound(location, this.sound, this.volume.floatValue(), this.pitch.floatValue());
-    }
+public class BukkitSection extends ConfigSection implements BkktSection {
 
 }

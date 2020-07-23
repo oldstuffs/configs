@@ -3,6 +3,6 @@ jar {
 }
 
 dependencies {
-    implementation project(":configs-core")
     implementation("io.github.portlek:jsongration:1.1")
+    compileOnly project(":configs-core")
 }
