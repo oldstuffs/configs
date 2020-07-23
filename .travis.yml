@@ -1,9 +1,4 @@
 language: java
-before_install:
-  - chmod +x gradlew
-env:
-  global:
-    - JAVA_TOOL_OPTIONS=-Dhttps.protocols=TLSv1.2
 install: true
 script:
-  - ./gradlew shadowjar
+  - mvn install -Dgpg.skip=true -B -ntp
