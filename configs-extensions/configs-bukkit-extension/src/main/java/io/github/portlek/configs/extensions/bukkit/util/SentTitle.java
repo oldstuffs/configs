@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.util;
+package io.github.portlek.configs.extensions.bukkit.util;
 
 import com.cryptomorin.xseries.messages.Titles;
 import io.github.portlek.mapentry.MapEntry;

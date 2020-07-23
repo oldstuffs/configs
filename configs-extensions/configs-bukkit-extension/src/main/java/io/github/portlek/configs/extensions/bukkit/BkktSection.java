@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.bukkit;
+package io.github.portlek.configs.extensions.bukkit;
 
 import io.github.portlek.configs.CfgSection;
 import java.util.Optional;

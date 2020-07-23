@@ -23,32 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.util;
+package io.github.portlek.configs.extensions.bukkit;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import lombok.experimental.UtilityClass;
-import org.bukkit.ChatColor;
-import org.jetbrains.annotations.NotNull;
+import io.github.portlek.configs.section.ConfigSection;
 
-@UtilityClass
-public class ColorUtil {
-
-    @NotNull
-    public List<String> colored(@NotNull final String... array) {
-        return ColorUtil.colored(Arrays.asList(array));
-    }
-
-    @NotNull
-    public List<String> colored(@NotNull final Collection<String> list) {
-        return list.stream().map(ColorUtil::colored).collect(Collectors.toList());
-    }
-
-    @NotNull
-    public String colored(@NotNull final String text) {
-        return ChatColor.translateAlternateColorCodes('&', text);
-    }
+public class BukkitSection extends ConfigSection implements BkktSection {
 
 }

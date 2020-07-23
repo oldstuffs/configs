@@ -1,0 +1,9 @@
+jar {
+    enabled = false
+}
+
+subprojects {
+    dependencies {
+        implementation project(":configs-core")
+    }
+}

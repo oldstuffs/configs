@@ -23,25 +23,26 @@
  *
  */
 
-package io.github.portlek.configs.bukkit;
+package io.github.portlek.configs.extensions.bukkit;
 
 import com.cryptomorin.xseries.XMaterial;
 import io.github.portlek.bukkitlocation.LocationUtil;
 import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
-import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
-import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
-import io.github.portlek.configs.bukkit.util.PlayableSound;
-import io.github.portlek.configs.bukkit.util.SentTitle;
-import io.github.portlek.configs.section.ConfigSection;
+import io.github.portlek.configs.extensions.bukkit.provided.BukkitItemStackProvider;
+import io.github.portlek.configs.extensions.bukkit.provided.BukkitSoundProvider;
+import io.github.portlek.configs.extensions.bukkit.provided.BukkitTitleProvider;
+import io.github.portlek.configs.extensions.bukkit.util.PlayableSound;
+import io.github.portlek.configs.extensions.bukkit.util.SentTitle;
 import java.util.Optional;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class BukkitSection extends ConfigSection implements BkktSection {
+@UtilityClass
+public class BukkitExtensions {
 
-    static {
+    public void registerExtensions() {
         CfgSection.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
         CfgSection.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
         CfgSection.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
