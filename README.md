@@ -8,10 +8,7 @@
 
 Annotation based configuration library for any Java project.
 
-## Setup
-
-<details>
-<summary>Gradle</summary>
+## How to use
 
 ```gradle
 plugins {
@@ -38,10 +35,7 @@ shadowJar {
     // other stuffs.
 }
 ```
-</details>
 
-<details>
-<summary>Maven</summary>
 
 ```xml
 <dependencies>
@@ -99,7 +93,6 @@ Also you have to make relocation for the library with;
     </executions>
 </plugin>
 ```
-</details>
 
 ## Supporters
 
