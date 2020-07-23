@@ -1,12 +1,12 @@
 <img src="logo/logo.svg" width="92px"/>
 
-Annotation based configuration library for any Java project.
-
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 [![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
 
 [![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=version)
+
+Annotation based configuration library for any Java project.
 
 ## Setup
 
