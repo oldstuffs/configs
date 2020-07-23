@@ -89,7 +89,7 @@ Here is the examples for maven and gradle:
 <summary>Gradle</summary>
 ```groovy
 plugins {
-    id "com.github.johnrengelman.shadow" version "5.2.0"
+    id "com.github.johnrengelman.shadow" version "6.0.0"
 }
 
 shadowJar {
