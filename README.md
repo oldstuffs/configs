@@ -136,7 +136,7 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
-### #onCreate()
+### onCreate()
 The method runs before the file and the managed load. You can't use getString or other method in the case.
 ```java
 public final class ExampleConfigFile extends FileManaged {
@@ -148,7 +148,7 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
-### #onLoad()
+### onLoad()
 The method runs after the file and the managed load. You can use getString and other method in the method.
 ```java
 public final class ExampleConfigFile extends FileManaged {
