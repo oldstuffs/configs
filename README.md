@@ -59,6 +59,7 @@ implementation("io.github.portlek:configs-bukkit:${version}")
 Here is the examples for maven and gradle:
 <details>
 <summary>Maven</summary>
+
 ```xml
 <plugin>
     <groupId>org.apache.maven.plugins</groupId>
