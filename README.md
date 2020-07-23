@@ -115,8 +115,7 @@ final class CreatingConfigClass {
 ```
 
 ## FileManaged
-Your class that extends FileManaged is your actual file interface. 
-You can put sections and properties into it.
+Your class that extends FileManaged is your actual file interface. You can put sections and properties into it.
 ```java
 public final class ExampleConfigFile extends FileManaged {
 
