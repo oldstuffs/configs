@@ -1,4 +1,5 @@
-# Configs
+<img src="logo/logo.svg" width="92px"/>
+
 Annotation based configuration library for any Java project.
 
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
