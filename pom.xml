@@ -11,8 +11,16 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>configs-parent</name>
+    <packaging>pom</packaging>
     <description>Annotation based configuration library for any Java project.</description>
     <url>https://github.com/portlek/configs</url>
+
+    <modules>
+        <module>configs-core</module>
+        <module>configs-json</module>
+        <module>configs-yaml</module>
+        <module>configs-bukkit</module>
+    </modules>
 
     <scm>
         <connection>scm:git:git://github.com/portlek/configs.git</connection>
