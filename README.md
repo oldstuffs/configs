@@ -94,7 +94,7 @@ shadowJar {
 </dependencies>
 ```
 
-## 
+## FileManaged
 
 ## Extensions
 
@@ -102,6 +102,8 @@ shadowJar {
 First of all you need `configs-bukkit` dependencies.
 
 Secondly, you have to run `BukkitExtensions.registerExtensions();` code before the all things.
+
+You can also use BukkitComparable/BukkitLinked/BukkitManaged/BukkitSection classes instead of the core classes.
 
 Done.
 
