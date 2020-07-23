@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(":configs-core")
+    implementation("io.github.portlek:jsongration:1.1")
+}
