@@ -102,7 +102,7 @@ shadowJar {
 </details>
 
 ## Loading a file.
-To load and get ready a file with FlManaged#load() method. Here is the example:
+To load and get ready a file method is FlManaged#load(). Here is the example:
 ```java
 final class CreatingConfigClass {
     void createConfig() {
