@@ -168,6 +168,9 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
+## LinkedManaged
+## ComparableManaged
+## ConfigSection
 ## Extensions
 ### Bukkit
 First of all you need `configs-bukkit` dependency.
