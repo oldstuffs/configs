@@ -141,7 +141,7 @@ public final class ExampleConfigFile extends FileManaged {
 }
 ```
 ### onCreate()
-The method runs before the file and the managed load. You can't use getString or other method in the case.
+The method runs before the file and the managed load. You can't use getString or other methods in the method.
 ```java
 @Config(
     name = "config",
@@ -157,7 +157,7 @@ public final class ExampleConfigFile extends FileManaged {
 }
 ```
 ### onLoad()
-The method runs after the file and the managed load. You can use getString and other method in the method.
+The method runs after the file and the managed load. You can use getString and other methods in the method.
 ```java
 @Config(
     name = "config",
