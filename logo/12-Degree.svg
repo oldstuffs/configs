@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <g id="_12-Degree" data-name="12-Degree">
+    <g id="_12-Degree">
         <ellipse cx="32" cy="24" rx="12" ry="4" style="fill:#ffdfb0"/>
         <path
             d="M32,26c-5.592,0-10.274-1.275-11.607-3A1.643,1.643,0,0,0,20,24c0,2.21,5.37,4,12,4s12-1.79,12-4a1.643,1.643,0,0,0-.393-1C42.274,24.725,37.592,26,32,26Z"
