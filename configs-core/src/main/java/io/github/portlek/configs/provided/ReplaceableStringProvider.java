@@ -27,7 +27,7 @@ package io.github.portlek.configs.provided;
 
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.Provided;
-import io.github.portlek.configs.replaceable.RpString;
+import io.github.portlek.replaceable.rp.RpString;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 

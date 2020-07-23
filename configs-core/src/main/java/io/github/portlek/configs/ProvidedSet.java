@@ -23,33 +23,12 @@
  *
  */
 
-package io.github.portlek.configs.provided;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.Provided;
-import io.github.portlek.replaceable.rp.RpList;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
-public final class ReplaceableListProvider implements Provided<RpList> {
+public interface ProvidedSet<T> {
 
-    @Override
-    public void set(@NotNull final RpList replaceable, @NotNull final CfgSection section,
-                    @NotNull final String path) {
-        section.set(path, replaceable.getValue());
-    }
-
-    @NotNull
-    @Override
-    public Optional<RpList> getWithField(@NotNull final RpList rpList,
-                                         @NotNull final CfgSection section, @NotNull final String path) {
-        return section.getStringList(path).map(rpList::value);
-    }
-
-    @NotNull
-    @Override
-    public Optional<RpList> get(@NotNull final CfgSection section, @NotNull final String path) {
-        return Optional.empty();
-    }
+    void set(@NotNull T t, @NotNull CfgSection section, @NotNull String path);
 
 }
