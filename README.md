@@ -119,6 +119,45 @@ Your class that extends FileManaged is your actual file interface. You can put s
 ```java
 public final class ExampleConfigFile extends FileManaged {
 
+    // You have to add this instance.
+    @Instance
+    public final ExampleSection aSection = new ExampleSectio();
+
+    @Property
+    public String test_property = "my test property";
+
+    @Section("example-section")
+    public final class ExampleSection extends ConfigSection {
+    
+        @Property
+        public String test_property = "my test property";
+
+    }
+
+}
+```
+### #onCreate()
+The method runs before the file and the managed load. You can't use getString or other method in the case.
+```java
+public final class ExampleConfigFile extends FileManaged {
+
+    @Override
+    public void onCreate() {
+        
+    }
+
+}
+```
+### #onLoad()
+The method runs after the file and the managed load. You can use getString and other method in the method.
+```java
+public final class ExampleConfigFile extends FileManaged {
+
+    @Override
+    public void onLoad() {
+        
+    }
+
 }
 ```
 
