@@ -63,10 +63,11 @@ public final class ConfigProceed {
                 new RuntimeException("No file type such " + fileTypeClass.getSimpleName() + '!'));
         final String name;
         final String suffix = fileType.suffix();
-        if (this.config.value().endsWith(suffix)) {
-            name = this.config.value();
+        final String fileName = this.config.name();
+        if (fileName.endsWith(suffix)) {
+            name = fileName;
         } else {
-            name = this.config.value() + suffix;
+            name = fileName + suffix;
         }
         final File file = new File(
             GeneralUtilities.addSeparator(
