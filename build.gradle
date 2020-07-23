@@ -63,7 +63,7 @@ subprojects {
     shadowJar {
         setArchivesBaseName(project.name)
         archiveClassifier.set("")
-        archiveVersion.set(project.version)
+        archiveVersion.set(project.version.toString())
     }
 
     extraArchive {
