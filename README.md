@@ -184,7 +184,7 @@ Just fork the repo and send us a pull request.
 Make sure your branch builds without any warnings/issues:
 
 ```
-gradle shadowjar
+mvn clean install
 ```
 
 ## Supporters
