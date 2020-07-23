@@ -143,6 +143,10 @@ public final class ExampleConfigFile extends FileManaged {
 ### onCreate()
 The method runs before the file and the managed load. You can't use getString or other method in the case.
 ```java
+@Config(
+    name = "config",
+    type = YamlFileType.class // JsonFileType.class
+)
 public final class ExampleConfigFile extends FileManaged {
 
     @Override
@@ -155,6 +159,10 @@ public final class ExampleConfigFile extends FileManaged {
 ### onLoad()
 The method runs after the file and the managed load. You can use getString and other method in the method.
 ```java
+@Config(
+    name = "config",
+    type = YamlFileType.class // JsonFileType.class
+)
 public final class ExampleConfigFile extends FileManaged {
 
     @Override
