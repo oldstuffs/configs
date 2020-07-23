@@ -25,9 +25,6 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.annotations.ConfigSerializable;
-import io.github.portlek.configs.annotations.Unstable;
-import io.github.portlek.configs.provided.SerializableProvider;
 import io.github.portlek.configs.section.ConfigSection;
 import io.github.portlek.configs.section.SectionBuilder;
 import io.github.portlek.configs.util.GeneralUtilities;
@@ -86,15 +83,6 @@ public interface CfgSection {
             .filter(aClass::equals)
             .findFirst()
             .map(clss -> (ProvidedSet<T>) CfgSection.PROVIDED_SET.get(clss));
-    }
-
-    @Unstable
-    static <T> void addSerializableClass(@NotNull final Class<T> tclass) {
-        Optional.ofNullable(tclass.getDeclaredAnnotation(ConfigSerializable.class)).orElseThrow(() ->
-            new UnsupportedOperationException(tclass.getSimpleName() + " has not `ConfigSerializable` annotation!"));
-        final SerializableProvider<T> provided = new SerializableProvider<>(tclass);
-        provided.initiate();
-        CfgSection.addProvidedClass(tclass, provided);
     }
 
     static <T> void addProvidedClass(@NotNull final Class<T> tclass, @NotNull final Provided<T> provided) {
