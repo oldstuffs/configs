@@ -81,7 +81,7 @@ public final class ConfigProceed {
             file.getParentFile().mkdirs();
             file.createNewFile();
         }
-        this.managed.setup(file, fileType.load(file));
+        this.managed.setup(file, fileType);
         new FieldsProceed(this.parentObject, this.managed).load();
         this.managed.save();
     }

@@ -26,6 +26,7 @@
 package io.github.portlek.configs.comparable;
 
 import io.github.portlek.configs.CmprblManaged;
+import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.managed.FileManaged;
 import java.io.File;
@@ -91,9 +92,14 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
         return this.current().getFile();
     }
 
+    @Override
+    public final FileType getFileType() {
+        return this.current().getFileType();
+    }
+
     @NotNull
     @Override
-    public FileConfiguration getConfigurationSection() {
+    public final FileConfiguration getConfigurationSection() {
         return this.current().getConfigurationSection();
     }
 

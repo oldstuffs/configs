@@ -25,17 +25,8 @@
 
 package io.github.portlek.configs;
 
-import java.io.File;
-import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
+public interface BiCons<X, Y> {
 
-public interface FileType {
-
-    @NotNull
-    String suffix();
-
-    @NotNull FileConfiguration load(@NotNull File file) throws Exception;
-
-    void save(@NotNull FileConfiguration configuration, @NotNull File file) throws Exception;
+    void accept(X x, Y y) throws Exception;
 
 }

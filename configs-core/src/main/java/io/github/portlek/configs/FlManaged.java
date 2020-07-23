@@ -54,16 +54,19 @@ public interface FlManaged extends CfgSection {
 
     @SneakyThrows
     default void save() {
-        this.getConfigurationSection().save(this.getFile());
+        this.getFileType().save(this.getConfigurationSection(), this.getFile());
     }
 
     @Override
     FileConfiguration getConfigurationSection();
 
-    void setup(@NotNull File file, @NotNull FileConfiguration fileConfiguration);
+    void setup(@NotNull File file, @NotNull FileType fileType) throws Exception;
 
     @NotNull
     File getFile();
+
+    @NotNull
+    FileType getFileType();
 
     void object(@NotNull String key, @NotNull Object object);
 

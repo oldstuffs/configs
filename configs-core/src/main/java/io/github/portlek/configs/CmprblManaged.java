@@ -38,7 +38,6 @@ import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
 
@@ -54,7 +53,7 @@ public interface CmprblManaged<S extends CmprblManaged<S>> extends FlManaged {
     }
 
     @Override
-    default void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
+    default void setup(@NotNull final File file, @NotNull final FileType fileType) throws Exception {
     }
 
     @NotNull

@@ -23,19 +23,20 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.type;
 
-import java.io.File;
-import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.configuration.file.YamlFile;
 
-public interface FileType {
+public final class YamlFileType extends FileTypeEnvelope {
 
-    @NotNull
-    String suffix();
-
-    @NotNull FileConfiguration load(@NotNull File file) throws Exception;
-
-    void save(@NotNull FileConfiguration configuration, @NotNull File file) throws Exception;
+    public YamlFileType() {
+        super(".yml",
+            file -> {
+                final YamlFile yamlFile = new YamlFile(file);
+                yamlFile.loadWithComments();
+                return yamlFile;
+            },
+            (configuration, file) -> ((YamlFile) configuration).saveWithComments());
+    }
 
 }

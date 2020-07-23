@@ -1,2 +1,4 @@
 rootProject.name = 'configs-parent'
 include("configs-core", "configs-bukkit")
+include 'configs-yaml'
+

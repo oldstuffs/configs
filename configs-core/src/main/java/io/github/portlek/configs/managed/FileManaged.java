@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.managed;
 
+import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.section.ConfigSection;
 import java.io.File;
@@ -40,6 +41,9 @@ public class FileManaged extends ConfigSection implements FlManaged {
     @Nullable
     private File file;
 
+    @Nullable
+    private FileType fileType;
+
     private boolean autosave = false;
 
     @SafeVarargs
@@ -49,15 +53,22 @@ public class FileManaged extends ConfigSection implements FlManaged {
     }
 
     @Override
-    public void setup(@NotNull final File file, @NotNull final FileConfiguration section) {
-        this.setup(this, section);
+    public void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
+        this.setup(this, fileType.load(file));
         this.file = file;
+        this.fileType = fileType;
     }
 
     @NotNull
     @Override
     public File getFile() {
         return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
+    }
+
+    @NotNull
+    @Override
+    public FileType getFileType() {
+        return Objects.requireNonNull(this.fileType, "You have to load your class with '#load()' method");
     }
 
     @Override

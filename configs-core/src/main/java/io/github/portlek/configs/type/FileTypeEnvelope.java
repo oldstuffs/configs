@@ -25,29 +25,46 @@
 
 package io.github.portlek.configs.type;
 
+import io.github.portlek.configs.BiCons;
 import io.github.portlek.configs.FileType;
+import io.github.portlek.configs.Func;
 import java.io.File;
-import java.util.function.Supplier;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class FileTypeEnvelope implements FileType {
 
     @NotNull
-    private final Supplier<FileType> original;
+    private final String suffix;
 
     @NotNull
-    @Override
-    public final String suffix() {
-        return this.original.get().suffix();
+    private final Func<File, FileConfiguration> loadFunc;
+
+    @NotNull
+    private final BiCons<FileConfiguration, File> saveFunc;
+
+    protected FileTypeEnvelope(@NotNull final String suffix, @NotNull final Func<File, FileConfiguration> loadFunc) {
+        this(suffix, loadFunc, FileConfiguration::save);
     }
 
     @NotNull
     @Override
-    public final FileConfiguration load(@NotNull final File file) {
-        return this.original.get().load(file);
+    public final String suffix() {
+        return this.suffix;
+    }
+
+    @NotNull
+    @Override
+    public final FileConfiguration load(@NotNull final File file) throws Exception {
+        return this.loadFunc.apply(file);
+    }
+
+    @Override
+    public final void save(@NotNull final FileConfiguration configuration, @NotNull final File file) throws Exception {
+        this.saveFunc.accept(configuration, file);
     }
 
 }

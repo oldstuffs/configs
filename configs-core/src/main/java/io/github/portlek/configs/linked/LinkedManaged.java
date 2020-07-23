@@ -26,17 +26,20 @@
 package io.github.portlek.configs.linked;
 
 import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.LnkdManaged;
 import io.github.portlek.configs.managed.FileManaged;
 import io.github.portlek.configs.provided.ScalarProvider;
 import io.github.portlek.configs.util.Scalar;
 import io.github.portlek.mapentry.MapEntry;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
+import org.simpleyaml.exceptions.InvalidConfigurationException;
 
 public class LinkedManaged extends FileManaged implements LnkdManaged {
 
@@ -64,11 +67,11 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
     }
 
     @Override
-    public final void setup(@NotNull final File file, final @NotNull FileConfiguration section) {
-        super.setup(file, section);
+    public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
+        super.setup(file, fileType);
         this.linkedFiles.put(
             this.chosen.get(),
-            MapEntry.from(file, section));
+            MapEntry.from(file, fileType.load(file)));
     }
 
 }
