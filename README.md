@@ -160,9 +160,7 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
-
 ## Extensions
-
 ### Bukkit
 First of all you need `configs-bukkit` dependencies.
 
@@ -180,5 +178,4 @@ Make sure your branch builds without any warnings/issues:
 `gradle shadowjar`
 
 ## Supporters
-
 [![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
