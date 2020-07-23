@@ -94,7 +94,25 @@ shadowJar {
 </dependencies>
 ```
 
+## Loading a file.
+Loading and getting ready a file is just 1 method called FlManaged#load();
+```java
+public void createConfig() {
+    final ExampleConfigFile file = new ExampleConfigFile();
+    // You can't use the class before run the load method.
+    file.load();
+    file.getString("path.to.string");
+}
+```
+
 ## FileManaged
+```java
+public final class ExampleConfigFile extends FileManaged {
+
+    
+
+}
+```
 
 ## Extensions
 
