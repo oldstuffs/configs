@@ -56,6 +56,11 @@
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
+            <artifactId>replaceable</artifactId>
+            <version>1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.portlek</groupId>
             <artifactId>version</artifactId>
             <version>1.1</version>
         </dependency>
