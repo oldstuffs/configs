@@ -39,7 +39,7 @@
 
     <repositories>
         <repository>
-            <id>codemc</id>
+            <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public</url>
         </repository>
         <repository>
