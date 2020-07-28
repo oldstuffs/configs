@@ -70,7 +70,7 @@
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.github.Carleslc.Simple-YAML</groupId>
+            <groupId>me.carleslc.Simple-YAML</groupId>
             <artifactId>Simple-Configuration</artifactId>
             <version>master-SNAPSHOT</version>
         </dependency>
