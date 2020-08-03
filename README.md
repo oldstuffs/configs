@@ -6,7 +6,6 @@
 [![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
 ![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=version)
 
-Annotation based configuration library for any Java project.
 ## How to use
 The main dependency(Required). You have to add at least 1 dependency which is `Optional Required`
 ```xml
