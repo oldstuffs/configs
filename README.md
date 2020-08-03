@@ -182,7 +182,7 @@ Just fork the repo and send us a pull request.
 Make sure your branch builds without any warnings/issues:
 
 ```
-mvn clean install
+mvn clean install -Dgpg.skip=true
 ```
 
 ## Supporters
