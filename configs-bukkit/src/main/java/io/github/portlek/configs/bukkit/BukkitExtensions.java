@@ -51,7 +51,7 @@ public class BukkitExtensions {
                 .map(XMaterial::matchXMaterial)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .flatMap(XMaterial::parseMaterial));
+                .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
         CfgSection.addProvidedSetMethod(Material.class, (material, section, path) -> section.set(path, material.name()));
         CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
             section.getString(s)
