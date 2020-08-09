@@ -186,4 +186,4 @@ mvn clean install -Dgpg.skip=true
 ```
 
 ## Supporters
-[![Jetbrains](jetbrains/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
+[![Jetbrains](logo/jetbrains.svg)](https://www.jetbrains.com/?from=configs)
