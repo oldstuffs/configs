@@ -43,6 +43,7 @@ public final class ComparableConfigProceed {
     private final CmprblManaged<?> managed;
 
     public void load() {
+        this.managed.clear();
         Arrays.stream(this.linked.value()).forEach(linkedFile -> {
             final FlManaged flmanaged = this.managed.getNewManaged().get();
             flmanaged.setAutoSave(this.managed.isAutoSave());

@@ -86,6 +86,12 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
                 "The current is null, please don't use #getConfigurationSection() before run #load() method!"));
     }
 
+    @Override
+    public void clear() {
+        this.comparable.clear();
+        this.current = null;
+    }
+
     @NotNull
     @Override
     public final File getFile() {
@@ -105,7 +111,7 @@ public abstract class ComparableManaged<S extends CmprblManaged<S>> extends File
 
     @NotNull
     @Override
-    public final FlManaged getParent() {
+    public final CmprblManaged<S> getParent() {
         return this;
     }
 
