@@ -36,7 +36,7 @@ public final class YamlFileType extends FileTypeEnvelope {
                 yamlFile.loadWithComments();
                 return yamlFile;
             },
-            (configuration, file) -> ((YamlFile) configuration).save2());
+            (configuration, file) -> ((YamlFile) configuration).save());
     }
 
 }
