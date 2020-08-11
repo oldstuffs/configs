@@ -98,22 +98,19 @@ public final class PropertyProceed {
 
     @SneakyThrows
     public void load() {
-        final Optional<Object> optional = this.field.of(this.parentObject).get();
-        if (!optional.isPresent()) {
-            return;
-        }
-        final String path = GeneralUtilities.calculatePath(
-            this.property.regex(),
-            this.property.separator(),
-            this.property.value(),
-            this.field.name());
-        final Object fieldvalue = optional.get();
-        final Optional<Object> filevalueoptional = PropertyProceed.get(this.parent, fieldvalue, path);
-        if (filevalueoptional.isPresent()) {
-            this.field.of(this.parentObject).set(filevalueoptional.get());
-        } else {
-            PropertyProceed.set(this.parent, fieldvalue, path);
-        }
+        this.field.of(this.parentObject).get().ifPresent(fieldvalue -> {
+            final String path = GeneralUtilities.calculatePath(
+                this.property.regex(),
+                this.property.separator(),
+                this.property.value(),
+                this.field.name());
+            final Optional<Object> optional = PropertyProceed.get(this.parent, fieldvalue, path);
+            if (optional.isPresent()) {
+                this.field.of(this.parentObject).set(optional.get());
+            } else {
+                PropertyProceed.set(this.parent, fieldvalue, path);
+            }
+        });
     }
 
 }
