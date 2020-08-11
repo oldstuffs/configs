@@ -41,33 +41,26 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>reflection</artifactId>
-            <version>3.1.2</version>
+            <version>3.2</version>
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>replaceable</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>version</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>mapentry</artifactId>
-            <version>1.1</version>
+            <version>1.2</version>
         </dependency>
         <dependency>
             <groupId>me.carleslc.Simple-YAML</groupId>
