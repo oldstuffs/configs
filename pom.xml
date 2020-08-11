@@ -9,7 +9,7 @@
         <version>1.6</version>
     </parent>
     <artifactId>configs-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>4.9</version>
     <name>configs-parent</name>
     <packaging>pom</packaging>
     <description>Annotation based configuration library for any Java project.</description>
