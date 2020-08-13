@@ -16,10 +16,10 @@
     <url>https://github.com/portlek/configs</url>
 
     <modules>
-        <module>configs-core</module>
-        <module>configs-json</module>
-        <module>configs-yaml</module>
-        <module>configs-bukkit</module>
+        <module>core</module>
+        <module>json</module>
+        <module>yaml</module>
+        <module>bukkit</module>
     </modules>
 
     <scm>
