@@ -51,52 +51,6 @@ implementation("io.github.portlek:configs-json:${version}")
 ```groovy
 implementation("io.github.portlek:configs-bukkit:${version}")
 ```
-**Do not forget to relocate `io.github.portlek.configs` package into your package.**
-Here is the examples for maven and gradle:
-<details>
-<summary>Maven</summary>
-
-```xml
-<plugin>
-    <groupId>org.apache.maven.plugins</groupId>
-    <artifactId>maven-shade-plugin</artifactId>
-    <version>3.2.4</version>
-    <configuration>
-        <!-- Other settings -->
-        <relocations>
-            <relocation>
-                <pattern>io.github.portlek.configs</pattern>
-                <!-- Replace this -->
-                <shadedPattern>your.package.path.to.relocate</shadedPattern>
-            </relocation>
-        </relocations>
-    </configuration>
-    <executions>
-        <execution>
-            <phase>package</phase>
-            <goals>
-                <goal>shade</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-</details>
-<details>
-<summary>Gradle</summary>
-
-```groovy
-plugins {
-    id "com.github.johnrengelman.shadow" version "6.0.0"
-}
-
-shadowJar {
-    relocate('io.github.portlek.configs', "your.package.path.to.relocate")
-    // other stuffs.
-}
-```
-</details>
-
 ## Loading a file.
 To load and get ready a file method is FlManaged#load(). Here is the example:
 ```java
