@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-public abstract class LinkedManaged extends FileManaged implements LnkdManaged {
+public class LinkedManaged extends FileManaged implements LnkdManaged {
 
     static {
         CfgSection.PROVIDED.put(Scalar.class, new ScalarProvider());
@@ -54,7 +54,7 @@ public abstract class LinkedManaged extends FileManaged implements LnkdManaged {
     private final Supplier<String> chosen;
 
     @SafeVarargs
-    protected LinkedManaged(@NotNull final Supplier<String> chosen,
+    public LinkedManaged(@NotNull final Supplier<String> chosen,
                             @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
