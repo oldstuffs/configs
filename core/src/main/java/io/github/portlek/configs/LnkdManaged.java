@@ -28,9 +28,11 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
 import io.github.portlek.configs.util.Scalar;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
@@ -57,5 +59,11 @@ public interface LnkdManaged extends FlManaged {
 
     @NotNull
     Supplier<String> getChosen();
+
+    @NotNull
+    Set<String> languageKeys();
+
+    @NotNull
+    Set<File> languageFile();
 
 }

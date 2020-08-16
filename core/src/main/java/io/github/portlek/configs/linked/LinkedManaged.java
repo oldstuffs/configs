@@ -35,25 +35,27 @@ import io.github.portlek.mapentry.MapEntry;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-public class LinkedManaged extends FileManaged implements LnkdManaged {
+public abstract class LinkedManaged extends FileManaged implements LnkdManaged {
 
     static {
         CfgSection.PROVIDED.put(Scalar.class, new ScalarProvider());
     }
 
     @NotNull
-    private final Map<String, Map.Entry<File, FileConfiguration>> linkedFiles = new HashMap<>();
+    private final Map<String, Map.Entry<File, FileConfiguration>> files = new HashMap<>();
 
     @NotNull
     private final Supplier<String> chosen;
 
     @SafeVarargs
-    public LinkedManaged(@NotNull final Supplier<String> chosen,
-                         @NotNull final Map.Entry<String, Object>... objects) {
+    protected LinkedManaged(@NotNull final Supplier<String> chosen,
+                            @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
     }
@@ -67,9 +69,23 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
     @Override
     public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
         super.setup(file, fileType);
-        this.linkedFiles.put(
+        this.files.put(
             this.chosen.get(),
             MapEntry.from(file, fileType.load(file)));
+    }
+
+    @Override
+    @NotNull
+    public final Set<String> languageKeys() {
+        return this.files.keySet();
+    }
+
+    @Override
+    @NotNull
+    public final Set<File> languageFile() {
+        return this.files.values().stream()
+            .map(Map.Entry::getKey)
+            .collect(Collectors.toSet());
     }
 
 }
