@@ -55,7 +55,7 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
 
     @SafeVarargs
     public LinkedManaged(@NotNull final Supplier<String> chosen,
-                            @NotNull final Map.Entry<String, Object>... objects) {
+                         @NotNull final Map.Entry<String, Object>... objects) {
         super(objects);
         this.chosen = chosen;
     }
@@ -64,14 +64,6 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
     @Override
     public final Supplier<String> getChosen() {
         return this.chosen;
-    }
-
-    @Override
-    public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
-        super.setup(file, fileType);
-        this.files.put(
-            this.chosen.get(),
-            MapEntry.from(file, fileType.load(file)));
     }
 
     @Override
@@ -86,6 +78,14 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
         return this.files.values().stream()
             .map(Map.Entry::getKey)
             .collect(Collectors.toSet());
+    }
+
+    @Override
+    public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
+        super.setup(file, fileType);
+        this.files.put(
+            this.chosen.get(),
+            MapEntry.from(file, fileType.load(file)));
     }
 
 }
