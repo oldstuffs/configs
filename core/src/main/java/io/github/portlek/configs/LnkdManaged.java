@@ -36,6 +36,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
+import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface LnkdManaged extends FlManaged {
 
@@ -64,6 +65,9 @@ public interface LnkdManaged extends FlManaged {
     Set<String> languageKeys();
 
     @NotNull
-    Set<File> languageFile();
+    Set<File> languageFiles();
+
+    @NotNull
+    Set<FileConfiguration> languageConfigurations();
 
 }

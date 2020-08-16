@@ -74,9 +74,17 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
 
     @Override
     @NotNull
-    public final Set<File> languageFile() {
+    public final Set<File> languageFiles() {
         return this.files.values().stream()
             .map(Map.Entry::getKey)
+            .collect(Collectors.toSet());
+    }
+
+    @Override
+    @NotNull
+    public final Set<FileConfiguration> languageConfigurations() {
+        return this.files.values().stream()
+            .map(Map.Entry::getValue)
             .collect(Collectors.toSet());
     }
 
