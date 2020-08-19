@@ -45,7 +45,7 @@
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>reflection</artifactId>
-            <version>3.3</version>
+            <version>3.5</version>
         </dependency>
         <dependency>
             <groupId>io.github.portlek</groupId>
