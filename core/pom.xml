@@ -31,10 +31,10 @@
     <parent>
         <artifactId>configs-parent</artifactId>
         <groupId>io.github.portlek</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>4.9.8</version>
     </parent>
     <artifactId>configs-core</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>4.9.8</version>
     <name>configs-core</name>
 
 </project>
