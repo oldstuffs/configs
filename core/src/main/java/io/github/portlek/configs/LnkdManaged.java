@@ -63,7 +63,8 @@ public interface LnkdManaged extends FlManaged {
         return Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
             .map(linkedConfig -> Arrays.stream(linkedConfig.value())
                 .map(LinkedFile::key)
-                .collect(Collectors.toSet())).orElse(Collections.emptySet());
+                .collect(Collectors.toSet()))
+            .orElse(Collections.emptySet());
     }
 
 }
