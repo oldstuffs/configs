@@ -67,28 +67,6 @@ public class LinkedManaged extends FileManaged implements LnkdManaged {
     }
 
     @Override
-    @NotNull
-    public final Set<String> languageKeys() {
-        return this.files.keySet();
-    }
-
-    @Override
-    @NotNull
-    public final Set<File> languageFiles() {
-        return this.files.values().stream()
-            .map(Map.Entry::getKey)
-            .collect(Collectors.toSet());
-    }
-
-    @Override
-    @NotNull
-    public final Set<FileConfiguration> languageConfigurations() {
-        return this.files.values().stream()
-            .map(Map.Entry::getValue)
-            .collect(Collectors.toSet());
-    }
-
-    @Override
     public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
         super.setup(file, fileType);
         this.files.put(

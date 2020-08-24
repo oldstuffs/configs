@@ -26,17 +26,14 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.configs.annotations.LinkedFile;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
 import io.github.portlek.configs.util.Scalar;
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
-import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface LnkdManaged extends FlManaged {
 
@@ -62,12 +59,11 @@ public interface LnkdManaged extends FlManaged {
     Supplier<String> getChosen();
 
     @NotNull
-    Set<String> languageKeys();
-
-    @NotNull
-    Set<File> languageFiles();
-
-    @NotNull
-    Set<FileConfiguration> languageConfigurations();
+    default Set<String> languageKeys() {
+        return Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
+            .map(linkedConfig -> Arrays.stream(linkedConfig.value())
+                .map(LinkedFile::key)
+                .collect(Collectors.toSet())).orElse(Collections.emptySet());
+    }
 
 }
