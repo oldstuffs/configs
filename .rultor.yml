@@ -1,9 +1,9 @@
 docker:
   image: yegor256/rultor
 assets:
-  settings.xml: "portlek/secret-repo#configs/settings.xml"
-  pubring.gpg: "portlek/secret-repo#configs/pubring.gpg"
-  secring.gpg: "portlek/secret-repo#configs/secring.gpg"
+  settings.xml: "portlek/secret-repo#general/settings.xml"
+  pubring.gpg: "portlek/secret-repo#general/pubring.gpg"
+  secring.gpg: "portlek/secret-repo#general/secring.gpg"
 architect:
   - portlek
 merge:
