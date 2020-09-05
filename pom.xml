@@ -60,7 +60,7 @@
         <dependency>
             <groupId>io.github.portlek</groupId>
             <artifactId>mapentry</artifactId>
-            <version>1.5</version>
+            <version>1.6</version>
         </dependency>
         <dependency>
             <groupId>me.carleslc.Simple-YAML</groupId>
