@@ -40,10 +40,7 @@ public class GeneralUtilities {
 
     @NotNull
     public String addSeparator(@NotNull final String raw) {
-        if (raw.isEmpty()) {
-            return "";
-        }
-        if (raw.charAt(raw.length() - 1) == '/') {
+        if (raw.isEmpty() || raw.charAt(raw.length() - 1) == '/') {
             return raw;
         }
         return raw + '/';
@@ -123,41 +120,6 @@ public class GeneralUtilities {
                 }
                 return Optional.empty();
             });
-    }
-
-    @NotNull
-    public Map<String, Object> deserialize(@NotNull final Map<?, ?> input) {
-        return input.entrySet().stream()
-            .collect(Collectors.toMap(
-                entry -> Objects.toString(entry.getKey()),
-                entry -> {
-                    final Object value = entry.getValue();
-                    if (value instanceof Map<?, ?>) {
-                        return GeneralUtilities.deserialize((Map<?, ?>) value);
-                    }
-                    if (value instanceof Iterable<?>) {
-                        return GeneralUtilities.deserialize((Iterable<?>) value);
-                    }
-                    if (value instanceof Stream<?>) {
-                        return GeneralUtilities.deserialize(((Stream<?>) value).collect(Collectors.toList()));
-                    }
-                    return value;
-                }));
-    }
-
-    @NotNull
-    private Collection<Object> deserialize(@NotNull final Iterable<?> input) {
-        final Collection<Object> objects = new ArrayList<>();
-        input.forEach(o -> {
-            if (o instanceof Map) {
-                objects.add(GeneralUtilities.deserialize((Map<?, ?>) o));
-            } else if (o instanceof List<?>) {
-                objects.add(GeneralUtilities.deserialize((Iterable<?>) o));
-            } else {
-                objects.add(o);
-            }
-        });
-        return objects;
     }
 
 }
