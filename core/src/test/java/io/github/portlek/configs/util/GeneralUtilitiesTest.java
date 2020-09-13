@@ -162,8 +162,7 @@ class GeneralUtilitiesTest {
             "Couldn't save the resource!",
             lines,
             new HasValues<>(
-                "test: \"test\"",
-                "test-2: \"test-2\""
+                "test: \"test\""
             )
         );
     }
@@ -181,7 +180,7 @@ class GeneralUtilitiesTest {
         MatcherAssert.assertThat(
             "The resource file not created with just 30 bytes!",
             stream.read(bytes),
-            new IsEqual<>(30)
+            new IsEqual<>(12)
         );
     }
 
