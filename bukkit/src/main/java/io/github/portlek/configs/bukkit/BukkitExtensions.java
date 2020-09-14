@@ -32,10 +32,10 @@ import io.github.portlek.configs.bukkit.provided.BukkitItemStackProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitSoundProvider;
 import io.github.portlek.configs.bukkit.provided.BukkitTitleProvider;
 import io.github.portlek.configs.bukkit.util.PlayableSound;
+import io.github.portlek.configs.bukkit.util.Position;
 import io.github.portlek.configs.bukkit.util.SentTitle;
 import java.util.Optional;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -52,15 +52,20 @@ public class BukkitExtensions {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
-        CfgSection.addProvidedSetMethod(Material.class, (material, section, path) -> section.set(path, material.name()));
+        CfgSection.addProvidedSetMethod(Material.class, (material, section, path) ->
+            section.set(path, material.name()));
         CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
             section.getString(s)
                 .flatMap(XMaterial::matchXMaterial));
-        CfgSection.addProvidedSetMethod(XMaterial.class, (xMaterial, section, path) -> section.set(path, xMaterial.name()));
-        CfgSection.addProvidedGetMethod(Location.class, (section, s) ->
+        CfgSection.addProvidedSetMethod(XMaterial.class, (xMaterial, section, path) ->
+            section.set(path, xMaterial.name()));
+        CfgSection.addProvidedGetMethod(Position.class, (section, s) ->
             section.getString(s)
-                .flatMap(LocationUtil::fromKey));
-        CfgSection.addProvidedSetMethod(Location.class, (location, section, path) -> section.set(path, LocationUtil.toKey(location)));
+                .flatMap(LocationUtil::fromKey)
+                .map(Position::new));
+        CfgSection.addProvidedSetMethod(Position.class, (position, section, path) ->
+            position.parse().ifPresent(location ->
+                section.set(path, LocationUtil.toKey(location))));
     }
 
 }
