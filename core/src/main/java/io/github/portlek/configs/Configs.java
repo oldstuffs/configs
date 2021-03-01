@@ -41,10 +41,10 @@ import org.jetbrains.annotations.Nullable;
 public final class Configs {
 
   /**
-   * the config type class.
+   * the config type.
    */
   @NotNull
-  private final Class<ConfigType> configType;
+  private final ConfigType configType;
 
   /**
    * the file name.
@@ -103,10 +103,10 @@ public final class Configs {
     private final List<Serializer> serializers = new ArrayList<>();
 
     /**
-     * the config type class.
+     * the config type.
      */
     @Nullable
-    private Class<ConfigType> configType;
+    private ConfigType configType;
 
     /**
      * the file name.
@@ -159,24 +159,24 @@ public final class Configs {
     }
 
     /**
-     * obtains the config type class.
+     * obtains the config type.
      *
-     * @return config type class.
+     * @return config type.
      */
     @Nullable
-    public Class<ConfigType> getConfigType() {
+    public ConfigType getConfigType() {
       return this.configType;
     }
 
     /**
-     * sets the config type class.
+     * sets the config type.
      *
-     * @param configType the config type class to set.
+     * @param configType the config type to set.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setConfigType(@NotNull final Class<ConfigType> configType) {
+    public Builder setConfigType(@NotNull final ConfigType configType) {
       this.configType = configType;
       return this;
     }
