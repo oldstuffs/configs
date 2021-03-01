@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,86 +29,90 @@ import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.section.ConfigSection;
 import java.io.File;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
 public class FileManaged extends ConfigSection implements FlManaged {
 
-    private final Map<String, Object> objects = new HashMap<>();
+  private final Map<String, Object> objects = new HashMap<>();
 
-    @Nullable
-    private File file;
+  private boolean autoSave = false;
 
-    @Nullable
-    private FileType fileType;
+  @Nullable
+  private File file;
 
-    private boolean autosave = false;
+  @Nullable
+  private FileType fileType;
 
-    @SafeVarargs
-    public FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
-        Arrays.asList(objects).forEach(entry ->
-            this.object(entry.getKey(), entry.getValue()));
+  @SafeVarargs
+  public FileManaged(@NotNull final Map.Entry<String, Object>... objects) {
+    Arrays.asList(objects).forEach(entry ->
+      this.object(entry.getKey(), entry.getValue()));
+  }
+
+  @Override
+  public final void autoSave() {
+    if (this.autoSave) {
+      this.save();
     }
+  }
 
-    @Override
-    public void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
-        this.setup(this, fileType.load(file));
-        this.file = file;
-        this.fileType = fileType;
-    }
+  @NotNull
+  @Override
+  public File getFile() {
+    return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
+  }
 
-    @NotNull
-    @Override
-    public File getFile() {
-        return Objects.requireNonNull(this.file, "You have to load your class with '#load()' method");
-    }
+  @NotNull
+  @Override
+  public FileType getFileType() {
+    return Objects.requireNonNull(this.fileType, "You have to load your class with '#load()' method");
+  }
 
-    @NotNull
-    @Override
-    public FileType getFileType() {
-        return Objects.requireNonNull(this.fileType, "You have to load your class with '#load()' method");
-    }
+  @Override
+  public final boolean isAutoSave() {
+    return this.autoSave;
+  }
 
-    @Override
-    public final void object(@NotNull final String key, @NotNull final Object object) {
-        this.objects.put(key, object);
-    }
+  @Override
+  public final void setAutoSave(final boolean autosv) {
+    this.autoSave = autosv;
+  }
 
-    @NotNull
-    @Override
-    public final Optional<Object> object(@NotNull final String id) {
-        return Optional.ofNullable(this.objects.get(id));
-    }
+  @Override
+  public final void object(@NotNull final String key, @NotNull final Object object) {
+    this.objects.put(key, object);
+  }
 
-    @NotNull
-    @Override
-    public final Collection<Object> objects() {
-        return this.objects.values();
-    }
+  @NotNull
+  @Override
+  public final Optional<Object> object(@NotNull final String id) {
+    return Optional.ofNullable(this.objects.get(id));
+  }
 
-    @Override
-    public final boolean isAutoSave() {
-        return this.autosave;
-    }
+  @NotNull
+  @Override
+  public final Collection<Object> objects() {
+    return this.objects.values();
+  }
 
-    @Override
-    public final void setAutoSave(final boolean autosv) {
-        this.autosave = autosv;
-    }
+  @Override
+  public void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
+    this.setup(this, fileType.load(file));
+    this.file = file;
+    this.fileType = fileType;
+  }
 
-    @Override
-    public final void autoSave() {
-        if (this.autosave) {
-            this.save();
-        }
-    }
-
-    @NotNull
-    @Override
-    public FileConfiguration getConfigurationSection() {
-        return (FileConfiguration) super.getConfigurationSection();
-    }
-
+  @NotNull
+  @Override
+  public FileConfiguration getConfigurationSection() {
+    return (FileConfiguration) super.getConfigurationSection();
+  }
 }

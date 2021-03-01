@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -37,29 +37,28 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public final class Languageable<T> implements Function<String, T> {
 
-    @Getter
-    @NotNull
-    private final Supplier<T> defaultValue;
+  @Getter
+  @NotNull
+  private final Supplier<T> defaultValue;
 
-    @NotNull
-    private final Supplier<Map<String, T>> values;
+  @NotNull
+  private final Supplier<Map<String, T>> values;
 
-    @Override
-    public T apply(@NotNull final String key) {
-        final Map<String, T> map = this.values.get();
-        final Optional<T> optional = Optional.ofNullable(map.get(key));
-        if (optional.isPresent()) {
-            return optional.get();
-        }
-        for (final Map.Entry<String, T> entry : map.entrySet()) {
-            return entry.getValue();
-        }
-        throw new RuntimeException("The values are empty!");
+  @Override
+  public T apply(@NotNull final String key) {
+    final Map<String, T> map = this.values.get();
+    final Optional<T> optional = Optional.ofNullable(map.get(key));
+    if (optional.isPresent()) {
+      return optional.get();
     }
-
-    @NotNull
-    public Map<Object, T> getValues() {
-        return Collections.unmodifiableMap(this.values.get());
+    for (final Map.Entry<String, T> entry : map.entrySet()) {
+      return entry.getValue();
     }
+    throw new RuntimeException("The values are empty!");
+  }
 
+  @NotNull
+  public Map<Object, T> getValues() {
+    return Collections.unmodifiableMap(this.values.get());
+  }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,55 +31,53 @@ import java.util.HashMap;
 import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.IsEqual;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ScalarTest {
 
-    private LnkdManaged managed;
+  private LnkdManaged managed;
 
-    @Test
-    void get() {
-        this.managed = new LinkedManaged(() -> "en");
-        final Map<String, String> map = new HashMap<>();
-        map.put("en", "English words!");
-        map.put("tr", "Türkçe kelimeler!");
-        final Scalar<String> scalarEn = new Scalar<>(this.managed, map);
-        MatcherAssert.assertThat(
-            "Scalar couldn't give the correct value!",
-            scalarEn.get(),
-            new IsEqual<>("English words!")
-        );
-        this.managed = new LinkedManaged(() -> "tr");
-        final Scalar<String> scalarTr = new Scalar<>(this.managed, map);
-        MatcherAssert.assertThat(
-            "Scalar couldn't give the correct value!",
-            scalarTr.get(),
-            new IsEqual<>("Türkçe kelimeler!")
-        );
-    }
+  @Test
+  void change() {
+    this.managed = new LinkedManaged(() -> "en");
+    final Map<String, String> map = new HashMap<>();
+    map.put("en", "English words!");
+    map.put("tr", "Türkçe kelimeler!");
+    final Scalar<String> scalarEn = new Scalar<>(this.managed, map);
+    scalarEn.change("English words!!!");
+    MatcherAssert.assertThat(
+      "Scalar couldn't give the correct value!",
+      scalarEn.get(),
+      new IsEqual<>("English words!!!")
+    );
+    this.managed = new LinkedManaged(() -> "tr");
+    final Scalar<String> scalarTr = new Scalar<>(this.managed, map);
+    scalarTr.change("Türkçe kelimeler!!!");
+    MatcherAssert.assertThat(
+      "Scalar couldn't give the correct value!",
+      scalarTr.get(),
+      new IsEqual<>("Türkçe kelimeler!!!")
+    );
+  }
 
-    @Test
-    void change() {
-        this.managed = new LinkedManaged(() -> "en");
-        final Map<String, String> map = new HashMap<>();
-        map.put("en", "English words!");
-        map.put("tr", "Türkçe kelimeler!");
-        final Scalar<String> scalarEn = new Scalar<>(this.managed, map);
-        scalarEn.change("English words!!!");
-        MatcherAssert.assertThat(
-            "Scalar couldn't give the correct value!",
-            scalarEn.get(),
-            new IsEqual<>("English words!!!")
-        );
-        this.managed = new LinkedManaged(() -> "tr");
-        final Scalar<String> scalarTr = new Scalar<>(this.managed, map);
-        scalarTr.change("Türkçe kelimeler!!!");
-        MatcherAssert.assertThat(
-            "Scalar couldn't give the correct value!",
-            scalarTr.get(),
-            new IsEqual<>("Türkçe kelimeler!!!")
-        );
-    }
-
+  @Test
+  void get() {
+    this.managed = new LinkedManaged(() -> "en");
+    final Map<String, String> map = new HashMap<>();
+    map.put("en", "English words!");
+    map.put("tr", "Türkçe kelimeler!");
+    final Scalar<String> scalarEn = new Scalar<>(this.managed, map);
+    MatcherAssert.assertThat(
+      "Scalar couldn't give the correct value!",
+      scalarEn.get(),
+      new IsEqual<>("English words!")
+    );
+    this.managed = new LinkedManaged(() -> "tr");
+    final Scalar<String> scalarTr = new Scalar<>(this.managed, map);
+    MatcherAssert.assertThat(
+      "Scalar couldn't give the correct value!",
+      scalarTr.get(),
+      new IsEqual<>("Türkçe kelimeler!")
+    );
+  }
 }

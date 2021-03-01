@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -32,85 +32,91 @@ import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.util.GeneralUtilities;
 import io.github.portlek.reflection.RefField;
 import java.util.Optional;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
 public final class PropertyProceed {
 
-    @NotNull
-    private final Property property;
+  @NotNull
+  private final RefField field;
 
-    @NotNull
-    private final Object parentObject;
+  @NotNull
+  private final CfgSection parent;
 
-    @NotNull
-    private final CfgSection parent;
+  @NotNull
+  private final Object parentObject;
 
-    @NotNull
-    private final RefField field;
+  @NotNull
+  private final Property property;
 
-    public PropertyProceed(@NotNull final CfgSection parent, @NotNull final Property property, @NotNull final RefField field) {
-        this(property, parent, parent, field);
+  public PropertyProceed(@NotNull final Property property, @NotNull final Object parentObject,
+                         @NotNull final CfgSection parent, @NotNull final RefField field) {
+    this.property = property;
+    this.parentObject = parentObject;
+    this.parent = parent;
+    this.field = field;
+  }
+
+  public PropertyProceed(@NotNull final CfgSection parent, @NotNull final Property property,
+                         @NotNull final RefField field) {
+    this(property, parent, parent, field);
+  }
+
+  @NotNull
+  public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Object fieldValue,
+                                     @NotNull final String path) {
+    // noinspection unchecked
+    final Class<Object> aClass = (Class<Object>) fieldValue.getClass();
+    return CfgSection.getProvidedClass(aClass)
+      .map(objectProvided -> objectProvided.getWithField(fieldValue, parent, path))
+      .orElseGet(() ->
+        CfgSection.getProvidedGetMethod(aClass)
+          .map(func -> func.getWithField(fieldValue, parent, path))
+          .orElseGet(() -> parent.get(path)));
+  }
+
+  @NotNull
+  public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
+                                     @NotNull final String path) {
+    return CfgSection.getProvidedClass(fieldClass)
+      .map(objectProvided -> objectProvided.get(parent, path))
+      .orElseGet(() ->
+        CfgSection.getProvidedGetMethod(fieldClass)
+          .map(func -> func.get(parent, path))
+          .orElseGet(() -> parent.get(path)));
+  }
+
+  public static void set(@NotNull final CfgSection parent, @NotNull final Object fieldValue,
+                         @NotNull final String path) {
+    //noinspection unchecked
+    final Class<Object> clazz = (Class<Object>) fieldValue.getClass();
+    final Optional<Provided<Object>> optional = CfgSection.getProvidedClass(clazz);
+    if (optional.isPresent()) {
+      optional.get().set(fieldValue, parent, path);
+      return;
     }
-
-    @NotNull
-    public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Object fieldvalue,
-                                       @NotNull final String path) {
-        // noinspection unchecked
-        final Class<Object> aClass = (Class<Object>) fieldvalue.getClass();
-        return CfgSection.getProvidedClass(aClass)
-            .map(objectProvided -> objectProvided.getWithField(fieldvalue, parent, path))
-            .orElseGet(() ->
-                CfgSection.getProvidedGetMethod(aClass)
-                    .map(func -> func.getWithField(fieldvalue, parent, path))
-                    .orElseGet(() -> parent.get(path)));
+    final Optional<ProvidedSet<Object>> setoptional = CfgSection.getProvidedSetMethod(clazz);
+    if (setoptional.isPresent()) {
+      setoptional.get().set(fieldValue, parent, path);
+    } else {
+      parent.set(path, fieldValue);
     }
+  }
 
-    @NotNull
-    public static Optional<Object> get(@NotNull final CfgSection parent, @NotNull final Class<Object> fieldClass,
-                                       @NotNull final String path) {
-        return CfgSection.getProvidedClass(fieldClass)
-            .map(objectProvided -> objectProvided.get(parent, path))
-            .orElseGet(() ->
-                CfgSection.getProvidedGetMethod(fieldClass)
-                    .map(func -> func.get(parent, path))
-                    .orElseGet(() -> parent.get(path)));
-    }
-
-    public static void set(@NotNull final CfgSection parent, @NotNull final Object fieldValue,
-                           @NotNull final String path) {
-        //noinspection unchecked
-        final Class<Object> clazz = (Class<Object>) fieldValue.getClass();
-        final Optional<Provided<Object>> optional = CfgSection.getProvidedClass(clazz);
-        if (optional.isPresent()) {
-            optional.get().set(fieldValue, parent, path);
-            return;
-        }
-        final Optional<ProvidedSet<Object>> setoptional = CfgSection.getProvidedSetMethod(clazz);
-        if (setoptional.isPresent()) {
-            setoptional.get().set(fieldValue, parent, path);
-        } else {
-            parent.set(path, fieldValue);
-        }
-    }
-
-    @SneakyThrows
-    public void load() {
-        this.field.of(this.parentObject).get().ifPresent(fieldvalue -> {
-            final String path = GeneralUtilities.calculatePath(
-                this.property.regex(),
-                this.property.separator(),
-                this.property.value(),
-                this.field.name());
-            final Optional<Object> optional = PropertyProceed.get(this.parent, fieldvalue, path);
-            if (optional.isPresent()) {
-                this.field.of(this.parentObject).set(optional.get());
-            } else {
-                PropertyProceed.set(this.parent, fieldvalue, path);
-            }
-        });
-    }
-
+  @SneakyThrows
+  public void load() {
+    this.field.of(this.parentObject).getValue().ifPresent(fieldValue -> {
+      final String path = GeneralUtilities.calculatePath(
+        this.property.regex(),
+        this.property.separator(),
+        this.property.value(),
+        this.field.getName());
+      final Optional<Object> optional = PropertyProceed.get(this.parent, fieldValue, path);
+      if (optional.isPresent()) {
+        this.field.of(this.parentObject).setValue(optional.get());
+      } else {
+        PropertyProceed.set(this.parent, fieldValue, path);
+      }
+    });
+  }
 }

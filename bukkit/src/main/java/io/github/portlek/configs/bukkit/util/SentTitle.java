@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,53 +42,58 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public final class SentTitle {
 
-    @NotNull
-    private final RpString title;
+  private final int fadeIn;
 
-    @NotNull
-    private final RpString subTitle;
+  private final int fadeOut;
 
-    private final int fadeIn;
+  private final int showTime;
 
-    private final int showTime;
+  @NotNull
+  private final RpString subTitle;
 
-    private final int fadeOut;
+  @NotNull
+  private final RpString title;
 
-    @NotNull
-    public void buildAndSend(@NotNull final Player player, @NotNull final String regex, @NotNull final Supplier<String> replace) {
-        this.buildAndSend(player, MapEntry.from(regex, replace));
-    }
+  public SentTitle(@NotNull final RpString title, @NotNull final RpString subTitle, final int fadeIn,
+                   final int showTime, final int fadeOut) {
+    this.title = title;
+    this.subTitle = subTitle;
+    this.fadeIn = fadeIn;
+    this.showTime = showTime;
+    this.fadeOut = fadeOut;
+  }
 
-    @SafeVarargs
-    @NotNull
-    public final void buildAndSend(@NotNull final Player player, @NotNull final Map.Entry<String, Supplier<String>>... entries) {
-        this.buildAndSend(player, Arrays.asList(entries));
-    }
+  @SafeVarargs
+  public final void buildAndSend(@NotNull final Player player,
+                                 @NotNull final Map.Entry<String, Supplier<String>>... entries) {
+    this.buildAndSend(player, Arrays.asList(entries));
+  }
 
-    @NotNull
-    public void buildAndSend(@NotNull final Player player,
-                             @NotNull final Iterable<Map.Entry<String, Supplier<String>>> entries) {
-        this.buildAndSend(player, new HashMap<String, Supplier<String>>() {{
-            entries.forEach(entry ->
-                this.put(entry.getKey(), entry.getValue()));
-        }});
-    }
+  public void buildAndSend(@NotNull final Player player, @NotNull final String regex,
+                           @NotNull final Supplier<String> replace) {
+    this.buildAndSend(player, MapEntry.from(regex, replace));
+  }
 
-    @NotNull
-    public void buildAndSend(@NotNull final Player player) {
-        this.buildAndSend(player, Collections.emptyMap());
-    }
+  public void buildAndSend(@NotNull final Player player,
+                           @NotNull final Iterable<Map.Entry<String, Supplier<String>>> entries) {
+    this.buildAndSend(player, new HashMap<String, Supplier<String>>() {{
+      entries.forEach(entry ->
+        this.put(entry.getKey(), entry.getValue()));
+    }});
+  }
 
-    @NotNull
-    public void buildAndSend(@NotNull final Player player, @NotNull final Map<String, Supplier<String>> replaces) {
-        this.send(player, this.title.build(replaces), this.subTitle.build(replaces));
-    }
+  public void buildAndSend(@NotNull final Player player) {
+    this.buildAndSend(player, Collections.emptyMap());
+  }
 
-    private void send(@NotNull final Player player, @NotNull final String builttitle,
-                      @NotNull final String builtsubtitle) {
-        Titles.sendTitle(player, this.fadeIn, this.showTime, this.fadeOut,
-            builttitle.isEmpty() ? null : builttitle,
-            builtsubtitle.isEmpty() ? null : builttitle);
-    }
+  public void buildAndSend(@NotNull final Player player, @NotNull final Map<String, Supplier<String>> replaces) {
+    this.send(player, this.title.build(replaces), this.subTitle.build(replaces));
+  }
 
+  private void send(@NotNull final Player player, @NotNull final String builtTitle,
+                    @NotNull final String builtSubTitle) {
+    Titles.sendTitle(player, this.fadeIn, this.showTime, this.fadeOut,
+      builtTitle.isEmpty() ? null : builtTitle,
+      builtSubTitle.isEmpty() ? null : builtTitle);
+  }
 }

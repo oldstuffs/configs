@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,38 +34,37 @@ import io.github.portlek.configs.util.Languageable;
 import org.jetbrains.annotations.NotNull;
 
 @LinkedConfig({
-    @LinkedFile(
-        key = "en",
-        config = @Config(
-            type = YamlFileType.class,
-            name = "en_US"
-        )
-    ),
-    @LinkedFile(
-        key = "tr",
-        config = @Config(
-            type = YamlFileType.class,
-            name = "tr_TR"
-        )
+  @LinkedFile(
+    key = "en",
+    config = @Config(
+      type = YamlFileType.class,
+      name = "en_US"
     )
+  ),
+  @LinkedFile(
+    key = "tr",
+    config = @Config(
+      type = YamlFileType.class,
+      name = "tr_TR"
+    )
+  )
 })
 public final class TestComparableFile extends ComparableManaged<TestComparableFile> {
 
-    @Property
-    public Languageable<String> test = this.languageable(() -> "default-value", (key, defaultValue) -> {
-        if ("en".equals(key)) {
-            return "english words!";
-        }
-        if ("tr".equals(key)) {
-            return "türkçe kelimeler!";
-        }
-        return defaultValue;
-    });
-
-    @NotNull
-    @Override
-    public TestComparableFile self() {
-        return this;
+  @Property
+  public Languageable<String> test = this.languageable(() -> "default-value", (key, defaultValue) -> {
+    if ("en".equals(key)) {
+      return "english words!";
     }
+    if ("tr".equals(key)) {
+      return "türkçe kelimeler!";
+    }
+    return defaultValue;
+  });
 
+  @NotNull
+  @Override
+  public TestComparableFile self() {
+    return this;
+  }
 }

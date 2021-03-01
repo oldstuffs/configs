@@ -9,6 +9,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LinkedConfig {
 
-    LinkedFile[] value() default {};
-
+  LinkedFile[] value() default {};
 }

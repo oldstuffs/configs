@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,29 +26,32 @@
 package io.github.portlek.configs.bukkit.util;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
 @Getter
 public final class PlayableSound {
 
-    @NotNull
-    private final Sound sound;
+  private final Double pitch;
 
-    private final Double volume;
+  @NotNull
+  private final Sound sound;
 
-    private final Double pitch;
+  private final Double volume;
 
-    public void play(@NotNull final Player player) {
-        this.play(player, player.getLocation());
-    }
+  public PlayableSound(@NotNull final Sound sound, final Double pitch, final Double volume) {
+    this.sound = sound;
+    this.pitch = pitch;
+    this.volume = volume;
+  }
 
-    public void play(@NotNull final Player player, @NotNull final Location location) {
-        player.playSound(location, this.sound, this.volume.floatValue(), this.pitch.floatValue());
-    }
+  public void play(@NotNull final Player player) {
+    this.play(player, player.getLocation());
+  }
 
+  public void play(@NotNull final Player player, @NotNull final Location location) {
+    player.playSound(location, this.sound, this.volume.floatValue(), this.pitch.floatValue());
+  }
 }

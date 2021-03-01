@@ -2,7 +2,7 @@
 <!--
   ~ MIT License
   ~
-  ~ Copyright (c) 2020 Hasan Demirtaş
+  ~ Copyright (c) 2021 Hasan Demirtaş
   ~
   ~ Permission is hereby granted, free of charge, to any person obtaining a copy
   ~ of this software and associated documentation files (the "Software"), to deal
@@ -23,32 +23,29 @@
   ~ SOFTWARE.
   ~
   -->
-
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>configs-parent</artifactId>
-        <groupId>io.github.portlek</groupId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-    <artifactId>configs-yaml</artifactId>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>configs-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>configs-yaml</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>me.carleslc.Simple-YAML</groupId>
-            <artifactId>Simple-Yaml</artifactId>
-            <version>1.7.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.portlek</groupId>
-            <artifactId>configs-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-
+  </parent>
+  <artifactId>configs-yaml</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>configs-yaml</name>
+  <dependencies>
+    <dependency>
+      <groupId>me.carleslc.Simple-YAML</groupId>
+      <artifactId>Simple-Yaml</artifactId>
+      <version>1.7.2</version>
+    </dependency>
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>configs-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
 </project>

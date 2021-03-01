@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@
 package io.github.portlek.configs.bukkit;
 
 import io.github.portlek.configs.CfgSection;
+import io.github.portlek.configs.bukkit.util.Position;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
@@ -33,42 +34,73 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BkktSection extends CfgSection {
 
-    @Override
-    @NotNull
-    default Supplier<CfgSection> getNewSection() {
-        return BukkitSection::new;
-    }
+  @NotNull
+  default Optional<ItemStack> getItemStack() {
+    return CfgSection.getProvidedClass(ItemStack.class)
+      .flatMap(provided -> provided.get(this, ""));
+  }
 
-    @NotNull
-    default Optional<ItemStack> getItemStack() {
-        return CfgSection.getProvidedClass(ItemStack.class)
-            .flatMap(provided -> provided.get(this, ""));
-    }
+  default void setItemStack(@NotNull final ItemStack itemstack) {
+    CfgSection.getProvidedClass(ItemStack.class)
+      .ifPresent(provided -> provided.set(itemstack, this, ""));
+  }
 
-    default void setItemStack(@NotNull final ItemStack itemstack) {
-        CfgSection.getProvidedClass(ItemStack.class)
-            .ifPresent(provided -> provided.set(itemstack, this, ""));
+  @NotNull
+  default Optional<ItemStack> getItemStack(@NotNull final String path) {
+    final BkktSection section;
+    if (path.isEmpty()) {
+      section = this;
+    } else {
+      section = (BkktSection) this.getOrCreateSection(path);
     }
+    return section.getItemStack();
+  }
 
-    default void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
-        final BkktSection section;
-        if (path.isEmpty()) {
-            section = this;
-        } else {
-            section = (BkktSection) this.getOrCreateSection(path);
-        }
-        section.setItemStack(itemstack);
+  @Override
+  @NotNull
+  default Supplier<CfgSection> getNewSection() {
+    return BukkitSection::new;
+  }
+
+  @NotNull
+  default Optional<Position> getPosition(@NotNull final String path) {
+    final BkktSection section;
+    if (path.isEmpty()) {
+      section = this;
+    } else {
+      section = (BkktSection) this.getOrCreateSection(path);
     }
+    return section.getPosition();
+  }
 
-    @NotNull
-    default Optional<ItemStack> getItemStack(@NotNull final String path) {
-        final BkktSection section;
-        if (path.isEmpty()) {
-            section = this;
-        } else {
-            section = (BkktSection) this.getOrCreateSection(path);
-        }
-        return section.getItemStack();
+  @NotNull
+  default Optional<Position> getPosition() {
+    return CfgSection.getProvidedClass(Position.class)
+      .flatMap(provided -> provided.get(this, ""));
+  }
+
+  default void setPosition(@NotNull final Position position) {
+    CfgSection.getProvidedClass(Position.class)
+      .ifPresent(provided -> provided.set(position, this, ""));
+  }
+
+  default void setItemStack(@NotNull final String path, @NotNull final ItemStack itemstack) {
+    final BkktSection section;
+    if (path.isEmpty()) {
+      section = this;
+    } else {
+      section = (BkktSection) this.getOrCreateSection(path);
     }
+    section.setItemStack(itemstack);
+  }
 
+  default void setPosition(@NotNull final String path, @NotNull final Position itemstack) {
+    final BkktSection section;
+    if (path.isEmpty()) {
+      section = this;
+    } else {
+      section = (BkktSection) this.getOrCreateSection(path);
+    }
+    section.setPosition(itemstack);
+  }
 }

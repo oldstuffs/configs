@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,27 +35,26 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ScalarProvider implements Provided<Scalar<Object>> {
 
-    @NotNull
-    @Override
-    public Optional<Scalar<Object>> getWithField(@NotNull final Scalar<Object> scalar,
-                                                 @NotNull final CfgSection section, @NotNull final String path) {
-        if (!(section.getParent() instanceof LnkdManaged)) {
-            return Optional.empty();
-        }
-        return PropertyProceed.get(section, scalar.get(), path)
-            .map(scalar::change);
-    }
+  @NotNull
+  @Override
+  public Optional<Scalar<Object>> get(@NotNull final CfgSection section, @NotNull final String path) {
+    return Optional.empty();
+  }
 
-    @NotNull
-    @Override
-    public Optional<Scalar<Object>> get(@NotNull final CfgSection section, @NotNull final String path) {
-        return Optional.empty();
+  @NotNull
+  @Override
+  public Optional<Scalar<Object>> getWithField(@NotNull final Scalar<Object> scalar,
+                                               @NotNull final CfgSection section, @NotNull final String path) {
+    if (!(section.getParent() instanceof LnkdManaged)) {
+      return Optional.empty();
     }
+    return PropertyProceed.get(section, scalar.get(), path)
+      .map(scalar::change);
+  }
 
-    @Override
-    public void set(@NotNull final Scalar<Object> scalar, @NotNull final CfgSection section,
-                    @NotNull final String path) {
-        PropertyProceed.set(section, scalar.get(), path);
-    }
-
+  @Override
+  public void set(@NotNull final Scalar<Object> scalar, @NotNull final CfgSection section,
+                  @NotNull final String path) {
+    PropertyProceed.set(section, scalar.get(), path);
+  }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,79 +40,79 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 public abstract class ComparableManaged<S extends CmprblManaged<S>> extends FileManaged implements CmprblManaged<S> {
 
-    private final Map<String, FlManaged> comparable = new HashMap<>();
+  private final Map<String, FlManaged> comparable = new HashMap<>();
 
-    @Nullable
-    private FlManaged current;
+  @Nullable
+  private FlManaged current;
 
-    @SafeVarargs
-    protected ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
-        super(objects);
+  @SafeVarargs
+  protected ComparableManaged(@NotNull final Map.Entry<String, Object>... objects) {
+    super(objects);
+  }
+
+  @Override
+  public final void clear() {
+    this.comparable.clear();
+    this.current = null;
+  }
+
+  @NotNull
+  @Override
+  public final Optional<FlManaged> comparable(@NotNull final String key) {
+    return Optional.ofNullable(this.comparable.get(key));
+  }
+
+  @NotNull
+  @Override
+  public final Set<String> comparableKeys() {
+    return this.comparable.keySet();
+  }
+
+  @NotNull
+  @Override
+  public final S current(@NotNull final String key) throws RuntimeException {
+    this.current = Optional.ofNullable(this.comparable.get(key)).orElseThrow(() ->
+      new RuntimeException("The key " + key + " not found!"));
+    return this.self();
+  }
+
+  @NotNull
+  @Override
+  public final FlManaged current() {
+    return Optional.ofNullable(this.current).orElseThrow(() ->
+      new RuntimeException(
+        "The current is null, please don't use #getConfigurationSection() before run #load() method!"));
+  }
+
+  @Override
+  public final void setup(@NotNull final String key, @NotNull final FlManaged managed) {
+    if (!Optional.ofNullable(this.current).isPresent()) {
+      this.current = managed;
     }
+    this.comparable.put(key, managed);
+  }
 
-    @NotNull
-    @Override
-    public final S current(@NotNull final String key) throws RuntimeException {
-        this.current = Optional.ofNullable(this.comparable.get(key)).orElseThrow(() ->
-            new RuntimeException("The key " + key + " not found!"));
-        return this.self();
-    }
+  @NotNull
+  @Override
+  public final File getFile() {
+    return this.current().getFile();
+  }
 
-    @NotNull
-    @Override
-    public final Set<String> comparableKeys() {
-        return this.comparable.keySet();
-    }
+  @NotNull
+  @Override
+  public final FileType getFileType() {
+    return this.current().getFileType();
+  }
 
-    @NotNull
-    @Override
-    public final Optional<FlManaged> comparable(@NotNull final String key) {
-        return Optional.ofNullable(this.comparable.get(key));
-    }
+  @NotNull
+  @Override
+  public final FileConfiguration getConfigurationSection() {
+    return this.current().getConfigurationSection();
+  }
 
-    @Override
-    public final void setup(@NotNull final String key, @NotNull final FlManaged managed) {
-        if (!Optional.ofNullable(this.current).isPresent()) {
-            this.current = managed;
-        }
-        this.comparable.put(key, managed);
-    }
-
-    @NotNull
-    @Override
-    public final FlManaged current() {
-        return Optional.ofNullable(this.current).orElseThrow(() ->
-            new RuntimeException(
-                "The current is null, please don't use #getConfigurationSection() before run #load() method!"));
-    }
-
-    @Override
-    public void clear() {
-        this.comparable.clear();
-        this.current = null;
-    }
-
-    @NotNull
-    @Override
-    public final File getFile() {
-        return this.current().getFile();
-    }
-
-    @Override
-    public final FileType getFileType() {
-        return this.current().getFileType();
-    }
-
-    @NotNull
-    @Override
-    public final FileConfiguration getConfigurationSection() {
-        return this.current().getConfigurationSection();
-    }
-
-    @NotNull
-    @Override
-    public final CmprblManaged<S> getParent() {
-        return this;
-    }
-
+  @NotNull
+  @Override
+  public final CmprblManaged<S> getParent() {
+    return this;
+  }
 }

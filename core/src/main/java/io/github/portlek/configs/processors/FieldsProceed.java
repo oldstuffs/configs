@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -31,38 +31,40 @@ import io.github.portlek.configs.annotations.Property;
 import io.github.portlek.configs.annotations.Section;
 import io.github.portlek.reflection.RefClass;
 import io.github.portlek.reflection.clazz.ClassOf;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@RequiredArgsConstructor
 public final class FieldsProceed {
 
-    @NotNull
-    private final Object parentObject;
+  @NotNull
+  private final CfgSection parent;
 
-    @NotNull
-    private final CfgSection parent;
+  @NotNull
+  private final Object parentObject;
 
-    public FieldsProceed(@NotNull final CfgSection parent) {
-        this(parent, parent);
-    }
+  public FieldsProceed(@NotNull final Object parentObject, @NotNull final CfgSection parent) {
+    this.parentObject = parentObject;
+    this.parent = parent;
+  }
 
-    public void load() {
-        final RefClass<Object> parentclass = new ClassOf<>(this.parentObject);
-        parentclass
-            .declaredFieldsWithAnnotation(Property.class, (refField, property) ->
-                new PropertyProceed(property, this.parentObject, this.parent, refField).load());
-        parentclass
-            .declaredFieldsWithAnnotation(Instance.class, (refField, instance) ->
-                refField.of(this.parentObject).get()
-                    .filter(o -> CfgSection.class.isAssignableFrom(o.getClass()))
-                    .map(o -> (CfgSection) o)
-                    .ifPresent(initiatedCfgSection ->
-                        new ClassOf<>(initiatedCfgSection).annotation(Section.class, section -> {
-                            initiatedCfgSection.setup(this.parent.getParent(),
-                                this.parent.getOrCreateSection(section.value()).getConfigurationSection());
-                            new FieldsProceed(initiatedCfgSection).load();
-                        })));
-    }
+  public FieldsProceed(@NotNull final CfgSection parent) {
+    this(parent, parent);
+  }
 
+  public void load() {
+    final RefClass<Object> parentClass = new ClassOf<>(this.parentObject);
+    parentClass
+      .getDeclaredFieldsWithAnnotation(Property.class, (refField, property) ->
+        new PropertyProceed(property, this.parentObject, this.parent, refField).load());
+    parentClass
+      .getDeclaredFieldsWithAnnotation(Instance.class, (refField, instance) ->
+        refField.of(this.parentObject).getValue()
+          .filter(o -> CfgSection.class.isAssignableFrom(o.getClass()))
+          .map(CfgSection.class::cast)
+          .ifPresent(initiatedCfgSection ->
+            new ClassOf<>(initiatedCfgSection).getAnnotation(Section.class, section -> {
+              initiatedCfgSection.setup(this.parent.getParent(),
+                this.parent.getOrCreateSection(section.value()).getConfigurationSection());
+              new FieldsProceed(initiatedCfgSection).load();
+            })));
+  }
 }

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -29,6 +29,7 @@ import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.util.GeneralUtilities;
+import io.github.portlek.reflection.RefConstructed;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
 import java.util.Optional;
@@ -39,52 +40,51 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public final class ConfigProceed {
 
-    @NotNull
-    private final Config config;
+  @NotNull
+  private final Config config;
 
-    @NotNull
-    private final Object parentObject;
+  @NotNull
+  private final FlManaged managed;
 
-    @NotNull
-    private final FlManaged managed;
+  @NotNull
+  private final Object parentObject;
 
-    public ConfigProceed(@NotNull final Config config, @NotNull final FlManaged managed) {
-        this(config, managed, managed);
+  public ConfigProceed(@NotNull final Config config, @NotNull final FlManaged managed) {
+    this(config, managed, managed);
+  }
+
+  @SneakyThrows
+  public void load() {
+    final Class<? extends FileType> fileTypeClass = this.config.type();
+    final FileType fileType = new ClassOf<>(fileTypeClass).getConstructor()
+      .map(RefConstructed::create)
+      .filter(Optional::isPresent)
+      .map(Optional::get)
+      .orElseThrow(() ->
+        new RuntimeException("No file type such " + fileTypeClass.getSimpleName() + '!'));
+    final String name;
+    final String suffix = fileType.suffix();
+    final String fileName = this.config.name();
+    if (fileName.endsWith(suffix)) {
+      name = fileName;
+    } else {
+      name = fileName + suffix;
     }
-
-    @SneakyThrows
-    public void load() {
-        final Class<? extends FileType> fileTypeClass = this.config.type();
-        final FileType fileType = new ClassOf<>(fileTypeClass).constructor()
-            .map(refConstructed -> refConstructed.create())
-            .filter(Optional::isPresent)
-            .map(Optional::get)
-            .orElseThrow(() ->
-                new RuntimeException("No file type such " + fileTypeClass.getSimpleName() + '!'));
-        final String name;
-        final String suffix = fileType.suffix();
-        final String fileName = this.config.name();
-        if (fileName.endsWith(suffix)) {
-            name = fileName;
-        } else {
-            name = fileName + suffix;
-        }
-        final File file = new File(
-            GeneralUtilities.addSeparator(
-                this.config.location()
-                    .replace("%basedir%",
-                        GeneralUtilities.basedir(this.managed.getClass()).getParentFile().getAbsolutePath())),
-            name);
-        if (this.config.copyDefault() && !file.exists()) {
-            GeneralUtilities.saveResource(this.parentObject.getClass(), file,
-                GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
-        } else if (!file.exists()) {
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-        }
-        this.managed.setup(file, fileType);
-        new FieldsProceed(this.parentObject, this.managed).load();
-        this.managed.save();
+    final File file = new File(
+      GeneralUtilities.addSeparator(
+        this.config.location()
+          .replace("%basedir%",
+            GeneralUtilities.basedir(this.managed.getClass()).getParentFile().getAbsolutePath())),
+      name);
+    if (this.config.copyDefault() && !file.exists()) {
+      GeneralUtilities.saveResource(this.parentObject.getClass(), file,
+        GeneralUtilities.addSeparator(this.config.resourcePath()) + name);
+    } else if (!file.exists()) {
+      file.getParentFile().mkdirs();
+      file.createNewFile();
     }
-
+    this.managed.setup(file, fileType);
+    new FieldsProceed(this.parentObject, this.managed).load();
+    this.managed.save();
+  }
 }

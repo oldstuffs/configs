@@ -35,7 +35,6 @@ import org.jetbrains.annotations.NotNull;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Section {
 
-    @NotNull
-    String value();
-
+  @NotNull
+  String value();
 }

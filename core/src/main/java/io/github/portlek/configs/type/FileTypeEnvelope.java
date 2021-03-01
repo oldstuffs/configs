@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,42 +29,45 @@ import io.github.portlek.configs.BiCons;
 import io.github.portlek.configs.FileType;
 import io.github.portlek.configs.Func;
 import java.io.File;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.simpleyaml.configuration.file.FileConfiguration;
 
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class FileTypeEnvelope implements FileType {
 
-    @NotNull
-    private final String suffix;
+  @NotNull
+  private final Func<File, FileConfiguration> loadFunc;
 
-    @NotNull
-    private final Func<File, FileConfiguration> loadFunc;
+  @NotNull
+  private final BiCons<FileConfiguration, File> saveFunc;
 
-    @NotNull
-    private final BiCons<FileConfiguration, File> saveFunc;
+  @NotNull
+  private final String suffix;
 
-    protected FileTypeEnvelope(@NotNull final String suffix, @NotNull final Func<File, FileConfiguration> loadFunc) {
-        this(suffix, loadFunc, FileConfiguration::save);
-    }
+  protected FileTypeEnvelope(@NotNull final String suffix, @NotNull final Func<File, FileConfiguration> loadFunc,
+                             @NotNull final BiCons<FileConfiguration, File> saveFunc) {
+    this.suffix = suffix;
+    this.loadFunc = loadFunc;
+    this.saveFunc = saveFunc;
+  }
 
-    @NotNull
-    @Override
-    public final String suffix() {
-        return this.suffix;
-    }
+  protected FileTypeEnvelope(@NotNull final String suffix, @NotNull final Func<File, FileConfiguration> loadFunc) {
+    this(suffix, loadFunc, FileConfiguration::save);
+  }
 
-    @NotNull
-    @Override
-    public final FileConfiguration load(@NotNull final File file) throws Exception {
-        return this.loadFunc.apply(file);
-    }
+  @NotNull
+  @Override
+  public final FileConfiguration load(@NotNull final File file) throws Exception {
+    return this.loadFunc.apply(file);
+  }
 
-    @Override
-    public final void save(@NotNull final FileConfiguration configuration, @NotNull final File file) throws Exception {
-        this.saveFunc.accept(configuration, file);
-    }
+  @Override
+  public final void save(@NotNull final FileConfiguration configuration, @NotNull final File file) throws Exception {
+    this.saveFunc.accept(configuration, file);
+  }
 
+  @NotNull
+  @Override
+  public final String suffix() {
+    return this.suffix;
+  }
 }

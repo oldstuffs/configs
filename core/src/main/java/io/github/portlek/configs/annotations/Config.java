@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -36,18 +36,17 @@ import org.jetbrains.annotations.NotNull;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Config {
 
-    @NotNull
-    String name();
+  boolean copyDefault() default false;
 
-    @NotNull
-    String location() default "%basedir%";
+  @NotNull
+  String location() default "%basedir%";
 
-    @NotNull
-    Class<? extends FileType> type();
+  @NotNull
+  String name();
 
-    @NotNull
-    String resourcePath() default "";
+  @NotNull
+  String resourcePath() default "";
 
-    boolean copyDefault() default false;
-
+  @NotNull
+  Class<? extends FileType> type();
 }

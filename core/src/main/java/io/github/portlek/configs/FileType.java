@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,10 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface FileType {
 
-    @NotNull
-    String suffix();
+  @NotNull FileConfiguration load(@NotNull File file) throws Exception;
 
-    @NotNull FileConfiguration load(@NotNull File file) throws Exception;
+  void save(@NotNull FileConfiguration configuration, @NotNull File file) throws Exception;
 
-    void save(@NotNull FileConfiguration configuration, @NotNull File file) throws Exception;
-
+  @NotNull
+  String suffix();
 }

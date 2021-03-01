@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -32,10 +32,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class BukkitLinkedManaged extends LinkedManaged implements BkktLnkdManaged {
 
-    @SafeVarargs
-    public BukkitLinkedManaged(@NotNull final Supplier<String> chosen,
-                               @NotNull final Map.Entry<String, Object>... objects) {
-        super(chosen, objects);
-    }
-
+  @SafeVarargs
+  public BukkitLinkedManaged(@NotNull final Supplier<String> chosen,
+                             @NotNull final Map.Entry<String, Object>... objects) {
+    super(chosen, objects);
+  }
 }

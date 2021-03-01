@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,39 +34,38 @@ import org.jetbrains.annotations.NotNull;
 
 public final class BukkitTitleProvider implements Provided<SentTitle> {
 
-    @Override
-    public void set(@NotNull final SentTitle title, @NotNull final CfgSection section,
-                    @NotNull final String path) {
-        final String fnlpath = GeneralUtilities.putDot(path);
-        section.set(fnlpath + "title", title.getTitle().getValue());
-        section.set(fnlpath + "sub-title", title.getSubTitle().getValue());
-        section.set(fnlpath + "fade-in", title.getFadeIn());
-        section.set(fnlpath + "show-time", title.getShowTime());
-        section.set(fnlpath + "fade-out", title.getFadeOut());
-    }
+  @NotNull
+  @Override
+  public Optional<SentTitle> get(@NotNull final CfgSection section, @NotNull final String path) {
+    return Optional.empty();
+  }
 
-    @NotNull
-    @Override
-    public Optional<SentTitle> getWithField(@NotNull final SentTitle sentTitle,
-                                            @NotNull final CfgSection section, @NotNull final String path) {
-        final String fnlpath = GeneralUtilities.putDot(path);
-        final Optional<String> title = section.getString(fnlpath + "title");
-        final Optional<String> subTitle = section.getString(fnlpath + "sub-title");
-        final Optional<Integer> fadeIn = section.getInteger(fnlpath + "fade-in");
-        final Optional<Integer> showTime = section.getInteger(fnlpath + "show-time");
-        final Optional<Integer> fadeOut = section.getInteger(fnlpath + "fade-out");
-        if (!title.isPresent() || !subTitle.isPresent() || !fadeIn.isPresent() || !showTime.isPresent() ||
-            !fadeOut.isPresent()) {
-            return Optional.empty();
-        }
-        return Optional.of(new SentTitle(sentTitle.getTitle().value(title.get()),
-            sentTitle.getSubTitle().value(subTitle.get()), fadeIn.get(), showTime.get(), fadeOut.get()));
+  @NotNull
+  @Override
+  public Optional<SentTitle> getWithField(@NotNull final SentTitle sentTitle,
+                                          @NotNull final CfgSection section, @NotNull final String path) {
+    final String fnlpath = GeneralUtilities.putDot(path);
+    final Optional<String> title = section.getString(fnlpath + "title");
+    final Optional<String> subTitle = section.getString(fnlpath + "sub-title");
+    final Optional<Integer> fadeIn = section.getInteger(fnlpath + "fade-in");
+    final Optional<Integer> showTime = section.getInteger(fnlpath + "show-time");
+    final Optional<Integer> fadeOut = section.getInteger(fnlpath + "fade-out");
+    if (!title.isPresent() || !subTitle.isPresent() || !fadeIn.isPresent() || !showTime.isPresent() ||
+      !fadeOut.isPresent()) {
+      return Optional.empty();
     }
+    return Optional.of(new SentTitle(sentTitle.getTitle().value(title.get()),
+      sentTitle.getSubTitle().value(subTitle.get()), fadeIn.get(), showTime.get(), fadeOut.get()));
+  }
 
-    @NotNull
-    @Override
-    public Optional<SentTitle> get(@NotNull final CfgSection section, @NotNull final String path) {
-        return Optional.empty();
-    }
-
+  @Override
+  public void set(@NotNull final SentTitle title, @NotNull final CfgSection section,
+                  @NotNull final String path) {
+    final String fnlpath = GeneralUtilities.putDot(path);
+    section.set(fnlpath + "title", title.getTitle().getValue());
+    section.set(fnlpath + "sub-title", title.getSubTitle().getValue());
+    section.set(fnlpath + "fade-in", title.getFadeIn());
+    section.set(fnlpath + "show-time", title.getShowTime());
+    section.set(fnlpath + "fade-out", title.getFadeOut());
+  }
 }

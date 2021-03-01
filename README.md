@@ -3,11 +3,15 @@
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 [![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
 
-[![Build Status](https://travis-ci.com/portlek/configs.svg?branch=master)](https://travis-ci.com/portlek/configs)
-![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=version)
+![master](https://github.com/portlek/ppom/workflows/build/badge.svg)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/config-parent?label=version)](https://repo1.maven.org/maven2/io/github/portlek/configs-core/)
+
 ## How to use
-### Main dependency(Required). 
+
+### Main dependency(Required).
+
 **You have to add at least 1 dependency which is `Optional Required`**
+
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -15,10 +19,13 @@
     <version>${version}</version>
 </dependency>
 ```
+
 ```groovy
 implementation("io.github.portlek:configs-core:${version}")
 ```
+
 ### Yaml support(Optional Required)
+
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -26,10 +33,13 @@ implementation("io.github.portlek:configs-core:${version}")
     <version>${version}</version>
 </dependency>
 ```
+
 ```groovy
 implementation("io.github.portlek:configs-yaml:${version}")
 ```
+
 ### Json support(Optional Required)
+
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -37,10 +47,13 @@ implementation("io.github.portlek:configs-yaml:${version}")
     <version>${version}</version>
 </dependency>
 ```
+
 ```groovy
 implementation("io.github.portlek:configs-json:${version}")
 ```
+
 ### Bukkit extensions(Optional)
+
 ```xml
 <dependency>
     <groupId>io.github.portlek</groupId>
@@ -48,11 +61,15 @@ implementation("io.github.portlek:configs-json:${version}")
     <version>${version}</version>
 </dependency>
 ```
+
 ```groovy
 implementation("io.github.portlek:configs-bukkit:${version}")
 ```
+
 ## Loading a file.
+
 To load and get ready a file method is FlManaged#load(). Here is the example:
+
 ```java
 final class CreatingConfigClass {
 
@@ -69,8 +86,11 @@ final class CreatingConfigClass {
 
 }
 ```
+
 ## FileManaged
+
 Your class that extends FileManaged is your actual file interface. You can put sections and properties into it.
+
 ```java
 @Config(
   name = "config",
@@ -98,8 +118,11 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
+
 ### void onCreate()
+
 The method runs before the file and the managed load. You can't use getString or other methods in the method.
+
 ```java
 @Config(
   name = "config",
@@ -114,8 +137,11 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
+
 ### void onLoad()
+
 The method runs after the file and the managed load. You can use getString and other methods in the method.
+
 ```java
 @Config(
   name = "config",
@@ -130,7 +156,9 @@ public final class ExampleConfigFile extends FileManaged {
 
 }
 ```
+
 ## LinkedManaged
+
 ```java
 @LinkedConfig({
   @LinkedFile(
@@ -231,7 +259,9 @@ public final class ExampleLinkedFile extends LinkedManaged {
 
 }
 ```
+
 ### Scalar< T > match(Consumer<Map<String, T>>)
+
 ```java
 final class Test {
 
@@ -253,19 +283,29 @@ final class Test {
 
 }
 ```
+
 ## ComparableManaged
+
 ## ConfigSection
+
 ## Extensions
+
 ### Bukkit
+
 - First of all you need `configs-bukkit` dependency.
 - Secondly, you have to run `BukkitExtensions.registerExtensions();` before everything.
 - You can also use BukkitComparable/BukkitLinked/BukkitManaged/BukkitSection classes instead of the core classes.
+
 ## How to contribute?
+
 Just fork the repo and send us a pull request.
 
 Make sure your branch builds without any warnings/issues:
+
 ```
-mvn clean install -Dgpg.skip=true
+mvn clean install
 ```
+
 ## Supporters
+
 [![Jetbrains](logo/jetbrains.svg)](https://www.jetbrains.com/?from=configs)

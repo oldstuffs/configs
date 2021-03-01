@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,12 @@
 package io.github.portlek.configs.section;
 
 import io.github.portlek.configs.CfgSection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -35,151 +40,150 @@ import org.jetbrains.annotations.Nullable;
 @RequiredArgsConstructor
 public final class SectionBuilder {
 
-    private final Collection<Runnable> runs = new ArrayList<>();
+  private final Collection<SectionBuilder> parents = new ArrayList<>();
 
-    private final Collection<SectionBuilder> parents = new ArrayList<>();
+  private final Collection<Runnable> runs = new ArrayList<>();
 
-    @NotNull
-    private final CfgSection section;
+  @NotNull
+  private final CfgSection section;
 
-    private static void buildParents(@NotNull final SectionBuilder builder) {
-        builder.getRuns().forEach(Runnable::run);
-        builder.getParents().forEach(SectionBuilder::buildParents);
-    }
+  private static void buildParents(@NotNull final SectionBuilder builder) {
+    builder.getRuns().forEach(Runnable::run);
+    builder.getParents().forEach(SectionBuilder::buildParents);
+  }
 
-    @NotNull
-    public SectionBuilder remove(@NotNull final String path) {
-        return this.add(() ->
-            this.section.set(path, null));
-    }
+  public void build() {
+    final boolean save = this.section.getParent().isAutoSave();
+    this.section.getParent().setAutoSave(false);
+    SectionBuilder.buildParents(this);
+    this.section.getParent().setAutoSave(save);
+  }
 
-    @NotNull
-    public <T> SectionBuilder setIfAbsentGeneric(@NotNull final String path, @NotNull final T fallback,
-                                                 @NotNull final Function<String, Optional<T>> function) {
-        return this.add(() ->
-            this.section.getOrSetGeneric(path, fallback, function));
-    }
+  @NotNull
+  public SectionBuilder createIfAbsentSection(@NotNull final String path,
+                                              @NotNull final Function<SectionBuilder, SectionBuilder> func) {
+    return this.add(() ->
+      this.parents.add(func.apply(new SectionBuilder(this.section.getOrCreateSection(path)))));
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentUniqueId(@NotNull final String path, @NotNull final UUID fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getUniqueId);
-    }
+  @NotNull
+  public SectionBuilder createSection(@NotNull final String path,
+                                      @NotNull final Function<SectionBuilder, SectionBuilder> func) {
+    return this.add(() ->
+      this.parents.add(func.apply(new SectionBuilder(this.section.createSection(path)))));
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentUniqueId(@NotNull final String path, @NotNull final String fallback) {
-        return this.setIfAbsentUniqueId(path, UUID.fromString(fallback));
-    }
+  @NotNull
+  public SectionBuilder remove(@NotNull final String path) {
+    return this.add(() ->
+      this.section.set(path, null));
+  }
 
-    public SectionBuilder setIfAbsentString(@NotNull final String path, @NotNull final String fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getString);
-    }
+  @NotNull
+  public SectionBuilder set(@NotNull final String path, @Nullable final Object object) {
+    return this.add(() ->
+      this.section.set(path, object));
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentLong(@NotNull final String path, @NotNull final Long fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getLong);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentBoolean(@NotNull final String path, @NotNull final Boolean fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getBoolean);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentInteger(@NotNull final String path, @NotNull final Integer fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getInteger);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentBooleanList(@NotNull final String path, @NotNull final List<Boolean> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getBooleanList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentBoolean(@NotNull final String path, @NotNull final Boolean fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getBoolean);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentByteList(@NotNull final String path, @NotNull final List<Byte> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getByteList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentDouble(@NotNull final String path, @NotNull final Double fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getDouble);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentCharacterList(@NotNull final String path, @NotNull final List<Character> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getCharacterList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentStringList(@NotNull final String path, @NotNull final List<String> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getStringList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentDouble(@NotNull final String path, @NotNull final Double fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getDouble);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentIntegerList(@NotNull final String path, @NotNull final List<Integer> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getIntegerList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentDoubleList(@NotNull final String path, @NotNull final List<Double> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getDoubleList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentBooleanList(@NotNull final String path, @NotNull final List<Boolean> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getBooleanList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentFloatList(@NotNull final String path, @NotNull final List<Float> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getFloatList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentByteList(@NotNull final String path, @NotNull final List<Byte> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getByteList);
-    }
+  @NotNull
+  public <T> SectionBuilder setIfAbsentGeneric(@NotNull final String path, @NotNull final T fallback,
+                                               @NotNull final Function<String, Optional<T>> function) {
+    return this.add(() ->
+      this.section.getOrSetGeneric(path, fallback, function));
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentCharacterList(@NotNull final String path, @NotNull final List<Character> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getCharacterList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentInteger(@NotNull final String path, @NotNull final Integer fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getInteger);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentDoubleList(@NotNull final String path, @NotNull final List<Double> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getDoubleList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentIntegerList(@NotNull final String path, @NotNull final List<Integer> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getIntegerList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentFloatList(@NotNull final String path, @NotNull final List<Float> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getFloatList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentLong(@NotNull final String path, @NotNull final Long fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getLong);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentLongList(@NotNull final String path, @NotNull final List<Long> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getLongList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentLongList(@NotNull final String path, @NotNull final List<Long> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getLongList);
+  }
 
-    @NotNull
-    public SectionBuilder setIfAbsentShortList(@NotNull final String path, @NotNull final List<Short> fallback) {
-        return this.setIfAbsentGeneric(path, fallback, this.section::getShortList);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentShortList(@NotNull final String path, @NotNull final List<Short> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getShortList);
+  }
 
-    @NotNull
-    public SectionBuilder set(@NotNull final String path, @Nullable final Object object) {
-        return this.add(() ->
-            this.section.set(path, object));
-    }
+  public SectionBuilder setIfAbsentString(@NotNull final String path, @NotNull final String fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getString);
+  }
 
-    @NotNull
-    public SectionBuilder createIfAbsentSection(@NotNull final String path,
-                                                @NotNull final Function<SectionBuilder, SectionBuilder> func) {
-        return this.add(() ->
-            this.parents.add(func.apply(new SectionBuilder(this.section.getOrCreateSection(path)))));
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentStringList(@NotNull final String path, @NotNull final List<String> fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getStringList);
+  }
 
-    @NotNull
-    public SectionBuilder createSection(@NotNull final String path,
-                                        @NotNull final Function<SectionBuilder, SectionBuilder> func) {
-        return this.add(() ->
-            this.parents.add(func.apply(new SectionBuilder(this.section.createSection(path)))));
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentUniqueId(@NotNull final String path, @NotNull final UUID fallback) {
+    return this.setIfAbsentGeneric(path, fallback, this.section::getUniqueId);
+  }
 
-    public void build() {
-        final boolean save = this.section.getParent().isAutoSave();
-        this.section.getParent().setAutoSave(false);
-        SectionBuilder.buildParents(this);
-        this.section.getParent().setAutoSave(save);
-    }
+  @NotNull
+  public SectionBuilder setIfAbsentUniqueId(@NotNull final String path, @NotNull final String fallback) {
+    return this.setIfAbsentUniqueId(path, UUID.fromString(fallback));
+  }
 
-    @NotNull
-    private Collection<Runnable> getRuns() {
-        return Collections.unmodifiableCollection(this.runs);
-    }
+  @NotNull
+  private SectionBuilder add(@NotNull final Runnable run) {
+    this.runs.add(run);
+    return this;
+  }
 
-    @NotNull
-    private Collection<SectionBuilder> getParents() {
-        return Collections.unmodifiableCollection(this.parents);
-    }
+  @NotNull
+  private Collection<SectionBuilder> getParents() {
+    return Collections.unmodifiableCollection(this.parents);
+  }
 
-    @NotNull
-    private SectionBuilder add(@NotNull final Runnable run) {
-        this.runs.add(run);
-        return this;
-    }
-
+  @NotNull
+  private Collection<Runnable> getRuns() {
+    return Collections.unmodifiableCollection(this.runs);
+  }
 }

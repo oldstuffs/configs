@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,35 +41,34 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 public class LinkedManaged extends FileManaged implements LnkdManaged {
 
-    static {
-        CfgSection.PROVIDED.put(Scalar.class, new ScalarProvider());
-    }
+  @NotNull
+  private final Supplier<String> chosen;
 
-    @NotNull
-    private final Map<String, Map.Entry<File, FileConfiguration>> files = new HashMap<>();
+  @NotNull
+  private final Map<String, Map.Entry<File, FileConfiguration>> files = new HashMap<>();
 
-    @NotNull
-    private final Supplier<String> chosen;
+  static {
+    CfgSection.PROVIDED.put(Scalar.class, new ScalarProvider());
+  }
 
-    @SafeVarargs
-    public LinkedManaged(@NotNull final Supplier<String> chosen,
-                         @NotNull final Map.Entry<String, Object>... objects) {
-        super(objects);
-        this.chosen = chosen;
-    }
+  @SafeVarargs
+  public LinkedManaged(@NotNull final Supplier<String> chosen,
+                       @NotNull final Map.Entry<String, Object>... objects) {
+    super(objects);
+    this.chosen = chosen;
+  }
 
-    @NotNull
-    @Override
-    public final Supplier<String> getChosen() {
-        return this.chosen;
-    }
+  @NotNull
+  @Override
+  public final Supplier<String> getChosen() {
+    return this.chosen;
+  }
 
-    @Override
-    public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
-        super.setup(file, fileType);
-        this.files.put(
-            this.chosen.get(),
-            MapEntry.from(file, fileType.load(file)));
-    }
-
+  @Override
+  public final void setup(@NotNull final File file, final @NotNull FileType fileType) throws Exception {
+    super.setup(file, fileType);
+    this.files.put(
+      this.chosen.get(),
+      MapEntry.from(file, fileType.load(file)));
+  }
 }

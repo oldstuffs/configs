@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,50 +36,49 @@ import org.simpleyaml.configuration.file.FileConfiguration;
 
 public interface FlManaged extends CfgSection {
 
-    default void load() {
-        this.onCreate();
-        new ConfigProceed(
-            Optional.ofNullable(this.getClass().getDeclaredAnnotation(Config.class)).orElseThrow(() ->
-                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!")),
-            this
-        ).load();
-        this.onLoad();
-    }
+  void autoSave();
 
-    default void onCreate() {
-    }
+  @Override
+  FileConfiguration getConfigurationSection();
 
-    default void onLoad() {
-    }
+  @NotNull
+  File getFile();
 
-    @SneakyThrows
-    default void save() {
-        this.getFileType().save(this.getConfigurationSection(), this.getFile());
-    }
+  @NotNull
+  FileType getFileType();
 
-    @Override
-    FileConfiguration getConfigurationSection();
+  boolean isAutoSave();
 
-    void setup(@NotNull File file, @NotNull FileType fileType) throws Exception;
+  void setAutoSave(boolean autosv);
 
-    @NotNull
-    File getFile();
+  default void load() {
+    this.onCreate();
+    new ConfigProceed(
+      Optional.ofNullable(this.getClass().getDeclaredAnnotation(Config.class)).orElseThrow(() ->
+        new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `Config` annotation!")),
+      this
+    ).load();
+    this.onLoad();
+  }
 
-    @NotNull
-    FileType getFileType();
+  void object(@NotNull String key, @NotNull Object object);
 
-    void object(@NotNull String key, @NotNull Object object);
+  @NotNull
+  Optional<Object> object(@NotNull String id);
 
-    @NotNull
-    Optional<Object> object(@NotNull String id);
+  @NotNull
+  Collection<Object> objects();
 
-    @NotNull
-    Collection<Object> objects();
+  default void onCreate() {
+  }
 
-    boolean isAutoSave();
+  default void onLoad() {
+  }
 
-    void setAutoSave(boolean autosv);
+  @SneakyThrows
+  default void save() {
+    this.getFileType().save(this.getConfigurationSection(), this.getFile());
+  }
 
-    void autoSave();
-
+  void setup(@NotNull File file, @NotNull FileType fileType) throws Exception;
 }

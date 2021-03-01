@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -41,37 +41,36 @@ import org.simpleyaml.configuration.ConfigurationSection;
 
 public class ConfigSection implements CfgSection {
 
-    static {
-        CfgSection.PROVIDED.put(Languageable.class, new LanguageableProvider());
-        CfgSection.addProvidedClass(RpString.class, new ReplaceableStringProvider());
-        CfgSection.addProvidedClass(RpList.class, new ReplaceableListProvider());
-        CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
-        CfgSection.addProvidedSetMethod(UUID.class, (uuid, sctn, path) -> sctn.set(path, uuid.toString()));
-    }
+  @Nullable
+  private FlManaged parent;
 
-    @Nullable
-    private ConfigurationSection section;
+  @Nullable
+  private ConfigurationSection section;
 
-    @Nullable
-    private FlManaged parent;
+  static {
+    CfgSection.PROVIDED.put(Languageable.class, new LanguageableProvider());
+    CfgSection.addProvidedClass(RpString.class, new ReplaceableStringProvider());
+    CfgSection.addProvidedClass(RpList.class, new ReplaceableListProvider());
+    CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
+    CfgSection.addProvidedSetMethod(UUID.class, (uuid, sctn, path) -> sctn.set(path, uuid.toString()));
+  }
 
-    @Override
-    public final void setup(@NotNull final FlManaged parent,
-                            @NotNull final ConfigurationSection configurationSection) {
-        this.section = configurationSection;
-        this.parent = parent;
-    }
+  @NotNull
+  @Override
+  public ConfigurationSection getConfigurationSection() {
+    return Objects.requireNonNull(this.section, "You have to load your class with '#load()' method");
+  }
 
-    @NotNull
-    @Override
-    public ConfigurationSection getConfigurationSection() {
-        return Objects.requireNonNull(this.section, "You have to load your class with '#load()' method");
-    }
+  @NotNull
+  @Override
+  public FlManaged getParent() {
+    return Objects.requireNonNull(this.parent, "You have to load your class with '#load()' method");
+  }
 
-    @NotNull
-    @Override
-    public FlManaged getParent() {
-        return Objects.requireNonNull(this.parent, "You have to load your class with '#load()' method");
-    }
-
+  @Override
+  public final void setup(@NotNull final FlManaged parent,
+                          @NotNull final ConfigurationSection configurationSection) {
+    this.section = configurationSection;
+    this.parent = parent;
+  }
 }

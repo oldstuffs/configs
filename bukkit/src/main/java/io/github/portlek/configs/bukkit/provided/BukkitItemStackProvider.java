@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,39 +36,38 @@ import org.jetbrains.annotations.NotNull;
 
 public final class BukkitItemStackProvider implements Provided<ItemStack> {
 
-    @Override
-    public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
-                    @NotNull final String path) {
-        final String fnlpath = GeneralUtilities.putDot(path);
-        if (!fnlpath.isEmpty()) {
-            this.to(section.getOrCreateSection(
-                fnlpath.substring(0, fnlpath.length() - 1)),
-                ItemStackUtil.to(itemStack));
-            return;
-        }
-        this.to(section, ItemStackUtil.to(itemStack));
+  @NotNull
+  @Override
+  public Optional<ItemStack> get(@NotNull final CfgSection section, @NotNull final String path) {
+    final String fnlpath = GeneralUtilities.putDot(path);
+    if (!fnlpath.isEmpty()) {
+      return ItemStackUtil.from(
+        section.getOrCreateSection(fnlpath.substring(0, fnlpath.length() - 1))
+          .getConfigurationSection().getValues(false));
     }
+    return ItemStackUtil.from(section.getConfigurationSection().getValues(false));
+  }
 
-    @NotNull
-    @Override
-    public Optional<ItemStack> get(@NotNull final CfgSection section, @NotNull final String path) {
-        final String fnlpath = GeneralUtilities.putDot(path);
-        if (!fnlpath.isEmpty()) {
-            return ItemStackUtil.from(
-                section.getOrCreateSection(fnlpath.substring(0, fnlpath.length() - 1))
-                    .getConfigurationSection().getValues(false));
-        }
-        return ItemStackUtil.from(section.getConfigurationSection().getValues(false));
+  @Override
+  public void set(@NotNull final ItemStack itemStack, @NotNull final CfgSection section,
+                  @NotNull final String path) {
+    final String fnlpath = GeneralUtilities.putDot(path);
+    if (!fnlpath.isEmpty()) {
+      this.to(section.getOrCreateSection(
+        fnlpath.substring(0, fnlpath.length() - 1)),
+        ItemStackUtil.to(itemStack));
+      return;
     }
+    this.to(section, ItemStackUtil.to(itemStack));
+  }
 
-    private void to(@NotNull final CfgSection section, @NotNull final Map<String, Object> map) {
-        map.forEach((key, value) -> {
-            if (value instanceof Map<?, ?>) {
-                this.to(section.createSection(key), (Map<String, Object>) value);
-            } else {
-                section.set(key, value);
-            }
-        });
-    }
-
+  private void to(@NotNull final CfgSection section, @NotNull final Map<String, Object> map) {
+    map.forEach((key, value) -> {
+      if (value instanceof Map<?, ?>) {
+        this.to(section.createSection(key), (Map<String, Object>) value);
+      } else {
+        section.set(key, value);
+      }
+    });
+  }
 }

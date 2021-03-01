@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,23 +35,22 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public final class Scalar<T> implements Supplier<T> {
 
-    @NotNull
-    private final LnkdManaged managed;
+  @NotNull
+  private final LnkdManaged managed;
 
-    @NotNull
-    private final Map<String, T> map;
+  @NotNull
+  private final Map<String, T> map;
 
-    @Override
-    public T get() {
-        final String chosen = this.managed.getChosen().get();
-        return Optional.ofNullable(this.map.get(chosen)).orElseThrow(() ->
-            new IllegalStateException("Cannot found match a with the file key > " + chosen));
-    }
+  @NotNull
+  public Scalar<T> change(@NotNull final T t) {
+    this.map.put(this.managed.getChosen().get(), t);
+    return new Scalar<>(this.managed, this.map);
+  }
 
-    @NotNull
-    public Scalar<T> change(@NotNull final T t) {
-        this.map.put(this.managed.getChosen().get(), t);
-        return new Scalar<>(this.managed, this.map);
-    }
-
+  @Override
+  public T get() {
+    final String chosen = this.managed.getChosen().get();
+    return Optional.ofNullable(this.map.get(chosen)).orElseThrow(() ->
+      new IllegalStateException("Cannot found match a with the file key > " + chosen));
+  }
 }

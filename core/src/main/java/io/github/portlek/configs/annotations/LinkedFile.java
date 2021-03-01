@@ -10,9 +10,8 @@ import org.jetbrains.annotations.NotNull;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LinkedFile {
 
-    @NotNull
-    String key() default "";
+  Config config();
 
-    Config config();
-
+  @NotNull
+  String key() default "";
 }

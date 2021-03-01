@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,12 @@ import io.github.portlek.configs.annotations.LinkedConfig;
 import io.github.portlek.configs.annotations.LinkedFile;
 import io.github.portlek.configs.processors.LinkedConfigProceed;
 import io.github.portlek.configs.util.Scalar;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -37,34 +42,33 @@ import org.jetbrains.annotations.NotNull;
 
 public interface LnkdManaged extends FlManaged {
 
-    @NotNull
-    default <T> Scalar<T> match(@NotNull final Consumer<Map<String, T>> consumer) {
-        final Map<String, T> map = new HashMap<>();
-        consumer.accept(map);
-        return new Scalar<>(this, map);
-    }
+  @NotNull
+  Supplier<String> getChosen();
 
-    @Override
-    default void load() {
-        this.onCreate();
-        new LinkedConfigProceed(
-            Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
-                new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
-            this
-        ).load();
-        this.onLoad();
-    }
+  @NotNull
+  default Set<String> languageKeys() {
+    return Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
+      .map(linkedConfig -> Arrays.stream(linkedConfig.value())
+        .map(LinkedFile::key)
+        .collect(Collectors.toSet()))
+      .orElse(Collections.emptySet());
+  }
 
-    @NotNull
-    Supplier<String> getChosen();
+  @Override
+  default void load() {
+    this.onCreate();
+    new LinkedConfigProceed(
+      Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class)).orElseThrow(() ->
+        new UnsupportedOperationException(this.getClass().getSimpleName() + " has not `LinkedConfig` annotation!")),
+      this
+    ).load();
+    this.onLoad();
+  }
 
-    @NotNull
-    default Set<String> languageKeys() {
-        return Optional.ofNullable(this.getClass().getDeclaredAnnotation(LinkedConfig.class))
-            .map(linkedConfig -> Arrays.stream(linkedConfig.value())
-                .map(LinkedFile::key)
-                .collect(Collectors.toSet()))
-            .orElse(Collections.emptySet());
-    }
-
+  @NotNull
+  default <T> Scalar<T> match(@NotNull final Consumer<Map<String, T>> consumer) {
+    final Map<String, T> map = new HashMap<>();
+    consumer.accept(map);
+    return new Scalar<>(this, map);
+  }
 }

@@ -35,13 +35,12 @@ import org.jetbrains.annotations.NotNull;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Property {
 
-    @NotNull
-    String value() default "";
+  @NotNull
+  String regex() default "_";
 
-    @NotNull
-    String regex() default "_";
+  @NotNull
+  String separator() default "-";
 
-    @NotNull
-    String separator() default "-";
-
+  @NotNull
+  String value() default "";
 }

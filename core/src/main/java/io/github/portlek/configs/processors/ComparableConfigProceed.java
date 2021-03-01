@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -36,23 +36,22 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public final class ComparableConfigProceed {
 
-    @NotNull
-    private final LinkedConfig linked;
+  @NotNull
+  private final LinkedConfig linked;
 
-    @NotNull
-    private final CmprblManaged<?> managed;
+  @NotNull
+  private final CmprblManaged<?> managed;
 
-    public void load() {
-        this.managed.clear();
-        Arrays.stream(this.linked.value()).forEach(linkedFile -> {
-            final FlManaged flmanaged = this.managed.getNewManaged().get();
-            flmanaged.setAutoSave(this.managed.isAutoSave());
-            final String key = linkedFile.key();
-            this.managed.setup(key, flmanaged);
-            this.managed.current(key);
-            final Config config = linkedFile.config();
-            new ConfigProceed(config, this.managed, flmanaged).load();
-        });
-    }
-
+  public void load() {
+    this.managed.clear();
+    Arrays.stream(this.linked.value()).forEach(linkedFile -> {
+      final FlManaged flmanaged = this.managed.getNewManaged().get();
+      flmanaged.setAutoSave(this.managed.isAutoSave());
+      final String key = linkedFile.key();
+      this.managed.setup(key, flmanaged);
+      this.managed.current(key);
+      final Config config = linkedFile.config();
+      new ConfigProceed(config, this.managed, flmanaged).load();
+    });
+  }
 }

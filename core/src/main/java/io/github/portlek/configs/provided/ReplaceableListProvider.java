@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,23 +33,22 @@ import org.jetbrains.annotations.NotNull;
 
 public final class ReplaceableListProvider implements Provided<RpList> {
 
-    @Override
-    public void set(@NotNull final RpList replaceable, @NotNull final CfgSection section,
-                    @NotNull final String path) {
-        section.set(path, replaceable.getValue());
-    }
+  @NotNull
+  @Override
+  public Optional<RpList> get(@NotNull final CfgSection section, @NotNull final String path) {
+    return Optional.empty();
+  }
 
-    @NotNull
-    @Override
-    public Optional<RpList> getWithField(@NotNull final RpList rpList,
-                                         @NotNull final CfgSection section, @NotNull final String path) {
-        return section.getStringList(path).map(rpList::value);
-    }
+  @NotNull
+  @Override
+  public Optional<RpList> getWithField(@NotNull final RpList rpList,
+                                       @NotNull final CfgSection section, @NotNull final String path) {
+    return section.getStringList(path).map(rpList::value);
+  }
 
-    @NotNull
-    @Override
-    public Optional<RpList> get(@NotNull final CfgSection section, @NotNull final String path) {
-        return Optional.empty();
-    }
-
+  @Override
+  public void set(@NotNull final RpList replaceable, @NotNull final CfgSection section,
+                  @NotNull final String path) {
+    section.set(path, replaceable.getValue());
+  }
 }

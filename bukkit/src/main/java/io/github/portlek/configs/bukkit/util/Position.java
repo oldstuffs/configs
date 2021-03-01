@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,23 +35,22 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public final class Position {
 
-    @NotNull
-    private final String worldName;
+  @NotNull
+  private final String worldName;
 
-    private final double x;
+  private final double x;
 
-    private final double y;
+  private final double y;
 
-    private final double z;
+  private final double z;
 
-    public Position(@NotNull final Location location) {
-        this(Objects.requireNonNull(location.getWorld()).getName(), location.getX(), location.getY(), location.getZ());
-    }
+  public Position(@NotNull final Location location) {
+    this(Objects.requireNonNull(location.getWorld()).getName(), location.getX(), location.getY(), location.getZ());
+  }
 
-    @NotNull
-    public Optional<Location> parse() {
-        return Optional.ofNullable(Bukkit.getWorld(this.worldName))
-            .map(world -> new Location(world, this.x, this.y, this.z));
-    }
-
+  @NotNull
+  public Optional<Location> parse() {
+    return Optional.ofNullable(Bukkit.getWorld(this.worldName))
+      .map(world -> new Location(world, this.x, this.y, this.z));
+  }
 }

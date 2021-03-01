@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free from charge, to any person obtaining a copy
  * from this software and associated documentation files (the "Software"), to deal
@@ -35,19 +35,18 @@ import org.jetbrains.annotations.NotNull;
 @RequiredArgsConstructor
 public final class LinkedConfigProceed {
 
-    @NotNull
-    private final LinkedConfig config;
+  @NotNull
+  private final LinkedConfig config;
 
-    @NotNull
-    private final LnkdManaged linked;
+  @NotNull
+  private final LnkdManaged linked;
 
-    public void load() {
-        Arrays.stream(this.config.value())
-            .filter(linkedFile -> linkedFile.key().equals(this.linked.getChosen().get()))
-            .findFirst()
-            .map(LinkedFile::config)
-            .map(cnfg -> new ConfigProceed(cnfg, this.linked))
-            .ifPresent(ConfigProceed::load);
-    }
-
+  public void load() {
+    Arrays.stream(this.config.value())
+      .filter(linkedFile -> linkedFile.key().equals(this.linked.getChosen().get()))
+      .findFirst()
+      .map(LinkedFile::config)
+      .map(conf -> new ConfigProceed(conf, this.linked))
+      .ifPresent(ConfigProceed::load);
+  }
 }

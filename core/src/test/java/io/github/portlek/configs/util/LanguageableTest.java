@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -34,28 +34,27 @@ import org.junit.jupiter.api.Test;
 
 class LanguageableTest {
 
-    private final Supplier<String> def = () -> "Default value!";
+  private final Supplier<String> def = () -> "Default value!";
 
-    private final Supplier<Map<String, String>> values = () -> {
-        final Map<String, String> map = new HashMap<>();
-        map.put("en_US", "English words!");
-        map.put("tr_TR", "Türkçe kelimeler!");
-        return map;
-    };
+  private final Supplier<Map<String, String>> values = () -> {
+    final Map<String, String> map = new HashMap<>();
+    map.put("en_US", "English words!");
+    map.put("tr_TR", "Türkçe kelimeler!");
+    return map;
+  };
 
-    @Test
-    void apply() {
-        final Languageable<String> languageable = new Languageable<>(this.def, this.values);
-        MatcherAssert.assertThat(
-            "Languageable couldn't parse the correct value!",
-            languageable.apply("en_US"),
-            new IsEqual<>("English words!")
-        );
-        MatcherAssert.assertThat(
-            "Languageable couldn't parse the correct value!",
-            languageable.apply("tr_TR"),
-            new IsEqual<>("Türkçe kelimeler!")
-        );
-    }
-
+  @Test
+  void apply() {
+    final Languageable<String> languageable = new Languageable<>(this.def, this.values);
+    MatcherAssert.assertThat(
+      "Languageable couldn't parse the correct value!",
+      languageable.apply("en_US"),
+      new IsEqual<>("English words!")
+    );
+    MatcherAssert.assertThat(
+      "Languageable couldn't parse the correct value!",
+      languageable.apply("tr_TR"),
+      new IsEqual<>("Türkçe kelimeler!")
+    );
+  }
 }

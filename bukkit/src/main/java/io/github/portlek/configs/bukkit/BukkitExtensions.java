@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2020 Hasan Demirtaş
+ * Copyright (c) 2021 Hasan Demirtaş
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -42,30 +42,29 @@ import org.bukkit.inventory.ItemStack;
 @UtilityClass
 public class BukkitExtensions {
 
-    public void registerExtensions() {
-        CfgSection.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
-        CfgSection.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
-        CfgSection.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
-        CfgSection.addProvidedGetMethod(Material.class, (section, s) ->
-            section.getString(s)
-                .map(XMaterial::matchXMaterial)
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
-        CfgSection.addProvidedSetMethod(Material.class, (material, section, path) ->
-            section.set(path, material.name()));
-        CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
-            section.getString(s)
-                .flatMap(XMaterial::matchXMaterial));
-        CfgSection.addProvidedSetMethod(XMaterial.class, (xMaterial, section, path) ->
-            section.set(path, xMaterial.name()));
-        CfgSection.addProvidedGetMethod(Position.class, (section, s) ->
-            section.getString(s)
-                .flatMap(LocationUtil::fromKey)
-                .map(Position::new));
-        CfgSection.addProvidedSetMethod(Position.class, (position, section, path) ->
-            position.parse().ifPresent(location ->
-                section.set(path, LocationUtil.toKey(location))));
-    }
-
+  public void registerExtensions() {
+    CfgSection.addProvidedClass(ItemStack.class, new BukkitItemStackProvider());
+    CfgSection.addProvidedClass(PlayableSound.class, new BukkitSoundProvider());
+    CfgSection.addProvidedClass(SentTitle.class, new BukkitTitleProvider());
+    CfgSection.addProvidedGetMethod(Material.class, (section, s) ->
+      section.getString(s)
+        .map(XMaterial::matchXMaterial)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .flatMap(xMaterial -> Optional.ofNullable(xMaterial.parseMaterial())));
+    CfgSection.addProvidedSetMethod(Material.class, (material, section, path) ->
+      section.set(path, material.name()));
+    CfgSection.addProvidedGetMethod(XMaterial.class, (section, s) ->
+      section.getString(s)
+        .flatMap(XMaterial::matchXMaterial));
+    CfgSection.addProvidedSetMethod(XMaterial.class, (xMaterial, section, path) ->
+      section.set(path, xMaterial.name()));
+    CfgSection.addProvidedGetMethod(Position.class, (section, s) ->
+      section.getString(s)
+        .flatMap(LocationUtil::fromKey)
+        .map(Position::new));
+    CfgSection.addProvidedSetMethod(Position.class, (position, section, path) ->
+      position.parse().ifPresent(location ->
+        section.set(path, LocationUtil.toKey(location))));
+  }
 }
