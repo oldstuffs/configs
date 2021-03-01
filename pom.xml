@@ -65,8 +65,5 @@
   </dependencies>
   <modules>
     <module>core</module>
-    <module>json</module>
-    <module>yaml</module>
-    <module>bukkit</module>
   </modules>
 </project>
