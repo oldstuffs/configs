@@ -7,6 +7,7 @@
 
 ## How to use
 
+### core
 ```xml
 <dependency>
   <groupId>io.github.portlek</groupId>
@@ -17,6 +18,32 @@
 
 ```groovy
 implementation("io.github.portlek:configs-core:${version}")
+```
+
+### yaml
+```xml
+<dependency>
+  <groupId>io.github.portlek</groupId>
+  <artifactId>configs-yaml</artifactId>
+  <version>${version}</version>
+</dependency>
+```
+
+```groovy
+implementation("io.github.portlek:configs-yaml:${version}")
+```
+
+### json
+```xml
+<dependency>
+  <groupId>io.github.portlek</groupId>
+  <artifactId>configs-json</artifactId>
+  <version>${version}</version>
+</dependency>
+```
+
+```groovy
+implementation("io.github.portlek:configs-json:${version}")
 ```
 
 ## How to contribute?
