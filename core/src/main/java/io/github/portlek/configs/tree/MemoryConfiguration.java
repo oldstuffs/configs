@@ -44,13 +44,13 @@ public class MemoryConfiguration extends MemorySection implements Configuration 
   protected MemoryConfigurationOptions options;
 
   /**
-   * Creates an empty {@link MemoryConfiguration} with no default values.
+   * Creates an empty memory configuration with no default values.
    */
   public MemoryConfiguration() {
   }
 
   /**
-   * Creates an empty {@link MemoryConfiguration} using the specified {@link
+   * Creates an empty memory configuration using the specified {@link
    * Configuration} as a source for all default values.
    *
    * @param defaults Default value provider

@@ -59,14 +59,6 @@ public class ConfigurationOptions {
   /**
    * Checks if the {@link Configuration} should copy values from its default
    * {@link Configuration} directly.
-   * <p>
-   * If this is true, all values in the default Configuration will be
-   * directly copied, making it impossible to distinguish between values
-   * that were set and values that are provided by default. As a result,
-   * {@link ConfigurationSection#contains(String)} will always
-   * return the same value as {@link
-   * ConfigurationSection#isSet(String)}. The default value is
-   * false.
    *
    * @return Whether or not defaults are directly copied
    */
@@ -77,14 +69,6 @@ public class ConfigurationOptions {
   /**
    * Sets if the {@link Configuration} should copy values from its default
    * {@link Configuration} directly.
-   * <p>
-   * If this is true, all values in the default Configuration will be
-   * directly copied, making it impossible to distinguish between values
-   * that were set and values that are provided by default. As a result,
-   * {@link ConfigurationSection#contains(String)} will always
-   * return the same value as {@link
-   * ConfigurationSection#isSet(String)}. The default value is
-   * false.
    *
    * @param value Whether or not defaults are directly copied
    *
@@ -116,8 +100,6 @@ public class ConfigurationOptions {
 
   /**
    * Sets how much spaces should be used to indent each line.
-   * <p>
-   * The minimum value this may be is 2, and the maximum is 9.
    *
    * @param value New indent
    *
@@ -130,8 +112,6 @@ public class ConfigurationOptions {
 
   /**
    * Gets how much spaces should be used to indent each line.
-   * <p>
-   * The minimum value this may be is 2, and the maximum is 9.
    *
    * @return How much to indent by
    */
@@ -140,11 +120,7 @@ public class ConfigurationOptions {
   }
 
   /**
-   * Sets the char that will be used to separate {@link
-   * ConfigurationSection}s
-   * <p>
-   * This value does not affect how the {@link Configuration} is stored,
-   * only in how you access the data. The default value is '.'.
+   * Sets the char that will be used to separate {@link ConfigurationSection}s
    *
    * @param value Path separator
    *
@@ -156,11 +132,7 @@ public class ConfigurationOptions {
   }
 
   /**
-   * Gets the char that will be used to separate {@link
-   * ConfigurationSection}s
-   * <p>
-   * This value does not affect how the {@link Configuration} is stored,
-   * only in how you access the data. The default value is '.'.
+   * Gets the char that will be used to separate {@link ConfigurationSection}s
    *
    * @return Path separator
    */

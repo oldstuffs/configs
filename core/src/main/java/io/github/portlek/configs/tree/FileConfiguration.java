@@ -48,14 +48,14 @@ import org.jetbrains.annotations.NotNull;
 public abstract class FileConfiguration extends MemoryConfiguration {
 
   /**
-   * Creates an empty {@link FileConfiguration} with no default values.
+   * Creates an empty file configuration with no default values.
    */
   public FileConfiguration() {
     super();
   }
 
   /**
-   * Creates an empty {@link FileConfiguration} using the specified {@link
+   * Creates an empty file configuration using the specified {@link
    * Configuration} as a source for all default values.
    *
    * @param defaults Default value provider
@@ -65,17 +65,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Loads this {@link FileConfiguration} from the specified location.
-   * <p>
-   * All the values contained within this configuration will be removed,
-   * leaving only settings and defaults, and the new values will be loaded
-   * from the given file.
-   * <p>
-   * If the file cannot be loaded for any reason, an exception will be
-   * thrown.
-   * <p>
-   * This method will use the {@link #options()} {@link FileConfigurationOptions#charset() charset} encoding,
-   * which defaults to UTF8.
+   * Loads this file configuration from the specified location.
    *
    * @param file File to load from.
    *
@@ -90,17 +80,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Loads this {@link FileConfiguration} from the specified location.
-   * <p>
-   * All the values contained within this configuration will be removed,
-   * leaving only settings and defaults, and the new values will be loaded
-   * from the given file.
-   * <p>
-   * If the file cannot be loaded for any reason, an exception will be
-   * thrown.
-   * <p>
-   * This method will use the {@link #options()} {@link FileConfigurationOptions#charset() charset} encoding,
-   * which defaults to UTF8.
+   * Loads this file configuration from the specified location.
    *
    * @param file File to load from.
    *
@@ -115,17 +95,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Loads this {@link FileConfiguration} from the specified stream.
-   * <p>
-   * All the values contained within this configuration will be removed,
-   * leaving only settings and defaults, and the new values will be loaded
-   * from the given stream.
-   * <p>
-   * If the file cannot be loaded for any reason, an exception will be
-   * thrown.
-   * <p>
-   * This method will use the {@link #options()} {@link FileConfigurationOptions#charset() charset} encoding,
-   * which defaults to UTF8.
+   * Loads this file configuration from the specified stream.
    *
    * @param stream Stream to load from
    *
@@ -140,14 +110,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Loads this {@link FileConfiguration} from the specified reader.
-   * <p>
-   * All the values contained within this configuration will be removed,
-   * leaving only settings and defaults, and the new values will be loaded
-   * from the given stream.
-   * <p>
-   * If the file cannot be loaded for any reason, an exception will be
-   * thrown.
+   * Loads this file configuration from the specified reader.
    *
    * @param reader the reader to load from
    *
@@ -169,14 +132,8 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Loads this {@link FileConfiguration} from the specified string, as
+   * Loads this file configuration from the specified string, as
    * opposed to from file.
-   * <p>
-   * All the values contained within this configuration will be removed,
-   * leaving only settings and defaults, and the new values will be loaded
-   * from the given string.
-   * <p>
-   * If the string is invalid in any way, an exception will be thrown.
    *
    * @param contents Contents of a Configuration to load.
    *
@@ -195,14 +152,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Saves this {@link FileConfiguration} to the specified location.
-   * <p>
-   * If the file does not exist, it will be created. If already exists, it
-   * will be overwritten. If it cannot be overwritten or created, an
-   * exception will be thrown.
-   * <p>
-   * This method will use the {@link #options()} {@link FileConfigurationOptions#charset() charset} encoding,
-   * which defaults to UTF8.
+   * Saves this file configuration to the specified location.
    *
    * @param file File to save to.
    *
@@ -215,14 +165,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Saves this {@link FileConfiguration} to the specified location.
-   * <p>
-   * If the file does not exist, it will be created. If already exists, it
-   * will be overwritten. If it cannot be overwritten or created, an
-   * exception will be thrown.
-   * <p>
-   * This method will use the {@link #options()} {@link FileConfigurationOptions#charset() charset} encoding,
-   * which defaults to UTF8.
+   * Saves this file configuration to the specified location.
    *
    * @param file File to save to.
    *
@@ -234,7 +177,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   }
 
   /**
-   * Saves this {@link FileConfiguration} to a string, and returns it.
+   * Saves this file configuration to a string, and returns it.
    *
    * @return a String containing this configuration.
    *
@@ -243,7 +186,7 @@ public abstract class FileConfiguration extends MemoryConfiguration {
   public abstract String saveToString() throws IOException;
 
   /**
-   * Compiles the header for this {@link FileConfiguration} and returns the
+   * Compiles the header for this file configuration and returns the
    * result.
    *
    * @return Compiled header
