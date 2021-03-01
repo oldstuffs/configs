@@ -1,7 +1,6 @@
 <img src="logo/logo.svg" width="92px"/>
 
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
-[![rultor](https://www.rultor.com/b/yegor256/rultor)](https://www.rultor.com/p/portlek/configs)
 
 ![master](https://github.com/portlek/ppom/workflows/build/badge.svg)
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/config-parent?label=version)](https://repo1.maven.org/maven2/io/github/portlek/configs-core/)
