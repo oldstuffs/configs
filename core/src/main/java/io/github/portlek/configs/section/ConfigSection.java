@@ -68,9 +68,8 @@ public class ConfigSection implements CfgSection {
   }
 
   @Override
-  public final void setup(@NotNull final FlManaged parent,
-                          @NotNull final ConfigurationSection configurationSection) {
-    this.section = configurationSection;
+  public final void setup(@NotNull final FlManaged parent, @NotNull final ConfigurationSection section) {
+    this.section = section;
     this.parent = parent;
   }
 }

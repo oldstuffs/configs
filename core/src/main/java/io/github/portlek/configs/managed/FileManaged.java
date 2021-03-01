@@ -77,13 +77,18 @@ public class FileManaged extends ConfigSection implements FlManaged {
   }
 
   @Override
+  public void setFileType(@NotNull final FileType fileType) {
+    this.fileType = fileType;
+  }
+
+  @Override
   public final boolean isAutoSave() {
     return this.autoSave;
   }
 
   @Override
-  public final void setAutoSave(final boolean autosv) {
-    this.autoSave = autosv;
+  public final void setAutoSave(final boolean autoSave) {
+    this.autoSave = autoSave;
   }
 
   @Override

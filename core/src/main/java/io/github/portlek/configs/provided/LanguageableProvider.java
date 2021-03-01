@@ -26,7 +26,6 @@
 package io.github.portlek.configs.provided;
 
 import io.github.portlek.configs.CfgSection;
-import io.github.portlek.configs.CmprblManaged;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.Provided;
 import io.github.portlek.configs.processors.PropertyProceed;

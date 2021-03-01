@@ -56,7 +56,7 @@ public final class ConfigProceed {
   @SneakyThrows
   public void load() {
     final Class<? extends FileType> fileTypeClass = this.config.type();
-    final FileType fileType = new ClassOf<>(fileTypeClass).getConstructor()
+    final FileType fileType = new ClassOf<>(fileTypeClass).getConstructor(0)
       .map(RefConstructed::create)
       .filter(Optional::isPresent)
       .map(Optional::get)

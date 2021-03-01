@@ -25,11 +25,13 @@
 
 package io.github.portlek.configs.processors;
 
-import io.github.portlek.configs.CmprblManaged;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.annotations.Config;
 import io.github.portlek.configs.annotations.LinkedConfig;
+import io.github.portlek.reflection.RefConstructed;
+import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.Arrays;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,6 +53,11 @@ public final class ComparableConfigProceed {
       this.managed.setup(key, flmanaged);
       this.managed.current(key);
       final Config config = linkedFile.config();
+      new ClassOf<>(config.type()).getConstructor(0)
+        .map(RefConstructed::create)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .ifPresent(flmanaged::setFileType);
       new ConfigProceed(config, this.managed, flmanaged).load();
     });
   }

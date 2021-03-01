@@ -47,9 +47,11 @@ public interface FlManaged extends CfgSection {
   @NotNull
   FileType getFileType();
 
+  void setFileType(@NotNull FileType fileType);
+
   boolean isAutoSave();
 
-  void setAutoSave(boolean autosv);
+  void setAutoSave(boolean autoSave);
 
   default void load() {
     this.onCreate();
