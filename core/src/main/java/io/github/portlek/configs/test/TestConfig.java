@@ -44,6 +44,7 @@ public final class TestConfig implements Config {
       .setFilePath(new File("."))
       .setConfigType(JsonType.get())
       .setToSave(new TestConfig())
-      .build();
+      .build()
+      .load();
   }
 }

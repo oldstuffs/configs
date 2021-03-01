@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,7 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents config loaders.
  */
 @RequiredArgsConstructor
+@Getter
 public final class Configs {
 
   /**
