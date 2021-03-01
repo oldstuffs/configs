@@ -25,11 +25,12 @@
 
 package io.github.portlek.configs;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonFactoryBuilder;
-import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.MapType;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,16 +40,21 @@ import org.jetbrains.annotations.NotNull;
 public final class JsonType implements ConfigType {
 
   /**
-   * the factory.
-   */
-  private static final JsonFactory FACTORY = new JsonFactoryBuilder()
-    .configure(JsonReadFeature.ALLOW_JAVA_COMMENTS, true)
-    .build();
-
-  /**
    * the instance.
    */
   private static final JsonType INSTANCE = new JsonType();
+
+  /**
+   * the factory.
+   */
+  private static final ObjectMapper MAPPER = new ObjectMapper()
+    .enable(SerializationFeature.INDENT_OUTPUT);
+
+  /**
+   * the map type.
+   */
+  private static final MapType MAP_TYPE = JsonType.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
+    Object.class);
 
   /**
    * ctor.
@@ -66,12 +72,26 @@ public final class JsonType implements ConfigType {
     return JsonType.INSTANCE;
   }
 
+  @NotNull
   @Override
-  public void load(@NotNull final File file) {
+  public String getSuffix() {
+    return ".json";
+  }
+
+  @NotNull
+  @Override
+  public Map<String, Object> load(@NotNull final File file) {
     try {
-      final var parsed = JsonType.FACTORY.createParser(file)
-        .readValueAs(Map.class);
-      System.out.println(parsed);
+      return JsonType.MAPPER.readValue(file, JsonType.MAP_TYPE);
+    } catch (final IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public void writeDefault(@NotNull final File file) {
+    try {
+      JsonType.MAPPER.writeValue(file, new HashMap<>());
     } catch (final IOException e) {
       e.printStackTrace();
     }

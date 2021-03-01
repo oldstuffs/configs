@@ -23,39 +23,65 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import java.io.File;
-import java.util.Map;
+import io.github.portlek.configs.Config;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine config types.
+ * the interface to determine paths.
+ *
+ * @param <T> type of the path's value
  */
-public interface ConfigType {
+public interface Pth<T> {
 
   /**
-   * obtains the suffix.
+   * adds comment to the path.
    *
-   * @return suffix.
+   * @param path the path to add.
+   * @param comment the comment to add.
+   * @param <T> type of the path.
+   *
+   * @return commented path.
+   */
+  static <T> Pth<T> comment(@NotNull final Pth<T> path, @NotNull final String comment) {
+    return path;
+  }
+
+  /**
+   * creates a string path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created string path.
+   */
+  static Pth<String> string(@NotNull final String path, @Nullable final String def) {
+    return new DefaultPath<>(path, def) {
+    };
+  }
+
+  /**
+   * obtains the config.
+   *
+   * @return config.
+   */
+  @Nullable
+  Config getConfig();
+
+  /**
+   * sets the config.
+   *
+   * @param config the config to set.
+   */
+  void setConfig(@NotNull Config config);
+
+  /**
+   * obtains the path.
+   *
+   * @return path.
    */
   @NotNull
-  String getSuffix();
-
-  /**
-   * loads the file.
-   *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   */
-  @NotNull
-  Map<String, Object> load(@NotNull File file);
-
-  /**
-   * writes default value to the file.
-   *
-   * @param file the file to write.
-   */
-  void writeDefault(@NotNull File file);
+  String getPath();
 }

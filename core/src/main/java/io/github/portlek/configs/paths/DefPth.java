@@ -23,33 +23,22 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * the interface to determine Pth.
+ * the interface to determine default paths.
  *
  * @param <T> type of the path's value
  */
-public interface Pth<T> {
-
-  static <T> Pth<T> comment(@NotNull final Pth<T> path, @NotNull final String comment) {
-    return new Pth<T>() {
-    };
-  }
+public interface DefPth<T> extends Pth<T> {
 
   /**
-   * creates a string path.
+   * obtains the default.
    *
-   * @param path the path to create.
-   * @param def the default value to create.
-   *
-   * @return a newly created string path.
+   * @return default.
    */
-  static Pth<String> string(@NotNull final String path, @Nullable final String def) {
-    return new Pth<>() {
-    };
-  }
+  @Nullable
+  T getDefault();
 }

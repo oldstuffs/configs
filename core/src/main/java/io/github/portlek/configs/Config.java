@@ -25,9 +25,65 @@
 
 package io.github.portlek.configs;
 
-/**
- * an interface to determine configs.
- */
-public interface Config {
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+/**
+ * a class that represents configs.
+ */
+@RequiredArgsConstructor
+public final class Config {
+
+  /**
+   * the defaults.
+   */
+  private final Map<String, Object> defaults = new HashMap<>();
+
+  /**
+   * the loader.
+   */
+  @NotNull
+  @Getter
+  private final ConfigLoader loader;
+
+  /**
+   * adds the path and def to {@link #defaults}.
+   *
+   * @param path the path to add.
+   * @param def the def to add.
+   */
+  public void addDefault(@NotNull final String path, @Nullable final Object def) {
+    if (def == null) {
+      this.defaults.remove(path);
+    } else {
+      this.defaults.put(path, def);
+    }
+  }
+
+  /**
+   * gets the default at the path.
+   *
+   * @param path the path to get.
+   *
+   * @return default value at the path.
+   */
+  @Nullable
+  public Object getDefault(@NotNull final String path) {
+    return this.defaults.get(path);
+  }
+
+  /**
+   * obtains the defaults.
+   *
+   * @return defaults.
+   */
+  @NotNull
+  public Map<String, Object> getDefaults() {
+    return Collections.unmodifiableMap(this.defaults);
+  }
 }

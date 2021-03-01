@@ -23,28 +23,35 @@
  *
  */
 
-package io.github.portlek.configs.test;
+package io.github.portlek.configs;
 
-import static io.github.portlek.configs.Pth.comment;
-import static io.github.portlek.configs.Pth.string;
-import io.github.portlek.configs.Config;
-import io.github.portlek.configs.Configs;
-import io.github.portlek.configs.JsonType;
-import io.github.portlek.configs.Pth;
-import java.io.File;
+import org.jetbrains.annotations.NotNull;
 
-public final class TestConfig implements Config {
+/**
+ * an interface to determine configs.
+ */
+public interface PathHolder {
 
-  public static final Pth<String> TEST_STRING = comment(string("path.to.string",
-    "default-value"), "Top comment");
+  /**
+   * creates an empty path holder.
+   *
+   * @return empty path holder.
+   */
+  @NotNull
+  static PathHolder empty() {
+    return new PathHolder() {
+    };
+  }
 
-  public static void main(final String[] args) {
-    Configs.builder()
-      .setFileName("test")
-      .setFilePath(new File("."))
-      .setConfigType(JsonType.get())
-      .setToSave(new TestConfig())
-      .build()
-      .load();
+  /**
+   * runs after config loads.
+   */
+  default void postLoad() {
+  }
+
+  /**
+   * runs before config loads.
+   */
+  default void preLoad() {
   }
 }

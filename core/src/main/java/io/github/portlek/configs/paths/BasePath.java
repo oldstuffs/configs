@@ -23,39 +23,50 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import java.io.File;
-import java.util.Map;
+import io.github.portlek.configs.Config;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine config types.
+ * an abstract class that represents base paths.
+ *
+ * @param <T> type of the path.
  */
-public interface ConfigType {
+public abstract class BasePath<T> implements Pth<T> {
 
   /**
-   * obtains the suffix.
-   *
-   * @return suffix.
+   * the path.
    */
   @NotNull
-  String getSuffix();
+  @Getter
+  private final String path;
 
   /**
-   * loads the file.
-   *
-   * @param file the file to load.
-   *
-   * @return parsed value.
+   * the config.
    */
-  @NotNull
-  Map<String, Object> load(@NotNull File file);
+  @Nullable
+  private Config config;
 
   /**
-   * writes default value to the file.
+   * ctor.
    *
-   * @param file the file to write.
+   * @param path the path.
    */
-  void writeDefault(@NotNull File file);
+  protected BasePath(@NotNull final String path) {
+    this.path = path;
+  }
+
+  @Nullable
+  @Override
+  public Config getConfig() {
+    return this.config;
+  }
+
+  @Override
+  public void setConfig(@NotNull final Config config) {
+    this.config = config;
+  }
 }

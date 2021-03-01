@@ -22,40 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.portlek.configs;
-
-import java.io.File;
-import java.util.Map;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine config types.
+ * the paths package.
  */
-public interface ConfigType {
-
-  /**
-   * obtains the suffix.
-   *
-   * @return suffix.
-   */
-  @NotNull
-  String getSuffix();
-
-  /**
-   * loads the file.
-   *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   */
-  @NotNull
-  Map<String, Object> load(@NotNull File file);
-
-  /**
-   * writes default value to the file.
-   *
-   * @param file the file to write.
-   */
-  void writeDefault(@NotNull File file);
-}
+package io.github.portlek.configs.paths;
