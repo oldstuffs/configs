@@ -23,29 +23,24 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.json;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.type.MapType;
-import java.io.File;
+import io.github.portlek.configs.tree.ConfigurationSection;
+import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.tree.InvalidConfigurationException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * a class that represents json type implementation of {@link ConfigType}.
- */
-public final class JsonType implements ConfigType {
+public final class Json extends FileConfiguration {
 
   /**
-   * the instance.
-   */
-  private static final JsonType INSTANCE = new JsonType();
-
-  /**
-   * the factory.
+   * the mapper.
    */
   private static final ObjectMapper MAPPER = new ObjectMapper()
     .enable(SerializationFeature.INDENT_OUTPUT);
@@ -53,52 +48,33 @@ public final class JsonType implements ConfigType {
   /**
    * the map type.
    */
-  private static final MapType MAP_TYPE = JsonType.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
+  private static final MapType MAP_TYPE = Json.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
     Object.class);
 
-  /**
-   * ctor.
-   */
-  private JsonType() {
-  }
-
-  /**
-   * obtains the singleton instance.
-   *
-   * @return singleton instance.
-   */
-  @NotNull
-  public static JsonType get() {
-    return JsonType.INSTANCE;
-  }
-
-  @NotNull
   @Override
-  public String getSuffix() {
-    return ".json";
-  }
-
-  @NotNull
-  @Override
-  public Map<String, Object> load(@NotNull final File file) {
+  public void loadFromString(@NotNull final String contents) throws InvalidConfigurationException {
+    final Map<?, ?> input;
     try {
-      return JsonType.MAPPER.readValue(file, JsonType.MAP_TYPE);
-    } catch (final IOException e) {
-      throw new RuntimeException(e);
+      input = Json.MAPPER.readValue(contents.isEmpty() ? "{}" : contents, Json.MAP_TYPE);
+    } catch (final JsonProcessingException e) {
+      throw new InvalidConfigurationException(e);
     }
+    this.convertMapsToSections(input, this);
   }
 
   @Override
-  public void save(@NotNull final File file, @NotNull final Map<String, Object> map) {
-    try {
-      JsonType.MAPPER.writeValue(file, map);
-    } catch (final IOException e) {
-      e.printStackTrace();
-    }
+  public String saveToString() throws IOException {
+    return Json.MAPPER.writeValueAsString(this.getMapValues(false));
   }
 
-  @Override
-  public void writeDefault(@NotNull final File file) {
-    this.save(file, new HashMap<>());
+  private void convertMapsToSections(final Map<?, ?> input, final ConfigurationSection section) {
+    input.forEach((key1, value) -> {
+      final String key = key1.toString();
+      if (value instanceof Map) {
+        this.convertMapsToSections((Map<?, ?>) value, section.createSection(key));
+      } else {
+        section.set(key, value);
+      }
+    });
   }
 }

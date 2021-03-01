@@ -25,8 +25,10 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.tree.InvalidConfigurationException;
 import java.io.File;
-import java.util.Map;
+import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -50,20 +52,13 @@ public interface ConfigType {
    * @return parsed value.
    */
   @NotNull
-  Map<String, Object> load(@NotNull File file);
+  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
 
   /**
-   * saves the map into the file.
+   * saves the configuration into the file.
    *
    * @param file the file to save.
-   * @param map the map to save.
+   * @param configuration the configuration to save.
    */
-  void save(@NotNull File file, @NotNull Map<String, Object> map);
-
-  /**
-   * writes default value to the file.
-   *
-   * @param file the file to write.
-   */
-  void writeDefault(@NotNull File file);
+  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
 }

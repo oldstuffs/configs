@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.Config;
+import io.github.portlek.configs.tree.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,7 +60,7 @@ public abstract class DefaultPath<T> extends BasePath<T> implements DefPth<T> {
   }
 
   @Override
-  public void setConfig(@NotNull final Config config) {
+  public void setConfig(@NotNull final FileConfiguration config) {
     super.setConfig(config);
     config.addDefault(this.getPath(), this.getDefault());
   }

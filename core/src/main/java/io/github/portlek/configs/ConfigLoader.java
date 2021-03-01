@@ -26,6 +26,8 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.paths.Pth;
+import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.tree.InvalidConfigurationException;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
 import java.io.IOException;
@@ -34,12 +36,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -51,16 +50,6 @@ import org.jetbrains.annotations.Nullable;
 @RequiredArgsConstructor
 @Getter
 public final class ConfigLoader {
-
-  /**
-   * the cache.
-   */
-  private final AtomicReference<Map<String, Object>> cache = new AtomicReference<>(new HashMap<>());
-
-  /**
-   * the config.
-   */
-  private final Config config = new Config(this);
 
   /**
    * the config type.
@@ -93,6 +82,12 @@ public final class ConfigLoader {
   private final List<Serializer> serializers;
 
   /**
+   * the configuration.
+   */
+  @Nullable
+  private FileConfiguration configuration;
+
+  /**
    * the file.
    */
   @Nullable
@@ -114,7 +109,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public Config load() {
+  public FileConfiguration load() {
     return this.load(false);
   }
 
@@ -126,7 +121,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public Config load(final boolean save) {
+  public FileConfiguration load(final boolean save) {
     return this.load(save, false).join();
   }
 
@@ -139,88 +134,71 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public CompletableFuture<Config> load(final boolean save, final boolean async) {
+  public CompletableFuture<FileConfiguration> load(final boolean save, final boolean async) {
     final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
     this.file = filePath.toFile();
     if (Files.notExists(filePath)) {
       try {
         Files.createFile(filePath);
-        this.configType.writeDefault(filePath.toFile());
       } catch (final IOException e) {
         e.printStackTrace();
       }
     }
-    if (Files.exists(filePath)) {
-      try {
-        if (Files.size(filePath) == 0) {
-          this.configType.writeDefault(filePath.toFile());
-        }
-      } catch (final IOException e) {
-        e.printStackTrace();
-      }
-    }
-    final var future = new CompletableFuture<Map<String, Object>>();
+    final var future = new CompletableFuture<FileConfiguration>();
     if (async) {
       future.completeAsync(() -> {
-        this.preLoad();
-        return this.configType.load(filePath.toFile());
+        try {
+          return this.configType.load(filePath.toFile());
+        } catch (final IOException | InvalidConfigurationException e) {
+          throw new RuntimeException(e);
+        }
       });
     } else {
-      this.preLoad();
-      future.complete(this.configType.load(filePath.toFile()));
+      try {
+        future.complete(this.configType.load(filePath.toFile()));
+      } catch (final IOException | InvalidConfigurationException e) {
+        throw new RuntimeException(e);
+      }
     }
-    final var config = new CompletableFuture<Config>();
-    future.whenComplete((map, t) -> {
+    future.whenComplete((configuration, t) -> {
       if (t != null) {
         t.printStackTrace();
         return;
       }
-      this.postLoad(map);
-      this.cache.set(map);
+      this.configuration = configuration;
+      this.load0();
       if (save) {
-        this.save();
-      }
-      config.complete(this.config);
-    });
-    return config;
-  }
-
-  /**
-   * runs {@link PathHolder#postLoad()} method.
-   *
-   * @param cache the cache to load.
-   */
-  private void postLoad(@NotNull final Map<String, Object> cache) {
-    this.config.getDefaults().forEach((s, o) -> {
-      if (!cache.containsKey(s)) {
-        cache.put(s, o);
+        try {
+          this.save();
+        } catch (final IOException e) {
+          throw new RuntimeException(e);
+        }
       }
     });
-    this.pathHolder.postLoad();
+    return future;
   }
 
   /**
    * loads fields in the {@link #pathHolder} class.
    */
-  private void preLoad() {
+  private void load0() {
+    Validate.checkNull(this.configuration, "Use #load() method before save the config!");
     new ClassOf<>(this.pathHolder).getDeclaredFields().stream()
       .filter(refField -> Pth.class.isAssignableFrom(refField.getType()))
       .map(refField -> refField.of(this.pathHolder).getValue())
       .filter(Optional::isPresent)
       .map(Optional::get)
       .map(Pth.class::cast)
-      .forEach(pth -> pth.setConfig(this.config));
-    this.pathHolder.preLoad();
+      .forEach(pth -> pth.setConfig(this.configuration));
   }
 
   /**
    * runs when config is saving.
    */
-  private void save() {
+  private void save() throws IOException {
     Validate.checkNull(this.file, "Use #load() method before save the config!");
-    this.pathHolder.preSave();
-    this.configType.save(this.file, this.cache.get());
-    this.pathHolder.postSave();
+    Validate.checkNull(this.configuration, "Use #load() method before save the config!");
+    this.configType.save(this.file, this.configuration);
   }
 
   /**

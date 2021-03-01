@@ -22,7 +22,41 @@
  * SOFTWARE.
  *
  */
-/**
- * the main package.
- */
-package io.github.portlek.configs;
+
+package io.github.portlek.configs.yaml;
+
+import io.github.portlek.configs.ConfigType;
+import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.tree.InvalidConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import org.jetbrains.annotations.NotNull;
+
+public final class YamlType implements ConfigType {
+
+  private static final YamlType INSTANCE = new YamlType();
+
+  @NotNull
+  public static YamlType get() {
+    return YamlType.INSTANCE;
+  }
+
+  @NotNull
+  @Override
+  public String getSuffix() {
+    return ".yaml";
+  }
+
+  @NotNull
+  @Override
+  public FileConfiguration load(@NotNull final File file) throws IOException, InvalidConfigurationException {
+    final var yaml = new Yaml();
+    yaml.load(file);
+    return yaml;
+  }
+
+  @Override
+  public void save(@NotNull final File file, @NotNull final FileConfiguration configuration) throws IOException {
+    configuration.save(file);
+  }
+}

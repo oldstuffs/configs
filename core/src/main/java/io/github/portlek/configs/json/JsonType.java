@@ -23,50 +23,40 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.json;
 
+import io.github.portlek.configs.ConfigType;
 import io.github.portlek.configs.tree.FileConfiguration;
-import lombok.Getter;
+import io.github.portlek.configs.tree.InvalidConfigurationException;
+import java.io.File;
+import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-/**
- * an abstract class that represents base paths.
- *
- * @param <T> type of the path.
- */
-public abstract class BasePath<T> implements Pth<T> {
+public final class JsonType implements ConfigType {
 
-  /**
-   * the path.
-   */
+  private static final JsonType INSTANCE = new JsonType();
+
   @NotNull
-  @Getter
-  private final String path;
-
-  /**
-   * the config.
-   */
-  @Nullable
-  private FileConfiguration config;
-
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  protected BasePath(@NotNull final String path) {
-    this.path = path;
+  public static JsonType get() {
+    return JsonType.INSTANCE;
   }
 
-  @Nullable
+  @NotNull
   @Override
-  public FileConfiguration getConfig() {
-    return this.config;
+  public String getSuffix() {
+    return ".json";
+  }
+
+  @NotNull
+  @Override
+  public FileConfiguration load(@NotNull final File file) throws IOException, InvalidConfigurationException {
+    final var json = new Json();
+    json.load(file);
+    return json;
   }
 
   @Override
-  public void setConfig(@NotNull final FileConfiguration config) {
-    this.config = config;
+  public void save(@NotNull final File file, @NotNull final FileConfiguration configuration) throws IOException {
+    configuration.save(file);
   }
 }

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.Config;
+import io.github.portlek.configs.tree.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -68,14 +68,14 @@ public interface Pth<T> {
    * @return config.
    */
   @Nullable
-  Config getConfig();
+  FileConfiguration getConfig();
 
   /**
    * sets the config.
    *
    * @param config the config to set.
    */
-  void setConfig(@NotNull Config config);
+  void setConfig(@NotNull FileConfiguration config);
 
   /**
    * obtains the path.

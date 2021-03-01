@@ -28,11 +28,10 @@ package io.github.portlek.configs.test;
 import static io.github.portlek.configs.paths.Pth.comment;
 import static io.github.portlek.configs.paths.Pth.string;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.JsonType;
 import io.github.portlek.configs.PathHolder;
+import io.github.portlek.configs.json.JsonType;
 import io.github.portlek.configs.paths.Pth;
-import java.io.IOException;
-import java.nio.file.Files;
+import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 
 public final class TestPathHolder implements PathHolder {
@@ -46,35 +45,30 @@ public final class TestPathHolder implements PathHolder {
   public static final Pth<String> TEST_STRING_3 = comment(string("string",
     "default-value"), "Top comment");
 
-  public static void main(final String[] args) throws IOException, InterruptedException {
+  public static final Pth<String> TEST_STRING_4 = comment(string("test",
+    "default-value"), "Top comment");
+
+  public static final Pth<String> TEST_STRING_5 = comment(string("test-2",
+    "default-value"), "Top comment");
+
+  public static final Pth<String> TEST_STRING_6 = comment(string("path.string-2",
+    "default-value"), "Top comment");
+
+  public static final Pth<String> TEST_STRING_7 = comment(string("path.to.asdstring",
+    "default-value"), "Top comment");
+
+  public static final Pth<String> TEST_STRING_8 = comment(string("path.to.stringasd",
+    "default-value"), "Top comment");
+
+  public static void main(final String[] args) {
     final var here = System.getProperty("user.dir");
     final var path = Path.of(here);
-    final var resolve = path.resolve("test.json");
-    if (Files.exists(resolve)) {
-      Files.delete(resolve);
-    }
     ConfigLoader.builder()
       .setFileName("test")
       .setFolderPath(path)
-      .setConfigType(JsonType.get())
+      .setConfigType(YamlType.get())
       .setPathHolder(new TestPathHolder())
       .build()
       .load(true);
-  }
-
-  @Override
-  public void postLoad() {
-  }
-
-  @Override
-  public void postSave() {
-  }
-
-  @Override
-  public void preLoad() {
-  }
-
-  @Override
-  public void preSave() {
   }
 }

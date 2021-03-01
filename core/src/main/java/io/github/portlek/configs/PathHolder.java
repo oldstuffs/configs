@@ -42,28 +42,4 @@ public interface PathHolder {
     return new PathHolder() {
     };
   }
-
-  /**
-   * runs after config loads.
-   */
-  default void postLoad() {
-  }
-
-  /**
-   * runs after config saves.
-   */
-  default void postSave() {
-  }
-
-  /**
-   * runs before config loads.
-   */
-  default void preLoad() {
-  }
-
-  /**
-   * runs before config saves.
-   */
-  default void preSave() {
-  }
 }
