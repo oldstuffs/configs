@@ -29,7 +29,6 @@ import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
-import io.github.portlek.configs.util.Languageable;
 import io.github.portlek.replaceable.rp.RpList;
 import io.github.portlek.replaceable.rp.RpString;
 import java.util.Objects;
