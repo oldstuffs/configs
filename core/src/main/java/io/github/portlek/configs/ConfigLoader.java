@@ -354,7 +354,7 @@ public final class ConfigLoader {
      *
      * @return path holder.
      */
-    @Nullable
+    @NotNull
     public PathHolder getPathHolder() {
       return this.pathHolder;
     }
