@@ -31,7 +31,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an utility class that helps developer to write simple expressions.
  */
-public final class Validate {
+final class Validate {
 
   /**
    * ctor.
@@ -47,7 +47,7 @@ public final class Validate {
    *
    * @throws IllegalStateException if the given object is null.
    */
-  public static void checkNull(@Nullable final Object object, @NotNull final String errorMessage) {
+  static void checkNull(@Nullable final Object object, @NotNull final String errorMessage) {
     if (object == null) {
       throw new IllegalStateException(errorMessage);
     }

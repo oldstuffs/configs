@@ -9,7 +9,6 @@
 ## How to use
 
 ```xml
-
 <dependency>
   <groupId>io.github.portlek</groupId>
   <artifactId>configs-core</artifactId>
