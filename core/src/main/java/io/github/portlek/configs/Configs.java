@@ -30,25 +30,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents config loaders.
  */
+@RequiredArgsConstructor
 public final class Configs {
-
-  /**
-   * the class to save.
-   */
-  @Nullable
-  private final Class<?> classToSave;
 
   /**
    * the config type class.
    */
   @NotNull
-  private final Class<ConfigType> configTypeClass;
+  private final Class<ConfigType> configType;
 
   /**
    * the file name.
@@ -69,21 +65,10 @@ public final class Configs {
   private final List<Serializer> serializers;
 
   /**
-   * ctor.
-   *
-   * @param configTypeClass the config type class.
-   * @param fileName the file name.
-   * @param filePath the file path.
+   * the class to save.
    */
-  private Configs(@NotNull final Class<ConfigType> configTypeClass, @NotNull final String fileName,
-                  @NotNull final Path filePath, @Nullable final Class<?> classToSave,
-                  @NotNull final List<Serializer> serializers) {
-    this.configTypeClass = configTypeClass;
-    this.fileName = fileName;
-    this.filePath = filePath;
-    this.classToSave = classToSave;
-    this.serializers = serializers;
-  }
+  @Nullable
+  private final Class<?> toSave;
 
   /**
    * creates a new {@link Builder} instance.
@@ -167,10 +152,10 @@ public final class Configs {
      */
     @NotNull
     public Configs build() {
-      Validate.checkNull(this.configType, "Use #setConfigClassType(Class<ConfigType>) method to set config type class");
+      Validate.checkNull(this.configType, "Use #setConfigType(Class<ConfigType>) method to set config type.");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name.");
       Validate.checkNull(this.filePath, "Use #setFilePath(Path) method to set file path.");
-      return new Configs(this.configType, this.fileName, this.filePath, this.toSave, this.serializers);
+      return new Configs(this.configType, this.fileName, this.filePath, this.serializers, this.toSave);
     }
 
     /**
