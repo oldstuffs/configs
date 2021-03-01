@@ -25,14 +25,55 @@
 
 package io.github.portlek.configs;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonFactoryBuilder;
+import com.fasterxml.jackson.core.json.JsonReadFeature;
 import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine config types.
+ * a class that represents json type implementation of {@link ConfigType}.
  */
-public interface ConfigType {
+public final class JsonType implements ConfigType {
 
-  void load(@NotNull File file)
+  /**
+   * the factory.
+   */
+  private static final JsonFactory FACTORY = new JsonFactoryBuilder()
+    .configure(JsonReadFeature.ALLOW_JAVA_COMMENTS, true)
+    .build();
+
+  /**
+   * the instance.
+   */
+  private static final JsonType INSTANCE = new JsonType();
+
+  /**
+   * ctor.
+   */
+  private JsonType() {
+  }
+
+  /**
+   * obtains the singleton instance.
+   *
+   * @return singleton instance.
+   */
+  @NotNull
+  public static JsonType get() {
+    return JsonType.INSTANCE;
+  }
+
+  @Override
+  public void load(@NotNull final File file) {
+    try {
+      final var parsed = JsonType.FACTORY.createParser(file)
+        .readValueAs(Map.class);
+      System.out.println(parsed);
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
+  }
 }

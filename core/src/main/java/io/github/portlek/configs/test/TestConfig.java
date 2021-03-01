@@ -23,16 +23,27 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.test;
 
+import static io.github.portlek.configs.Pth.comment;
+import static io.github.portlek.configs.Pth.string;
+import io.github.portlek.configs.Config;
+import io.github.portlek.configs.Configs;
+import io.github.portlek.configs.JsonType;
+import io.github.portlek.configs.Pth;
 import java.io.File;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-/**
- * an interface to determine config types.
- */
-public interface ConfigType {
+public final class TestConfig implements Config {
 
-  void load(@NotNull File file)
+  public static final Pth<String> TEST_STRING = comment(string("path.to.string",
+    "default-value"), "Top comment");
+
+  public static void main(final String[] args) {
+    Configs.builder()
+      .setFileName("test")
+      .setFilePath(new File("."))
+      .setConfigType(JsonType.get())
+      .setToSave(new TestConfig())
+      .build();
+  }
 }

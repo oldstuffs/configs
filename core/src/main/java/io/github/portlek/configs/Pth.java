@@ -25,14 +25,31 @@
 
 package io.github.portlek.configs;
 
-import java.io.File;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine config types.
+ * the interface to determine Pth.
+ *
+ * @param <T> type of the path's value
  */
-public interface ConfigType {
+public interface Pth<T> {
 
-  void load(@NotNull File file)
+  static <T> Pth<T> comment(@NotNull final Pth<T> path, @NotNull final String comment) {
+    return new Pth<T>() {
+    };
+  }
+
+  /**
+   * creates a string path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created string path.
+   */
+  static Pth<String> string(@NotNull final String path, @Nullable final String def) {
+    return new Pth<>() {
+    };
+  }
 }

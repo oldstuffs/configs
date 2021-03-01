@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -68,7 +69,7 @@ public final class Configs {
    * the class to save.
    */
   @Nullable
-  private final Class<?> toSave;
+  private final Config toSave;
 
   /**
    * creates a new {@link Builder} instance.
@@ -82,13 +83,8 @@ public final class Configs {
 
   /**
    * loads the config.
-   *
-   * @return loaded config instance.
    */
-  @NotNull
-  public Config load() {
-    return new Config() {
-    };
+  public void load() {
   }
 
   /**
@@ -124,7 +120,7 @@ public final class Configs {
      * the class to save.
      */
     @Nullable
-    private Class<?> toSave;
+    private Config toSave;
 
     /**
      * ctor.
@@ -228,6 +224,18 @@ public final class Configs {
     }
 
     /**
+     * sets the file path.
+     *
+     * @param file the file to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setFilePath(@NotNull final File file) {
+      return this.setFilePath(file.toPath());
+    }
+
+    /**
      * obtains the serializers.
      *
      * @return serializers.
@@ -238,24 +246,24 @@ public final class Configs {
     }
 
     /**
-     * obtains the class to save.
+     * obtains the to save.
      *
-     * @return class to save.
+     * @return to save.
      */
     @Nullable
-    public Class<?> getToSave() {
+    public Config getToSave() {
       return this.toSave;
     }
 
     /**
-     * sets the class to save.
+     * sets the to save.
      *
-     * @param toSave the class to save to set.
+     * @param toSave the to save to set.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setToSave(@NotNull final Class<?> toSave) {
+    public Builder setToSave(@NotNull final Config toSave) {
       this.toSave = toSave;
       return this;
     }
