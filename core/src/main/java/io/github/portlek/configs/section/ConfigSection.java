@@ -27,7 +27,6 @@ package io.github.portlek.configs.section;
 
 import io.github.portlek.configs.CfgSection;
 import io.github.portlek.configs.FlManaged;
-import io.github.portlek.configs.provided.LanguageableProvider;
 import io.github.portlek.configs.provided.ReplaceableListProvider;
 import io.github.portlek.configs.provided.ReplaceableStringProvider;
 import io.github.portlek.configs.util.Languageable;
@@ -48,7 +47,6 @@ public class ConfigSection implements CfgSection {
   private ConfigurationSection section;
 
   static {
-    CfgSection.PROVIDED.put(Languageable.class, new LanguageableProvider());
     CfgSection.addProvidedClass(RpString.class, new ReplaceableStringProvider());
     CfgSection.addProvidedClass(RpList.class, new ReplaceableListProvider());
     CfgSection.addProvidedGetMethod(UUID.class, CfgSection::getUniqueId);
