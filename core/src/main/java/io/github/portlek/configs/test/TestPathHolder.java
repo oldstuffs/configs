@@ -53,7 +53,9 @@ public final class TestPathHolder implements PathHolder {
       .setConfigType(JsonType.get())
       .setPathHolder(new TestPathHolder())
       .build()
-      .load(true);
+      .load(true)
+      .thenAccept(config -> {
+      });
     while (true) {
       Thread.sleep(5L);
     }
