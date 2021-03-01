@@ -155,7 +155,7 @@ public final class ConfigLoader {
         t.printStackTrace();
         return;
       }
-      this.postLoad(map);
+      this.postLoad();
       this.cache.set(map);
       config.complete(this.config);
     });
@@ -164,10 +164,9 @@ public final class ConfigLoader {
 
   /**
    * runs {@link PathHolder#postLoad()} method.
-   *
-   * @param cache the cache to load.
    */
-  private void postLoad(@NotNull final Map<String, Object> cache) {
+  private void postLoad() {
+    final var cache = this.cache.get();
     this.config.getDefaults().forEach((s, o) -> {
       if (!cache.containsKey(s)) {
         cache.put(s, o);
@@ -251,7 +250,7 @@ public final class ConfigLoader {
      */
     @NotNull
     public ConfigLoader build() {
-      Validate.checkNull(this.configType, "Use #setConfigType(Class<ConfigType>) method to set config type.");
+      Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type.");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name.");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path.");
       return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.pathHolder, this.serializers);
