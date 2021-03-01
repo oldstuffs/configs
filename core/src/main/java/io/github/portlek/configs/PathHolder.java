@@ -50,8 +50,20 @@ public interface PathHolder {
   }
 
   /**
+   * runs after config saves.
+   */
+  default void postSave() {
+  }
+
+  /**
    * runs before config loads.
    */
   default void preLoad() {
+  }
+
+  /**
+   * runs before config saves.
+   */
+  default void preSave() {
   }
 }

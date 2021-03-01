@@ -58,11 +58,7 @@ public final class Config {
    * @param def the def to add.
    */
   public void addDefault(@NotNull final String path, @Nullable final Object def) {
-    if (def == null) {
-      this.defaults.remove(path);
-    } else {
-      this.defaults.put(path, def);
-    }
+    this.addDefault0(path, def, this.defaults);
   }
 
   /**
@@ -85,5 +81,34 @@ public final class Config {
   @NotNull
   public Map<String, Object> getDefaults() {
     return Collections.unmodifiableMap(this.defaults);
+  }
+
+  /**
+   * adds the default value to the path.
+   *
+   * @param path the path to add.
+   * @param def the def to add.
+   * @param map the map to add.
+   */
+  private void addDefault0(@NotNull final String path, @Nullable final Object def,
+                           @NotNull final Map<String, Object> map) {
+    final var index = path.indexOf(".");
+    if (index != -1) {
+      final var sub = path.substring(index + 1);
+      final var childPath = path.substring(0, index);
+      var child = map.get(childPath);
+      if (!(child instanceof Map)) {
+        child = new HashMap<>();
+      }
+      map.put(childPath, child);
+      //noinspection unchecked
+      this.addDefault0(sub, def, (Map<String, Object>) child);
+      return;
+    }
+    if (def == null) {
+      map.remove(path);
+    } else {
+      map.put(path, def);
+    }
   }
 }

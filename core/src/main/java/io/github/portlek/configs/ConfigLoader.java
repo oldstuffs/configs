@@ -93,6 +93,12 @@ public final class ConfigLoader {
   private final List<Serializer> serializers;
 
   /**
+   * the file.
+   */
+  @Nullable
+  private File file;
+
+  /**
    * creates a new {@link Builder} instance.
    *
    * @return a newly created builder instance.
@@ -109,19 +115,33 @@ public final class ConfigLoader {
    */
   @NotNull
   public Config load() {
-    return this.load(false).join();
+    return this.load(false);
   }
 
   /**
    * loads the config.
    *
+   * @param save the save to load.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public Config load(final boolean save) {
+    return this.load(save, false).join();
+  }
+
+  /**
+   * loads the config.
+   *
+   * @param save the save to load.
    * @param async the async to load.
    *
    * @return loaded config.
    */
   @NotNull
-  public CompletableFuture<Config> load(final boolean async) {
+  public CompletableFuture<Config> load(final boolean save, final boolean async) {
     final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
+    this.file = filePath.toFile();
     if (Files.notExists(filePath)) {
       try {
         Files.createFile(filePath);
@@ -155,8 +175,11 @@ public final class ConfigLoader {
         t.printStackTrace();
         return;
       }
-      this.postLoad();
+      this.postLoad(map);
       this.cache.set(map);
+      if (save) {
+        this.save();
+      }
       config.complete(this.config);
     });
     return config;
@@ -164,9 +187,10 @@ public final class ConfigLoader {
 
   /**
    * runs {@link PathHolder#postLoad()} method.
+   *
+   * @param cache the cache to load.
    */
-  private void postLoad() {
-    final var cache = this.cache.get();
+  private void postLoad(@NotNull final Map<String, Object> cache) {
     this.config.getDefaults().forEach((s, o) -> {
       if (!cache.containsKey(s)) {
         cache.put(s, o);
@@ -187,6 +211,16 @@ public final class ConfigLoader {
       .map(Pth.class::cast)
       .forEach(pth -> pth.setConfig(this.config));
     this.pathHolder.preLoad();
+  }
+
+  /**
+   * runs when config is saving.
+   */
+  private void save() {
+    Validate.checkNull(this.file, "Use #load() method before save the config!");
+    this.pathHolder.preSave();
+    this.configType.save(this.file, this.cache.get());
+    this.pathHolder.postSave();
   }
 
   /**
@@ -250,9 +284,9 @@ public final class ConfigLoader {
      */
     @NotNull
     public ConfigLoader build() {
-      Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type.");
-      Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name.");
-      Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path.");
+      Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
+      Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
+      Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
       return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.pathHolder, this.serializers);
     }
 

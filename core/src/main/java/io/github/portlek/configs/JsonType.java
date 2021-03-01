@@ -89,11 +89,16 @@ public final class JsonType implements ConfigType {
   }
 
   @Override
-  public void writeDefault(@NotNull final File file) {
+  public void save(@NotNull final File file, @NotNull final Map<String, Object> map) {
     try {
-      JsonType.MAPPER.writeValue(file, new HashMap<>());
+      JsonType.MAPPER.writeValue(file, map);
     } catch (final IOException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void writeDefault(@NotNull final File file) {
+    this.save(file, new HashMap<>());
   }
 }

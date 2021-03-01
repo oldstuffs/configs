@@ -40,6 +40,12 @@ public final class TestPathHolder implements PathHolder {
   public static final Pth<String> TEST_STRING = comment(string("path.to.string",
     "default-value"), "Top comment");
 
+  public static final Pth<String> TEST_STRING_2 = comment(string("path.string",
+    "default-value"), "Top comment");
+
+  public static final Pth<String> TEST_STRING_3 = comment(string("string",
+    "default-value"), "Top comment");
+
   public static void main(final String[] args) throws IOException, InterruptedException {
     final var here = System.getProperty("user.dir");
     final var path = Path.of(here);
@@ -53,12 +59,7 @@ public final class TestPathHolder implements PathHolder {
       .setConfigType(JsonType.get())
       .setPathHolder(new TestPathHolder())
       .build()
-      .load(true)
-      .thenAccept(config -> {
-      });
-    while (true) {
-      Thread.sleep(5L);
-    }
+      .load(true);
   }
 
   @Override
@@ -66,6 +67,14 @@ public final class TestPathHolder implements PathHolder {
   }
 
   @Override
+  public void postSave() {
+  }
+
+  @Override
   public void preLoad() {
+  }
+
+  @Override
+  public void preSave() {
   }
 }

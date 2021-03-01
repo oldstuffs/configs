@@ -53,6 +53,14 @@ public interface ConfigType {
   Map<String, Object> load(@NotNull File file);
 
   /**
+   * saves the map into the file.
+   *
+   * @param file the file to save.
+   * @param map the map to save.
+   */
+  void save(@NotNull File file, @NotNull Map<String, Object> map);
+
+  /**
    * writes default value to the file.
    *
    * @param file the file to write.
