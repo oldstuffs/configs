@@ -36,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents config loaders.
  */
-public final class ConfigLoader {
+public final class Configs {
 
   /**
    * the class to save.
@@ -75,9 +75,9 @@ public final class ConfigLoader {
    * @param fileName the file name.
    * @param filePath the file path.
    */
-  private ConfigLoader(@NotNull final Class<ConfigType> configTypeClass, @NotNull final String fileName,
-                       @NotNull final Path filePath, @Nullable final Class<?> classToSave,
-                       @NotNull final List<Serializer> serializers) {
+  private Configs(@NotNull final Class<ConfigType> configTypeClass, @NotNull final String fileName,
+                  @NotNull final Path filePath, @Nullable final Class<?> classToSave,
+                  @NotNull final List<Serializer> serializers) {
     this.configTypeClass = configTypeClass;
     this.fileName = fileName;
     this.filePath = filePath;
@@ -166,11 +166,11 @@ public final class ConfigLoader {
      * @return a newly built config loader.
      */
     @NotNull
-    public ConfigLoader build() {
+    public Configs build() {
       Validate.checkNull(this.configType, "Use #setConfigClassType(Class<ConfigType>) method to set config type class");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name.");
       Validate.checkNull(this.filePath, "Use #setFilePath(Path) method to set file path.");
-      return new ConfigLoader(this.configType, this.fileName, this.filePath, this.toSave, this.serializers);
+      return new Configs(this.configType, this.fileName, this.filePath, this.toSave, this.serializers);
     }
 
     /**
