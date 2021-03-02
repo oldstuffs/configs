@@ -25,11 +25,9 @@
 
 package io.github.portlek.configs;
 
-import java.nio.file.Path;
-import org.jetbrains.annotations.NotNull;
-
 /**
  * an interface to determine configs.
  */
 public interface PathHolder {
+
 }

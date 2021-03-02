@@ -25,10 +25,8 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.paths.BaseDefaultPath;
 import io.github.portlek.configs.tree.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * the interface to determine paths.
