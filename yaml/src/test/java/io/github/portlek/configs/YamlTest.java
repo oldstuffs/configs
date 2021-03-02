@@ -40,9 +40,7 @@ public final class YamlTest {
       .setConfigType(YamlType.get())
       .setPathHolder(YamlTest.PATH_HOLDER)
       .build()
-      .load(true, true)
-      .thenAccept(configuration -> {
-      });
+      .load(true, true);
     while (true) {
       Thread.sleep(5L);
     }
