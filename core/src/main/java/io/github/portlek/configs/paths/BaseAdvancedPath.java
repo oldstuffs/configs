@@ -49,7 +49,7 @@ public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
    *
    * @param original the original.
    */
-  protected BaseAdvancedPath(@NotNull final ConfigPath<F> original) {
+  public BaseAdvancedPath(@NotNull final ConfigPath<F> original) {
     this.original = original;
   }
 
