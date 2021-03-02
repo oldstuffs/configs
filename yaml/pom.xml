@@ -32,7 +32,8 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>yaml</artifactId>
+  <artifactId>configs-yaml</artifactId>
+  <name>configs-yaml</name>
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>

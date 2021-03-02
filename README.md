@@ -8,6 +8,7 @@
 ## How to use
 
 ### core
+
 ```xml
 <dependency>
   <groupId>io.github.portlek</groupId>
@@ -21,6 +22,7 @@ implementation("io.github.portlek:configs-core:${version}")
 ```
 
 ### yaml
+
 ```xml
 <dependency>
   <groupId>io.github.portlek</groupId>
@@ -34,6 +36,7 @@ implementation("io.github.portlek:configs-yaml:${version}")
 ```
 
 ### json
+
 ```xml
 <dependency>
   <groupId>io.github.portlek</groupId>
