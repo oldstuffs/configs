@@ -31,7 +31,7 @@ import java.nio.file.Path;
 
 public final class YamlTest {
 
-  public static void main(final String[] args) {
+  public static void main(final String[] args) throws InterruptedException {
     ConfigLoader.builder()
       .setFileName("test")
       .setFolderPath(Path.of(System.getProperty("user.dir")))
@@ -40,11 +40,7 @@ public final class YamlTest {
       .build()
       .load(true, true);
     while (true) {
-      try {
-        Thread.sleep(5L);
-      } catch (final InterruptedException e) {
-        e.printStackTrace();
-      }
+      Thread.sleep(5L);
     }
   }
 
