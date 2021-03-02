@@ -39,14 +39,15 @@ public final class PathSerializer implements Serializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return field.getType() == ConfigPath.class;
+    return ConfigPath.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pth = field.of(loader.getPathHolder()).getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!",
-      field.getName(), loader.getPathHolder().getClass().getSimpleName());
+    final var pathHolder = loader.getPathHolder();
+    Validate.checkNull(pathHolder, "The path holder is null!");
+    final var pth = field.getValue().orElse(null);
+    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
     ((ConfigPath<?>) pth).setLoader(loader);
   }
 }

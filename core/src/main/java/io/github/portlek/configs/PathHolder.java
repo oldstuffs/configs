@@ -25,21 +25,11 @@
 
 package io.github.portlek.configs;
 
+import java.nio.file.Path;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an interface to determine configs.
  */
 public interface PathHolder {
-
-  /**
-   * creates an empty path holder.
-   *
-   * @return empty path holder.
-   */
-  @NotNull
-  static PathHolder empty() {
-    return new PathHolder() {
-    };
-  }
 }

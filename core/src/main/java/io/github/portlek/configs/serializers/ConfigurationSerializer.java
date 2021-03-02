@@ -38,11 +38,11 @@ public final class ConfigurationSerializer implements Serializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return field.getType() == FileConfiguration.class;
+    return FileConfiguration.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.of(loader.getPathHolder()).setValue(loader.getConfiguration());
+    field.setValue(loader.getConfiguration());
   }
 }

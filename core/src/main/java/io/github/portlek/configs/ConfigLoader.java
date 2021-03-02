@@ -73,8 +73,8 @@ public final class ConfigLoader {
   /**
    * the class path holder.
    */
-  @NotNull
-  private final PathHolder pathHolder;
+  @Nullable
+  private final Class<? extends PathHolder> pathHolder;
 
   /**
    * the serializers.
@@ -203,11 +203,12 @@ public final class ConfigLoader {
    * loads fields in the {@link #pathHolder} class.
    */
   private void load0() {
-    final var stream = new ClassOf<>(this.pathHolder).getDeclaredFields().stream();
-    this.serializers.forEach(serializer ->
-      stream
-        .filter(field -> serializer.canLoad(this, field))
-        .forEach(field -> serializer.onLoad(this, field)));
+    if (this.pathHolder != null) {
+      this.serializers.forEach(serializer ->
+        new ClassOf<>(this.pathHolder).getDeclaredFields().stream()
+          .filter(field -> serializer.canLoad(this, field))
+          .forEach(field -> serializer.onLoad(this, field)));
+    }
   }
 
   /**
@@ -252,8 +253,8 @@ public final class ConfigLoader {
     /**
      * the path holder.
      */
-    @NotNull
-    private PathHolder pathHolder = PathHolder.empty();
+    @Nullable
+    private Class<? extends PathHolder> pathHolder = null;
 
     /**
      * ctor.
@@ -373,8 +374,8 @@ public final class ConfigLoader {
      *
      * @return path holder.
      */
-    @NotNull
-    public PathHolder getPathHolder() {
+    @Nullable
+    public Class<? extends PathHolder> getPathHolder() {
       return this.pathHolder;
     }
 
@@ -386,7 +387,7 @@ public final class ConfigLoader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setPathHolder(@NotNull final PathHolder pathHolder) {
+    public Builder setPathHolder(@NotNull final Class<? extends PathHolder> pathHolder) {
       this.pathHolder = pathHolder;
       return this;
     }

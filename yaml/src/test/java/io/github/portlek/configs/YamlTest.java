@@ -31,25 +31,27 @@ import java.nio.file.Path;
 
 public final class YamlTest {
 
-  private static final PathHolder0 PATH_HOLDER = new PathHolder0();
-
-  public static void main(final String[] args) throws InterruptedException {
+  public static void main(final String[] args) {
     ConfigLoader.builder()
       .setFileName("test")
       .setFolderPath(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setPathHolder(YamlTest.PATH_HOLDER)
+      .setPathHolder(PathHolder0.class)
       .build()
       .load(true, true);
     while (true) {
-      Thread.sleep(5L);
+      try {
+        Thread.sleep(5L);
+      } catch (final InterruptedException e) {
+        e.printStackTrace();
+      }
     }
   }
 
   private static final class PathHolder0 implements PathHolder {
 
-    public final DefaultPath<String> stringPath = Paths.string("test", "test");
+    public static final DefaultPath<String> STRING_PATH = Paths.string("test", "test");
 
-    public FileConfiguration configuration;
+    public static FileConfiguration CONFIGURATION;
   }
 }
