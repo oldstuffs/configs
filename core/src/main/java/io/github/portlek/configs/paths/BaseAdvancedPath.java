@@ -28,6 +28,8 @@ package io.github.portlek.configs.paths;
 import io.github.portlek.configs.AdvancedPath;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.tree.FileConfiguration;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -51,6 +53,24 @@ public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
    */
   public BaseAdvancedPath(@NotNull final ConfigPath<F> original) {
     this.original = original;
+  }
+
+  @NotNull
+  @Override
+  public Optional<F> convertToFinal(@NotNull final R raw) {
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<R> convertToRaw(@NotNull final F fnl) {
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<R> getRaw(@NotNull final FileConfiguration configuration) {
+    return Optional.empty();
   }
 
   @NotNull
