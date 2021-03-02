@@ -23,22 +23,50 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs;
 
+import io.github.portlek.configs.paths.BaseDefaultPath;
+import io.github.portlek.configs.tree.FileConfiguration;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * the interface to determine default paths.
+ * the interface to determine paths.
  *
  * @param <T> type of the path's value
  */
-public interface DefPth<T> extends Pth<T> {
+public interface ConfigPath<T> {
 
   /**
-   * obtains the default.
+   * obtains the config.
    *
-   * @return default.
+   * @return config.
    */
-  @Nullable
-  T getDefault();
+  @NotNull
+  default FileConfiguration getConfig() {
+    return this.getLoader().getConfiguration();
+  }
+
+  /**
+   * obtains the loader.
+   *
+   * @return loader.
+   */
+  @NotNull
+  ConfigLoader getLoader();
+
+  /**
+   * sets the loader.
+   *
+   * @param loader the loader to set.
+   */
+  void setLoader(@NotNull ConfigLoader loader);
+
+  /**
+   * obtains the path.
+   *
+   * @return path.
+   */
+  @NotNull
+  String getPath();
 }

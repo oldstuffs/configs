@@ -23,52 +23,29 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
-import java.util.Objects;
-import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an abstract class that represents base paths.
+ * an interface to determine commented paths.
  *
  * @param <T> type of the path.
  */
-public abstract class BasePath<T> implements ConfigPath<T> {
+public interface CommentPath<T> extends ConfigPath<T> {
 
   /**
-   * the path.
-   */
-  @NotNull
-  @Getter
-  private final String path;
-
-  /**
-   * the config loader.
+   * obtains the comment.
+   *
+   * @return comment.
    */
   @Nullable
-  private ConfigLoader loader;
+  String getComment();
 
   /**
-   * ctor.
+   * sets the comment.
    *
-   * @param path the path.
+   * @param comment the comment to set.
    */
-  protected BasePath(@NotNull final String path) {
-    this.path = path;
-  }
-
-  @NotNull
-  @Override
-  public ConfigLoader getLoader() {
-    return Objects.requireNonNull(this.loader, "Use ConfigLoader#load() method before use the getLoader() method!");
-  }
-
-  @Override
-  public void setLoader(@NotNull final ConfigLoader loader) {
-    this.loader = loader;
-  }
+  void setComment(@Nullable String comment);
 }

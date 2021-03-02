@@ -26,20 +26,20 @@
 package io.github.portlek.configs.serializers;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.Serializer;
 import io.github.portlek.configs.Validate;
-import io.github.portlek.configs.paths.Pth;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link Pth}.
+ * an implementation to serialize {@link ConfigPath}.
  */
 public final class PathSerializer implements Serializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return field.getType() == Pth.class;
+    return field.getType() == ConfigPath.class;
   }
 
   @Override
@@ -47,6 +47,6 @@ public final class PathSerializer implements Serializer {
     final var pth = field.of(loader.getPathHolder()).getValue().orElse(null);
     Validate.checkNull(pth, "The field %s in %s is null!",
       field.getName(), loader.getPathHolder().getClass().getSimpleName());
-    ((Pth<?>) pth).setLoader(loader);
+    ((ConfigPath<?>) pth).setLoader(loader);
   }
 }

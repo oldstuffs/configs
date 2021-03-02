@@ -50,6 +50,8 @@ public final class YamlTest {
 
   private static final class PathHolder0 implements PathHolder {
 
+    public final DefaultPath<String> stringPath = Paths.string("test", "test");
+
     public FileConfiguration configuration;
   }
 }

@@ -23,19 +23,23 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.BaseDefaultPath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * the interface to determine paths.
- *
- * @param <T> type of the path's value
+ * a class that contains list of config path implementations.
  */
-public interface Pth<T> {
+public final class Paths {
+
+  /**
+   * ctor.
+   */
+  private Paths() {
+  }
 
   /**
    * adds comment to the path.
@@ -46,8 +50,8 @@ public interface Pth<T> {
    *
    * @return commented path.
    */
-  static <T> Pth<T> comment(@NotNull final Pth<T> path, @NotNull final String comment) {
-    return path;
+  public static <T> ConfigPath<T> comment(@NotNull final ConfigPath<T> path, @NotNull final String comment) {
+    return new BaseCommentPath<>(path);
   }
 
   /**
@@ -58,41 +62,8 @@ public interface Pth<T> {
    *
    * @return a newly created string path.
    */
-  static Pth<String> string(@NotNull final String path, @Nullable final String def) {
-    return new DefaultPath<>(path, def) {
+  public static DefaultPath<String> string(@NotNull final String path, @Nullable final String def) {
+    return new BaseDefaultPath<>(path, def) {
     };
   }
-
-  /**
-   * obtains the config.
-   *
-   * @return config.
-   */
-  @Nullable
-  default FileConfiguration getConfig() {
-    return this.getLoader().getConfiguration();
-  }
-
-  /**
-   * obtains the loader.
-   *
-   * @return loader.
-   */
-  @NotNull
-  ConfigLoader getLoader();
-
-  /**
-   * sets the loader.
-   *
-   * @param loader the loader to set.
-   */
-  void setLoader(@NotNull ConfigLoader loader);
-
-  /**
-   * obtains the path.
-   *
-   * @return path.
-   */
-  @NotNull
-  String getPath();
 }

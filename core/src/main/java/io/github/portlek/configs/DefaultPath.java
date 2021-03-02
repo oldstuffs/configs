@@ -23,52 +23,22 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
-import java.util.Objects;
-import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an abstract class that represents base paths.
+ * the interface to determine default paths.
  *
- * @param <T> type of the path.
+ * @param <T> type of the path's value
  */
-public abstract class BasePath<T> implements ConfigPath<T> {
+public interface DefaultPath<T> extends ConfigPath<T> {
 
   /**
-   * the path.
-   */
-  @NotNull
-  @Getter
-  private final String path;
-
-  /**
-   * the config loader.
+   * obtains the default.
+   *
+   * @return default.
    */
   @Nullable
-  private ConfigLoader loader;
-
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  protected BasePath(@NotNull final String path) {
-    this.path = path;
-  }
-
-  @NotNull
-  @Override
-  public ConfigLoader getLoader() {
-    return Objects.requireNonNull(this.loader, "Use ConfigLoader#load() method before use the getLoader() method!");
-  }
-
-  @Override
-  public void setLoader(@NotNull final ConfigLoader loader) {
-    this.loader = loader;
-  }
+  T getDefault();
 }
