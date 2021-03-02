@@ -50,7 +50,21 @@ public final class YamlTest {
 
   private static final class PathHolder0 implements PathHolder {
 
-    public static final DefaultPath<String> STRING_PATH = Paths.string("test", "test");
+    public static final DefaultPath<String> STRING_PATH_1 = Paths.string("test-1", "test-1");
+
+    public static final DefaultPath<String> STRING_PATH_2 = Paths.string("test-2.test-1", "test-2");
+
+    public static final DefaultPath<String> STRING_PATH_3 = Paths.string("test-2.test-2", "test-3");
+
+    public static final DefaultPath<String> STRING_PATH_4 = Paths.string("test-3.test-1.test-1", "test-4");
+
+    public static final DefaultPath<String> STRING_PATH_5 = Paths.string("test-3.test-2.test-1", "test-5");
+
+    public static final DefaultPath<String> STRING_PATH_6 = Paths.string("test-3.test-3.test-1", "test-6");
+
+    public static final DefaultPath<String> STRING_PATH_7 = Paths.string("test-3.test-2.test-2", "test-7");
+
+    public static final DefaultPath<String> STRING_PATH_8 = Paths.string("test-3.test-3.test-3", "test-8");
 
     public static FileConfiguration CONFIGURATION;
   }
