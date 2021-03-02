@@ -27,7 +27,10 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.paths.BaseCommentPath;
 import io.github.portlek.configs.paths.BooleanPath;
+import io.github.portlek.configs.paths.IntegerPath;
+import io.github.portlek.configs.paths.StringListPath;
 import io.github.portlek.configs.paths.StringPath;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +54,7 @@ public final class Paths {
    * @return a newly created boolean path.
    */
   @NotNull
-  public static DefaultPath<Boolean> bool(@NotNull final String path, final boolean def) {
+  public static BooleanPath bool(@NotNull final String path, final boolean def) {
     return new BooleanPath(path, def);
   }
 
@@ -63,7 +66,7 @@ public final class Paths {
    * @return a newly created boolean path.
    */
   @NotNull
-  public static DefaultPath<Boolean> bool(@NotNull final String path) {
+  public static BooleanPath bool(@NotNull final String path) {
     return new BooleanPath(path);
   }
 
@@ -82,6 +85,31 @@ public final class Paths {
   }
 
   /**
+   * creates a integer path.
+   *
+   * @param path the path to create.
+   *
+   * @return a newly created integer path.
+   */
+  @NotNull
+  public static IntegerPath integer(@NotNull final String path) {
+    return new IntegerPath(path);
+  }
+
+  /**
+   * creates a integer path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created integer path.
+   */
+  @NotNull
+  public static IntegerPath integer(@NotNull final String path, final int def) {
+    return new IntegerPath(path, def);
+  }
+
+  /**
    * creates a string path.
    *
    * @param path the path to create.
@@ -90,7 +118,33 @@ public final class Paths {
    * @return a newly created string path.
    */
   @NotNull
-  public static DefaultPath<String> string(@NotNull final String path, @Nullable final String def) {
+  public static StringPath string(@NotNull final String path, @Nullable final String def) {
     return new StringPath(path, def);
+  }
+
+  /**
+   * creates a string list path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created string list path.
+   */
+  @NotNull
+  public static StringListPath stringList(@NotNull final String path, @Nullable final List<String> def) {
+    return new StringListPath(path, def);
+  }
+
+  /**
+   * creates a string list path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created string list path.
+   */
+  @NotNull
+  public static StringListPath stringList(@NotNull final String path, @NotNull final String... def) {
+    return new StringListPath(path, def);
   }
 }
