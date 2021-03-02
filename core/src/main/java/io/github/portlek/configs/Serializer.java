@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.tree.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,6 +37,7 @@ public interface Serializer {
    * runs when the config loads.
    *
    * @param loader the loader to run.
+   * @param configuration the configuration to run.
    */
-  void onLoad(@NotNull ConfigLoader loader);
+  void onLoad(@NotNull ConfigLoader loader, @NotNull FileConfiguration configuration);
 }

@@ -39,7 +39,6 @@ public final class YamlTest {
       .setFolderPath(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
       .setPathHolder(YamlTest.PATH_HOLDER)
-      .addSerializers(new XXXSerializer(), new YYYSerializer(), )
       .build()
       .load(true, true)
       .thenAccept(configuration -> {

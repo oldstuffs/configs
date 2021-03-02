@@ -25,7 +25,8 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.paths.Pth;
+import io.github.portlek.configs.serializers.ConfigurationSerializer;
+import io.github.portlek.configs.serializers.PathSerializer;
 import io.github.portlek.configs.tree.FileConfiguration;
 import io.github.portlek.configs.tree.InvalidConfigurationException;
 import io.github.portlek.reflection.clazz.ClassOf;
@@ -184,16 +185,6 @@ public final class ConfigLoader {
   private void load0() {
     Validate.checkNull(this.configuration, "Use #load() method before save the config!");
     final var stream = new ClassOf<>(this.pathHolder).getDeclaredFields().stream();
-    stream
-      .filter(refField -> Pth.class.isAssignableFrom(refField.getType()))
-      .map(refField -> refField.of(this.pathHolder).getValue())
-      .filter(Optional::isPresent)
-      .map(Optional::get)
-      .map(Pth.class::cast)
-      .forEach(pth -> pth.setConfig(this.configuration));
-    stream
-      .filter(refField -> FileConfiguration.class.isAssignableFrom(refField.getType()))
-      .forEach(refField -> refField.of(this.pathHolder).setValue(this.configuration));
     this.serializers.forEach(serializer ->
       stream
         .filter(refField -> Serializer.class.isAssignableFrom(refField.getType()))
@@ -202,7 +193,7 @@ public final class ConfigLoader {
         .map(Optional::get)
         .map(Serializer.class::cast)
         .forEach(serialize ->
-          serialize.onLoad(this)));
+          serialize.onLoad(this, this.configuration)));
   }
 
   /**
@@ -223,7 +214,10 @@ public final class ConfigLoader {
      * the serializers.
      */
     @NotNull
-    private final List<Serializer> serializers = new ArrayList<>();
+    private final List<Serializer> serializers = new ArrayList<>() {{
+      this.add(new PathSerializer());
+      this.add(new ConfigurationSerializer());
+    }};
 
     /**
      * the config type.
