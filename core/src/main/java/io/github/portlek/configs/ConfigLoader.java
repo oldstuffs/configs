@@ -183,13 +183,17 @@ public final class ConfigLoader {
    */
   private void load0() {
     Validate.checkNull(this.configuration, "Use #load() method before save the config!");
-    new ClassOf<>(this.pathHolder).getDeclaredFields().stream()
+    final var stream = new ClassOf<>(this.pathHolder).getDeclaredFields().stream();
+    stream
       .filter(refField -> Pth.class.isAssignableFrom(refField.getType()))
       .map(refField -> refField.of(this.pathHolder).getValue())
       .filter(Optional::isPresent)
       .map(Optional::get)
       .map(Pth.class::cast)
       .forEach(pth -> pth.setConfig(this.configuration));
+    stream
+      .filter(refField -> FileConfiguration.class.isAssignableFrom(refField.getType()))
+      .forEach(refField -> refField.of(this.pathHolder).setValue(this.configuration));
   }
 
   /**
