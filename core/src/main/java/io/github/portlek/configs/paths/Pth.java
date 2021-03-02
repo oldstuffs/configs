@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.paths;
 
+import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.tree.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -68,14 +69,24 @@ public interface Pth<T> {
    * @return config.
    */
   @Nullable
-  FileConfiguration getConfig();
+  default FileConfiguration getConfig() {
+    return this.getLoader().getConfiguration();
+  }
 
   /**
-   * sets the config.
+   * obtains the loader.
    *
-   * @param config the config to set.
+   * @return loader.
    */
-  void setConfig(@NotNull FileConfiguration config);
+  @NotNull
+  ConfigLoader getLoader();
+
+  /**
+   * sets the loader.
+   *
+   * @param loader the loader to set.
+   */
+  void setLoader(@NotNull ConfigLoader loader);
 
   /**
    * obtains the path.

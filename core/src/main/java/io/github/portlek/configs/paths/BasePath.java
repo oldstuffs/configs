@@ -25,7 +25,8 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.ConfigLoader;
+import java.util.Objects;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,10 +46,10 @@ public abstract class BasePath<T> implements Pth<T> {
   private final String path;
 
   /**
-   * the config.
+   * the config loader.
    */
   @Nullable
-  private FileConfiguration config;
+  private ConfigLoader loader;
 
   /**
    * ctor.
@@ -59,14 +60,14 @@ public abstract class BasePath<T> implements Pth<T> {
     this.path = path;
   }
 
-  @Nullable
+  @NotNull
   @Override
-  public FileConfiguration getConfig() {
-    return this.config;
+  public ConfigLoader getLoader() {
+    return Objects.requireNonNull(this.loader, "Use ConfigLoader#load() method before use the getLoader() method!");
   }
 
   @Override
-  public void setConfig(@NotNull final FileConfiguration config) {
-    this.config = config;
+  public void setLoader(@NotNull final ConfigLoader loader) {
+    this.loader = loader;
   }
 }

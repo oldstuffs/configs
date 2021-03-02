@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,10 +34,20 @@ import org.jetbrains.annotations.NotNull;
 public interface Serializer {
 
   /**
-   * runs when the config loads.
+   * checks if the field can be loaded by the serializer.
    *
-   * @param loader the loader to run.
-   * @param configuration the configuration to run.
+   * @param loader the loader to check.
+   * @param field the field to check.
+   *
+   * @return {@code true} if the field can load by the serialize.
    */
-  void onLoad(@NotNull ConfigLoader loader, @NotNull FileConfiguration configuration);
+  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+
+  /**
+   * loads the field value.
+   *
+   * @param loader the loader to load.
+   * @param field the field to load.
+   */
+  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 }

@@ -58,12 +58,14 @@ public final class Validate {
    *
    * @param object the object to check.
    * @param errorMessage the error message to check.
+   * @param args the args to check.
    *
    * @throws IllegalStateException if the given object is null.
    */
-  public static void checkNull(@Nullable final Object object, @NotNull final String errorMessage) {
+  public static void checkNull(@Nullable final Object object, @NotNull final String errorMessage,
+                               @NotNull final Object... args) {
     if (object == null) {
-      throw new IllegalStateException(errorMessage);
+      throw new IllegalStateException(String.format(errorMessage, args));
     }
   }
 }

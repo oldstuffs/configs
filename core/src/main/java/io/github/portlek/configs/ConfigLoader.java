@@ -38,7 +38,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -105,25 +105,23 @@ public final class ConfigLoader {
   }
 
   /**
-   * loads the config.
+   * obtains the configuration.
    *
-   * @return loaded config.
+   * @return configuration.
    */
   @NotNull
-  public FileConfiguration load() {
-    return this.load(false);
+  public FileConfiguration getConfiguration() {
+    return Objects.requireNonNull(this.configuration, "Use #load() method before save the config!");
   }
 
   /**
-   * loads the config.
+   * obtains the file.
    *
-   * @param save the save to load.
-   *
-   * @return loaded config.
+   * @return file.
    */
   @NotNull
-  public FileConfiguration load(final boolean save) {
-    return this.load(save, false).join();
+  public File getFile() {
+    return Objects.requireNonNull(this.file, "Use #load() method before save the config!");
   }
 
   /**
@@ -180,29 +178,43 @@ public final class ConfigLoader {
   }
 
   /**
+   * loads the config.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public FileConfiguration load() {
+    return this.load(false);
+  }
+
+  /**
+   * loads the config.
+   *
+   * @param save the save to load.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public FileConfiguration load(final boolean save) {
+    return this.load(save, false).join();
+  }
+
+  /**
    * loads fields in the {@link #pathHolder} class.
    */
   private void load0() {
-    Validate.checkNull(this.configuration, "Use #load() method before save the config!");
     final var stream = new ClassOf<>(this.pathHolder).getDeclaredFields().stream();
     this.serializers.forEach(serializer ->
       stream
-        .filter(refField -> Serializer.class.isAssignableFrom(refField.getType()))
-        .map(refField -> refField.of(serializer).getValue())
-        .filter(Optional::isPresent)
-        .map(Optional::get)
-        .map(Serializer.class::cast)
-        .forEach(serialize ->
-          serialize.onLoad(this, this.configuration)));
+        .filter(field -> serializer.canLoad(this, field))
+        .forEach(field -> serializer.onLoad(this, field)));
   }
 
   /**
    * runs when config is saving.
    */
   private void save() throws IOException {
-    Validate.checkNull(this.file, "Use #load() method before save the config!");
-    Validate.checkNull(this.configuration, "Use #load() method before save the config!");
-    this.configType.save(this.file, this.configuration);
+    this.configType.save(this.getFile(), this.getConfiguration());
   }
 
   /**

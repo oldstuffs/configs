@@ -28,16 +28,21 @@ package io.github.portlek.configs.serializers;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.Serializer;
 import io.github.portlek.configs.tree.FileConfiguration;
-import io.github.portlek.reflection.clazz.ClassOf;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * an implementation to serialize {@link FileConfiguration}.
+ */
 public final class ConfigurationSerializer implements Serializer {
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final FileConfiguration configuration) {
-    final var pathHolder = loader.getPathHolder();
-    new ClassOf<>(pathHolder).getDeclaredFields().stream()
-      .filter(refField -> FileConfiguration.class.isAssignableFrom(refField.getType()))
-      .forEach(refField -> refField.of(pathHolder).setValue(configuration));
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return field.getType() == FileConfiguration.class;
+  }
+
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.of(loader.getPathHolder()).setValue(loader.getConfiguration());
   }
 }

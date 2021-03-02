@@ -27,26 +27,26 @@ package io.github.portlek.configs.serializers;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.Serializer;
+import io.github.portlek.configs.Validate;
 import io.github.portlek.configs.paths.Pth;
-import io.github.portlek.configs.tree.FileConfiguration;
-import io.github.portlek.reflection.clazz.ClassOf;
-import java.util.Optional;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serializer {@link Pth}.
+ * an implementation to serialize {@link Pth}.
  */
 public final class PathSerializer implements Serializer {
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final FileConfiguration configuration) {
-    final var pathHolder = loader.getPathHolder();
-    new ClassOf<>(pathHolder).getDeclaredFields().stream()
-      .filter(refField -> Pth.class.isAssignableFrom(refField.getType()))
-      .map(refField -> refField.of(pathHolder).getValue())
-      .filter(Optional::isPresent)
-      .map(Optional::get)
-      .map(Pth.class::cast)
-      .forEach(pth -> pth.setConfig(configuration));
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return field.getType() == Pth.class;
+  }
+
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    final var pth = field.of(loader.getPathHolder()).getValue().orElse(null);
+    Validate.checkNull(pth, "The field %s in %s is null!",
+      field.getName(), loader.getPathHolder().getClass().getSimpleName());
+    ((Pth<?>) pth).setLoader(loader);
   }
 }
