@@ -28,6 +28,6 @@ package io.github.portlek.configs;
 /**
  * an interface to determine configs.
  */
-public interface PathHolder {
+public interface ConfigHolder {
 
 }

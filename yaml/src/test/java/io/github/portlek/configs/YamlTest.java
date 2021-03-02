@@ -36,7 +36,7 @@ public final class YamlTest {
       .setFileName("test")
       .setFolderPath(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setPathHolder(PathHolder0.class)
+      .setPathHolder(ConfigHolder0.class)
       .build()
       .load(true, true);
     while (true) {
@@ -44,7 +44,7 @@ public final class YamlTest {
     }
   }
 
-  private static final class PathHolder0 implements PathHolder {
+  private static final class ConfigHolder0 implements ConfigHolder {
 
     public static final DefaultPath<String> STRING_PATH_1 = Paths.string("test-1", "test-1");
 
