@@ -25,7 +25,9 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.serializers.ConfigLoaderSerializer;
 import io.github.portlek.configs.serializers.ConfigurationSerializer;
+import io.github.portlek.configs.serializers.FileSerializer;
 import io.github.portlek.configs.serializers.PathSerializer;
 import io.github.portlek.configs.tree.FileConfiguration;
 import io.github.portlek.configs.tree.InvalidConfigurationException;
@@ -200,6 +202,13 @@ public final class ConfigLoader {
   }
 
   /**
+   * runs when config is saving.
+   */
+  public void save() throws IOException {
+    this.configType.save(this.getFile(), this.getConfiguration());
+  }
+
+  /**
    * loads fields in the {@link #pathHolder} class.
    */
   private void load0() {
@@ -209,13 +218,6 @@ public final class ConfigLoader {
           .filter(field -> serializer.canLoad(this, field))
           .forEach(field -> serializer.onLoad(this, field)));
     }
-  }
-
-  /**
-   * runs when config is saving.
-   */
-  private void save() throws IOException {
-    this.configType.save(this.getFile(), this.getConfiguration());
   }
 
   /**
@@ -230,6 +232,8 @@ public final class ConfigLoader {
     private final List<Serializer> serializers = new ArrayList<>() {{
       this.add(new PathSerializer());
       this.add(new ConfigurationSerializer());
+      this.add(new ConfigLoaderSerializer());
+      this.add(new FileSerializer());
     }};
 
     /**
