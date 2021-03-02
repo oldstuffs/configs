@@ -194,6 +194,15 @@ public final class ConfigLoader {
     stream
       .filter(refField -> FileConfiguration.class.isAssignableFrom(refField.getType()))
       .forEach(refField -> refField.of(this.pathHolder).setValue(this.configuration));
+    this.serializers.forEach(serializer ->
+      stream
+        .filter(refField -> Serializer.class.isAssignableFrom(refField.getType()))
+        .map(refField -> refField.of(serializer).getValue())
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .map(Serializer.class::cast)
+        .forEach(serialize ->
+          serialize.onLoad(this)));
   }
 
   /**

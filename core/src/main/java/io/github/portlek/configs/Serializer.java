@@ -25,9 +25,17 @@
 
 package io.github.portlek.configs;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * an interface to determine serializers.
  */
 public interface Serializer {
 
+  /**
+   * runs when the config loads.
+   *
+   * @param loader the loader to run.
+   */
+  void onLoad(@NotNull ConfigLoader loader);
 }
