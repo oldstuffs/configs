@@ -76,7 +76,7 @@ public final class ConfigLoader {
    * the class path holder.
    */
   @Nullable
-  private final Class<? extends PathHolder> pathHolder;
+  private final Class<? extends ConfigHolder> pathHolder;
 
   /**
    * the serializers.
@@ -260,7 +260,7 @@ public final class ConfigLoader {
      * the path holder.
      */
     @Nullable
-    private Class<? extends PathHolder> pathHolder = null;
+    private Class<? extends ConfigHolder> pathHolder = null;
 
     /**
      * ctor.
@@ -381,7 +381,7 @@ public final class ConfigLoader {
      * @return path holder.
      */
     @Nullable
-    public Class<? extends PathHolder> getPathHolder() {
+    public Class<? extends ConfigHolder> getPathHolder() {
       return this.pathHolder;
     }
 
@@ -393,7 +393,7 @@ public final class ConfigLoader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setPathHolder(@NotNull final Class<? extends PathHolder> pathHolder) {
+    public Builder setPathHolder(@NotNull final Class<? extends ConfigHolder> pathHolder) {
       this.pathHolder = pathHolder;
       return this;
     }

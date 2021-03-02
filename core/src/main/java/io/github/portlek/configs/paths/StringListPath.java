@@ -23,11 +23,35 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
+
+import java.util.Arrays;
+import java.util.List;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine configs.
+ * an implementations for {@link BaseDefaultPath} of {@link String} {@link List}.
  */
-public interface PathHolder {
+public final class StringListPath extends BaseDefaultPath<List<String>> {
 
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param def the default.
+   */
+  public StringListPath(@NotNull final String path, @Nullable final List<String> def) {
+    super(path, def);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param def the default.
+   */
+  public StringListPath(@NotNull final String path, @NotNull final String... def) {
+    this(path, Arrays.asList(def));
+  }
 }
