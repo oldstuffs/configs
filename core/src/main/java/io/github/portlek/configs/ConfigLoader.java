@@ -203,6 +203,8 @@ public final class ConfigLoader {
 
   /**
    * runs when config is saving.
+   *
+   * @throws IOException if something goes wrong when saving the file.
    */
   public void save() throws IOException {
     this.configType.save(this.getFile(), this.getConfiguration());
