@@ -2,71 +2,36 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <artifactId>ppom</artifactId>
-        <groupId>io.github.portlek</groupId>
-        <version>2.3.8</version>
-    </parent>
-    <artifactId>configs-parent</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>configs-parent</name>
-    <packaging>pom</packaging>
-    <description>Annotation based configuration library for any Java project.</description>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>io.github.portlek</groupId>
+    <artifactId>ppom</artifactId>
+    <version>2.3.8</version>
+  </parent>
+  <artifactId>configs-parent</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>configs-parent</name>
+  <packaging>pom</packaging>
+  <description>Annotation based configuration library for any Java project.</description>
+  <url>https://github.com/portlek/configs</url>
+  <scm>
     <url>https://github.com/portlek/configs</url>
-
-    <modules>
-        <module>core</module>
-        <module>json</module>
-        <module>yaml</module>
-        <module>bukkit</module>
-    </modules>
-
-    <scm>
-        <connection>scm:git:git://github.com/portlek/configs.git</connection>
-        <developerConnection>scm:git:ssh://github.com/portlek/configs.git</developerConnection>
-        <url>https://github.com/portlek/configs</url>
-    </scm>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <configuration>
-                    <minimizeJar>false</minimizeJar>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.github.portlek</groupId>
-            <artifactId>reflection</artifactId>
-            <version>4.0.11</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.portlek</groupId>
-            <artifactId>replaceable</artifactId>
-            <version>1.6</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.portlek</groupId>
-            <artifactId>version</artifactId>
-            <version>1.6</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.portlek</groupId>
-            <artifactId>mapentry</artifactId>
-            <version>2.0.10</version>
-        </dependency>
-        <dependency>
-            <groupId>me.carleslc.Simple-YAML</groupId>
-            <artifactId>Simple-Configuration</artifactId>
-            <version>1.7.2</version>
-        </dependency>
-    </dependencies>
-
+    <connection>scm:git:git://github.com/portlek/configs.git</connection>
+    <developerConnection>scm:git:ssh://github.com/portlek/configs.git</developerConnection>
+  </scm>
+  <properties>
+    <java.version>11</java.version>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>reflection</artifactId>
+      <version>4.0.11</version>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>core</module>
+    <module>json</module>
+    <module>yaml</module>
+  </modules>
 </project>
