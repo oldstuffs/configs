@@ -26,6 +26,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.BooleanPath;
 import io.github.portlek.configs.paths.StringPath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -39,6 +40,31 @@ public final class Paths {
    * ctor.
    */
   private Paths() {
+  }
+
+  /**
+   * creates a boolean path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created boolean path.
+   */
+  @NotNull
+  public static DefaultPath<Boolean> bool(@NotNull final String path, final boolean def) {
+    return new BooleanPath(path, def);
+  }
+
+  /**
+   * creates a boolean path.
+   *
+   * @param path the path to create.
+   *
+   * @return a newly created boolean path.
+   */
+  @NotNull
+  public static DefaultPath<Boolean> bool(@NotNull final String path) {
+    return new BooleanPath(path);
   }
 
   /**
