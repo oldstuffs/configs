@@ -23,48 +23,23 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.paths.BaseCommentPath;
-import io.github.portlek.configs.paths.StringPath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains list of config path implementations.
+ * an implementations for {@link BaseDefaultPath} of {@link String}.
  */
-public final class Paths {
+public final class StringPath extends BaseDefaultPath<String> {
 
   /**
    * ctor.
+   *
+   * @param path the path.
+   * @param def the default.
    */
-  private Paths() {
-  }
-
-  /**
-   * adds comment to the path.
-   *
-   * @param path the path to add.
-   * @param comment the comment to add.
-   * @param <T> type of the path.
-   *
-   * @return commented path.
-   */
-  @NotNull
-  public static <T> ConfigPath<T> comment(@NotNull final ConfigPath<T> path, @NotNull final String comment) {
-    return new BaseCommentPath<>(path);
-  }
-
-  /**
-   * creates a string path.
-   *
-   * @param path the path to create.
-   * @param def the default value to create.
-   *
-   * @return a newly created string path.
-   */
-  @NotNull
-  public static DefaultPath<String> string(@NotNull final String path, @Nullable final String def) {
-    return new StringPath(path, def);
+  public StringPath(@NotNull final String path, @Nullable final String def) {
+    super(path, def);
   }
 }
