@@ -52,9 +52,11 @@ public final class BaseCommentPath<T> implements CommentPath<T> {
    * ctor.
    *
    * @param original the original.
+   * @param comment the comment.
    */
-  public BaseCommentPath(@NotNull final ConfigPath<T> original) {
+  public BaseCommentPath(@NotNull final ConfigPath<T> original, @Nullable final String comment) {
     this.original = original;
+    this.comment = comment;
   }
 
   @Nullable

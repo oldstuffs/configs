@@ -23,23 +23,22 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.paths.raw;
 
+import io.github.portlek.configs.paths.BasePath;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementations for {@link BaseDefaultPath} of {@link String}.
+ * an implementations for {@link BasePath} of {@link Boolean}.
  */
-public final class StringPath extends BaseDefaultPath<String> {
+public final class BooleanPath extends BasePath<Boolean> {
 
   /**
    * ctor.
    *
    * @param path the path.
-   * @param def the default.
    */
-  public StringPath(@NotNull final String path, @Nullable final String def) {
-    super(path, def);
+  public BooleanPath(@NotNull final String path) {
+    super(path);
   }
 }

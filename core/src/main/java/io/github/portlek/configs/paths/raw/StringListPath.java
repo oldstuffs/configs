@@ -23,22 +23,23 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.raw;
 
+import io.github.portlek.configs.paths.BasePath;
+import java.util.List;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine default paths.
- *
- * @param <T> type of the path's value
+ * an implementations for {@link BasePath} of {@link String} {@link List}.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public final class StringListPath extends BasePath<List<String>> {
 
   /**
-   * obtains the default.
+   * ctor.
    *
-   * @return default.
+   * @param path the path.
    */
-  @NotNull
-  T getDefault();
+  public StringListPath(@NotNull final String path) {
+    super(path);
+  }
 }

@@ -23,22 +23,23 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.advanced;
 
+import io.github.portlek.configs.paths.BasePath;
+import java.util.Locale;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine default paths.
- *
- * @param <T> type of the path's value
+ * an implementations for {@link BasePath} of {@link Locale}.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public final class LocalePath extends BasePath<Locale> {
 
   /**
-   * obtains the default.
+   * ctor.
    *
-   * @return default.
+   * @param path the path.
    */
-  @NotNull
-  T getDefault();
+  public LocalePath(@NotNull final String path) {
+    super(path);
+  }
 }

@@ -25,20 +25,45 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.tree.FileConfiguration;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine default paths.
+ * an interface to determine advanced paths.
  *
- * @param <T> type of the path's value
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public interface AdvancedPath<R, F> extends ConfigPath<F> {
 
   /**
-   * obtains the default.
+   * converts the given raw value into final value.
    *
-   * @return default.
+   * @param raw the raw to convert.
+   *
+   * @return final value.
    */
   @NotNull
-  T getDefault();
+  Optional<F> convertToFinal(@NotNull R raw);
+
+  /**
+   * converts the given final value into raw value.
+   *
+   * @param fnl the fnl to convert.
+   *
+   * @return raw value.
+   */
+  @NotNull
+  Optional<R> convertToRaw(@NotNull F fnl);
+
+  /**
+   * gets the raw value from the config.
+   *
+   * @param configuration the configuration to get.
+   *
+   * @return the raw value.
+   */
+  @NotNull
+  Optional<R> getRaw(@NotNull FileConfiguration configuration);
 }

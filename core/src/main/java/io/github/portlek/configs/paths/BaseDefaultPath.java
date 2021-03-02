@@ -26,43 +26,61 @@
 package io.github.portlek.configs.paths;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.DefaultPath;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an abstract class that represents default paths.
+ * a class that represents default paths.
  *
  * @param <T> type of the path.
  */
-public abstract class BaseDefaultPath<T> extends BasePath<T> implements DefaultPath<T> {
+public final class BaseDefaultPath<T> implements DefaultPath<T> {
 
   /**
    * the default value.
    */
-  @Nullable
+  @NotNull
   private final T def;
+
+  /**
+   * the original.
+   */
+  @NotNull
+  private final ConfigPath<T> original;
 
   /**
    * ctor.
    *
-   * @param path the path.
-   * @param def the default value.
+   * @param def the def.
+   * @param original the original.
    */
-  protected BaseDefaultPath(@NotNull final String path, @Nullable final T def) {
-    super(path);
+  public BaseDefaultPath(@NotNull final T def, @NotNull final ConfigPath<T> original) {
     this.def = def;
+    this.original = original;
   }
 
-  @Nullable
+  @NotNull
   @Override
   public T getDefault() {
     return this.def;
   }
 
+  @NotNull
+  @Override
+  public ConfigLoader getLoader() {
+    return this.original.getLoader();
+  }
+
   @Override
   public void setLoader(@NotNull final ConfigLoader loader) {
-    super.setLoader(loader);
+    this.original.setLoader(loader);
     this.getConfig().addDefault(this.getPath(), this.getDefault());
+  }
+
+  @NotNull
+  @Override
+  public String getPath() {
+    return this.original.getPath();
   }
 }

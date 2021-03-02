@@ -23,22 +23,50 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
+import io.github.portlek.configs.AdvancedPath;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine default paths.
+ * an abstract class that represents advanced paths.
  *
- * @param <T> type of the path's value
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
 
   /**
-   * obtains the default.
-   *
-   * @return default.
+   * the original.
    */
   @NotNull
-  T getDefault();
+  private final ConfigPath<F> original;
+
+  /**
+   * ctor.
+   *
+   * @param original the original.
+   */
+  protected BaseAdvancedPath(@NotNull final ConfigPath<F> original) {
+    this.original = original;
+  }
+
+  @NotNull
+  @Override
+  public ConfigLoader getLoader() {
+    return this.original.getLoader();
+  }
+
+  @Override
+  public void setLoader(@NotNull final ConfigLoader loader) {
+    this.original.setLoader(loader);
+  }
+
+  @NotNull
+  @Override
+  public String getPath() {
+    return this.original.getPath();
+  }
 }
