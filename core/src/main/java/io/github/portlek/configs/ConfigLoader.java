@@ -292,7 +292,7 @@ public final class ConfigLoader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.pathHolder, this.fieldSerializers);
+      return new ConfigLoader(this.configType, this.fieldSerializers, this.fileName, this.folderPath, this.pathHolder);
     }
 
     /**
