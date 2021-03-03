@@ -80,7 +80,8 @@ public final class BaseDefaultPath<R, F> implements DefaultPath<R, F> {
   @Override
   public void setLoader(@NotNull final ConfigLoader loader) {
     this.original.setLoader(loader);
-    this.getConfig().addDefault(this.getPath(), this.original.convertToRaw(this.getDefault()));
+    this.original.convertToRaw(this.getDefault()).ifPresent(r ->
+      this.getConfig().addDefault(this.getPath(), r));
   }
 
   @NotNull

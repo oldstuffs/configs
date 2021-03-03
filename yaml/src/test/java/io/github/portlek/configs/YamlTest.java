@@ -51,25 +51,25 @@ public final class YamlTest {
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    public static final LocaleDefaultPath LOCALE_TEST = locale("test-locale", Locale.ROOT);
+    public static final LocaleDefaultPath TEST_1 = locale("test-locale", Locale.ROOT);
 
-    public static final StringDefaultPath STRING_PATH_1 = string("test-1", "test-1");
+    public static final UniqueIdDefaultPath TEST_10 = uniqueId("test-unique-id", UUID.randomUUID());
 
-    public static final StringDefaultPath STRING_PATH_2 = string("test-2.test-1", "test-2");
+    public static final StringDefaultPath TEST_2 = string("test-1", "test-1");
 
-    public static final StringDefaultPath STRING_PATH_3 = string("test-2.test-2", "test-3");
+    public static final StringDefaultPath TEST_3 = string("test-2.test-1", "test-2");
 
-    public static final StringDefaultPath STRING_PATH_4 = string("test-3.test-1.test-1", "test-4");
+    public static final StringDefaultPath TEST_4 = string("test-3.test-1.test-1", "test-4");
 
-    public static final StringDefaultPath STRING_PATH_5 = string("test-3.test-2.test-1", "test-5");
+    public static final StringDefaultPath TEST_5 = string("test-3.test-2.test-1", "test-5");
 
-    public static final StringDefaultPath STRING_PATH_6 = string("test-3.test-3.test-1", "test-6");
+    public static final StringDefaultPath TEST_6 = string("test-3.test-3.test-1", "test-6");
 
-    public static final StringDefaultPath STRING_PATH_7 = string("test-3.test-2.test-2", "test-7");
+    public static final StringDefaultPath TEST_7 = string("test-3.test-2.test-2", "test-7");
 
-    public static final StringDefaultPath STRING_PATH_8 = string("test-3.test-3.test-3", "test-8");
+    public static final StringDefaultPath TEST_8 = string("test-3.test-3.test-3", "test-8");
 
-    public static final UniqueIdDefaultPath UNIQUE_ID_TEST = uniqueId("test-unique-id", UUID.randomUUID());
+    public static final StringDefaultPath TEST_9 = string("test-2.test-2", "test-3");
 
     public static FileConfiguration CONFIGURATION;
   }
