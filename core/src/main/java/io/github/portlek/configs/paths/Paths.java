@@ -115,7 +115,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<Locale> locale(@NotNull final String path, @NotNull final Locale def) {
-    return new BaseDefaultPath<>(def, new BaseAdvancedPath<>(path, Serializers.LOCALE_SERIALIZER));
+    return new BaseDefaultPath<>(def, new BaseAdvancedPath<>(path, Serializers.LOCALE));
   }
 
   /**
@@ -127,7 +127,7 @@ public final class Paths {
    */
   @NotNull
   public static ConfigPath<Locale> locale(@NotNull final String path) {
-    return new BaseAdvancedPath<>(path, Serializers.LOCALE_SERIALIZER);
+    return new BaseAdvancedPath<>(path, Serializers.LOCALE);
   }
 
   /**

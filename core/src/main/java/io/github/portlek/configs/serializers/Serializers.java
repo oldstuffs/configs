@@ -35,7 +35,7 @@ public final class Serializers {
   /**
    * the locale serializer.
    */
-  public static final ConfigurationSerializer<String, Locale> LOCALE_SERIALIZER = new LocaleSerializer();
+  public static final ConfigurationSerializer<String, Locale> LOCALE = new LocaleSerializer();
 
   /**
    * ctor.
