@@ -32,6 +32,7 @@ import io.github.portlek.configs.loaders.FlConfigLoader;
 import io.github.portlek.configs.loaders.FlConfiguration;
 import io.github.portlek.configs.loaders.FlFile;
 import io.github.portlek.configs.loaders.FlPath;
+import io.github.portlek.configs.loaders.FlRawField;
 import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
@@ -238,6 +239,7 @@ public final class ConfigLoader {
       this.add(new FlConfigLoader());
       this.add(new FlPath());
       this.add(new FlFile());
+      this.add(FlRawField.INSTANCE);
     }};
 
     /**

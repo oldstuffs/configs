@@ -34,17 +34,19 @@ import io.github.portlek.configs.util.StringList;
 import io.github.portlek.reflection.RefField;
 import java.lang.reflect.Field;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize raw fields.
  */
-@NoArgsConstructor
-@AllArgsConstructor
 public final class FlRawField implements FieldLoader {
+
+  /**
+   * the instance.
+   */
+  public static final FlRawField INSTANCE = new FlRawField();
 
   /**
    * the raw classes.
@@ -56,12 +58,14 @@ public final class FlRawField implements FieldLoader {
    * the parent field.
    */
   @Nullable
+  @Setter
   private Field parentField;
 
   /**
    * the parent section.
    */
   @Nullable
+  @Setter
   private ConfigurationSection parentSection;
 
   @Override
