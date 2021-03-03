@@ -57,7 +57,7 @@ public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
    * @param serializer the serializer.
    */
   public BaseAdvancedPath(@NotNull final String path, @NotNull final ConfigurationSerializer<R, F> serializer) {
-    this(new BasePath<>(path), serializer);
+    this(new BaseConfigPath<>(path), serializer);
   }
 
   /**

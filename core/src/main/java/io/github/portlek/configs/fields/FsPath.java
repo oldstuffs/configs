@@ -26,21 +26,27 @@
 package io.github.portlek.configs.fields;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.paths.ConfigPath;
+import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigLoader}.
+ * an implementation to serialize {@link ConfigPath}.
  */
-public final class ConfigLoaderFieldSerializer implements FieldSerializer {
+public final class FsPath implements FieldSerializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigLoader.class.isAssignableFrom(field.getType());
+    return ConfigPath.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader);
+    final var pathHolder = loader.getPathHolder();
+    Validate.checkNull(pathHolder, "The path holder is null!");
+    final var pth = field.getValue().orElse(null);
+    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
+    ((ConfigPath<?>) pth).setLoader(loader);
   }
 }

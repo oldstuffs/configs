@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
  *
  * @param <T> type of the path.
  */
-public final class BasePath<T> implements ConfigPath<T> {
+public final class BaseConfigPath<T> implements ConfigPath<T> {
 
   /**
    * the path.
@@ -65,7 +65,7 @@ public final class BasePath<T> implements ConfigPath<T> {
    *
    * @param path the path.
    */
-  public BasePath(@NotNull final String path) {
+  public BaseConfigPath(@NotNull final String path) {
     this.path = path;
   }
 

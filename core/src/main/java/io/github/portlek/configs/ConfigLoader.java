@@ -27,11 +27,11 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import io.github.portlek.configs.fields.ConfigLoaderFieldSerializer;
-import io.github.portlek.configs.fields.ConfigurationFieldSerializer;
+import io.github.portlek.configs.fields.FsConfigLoader;
+import io.github.portlek.configs.fields.FsConfiguration;
 import io.github.portlek.configs.fields.FieldSerializer;
-import io.github.portlek.configs.fields.FileFieldSerializer;
-import io.github.portlek.configs.fields.PathFieldSerializer;
+import io.github.portlek.configs.fields.FsFile;
+import io.github.portlek.configs.fields.FsPath;
 import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
@@ -234,10 +234,10 @@ public final class ConfigLoader {
      */
     @NotNull
     private final List<FieldSerializer> fieldSerializers = new ArrayList<>() {{
-      this.add(new PathFieldSerializer());
-      this.add(new ConfigurationFieldSerializer());
-      this.add(new ConfigLoaderFieldSerializer());
-      this.add(new FileFieldSerializer());
+      this.add(new FsPath());
+      this.add(new FsConfiguration());
+      this.add(new FsConfigLoader());
+      this.add(new FsFile());
     }};
 
     /**

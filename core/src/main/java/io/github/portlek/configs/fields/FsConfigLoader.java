@@ -27,21 +27,20 @@ package io.github.portlek.configs.fields;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.reflection.RefField;
-import java.io.File;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link File}.
+ * an implementation to serialize {@link ConfigLoader}.
  */
-public final class FileFieldSerializer implements FieldSerializer {
+public final class FsConfigLoader implements FieldSerializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return File.class.isAssignableFrom(field.getType());
+    return ConfigLoader.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFile());
+    field.setValue(loader);
   }
 }

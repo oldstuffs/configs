@@ -51,7 +51,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<Boolean> bool(@NotNull final String path, final boolean def) {
-    return new BaseDefaultPath<>(def, new BasePath<>(path));
+    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
   }
 
   /**
@@ -63,7 +63,7 @@ public final class Paths {
    */
   @NotNull
   public static ConfigPath<Boolean> bool(@NotNull final String path) {
-    return new BasePath<>(path);
+    return new BaseConfigPath<>(path);
   }
 
   /**
@@ -90,7 +90,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<Integer> integer(@NotNull final String path, final int def) {
-    return new BaseDefaultPath<>(def, new BasePath<>(path));
+    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
   }
 
   /**
@@ -102,7 +102,7 @@ public final class Paths {
    */
   @NotNull
   public static ConfigPath<Integer> integer(@NotNull final String path) {
-    return new BasePath<>(path);
+    return new BaseConfigPath<>(path);
   }
 
   /**
@@ -140,7 +140,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<String> string(@NotNull final String path, @NotNull final String def) {
-    return new BaseDefaultPath<>(def, new BasePath<>(path));
+    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
   }
 
   /**
@@ -152,7 +152,7 @@ public final class Paths {
    */
   @NotNull
   public static ConfigPath<String> string(@NotNull final String path) {
-    return new BasePath<>(path);
+    return new BaseConfigPath<>(path);
   }
 
   /**
@@ -165,7 +165,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<List<String>> stringList(@NotNull final String path, @NotNull final List<String> def) {
-    return new BaseDefaultPath<>(def, new BasePath<>(path));
+    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
   }
 
   /**
@@ -177,6 +177,6 @@ public final class Paths {
    */
   @NotNull
   public static ConfigPath<List<String>> stringList(@NotNull final String path) {
-    return new BasePath<>(path);
+    return new BaseConfigPath<>(path);
   }
 }

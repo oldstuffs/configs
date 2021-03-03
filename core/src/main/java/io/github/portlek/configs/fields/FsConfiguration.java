@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an implementation to serialize {@link FileConfiguration}.
  */
-public final class ConfigurationFieldSerializer implements FieldSerializer {
+public final class FsConfiguration implements FieldSerializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
