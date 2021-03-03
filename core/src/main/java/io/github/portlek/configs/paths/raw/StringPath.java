@@ -50,6 +50,6 @@ public final class StringPath implements RawPath<String> {
    * @param path the path.
    */
   public StringPath(@NotNull final String path) {
-    this(new BaseRawPath<>(path));
+    this(new BaseRawPath<>(path, String.class));
   }
 }

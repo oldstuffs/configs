@@ -51,6 +51,6 @@ public final class StringListPath implements RawPath<List<String>> {
    * @param path the path.
    */
   public StringListPath(@NotNull final String path) {
-    this(new BaseRawPath<>(path));
+    this(new BaseRawPath<>(path, List.class));
   }
 }

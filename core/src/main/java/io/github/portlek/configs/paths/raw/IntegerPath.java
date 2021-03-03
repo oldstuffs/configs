@@ -50,6 +50,6 @@ public final class IntegerPath implements RawPath<Integer> {
    * @param path the path.
    */
   public IntegerPath(@NotNull final String path) {
-    this(new BaseRawPath<>(path));
+    this(new BaseRawPath<>(path, Integer.class));
   }
 }

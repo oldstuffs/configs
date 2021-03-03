@@ -52,6 +52,6 @@ public final class LocalePath implements ConfigPath<String, Locale> {
    * @param path the path.
    */
   public LocalePath(@NotNull final String path) {
-    this(new BasePath<>(path, Serializers.LOCALE));
+    this(new BasePath<>(path, Serializers.LOCALE, Locale.class));
   }
 }

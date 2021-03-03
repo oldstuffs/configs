@@ -50,6 +50,6 @@ public final class BooleanPath implements RawPath<Boolean> {
    * @param path the path.
    */
   public BooleanPath(@NotNull final String path) {
-    this(new BaseRawPath<>(path));
+    this(new BaseRawPath<>(path, Boolean.class));
   }
 }

@@ -27,13 +27,16 @@ package io.github.portlek.configs;
 
 import static io.github.portlek.configs.util.Paths.locale;
 import static io.github.portlek.configs.util.Paths.string;
+import static io.github.portlek.configs.util.Paths.stringList;
 import static io.github.portlek.configs.util.Paths.uniqueId;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.paths.def.LocaleDefaultPath;
 import io.github.portlek.configs.paths.def.StringDefaultPath;
+import io.github.portlek.configs.paths.def.StringListDefaultPath;
 import io.github.portlek.configs.paths.def.UniqueIdDefaultPath;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -54,6 +57,9 @@ public final class YamlTest {
     public static final LocaleDefaultPath TEST_1 = locale("test-locale", Locale.ROOT);
 
     public static final UniqueIdDefaultPath TEST_10 = uniqueId("test-unique-id", UUID.randomUUID());
+
+    public static final StringListDefaultPath TEST_11 = stringList("test-string-list", List.of(
+      "test-1", "test-2", "test-3"));
 
     public static final StringDefaultPath TEST_2 = string("test-1", "test-1");
 
