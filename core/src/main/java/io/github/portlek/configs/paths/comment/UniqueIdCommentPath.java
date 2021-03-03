@@ -23,26 +23,47 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.paths.comment;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.Serializer;
-import io.github.portlek.reflection.RefField;
-import java.io.File;
+import io.github.portlek.configs.CommentPath;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.path.UniqueIdPath;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link File}.
+ * a class that represents unique id commented path.
  */
-public final class FileSerializer implements Serializer {
+@RequiredArgsConstructor
+public final class UniqueIdCommentPath implements CommentPath<String, UUID> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return File.class.isAssignableFrom(field.getType());
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final CommentPath<String, UUID> original;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public UniqueIdCommentPath(@NotNull final ConfigPath<String, UUID> path, @NotNull final String comment) {
+    this(new BaseCommentPath<>(path, comment));
   }
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFile());
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public UniqueIdCommentPath(@NotNull final String path, @NotNull final String comment) {
+    this(new UniqueIdPath(path), comment);
   }
 }

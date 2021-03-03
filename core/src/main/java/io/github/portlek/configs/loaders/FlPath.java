@@ -23,47 +23,26 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * an implementation to serialize {@link ConfigPath}.
  */
-public interface ConfigType {
+public final class FlPath implements FieldLoader {
 
-  /**
-   * obtains the suffix.
-   *
-   * @return suffix.
-   */
-  @NotNull
-  String getSuffix();
+  @Override
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return ConfigPath.class.isAssignableFrom(field.getType());
+  }
 
-  /**
-   * loads the file.
-   *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
-   */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
-
-  /**
-   * saves the configuration into the file.
-   *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.getValue()
+      .ifPresent(pth -> ((ConfigPath<?, ?>) pth).setLoader(loader));
+  }
 }

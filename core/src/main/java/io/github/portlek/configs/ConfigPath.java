@@ -25,15 +25,37 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine paths.
+ * an interface to determine configuration paths.
  *
- * @param <T> type of the path's value
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface ConfigPath<T> {
+public interface ConfigPath<R, F> {
+
+  /**
+   * converts the given raw value into final value.
+   *
+   * @param raw the raw to convert.
+   *
+   * @return final value.
+   */
+  @NotNull
+  Optional<F> convertToFinal(@NotNull R raw);
+
+  /**
+   * converts the given final value into raw value.
+   *
+   * @param fnl the fnl to convert.
+   *
+   * @return raw value.
+   */
+  @NotNull
+  Optional<R> convertToRaw(@NotNull F fnl);
 
   /**
    * obtains the config.
@@ -67,4 +89,27 @@ public interface ConfigPath<T> {
    */
   @NotNull
   String getPath();
+
+  /**
+   * gets the raw value from the config.
+   *
+   * @return the raw value.
+   */
+  @NotNull
+  Optional<R> getRaw();
+
+  /**
+   * obtains the value.
+   *
+   * @return value.
+   */
+  @NotNull
+  Optional<F> getValue();
+
+  /**
+   * sets the value.
+   *
+   * @param value the value to set.
+   */
+  void setValue(@NotNull F value);
 }

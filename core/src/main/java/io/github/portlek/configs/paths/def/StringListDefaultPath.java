@@ -23,47 +23,48 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.def;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.DefaultPath;
+import io.github.portlek.configs.paths.BaseDefaultPath;
+import io.github.portlek.configs.paths.raw.StringListPath;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * a class that represents string list default path.
  */
-public interface ConfigType {
+@RequiredArgsConstructor
+public final class StringListDefaultPath implements DefaultPath<List<String>, List<String>> {
 
   /**
-   * obtains the suffix.
-   *
-   * @return suffix.
+   * the original.
    */
   @NotNull
-  String getSuffix();
+  @Delegate
+  private final DefaultPath<List<String>, List<String>> original;
 
   /**
-   * loads the file.
+   * ctor.
    *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @param path the path.
+   * @param def the default value.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
+  public StringListDefaultPath(@NotNull final ConfigPath<List<String>, List<String>> path,
+                               @NotNull final List<String> def) {
+    this(new BaseDefaultPath<>(def, path));
+  }
 
   /**
-   * saves the configuration into the file.
+   * ctor.
    *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
+   * @param path the path.
+   * @param def the default value.
    */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  public StringListDefaultPath(@NotNull final String path, @NotNull final List<String> def) {
+    this(new StringListPath(path), def);
+  }
 }

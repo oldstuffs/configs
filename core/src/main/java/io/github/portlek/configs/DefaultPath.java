@@ -25,20 +25,29 @@
 
 package io.github.portlek.configs;
 
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine default paths.
+ * an interface to determine default paths.
  *
- * @param <T> type of the path's value
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public interface DefaultPath<R, F> extends ConfigPath<R, F> {
 
   /**
    * obtains the default.
    *
    * @return default.
    */
-  @Nullable
-  T getDefault();
+  @NotNull
+  F getDefault();
+
+  /**
+   * obtains the value, if it's null returns the default value.
+   *
+   * @return value or default value.
+   */
+  @NotNull
+  F getValueOrDefault();
 }

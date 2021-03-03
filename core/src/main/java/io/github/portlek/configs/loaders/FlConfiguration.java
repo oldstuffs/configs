@@ -23,31 +23,25 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementations for {@link BaseDefaultPath} of {@link Integer}.
+ * an implementation to serialize {@link FileConfiguration}.
  */
-public final class IntegerPath extends BaseDefaultPath<Integer> {
+public final class FlConfiguration implements FieldLoader {
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   * @param def the default.
-   */
-  public IntegerPath(@NotNull final String path, final int def) {
-    super(path, def);
+  @Override
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return FileConfiguration.class.isAssignableFrom(field.getType());
   }
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public IntegerPath(@NotNull final String path) {
-    super(path, null);
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.setValue(loader.getConfiguration());
   }
 }

@@ -23,47 +23,46 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.comment;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.CommentPath;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.raw.BooleanPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * a class that represents boolean commented path.
  */
-public interface ConfigType {
+@RequiredArgsConstructor
+public final class BooleanCommentPath implements CommentPath<Boolean, Boolean> {
 
   /**
-   * obtains the suffix.
-   *
-   * @return suffix.
+   * the original.
    */
   @NotNull
-  String getSuffix();
+  @Delegate
+  private final CommentPath<Boolean, Boolean> original;
 
   /**
-   * loads the file.
+   * ctor.
    *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @param path the path.
+   * @param comment the comment.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
+  public BooleanCommentPath(@NotNull final ConfigPath<Boolean, Boolean> path, @NotNull final String comment) {
+    this(new BaseCommentPath<>(path, comment));
+  }
 
   /**
-   * saves the configuration into the file.
+   * ctor.
    *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
+   * @param path the path.
+   * @param comment the comment.
    */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  public BooleanCommentPath(@NotNull final String path, @NotNull final String comment) {
+    this(new BooleanPath(path), comment);
+  }
 }

@@ -23,47 +23,32 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * an interface to determine field loaders.
  */
-public interface ConfigType {
+public interface FieldLoader {
 
   /**
-   * obtains the suffix.
+   * checks if the field can be loaded by the loader.
    *
-   * @return suffix.
+   * @param loader the loader to check.
+   * @param field the field to check.
+   *
+   * @return {@code true} if the field can load by the reader.
    */
-  @NotNull
-  String getSuffix();
+  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 
   /**
-   * loads the file.
+   * loads the field value.
    *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @param loader the loader to load.
+   * @param field the field to load.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
-
-  /**
-   * saves the configuration into the file.
-   *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 }

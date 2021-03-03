@@ -23,35 +23,35 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.paths.path;
 
-import java.util.Arrays;
-import java.util.List;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.paths.BasePath;
+import io.github.portlek.configs.util.Serializers;
+import java.util.Locale;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementations for {@link BaseDefaultPath} of {@link String} {@link List}.
+ * a class that represents locale paths.
  */
-public final class StringListPath extends BaseDefaultPath<List<String>> {
+@RequiredArgsConstructor
+public final class LocalePath implements ConfigPath<String, Locale> {
+
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final ConfigPath<String, Locale> original;
 
   /**
    * ctor.
    *
    * @param path the path.
-   * @param def the default.
    */
-  public StringListPath(@NotNull final String path, @Nullable final List<String> def) {
-    super(path, def);
-  }
-
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   * @param def the default.
-   */
-  public StringListPath(@NotNull final String path, @NotNull final String... def) {
-    this(path, Arrays.asList(def));
+  public LocalePath(@NotNull final String path) {
+    this(new BasePath<>(path, Serializers.LOCALE));
   }
 }

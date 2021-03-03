@@ -23,31 +23,35 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.paths.path;
 
-import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.Serializer;
-import io.github.portlek.configs.Validate;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.paths.BasePath;
+import io.github.portlek.configs.util.Serializers;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * a class that represents unique id paths.
  */
-public final class PathSerializer implements Serializer {
+@RequiredArgsConstructor
+public final class UniqueIdPath implements ConfigPath<String, UUID> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final ConfigPath<String, UUID> original;
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   */
+  public UniqueIdPath(@NotNull final String path) {
+    this(new BasePath<>(path, Serializers.UNIQUE_ID));
   }
 }

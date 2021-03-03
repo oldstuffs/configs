@@ -25,24 +25,45 @@
 
 package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.Serializer;
-import io.github.portlek.configs.tree.FileConfiguration;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.ConfigPath;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link FileConfiguration}.
+ * an interface to serialize configuration sections.
+ *
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public final class ConfigurationSerializer implements Serializer {
+public interface ConfigurationSerializer<R, F> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FileConfiguration.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * converts the given raw value into final value.
+   *
+   * @param raw the raw to convert.
+   *
+   * @return final value.
+   */
+  @NotNull
+  Optional<F> convertToFinal(@NotNull R raw);
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getConfiguration());
-  }
+  /**
+   * converts the given final value into raw value.
+   *
+   * @param fnl the fnl to convert.
+   *
+   * @return raw value.
+   */
+  @NotNull
+  Optional<R> convertToRaw(@NotNull F fnl);
+
+  /**
+   * gets the raw value from the config.
+   *
+   * @param path the path to get.
+   *
+   * @return the raw value.
+   */
+  @NotNull
+  Optional<R> getRaw(@NotNull ConfigPath<R, F> path);
 }

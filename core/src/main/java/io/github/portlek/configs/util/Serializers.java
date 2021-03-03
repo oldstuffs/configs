@@ -23,25 +23,37 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.Serializer;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.serializers.LocaleSerializer;
+import io.github.portlek.configs.serializers.RawSerializer;
+import io.github.portlek.configs.serializers.UniqueIdSerializer;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigLoader}.
+ * a class that contains all serializers.
  */
-public final class ConfigLoaderSerializer implements Serializer {
+@UtilityClass
+public final class Serializers {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigLoader.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * the locale serializer.
+   */
+  public LocaleSerializer LOCALE = new LocaleSerializer();
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader);
+  /**
+   * the unique id serializer.
+   */
+  public UniqueIdSerializer UNIQUE_ID = new UniqueIdSerializer();
+
+  /**
+   * creates a raw serializer instance.
+   *
+   * @return a newly created raw serializer.
+   */
+  @NotNull
+  public <F> RawSerializer<F> raw() {
+    return new RawSerializer<>();
   }
 }

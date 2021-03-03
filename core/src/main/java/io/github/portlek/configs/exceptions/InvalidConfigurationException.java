@@ -23,7 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.tree;
+package io.github.portlek.configs.exceptions;
+
+import io.github.portlek.configs.configuration.Configuration;
 
 /**
  * Exception thrown when attempting to load an invalid {@link Configuration}
@@ -32,24 +34,7 @@ package io.github.portlek.configs.tree;
  * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/InvalidConfigurationException.java">Bukkit
  *   Source</a>
  */
-public class InvalidConfigurationException extends Exception {
-
-  /**
-   * Creates a new instance of InvalidConfigurationException without a
-   * message or cause.
-   */
-  public InvalidConfigurationException() {
-  }
-
-  /**
-   * Constructs an instance of InvalidConfigurationException with the
-   * specified message.
-   *
-   * @param message The details of the exception.
-   */
-  public InvalidConfigurationException(final String message) {
-    super(message);
-  }
+public final class InvalidConfigurationException extends Exception {
 
   /**
    * Constructs an instance of InvalidConfigurationException with the
@@ -59,16 +44,5 @@ public class InvalidConfigurationException extends Exception {
    */
   public InvalidConfigurationException(final Throwable cause) {
     super(cause);
-  }
-
-  /**
-   * Constructs an instance of InvalidConfigurationException with the
-   * specified message and cause.
-   *
-   * @param cause The cause of the exception.
-   * @param message The details of the exception.
-   */
-  public InvalidConfigurationException(final String message, final Throwable cause) {
-    super(message, cause);
   }
 }

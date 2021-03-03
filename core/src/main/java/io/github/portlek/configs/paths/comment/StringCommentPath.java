@@ -23,47 +23,46 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.comment;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.CommentPath;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.raw.StringPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * a class that represents string commented path.
  */
-public interface ConfigType {
+@RequiredArgsConstructor
+public final class StringCommentPath implements CommentPath<String, String> {
 
   /**
-   * obtains the suffix.
-   *
-   * @return suffix.
+   * the original.
    */
   @NotNull
-  String getSuffix();
+  @Delegate
+  private final CommentPath<String, String> original;
 
   /**
-   * loads the file.
+   * ctor.
    *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @param path the path.
+   * @param comment the comment.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
+  public StringCommentPath(@NotNull final ConfigPath<String, String> path, @NotNull final String comment) {
+    this(new BaseCommentPath<>(path, comment));
+  }
 
   /**
-   * saves the configuration into the file.
+   * ctor.
    *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
+   * @param path the path.
+   * @param comment the comment.
    */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  public StringCommentPath(@NotNull final String path, @NotNull final String comment) {
+    this(new StringPath(path), comment);
+  }
 }

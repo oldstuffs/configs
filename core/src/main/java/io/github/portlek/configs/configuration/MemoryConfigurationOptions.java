@@ -23,47 +23,35 @@
  *
  */
 
-package io.github.portlek.configs;
-
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import org.jetbrains.annotations.NotNull;
+package io.github.portlek.configs.configuration;
 
 /**
- * an interface to determine config types.
+ * Various settings for controlling the input and output of a {@link MemoryConfiguration}
+ *
+ * @author Bukkit
+ * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationOptions.java">Bukkit
+ *   Source</a>
  */
-public interface ConfigType {
+public class MemoryConfigurationOptions extends ConfigurationOptions {
 
-  /**
-   * obtains the suffix.
-   *
-   * @return suffix.
-   */
-  @NotNull
-  String getSuffix();
+  protected MemoryConfigurationOptions(final MemoryConfiguration configuration) {
+    super(configuration);
+  }
 
-  /**
-   * loads the file.
-   *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
-   */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
+  @Override
+  public MemoryConfiguration configuration() {
+    return (MemoryConfiguration) super.configuration();
+  }
 
-  /**
-   * saves the configuration into the file.
-   *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  @Override
+  public MemoryConfigurationOptions copyDefaults(final boolean value) {
+    super.copyDefaults(value);
+    return this;
+  }
+
+  @Override
+  public MemoryConfigurationOptions pathSeparator(final char value) {
+    super.pathSeparator(value);
+    return this;
+  }
 }

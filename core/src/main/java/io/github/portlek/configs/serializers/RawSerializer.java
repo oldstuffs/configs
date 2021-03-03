@@ -23,47 +23,34 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.ConfigPath;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * an implementation for {@link ConfigurationSerializer} of raw objects.
+ *
+ * @param <F> type of the final value.
  */
-public interface ConfigType {
+public final class RawSerializer<F> implements ConfigurationSerializer<F, F> {
 
-  /**
-   * obtains the suffix.
-   *
-   * @return suffix.
-   */
   @NotNull
-  String getSuffix();
+  @Override
+  public Optional<F> convertToFinal(@NotNull final F raw) {
+    return Optional.of(raw);
+  }
 
-  /**
-   * loads the file.
-   *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
-   */
   @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
+  @Override
+  public Optional<F> convertToRaw(@NotNull final F fnl) {
+    return Optional.of(fnl);
+  }
 
-  /**
-   * saves the configuration into the file.
-   *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  @NotNull
+  @Override
+  public Optional<F> getRaw(@NotNull final ConfigPath<F, F> path) {
+    return path.getValue();
+  }
 }

@@ -23,31 +23,24 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementations for {@link BaseDefaultPath} of {@link Boolean}.
+ * an implementation to serialize {@link ConfigLoader}.
  */
-public final class BooleanPath extends BaseDefaultPath<Boolean> {
+public final class FlConfigLoader implements FieldLoader {
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   * @param def the default.
-   */
-  public BooleanPath(@NotNull final String path, final boolean def) {
-    super(path, def);
+  @Override
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return ConfigLoader.class.isAssignableFrom(field.getType());
   }
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public BooleanPath(@NotNull final String path) {
-    super(path, null);
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.setValue(loader);
   }
 }

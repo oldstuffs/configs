@@ -30,9 +30,10 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an interface to determine commented paths.
  *
- * @param <T> type of the path.
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface CommentPath<T> extends ConfigPath<T> {
+public interface CommentPath<R, F> extends ConfigPath<R, F> {
 
   /**
    * obtains the comment.
@@ -47,5 +48,5 @@ public interface CommentPath<T> extends ConfigPath<T> {
    *
    * @param comment the comment to set.
    */
-  void setComment(@Nullable String comment);
+  void setComment(@Nullable final String comment);
 }

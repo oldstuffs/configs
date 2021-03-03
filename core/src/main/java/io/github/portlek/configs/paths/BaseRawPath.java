@@ -23,47 +23,36 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.RawPath;
+import io.github.portlek.configs.util.Serializers;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * a class that represents raw paths.
+ *
+ * @param <F> raw type of the path.
  */
-public interface ConfigType {
+@RequiredArgsConstructor
+public final class BaseRawPath<F> implements RawPath<F> {
 
   /**
-   * obtains the suffix.
-   *
-   * @return suffix.
+   * the original.
    */
   @NotNull
-  String getSuffix();
+  @Delegate
+  private final ConfigPath<F, F> original;
 
   /**
-   * loads the file.
+   * ctor.
    *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @param path the path.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
-
-  /**
-   * saves the configuration into the file.
-   *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  public BaseRawPath(@NotNull final String path) {
+    this(new BasePath<>(path, Serializers.raw()));
+  }
 }

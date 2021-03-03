@@ -23,49 +23,33 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.raw;
 
+import io.github.portlek.configs.RawPath;
+import io.github.portlek.configs.paths.BaseRawPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an utility class that helps developer to write simple expressions.
+ * a class that represents raw string path.
  */
-public final class Validate {
+@RequiredArgsConstructor
+public final class StringPath implements RawPath<String> {
+
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final RawPath<String> original;
 
   /**
    * ctor.
+   *
+   * @param path the path.
    */
-  private Validate() {
-  }
-
-  /**
-   * checks if the text is empty.
-   *
-   * @param text the text to check.
-   * @param errorMessage the error message to check.
-   *
-   * @throws IllegalStateException if the given text is empty.
-   */
-  public static void checkEmpty(final String text, final String errorMessage) {
-    if (text.isEmpty()) {
-      throw new IllegalStateException(errorMessage);
-    }
-  }
-
-  /**
-   * checks if the given object is not null.
-   *
-   * @param object the object to check.
-   * @param errorMessage the error message to check.
-   * @param args the args to check.
-   *
-   * @throws IllegalStateException if the given object is null.
-   */
-  public static void checkNull(@Nullable final Object object, @NotNull final String errorMessage,
-                               @NotNull final Object... args) {
-    if (object == null) {
-      throw new IllegalStateException(String.format(errorMessage, args));
-    }
+  public StringPath(@NotNull final String path) {
+    this(new BaseRawPath<>(path));
   }
 }

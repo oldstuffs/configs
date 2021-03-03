@@ -25,29 +25,11 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.reflection.RefField;
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine serializers.
+ * an interface to determine raw paths.
+ *
+ * @param <F> raw type of the path.
  */
-public interface Serializer {
+public interface RawPath<F> extends ConfigPath<F, F> {
 
-  /**
-   * checks if the field can be loaded by the serializer.
-   *
-   * @param loader the loader to check.
-   * @param field the field to check.
-   *
-   * @return {@code true} if the field can load by the serialize.
-   */
-  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
-
-  /**
-   * loads the field value.
-   *
-   * @param loader the loader to load.
-   * @param field the field to load.
-   */
-  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 }

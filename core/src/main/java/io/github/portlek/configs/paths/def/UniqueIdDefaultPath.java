@@ -23,47 +23,47 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths.def;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.DefaultPath;
+import io.github.portlek.configs.paths.BaseDefaultPath;
+import io.github.portlek.configs.paths.path.UniqueIdPath;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine config types.
+ * a class that represents unique id default path.
  */
-public interface ConfigType {
+@RequiredArgsConstructor
+public final class UniqueIdDefaultPath implements DefaultPath<String, UUID> {
 
   /**
-   * obtains the suffix.
-   *
-   * @return suffix.
+   * the original.
    */
   @NotNull
-  String getSuffix();
+  @Delegate
+  private final DefaultPath<String, UUID> original;
 
   /**
-   * loads the file.
+   * ctor.
    *
-   * @param file the file to load.
-   *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @param path the path.
+   * @param def the default value.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
+  public UniqueIdDefaultPath(@NotNull final ConfigPath<String, UUID> path, @NotNull final UUID def) {
+    this(new BaseDefaultPath<>(def, path));
+  }
 
   /**
-   * saves the configuration into the file.
+   * ctor.
    *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
+   * @param path the path.
+   * @param def the default value.
    */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  public UniqueIdDefaultPath(@NotNull final String path, @NotNull final UUID def) {
+    this(new UniqueIdPath(path), def);
+  }
 }

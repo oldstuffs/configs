@@ -23,47 +23,45 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import java.io.File;
-import java.io.IOException;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine config types.
+ * an utility class that helps developer to write simple expressions.
  */
-public interface ConfigType {
+@UtilityClass
+public class Validate {
 
   /**
-   * obtains the suffix.
+   * checks if the text is empty.
    *
-   * @return suffix.
+   * @param text the text to check.
+   * @param errorMessage the error message to check.
+   *
+   * @throws IllegalStateException if the given text is empty.
    */
-  @NotNull
-  String getSuffix();
+  public void checkEmpty(final String text, final String errorMessage) {
+    if (text.isEmpty()) {
+      throw new IllegalStateException(errorMessage);
+    }
+  }
 
   /**
-   * loads the file.
+   * checks if the given object is not null.
    *
-   * @param file the file to load.
+   * @param object the object to check.
+   * @param errorMessage the error message to check.
+   * @param args the args to check.
    *
-   * @return parsed value.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   * @throws InvalidConfigurationException if something went wrong when parsing the file.
+   * @throws IllegalStateException if the given object is null.
    */
-  @NotNull
-  FileConfiguration load(@NotNull File file) throws IOException, InvalidConfigurationException;
-
-  /**
-   * saves the configuration into the file.
-   *
-   * @param file the file to save.
-   * @param configuration the configuration to save.
-   *
-   * @throws IOException if something went wrong when saving the file.
-   */
-  void save(@NotNull File file, @NotNull FileConfiguration configuration) throws IOException;
+  public void checkNull(@Nullable final Object object, @NotNull final String errorMessage,
+                        @NotNull final Object... args) {
+    if (object == null) {
+      throw new IllegalStateException(String.format(errorMessage, args));
+    }
+  }
 }

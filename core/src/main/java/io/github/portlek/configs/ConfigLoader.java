@@ -25,12 +25,14 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.serializers.ConfigLoaderSerializer;
-import io.github.portlek.configs.serializers.ConfigurationSerializer;
-import io.github.portlek.configs.serializers.FileSerializer;
-import io.github.portlek.configs.serializers.PathSerializer;
-import io.github.portlek.configs.tree.FileConfiguration;
-import io.github.portlek.configs.tree.InvalidConfigurationException;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.exceptions.InvalidConfigurationException;
+import io.github.portlek.configs.loaders.FieldLoader;
+import io.github.portlek.configs.loaders.FlConfigLoader;
+import io.github.portlek.configs.loaders.FlConfiguration;
+import io.github.portlek.configs.loaders.FlFile;
+import io.github.portlek.configs.loaders.FlPath;
+import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
 import java.io.IOException;
@@ -38,7 +40,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -73,16 +74,16 @@ public final class ConfigLoader {
   private final Path folderPath;
 
   /**
+   * the loaders.
+   */
+  @NotNull
+  private final List<FieldLoader> loaders;
+
+  /**
    * the class path holder.
    */
   @Nullable
   private final Class<? extends ConfigHolder> pathHolder;
-
-  /**
-   * the serializers.
-   */
-  @NotNull
-  private final List<Serializer> serializers;
 
   /**
    * the configuration.
@@ -215,27 +216,28 @@ public final class ConfigLoader {
    */
   private void load0() {
     if (this.pathHolder != null) {
-      this.serializers.forEach(serializer ->
+      this.loaders.forEach(loader ->
         new ClassOf<>(this.pathHolder).getDeclaredFields().stream()
-          .filter(field -> serializer.canLoad(this, field))
-          .forEach(field -> serializer.onLoad(this, field)));
+          .filter(field -> loader.canLoad(this, field))
+          .forEach(field -> loader.onLoad(this, field)));
     }
   }
 
   /**
    * a class that represents class loader builders.
    */
+  @Getter
   public static final class Builder {
 
     /**
-     * the serializers.
+     * the loaders.
      */
     @NotNull
-    private final List<Serializer> serializers = new ArrayList<>() {{
-      this.add(new PathSerializer());
-      this.add(new ConfigurationSerializer());
-      this.add(new ConfigLoaderSerializer());
-      this.add(new FileSerializer());
+    private final List<FieldLoader> loaders = new ArrayList<>() {{
+      this.add(new FlConfiguration());
+      this.add(new FlConfigLoader());
+      this.add(new FlPath());
+      this.add(new FlFile());
     }};
 
     /**
@@ -269,15 +271,15 @@ public final class ConfigLoader {
     }
 
     /**
-     * adds serializers.
+     * adds loaders.
      *
-     * @param serializers the serializers to add.
+     * @param loaders the loaders to add.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder addSerializers(@NotNull final Serializer... serializers) {
-      this.serializers.addAll(Arrays.asList(serializers));
+    public Builder addLoaders(@NotNull final FieldLoader... loaders) {
+      this.loaders.addAll(Arrays.asList(loaders));
       return this;
     }
 
@@ -291,17 +293,7 @@ public final class ConfigLoader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.pathHolder, this.serializers);
-    }
-
-    /**
-     * obtains the config type.
-     *
-     * @return config type.
-     */
-    @Nullable
-    public ConfigType getConfigType() {
-      return this.configType;
+      return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.loaders, this.pathHolder);
     }
 
     /**
@@ -318,16 +310,6 @@ public final class ConfigLoader {
     }
 
     /**
-     * obtains the file name.
-     *
-     * @return file name.
-     */
-    @Nullable
-    public String getFileName() {
-      return this.fileName;
-    }
-
-    /**
      * sets the file name.
      *
      * @param fileName file name to set.
@@ -338,16 +320,6 @@ public final class ConfigLoader {
     public Builder setFileName(@NotNull final String fileName) {
       this.fileName = fileName;
       return this;
-    }
-
-    /**
-     * obtains the folder path.
-     *
-     * @return folder path.
-     */
-    @Nullable
-    public Path getFolderPath() {
-      return this.folderPath;
     }
 
     /**
@@ -376,16 +348,6 @@ public final class ConfigLoader {
     }
 
     /**
-     * obtains the path holder.
-     *
-     * @return path holder.
-     */
-    @Nullable
-    public Class<? extends ConfigHolder> getPathHolder() {
-      return this.pathHolder;
-    }
-
-    /**
      * sets the path holder.
      *
      * @param pathHolder the path holder to set.
@@ -396,16 +358,6 @@ public final class ConfigLoader {
     public Builder setPathHolder(@NotNull final Class<? extends ConfigHolder> pathHolder) {
       this.pathHolder = pathHolder;
       return this;
-    }
-
-    /**
-     * obtains the serializers.
-     *
-     * @return serializers.
-     */
-    @NotNull
-    public List<Serializer> getSerializers() {
-      return Collections.unmodifiableList(this.serializers);
     }
   }
 }

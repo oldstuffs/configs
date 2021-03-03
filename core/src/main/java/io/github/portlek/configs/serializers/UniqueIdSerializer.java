@@ -23,35 +23,37 @@
  *
  */
 
-package io.github.portlek.configs.tree;
+package io.github.portlek.configs.serializers;
+
+import io.github.portlek.configs.ConfigPath;
+import java.util.Optional;
+import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Various settings for controlling the input and output of a {@link MemoryConfiguration}
- *
- * @author Bukkit
- * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationOptions.java">Bukkit
- *   Source</a>
+ * an implementation for {@link ConfigurationSerializer} of {@link UUID}.
  */
-public class MemoryConfigurationOptions extends ConfigurationOptions {
+public final class UniqueIdSerializer implements ConfigurationSerializer<String, UUID> {
 
-  protected MemoryConfigurationOptions(final MemoryConfiguration configuration) {
-    super(configuration);
+  @NotNull
+  @Override
+  public Optional<UUID> convertToFinal(@NotNull final String raw) {
+    try {
+      return Optional.of(UUID.fromString(raw));
+    } catch (final Throwable ignored) {
+    }
+    return Optional.empty();
   }
 
+  @NotNull
   @Override
-  public MemoryConfiguration configuration() {
-    return (MemoryConfiguration) super.configuration();
+  public Optional<String> convertToRaw(@NotNull final UUID fnl) {
+    return Optional.of(fnl.toString());
   }
 
+  @NotNull
   @Override
-  public MemoryConfigurationOptions copyDefaults(final boolean value) {
-    super.copyDefaults(value);
-    return this;
-  }
-
-  @Override
-  public MemoryConfigurationOptions pathSeparator(final char value) {
-    super.pathSeparator(value);
-    return this;
+  public Optional<String> getRaw(@NotNull final ConfigPath<String, UUID> path) {
+    return Optional.ofNullable(path.getConfig().getString(path.getPath()));
   }
 }

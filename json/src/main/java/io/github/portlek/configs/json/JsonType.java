@@ -26,8 +26,8 @@
 package io.github.portlek.configs.json;
 
 import io.github.portlek.configs.ConfigType;
-import io.github.portlek.configs.tree.FileConfiguration;
-import io.github.portlek.configs.tree.InvalidConfigurationException;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
