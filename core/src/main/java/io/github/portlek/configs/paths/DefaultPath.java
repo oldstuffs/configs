@@ -23,35 +23,22 @@
  *
  */
 
-package io.github.portlek.configs.tree;
+package io.github.portlek.configs.paths;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Various settings for controlling the input and output of a {@link MemoryConfiguration}
+ * the interface to determine default paths.
  *
- * @author Bukkit
- * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationOptions.java">Bukkit
- *   Source</a>
+ * @param <T> type of the path's value
  */
-public class MemoryConfigurationOptions extends ConfigurationOptions {
+public interface DefaultPath<T> extends ConfigPath<T> {
 
-  protected MemoryConfigurationOptions(final MemoryConfiguration configuration) {
-    super(configuration);
-  }
-
-  @Override
-  public MemoryConfiguration configuration() {
-    return (MemoryConfiguration) super.configuration();
-  }
-
-  @Override
-  public MemoryConfigurationOptions copyDefaults(final boolean value) {
-    super.copyDefaults(value);
-    return this;
-  }
-
-  @Override
-  public MemoryConfigurationOptions pathSeparator(final char value) {
-    super.pathSeparator(value);
-    return this;
-  }
+  /**
+   * obtains the default.
+   *
+   * @return default.
+   */
+  @NotNull
+  T getDefault();
 }

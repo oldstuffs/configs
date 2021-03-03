@@ -23,12 +23,15 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
 import io.github.portlek.configs.paths.BaseAdvancedPath;
 import io.github.portlek.configs.paths.BaseCommentPath;
 import io.github.portlek.configs.paths.BaseDefaultPath;
 import io.github.portlek.configs.paths.BasePath;
+import io.github.portlek.configs.paths.CommentPath;
+import io.github.portlek.configs.paths.ConfigPath;
+import io.github.portlek.configs.paths.DefaultPath;
 import io.github.portlek.configs.util.Serializers;
 import java.util.List;
 import java.util.Locale;

@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.exceptions;
 
-import io.github.portlek.configs.Configuration;
+import io.github.portlek.configs.configuration.Configuration;
 
 /**
  * Exception thrown when attempting to load an invalid {@link Configuration}

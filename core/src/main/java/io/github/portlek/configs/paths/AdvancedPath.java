@@ -23,22 +23,24 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
+import io.github.portlek.configs.serializers.ConfigurationSerializer;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine default paths.
+ * an interface to determine advanced paths.
  *
- * @param <T> type of the path's value
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public interface AdvancedPath<R, F> extends ConfigPath<F> {
 
   /**
-   * obtains the default.
+   * obtains the serializer.
    *
-   * @return default.
+   * @return serializer.
    */
   @NotNull
-  T getDefault();
+  ConfigurationSerializer<R, F> getSerializer();
 }

@@ -25,7 +25,9 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.paths.DefaultPath;
+import io.github.portlek.configs.paths.Paths;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 

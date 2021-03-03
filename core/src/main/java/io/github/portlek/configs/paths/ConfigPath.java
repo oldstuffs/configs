@@ -23,31 +23,65 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine serializers.
+ * the interface to determine paths.
+ *
+ * @param <T> type of the path's value.
  */
-public interface FieldSerializer {
+public interface ConfigPath<T> {
 
   /**
-   * checks if the field can be loaded by the serializer.
+   * obtains the config.
    *
-   * @param loader the loader to check.
-   * @param field the field to check.
-   *
-   * @return {@code true} if the field can load by the serialize.
+   * @return config.
    */
-  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+  @NotNull
+  default FileConfiguration getConfig() {
+    return this.getLoader().getConfiguration();
+  }
 
   /**
-   * loads the field value.
+   * obtains the loader.
    *
-   * @param loader the loader to load.
-   * @param field the field to load.
+   * @return loader.
    */
-  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+  @NotNull
+  ConfigLoader getLoader();
+
+  /**
+   * sets the loader.
+   *
+   * @param loader the loader to set.
+   */
+  void setLoader(@NotNull ConfigLoader loader);
+
+  /**
+   * obtains the path.
+   *
+   * @return path.
+   */
+  @NotNull
+  String getPath();
+
+  /**
+   * obtains the value.
+   *
+   * @return value.
+   */
+  @NotNull
+  Optional<T> getValue();
+
+  /**
+   * sets the value.
+   *
+   * @param value the value to set.
+   */
+  void setValue(@NotNull T value);
 }

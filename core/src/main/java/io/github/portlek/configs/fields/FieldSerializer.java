@@ -23,29 +23,32 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.fields;
 
-import org.jetbrains.annotations.Nullable;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.reflection.RefField;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine commented paths.
- *
- * @param <T> type of the path.
+ * an interface to determine serializers.
  */
-public interface CommentPath<T> extends ConfigPath<T> {
+public interface FieldSerializer {
 
   /**
-   * obtains the comment.
+   * checks if the field can be loaded by the serializer.
    *
-   * @return comment.
+   * @param loader the loader to check.
+   * @param field the field to check.
+   *
+   * @return {@code true} if the field can load by the serialize.
    */
-  @Nullable
-  String getComment();
+  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 
   /**
-   * sets the comment.
+   * loads the field value.
    *
-   * @param comment the comment to set.
+   * @param loader the loader to load.
+   * @param field the field to load.
    */
-  void setComment(@Nullable String comment);
+  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 }

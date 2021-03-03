@@ -27,7 +27,6 @@ package io.github.portlek.configs.paths;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;

@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.tree;
+package io.github.portlek.configs.configuration;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

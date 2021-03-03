@@ -23,9 +23,8 @@
  *
  */
 
-package io.github.portlek.configs.tree;
+package io.github.portlek.configs.configuration;
 
-import io.github.portlek.configs.Configuration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import java.io.BufferedReader;
 import java.io.File;

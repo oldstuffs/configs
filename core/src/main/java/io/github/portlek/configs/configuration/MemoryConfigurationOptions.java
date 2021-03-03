@@ -23,47 +23,35 @@
  *
  */
 
-package io.github.portlek.configs;
-
-import io.github.portlek.configs.tree.FileConfiguration;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
+package io.github.portlek.configs.configuration;
 
 /**
- * an interface to serialize configuration sections.
+ * Various settings for controlling the input and output of a {@link MemoryConfiguration}
  *
- * @param <R> type of the raw.
- * @param <F> type of the final.
+ * @author Bukkit
+ * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationOptions.java">Bukkit
+ *   Source</a>
  */
-public interface ConfigurationSerializer<R, F> {
+public class MemoryConfigurationOptions extends ConfigurationOptions {
 
-  /**
-   * converts the given raw value into final value.
-   *
-   * @param raw the raw to convert.
-   *
-   * @return final value.
-   */
-  @NotNull
-  Optional<F> convertToFinal(@NotNull R raw);
+  protected MemoryConfigurationOptions(final MemoryConfiguration configuration) {
+    super(configuration);
+  }
 
-  /**
-   * converts the given final value into raw value.
-   *
-   * @param fnl the fnl to convert.
-   *
-   * @return raw value.
-   */
-  @NotNull
-  Optional<R> convertToRaw(@NotNull F fnl);
+  @Override
+  public MemoryConfiguration configuration() {
+    return (MemoryConfiguration) super.configuration();
+  }
 
-  /**
-   * gets the raw value from the config.
-   *
-   * @param configuration the configuration to get.
-   *
-   * @return the raw value.
-   */
-  @NotNull
-  Optional<R> getRaw(@NotNull FileConfiguration configuration);
+  @Override
+  public MemoryConfigurationOptions copyDefaults(final boolean value) {
+    super.copyDefaults(value);
+    return this;
+  }
+
+  @Override
+  public MemoryConfigurationOptions pathSeparator(final char value) {
+    super.pathSeparator(value);
+    return this;
+  }
 }

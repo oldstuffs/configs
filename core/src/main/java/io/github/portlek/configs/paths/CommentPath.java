@@ -23,64 +23,29 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.tree.FileConfiguration;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * the interface to determine paths.
+ * an interface to determine commented paths.
  *
- * @param <T> type of the path's value.
+ * @param <T> type of the path.
  */
-public interface ConfigPath<T> {
+public interface CommentPath<T> extends ConfigPath<T> {
 
   /**
-   * obtains the config.
+   * obtains the comment.
    *
-   * @return config.
+   * @return comment.
    */
-  @NotNull
-  default FileConfiguration getConfig() {
-    return this.getLoader().getConfiguration();
-  }
+  @Nullable
+  String getComment();
 
   /**
-   * obtains the loader.
+   * sets the comment.
    *
-   * @return loader.
+   * @param comment the comment to set.
    */
-  @NotNull
-  ConfigLoader getLoader();
-
-  /**
-   * sets the loader.
-   *
-   * @param loader the loader to set.
-   */
-  void setLoader(@NotNull ConfigLoader loader);
-
-  /**
-   * obtains the path.
-   *
-   * @return path.
-   */
-  @NotNull
-  String getPath();
-
-  /**
-   * obtains the value.
-   *
-   * @return value.
-   */
-  @NotNull
-  Optional<T> getValue();
-
-  /**
-   * sets the value.
-   *
-   * @param value the value to set.
-   */
-  void setValue(@NotNull T value);
+  void setComment(@Nullable String comment);
 }
