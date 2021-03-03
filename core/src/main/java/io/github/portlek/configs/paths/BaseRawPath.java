@@ -53,6 +53,6 @@ public final class BaseRawPath<F> implements RawPath<F> {
    * @param path the path.
    */
   public BaseRawPath(@NotNull final String path, @NotNull final Class<?> type) {
-    this(new BasePath<>(path, Serializers.raw(), type));
+    this(new BasePath<>(path, type, Serializers.raw()));
   }
 }
