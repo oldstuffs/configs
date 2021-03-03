@@ -42,7 +42,7 @@ public final class YamlTest {
       .setConfigType(YamlType.get())
       .setPathHolder(ConfigHolder0.class)
       .build()
-      .load(true, true);
+      .load(true);
     while (true) {
       Thread.sleep(5L);
     }
@@ -50,7 +50,7 @@ public final class YamlTest {
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    public static final DefaultPath<Locale> LOCALE_TEST = locale("test-locale", Locale.ENGLISH);
+    public static final DefaultPath<Locale> LOCALE_TEST = locale("test-locale", Locale.);
 
     public static final DefaultPath<String> STRING_PATH_1 = string("test-1", "test-1");
 
