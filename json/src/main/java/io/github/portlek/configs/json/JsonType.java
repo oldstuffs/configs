@@ -32,10 +32,21 @@ import java.io.File;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * a class that represents json types.
+ */
 public final class JsonType implements ConfigType {
 
+  /**
+   * the instance.
+   */
   private static final JsonType INSTANCE = new JsonType();
 
+  /**
+   * obtains the instance.
+   *
+   * @return instance.
+   */
   @NotNull
   public static JsonType get() {
     return JsonType.INSTANCE;
