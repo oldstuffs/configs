@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.ConfigurationSerializer;
+import io.github.portlek.configs.serializers.ConfigurationSerializer;
 import io.github.portlek.configs.serializers.LocaleSerializer;
 import java.util.Locale;
 

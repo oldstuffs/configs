@@ -25,10 +25,8 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.AdvancedPath;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.ConfigurationSerializer;
+import io.github.portlek.configs.serializers.ConfigurationSerializer;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 

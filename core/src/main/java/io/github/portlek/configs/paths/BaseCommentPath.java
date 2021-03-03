@@ -25,9 +25,7 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.CommentPath;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

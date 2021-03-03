@@ -26,8 +26,7 @@
 package io.github.portlek.configs.fields;
 
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.FieldSerializer;
+import io.github.portlek.configs.paths.ConfigPath;
 import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
