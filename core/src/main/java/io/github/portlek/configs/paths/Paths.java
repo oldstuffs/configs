@@ -25,13 +25,13 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.paths.path.LocalePath;
 import io.github.portlek.configs.paths.comment.BooleanCommentPath;
 import io.github.portlek.configs.paths.def.BooleanDefaultPath;
 import io.github.portlek.configs.paths.def.IntegerDefaultPath;
 import io.github.portlek.configs.paths.def.LocaleDefaultPath;
 import io.github.portlek.configs.paths.def.StringDefaultPath;
 import io.github.portlek.configs.paths.def.StringListDefaultPath;
+import io.github.portlek.configs.paths.path.LocalePath;
 import io.github.portlek.configs.paths.raw.BooleanPath;
 import io.github.portlek.configs.paths.raw.IntegerPath;
 import io.github.portlek.configs.paths.raw.StringListPath;

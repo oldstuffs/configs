@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.reflection.RefField;
@@ -32,7 +32,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an implementation to serialize {@link ConfigLoader}.
  */
-public final class FsConfigLoader implements FieldSerializer {
+public final class FlConfigLoader implements FieldLoader {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {

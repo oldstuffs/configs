@@ -23,25 +23,32 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link FileConfiguration}.
+ * an interface to determine field loaders.
  */
-public final class FsConfiguration implements FieldSerializer {
+public interface FieldLoader {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FileConfiguration.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * checks if the field can be loaded by the loader.
+   *
+   * @param loader the loader to check.
+   * @param field the field to check.
+   *
+   * @return {@code true} if the field can load by the reader.
+   */
+  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getConfiguration());
-  }
+  /**
+   * loads the field value.
+   *
+   * @param loader the loader to load.
+   * @param field the field to load.
+   */
+  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 }

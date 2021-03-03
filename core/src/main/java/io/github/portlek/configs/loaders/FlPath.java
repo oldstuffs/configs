@@ -23,32 +23,30 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine serializers.
+ * an implementation to serialize {@link ConfigPath}.
  */
-public interface FieldSerializer {
+public final class FlPath implements FieldLoader {
 
-  /**
-   * checks if the field can be loaded by the serializer.
-   *
-   * @param loader the loader to check.
-   * @param field the field to check.
-   *
-   * @return {@code true} if the field can load by the serialize.
-   */
-  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+  @Override
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return ConfigPath.class.isAssignableFrom(field.getType());
+  }
 
-  /**
-   * loads the field value.
-   *
-   * @param loader the loader to load.
-   * @param field the field to load.
-   */
-  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    final var pathHolder = loader.getPathHolder();
+    Validate.checkNull(pathHolder, "The path holder is null!");
+    final var pth = field.getValue().orElse(null);
+    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
+    ((ConfigPath<?>) pth).setLoader(loader);
+  }
 }
