@@ -26,6 +26,7 @@
 package io.github.portlek.configs.serializers;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.paths.ConfigPath;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,10 +61,10 @@ public interface ConfigurationSerializer<R, F> {
   /**
    * gets the raw value from the config.
    *
-   * @param configuration the configuration to get.
+   * @param path the path to get.
    *
    * @return the raw value.
    */
   @NotNull
-  Optional<R> getRaw(@NotNull FileConfiguration configuration);
+  Optional<R> getRaw(@NotNull ConfigPath<F> path);
 }
