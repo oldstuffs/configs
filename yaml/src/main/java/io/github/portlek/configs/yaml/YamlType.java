@@ -32,10 +32,21 @@ import java.io.File;
 import java.io.IOException;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * a class that represents yaml types.
+ */
 public final class YamlType implements ConfigType {
 
+  /**
+   * the instance.
+   */
   private static final YamlType INSTANCE = new YamlType();
 
+  /**
+   * obtains the instance.
+   *
+   * @return instance.
+   */
   @NotNull
   public static YamlType get() {
     return YamlType.INSTANCE;

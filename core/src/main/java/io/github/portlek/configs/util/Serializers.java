@@ -50,6 +50,8 @@ public final class Serializers {
   /**
    * creates a raw serializer instance.
    *
+   * @param <F> type of the raw value.
+   *
    * @return a newly created raw serializer.
    */
   @NotNull
