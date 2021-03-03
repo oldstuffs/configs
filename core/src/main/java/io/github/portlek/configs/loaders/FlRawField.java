@@ -31,6 +31,7 @@ import io.github.portlek.configs.annotation.Comment;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.util.StringList;
 import io.github.portlek.reflection.RefField;
+import java.lang.reflect.Field;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -54,7 +55,7 @@ public final class FlRawField implements FieldLoader {
    * the parent.
    */
   @Nullable
-  private Class<? extends ConfigHolder> parent;
+  private Field sectionParent;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
