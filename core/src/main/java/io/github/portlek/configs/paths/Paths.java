@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.util.Serializers;
+import io.github.portlek.configs.serializers.Serializers;
 import java.util.List;
 import java.util.Locale;
 import org.jetbrains.annotations.NotNull;

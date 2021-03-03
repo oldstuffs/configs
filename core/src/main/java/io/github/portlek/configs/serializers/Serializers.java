@@ -23,10 +23,8 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.serializers.ConfigurationSerializer;
-import io.github.portlek.configs.serializers.LocaleSerializer;
 import java.util.Locale;
 
 /**
