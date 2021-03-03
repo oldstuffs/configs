@@ -23,29 +23,48 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.paths.comment;
 
-import org.jetbrains.annotations.Nullable;
+import io.github.portlek.configs.CommentPath;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.raw.StringListPath;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
+import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine commented paths.
- *
- * @param <T> type of the path.
+ * a class that represents string list commented path.
  */
-public interface CommentPath<T> extends ConfigPath<T> {
+@RequiredArgsConstructor
+public final class StringListCommentPath implements CommentPath<List<String>, List<String>> {
 
   /**
-   * obtains the comment.
-   *
-   * @return comment.
+   * the original.
    */
-  @Nullable
-  String getComment();
+  @NotNull
+  @Delegate
+  private final CommentPath<List<String>, List<String>> original;
 
   /**
-   * sets the comment.
+   * ctor.
    *
-   * @param comment the comment to set.
+   * @param path the path.
+   * @param comment the comment.
    */
-  void setComment(@Nullable String comment);
+  public StringListCommentPath(@NotNull final ConfigPath<List<String>, List<String>> path,
+                               @NotNull final String comment) {
+    this(new BaseCommentPath<>(path, comment));
+  }
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public StringListCommentPath(@NotNull final String path, @NotNull final String comment) {
+    this(new StringListPath(path), comment);
+  }
 }

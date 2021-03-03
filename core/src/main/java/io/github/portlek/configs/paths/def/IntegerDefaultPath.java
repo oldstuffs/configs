@@ -23,30 +23,46 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.paths.def;
 
-import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.DefaultPath;
+import io.github.portlek.configs.paths.BaseDefaultPath;
+import io.github.portlek.configs.paths.raw.IntegerPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * a class that represents integer default path.
  */
-public final class FsPath implements FieldSerializer {
+@RequiredArgsConstructor
+public final class IntegerDefaultPath implements DefaultPath<Integer, Integer> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final DefaultPath<Integer, Integer> original;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param def the default value.
+   */
+  public IntegerDefaultPath(@NotNull final ConfigPath<Integer, Integer> path, final int def) {
+    this(new BaseDefaultPath<>(def, path));
   }
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param def the default value.
+   */
+  public IntegerDefaultPath(@NotNull final String path, final int def) {
+    this(new IntegerPath(path), def);
   }
 }

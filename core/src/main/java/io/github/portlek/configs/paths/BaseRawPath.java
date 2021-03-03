@@ -23,30 +23,36 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.RawPath;
+import io.github.portlek.configs.serializers.Serializers;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * a class that represents raw paths.
+ *
+ * @param <F> raw type of the path.
  */
-public final class FsPath implements FieldSerializer {
+@RequiredArgsConstructor
+public final class BaseRawPath<F> implements RawPath<F> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final ConfigPath<F, F> original;
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   */
+  public BaseRawPath(@NotNull final String path) {
+    this(new BasePath<>(path, Serializers.raw()));
   }
 }

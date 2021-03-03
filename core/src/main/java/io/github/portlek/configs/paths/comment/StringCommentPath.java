@@ -23,30 +23,46 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.paths.comment;
 
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.CommentPath;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.raw.StringPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * a class that represents string commented path.
  */
-public final class FsPath implements FieldSerializer {
+@RequiredArgsConstructor
+public final class StringCommentPath implements CommentPath<String, String> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final CommentPath<String, String> original;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public StringCommentPath(@NotNull final ConfigPath<String, String> path, @NotNull final String comment) {
+    this(new BaseCommentPath<>(path, comment));
   }
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public StringCommentPath(@NotNull final String path, @NotNull final String comment) {
+    this(new StringPath(path), comment);
   }
 }

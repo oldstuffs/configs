@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.serializers;
 
-import java.util.Locale;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that contains all serializers.
@@ -35,11 +35,21 @@ public final class Serializers {
   /**
    * the locale serializer.
    */
-  public static final ConfigurationSerializer<String, Locale> LOCALE = new LocaleSerializer();
+  public static final LocaleSerializer LOCALE = new LocaleSerializer();
 
   /**
    * ctor.
    */
   private Serializers() {
+  }
+
+  /**
+   * creates a raw serializer instance.
+   *
+   * @return a newly created raw serializer.
+   */
+  @NotNull
+  public static <F> RawSerializer<F> raw() {
+    return new RawSerializer<>();
   }
 }

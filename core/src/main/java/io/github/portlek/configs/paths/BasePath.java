@@ -27,18 +27,24 @@ package io.github.portlek.configs.paths;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.serializers.ConfigurationSerializer;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents base paths.
  *
- * @param <T> type of the path.
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public final class BaseConfigPath<T> implements ConfigPath<T> {
+@RequiredArgsConstructor
+public final class BasePath<R, F> implements ConfigPath<R, F> {
 
   /**
    * the path.
@@ -48,25 +54,35 @@ public final class BaseConfigPath<T> implements ConfigPath<T> {
   private final String path;
 
   /**
+   * the serializer.
+   */
+  @NotNull
+  @Getter
+  private final ConfigurationSerializer<R, F> serializer;
+
+  /**
    * the type reference.
    */
-  private final TypeReference<T> typeReference = new TypeReference<>() {
-
+  private final TypeReference<F> typeReference = new TypeReference<>() {
   };
 
   /**
    * the config loader.
    */
   @Nullable
+  @Setter
   private ConfigLoader loader;
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public BaseConfigPath(@NotNull final String path) {
-    this.path = path;
+  @NotNull
+  @Override
+  public Optional<F> convertToFinal(@NotNull final R raw) {
+    return this.getSerializer().convertToFinal(raw);
+  }
+
+  @NotNull
+  @Override
+  public Optional<R> convertToRaw(@NotNull final F fnl) {
+    return this.getSerializer().convertToRaw(fnl);
   }
 
   @NotNull
@@ -76,18 +92,19 @@ public final class BaseConfigPath<T> implements ConfigPath<T> {
       "Use ConfigLoader#load() method before use the getLoader() method!");
   }
 
+  @NotNull
   @Override
-  public void setLoader(@NotNull final ConfigLoader loader) {
-    this.loader = loader;
+  public Optional<R> getRaw() {
+    return this.getSerializer().getRaw(this);
   }
 
   @NotNull
   @Override
-  public Optional<T> getValue() {
+  public Optional<F> getValue() {
     final var value = this.getConfig().get(this.getPath());
     try {
       //noinspection unchecked
-      final var type = (Class<T>) this.typeReference.getType();
+      final var type = (Class<F>) this.typeReference.getType();
       if (value == null || !type.isAssignableFrom(value.getClass())) {
         return Optional.empty();
       }
@@ -99,7 +116,8 @@ public final class BaseConfigPath<T> implements ConfigPath<T> {
   }
 
   @Override
-  public void setValue(@NotNull final T value) {
-    this.getConfig().set(this.getPath(), value);
+  public void setValue(@NotNull final F value) {
+    this.convertToRaw(value).ifPresent(r ->
+      this.getConfig().set(this.getPath(), r));
   }
 }

@@ -23,24 +23,13 @@
  *
  */
 
-package io.github.portlek.configs.paths;
-
-import io.github.portlek.configs.serializers.ConfigurationSerializer;
-import org.jetbrains.annotations.NotNull;
+package io.github.portlek.configs;
 
 /**
- * an interface to determine advanced paths.
+ * an interface to determine raw paths.
  *
- * @param <R> type of the raw.
- * @param <F> type of the final.
+ * @param <F> raw type of the path.
  */
-public interface AdvancedPath<R, F> extends ConfigPath<F> {
+public interface RawPath<F> extends ConfigPath<F, F> {
 
-  /**
-   * obtains the serializer.
-   *
-   * @return serializer.
-   */
-  @NotNull
-  ConfigurationSerializer<R, F> getSerializer();
 }

@@ -23,30 +23,30 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * the interface to determine default paths.
+ * an interface to determine commented paths.
  *
- * @param <T> type of the path's value
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public interface DefaultPath<T> extends ConfigPath<T> {
+public interface CommentPath<R, F> extends ConfigPath<R, F> {
 
   /**
-   * obtains the default.
+   * obtains the comment.
    *
-   * @return default.
+   * @return comment.
    */
-  @NotNull
-  T getDefault();
+  @Nullable
+  String getComment();
 
   /**
-   * obtains the value, if it's null returns the default value.
+   * sets the comment.
    *
-   * @return value or default value.
+   * @param comment the comment to set.
    */
-  @NotNull
-  T getValueOrDefault();
+  void setComment(@Nullable final String comment);
 }

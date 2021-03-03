@@ -26,77 +26,89 @@
 package io.github.portlek.configs.paths;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.DefaultPath;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that represents default paths.
  *
- * @param <T> type of the path.
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public final class BaseDefaultPath<T> implements DefaultPath<T> {
+@RequiredArgsConstructor
+public final class BaseDefaultPath<R, F> implements DefaultPath<R, F> {
 
   /**
    * the default value.
    */
   @NotNull
-  private final T def;
+  private final F def;
 
   /**
    * the original.
    */
   @NotNull
-  private final ConfigPath<T> original;
+  @Delegate(excludes = Exclusions.class)
+  private final ConfigPath<R, F> original;
 
   /**
-   * ctor.
+   * obtains the default.
    *
-   * @param def the def.
-   * @param original the original.
+   * @return default.
    */
-  public BaseDefaultPath(@NotNull final T def, @NotNull final ConfigPath<T> original) {
-    this.def = def;
-    this.original = original;
-  }
-
   @NotNull
   @Override
-  public T getDefault() {
+  public F getDefault() {
     return this.def;
   }
 
+  /**
+   * obtains the value, if it's null returns the default value.
+   *
+   * @return value or default value.
+   */
   @NotNull
   @Override
-  public T getValueOrDefault() {
-    return this.original.getValue().orElse(this.def);
-  }
-
-  @NotNull
-  @Override
-  public ConfigLoader getLoader() {
-    return this.original.getLoader();
+  public F getValueOrDefault() {
+    return this.original.getValue().orElse(this.getDefault());
   }
 
   @Override
   public void setLoader(@NotNull final ConfigLoader loader) {
     this.original.setLoader(loader);
-    this.getConfig().addDefault(this.getPath(), this.getDefault());
+    this.getConfig().addDefault(this.getPath(), this.original.convertToRaw(this.getDefault()));
   }
 
   @NotNull
   @Override
-  public String getPath() {
-    return this.original.getPath();
-  }
-
-  @NotNull
-  @Override
-  public Optional<T> getValue() {
+  public Optional<F> getValue() {
     return Optional.of(this.getValueOrDefault());
   }
 
-  @Override
-  public void setValue(@NotNull final T value) {
-    this.original.setValue(value);
+  /**
+   * an interface to determine delegate exclusions for default path.
+   */
+  private final class Exclusions {
+
+    /**
+     * obtains the value.
+     *
+     * @return value.
+     */
+    public Optional<F> getValue() {
+      return Optional.empty();
+    }
+
+    /**
+     * sets the loader.
+     *
+     * @param loader the loader to set.
+     */
+    public void setLoader(@NotNull final ConfigLoader loader) {
+    }
   }
 }

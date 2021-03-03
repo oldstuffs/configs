@@ -23,30 +23,34 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.RefField;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * an implementation for {@link ConfigurationSerializer} of raw objects.
+ *
+ * @param <F> type of the final value.
  */
-public final class FsPath implements FieldSerializer {
+public final class RawSerializer<F> implements ConfigurationSerializer<F, F> {
 
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
+  public Optional<F> convertToFinal(@NotNull final F raw) {
+    return Optional.of(raw);
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+  public Optional<F> convertToRaw(@NotNull final F fnl) {
+    return Optional.of(fnl);
+  }
+
+  @NotNull
+  @Override
+  public Optional<F> getRaw(@NotNull final ConfigPath<F, F> path) {
+    return path.getValue();
   }
 }

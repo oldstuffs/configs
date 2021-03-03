@@ -23,19 +23,19 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to serialize configuration sections.
+ * an interface to determine configuration paths.
  *
  * @param <R> type of the raw.
  * @param <F> type of the final.
  */
-public interface ConfigurationSerializer<R, F> {
+public interface ConfigPath<R, F> {
 
   /**
    * converts the given raw value into final value.
@@ -58,12 +58,58 @@ public interface ConfigurationSerializer<R, F> {
   Optional<R> convertToRaw(@NotNull F fnl);
 
   /**
-   * gets the raw value from the config.
+   * obtains the config.
    *
-   * @param path the path to get.
+   * @return config.
+   */
+  @NotNull
+  default FileConfiguration getConfig() {
+    return this.getLoader().getConfiguration();
+  }
+
+  /**
+   * obtains the loader.
+   *
+   * @return loader.
+   */
+  @NotNull
+  ConfigLoader getLoader();
+
+  /**
+   * sets the loader.
+   *
+   * @param loader the loader to set.
+   */
+  void setLoader(@NotNull ConfigLoader loader);
+
+  /**
+   * obtains the path.
+   *
+   * @return path.
+   */
+  @NotNull
+  String getPath();
+
+  /**
+   * gets the raw value from the config.
    *
    * @return the raw value.
    */
   @NotNull
-  Optional<R> getRaw(@NotNull ConfigPath<R, F> path);
+  Optional<R> getRaw();
+
+  /**
+   * obtains the value.
+   *
+   * @return value.
+   */
+  @NotNull
+  Optional<F> getValue();
+
+  /**
+   * sets the value.
+   *
+   * @param value the value to set.
+   */
+  void setValue(@NotNull F value);
 }

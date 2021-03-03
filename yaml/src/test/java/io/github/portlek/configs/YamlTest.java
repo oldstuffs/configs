@@ -28,7 +28,6 @@ package io.github.portlek.configs;
 import static io.github.portlek.configs.paths.Paths.locale;
 import static io.github.portlek.configs.paths.Paths.string;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.paths.DefaultPath;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 import java.util.Locale;

@@ -25,75 +25,36 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.ConfigLoader;
-import java.util.Optional;
+import io.github.portlek.configs.CommentPath;
+import io.github.portlek.configs.ConfigPath;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation for {@link CommentPath}
+ * a class that represents commented paths.
+ *
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public final class BaseCommentPath<T> implements CommentPath<T> {
+@AllArgsConstructor
+public final class BaseCommentPath<R, F> implements CommentPath<R, F> {
 
   /**
    * the original.
    */
   @NotNull
-  private final ConfigPath<T> original;
+  @Delegate
+  private final ConfigPath<R, F> original;
 
   /**
    * the comment.
    */
   @Nullable
+  @Getter
+  @Setter
   private String comment;
-
-  /**
-   * ctor.
-   *
-   * @param original the original.
-   * @param comment the comment.
-   */
-  public BaseCommentPath(@NotNull final ConfigPath<T> original, @Nullable final String comment) {
-    this.original = original;
-    this.comment = comment;
-  }
-
-  @Nullable
-  @Override
-  public String getComment() {
-    return this.comment;
-  }
-
-  @Override
-  public void setComment(@Nullable final String comment) {
-    this.comment = comment;
-  }
-
-  @NotNull
-  @Override
-  public ConfigLoader getLoader() {
-    return this.original.getLoader();
-  }
-
-  @Override
-  public void setLoader(@NotNull final ConfigLoader loader) {
-    this.original.setLoader(loader);
-  }
-
-  @NotNull
-  @Override
-  public String getPath() {
-    return this.original.getPath();
-  }
-
-  @NotNull
-  @Override
-  public Optional<T> getValue() {
-    return this.original.getValue();
-  }
-
-  @Override
-  public void setValue(@NotNull final T value) {
-    this.original.setValue(value);
-  }
 }

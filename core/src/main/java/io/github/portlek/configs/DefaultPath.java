@@ -23,30 +23,31 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * an interface to determine default paths.
+ *
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public final class FsPath implements FieldSerializer {
+public interface DefaultPath<R, F> extends ConfigPath<R, F> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * obtains the default.
+   *
+   * @return default.
+   */
+  @NotNull
+  F getDefault();
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
-  }
+  /**
+   * obtains the value, if it's null returns the default value.
+   *
+   * @return value or default value.
+   */
+  @NotNull
+  F getValueOrDefault();
 }

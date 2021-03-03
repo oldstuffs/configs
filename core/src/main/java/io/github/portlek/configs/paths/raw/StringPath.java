@@ -23,65 +23,33 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.paths.raw;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import java.util.Optional;
+import io.github.portlek.configs.RawPath;
+import io.github.portlek.configs.paths.BaseRawPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * the interface to determine paths.
- *
- * @param <T> type of the path's value.
+ * a class that represents raw string path.
  */
-public interface ConfigPath<T> {
+@RequiredArgsConstructor
+public final class StringPath implements RawPath<String> {
 
   /**
-   * obtains the config.
-   *
-   * @return config.
+   * the original.
    */
   @NotNull
-  default FileConfiguration getConfig() {
-    return this.getLoader().getConfiguration();
+  @Delegate
+  private final RawPath<String> original;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   */
+  public StringPath(@NotNull final String path) {
+    this(new BaseRawPath<>(path));
   }
-
-  /**
-   * obtains the loader.
-   *
-   * @return loader.
-   */
-  @NotNull
-  ConfigLoader getLoader();
-
-  /**
-   * sets the loader.
-   *
-   * @param loader the loader to set.
-   */
-  void setLoader(@NotNull ConfigLoader loader);
-
-  /**
-   * obtains the path.
-   *
-   * @return path.
-   */
-  @NotNull
-  String getPath();
-
-  /**
-   * obtains the value.
-   *
-   * @return value.
-   */
-  @NotNull
-  Optional<T> getValue();
-
-  /**
-   * sets the value.
-   *
-   * @param value the value to set.
-   */
-  void setValue(@NotNull T value);
 }

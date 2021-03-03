@@ -23,30 +23,46 @@
  *
  */
 
-package io.github.portlek.configs.fields;
+package io.github.portlek.configs.paths.comment;
 
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.CommentPath;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.paths.BaseCommentPath;
+import io.github.portlek.configs.paths.raw.IntegerPath;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * a class that represents integer commented path.
  */
-public final class FsPath implements FieldSerializer {
+@RequiredArgsConstructor
+public final class IntegerCommentPath implements CommentPath<Integer, Integer> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final CommentPath<Integer, Integer> original;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public IntegerCommentPath(@NotNull final ConfigPath<Integer, Integer> path, @NotNull final String comment) {
+    this(new BaseCommentPath<>(path, comment));
   }
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param comment the comment.
+   */
+  public IntegerCommentPath(@NotNull final String path, @NotNull final String comment) {
+    this(new IntegerPath(path), comment);
   }
 }

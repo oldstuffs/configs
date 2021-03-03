@@ -25,7 +25,17 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.serializers.Serializers;
+import io.github.portlek.configs.paths.path.LocalePath;
+import io.github.portlek.configs.paths.comment.BooleanCommentPath;
+import io.github.portlek.configs.paths.def.BooleanDefaultPath;
+import io.github.portlek.configs.paths.def.IntegerDefaultPath;
+import io.github.portlek.configs.paths.def.LocaleDefaultPath;
+import io.github.portlek.configs.paths.def.StringDefaultPath;
+import io.github.portlek.configs.paths.def.StringListDefaultPath;
+import io.github.portlek.configs.paths.raw.BooleanPath;
+import io.github.portlek.configs.paths.raw.IntegerPath;
+import io.github.portlek.configs.paths.raw.StringListPath;
+import io.github.portlek.configs.paths.raw.StringPath;
 import java.util.List;
 import java.util.Locale;
 import org.jetbrains.annotations.NotNull;
@@ -42,16 +52,16 @@ public final class Paths {
   }
 
   /**
-   * creates a boolean path.
+   * creates a boolean default path.
    *
    * @param path the path to create.
    * @param def the default value to create.
    *
-   * @return a newly created boolean path.
+   * @return a newly created boolean default path.
    */
   @NotNull
-  public static DefaultPath<Boolean> bool(@NotNull final String path, final boolean def) {
-    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
+  public static BooleanDefaultPath bool(@NotNull final String path, final boolean def) {
+    return new BooleanDefaultPath(path, def);
   }
 
   /**
@@ -62,35 +72,34 @@ public final class Paths {
    * @return a newly created boolean path.
    */
   @NotNull
-  public static ConfigPath<Boolean> bool(@NotNull final String path) {
-    return new BaseConfigPath<>(path);
+  public static BooleanPath bool(@NotNull final String path) {
+    return new BooleanPath(path);
   }
 
   /**
-   * adds comment to the path.
+   * creates a boolean commented path.
    *
    * @param path the path to add.
    * @param comment the comment to add.
-   * @param <T> type of the path.
    *
-   * @return commented path.
+   * @return boolean commented path.
    */
   @NotNull
-  public static <T> CommentPath<T> comment(@NotNull final ConfigPath<T> path, @NotNull final String comment) {
-    return new BaseCommentPath<>(path, comment);
+  public static BooleanCommentPath comment(@NotNull final BooleanPath path, @NotNull final String comment) {
+    return new BooleanCommentPath(path, comment);
   }
 
   /**
-   * creates a integer path.
+   * creates a integer default path.
    *
    * @param path the path to create.
    * @param def the default value to create.
    *
-   * @return a newly created integer path.
+   * @return a newly created integer defaut path.
    */
   @NotNull
-  public static DefaultPath<Integer> integer(@NotNull final String path, final int def) {
-    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
+  public static IntegerDefaultPath integer(@NotNull final String path, final int def) {
+    return new IntegerDefaultPath(path, def);
   }
 
   /**
@@ -101,8 +110,8 @@ public final class Paths {
    * @return a newly created integer path.
    */
   @NotNull
-  public static ConfigPath<Integer> integer(@NotNull final String path) {
-    return new BaseConfigPath<>(path);
+  public static IntegerPath integer(@NotNull final String path) {
+    return new IntegerPath(path);
   }
 
   /**
@@ -114,8 +123,8 @@ public final class Paths {
    * @return a newly created locale path.
    */
   @NotNull
-  public static DefaultPath<Locale> locale(@NotNull final String path, @NotNull final Locale def) {
-    return new BaseDefaultPath<>(def, new BaseAdvancedPath<>(path, Serializers.LOCALE));
+  public static LocaleDefaultPath locale(@NotNull final String path, @NotNull final Locale def) {
+    return new LocaleDefaultPath(path, def);
   }
 
   /**
@@ -126,21 +135,21 @@ public final class Paths {
    * @return a newly created locale path.
    */
   @NotNull
-  public static ConfigPath<Locale> locale(@NotNull final String path) {
-    return new BaseAdvancedPath<>(path, Serializers.LOCALE);
+  public static LocalePath locale(@NotNull final String path) {
+    return new LocalePath(path);
   }
 
   /**
-   * creates a string path.
+   * creates a string default path.
    *
    * @param path the path to create.
    * @param def the default value to create.
    *
-   * @return a newly created string path.
+   * @return a newly created string default path.
    */
   @NotNull
-  public static DefaultPath<String> string(@NotNull final String path, @NotNull final String def) {
-    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
+  public static StringDefaultPath string(@NotNull final String path, @NotNull final String def) {
+    return new StringDefaultPath(path, def);
   }
 
   /**
@@ -151,8 +160,8 @@ public final class Paths {
    * @return a newly created string path.
    */
   @NotNull
-  public static ConfigPath<String> string(@NotNull final String path) {
-    return new BaseConfigPath<>(path);
+  public static StringPath string(@NotNull final String path) {
+    return new StringPath(path);
   }
 
   /**
@@ -164,8 +173,8 @@ public final class Paths {
    * @return a newly created string list path.
    */
   @NotNull
-  public static DefaultPath<List<String>> stringList(@NotNull final String path, @NotNull final List<String> def) {
-    return new BaseDefaultPath<>(def, new BaseConfigPath<>(path));
+  public static StringListDefaultPath stringList(@NotNull final String path, @NotNull final List<String> def) {
+    return new StringListDefaultPath(path, def);
   }
 
   /**
@@ -176,7 +185,7 @@ public final class Paths {
    * @return a newly created string list path.
    */
   @NotNull
-  public static ConfigPath<List<String>> stringList(@NotNull final String path) {
-    return new BaseConfigPath<>(path);
+  public static StringListPath stringList(@NotNull final String path) {
+    return new StringListPath(path);
   }
 }
