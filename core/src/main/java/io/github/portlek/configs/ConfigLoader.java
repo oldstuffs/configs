@@ -234,9 +234,9 @@ public final class ConfigLoader {
      */
     @NotNull
     private final List<FieldSerializer> fieldSerializers = new ArrayList<>() {{
-      this.add(new FsPath());
       this.add(new FsConfiguration());
       this.add(new FsConfigLoader());
+      this.add(new FsPath());
       this.add(new FsFile());
     }};
 
