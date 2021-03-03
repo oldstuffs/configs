@@ -27,9 +27,9 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
+import io.github.portlek.configs.fields.FieldSerializer;
 import io.github.portlek.configs.fields.FsConfigLoader;
 import io.github.portlek.configs.fields.FsConfiguration;
-import io.github.portlek.configs.fields.FieldSerializer;
 import io.github.portlek.configs.fields.FsFile;
 import io.github.portlek.configs.fields.FsPath;
 import io.github.portlek.configs.util.Validate;
