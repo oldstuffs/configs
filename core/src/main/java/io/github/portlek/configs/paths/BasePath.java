@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.paths;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.serializers.ConfigurationSerializer;
@@ -61,10 +60,10 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
   private final ConfigurationSerializer<R, F> serializer;
 
   /**
-   * the type reference.
+   * the type.
    */
-  private final TypeReference<F> typeReference = new TypeReference<>() {
-  };
+  @NotNull
+  private final Class<?> type;
 
   /**
    * the config loader.
@@ -103,12 +102,11 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
   public Optional<F> getValue() {
     final var value = this.getConfig().get(this.getPath());
     try {
-      //noinspection unchecked
-      final var type = (Class<F>) this.typeReference.getType();
-      if (value == null || !type.isAssignableFrom(value.getClass())) {
+      if (value == null || !this.type.isAssignableFrom(value.getClass())) {
         return Optional.empty();
       }
-      return Optional.of(type.cast(value));
+      //noinspection unchecked
+      return Optional.of((F) value);
     } catch (final Throwable t) {
       t.printStackTrace();
     }
