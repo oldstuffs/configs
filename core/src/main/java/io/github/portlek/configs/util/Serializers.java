@@ -23,8 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.serializers.LocaleSerializer;
+import io.github.portlek.configs.serializers.RawSerializer;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 

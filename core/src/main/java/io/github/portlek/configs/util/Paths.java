@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.paths.comment.BooleanCommentPath;
 import io.github.portlek.configs.paths.def.BooleanDefaultPath;

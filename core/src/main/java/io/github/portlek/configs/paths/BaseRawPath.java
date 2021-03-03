@@ -27,7 +27,7 @@ package io.github.portlek.configs.paths;
 
 import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.RawPath;
-import io.github.portlek.configs.serializers.Serializers;
+import io.github.portlek.configs.util.Serializers;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;

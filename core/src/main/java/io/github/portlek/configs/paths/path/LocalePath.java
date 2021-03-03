@@ -27,7 +27,7 @@ package io.github.portlek.configs.paths.path;
 
 import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.paths.BasePath;
-import io.github.portlek.configs.serializers.Serializers;
+import io.github.portlek.configs.util.Serializers;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
