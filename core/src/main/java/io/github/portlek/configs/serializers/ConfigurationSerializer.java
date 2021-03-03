@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.paths.ConfigPath;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
