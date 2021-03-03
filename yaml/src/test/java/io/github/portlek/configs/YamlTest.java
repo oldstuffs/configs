@@ -25,11 +25,13 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.paths.DefaultPath;
-import io.github.portlek.configs.paths.Paths;
+import static io.github.portlek.configs.paths.Paths.locale;
+import static io.github.portlek.configs.paths.Paths.string;
 import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.paths.DefaultPath;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
+import java.util.Locale;
 
 public final class YamlTest {
 
@@ -48,21 +50,23 @@ public final class YamlTest {
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    public static final DefaultPath<String> STRING_PATH_1 = Paths.string("test-1", "test-1");
+    public static final DefaultPath<Locale> LOCALE_TEST = locale("test-locale", Locale.ENGLISH);
 
-    public static final DefaultPath<String> STRING_PATH_2 = Paths.string("test-2.test-1", "test-2");
+    public static final DefaultPath<String> STRING_PATH_1 = string("test-1", "test-1");
 
-    public static final DefaultPath<String> STRING_PATH_3 = Paths.string("test-2.test-2", "test-3");
+    public static final DefaultPath<String> STRING_PATH_2 = string("test-2.test-1", "test-2");
 
-    public static final DefaultPath<String> STRING_PATH_4 = Paths.string("test-3.test-1.test-1", "test-4");
+    public static final DefaultPath<String> STRING_PATH_3 = string("test-2.test-2", "test-3");
 
-    public static final DefaultPath<String> STRING_PATH_5 = Paths.string("test-3.test-2.test-1", "test-5");
+    public static final DefaultPath<String> STRING_PATH_4 = string("test-3.test-1.test-1", "test-4");
 
-    public static final DefaultPath<String> STRING_PATH_6 = Paths.string("test-3.test-3.test-1", "test-6");
+    public static final DefaultPath<String> STRING_PATH_5 = string("test-3.test-2.test-1", "test-5");
 
-    public static final DefaultPath<String> STRING_PATH_7 = Paths.string("test-3.test-2.test-2", "test-7");
+    public static final DefaultPath<String> STRING_PATH_6 = string("test-3.test-3.test-1", "test-6");
 
-    public static final DefaultPath<String> STRING_PATH_8 = Paths.string("test-3.test-3.test-3", "test-8");
+    public static final DefaultPath<String> STRING_PATH_7 = string("test-3.test-2.test-2", "test-7");
+
+    public static final DefaultPath<String> STRING_PATH_8 = string("test-3.test-3.test-3", "test-8");
 
     public static FileConfiguration CONFIGURATION;
   }
