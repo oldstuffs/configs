@@ -27,7 +27,6 @@ package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.util.Validate;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
@@ -43,10 +42,7 @@ public final class FlPath implements FieldLoader {
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
+    field.getValue()
+      .ifPresent(pth -> ((ConfigPath<?, ?>) pth).setLoader(loader));
   }
 }
