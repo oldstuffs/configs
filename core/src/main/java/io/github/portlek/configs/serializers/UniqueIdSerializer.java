@@ -23,37 +23,37 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.serializers.LocaleSerializer;
-import io.github.portlek.configs.serializers.RawSerializer;
-import io.github.portlek.configs.serializers.UniqueIdSerializer;
-import lombok.experimental.UtilityClass;
+import io.github.portlek.configs.ConfigPath;
+import java.util.Optional;
+import java.util.UUID;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that contains all serializers.
+ * an implementation for {@link ConfigurationSerializer} of {@link UUID}.
  */
-@UtilityClass
-public final class Serializers {
+public final class UniqueIdSerializer implements ConfigurationSerializer<String, UUID> {
 
-  /**
-   * the locale serializer.
-   */
-  public LocaleSerializer LOCALE = new LocaleSerializer();
-
-  /**
-   * the unique id serializer.
-   */
-  public UniqueIdSerializer UNIQUE_ID = new UniqueIdSerializer();
-
-  /**
-   * creates a raw serializer instance.
-   *
-   * @return a newly created raw serializer.
-   */
   @NotNull
-  public <F> RawSerializer<F> raw() {
-    return new RawSerializer<>();
+  @Override
+  public Optional<UUID> convertToFinal(@NotNull final String raw) {
+    try {
+      return Optional.of(UUID.fromString(raw));
+    } catch (final Throwable ignored) {
+    }
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> convertToRaw(@NotNull final UUID fnl) {
+    return Optional.of(fnl.toString());
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> getRaw(@NotNull final ConfigPath<String, UUID> path) {
+    return Optional.ofNullable(path.getConfig().getString(path.getPath()));
   }
 }

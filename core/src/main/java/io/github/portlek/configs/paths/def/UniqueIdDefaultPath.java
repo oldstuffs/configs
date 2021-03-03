@@ -23,37 +23,47 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.paths.def;
 
-import io.github.portlek.configs.serializers.LocaleSerializer;
-import io.github.portlek.configs.serializers.RawSerializer;
-import io.github.portlek.configs.serializers.UniqueIdSerializer;
-import lombok.experimental.UtilityClass;
+import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.DefaultPath;
+import io.github.portlek.configs.paths.BaseDefaultPath;
+import io.github.portlek.configs.paths.path.UniqueIdPath;
+import java.util.UUID;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that contains all serializers.
+ * a class that represents unique id default path.
  */
-@UtilityClass
-public final class Serializers {
+@RequiredArgsConstructor
+public final class UniqueIdDefaultPath implements DefaultPath<String, UUID> {
 
   /**
-   * the locale serializer.
-   */
-  public LocaleSerializer LOCALE = new LocaleSerializer();
-
-  /**
-   * the unique id serializer.
-   */
-  public UniqueIdSerializer UNIQUE_ID = new UniqueIdSerializer();
-
-  /**
-   * creates a raw serializer instance.
-   *
-   * @return a newly created raw serializer.
+   * the original.
    */
   @NotNull
-  public <F> RawSerializer<F> raw() {
-    return new RawSerializer<>();
+  @Delegate
+  private final DefaultPath<String, UUID> original;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param def the default value.
+   */
+  public UniqueIdDefaultPath(@NotNull final ConfigPath<String, UUID> path, @NotNull final UUID def) {
+    this(new BaseDefaultPath<>(def, path));
+  }
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param def the default value.
+   */
+  public UniqueIdDefaultPath(@NotNull final String path, @NotNull final UUID def) {
+    this(new UniqueIdPath(path), def);
   }
 }
