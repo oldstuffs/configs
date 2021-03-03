@@ -67,6 +67,12 @@ public final class BaseDefaultPath<T> implements DefaultPath<T> {
 
   @NotNull
   @Override
+  public T getValueOrDefault() {
+    return this.original.getValue().orElse(this.def);
+  }
+
+  @NotNull
+  @Override
   public ConfigLoader getLoader() {
     return this.original.getLoader();
   }
@@ -86,7 +92,7 @@ public final class BaseDefaultPath<T> implements DefaultPath<T> {
   @NotNull
   @Override
   public Optional<T> getValue() {
-    return this.original.getValue();
+    return Optional.of(this.getValueOrDefault());
   }
 
   @Override

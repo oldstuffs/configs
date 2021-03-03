@@ -41,4 +41,12 @@ public interface DefaultPath<T> extends ConfigPath<T> {
    */
   @NotNull
   T getDefault();
+
+  /**
+   * obtains the value, if it's null returns the default value.
+   *
+   * @return value or default value.
+   */
+  @NotNull
+  T getValueOrDefault();
 }

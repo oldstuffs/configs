@@ -92,11 +92,14 @@ public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
   @NotNull
   @Override
   public Optional<F> getValue() {
-    return Optional.empty();
+    return this.serializer.getRaw(this)
+      .flatMap(this.serializer::convertToFinal);
   }
 
   @Override
   public void setValue(@NotNull final F value) {
+    this.serializer.convertToRaw(value).ifPresent(r ->
+      this.getConfig().set(this.getPath(), r));
   }
 
   @NotNull
