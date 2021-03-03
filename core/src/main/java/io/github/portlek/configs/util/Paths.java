@@ -29,6 +29,7 @@ import io.github.portlek.configs.paths.comment.BooleanCommentPath;
 import io.github.portlek.configs.paths.comment.IntegerCommentPath;
 import io.github.portlek.configs.paths.comment.LocaleCommentPath;
 import io.github.portlek.configs.paths.comment.StringCommentPath;
+import io.github.portlek.configs.paths.comment.StringListCommentPath;
 import io.github.portlek.configs.paths.comment.UniqueIdCommentPath;
 import io.github.portlek.configs.paths.def.BooleanDefaultPath;
 import io.github.portlek.configs.paths.def.IntegerDefaultPath;
@@ -155,6 +156,32 @@ public class Paths {
   @NotNull
   public LocaleCommentPath comment(@NotNull final LocaleDefaultPath path, @NotNull final String comment) {
     return new LocaleCommentPath(path, comment);
+  }
+
+  /**
+   * creates a string list commented path.
+   *
+   * @param path the path to add.
+   * @param comment the comment to add.
+   *
+   * @return string list commented path.
+   */
+  @NotNull
+  public StringListCommentPath comment(@NotNull final StringListPath path, @NotNull final String comment) {
+    return new StringListCommentPath(path, comment);
+  }
+
+  /**
+   * creates a string commented path.
+   *
+   * @param path the path to add.
+   * @param comment the comment to add.
+   *
+   * @return string commented path.
+   */
+  @NotNull
+  public StringListCommentPath comment(@NotNull final StringListDefaultPath path, @NotNull final String comment) {
+    return new StringListCommentPath(path, comment);
   }
 
   /**
