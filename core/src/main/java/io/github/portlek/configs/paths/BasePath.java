@@ -53,17 +53,17 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
   private final String path;
 
   /**
+   * the type.
+   */
+  @NotNull
+  private final Class<?> rawType;
+
+  /**
    * the serializer.
    */
   @NotNull
   @Getter
   private final ConfigurationSerializer<R, F> serializer;
-
-  /**
-   * the type.
-   */
-  @NotNull
-  private final Class<?> type;
 
   /**
    * the config loader.
@@ -102,11 +102,11 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
   public Optional<F> getValue() {
     final var value = this.getConfig().get(this.getPath());
     try {
-      if (value == null || !this.type.isAssignableFrom(value.getClass())) {
+      if (value == null || !this.rawType.isAssignableFrom(value.getClass())) {
         return Optional.empty();
       }
       //noinspection unchecked
-      return Optional.of((F) value);
+      return this.convertToFinal((R) value);
     } catch (final Throwable t) {
       t.printStackTrace();
     }

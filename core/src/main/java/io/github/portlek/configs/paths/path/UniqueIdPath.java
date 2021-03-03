@@ -52,6 +52,6 @@ public final class UniqueIdPath implements ConfigPath<String, UUID> {
    * @param path the path.
    */
   public UniqueIdPath(@NotNull final String path) {
-    this(new BasePath<>(path, Serializers.UNIQUE_ID, UUID.class));
+    this(new BasePath<>(path, String.class, Serializers.UNIQUE_ID));
   }
 }
