@@ -25,8 +25,6 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.tree.FileConfiguration;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -38,32 +36,10 @@ import org.jetbrains.annotations.NotNull;
 public interface AdvancedPath<R, F> extends ConfigPath<F> {
 
   /**
-   * converts the given raw value into final value.
+   * obtains the serializer.
    *
-   * @param raw the raw to convert.
-   *
-   * @return final value.
+   * @return serializer.
    */
   @NotNull
-  Optional<F> convertToFinal(@NotNull R raw);
-
-  /**
-   * converts the given final value into raw value.
-   *
-   * @param fnl the fnl to convert.
-   *
-   * @return raw value.
-   */
-  @NotNull
-  Optional<R> convertToRaw(@NotNull F fnl);
-
-  /**
-   * gets the raw value from the config.
-   *
-   * @param configuration the configuration to get.
-   *
-   * @return the raw value.
-   */
-  @NotNull
-  Optional<R> getRaw(@NotNull FileConfiguration configuration);
+  ConfigurationSerializer<R, F> getSerializer();
 }

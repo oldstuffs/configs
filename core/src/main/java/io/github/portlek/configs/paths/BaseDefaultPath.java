@@ -28,6 +28,7 @@ package io.github.portlek.configs.paths;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.DefaultPath;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -82,5 +83,16 @@ public final class BaseDefaultPath<T> implements DefaultPath<T> {
   @Override
   public String getPath() {
     return this.original.getPath();
+  }
+
+  @NotNull
+  @Override
+  public Optional<T> getValue() {
+    return this.original.getValue();
+  }
+
+  @Override
+  public void setValue(@NotNull final T value) {
+    this.original.setValue(value);
   }
 }

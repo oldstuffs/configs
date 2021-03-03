@@ -23,8 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.tree;
+package io.github.portlek.configs;
 
+import io.github.portlek.configs.tree.ConfigurationOptions;
 import java.util.Map;
 
 /**

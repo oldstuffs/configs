@@ -28,12 +28,12 @@ package io.github.portlek.configs.paths;
 import io.github.portlek.configs.AdvancedPath;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.configs.ConfigurationSerializer;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an abstract class that represents advanced paths.
+ * an class that represents advanced paths.
  *
  * @param <R> type of the raw.
  * @param <F> type of the final.
@@ -47,30 +47,31 @@ public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
   private final ConfigPath<F> original;
 
   /**
+   * the serializer.
+   */
+  @NotNull
+  private final ConfigurationSerializer<R, F> serializer;
+
+  /**
+   * ctor.
+   *
+   * @param path the path.
+   * @param serializer the serializer.
+   */
+  public BaseAdvancedPath(@NotNull final String path, @NotNull final ConfigurationSerializer<R, F> serializer) {
+    this(new BasePath<>(path), serializer);
+  }
+
+  /**
    * ctor.
    *
    * @param original the original.
+   * @param serializer the serializer.
    */
-  public BaseAdvancedPath(@NotNull final ConfigPath<F> original) {
+  public BaseAdvancedPath(@NotNull final ConfigPath<F> original,
+                          @NotNull final ConfigurationSerializer<R, F> serializer) {
     this.original = original;
-  }
-
-  @NotNull
-  @Override
-  public Optional<F> convertToFinal(@NotNull final R raw) {
-    return Optional.empty();
-  }
-
-  @NotNull
-  @Override
-  public Optional<R> convertToRaw(@NotNull final F fnl) {
-    return Optional.empty();
-  }
-
-  @NotNull
-  @Override
-  public Optional<R> getRaw(@NotNull final FileConfiguration configuration) {
-    return Optional.empty();
+    this.serializer = serializer;
   }
 
   @NotNull
@@ -88,5 +89,21 @@ public final class BaseAdvancedPath<R, F> implements AdvancedPath<R, F> {
   @Override
   public String getPath() {
     return this.original.getPath();
+  }
+
+  @NotNull
+  @Override
+  public Optional<F> getValue() {
+    return Optional.empty();
+  }
+
+  @Override
+  public void setValue(@NotNull final F value) {
+  }
+
+  @NotNull
+  @Override
+  public ConfigurationSerializer<R, F> getSerializer() {
+    return this.serializer;
   }
 }

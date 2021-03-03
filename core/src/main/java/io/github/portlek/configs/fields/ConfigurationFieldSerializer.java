@@ -23,23 +23,26 @@
  *
  */
 
-package io.github.portlek.configs.paths.advanced;
+package io.github.portlek.configs.fields;
 
-import io.github.portlek.configs.paths.BasePath;
-import java.util.Locale;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.FieldSerializer;
+import io.github.portlek.configs.tree.FileConfiguration;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementations for {@link BasePath} of {@link Locale}.
+ * an implementation to serialize {@link FileConfiguration}.
  */
-public final class LocalePath extends BasePath<Locale> {
+public final class ConfigurationFieldSerializer implements FieldSerializer {
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public LocalePath(@NotNull final String path) {
-    super(path);
+  @Override
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return FileConfiguration.class.isAssignableFrom(field.getType());
+  }
+
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.setValue(loader.getConfiguration());
   }
 }

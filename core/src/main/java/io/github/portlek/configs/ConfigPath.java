@@ -26,12 +26,13 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.tree.FileConfiguration;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * the interface to determine paths.
  *
- * @param <T> type of the path's value
+ * @param <T> type of the path's value.
  */
 public interface ConfigPath<T> {
 
@@ -67,4 +68,19 @@ public interface ConfigPath<T> {
    */
   @NotNull
   String getPath();
+
+  /**
+   * obtains the value.
+   *
+   * @return value.
+   */
+  @NotNull
+  Optional<T> getValue();
+
+  /**
+   * sets the value.
+   *
+   * @param value the value to set.
+   */
+  void setValue(@NotNull T value);
 }

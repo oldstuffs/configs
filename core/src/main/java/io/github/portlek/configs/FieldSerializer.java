@@ -23,22 +23,31 @@
  *
  */
 
-package io.github.portlek.configs.paths.raw;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.paths.BasePath;
+import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementations for {@link BasePath} of {@link Boolean}.
+ * an interface to determine serializers.
  */
-public final class BooleanPath extends BasePath<Boolean> {
+public interface FieldSerializer {
 
   /**
-   * ctor.
+   * checks if the field can be loaded by the serializer.
    *
-   * @param path the path.
+   * @param loader the loader to check.
+   * @param field the field to check.
+   *
+   * @return {@code true} if the field can load by the serialize.
    */
-  public BooleanPath(@NotNull final String path) {
-    super(path);
-  }
+  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+
+  /**
+   * loads the field value.
+   *
+   * @param loader the loader to load.
+   * @param field the field to load.
+   */
+  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
 }

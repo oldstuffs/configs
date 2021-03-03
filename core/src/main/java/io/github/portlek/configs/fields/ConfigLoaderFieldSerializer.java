@@ -23,17 +23,17 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.fields;
 
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.Serializer;
+import io.github.portlek.configs.FieldSerializer;
 import io.github.portlek.reflection.RefField;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an implementation to serialize {@link ConfigLoader}.
  */
-public final class ConfigLoaderSerializer implements Serializer {
+public final class ConfigLoaderFieldSerializer implements FieldSerializer {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {

@@ -23,22 +23,25 @@
  *
  */
 
-package io.github.portlek.configs.paths.raw;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.paths.BasePath;
-import org.jetbrains.annotations.NotNull;
+import io.github.portlek.configs.ConfigurationSerializer;
+import io.github.portlek.configs.serializers.LocaleSerializer;
+import java.util.Locale;
 
 /**
- * an implementations for {@link BasePath} of {@link Integer}.
+ * a class that contains all serializers.
  */
-public final class IntegerPath extends BasePath<Integer> {
+public final class Serializers {
+
+  /**
+   * the locale serializer.
+   */
+  public static final ConfigurationSerializer<String, Locale> LOCALE_SERIALIZER = new LocaleSerializer();
 
   /**
    * ctor.
-   *
-   * @param path the path.
    */
-  public IntegerPath(@NotNull final String path) {
-    super(path);
+  private Serializers() {
   }
 }

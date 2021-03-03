@@ -23,49 +23,26 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.fields;
 
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.FieldSerializer;
+import io.github.portlek.reflection.RefField;
+import java.io.File;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an utility class that helps developer to write simple expressions.
+ * an implementation to serialize {@link File}.
  */
-public final class Validate {
+public final class FileFieldSerializer implements FieldSerializer {
 
-  /**
-   * ctor.
-   */
-  private Validate() {
+  @Override
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return File.class.isAssignableFrom(field.getType());
   }
 
-  /**
-   * checks if the text is empty.
-   *
-   * @param text the text to check.
-   * @param errorMessage the error message to check.
-   *
-   * @throws IllegalStateException if the given text is empty.
-   */
-  public static void checkEmpty(final String text, final String errorMessage) {
-    if (text.isEmpty()) {
-      throw new IllegalStateException(errorMessage);
-    }
-  }
-
-  /**
-   * checks if the given object is not null.
-   *
-   * @param object the object to check.
-   * @param errorMessage the error message to check.
-   * @param args the args to check.
-   *
-   * @throws IllegalStateException if the given object is null.
-   */
-  public static void checkNull(@Nullable final Object object, @NotNull final String errorMessage,
-                               @NotNull final Object... args) {
-    if (object == null) {
-      throw new IllegalStateException(String.format(errorMessage, args));
-    }
+  @Override
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.setValue(loader.getFile());
   }
 }

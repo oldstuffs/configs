@@ -25,19 +25,21 @@
 
 package io.github.portlek.configs.paths;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an abstract class that represents base paths.
+ * a class that represents base paths.
  *
  * @param <T> type of the path.
  */
-public abstract class BasePath<T> implements ConfigPath<T> {
+public final class BasePath<T> implements ConfigPath<T> {
 
   /**
    * the path.
@@ -45,6 +47,13 @@ public abstract class BasePath<T> implements ConfigPath<T> {
   @NotNull
   @Getter
   private final String path;
+
+  /**
+   * the type reference.
+   */
+  private final TypeReference<T> typeReference = new TypeReference<>() {
+
+  };
 
   /**
    * the config loader.
@@ -57,18 +66,41 @@ public abstract class BasePath<T> implements ConfigPath<T> {
    *
    * @param path the path.
    */
-  protected BasePath(@NotNull final String path) {
+  public BasePath(@NotNull final String path) {
     this.path = path;
   }
 
   @NotNull
   @Override
   public ConfigLoader getLoader() {
-    return Objects.requireNonNull(this.loader, "Use ConfigLoader#load() method before use the getLoader() method!");
+    return Objects.requireNonNull(this.loader,
+      "Use ConfigLoader#load() method before use the getLoader() method!");
   }
 
   @Override
   public void setLoader(@NotNull final ConfigLoader loader) {
     this.loader = loader;
+  }
+
+  @NotNull
+  @Override
+  public Optional<T> getValue() {
+    final var value = this.getConfig().get(this.getPath());
+    try {
+      //noinspection unchecked
+      final var type = (Class<T>) this.typeReference.getType();
+      if (value == null || !type.isAssignableFrom(value.getClass())) {
+        return Optional.empty();
+      }
+      return Optional.of(type.cast(value));
+    } catch (final Throwable t) {
+      t.printStackTrace();
+    }
+    return Optional.empty();
+  }
+
+  @Override
+  public void setValue(@NotNull final T value) {
+    this.getConfig().set(this.getPath(), value);
   }
 }

@@ -23,31 +23,47 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.Serializer;
-import io.github.portlek.configs.Validate;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.tree.FileConfiguration;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * an interface to serialize configuration sections.
+ *
+ * @param <R> type of the raw.
+ * @param <F> type of the final.
  */
-public final class PathSerializer implements Serializer {
+public interface ConfigurationSerializer<R, F> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
-  }
+  /**
+   * converts the given raw value into final value.
+   *
+   * @param raw the raw to convert.
+   *
+   * @return final value.
+   */
+  @NotNull
+  Optional<F> convertToFinal(@NotNull R raw);
 
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var pathHolder = loader.getPathHolder();
-    Validate.checkNull(pathHolder, "The path holder is null!");
-    final var pth = field.getValue().orElse(null);
-    Validate.checkNull(pth, "The field %s in %s is null!", field.getName(), pathHolder.getSimpleName());
-    ((ConfigPath<?>) pth).setLoader(loader);
-  }
+  /**
+   * converts the given final value into raw value.
+   *
+   * @param fnl the fnl to convert.
+   *
+   * @return raw value.
+   */
+  @NotNull
+  Optional<R> convertToRaw(@NotNull F fnl);
+
+  /**
+   * gets the raw value from the config.
+   *
+   * @param configuration the configuration to get.
+   *
+   * @return the raw value.
+   */
+  @NotNull
+  Optional<R> getRaw(@NotNull FileConfiguration configuration);
 }

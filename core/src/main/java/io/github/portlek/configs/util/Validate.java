@@ -23,35 +23,49 @@
  *
  */
 
-package io.github.portlek.configs.paths;
+package io.github.portlek.configs.util;
 
-import java.util.Arrays;
-import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementations for {@link BaseDefaultPath} of {@link String} {@link List}.
+ * an utility class that helps developer to write simple expressions.
  */
-public final class StringListPath extends BaseDefaultPath<List<String>> {
+public final class Validate {
 
   /**
    * ctor.
-   *
-   * @param path the path.
-   * @param def the default.
    */
-  public StringListPath(@NotNull final String path, @Nullable final List<String> def) {
-    super(path, def);
+  private Validate() {
   }
 
   /**
-   * ctor.
+   * checks if the text is empty.
    *
-   * @param path the path.
-   * @param def the default.
+   * @param text the text to check.
+   * @param errorMessage the error message to check.
+   *
+   * @throws IllegalStateException if the given text is empty.
    */
-  public StringListPath(@NotNull final String path, @NotNull final String... def) {
-    this(path, Arrays.asList(def));
+  public static void checkEmpty(final String text, final String errorMessage) {
+    if (text.isEmpty()) {
+      throw new IllegalStateException(errorMessage);
+    }
+  }
+
+  /**
+   * checks if the given object is not null.
+   *
+   * @param object the object to check.
+   * @param errorMessage the error message to check.
+   * @param args the args to check.
+   *
+   * @throws IllegalStateException if the given object is null.
+   */
+  public static void checkNull(@Nullable final Object object, @NotNull final String errorMessage,
+                               @NotNull final Object... args) {
+    if (object == null) {
+      throw new IllegalStateException(String.format(errorMessage, args));
+    }
   }
 }

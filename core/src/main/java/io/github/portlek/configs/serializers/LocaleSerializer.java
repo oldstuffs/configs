@@ -23,22 +23,34 @@
  *
  */
 
-package io.github.portlek.configs.paths.raw;
+package io.github.portlek.configs.serializers;
 
-import io.github.portlek.configs.paths.BasePath;
+import io.github.portlek.configs.ConfigurationSerializer;
+import io.github.portlek.configs.tree.FileConfiguration;
+import java.util.Locale;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementations for {@link BasePath} of {@link String}.
+ * an implementation for {@link ConfigurationSerializer} of {@link Locale}.
  */
-public final class StringPath extends BasePath<String> {
+public final class LocaleSerializer implements ConfigurationSerializer<String, Locale> {
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public StringPath(@NotNull final String path) {
-    super(path);
+  @NotNull
+  @Override
+  public Optional<Locale> convertToFinal(@NotNull final String raw) {
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> convertToRaw(@NotNull final Locale fnl) {
+    return Optional.empty();
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> getRaw(@NotNull final FileConfiguration configuration) {
+    return Optional.empty();
   }
 }

@@ -25,13 +25,13 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.paths.BaseAdvancedPath;
 import io.github.portlek.configs.paths.BaseCommentPath;
 import io.github.portlek.configs.paths.BaseDefaultPath;
-import io.github.portlek.configs.paths.raw.BooleanPath;
-import io.github.portlek.configs.paths.raw.IntegerPath;
-import io.github.portlek.configs.paths.raw.StringListPath;
-import io.github.portlek.configs.paths.raw.StringPath;
+import io.github.portlek.configs.paths.BasePath;
+import io.github.portlek.configs.util.Serializers;
 import java.util.List;
+import java.util.Locale;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -55,7 +55,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<Boolean> bool(@NotNull final String path, final boolean def) {
-    return new BaseDefaultPath<>(def, new BooleanPath(path));
+    return new BaseDefaultPath<>(def, new BasePath<>(path));
   }
 
   /**
@@ -66,8 +66,8 @@ public final class Paths {
    * @return a newly created boolean path.
    */
   @NotNull
-  public static BooleanPath bool(@NotNull final String path) {
-    return new BooleanPath(path);
+  public static ConfigPath<Boolean> bool(@NotNull final String path) {
+    return new BasePath<>(path);
   }
 
   /**
@@ -94,7 +94,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<Integer> integer(@NotNull final String path, final int def) {
-    return new BaseDefaultPath<>(def, new IntegerPath(path));
+    return new BaseDefaultPath<>(def, new BasePath<>(path));
   }
 
   /**
@@ -105,8 +105,33 @@ public final class Paths {
    * @return a newly created integer path.
    */
   @NotNull
-  public static IntegerPath integer(@NotNull final String path) {
-    return new IntegerPath(path);
+  public static ConfigPath<Integer> integer(@NotNull final String path) {
+    return new BasePath<>(path);
+  }
+
+  /**
+   * creates a locale path.
+   *
+   * @param path the path to create.
+   * @param def the default value to create.
+   *
+   * @return a newly created locale path.
+   */
+  @NotNull
+  public static DefaultPath<Locale> locale(@NotNull final String path, @NotNull final Locale def) {
+    return new BaseDefaultPath<>(def, new BaseAdvancedPath<>(path, Serializers.LOCALE_SERIALIZER));
+  }
+
+  /**
+   * creates a locale path.
+   *
+   * @param path the path to create.
+   *
+   * @return a newly created locale path.
+   */
+  @NotNull
+  public static ConfigPath<Locale> locale(@NotNull final String path) {
+    return new BaseAdvancedPath<>(path, Serializers.LOCALE_SERIALIZER);
   }
 
   /**
@@ -119,7 +144,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<String> string(@NotNull final String path, @NotNull final String def) {
-    return new BaseDefaultPath<>(def, new StringPath(path));
+    return new BaseDefaultPath<>(def, new BasePath<>(path));
   }
 
   /**
@@ -130,8 +155,8 @@ public final class Paths {
    * @return a newly created string path.
    */
   @NotNull
-  public static StringPath string(@NotNull final String path) {
-    return new StringPath(path);
+  public static ConfigPath<String> string(@NotNull final String path) {
+    return new BasePath<>(path);
   }
 
   /**
@@ -144,7 +169,7 @@ public final class Paths {
    */
   @NotNull
   public static DefaultPath<List<String>> stringList(@NotNull final String path, @NotNull final List<String> def) {
-    return new BaseDefaultPath<>(def, new StringListPath(path));
+    return new BaseDefaultPath<>(def, new BasePath<>(path));
   }
 
   /**
@@ -155,7 +180,7 @@ public final class Paths {
    * @return a newly created string list path.
    */
   @NotNull
-  public static StringListPath stringList(@NotNull final String path) {
-    return new StringListPath(path);
+  public static ConfigPath<List<String>> stringList(@NotNull final String path) {
+    return new BasePath<>(path);
   }
 }

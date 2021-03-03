@@ -28,6 +28,7 @@ package io.github.portlek.configs.paths;
 import io.github.portlek.configs.CommentPath;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -85,5 +86,16 @@ public final class BaseCommentPath<T> implements CommentPath<T> {
   @Override
   public String getPath() {
     return this.original.getPath();
+  }
+
+  @NotNull
+  @Override
+  public Optional<T> getValue() {
+    return this.original.getValue();
+  }
+
+  @Override
+  public void setValue(@NotNull final T value) {
+    this.original.setValue(value);
   }
 }
