@@ -40,7 +40,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -63,12 +62,6 @@ public final class ConfigLoader {
   private final ConfigType configType;
 
   /**
-   * the serializers.
-   */
-  @NotNull
-  private final List<FieldSerializer> fieldSerializers;
-
-  /**
    * the file name.
    */
   @NotNull
@@ -85,6 +78,12 @@ public final class ConfigLoader {
    */
   @Nullable
   private final Class<? extends ConfigHolder> pathHolder;
+
+  /**
+   * the serializers.
+   */
+  @NotNull
+  private final List<FieldSerializer> serializers;
 
   /**
    * the configuration.
@@ -217,7 +216,7 @@ public final class ConfigLoader {
    */
   private void load0() {
     if (this.pathHolder != null) {
-      this.fieldSerializers.forEach(serializer ->
+      this.serializers.forEach(serializer ->
         new ClassOf<>(this.pathHolder).getDeclaredFields().stream()
           .filter(field -> serializer.canLoad(this, field))
           .forEach(field -> serializer.onLoad(this, field)));
@@ -227,13 +226,14 @@ public final class ConfigLoader {
   /**
    * a class that represents class loader builders.
    */
+  @Getter
   public static final class Builder {
 
     /**
      * the serializers.
      */
     @NotNull
-    private final List<FieldSerializer> fieldSerializers = new ArrayList<>() {{
+    private final List<FieldSerializer> serializers = new ArrayList<>() {{
       this.add(new FsConfiguration());
       this.add(new FsConfigLoader());
       this.add(new FsPath());
@@ -273,13 +273,13 @@ public final class ConfigLoader {
     /**
      * adds serializers.
      *
-     * @param fieldSerializers the serializers to add.
+     * @param serializers the serializers to add.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder addSerializers(@NotNull final FieldSerializer... fieldSerializers) {
-      this.fieldSerializers.addAll(Arrays.asList(fieldSerializers));
+    public Builder addSerializers(@NotNull final FieldSerializer... serializers) {
+      this.serializers.addAll(Arrays.asList(serializers));
       return this;
     }
 
@@ -293,17 +293,7 @@ public final class ConfigLoader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.configType, this.fieldSerializers, this.fileName, this.folderPath, this.pathHolder);
-    }
-
-    /**
-     * obtains the config type.
-     *
-     * @return config type.
-     */
-    @Nullable
-    public ConfigType getConfigType() {
-      return this.configType;
+      return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.pathHolder, this.serializers);
     }
 
     /**
@@ -320,16 +310,6 @@ public final class ConfigLoader {
     }
 
     /**
-     * obtains the file name.
-     *
-     * @return file name.
-     */
-    @Nullable
-    public String getFileName() {
-      return this.fileName;
-    }
-
-    /**
      * sets the file name.
      *
      * @param fileName file name to set.
@@ -340,16 +320,6 @@ public final class ConfigLoader {
     public Builder setFileName(@NotNull final String fileName) {
       this.fileName = fileName;
       return this;
-    }
-
-    /**
-     * obtains the folder path.
-     *
-     * @return folder path.
-     */
-    @Nullable
-    public Path getFolderPath() {
-      return this.folderPath;
     }
 
     /**
@@ -378,16 +348,6 @@ public final class ConfigLoader {
     }
 
     /**
-     * obtains the path holder.
-     *
-     * @return path holder.
-     */
-    @Nullable
-    public Class<? extends ConfigHolder> getPathHolder() {
-      return this.pathHolder;
-    }
-
-    /**
      * sets the path holder.
      *
      * @param pathHolder the path holder to set.
@@ -398,16 +358,6 @@ public final class ConfigLoader {
     public Builder setPathHolder(@NotNull final Class<? extends ConfigHolder> pathHolder) {
       this.pathHolder = pathHolder;
       return this;
-    }
-
-    /**
-     * obtains the serializers.
-     *
-     * @return serializers.
-     */
-    @NotNull
-    public List<FieldSerializer> getSerializers() {
-      return Collections.unmodifiableList(this.fieldSerializers);
     }
   }
 }
