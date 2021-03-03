@@ -37,7 +37,7 @@ public final class FlFile implements FieldLoader {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return File.class.isAssignableFrom(field.getType());
+    return File.class == field.getType();
   }
 
   @Override

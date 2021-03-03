@@ -23,25 +23,26 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.annotation;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link FileConfiguration}.
+ * an annotation to define path of the value.
  */
-public final class FlConfiguration implements FieldLoader {
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Route {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FileConfiguration.class == field.getType();
-  }
-
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getConfiguration());
-  }
+  /**
+   * path of the value.
+   *
+   * @return path.
+   */
+  @NotNull
+  String value() default "";
 }

@@ -29,12 +29,15 @@ import static io.github.portlek.configs.util.Paths.locale;
 import static io.github.portlek.configs.util.Paths.string;
 import static io.github.portlek.configs.util.Paths.stringList;
 import static io.github.portlek.configs.util.Paths.uniqueId;
+import io.github.portlek.configs.annotation.Comment;
+import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.paths.def.LocaleDefaultPath;
 import io.github.portlek.configs.paths.def.StringDefaultPath;
 import io.github.portlek.configs.paths.def.StringListDefaultPath;
 import io.github.portlek.configs.paths.def.UniqueIdDefaultPath;
 import io.github.portlek.configs.yaml.YamlType;
+import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
@@ -50,9 +53,26 @@ public final class YamlTest {
       .setPathHolder(ConfigHolder0.class)
       .build()
       .load(true);
+    System.out.println(ConfigHolder0.configuration);
+    System.out.println(ConfigHolder0.loader);
+    System.out.println(ConfigHolder0.file);
+  }
+
+  private static final class ConfigHolder1 implements ConfigHolder {
+
+    @Route("test")
+    @Comment("test comment")
+    public static String test = "";
   }
 
   private static final class ConfigHolder0 implements ConfigHolder {
+
+    @Route("test")
+    @Comment("test comment")
+    public static String test = "";
+
+    @Route("section-1")
+    public static ConfigHolder1 section;
 
     public static final LocaleDefaultPath TEST_1 = locale("test-locale", Locale.ROOT);
 
@@ -77,6 +97,11 @@ public final class YamlTest {
 
     public static final StringDefaultPath TEST_9 = string("test-2.test-2", "test-3");
 
-    public static FileConfiguration CONFIGURATION;
+    public static FileConfiguration configuration;
+
+    public static File file;
+
+    public static ConfigLoader loader;
+
   }
 }

@@ -23,25 +23,23 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link FileConfiguration}.
+ * a class that represents string list.
  */
-public final class FlConfiguration implements FieldLoader {
+@RequiredArgsConstructor
+public final class StringList implements List<String> {
 
-  @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FileConfiguration.class == field.getType();
-  }
-
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getConfiguration());
-  }
+  /**
+   * the original.
+   */
+  @NotNull
+  @Delegate
+  private final List<String> original;
 }
