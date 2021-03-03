@@ -38,9 +38,11 @@ public final class LocaleSerializer implements ConfigurationSerializer<String, L
   @NotNull
   @Override
   public Optional<Locale> convertToFinal(@NotNull final String raw) {
-    return Optional.of(raw.trim().split("_"))
-      .filter(strings -> strings.length == 2)
-      .map(strings -> new Locale(strings[0], strings[1]));
+    final var strings = raw.trim().split("_");
+    if (strings.length != 2) {
+      return Optional.of(Locale.ROOT);
+    }
+    return Optional.of(new Locale(strings[0], strings[1]));
   }
 
   @NotNull
