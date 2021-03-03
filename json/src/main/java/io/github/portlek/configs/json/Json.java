@@ -37,6 +37,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * a class that represents json file configuration.
+ */
 public final class Json extends FileConfiguration {
 
   /**

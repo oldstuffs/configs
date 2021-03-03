@@ -38,6 +38,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * a class that represents yaml file configuration.
+ */
 public final class Yaml extends FileConfiguration {
 
   /**
