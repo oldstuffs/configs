@@ -25,23 +25,19 @@
 
 package io.github.portlek.configs.serializers;
 
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that contains all serializers.
  */
+@UtilityClass
 public final class Serializers {
 
   /**
    * the locale serializer.
    */
-  public static final LocaleSerializer LOCALE = new LocaleSerializer();
-
-  /**
-   * ctor.
-   */
-  private Serializers() {
-  }
+  public LocaleSerializer LOCALE = new LocaleSerializer();
 
   /**
    * creates a raw serializer instance.
@@ -49,7 +45,7 @@ public final class Serializers {
    * @return a newly created raw serializer.
    */
   @NotNull
-  public static <F> RawSerializer<F> raw() {
+  public <F> RawSerializer<F> raw() {
     return new RawSerializer<>();
   }
 }

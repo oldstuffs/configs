@@ -38,18 +38,14 @@ import io.github.portlek.configs.paths.raw.StringListPath;
 import io.github.portlek.configs.paths.raw.StringPath;
 import java.util.List;
 import java.util.Locale;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * a class that contains list of config path implementations.
  */
-public final class Paths {
-
-  /**
-   * ctor.
-   */
-  private Paths() {
-  }
+@UtilityClass
+public class Paths {
 
   /**
    * creates a boolean default path.
@@ -60,7 +56,7 @@ public final class Paths {
    * @return a newly created boolean default path.
    */
   @NotNull
-  public static BooleanDefaultPath bool(@NotNull final String path, final boolean def) {
+  public BooleanDefaultPath bool(@NotNull final String path, final boolean def) {
     return new BooleanDefaultPath(path, def);
   }
 
@@ -72,7 +68,7 @@ public final class Paths {
    * @return a newly created boolean path.
    */
   @NotNull
-  public static BooleanPath bool(@NotNull final String path) {
+  public BooleanPath bool(@NotNull final String path) {
     return new BooleanPath(path);
   }
 
@@ -85,7 +81,7 @@ public final class Paths {
    * @return boolean commented path.
    */
   @NotNull
-  public static BooleanCommentPath comment(@NotNull final BooleanPath path, @NotNull final String comment) {
+  public BooleanCommentPath comment(@NotNull final BooleanPath path, @NotNull final String comment) {
     return new BooleanCommentPath(path, comment);
   }
 
@@ -98,7 +94,7 @@ public final class Paths {
    * @return a newly created integer defaut path.
    */
   @NotNull
-  public static IntegerDefaultPath integer(@NotNull final String path, final int def) {
+  public IntegerDefaultPath integer(@NotNull final String path, final int def) {
     return new IntegerDefaultPath(path, def);
   }
 
@@ -110,7 +106,7 @@ public final class Paths {
    * @return a newly created integer path.
    */
   @NotNull
-  public static IntegerPath integer(@NotNull final String path) {
+  public IntegerPath integer(@NotNull final String path) {
     return new IntegerPath(path);
   }
 
@@ -123,7 +119,7 @@ public final class Paths {
    * @return a newly created locale path.
    */
   @NotNull
-  public static LocaleDefaultPath locale(@NotNull final String path, @NotNull final Locale def) {
+  public LocaleDefaultPath locale(@NotNull final String path, @NotNull final Locale def) {
     return new LocaleDefaultPath(path, def);
   }
 
@@ -135,7 +131,7 @@ public final class Paths {
    * @return a newly created locale path.
    */
   @NotNull
-  public static LocalePath locale(@NotNull final String path) {
+  public LocalePath locale(@NotNull final String path) {
     return new LocalePath(path);
   }
 
@@ -148,7 +144,7 @@ public final class Paths {
    * @return a newly created string default path.
    */
   @NotNull
-  public static StringDefaultPath string(@NotNull final String path, @NotNull final String def) {
+  public StringDefaultPath string(@NotNull final String path, @NotNull final String def) {
     return new StringDefaultPath(path, def);
   }
 
@@ -160,7 +156,7 @@ public final class Paths {
    * @return a newly created string path.
    */
   @NotNull
-  public static StringPath string(@NotNull final String path) {
+  public StringPath string(@NotNull final String path) {
     return new StringPath(path);
   }
 
@@ -173,7 +169,7 @@ public final class Paths {
    * @return a newly created string list path.
    */
   @NotNull
-  public static StringListDefaultPath stringList(@NotNull final String path, @NotNull final List<String> def) {
+  public StringListDefaultPath stringList(@NotNull final String path, @NotNull final List<String> def) {
     return new StringListDefaultPath(path, def);
   }
 
@@ -185,7 +181,7 @@ public final class Paths {
    * @return a newly created string list path.
    */
   @NotNull
-  public static StringListPath stringList(@NotNull final String path) {
+  public StringListPath stringList(@NotNull final String path) {
     return new StringListPath(path);
   }
 }
