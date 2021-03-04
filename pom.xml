@@ -12,7 +12,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>configs-parent</name>
   <packaging>pom</packaging>
-  <description>Annotation based configuration library for any Java project.</description>
+  <description>A config project that uses jackson to create simple configuration files.</description>
   <url>https://github.com/portlek/configs</url>
   <scm>
     <url>https://github.com/portlek/configs</url>
