@@ -28,13 +28,14 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import io.github.portlek.configs.loaders.FieldLoader;
+import io.github.portlek.configs.loaders.FlConfigHolder;
 import io.github.portlek.configs.loaders.FlConfigLoader;
 import io.github.portlek.configs.loaders.FlConfiguration;
+import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
 import io.github.portlek.configs.loaders.FlPath;
 import io.github.portlek.configs.loaders.FlRawField;
 import io.github.portlek.configs.util.Validate;
-import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -44,6 +45,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -78,7 +80,7 @@ public final class ConfigLoader {
    * the loaders.
    */
   @NotNull
-  private final List<FieldLoader> loaders;
+  private final List<Supplier<? extends FieldLoader>> loaders;
 
   /**
    * the class path holder.
@@ -217,10 +219,7 @@ public final class ConfigLoader {
    */
   private void load0() {
     if (this.pathHolder != null) {
-      this.loaders.forEach(loader ->
-        new ClassOf<>(this.pathHolder).getDeclaredFields().stream()
-          .filter(field -> loader.canLoad(this, field))
-          .forEach(field -> loader.onLoad(this, field)));
+      FieldLoader.load(this, this.pathHolder, this.loaders);
     }
   }
 
@@ -234,12 +233,14 @@ public final class ConfigLoader {
      * the loaders.
      */
     @NotNull
-    private final List<FieldLoader> loaders = new ArrayList<>() {{
-      this.add(new FlConfiguration());
-      this.add(new FlConfigLoader());
-      this.add(new FlPath());
-      this.add(new FlFile());
+    private final List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
+      this.add(FlConfigurationSection.INSTANCE);
+      this.add(FlConfiguration.INSTANCE);
+      this.add(FlConfigHolder.INSTANCE);
+      this.add(FlConfigLoader.INSTANCE);
       this.add(FlRawField.INSTANCE);
+      this.add(FlPath.INSTANCE);
+      this.add(FlFile.INSTANCE);
     }};
 
     /**
@@ -279,8 +280,9 @@ public final class ConfigLoader {
      *
      * @return {@code this} for builder chain.
      */
+    @SafeVarargs
     @NotNull
-    public Builder addLoaders(@NotNull final FieldLoader... loaders) {
+    public final Builder addLoaders(@NotNull final Supplier<? extends FieldLoader>... loaders) {
       this.loaders.addAll(Arrays.asList(loaders));
       return this;
     }

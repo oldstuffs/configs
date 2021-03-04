@@ -23,23 +23,50 @@
  *
  */
 
-package io.github.portlek.configs.util;
+package io.github.portlek.configs.loaders;
 
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.reflection.RefField;
+import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents string list.
+ * an abstract class that represents base file loaders.
  */
-@RequiredArgsConstructor
-public final class StringList implements List<String> {
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+abstract class BaseFileLoader implements FieldLoader {
 
   /**
-   * the original.
+   * the parent field.
+   */
+  @Nullable
+  @Setter
+  @Getter
+  private RefField parentField;
+
+  /**
+   * the parent section.
+   */
+  @Nullable
+  @Setter
+  @Getter
+  private ConfigurationSection section;
+
+  /**
+   * obtains the section.
+   *
+   * @param loader the loader to get fallback.
+   *
+   * @return current section.
    */
   @NotNull
-  @Delegate
-  private final List<String> original;
+  final ConfigurationSection getSection(@NotNull final ConfigLoader loader) {
+    return Objects.requireNonNullElseGet(this.section, loader::getConfiguration);
+  }
 }

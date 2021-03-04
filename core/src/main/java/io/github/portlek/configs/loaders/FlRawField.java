@@ -25,84 +25,71 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.annotation.Comment;
 import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.util.StringList;
 import io.github.portlek.reflection.RefField;
-import java.lang.reflect.Field;
 import java.util.List;
-import lombok.Setter;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize raw fields.
  */
-public final class FlRawField implements FieldLoader {
+@SuppressWarnings("rawtypes")
+public final class FlRawField extends BaseFileLoader {
 
   /**
    * the instance.
    */
-  public static final FlRawField INSTANCE = new FlRawField();
+  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
+
+  /**
+   * the generic classes.
+   */
+  private static final List<Class<?>> GENERICS = List.of(List.class);
 
   /**
    * the raw classes.
    */
   private static final List<Class<?>> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
-    boolean.class, StringList.class, ConfigHolder.class);
-
-  /**
-   * the parent field.
-   */
-  @Nullable
-  @Setter
-  private Field parentField;
-
-  /**
-   * the parent section.
-   */
-  @Nullable
-  @Setter
-  private ConfigurationSection parentSection;
+    boolean.class);
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlRawField.RAWS.contains(field.getType());
+    return FlRawField.RAWS.contains(field.getType()) ||
+      FlRawField.GENERICS.contains(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    if (ConfigHolder.class.isAssignableFrom(field.getType())) {
-      this.loadSection(loader, field);
-    } else {
-      this.loadRawField(loader, field);
-    }
-  }
-
-  /**
-   * loads the raw field.
-   *
-   * @param loader the loader to load.
-   * @param field the field to load.
-   */
-  private void loadRawField(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());
-    @Nullable final var comment = field.getAnnotation(Comment.class)
-      .map(Comment::value)
-      .orElse(null);
-  }
+    final var value = field.getValue();
+    final var section = this.getSection(loader);
+    final var valueAtPath = section.get(path);
+    if (value.isPresent() && valueAtPath == null) {
+      section.set(path, value);
+      return;
+    }
+    if (value.isPresent()) {
+      return;
+    }
+    if (valueAtPath == null) {
+      return;
+    }
+    if (!FlRawField.GENERICS.contains(field.getType())) {
+      field.setValue(valueAtPath);
+      return;
+    }
+    if (valueAtPath instanceof List) {
+      final var list = (List) valueAtPath;
+      if (!list.isEmpty()) {
+        final var listObject = list.get(0);
+        if (FlRawField.RAWS.contains(listObject.getClass())) {
 
-  /**
-   * loads the config holder as a configuration section.
-   *
-   * @param loader the loader to load.
-   * @param field the field to load.
-   */
-  private void loadSection(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+        }
+      }
+    }
   }
 }

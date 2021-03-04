@@ -27,18 +27,15 @@ package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.reflection.RefField;
-import java.lang.reflect.Field;
 import java.util.function.Supplier;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize {@link ConfigLoader}.
+ * an implementation to serialize {@link FileConfiguration}.
  */
-public final class FlConfigLoader extends BaseFileLoader {
+public final class FlConfigurationSection extends BaseFileLoader {
 
   /**
    * the instance.
@@ -46,17 +43,17 @@ public final class FlConfigLoader extends BaseFileLoader {
   public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
 
   /**
-   * the loader class.
+   * the section class.
    */
-  private static final Class<ConfigLoader> LOADER_CLASS = ConfigLoader.class;
+  private static final Class<ConfigurationSection> SECTION_CLASS = ConfigurationSection.class;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlConfigLoader.LOADER_CLASS == field.getType();
+    return FlConfigurationSection.SECTION_CLASS == field.getType();
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader);
+    field.setValue(this.getSection(loader));
   }
 }

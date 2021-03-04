@@ -25,20 +25,17 @@
 
 package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
-import java.lang.reflect.Field;
 import java.util.function.Supplier;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize {@link ConfigLoader}.
+ * an implementation to serialize raw fields.
  */
-public final class FlConfigLoader extends BaseFileLoader {
+public final class FlConfigHolder extends BaseFileLoader {
 
   /**
    * the instance.
@@ -46,17 +43,25 @@ public final class FlConfigLoader extends BaseFileLoader {
   public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
 
   /**
-   * the loader class.
+   * the holder class.
    */
-  private static final Class<ConfigLoader> LOADER_CLASS = ConfigLoader.class;
+  private static final Class<ConfigHolder> HOLDER_CLASS = ConfigHolder.class;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlConfigLoader.LOADER_CLASS == field.getType();
+    return FlConfigHolder.HOLDER_CLASS.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader);
+    //noinspection unchecked
+    FieldLoader.load(
+      loader,
+      (Class<? extends ConfigHolder>) field.getType(),
+      loader.getLoaders(),
+      field,
+      this.getSection(loader).createSection(field.getAnnotation(Route.class)
+        .map(Route::value)
+        .orElse(field.getName())));
   }
 }
