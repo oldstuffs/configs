@@ -154,28 +154,31 @@ public final class FlRawField extends BaseFileLoader {
     final var valueAtPath = section.get(path);
     final var fieldType = field.getType();
     if (fieldValue.isEmpty()) {
-      if (valueAtPath != null) {
-        if (FlRawField.GENERICS.contains(fieldType)) {
-          FlRawField.loadList(valueAtPath, field);
-          FlRawField.loadMap(valueAtPath, field);
-        } else {
-          field.setValue(valueAtPath);
-        }
+      if (valueAtPath == null) {
+        return;
       }
-    } else if (valueAtPath == null) {
-      section.set(path, fieldValue.get());
-    } else {
       if (FlRawField.GENERICS.contains(fieldType)) {
         FlRawField.loadList(valueAtPath, field);
         FlRawField.loadMap(valueAtPath, field);
       } else {
-        final var converted = FlRawField.convertFieldType(field, valueAtPath);
-        if (converted == null) {
-          section.set(path, fieldValue.get());
-        } else {
-          field.setValue(converted);
-        }
+        field.setValue(valueAtPath);
       }
+      return;
+    }
+    if (valueAtPath == null) {
+      section.set(path, fieldValue.get());
+      return;
+    }
+    if (FlRawField.GENERICS.contains(fieldType)) {
+      FlRawField.loadList(valueAtPath, field);
+      FlRawField.loadMap(valueAtPath, field);
+      return;
+    }
+    final var converted = FlRawField.convertFieldType(field, valueAtPath);
+    if (converted == null) {
+      section.set(path, fieldValue.get());
+    } else {
+      field.setValue(converted);
     }
   }
 }
