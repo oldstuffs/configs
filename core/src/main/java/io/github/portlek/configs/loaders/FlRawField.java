@@ -29,6 +29,7 @@ import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,13 +47,63 @@ public final class FlRawField extends BaseFileLoader {
   /**
    * the generic classes.
    */
-  private static final List<Class<?>> GENERICS = List.of(List.class);
+  private static final List<Class<?>> GENERICS = List.of(List.class, Map.class);
 
   /**
    * the raw classes.
    */
   private static final List<Class<?>> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
     boolean.class);
+
+  /**
+   * loads list.
+   *
+   * @param valueAtPath the value at path.
+   * @param field the field.
+   */
+  private static void loadList(@NotNull final Object valueAtPath, @NotNull final RefField field) {
+    if (!(valueAtPath instanceof List)) {
+      return;
+    }
+    final var list = (List) valueAtPath;
+    if (list.isEmpty()) {
+      return;
+    }
+    final var listObject = list.get(0);
+    if (!FlRawField.RAWS.contains(listObject.getClass())) {
+      return;
+    }
+    try {
+      field.setValue(list);
+    } catch (final Throwable t) {
+      t.printStackTrace();
+    }
+  }
+
+  /**
+   * loads map.
+   *
+   * @param valueAtPath the value at path.
+   * @param field the field.
+   */
+  private static void loadMap(@NotNull final Object valueAtPath, @NotNull final RefField field) {
+    if (!(valueAtPath instanceof Map)) {
+      return;
+    }
+    final var map = (Map) valueAtPath;
+    if (map.isEmpty()) {
+      return;
+    }
+    final var mapObject = map.entrySet().toArray()[0];
+    if (!FlRawField.RAWS.contains(mapObject.getClass())) {
+      return;
+    }
+    try {
+      field.setValue(map);
+    } catch (final Throwable t) {
+      t.printStackTrace();
+    }
+  }
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
@@ -72,24 +123,14 @@ public final class FlRawField extends BaseFileLoader {
       section.set(path, value);
       return;
     }
-    if (value.isPresent()) {
-      return;
-    }
-    if (valueAtPath == null) {
+    if (value.isPresent() || valueAtPath == null) {
       return;
     }
     if (!FlRawField.GENERICS.contains(field.getType())) {
       field.setValue(valueAtPath);
       return;
     }
-    if (valueAtPath instanceof List) {
-      final var list = (List) valueAtPath;
-      if (!list.isEmpty()) {
-        final var listObject = list.get(0);
-        if (FlRawField.RAWS.contains(listObject.getClass())) {
-
-        }
-      }
-    }
+    FlRawField.loadList(valueAtPath, field);
+    FlRawField.loadMap(valueAtPath, field);
   }
 }
