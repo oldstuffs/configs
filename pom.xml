@@ -28,11 +28,6 @@
       <artifactId>reflection</artifactId>
       <version>4.0.11</version>
     </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.12.2</version>
-    </dependency>
   </dependencies>
   <modules>
     <module>core</module>
