@@ -28,6 +28,8 @@ package io.github.portlek.configs.loaders;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -67,6 +69,11 @@ public final class FlRawField extends BaseFileLoader {
     }
     final var list = (List) valueAtPath;
     if (list.isEmpty()) {
+      try {
+        field.setValue(new ArrayList());
+      } catch (final Throwable t) {
+        t.printStackTrace();
+      }
       return;
     }
     final var listObject = list.get(0);
@@ -92,6 +99,11 @@ public final class FlRawField extends BaseFileLoader {
     }
     final var map = (Map) valueAtPath;
     if (map.isEmpty()) {
+      try {
+        field.setValue(new HashMap());
+      } catch (final Throwable t) {
+        t.printStackTrace();
+      }
       return;
     }
     final var mapObject = map.entrySet().toArray()[0];
