@@ -23,41 +23,40 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigPath;
-import java.util.Locale;
-import java.util.Optional;
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.reflection.RefField;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation for {@link ConfigurationSerializer} of {@link Locale}.
+ * an implementation to serialize raw fields.
  */
-public final class LocaleSerializer implements ConfigurationSerializer<String, Locale> {
+public final class FlConfigHolder extends BaseFileLoader {
 
-  @NotNull
+  /**
+   * the instance.
+   */
+  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
+
   @Override
-  public Optional<Locale> convertToFinal(@NotNull final String raw) {
-    final var trim = raw.trim();
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Optional.of(Locale.ROOT);
-    }
-    if (strings.length != 2) {
-      return Optional.empty();
-    }
-    return Optional.of(new Locale(strings[0], strings[1]));
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return ConfigHolder.class.isAssignableFrom(field.getType());
   }
 
-  @NotNull
   @Override
-  public Optional<String> convertToRaw(@NotNull final Locale fnl) {
-    return Optional.of(fnl.getLanguage() + "_" + fnl.getCountry());
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> getRaw(@NotNull final ConfigPath<String, Locale> path) {
-    return Optional.ofNullable(path.getSection().getString(path.getPath()));
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    //noinspection unchecked
+    FieldLoader.load(
+      loader,
+      (Class<? extends ConfigHolder>) field.getType(),
+      loader.getLoaders(),
+      field,
+      this.getSection(loader).createSection(field.getAnnotation(Route.class)
+        .map(Route::value)
+        .orElse(field.getName())));
   }
 }

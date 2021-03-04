@@ -28,16 +28,22 @@ package io.github.portlek.configs.loaders;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.reflection.RefField;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an implementation to serialize {@link FileConfiguration}.
  */
-public final class FlConfiguration implements FieldLoader {
+public final class FlConfiguration extends BaseFileLoader {
+
+  /**
+   * the instance.
+   */
+  public static final Supplier<FlConfiguration> INSTANCE = FlConfiguration::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FileConfiguration.class.isAssignableFrom(field.getType());
+    return FileConfiguration.class == field.getType();
   }
 
   @Override

@@ -30,4 +30,9 @@ package io.github.portlek.configs;
  */
 public interface ConfigHolder {
 
+  /**
+   * runs after the config loading complete.
+   */
+  default void onLoad() {
+  }
 }

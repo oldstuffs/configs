@@ -23,41 +23,50 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigPath;
-import java.util.Locale;
-import java.util.Optional;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.reflection.RefField;
+import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation for {@link ConfigurationSerializer} of {@link Locale}.
+ * an abstract class that represents base file loaders.
  */
-public final class LocaleSerializer implements ConfigurationSerializer<String, Locale> {
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+abstract class BaseFileLoader implements FieldLoader {
 
-  @NotNull
-  @Override
-  public Optional<Locale> convertToFinal(@NotNull final String raw) {
-    final var trim = raw.trim();
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Optional.of(Locale.ROOT);
-    }
-    if (strings.length != 2) {
-      return Optional.empty();
-    }
-    return Optional.of(new Locale(strings[0], strings[1]));
-  }
+  /**
+   * the parent field.
+   */
+  @Nullable
+  @Setter
+  @Getter
+  private RefField parentField;
 
-  @NotNull
-  @Override
-  public Optional<String> convertToRaw(@NotNull final Locale fnl) {
-    return Optional.of(fnl.getLanguage() + "_" + fnl.getCountry());
-  }
+  /**
+   * the parent section.
+   */
+  @Nullable
+  @Setter
+  @Getter
+  private ConfigurationSection section;
 
+  /**
+   * obtains the section.
+   *
+   * @param loader the loader to get fallback.
+   *
+   * @return current section.
+   */
   @NotNull
-  @Override
-  public Optional<String> getRaw(@NotNull final ConfigPath<String, Locale> path) {
-    return Optional.ofNullable(path.getSection().getString(path.getPath()));
+  final ConfigurationSection getSection(@NotNull final ConfigLoader loader) {
+    return Objects.requireNonNullElseGet(this.section, loader::getConfiguration);
   }
 }

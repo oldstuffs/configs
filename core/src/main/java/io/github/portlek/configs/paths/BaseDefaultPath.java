@@ -25,10 +25,9 @@
 
 package io.github.portlek.configs.paths;
 
-import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
 import io.github.portlek.configs.DefaultPath;
-import java.util.Optional;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
@@ -66,50 +65,23 @@ public final class BaseDefaultPath<R, F> implements DefaultPath<R, F> {
     return this.def;
   }
 
-  /**
-   * obtains the value, if it's null returns the default value.
-   *
-   * @return value or default value.
-   */
-  @NotNull
   @Override
-  public F getValueOrDefault() {
-    return this.original.getValue().orElse(this.getDefault());
-  }
-
-  @Override
-  public void setLoader(@NotNull final ConfigLoader loader) {
-    this.original.setLoader(loader);
+  public void setSection(@NotNull final ConfigurationSection section) {
+    this.original.setSection(section);
     this.original.convertToRaw(this.getDefault()).ifPresent(r ->
-      this.getConfig().addDefault(this.getPath(), r));
-  }
-
-  @NotNull
-  @Override
-  public Optional<F> getValue() {
-    return Optional.of(this.getValueOrDefault());
+      this.getSection().addDefault(this.getPath(), r));
   }
 
   /**
    * an interface to determine delegate exclusions for default path.
    */
-  private final class Exclusions {
+  private interface Exclusions {
 
     /**
-     * obtains the value.
+     * sets the section.
      *
-     * @return value.
+     * @param section the section to set.
      */
-    public Optional<F> getValue() {
-      return Optional.empty();
-    }
-
-    /**
-     * sets the loader.
-     *
-     * @param loader the loader to set.
-     */
-    public void setLoader(@NotNull final ConfigLoader loader) {
-    }
+    void setSection(@NotNull final ConfigurationSection section);
   }
 }

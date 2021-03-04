@@ -23,41 +23,32 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigPath;
-import java.util.Locale;
-import java.util.Optional;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.reflection.RefField;
+import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation for {@link ConfigurationSerializer} of {@link Locale}.
+ * an implementation to serialize {@link FileConfiguration}.
  */
-public final class LocaleSerializer implements ConfigurationSerializer<String, Locale> {
+public final class FlConfigurationSection extends BaseFileLoader {
 
-  @NotNull
+  /**
+   * the instance.
+   */
+  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
+
   @Override
-  public Optional<Locale> convertToFinal(@NotNull final String raw) {
-    final var trim = raw.trim();
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Optional.of(Locale.ROOT);
-    }
-    if (strings.length != 2) {
-      return Optional.empty();
-    }
-    return Optional.of(new Locale(strings[0], strings[1]));
+  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    return ConfigurationSection.class == field.getType();
   }
 
-  @NotNull
   @Override
-  public Optional<String> convertToRaw(@NotNull final Locale fnl) {
-    return Optional.of(fnl.getLanguage() + "_" + fnl.getCountry());
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> getRaw(@NotNull final ConfigPath<String, Locale> path) {
-    return Optional.ofNullable(path.getSection().getString(path.getPath()));
+  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    field.setValue(this.getSection(loader));
   }
 }

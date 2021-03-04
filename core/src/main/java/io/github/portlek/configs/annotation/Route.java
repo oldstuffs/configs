@@ -23,41 +23,26 @@
  *
  */
 
-package io.github.portlek.configs.serializers;
+package io.github.portlek.configs.annotation;
 
-import io.github.portlek.configs.ConfigPath;
-import java.util.Locale;
-import java.util.Optional;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation for {@link ConfigurationSerializer} of {@link Locale}.
+ * an annotation to define path of the value.
  */
-public final class LocaleSerializer implements ConfigurationSerializer<String, Locale> {
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Route {
 
+  /**
+   * path of the value.
+   *
+   * @return path.
+   */
   @NotNull
-  @Override
-  public Optional<Locale> convertToFinal(@NotNull final String raw) {
-    final var trim = raw.trim();
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Optional.of(Locale.ROOT);
-    }
-    if (strings.length != 2) {
-      return Optional.empty();
-    }
-    return Optional.of(new Locale(strings[0], strings[1]));
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> convertToRaw(@NotNull final Locale fnl) {
-    return Optional.of(fnl.getLanguage() + "_" + fnl.getCountry());
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> getRaw(@NotNull final ConfigPath<String, Locale> path) {
-    return Optional.ofNullable(path.getSection().getString(path.getPath()));
-  }
+  String value() default "";
 }
