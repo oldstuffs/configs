@@ -82,6 +82,6 @@ public final class BaseDefaultPath<R, F> implements DefaultPath<R, F> {
      *
      * @param section the section to set.
      */
-    void setConfig(@NotNull final ConfigurationSection section);
+    void setSection(@NotNull final ConfigurationSection section);
   }
 }
