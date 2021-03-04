@@ -130,7 +130,9 @@ public final class FlRawField extends BaseFileLoader {
       return;
     }
     final var mapObject = map.entrySet().toArray()[0];
-    if (!FlRawField.RAWS.contains(mapObject.getClass())) {
+    final var mapObjectClass = mapObject.getClass();
+    if (!FlRawField.RAWS.contains(mapObjectClass) &&
+      !FlRawField.GENERICS.contains(mapObjectClass)) {
       return;
     }
     try {
