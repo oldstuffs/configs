@@ -33,6 +33,7 @@ import io.github.portlek.configs.paths.def.LocaleDefaultPath;
 import io.github.portlek.configs.yaml.YamlType;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Locale;
 
 public final class YamlTest {
@@ -62,8 +63,9 @@ public final class YamlTest {
 
     public static ConfigurationSection section;
 
-    @Route("test")
     public static String test = "test";
+
+    public static List<String> testList = List.of();
   }
 
   private static final class ConfigHolder1 implements ConfigHolder {
@@ -78,7 +80,8 @@ public final class YamlTest {
 
     public static ConfigurationSection section;
 
-    @Route("test")
     public static String test = "test section";
+
+    public static List<String> testList = List.of();
   }
 }
