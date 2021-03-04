@@ -39,16 +39,11 @@ public final class FlConfiguration extends BaseFileLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
-
-  /**
-   * the configuration class.
-   */
-  private static final Class<FileConfiguration> CONFIGURATION_CLASS = FileConfiguration.class;
+  public static final Supplier<FlConfiguration> INSTANCE = FlConfiguration::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlConfiguration.CONFIGURATION_CLASS == field.getType();
+    return FileConfiguration.class == field.getType();
   }
 
   @Override

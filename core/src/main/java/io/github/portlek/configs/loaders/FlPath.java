@@ -27,38 +27,32 @@ package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize {@link ConfigPath}.
  */
-@SuppressWarnings("rawtypes")
 public final class FlPath extends BaseFileLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
-
-  /**
-   * the path class.
-   */
-  private static final Class<ConfigPath> PATH_CLASS = ConfigPath.class;
+  public static final Supplier<FlPath> INSTANCE = FlPath::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlPath.PATH_CLASS.isAssignableFrom(field.getType());
+    return ConfigPath.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
     field.getValue()
-      .ifPresent(pth -> ((ConfigPath) pth).setLoader(loader));
+      .map(o -> (ConfigPath<?, ?>) o)
+      .ifPresent(pth -> {
+        pth.setLoader(loader);
+        pth.setSection(this.getSection(loader));
+      });
   }
 }

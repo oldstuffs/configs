@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -58,16 +58,6 @@ public interface ConfigPath<R, F> {
   Optional<R> convertToRaw(@NotNull F fnl);
 
   /**
-   * obtains the config.
-   *
-   * @return config.
-   */
-  @NotNull
-  default FileConfiguration getConfig() {
-    return this.getLoader().getConfiguration();
-  }
-
-  /**
    * obtains the loader.
    *
    * @return loader.
@@ -97,6 +87,21 @@ public interface ConfigPath<R, F> {
    */
   @NotNull
   Optional<R> getRaw();
+
+  /**
+   * obtains the config.
+   *
+   * @return config.
+   */
+  @NotNull
+  ConfigurationSection getSection();
+
+  /**
+   * sets the section.
+   *
+   * @param section the section to set.
+   */
+  void setSection(@NotNull ConfigurationSection section);
 
   /**
    * obtains the value.

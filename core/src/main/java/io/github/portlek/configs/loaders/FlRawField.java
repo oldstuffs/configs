@@ -44,17 +44,17 @@ public final class FlRawField extends BaseFileLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
+  public static final Supplier<FlRawField> INSTANCE = FlRawField::new;
 
   /**
    * the generic classes.
    */
-  private static final List<Class<?>> GENERICS = List.of(List.class, Map.class);
+  private static final List<Class> GENERICS = List.of(List.class, Map.class);
 
   /**
    * the raw classes.
    */
-  private static final List<Class<?>> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
+  private static final List<Class> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
     boolean.class);
 
   /**
@@ -132,7 +132,7 @@ public final class FlRawField extends BaseFileLoader {
     final var section = this.getSection(loader);
     final var valueAtPath = section.get(path);
     if (value.isPresent() && valueAtPath == null) {
-      section.set(path, value);
+      section.set(path, value.get());
       return;
     }
     if (value.isPresent() || valueAtPath == null) {

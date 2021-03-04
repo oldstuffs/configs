@@ -42,14 +42,9 @@ public final class FlConfigHolder extends BaseFileLoader {
    */
   public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
 
-  /**
-   * the holder class.
-   */
-  private static final Class<ConfigHolder> HOLDER_CLASS = ConfigHolder.class;
-
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlConfigHolder.HOLDER_CLASS.isAssignableFrom(field.getType());
+    return ConfigHolder.class.isAssignableFrom(field.getType());
   }
 
   @Override

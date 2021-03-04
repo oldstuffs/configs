@@ -40,16 +40,11 @@ public final class FlConfigurationSection extends BaseFileLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
-
-  /**
-   * the section class.
-   */
-  private static final Class<ConfigurationSection> SECTION_CLASS = ConfigurationSection.class;
+  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return FlConfigurationSection.SECTION_CLASS == field.getType();
+    return ConfigurationSection.class == field.getType();
   }
 
   @Override

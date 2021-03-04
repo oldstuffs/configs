@@ -26,7 +26,6 @@
 package io.github.portlek.configs.serializers;
 
 import io.github.portlek.configs.ConfigPath;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
@@ -59,6 +58,6 @@ public final class LocaleSerializer implements ConfigurationSerializer<String, L
   @NotNull
   @Override
   public Optional<String> getRaw(@NotNull final ConfigPath<String, Locale> path) {
-    return Optional.ofNullable(path.getConfig().getString(path.getPath()));
+    return Optional.ofNullable(path.getSection().getString(path.getPath()));
   }
 }

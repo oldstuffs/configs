@@ -54,6 +54,6 @@ public final class UniqueIdSerializer implements ConfigurationSerializer<String,
   @NotNull
   @Override
   public Optional<String> getRaw(@NotNull final ConfigPath<String, UUID> path) {
-    return Optional.ofNullable(path.getConfig().getString(path.getPath()));
+    return Optional.ofNullable(path.getSection().getString(path.getPath()));
   }
 }

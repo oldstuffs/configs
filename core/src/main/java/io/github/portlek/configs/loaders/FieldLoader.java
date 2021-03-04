@@ -91,10 +91,11 @@ public interface FieldLoader {
   static void load(@NotNull final ConfigLoader configLoader, @NotNull final Class<? extends ConfigHolder> holderClass,
                    @NotNull final List<Supplier<? extends FieldLoader>> suppliers, @Nullable final RefField parentField,
                    @Nullable final ConfigurationSection section) {
-    FieldLoader.createLoaders(suppliers, parentField, section).forEach(loader ->
-      new ClassOf<>(holderClass).getDeclaredFields().stream()
-        .filter(field -> loader.canLoad(configLoader, field))
-        .forEach(field -> loader.onLoad(configLoader, field)));
+    final var loaders = FieldLoader.createLoaders(suppliers, parentField, section);
+    new ClassOf<>(holderClass).getDeclaredFields().forEach(field -> loaders.stream()
+      .filter(loader -> loader.canLoad(configLoader, field))
+      .findFirst()
+      .ifPresent(loader -> loader.onLoad(configLoader, field)));
   }
 
   /**

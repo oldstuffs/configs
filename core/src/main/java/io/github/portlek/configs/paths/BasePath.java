@@ -27,6 +27,7 @@ package io.github.portlek.configs.paths;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.serializers.ConfigurationSerializer;
 import java.util.Objects;
 import java.util.Optional;
@@ -72,6 +73,13 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
   @Setter
   private ConfigLoader loader;
 
+  /**
+   * the section.
+   */
+  @Nullable
+  @Setter
+  private ConfigurationSection section;
+
   @NotNull
   @Override
   public Optional<F> convertToFinal(@NotNull final R raw) {
@@ -99,8 +107,15 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
 
   @NotNull
   @Override
+  public ConfigurationSection getSection() {
+    return Objects.requireNonNull(this.section,
+      "Use ConfigLoader#load() method before use the #getSection() method!");
+  }
+
+  @NotNull
+  @Override
   public Optional<F> getValue() {
-    final var value = this.getConfig().get(this.getPath());
+    final var value = this.getSection().get(this.getPath());
     try {
       if (value == null || !this.rawType.isAssignableFrom(value.getClass())) {
         return Optional.empty();
@@ -116,6 +131,6 @@ public final class BasePath<R, F> implements ConfigPath<R, F> {
   @Override
   public void setValue(@NotNull final F value) {
     this.convertToRaw(value).ifPresent(r ->
-      this.getConfig().set(this.getPath(), r));
+      this.getSection().set(this.getPath(), r));
   }
 }

@@ -26,7 +26,6 @@
 package io.github.portlek.configs;
 
 import static io.github.portlek.configs.util.Paths.locale;
-import io.github.portlek.configs.annotation.Comment;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
@@ -46,9 +45,6 @@ public final class YamlTest {
       .setPathHolder(ConfigHolder0.class)
       .build()
       .load(true);
-    System.out.println(ConfigHolder0.configuration);
-    System.out.println(ConfigHolder0.loader);
-    System.out.println(ConfigHolder0.file);
   }
 
   private static final class ConfigHolder0 implements ConfigHolder {
@@ -67,8 +63,7 @@ public final class YamlTest {
     public static ConfigurationSection section;
 
     @Route("test")
-    @Comment("test comment")
-    public static String test = "";
+    public static String test = "test";
   }
 
   private static final class ConfigHolder1 implements ConfigHolder {
@@ -84,7 +79,6 @@ public final class YamlTest {
     public static ConfigurationSection section;
 
     @Route("test")
-    @Comment("test comment")
-    public static String test = "";
+    public static String test = "test section";
   }
 }
