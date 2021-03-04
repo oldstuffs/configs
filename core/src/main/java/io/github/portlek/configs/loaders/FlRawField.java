@@ -98,7 +98,9 @@ public final class FlRawField extends BaseFileLoader {
       return;
     }
     final var listObject = list.get(0);
-    if (!FlRawField.RAWS.contains(listObject.getClass())) {
+    final var listObjectClass = listObject.getClass();
+    if (!FlRawField.RAWS.contains(listObjectClass) &&
+      !FlRawField.GENERICS.contains(listObjectClass)) {
       return;
     }
     try {
