@@ -25,16 +25,13 @@
 
 package io.github.portlek.configs;
 
-import static io.github.portlek.configs.util.Paths.locale;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.configs.paths.def.LocaleDefaultPath;
 import io.github.portlek.configs.yaml.YamlType;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Locale;
 
 public final class YamlTest {
 
@@ -50,15 +47,12 @@ public final class YamlTest {
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    public static final LocaleDefaultPath path = locale("test-locale", Locale.US);
-
     public static FileConfiguration configuration;
 
     public static File file;
 
     public static ConfigLoader loader;
 
-    @Route("section-1")
     public static ConfigHolder1 parentSection;
 
     public static ConfigurationSection section;
@@ -68,9 +62,8 @@ public final class YamlTest {
     public static List<String> testList = List.of();
   }
 
+  @Route("section-2")
   private static final class ConfigHolder1 implements ConfigHolder {
-
-    public static final LocaleDefaultPath path = locale("test-locale", Locale.US);
 
     public static FileConfiguration configuration;
 

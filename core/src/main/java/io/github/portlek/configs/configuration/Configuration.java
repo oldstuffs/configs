@@ -26,6 +26,7 @@
 package io.github.portlek.configs.configuration;
 
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Represents a source of configurable options and settings
@@ -45,7 +46,7 @@ public interface Configuration extends ConfigurationSection {
    * @throws IllegalArgumentException Thrown if path is null.
    */
   @Override
-  void addDefault(String path, Object value);
+  void addDefault(@NotNull String path, Object value);
 
   /**
    * Sets the default values of the given paths as provided.

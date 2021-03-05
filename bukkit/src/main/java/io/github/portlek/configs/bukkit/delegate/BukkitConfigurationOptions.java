@@ -23,34 +23,21 @@
  *
  */
 
-package io.github.portlek.configs.paths.raw;
+package io.github.portlek.configs.bukkit.delegate;
 
-import io.github.portlek.configs.RawPath;
-import io.github.portlek.configs.paths.BaseRawPath;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.ConfigurationOptions;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * a class that represents raw string list path.
- */
-@RequiredArgsConstructor
-public final class StringListPath implements RawPath<List<String>> {
+public final class BukkitConfigurationOptions extends ConfigurationOptions {
 
-  /**
-   * the original.
-   */
   @NotNull
   @Delegate
-  private final RawPath<List<String>> original;
+  private final ConfigurationOptions options;
 
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public StringListPath(@NotNull final String path) {
-    this(new BaseRawPath<>(path, List.class));
+  public BukkitConfigurationOptions(@NotNull final Configuration configuration) {
+    super(configuration);
+    this.options = configuration.options();
   }
 }

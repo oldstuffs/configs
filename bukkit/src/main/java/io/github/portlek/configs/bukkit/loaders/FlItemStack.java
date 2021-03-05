@@ -23,36 +23,54 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.bukkit.loaders;
 
+import com.cryptomorin.xseries.XItemStack;
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.bukkit.delegate.BukkitConfigurationSection;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * an implementation to serialize {@link ItemStack}.
  */
-public final class FlPath extends BaseFileLoader {
+public final class FlItemStack extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlPath> INSTANCE = FlPath::new;
+  public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
+    return ItemStack.class == field.getType();
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.getValue()
-      .map(o -> (ConfigPath<?, ?>) o)
-      .ifPresent(pth -> {
-        pth.setLoader(loader);
-        pth.setSection(this.getSection(loader));
-      });
+    final var path = field.getAnnotation(Route.class)
+      .map(Route::value)
+      .orElse(field.getName());
+    final var fieldValue = field.getValue();
+    final var currentSection = new BukkitConfigurationSection(this.getSection(loader));
+    var section = currentSection.getConfigurationSection(path);
+    if (section == null) {
+      section = currentSection.createSection(path);
+    }
+    final var valueAtPath = XItemStack.deserialize(section);
+    if (fieldValue.isPresent()) {
+      final var itemStack = (ItemStack) fieldValue.get();
+      if (valueAtPath != null) {
+        field.setValue(valueAtPath);
+      } else {
+        XItemStack.serialize(itemStack, section);
+      }
+    } else if (valueAtPath != null) {
+      field.setValue(valueAtPath);
+    }
   }
 }

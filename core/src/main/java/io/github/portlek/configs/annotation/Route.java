@@ -34,7 +34,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an annotation to define path of the value.
  */
-@Target(ElementType.FIELD)
+@Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Route {
 

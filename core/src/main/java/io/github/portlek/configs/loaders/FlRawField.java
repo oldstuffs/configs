@@ -40,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
  * an implementation to serialize raw fields.
  */
 @SuppressWarnings("rawtypes")
-public final class FlRawField extends BaseFileLoader {
+public final class FlRawField extends BaseFieldLoader {
 
   /**
    * the instance.
@@ -56,7 +56,8 @@ public final class FlRawField extends BaseFileLoader {
    * the raw classes.
    */
   private static final List<Class> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
-    boolean.class);
+    boolean.class, long.class, Long.class, double.class, Double.class, char.class, Character.class, byte.class,
+    Byte.class);
 
   /**
    * converts the given value at path into the field's type.

@@ -26,19 +26,15 @@
 package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
 import java.io.File;
 import java.util.function.Supplier;
-import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize {@link File}.
  */
-public final class FlFile extends BaseFileLoader {
+public final class FlFile extends BaseFieldLoader {
 
   /**
    * the instance.

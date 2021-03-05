@@ -29,13 +29,14 @@ import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
+import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
  * an implementation to serialize raw fields.
  */
-public final class FlConfigHolder extends BaseFileLoader {
+public final class FlConfigHolder extends BaseFieldLoader {
 
   /**
    * the instance.
@@ -57,6 +58,8 @@ public final class FlConfigHolder extends BaseFileLoader {
       field,
       this.getSection(loader).createSection(field.getAnnotation(Route.class)
         .map(Route::value)
-        .orElse(field.getName())));
+        .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
+          .map(Route::value)
+          .orElse(field.getName()))));
   }
 }

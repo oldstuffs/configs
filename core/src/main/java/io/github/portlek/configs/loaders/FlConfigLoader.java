@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an implementation to serialize {@link ConfigLoader}.
  */
-public final class FlConfigLoader extends BaseFileLoader {
+public final class FlConfigLoader extends BaseFieldLoader {
 
   /**
    * the instance.
