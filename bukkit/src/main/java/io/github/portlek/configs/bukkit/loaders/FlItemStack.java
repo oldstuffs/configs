@@ -64,10 +64,10 @@ public final class FlItemStack extends BaseFieldLoader {
     final var valueAtPath = XItemStack.deserialize(section);
     if (fieldValue.isPresent()) {
       final var itemStack = (ItemStack) fieldValue.get();
-      if (valueAtPath != null) {
-        field.setValue(valueAtPath);
-      } else {
+      if (valueAtPath == null) {
         XItemStack.serialize(itemStack, section);
+      } else {
+        field.setValue(valueAtPath);
       }
     } else if (valueAtPath != null) {
       field.setValue(valueAtPath);
