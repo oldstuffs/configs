@@ -28,7 +28,6 @@ package io.github.portlek.configs.bukkit.loaders;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.bukkit.data.SentTitle;
-import io.github.portlek.configs.bukkit.delegate.BukkitConfigurationSection;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
@@ -56,7 +55,7 @@ public final class FlTitle extends BaseFieldLoader {
       .map(Route::value)
       .orElse(field.getName());
     final var fieldValue = field.getValue();
-    final var currentSection = new BukkitConfigurationSection(this.getSection(loader));
+    final var currentSection = this.getSection(loader);
     var section = currentSection.getConfigurationSection(path);
     if (section == null) {
       section = currentSection.createSection(path);
@@ -64,13 +63,13 @@ public final class FlTitle extends BaseFieldLoader {
     final var valueAtPath = SentTitle.deserialize(section);
     if (fieldValue.isPresent()) {
       final var sentTitle = (SentTitle) fieldValue.get();
-      if (valueAtPath == null) {
-        SentTitle.serialize(sentTitle, section);
+      if (valueAtPath.isPresent()) {
+        field.setValue(valueAtPath.get());
       } else {
-        field.setValue(valueAtPath);
+        SentTitle.serialize(sentTitle, section);
       }
-    } else if (valueAtPath != null) {
-      field.setValue(valueAtPath);
+    } else {
+      valueAtPath.ifPresent(field::setValue);
     }
   }
 }

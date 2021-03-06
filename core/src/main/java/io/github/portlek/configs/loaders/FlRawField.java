@@ -159,9 +159,7 @@ public final class FlRawField extends BaseFieldLoader {
     final var valueAtPath = section.get(path);
     final var fieldType = field.getType();
     if (fieldValue.isPresent()) {
-      if (valueAtPath == null) {
-        section.set(path, fieldValue.get());
-      } else {
+      if (valueAtPath != null) {
         if (FlRawField.GENERICS.contains(fieldType)) {
           FlRawField.loadList(valueAtPath, field);
           FlRawField.loadMap(valueAtPath, field);
@@ -173,6 +171,8 @@ public final class FlRawField extends BaseFieldLoader {
             field.setValue(fieldType.cast(converted));
           }
         }
+      } else {
+        section.set(path, fieldValue.get());
       }
     } else if (valueAtPath != null) {
       if (FlRawField.GENERICS.contains(fieldType)) {

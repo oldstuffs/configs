@@ -26,8 +26,9 @@
 package io.github.portlek.configs.bukkit.data;
 
 import com.cryptomorin.xseries.messages.Titles;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import java.util.Optional;
 import java.util.function.UnaryOperator;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -89,17 +90,17 @@ public final class SentTitle {
    *
    * @return a sent title instance at the section path.
    */
-  @Nullable
-  public static SentTitle deserialize(@NotNull final ConfigurationSection section) {
+  @NotNull
+  public static Optional<SentTitle> deserialize(@NotNull final ConfigurationSection section) {
     final var title = section.getString("title");
     final var subTitle = section.getString("sub-title");
     if (title == null && subTitle == null) {
-      return null;
+      return Optional.empty();
     }
     final var fadeIn = section.getInt("fade-in", 20);
     final var stay = section.getInt("stay", 20);
     final var fadeOut = section.getInt("fade-out", 20);
-    return new SentTitle(title, subTitle, fadeIn, stay, fadeOut);
+    return Optional.of(new SentTitle(title, subTitle, fadeIn, stay, fadeOut));
   }
 
   /**

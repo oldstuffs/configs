@@ -25,10 +25,9 @@
 
 package io.github.portlek.configs.bukkit.loaders;
 
-import com.cryptomorin.xseries.XItemStack;
+import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.bukkit.delegate.BukkitConfigurationSection;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
@@ -56,21 +55,21 @@ public final class FlItemStack extends BaseFieldLoader {
       .map(Route::value)
       .orElse(field.getName());
     final var fieldValue = field.getValue();
-    final var currentSection = new BukkitConfigurationSection(this.getSection(loader));
+    final var currentSection = this.getSection(loader);
     var section = currentSection.getConfigurationSection(path);
     if (section == null) {
       section = currentSection.createSection(path);
     }
-    final var valueAtPath = XItemStack.deserialize(section);
+    final var valueAtPath = ItemStackUtil.from(section.getMapValues(false));
     if (fieldValue.isPresent()) {
       final var itemStack = (ItemStack) fieldValue.get();
-      if (valueAtPath == null) {
-        XItemStack.serialize(itemStack, section);
+      if (valueAtPath.isPresent()) {
+        field.setValue(valueAtPath.get());
       } else {
-        field.setValue(valueAtPath);
+        section.set(path, ItemStackUtil.to(itemStack));
       }
-    } else if (valueAtPath != null) {
-      field.setValue(valueAtPath);
+    } else {
+      valueAtPath.ifPresent(field::setValue);
     }
   }
 }

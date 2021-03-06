@@ -47,9 +47,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>com.github.cryptomorin</groupId>
-      <artifactId>XSeries</artifactId>
-      <version>7.8.0</version>
+      <groupId>io.github.portlek</groupId>
+      <artifactId>BukkitItemBuilder</artifactId>
+      <version>4.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>
