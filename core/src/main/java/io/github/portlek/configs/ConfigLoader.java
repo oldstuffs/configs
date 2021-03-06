@@ -35,6 +35,7 @@ import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
 import io.github.portlek.configs.loaders.FlLocale;
 import io.github.portlek.configs.loaders.FlRawField;
+import io.github.portlek.configs.loaders.FlUniqueId;
 import io.github.portlek.configs.util.Validate;
 import java.io.File;
 import java.io.IOException;
@@ -239,6 +240,7 @@ public final class ConfigLoader {
       this.add(FlConfigHolder.INSTANCE);
       this.add(FlConfigLoader.INSTANCE);
       this.add(FlRawField.INSTANCE);
+      this.add(FlUniqueId.INSTANCE);
       this.add(FlLocale.INSTANCE);
       this.add(FlFile.INSTANCE);
     }};
