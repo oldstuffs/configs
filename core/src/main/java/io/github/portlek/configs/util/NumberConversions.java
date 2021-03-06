@@ -37,52 +37,12 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class NumberConversions {
 
-  public int ceil(final double num) {
-    final int floor = (int) num;
-    return floor == num ? floor : floor + (int) (~Double.doubleToRawLongBits(num) >>> 63);
-  }
-
-  public int floor(final double num) {
-    final int floor = (int) num;
-    return floor == num ? floor : floor - (int) (Double.doubleToRawLongBits(num) >>> 63);
-  }
-
-  public int round(final double num) {
-    return NumberConversions.floor(num + 0.5d);
-  }
-
-  public double square(final double num) {
-    return num * num;
-  }
-
-  public byte toByte(final Object object) {
-    if (object instanceof Number) {
-      return ((Number) object).byteValue();
-    }
-    try {
-      return Byte.parseByte(object.toString());
-    } catch (final NumberFormatException | NullPointerException ignored) {
-    }
-    return 0;
-  }
-
   public double toDouble(final Object object) {
     if (object instanceof Number) {
       return ((Number) object).doubleValue();
     }
     try {
       return Double.parseDouble(object.toString());
-    } catch (final NumberFormatException | NullPointerException ignored) {
-    }
-    return 0;
-  }
-
-  public float toFloat(final Object object) {
-    if (object instanceof Number) {
-      return ((Number) object).floatValue();
-    }
-    try {
-      return Float.parseFloat(object.toString());
     } catch (final NumberFormatException | NullPointerException ignored) {
     }
     return 0;
@@ -105,17 +65,6 @@ public class NumberConversions {
     }
     try {
       return Long.parseLong(object.toString());
-    } catch (final NumberFormatException | NullPointerException ignored) {
-    }
-    return 0;
-  }
-
-  public short toShort(final Object object) {
-    if (object instanceof Number) {
-      return ((Number) object).shortValue();
-    }
-    try {
-      return Short.parseShort(object.toString());
     } catch (final NumberFormatException | NullPointerException ignored) {
     }
     return 0;

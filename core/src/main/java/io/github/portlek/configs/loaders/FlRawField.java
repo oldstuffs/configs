@@ -57,7 +57,7 @@ public final class FlRawField extends BaseFieldLoader {
    */
   private static final List<Class> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
     boolean.class, long.class, Long.class, double.class, Double.class, char.class, Character.class, byte.class,
-    Byte.class);
+    Byte.class, float.class, Float.class, short.class, Short.class);
 
   /**
    * converts the given value at path into the field's type.
@@ -170,7 +170,7 @@ public final class FlRawField extends BaseFieldLoader {
           if (converted == null) {
             section.set(path, fieldValue.get());
           } else {
-            field.setValue(converted);
+            field.setValue(fieldType.cast(converted));
           }
         }
       }
@@ -179,7 +179,7 @@ public final class FlRawField extends BaseFieldLoader {
         FlRawField.loadList(valueAtPath, field);
         FlRawField.loadMap(valueAtPath, field);
       } else {
-        field.setValue(valueAtPath);
+        field.setValue(fieldType.cast(valueAtPath));
       }
     }
   }

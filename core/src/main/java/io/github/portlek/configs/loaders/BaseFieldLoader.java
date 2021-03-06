@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an abstract class that represents base file loaders.
+ * an abstract class that represents base field loaders.
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseFieldLoader implements FieldLoader {

@@ -54,6 +54,13 @@ public class BukkitConfigurationSection implements org.bukkit.configuration.Conf
 
   @Nullable
   @Override
+  public Configuration getRoot() {
+    final var configuration = this.section.getRoot();
+    return configuration == null ? null : new BukkitConfiguration(configuration);
+  }
+
+  @Nullable
+  @Override
   public org.bukkit.configuration.ConfigurationSection getParent() {
     final var section = this.section.getParent();
     return section == null ? null : new BukkitConfigurationSection(section);
@@ -183,13 +190,6 @@ public class BukkitConfigurationSection implements org.bukkit.configuration.Conf
   public org.bukkit.configuration.ConfigurationSection getDefaultSection() {
     final var section = this.section.getDefaultSection();
     return section == null ? null : new BukkitConfigurationSection(section);
-  }
-
-  @Nullable
-  @Override
-  public Configuration getRoot() {
-    final var configuration = this.section.getRoot();
-    return configuration == null ? null : new BukkitConfiguration(configuration);
   }
 
   /**
