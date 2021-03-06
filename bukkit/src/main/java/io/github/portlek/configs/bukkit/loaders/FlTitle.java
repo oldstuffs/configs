@@ -23,36 +23,53 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.bukkit.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigPath;
+import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.bukkit.data.SentTitle;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigPath}.
+ * an implementation to serialize {@link ItemStack}.
  */
-public final class FlPath extends BaseFileLoader {
+public final class FlTitle extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlPath> INSTANCE = FlPath::new;
+  public static final Supplier<FlTitle> INSTANCE = FlTitle::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigPath.class.isAssignableFrom(field.getType());
+    return SentTitle.class == field.getType();
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.getValue()
-      .map(o -> (ConfigPath<?, ?>) o)
-      .ifPresent(pth -> {
-        pth.setLoader(loader);
-        pth.setSection(this.getSection(loader));
-      });
+    final var path = field.getAnnotation(Route.class)
+      .map(Route::value)
+      .orElse(field.getName());
+    final var fieldValue = field.getValue();
+    final var currentSection = this.getSection(loader);
+    var section = currentSection.getConfigurationSection(path);
+    if (section == null) {
+      section = currentSection.createSection(path);
+    }
+    final var valueAtPath = SentTitle.deserialize(section);
+    if (fieldValue.isPresent()) {
+      final var sentTitle = (SentTitle) fieldValue.get();
+      if (valueAtPath.isPresent()) {
+        field.setValue(valueAtPath.get());
+      } else {
+        SentTitle.serialize(sentTitle, section);
+      }
+    } else {
+      valueAtPath.ifPresent(field::setValue);
+    }
   }
 }

@@ -23,43 +23,53 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.bukkit.loaders;
 
-import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
-import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.function.Supplier;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize raw fields.
+ * an implementation to serialize {@link ItemStack}.
  */
-public final class FlConfigHolder extends BaseFieldLoader {
+public final class FlItemStack extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
+  public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigHolder.class.isAssignableFrom(field.getType());
+    return ItemStack.class == field.getType();
   }
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    //noinspection unchecked
-    FieldLoader.load(
-      loader,
-      (Class<? extends ConfigHolder>) field.getType(),
-      loader.getLoaders(),
-      field,
-      this.getSection(loader).createSection(field.getAnnotation(Route.class)
-        .map(Route::value)
-        .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
-          .map(Route::value)
-          .orElse(field.getName()))));
+    final var path = field.getAnnotation(Route.class)
+      .map(Route::value)
+      .orElse(field.getName());
+    final var fieldValue = field.getValue();
+    final var currentSection = this.getSection(loader);
+    var section = currentSection.getConfigurationSection(path);
+    if (section == null) {
+      section = currentSection.createSection(path);
+    }
+    final var valueAtPath = ItemStackUtil.from(section.getMapValues(false));
+    if (fieldValue.isPresent()) {
+      final var itemStack = (ItemStack) fieldValue.get();
+      if (valueAtPath.isPresent()) {
+        field.setValue(valueAtPath.get());
+      } else {
+        section.set(path, ItemStackUtil.to(itemStack));
+      }
+    } else {
+      valueAtPath.ifPresent(field::setValue);
+    }
   }
 }

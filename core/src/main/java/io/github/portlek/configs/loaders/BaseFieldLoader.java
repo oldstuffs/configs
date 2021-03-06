@@ -23,34 +23,50 @@
  *
  */
 
-package io.github.portlek.configs.paths.raw;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.RawPath;
-import io.github.portlek.configs.paths.BaseRawPath;
-import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
+import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.reflection.RefField;
+import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents raw string list path.
+ * an abstract class that represents base field loaders.
  */
-@RequiredArgsConstructor
-public final class StringListPath implements RawPath<List<String>> {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class BaseFieldLoader implements FieldLoader {
 
   /**
-   * the original.
+   * the parent field.
+   */
+  @Nullable
+  @Setter
+  @Getter
+  private RefField parentField;
+
+  /**
+   * the parent section.
+   */
+  @Nullable
+  @Setter
+  @Getter
+  private ConfigurationSection section;
+
+  /**
+   * obtains the section.
+   *
+   * @param loader the loader to get fallback.
+   *
+   * @return current section.
    */
   @NotNull
-  @Delegate
-  private final RawPath<List<String>> original;
-
-  /**
-   * ctor.
-   *
-   * @param path the path.
-   */
-  public StringListPath(@NotNull final String path) {
-    this(new BaseRawPath<>(path, List.class));
+  protected final ConfigurationSection getSection(@NotNull final ConfigLoader loader) {
+    return Objects.requireNonNullElseGet(this.section, loader::getConfiguration);
   }
 }

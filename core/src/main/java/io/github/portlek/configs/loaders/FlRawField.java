@@ -40,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
  * an implementation to serialize raw fields.
  */
 @SuppressWarnings("rawtypes")
-public final class FlRawField extends BaseFileLoader {
+public final class FlRawField extends BaseFieldLoader {
 
   /**
    * the instance.
@@ -56,7 +56,8 @@ public final class FlRawField extends BaseFileLoader {
    * the raw classes.
    */
   private static final List<Class> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
-    boolean.class);
+    boolean.class, long.class, Long.class, double.class, Double.class, char.class, Character.class, byte.class,
+    Byte.class, float.class, Float.class, short.class, Short.class);
 
   /**
    * converts the given value at path into the field's type.
@@ -157,32 +158,29 @@ public final class FlRawField extends BaseFileLoader {
     final var section = this.getSection(loader);
     final var valueAtPath = section.get(path);
     final var fieldType = field.getType();
-    if (fieldValue.isEmpty()) {
-      if (valueAtPath == null) {
-        return;
+    if (fieldValue.isPresent()) {
+      if (valueAtPath != null) {
+        if (FlRawField.GENERICS.contains(fieldType)) {
+          FlRawField.loadList(valueAtPath, field);
+          FlRawField.loadMap(valueAtPath, field);
+        } else {
+          final var converted = FlRawField.convertFieldType(field, valueAtPath);
+          if (converted == null) {
+            section.set(path, fieldValue.get());
+          } else {
+            field.setValue(fieldType.cast(converted));
+          }
+        }
+      } else {
+        section.set(path, fieldValue.get());
       }
+    } else if (valueAtPath != null) {
       if (FlRawField.GENERICS.contains(fieldType)) {
         FlRawField.loadList(valueAtPath, field);
         FlRawField.loadMap(valueAtPath, field);
       } else {
-        field.setValue(valueAtPath);
+        field.setValue(fieldType.cast(valueAtPath));
       }
-      return;
-    }
-    if (valueAtPath == null) {
-      section.set(path, fieldValue.get());
-      return;
-    }
-    if (FlRawField.GENERICS.contains(fieldType)) {
-      FlRawField.loadList(valueAtPath, field);
-      FlRawField.loadMap(valueAtPath, field);
-      return;
-    }
-    final var converted = FlRawField.convertFieldType(field, valueAtPath);
-    if (converted == null) {
-      section.set(path, fieldValue.get());
-    } else {
-      field.setValue(converted);
     }
   }
 }

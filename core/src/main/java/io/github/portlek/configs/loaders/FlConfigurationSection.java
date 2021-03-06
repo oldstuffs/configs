@@ -35,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an implementation to serialize {@link FileConfiguration}.
  */
-public final class FlConfigurationSection extends BaseFileLoader {
+public final class FlConfigurationSection extends BaseFieldLoader {
 
   /**
    * the instance.
