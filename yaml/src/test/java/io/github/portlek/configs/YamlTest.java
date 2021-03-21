@@ -40,7 +40,7 @@ public final class YamlTest {
       .setFileName("test")
       .setFolderPath(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setPathHolder(ConfigHolder0.class)
+      .setConfigHolder(ConfigHolder0.class)
       .build()
       .load(true);
   }

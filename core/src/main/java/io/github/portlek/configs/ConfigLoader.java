@@ -84,10 +84,10 @@ public final class ConfigLoader {
   private final List<Supplier<? extends FieldLoader>> loaders;
 
   /**
-   * the class path holder.
+   * the class config holder.
    */
   @Nullable
-  private final Class<? extends ConfigHolder> pathHolder;
+  private final Class<? extends ConfigHolder> configHolder;
 
   /**
    * the configuration.
@@ -216,11 +216,11 @@ public final class ConfigLoader {
   }
 
   /**
-   * loads fields in the {@link #pathHolder} class.
+   * loads fields in the {@link #configHolder} class.
    */
   private void load0() {
-    if (this.pathHolder != null) {
-      FieldLoader.load(this, this.pathHolder, this.loaders);
+    if (this.configHolder != null) {
+      FieldLoader.load(this, this.configHolder, this.loaders);
     }
   }
 
@@ -354,15 +354,15 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the path holder.
+     * sets the config holder.
      *
-     * @param pathHolder the path holder to set.
+     * @param configHolder the config holder to set.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setPathHolder(@NotNull final Class<? extends ConfigHolder> pathHolder) {
-      this.pathHolder = pathHolder;
+    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
+      this.pathHolder = configHolder;
       return this;
     }
   }
