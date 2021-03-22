@@ -124,7 +124,7 @@ public final class FlRawField extends BaseFieldLoader {
     final var map = (Map) valueAtPath;
     if (map.isEmpty()) {
       try {
-        field.setValue(new HashMap());
+        field.setValue(new HashMap<>());
       } catch (final Throwable t) {
         t.printStackTrace();
       }
