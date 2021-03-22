@@ -50,16 +50,18 @@ public final class FlConfigHolder extends BaseFieldLoader {
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    //noinspection unchecked
-    FieldLoader.load(
-      loader,
-      (Class<? extends ConfigHolder>) field.getType(),
-      loader.getLoaders(),
-      field,
-      this.getSection(loader).createSection(field.getAnnotation(Route.class)
-        .map(Route::value)
-        .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
-          .map(Route::value)
-          .orElse(field.getName()))));
+    final var parent = this.getParentHolder() != null
+      ? this.getParentHolder()
+      : loader.getConfigHolder();
+    field.of(parent).getValue()
+      .filter(ConfigHolder.class::isInstance)
+      .map(ConfigHolder.class::cast)
+      .ifPresent(configHolder ->
+        FieldLoader.load(loader, configHolder, loader.getLoaders(), field,
+          this.getSection(loader).createSection(field.getAnnotation(Route.class)
+            .map(Route::value)
+            .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
+              .map(Route::value)
+              .orElse(field.getName())))));
   }
 }

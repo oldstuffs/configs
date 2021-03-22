@@ -44,6 +44,7 @@ public interface FieldLoader {
   /**
    * creates field loaders from the given suppliers when it created sets the given parent field and section into it.
    *
+   * @param parentHolder the parent holder to create.
    * @param suppliers the suppliers to create.
    * @param parentField the parent field to create.
    * @param section the section to create.
@@ -51,12 +52,14 @@ public interface FieldLoader {
    * @return a newly created field loaders.
    */
   @NotNull
-  static List<FieldLoader> createLoaders(@NotNull final List<Supplier<? extends FieldLoader>> suppliers,
+  static List<FieldLoader> createLoaders(@NotNull final ConfigHolder parentHolder,
+                                         @NotNull final List<Supplier<? extends FieldLoader>> suppliers,
                                          @Nullable final RefField parentField,
                                          @Nullable final ConfigurationSection section) {
     return suppliers.stream()
       .map(Supplier::get)
       .peek(loader -> {
+        loader.setParentHolder(parentHolder);
         if (section != null) {
           loader.setSection(section);
         }
@@ -71,28 +74,28 @@ public interface FieldLoader {
    * loads the given holder class's fields with the given field loaders.
    *
    * @param configLoader the config loader to load.
-   * @param holderClass the holder class to load.
+   * @param holder the holder to load.
    * @param loaders the loaders to load.
    */
-  static void load(@NotNull final ConfigLoader configLoader, @NotNull final Class<? extends ConfigHolder> holderClass,
+  static void load(@NotNull final ConfigLoader configLoader, @NotNull final ConfigHolder holder,
                    @NotNull final List<Supplier<? extends FieldLoader>> loaders) {
-    FieldLoader.load(configLoader, holderClass, loaders, null, null);
+    FieldLoader.load(configLoader, holder, loaders, null, null);
   }
 
   /**
    * loads the given holder class's fields with the given field suppliers.
    *
    * @param configLoader the config loader to load.
-   * @param holderClass the holder class to load.
+   * @param holder the holder to load.
    * @param suppliers the suppliers to load.
    * @param parentField the parent field to load.
    * @param section the section to load.
    */
-  static void load(@NotNull final ConfigLoader configLoader, @NotNull final Class<? extends ConfigHolder> holderClass,
+  static void load(@NotNull final ConfigLoader configLoader, @NotNull final ConfigHolder holder,
                    @NotNull final List<Supplier<? extends FieldLoader>> suppliers, @Nullable final RefField parentField,
                    @Nullable final ConfigurationSection section) {
-    final var loaders = FieldLoader.createLoaders(suppliers, parentField, section);
-    new ClassOf<>(holderClass).getDeclaredFields().forEach(field -> loaders.stream()
+    final var loaders = FieldLoader.createLoaders(holder, suppliers, parentField, section);
+    new ClassOf<>(holder).getDeclaredFields().forEach(field -> loaders.stream()
       .filter(loader -> loader.canLoad(configLoader, field))
       .findFirst()
       .ifPresent(loader -> loader.onLoad(configLoader, field)));
@@ -124,9 +127,24 @@ public interface FieldLoader {
   void setParentField(@NotNull RefField parentField);
 
   /**
-   * obtains the section.
+   * obtains the parent holder.
    *
-   * @return section.
+   * @return parent holder.
+   */
+  @Nullable
+  ConfigHolder getParentHolder();
+
+  /**
+   * sets the parent holder.
+   *
+   * @param parentHolder the parent holder to set.
+   */
+  void setParentHolder(@NotNull ConfigHolder parentHolder);
+
+  /**
+   * obtains the current section.
+   *
+   * @return current section.
    */
   @Nullable
   ConfigurationSection getSection();

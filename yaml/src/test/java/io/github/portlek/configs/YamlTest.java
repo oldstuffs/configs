@@ -41,7 +41,7 @@ public final class YamlTest {
       .setFileName("test")
       .setFolderPath(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setConfigHolder(ConfigHolder0.class)
+      .setConfigHolder(new ConfigHolder0())
       .setAsyncExecutor(Executors.newSingleThreadExecutor())
       .build()
       .load(true, true)
@@ -52,13 +52,13 @@ public final class YamlTest {
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
+    public static final ConfigHolder1 CHILD = new ConfigHolder1();
+
     public static FileConfiguration configuration;
 
     public static File file;
 
     public static ConfigLoader loader;
-
-    public static ConfigHolder1 parentSection;
 
     public static ConfigurationSection section;
 

@@ -23,59 +23,33 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.lang;
 
 import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.reflection.RefField;
-import java.util.Objects;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.util.List;
 
 /**
- * an abstract class that represents base field loaders.
+ * an interface to determine language holder.
  */
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public abstract class BaseFieldLoader implements FieldLoader {
+public interface LanguageHolder extends ConfigHolder {
 
   /**
-   * the parent field.
-   */
-  @Nullable
-  @Setter
-  @Getter
-  private RefField parentField;
-
-  /**
-   * the parent holder.
-   */
-  @Nullable
-  @Setter
-  @Getter
-  private ConfigHolder parentHolder;
-
-  /**
-   * the current section.
-   */
-  @Nullable
-  @Setter
-  @Getter
-  private ConfigurationSection section;
-
-  /**
-   * obtains the section.
+   * obtains the default language.
    *
-   * @param loader the loader to get fallback.
-   *
-   * @return current section.
+   * @return default language.
    */
-  @NotNull
-  protected final ConfigurationSection getSection(@NotNull final ConfigLoader loader) {
-    return Objects.requireNonNullElseGet(this.section, loader::getConfiguration);
+  default String getDefaultLanguage() {
+    final var languages = this.getSupportedLanguages();
+    if (languages.isEmpty()) {
+      return "";
+    }
+    return languages.get(0);
   }
+
+  /**
+   * obtains the supported languages.
+   *
+   * @return supported languages.
+   */
+  List<String> getSupportedLanguages();
 }

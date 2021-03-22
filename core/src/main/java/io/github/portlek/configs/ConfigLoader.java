@@ -49,7 +49,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,7 +59,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents config loaders.
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public final class ConfigLoader {
 
@@ -71,7 +73,7 @@ public final class ConfigLoader {
    * the class config holder.
    */
   @Nullable
-  private final Class<? extends ConfigHolder> configHolder;
+  private final ConfigHolder configHolder;
 
   /**
    * the config type.
@@ -198,11 +200,13 @@ public final class ConfigLoader {
 
   /**
    * runs when config is saving.
-   *
-   * @throws IOException if something goes wrong when saving the file.
    */
-  public void save() throws IOException {
-    this.configType.save(this.getFile(), this.getConfiguration());
+  public void save() {
+    try {
+      this.configType.save(this.getFile(), this.getConfiguration());
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -215,11 +219,7 @@ public final class ConfigLoader {
       FieldLoader.load(this, this.configHolder, this.loaders);
     }
     if (save) {
-      try {
-        this.save();
-      } catch (final IOException e) {
-        throw new RuntimeException(e);
-      }
+      this.save();
     }
   }
 
@@ -239,6 +239,7 @@ public final class ConfigLoader {
    * a class that represents class loader builders.
    */
   @Getter
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
   public static final class Builder {
 
     /**
@@ -266,7 +267,7 @@ public final class ConfigLoader {
      * the config holder.
      */
     @Nullable
-    private Class<? extends ConfigHolder> configHolder;
+    private ConfigHolder configHolder;
 
     /**
      * the config type.
@@ -285,12 +286,6 @@ public final class ConfigLoader {
      */
     @Nullable
     private Path folderPath;
-
-    /**
-     * ctor.
-     */
-    private Builder() {
-    }
 
     /**
      * adds loaders.
@@ -341,7 +336,7 @@ public final class ConfigLoader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
+    public Builder setConfigHolder(@NotNull final ConfigHolder configHolder) {
       this.configHolder = configHolder;
       return this;
     }
