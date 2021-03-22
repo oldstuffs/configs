@@ -30,6 +30,7 @@ import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
 import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,9 +51,8 @@ public final class FlConfigHolder extends BaseFieldLoader {
 
   @Override
   public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    final var parent = this.getParentHolder() != null
-      ? this.getParentHolder()
-      : loader.getConfigHolder();
+    final var parent = Optional.ofNullable(this.getParentHolder())
+      .orElse(loader.getConfigHolder());
     field.of(parent).getValue()
       .filter(ConfigHolder.class::isInstance)
       .map(ConfigHolder.class::cast)
