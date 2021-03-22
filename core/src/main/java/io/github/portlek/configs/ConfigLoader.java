@@ -46,6 +46,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,18 @@ import org.jetbrains.annotations.Nullable;
 @RequiredArgsConstructor
 @Getter
 public final class ConfigLoader {
+
+  /**
+   * the async executor.
+   */
+  @NotNull
+  public final Executor asyncExecutor;
+
+  /**
+   * the class config holder.
+   */
+  @Nullable
+  private final Class<? extends ConfigHolder> configHolder;
 
   /**
    * the config type.
@@ -82,12 +96,6 @@ public final class ConfigLoader {
    */
   @NotNull
   private final List<Supplier<? extends FieldLoader>> loaders;
-
-  /**
-   * the class config holder.
-   */
-  @Nullable
-  private final Class<? extends ConfigHolder> configHolder;
 
   /**
    * the configuration.
@@ -158,7 +166,7 @@ public final class ConfigLoader {
         } catch (final IOException | InvalidConfigurationException e) {
           throw new RuntimeException(e);
         }
-      });
+      }, this.asyncExecutor);
     } else {
       try {
         future.complete(this.configType.load(filePath.toFile()));
@@ -246,6 +254,18 @@ public final class ConfigLoader {
     }};
 
     /**
+     * the async executor.
+     */
+    @NotNull
+    private Executor asyncExecutor = Executors.newSingleThreadExecutor();
+
+    /**
+     * the config holder.
+     */
+    @Nullable
+    private Class<? extends ConfigHolder> configHolder;
+
+    /**
      * the config type.
      */
     @Nullable
@@ -262,12 +282,6 @@ public final class ConfigLoader {
      */
     @Nullable
     private Path folderPath;
-
-    /**
-     * the path holder.
-     */
-    @Nullable
-    private Class<? extends ConfigHolder> pathHolder = null;
 
     /**
      * ctor.
@@ -299,7 +313,34 @@ public final class ConfigLoader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.loaders, this.pathHolder);
+      return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.folderPath,
+        this.loaders);
+    }
+
+    /**
+     * sets the async executor type.
+     *
+     * @param asyncExecutor the async executor to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setAsyncExecutor(@NotNull final Executor asyncExecutor) {
+      this.asyncExecutor = asyncExecutor;
+      return this;
+    }
+
+    /**
+     * sets the config holder.
+     *
+     * @param configHolder the config holder to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
+      this.configHolder = configHolder;
+      return this;
     }
 
     /**
@@ -329,19 +370,6 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the folder path.
-     *
-     * @param folderPath the folder path to set.
-     *
-     * @return {@code this} for builder chain.
-     */
-    @NotNull
-    public Builder setFolderPath(@NotNull final Path folderPath) {
-      this.folderPath = folderPath;
-      return this;
-    }
-
-    /**
      * sets the file path.
      *
      * @param file the file to set.
@@ -354,15 +382,15 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the config holder.
+     * sets the folder path.
      *
-     * @param configHolder the config holder to set.
+     * @param folderPath the folder path to set.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
-      this.pathHolder = configHolder;
+    public Builder setFolderPath(@NotNull final Path folderPath) {
+      this.folderPath = folderPath;
       return this;
     }
   }
