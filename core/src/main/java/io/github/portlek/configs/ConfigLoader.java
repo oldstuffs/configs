@@ -148,7 +148,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public CompletableFuture<FileConfiguration> load(final boolean save, final boolean async) {
+  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
     final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
     this.file = filePath.toFile();
     if (Files.notExists(filePath)) {
@@ -158,38 +158,21 @@ public final class ConfigLoader {
         e.printStackTrace();
       }
     }
-    final var future = new CompletableFuture<FileConfiguration>();
     if (async) {
-      future.completeAsync(() -> {
-        try {
-          return this.configType.load(filePath.toFile());
-        } catch (final IOException | InvalidConfigurationException e) {
-          throw new RuntimeException(e);
-        }
-      }, this.asyncExecutor);
+      return CompletableFuture.runAsync(this::loadFile, this.asyncExecutor)
+        .whenCompleteAsync((unused, throwable) -> {
+          if (throwable != null) {
+            throwable.printStackTrace();
+            return;
+          }
+          this.loadFieldsAndSave(save);
+        }, this.asyncExecutor)
+        .thenApply(unused -> this);
     } else {
-      try {
-        future.complete(this.configType.load(filePath.toFile()));
-      } catch (final IOException | InvalidConfigurationException e) {
-        throw new RuntimeException(e);
-      }
+      this.loadFile();
+      this.loadFieldsAndSave(save);
+      return CompletableFuture.completedFuture(this);
     }
-    future.whenComplete((configuration, t) -> {
-      if (t != null) {
-        t.printStackTrace();
-        return;
-      }
-      this.configuration = configuration;
-      this.load0();
-      if (save) {
-        try {
-          this.save();
-        } catch (final IOException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    });
-    return future;
   }
 
   /**
@@ -198,7 +181,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public FileConfiguration load() {
+  public ConfigLoader load() {
     return this.load(false);
   }
 
@@ -210,7 +193,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public FileConfiguration load(final boolean save) {
+  public ConfigLoader load(final boolean save) {
     return this.load(save, false).join();
   }
 
@@ -224,11 +207,32 @@ public final class ConfigLoader {
   }
 
   /**
-   * loads fields in the {@link #configHolder} class.
+   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
+   *
+   * @param save the save to load.
    */
-  private void load0() {
+  private void loadFieldsAndSave(final boolean save) {
     if (this.configHolder != null) {
       FieldLoader.load(this, this.configHolder, this.loaders);
+    }
+    if (save) {
+      try {
+        this.save();
+      } catch (final IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  /**
+   * loads the file configuration from {@link this#file}.
+   */
+  private void loadFile() {
+    Validate.checkNull(this.file, "file");
+    try {
+      this.configuration = this.configType.load(this.file);
+    } catch (final IOException | InvalidConfigurationException e) {
+      throw new RuntimeException(e);
     }
   }
 
