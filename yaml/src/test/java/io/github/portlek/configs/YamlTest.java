@@ -32,6 +32,7 @@ import io.github.portlek.configs.yaml.YamlType;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public final class YamlTest {
 
@@ -41,8 +42,12 @@ public final class YamlTest {
       .setFolderPath(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
       .setConfigHolder(ConfigHolder0.class)
+      .setAsyncExecutor(Executors.newSingleThreadExecutor())
       .build()
-      .load(true);
+      .load(true, true)
+      .thenAccept(configLoader -> {
+        System.out.println(configLoader.getConfiguration().getString("test"));
+      });
   }
 
   private static final class ConfigHolder0 implements ConfigHolder {

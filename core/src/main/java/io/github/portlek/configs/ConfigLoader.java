@@ -46,6 +46,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,18 @@ import org.jetbrains.annotations.Nullable;
 @RequiredArgsConstructor
 @Getter
 public final class ConfigLoader {
+
+  /**
+   * the async executor.
+   */
+  @NotNull
+  public final Executor asyncExecutor;
+
+  /**
+   * the class config holder.
+   */
+  @Nullable
+  private final Class<? extends ConfigHolder> configHolder;
 
   /**
    * the config type.
@@ -82,12 +96,6 @@ public final class ConfigLoader {
    */
   @NotNull
   private final List<Supplier<? extends FieldLoader>> loaders;
-
-  /**
-   * the class config holder.
-   */
-  @Nullable
-  private final Class<? extends ConfigHolder> configHolder;
 
   /**
    * the configuration.
@@ -140,7 +148,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public CompletableFuture<FileConfiguration> load(final boolean save, final boolean async) {
+  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
     final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
     this.file = filePath.toFile();
     if (Files.notExists(filePath)) {
@@ -150,38 +158,20 @@ public final class ConfigLoader {
         e.printStackTrace();
       }
     }
-    final var future = new CompletableFuture<FileConfiguration>();
-    if (async) {
-      future.completeAsync(() -> {
-        try {
-          return this.configType.load(filePath.toFile());
-        } catch (final IOException | InvalidConfigurationException e) {
-          throw new RuntimeException(e);
-        }
-      });
-    } else {
-      try {
-        future.complete(this.configType.load(filePath.toFile()));
-      } catch (final IOException | InvalidConfigurationException e) {
-        throw new RuntimeException(e);
-      }
+    if (!async) {
+      this.loadFile();
+      this.loadFieldsAndSave(save);
+      return CompletableFuture.completedFuture(this);
     }
-    future.whenComplete((configuration, t) -> {
-      if (t != null) {
-        t.printStackTrace();
-        return;
-      }
-      this.configuration = configuration;
-      this.load0();
-      if (save) {
-        try {
-          this.save();
-        } catch (final IOException e) {
-          throw new RuntimeException(e);
+    return CompletableFuture.runAsync(this::loadFile, this.asyncExecutor)
+      .whenCompleteAsync((unused, throwable) -> {
+        if (throwable != null) {
+          throwable.printStackTrace();
+          return;
         }
-      }
-    });
-    return future;
+        this.loadFieldsAndSave(save);
+      }, this.asyncExecutor)
+      .thenApplyAsync(unused -> this, this.asyncExecutor);
   }
 
   /**
@@ -190,7 +180,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public FileConfiguration load() {
+  public ConfigLoader load() {
     return this.load(false);
   }
 
@@ -202,7 +192,7 @@ public final class ConfigLoader {
    * @return loaded config.
    */
   @NotNull
-  public FileConfiguration load(final boolean save) {
+  public ConfigLoader load(final boolean save) {
     return this.load(save, false).join();
   }
 
@@ -216,11 +206,32 @@ public final class ConfigLoader {
   }
 
   /**
-   * loads fields in the {@link #configHolder} class.
+   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
+   *
+   * @param save the save to load.
    */
-  private void load0() {
+  private void loadFieldsAndSave(final boolean save) {
     if (this.configHolder != null) {
       FieldLoader.load(this, this.configHolder, this.loaders);
+    }
+    if (save) {
+      try {
+        this.save();
+      } catch (final IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  /**
+   * loads the file configuration from {@link this#file}.
+   */
+  private void loadFile() {
+    Validate.checkNull(this.file, "file");
+    try {
+      this.configuration = this.configType.load(this.file);
+    } catch (final IOException | InvalidConfigurationException e) {
+      throw new RuntimeException(e);
     }
   }
 
@@ -246,6 +257,18 @@ public final class ConfigLoader {
     }};
 
     /**
+     * the async executor.
+     */
+    @NotNull
+    private Executor asyncExecutor = Executors.newSingleThreadExecutor();
+
+    /**
+     * the config holder.
+     */
+    @Nullable
+    private Class<? extends ConfigHolder> configHolder;
+
+    /**
      * the config type.
      */
     @Nullable
@@ -262,12 +285,6 @@ public final class ConfigLoader {
      */
     @Nullable
     private Path folderPath;
-
-    /**
-     * the path holder.
-     */
-    @Nullable
-    private Class<? extends ConfigHolder> pathHolder = null;
 
     /**
      * ctor.
@@ -299,7 +316,34 @@ public final class ConfigLoader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.configType, this.fileName, this.folderPath, this.loaders, this.pathHolder);
+      return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.folderPath,
+        this.loaders);
+    }
+
+    /**
+     * sets the async executor type.
+     *
+     * @param asyncExecutor the async executor to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setAsyncExecutor(@NotNull final Executor asyncExecutor) {
+      this.asyncExecutor = asyncExecutor;
+      return this;
+    }
+
+    /**
+     * sets the config holder.
+     *
+     * @param configHolder the config holder to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
+      this.configHolder = configHolder;
+      return this;
     }
 
     /**
@@ -329,19 +373,6 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the folder path.
-     *
-     * @param folderPath the folder path to set.
-     *
-     * @return {@code this} for builder chain.
-     */
-    @NotNull
-    public Builder setFolderPath(@NotNull final Path folderPath) {
-      this.folderPath = folderPath;
-      return this;
-    }
-
-    /**
      * sets the file path.
      *
      * @param file the file to set.
@@ -354,15 +385,15 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the config holder.
+     * sets the folder path.
      *
-     * @param configHolder the config holder to set.
+     * @param folderPath the folder path to set.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
-      this.pathHolder = configHolder;
+    public Builder setFolderPath(@NotNull final Path folderPath) {
+      this.folderPath = folderPath;
       return this;
     }
   }
