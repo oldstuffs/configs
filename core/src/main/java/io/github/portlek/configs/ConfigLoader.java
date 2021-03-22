@@ -158,21 +158,20 @@ public final class ConfigLoader {
         e.printStackTrace();
       }
     }
-    if (async) {
-      return CompletableFuture.runAsync(this::loadFile, this.asyncExecutor)
-        .whenCompleteAsync((unused, throwable) -> {
-          if (throwable != null) {
-            throwable.printStackTrace();
-            return;
-          }
-          this.loadFieldsAndSave(save);
-        }, this.asyncExecutor)
-        .thenApply(unused -> this);
-    } else {
+    if (!async) {
       this.loadFile();
       this.loadFieldsAndSave(save);
       return CompletableFuture.completedFuture(this);
     }
+    return CompletableFuture.runAsync(this::loadFile, this.asyncExecutor)
+      .whenCompleteAsync((unused, throwable) -> {
+        if (throwable != null) {
+          throwable.printStackTrace();
+          return;
+        }
+        this.loadFieldsAndSave(save);
+      }, this.asyncExecutor)
+      .thenApplyAsync(unused -> this, this.asyncExecutor);
   }
 
   /**
