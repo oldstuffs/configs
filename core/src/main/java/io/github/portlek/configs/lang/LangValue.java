@@ -246,6 +246,18 @@ public final class LangValue<T> {
   /**
    * gets the value at {@link LangHolder#getDefaultLanguage()}.
    *
+   * @param lang the lang to set {@link #currentLang}.
+   *
+   * @return value at the default language of {@link #holder}.
+   */
+  @NotNull
+  public Optional<T> get(@NotNull final String lang) {
+    return this.lang(lang).get();
+  }
+
+  /**
+   * gets the value at {@link LangHolder#getDefaultLanguage()}.
+   *
    * @return value at the default language of {@link #holder}.
    */
   @NotNull
