@@ -279,11 +279,10 @@ public final class LangValue<T> {
    */
   @NotNull
   public LangValue<T> lang(@NotNull final String lang) {
-    if (this.holder == null ||
-      !this.holder.getSupportedLanguages().contains(lang)) {
-      return this;
+    if (this.holder != null &&
+      this.holder.getSupportedLanguages().contains(lang)) {
+      this.currentLang.set(lang);
     }
-    this.currentLang.set(lang);
     return this;
   }
 
