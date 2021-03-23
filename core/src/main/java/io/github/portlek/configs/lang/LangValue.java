@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains values in terms of {@link LanguageHolder#getSupportedLanguages()}.
+ * a class that contains values in terms of {@link LangHolder#getSupportedLanguages()}.
  *
  * @param <T> type of the values.
  */
@@ -65,7 +65,7 @@ public final class LangValue<T> {
   @Nullable
   @Getter
   @Setter
-  private LanguageHolder holder;
+  private LangHolder holder;
 
   /**
    * creates a new {@link Builder} instance.
@@ -236,7 +236,7 @@ public final class LangValue<T> {
   }
 
   /**
-   * gets the value at {@link LanguageHolder#getDefaultLanguage()}.
+   * gets the value at {@link LangHolder#getDefaultLanguage()}.
    *
    * @return value at the default language of {@link #holder}.
    */

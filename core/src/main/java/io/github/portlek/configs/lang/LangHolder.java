@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * an interface to determine language holder.
  */
-public interface LanguageHolder extends ConfigHolder {
+public interface LangHolder extends ConfigHolder {
 
   /**
    * obtains the default language.
