@@ -26,6 +26,7 @@
 package io.github.portlek.configs.lang;
 
 import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.ConfigLoader;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public interface LangHolder extends ConfigHolder {
     if (languages.isEmpty()) {
       return "";
     }
-    return languages.get(0);
+    return languages.get(0).getFileName();
   }
 
   /**
@@ -51,5 +52,5 @@ public interface LangHolder extends ConfigHolder {
    *
    * @return supported languages.
    */
-  List<String> getSupportedLanguages();
+  List<ConfigLoader.Builder> getSupportedLanguages();
 }
