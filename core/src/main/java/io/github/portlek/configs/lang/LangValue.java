@@ -31,9 +31,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +48,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
+@Log
 public final class LangValue<T> {
 
   /**
@@ -289,6 +292,8 @@ public final class LangValue<T> {
       .anyMatch(lang::equalsIgnoreCase);
     if (control) {
       this.currentLang.set(lang);
+    } else {
+      LangValue.log.log(Level.SEVERE, lang + " not found!");
     }
     return this;
   }
