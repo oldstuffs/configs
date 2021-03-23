@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.lang;
 
+import io.github.portlek.configs.ConfigLoader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -279,8 +280,14 @@ public final class LangValue<T> {
    */
   @NotNull
   public LangValue<T> lang(@NotNull final String lang) {
-    if (this.holder != null &&
-      this.holder.getSupportedLanguages().contains(lang)) {
+    if (this.holder == null) {
+      return this;
+    }
+    final var control = this.holder.getSupportedLanguages().stream()
+      .map(ConfigLoader.Builder::getFileName)
+      .filter(Objects::nonNull)
+      .anyMatch(fileName -> fileName.equalsIgnoreCase(lang));
+    if (control) {
       this.currentLang.set(lang);
     }
     return this;
