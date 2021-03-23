@@ -126,11 +126,11 @@ public class MemorySection implements ConfigurationSection {
     final StringBuilder builder = new StringBuilder();
     Stream.iterate(section, parent -> parent != null && parent != relativeTo, ConfigurationSection::getParent)
       .forEach(parent -> {
-      if (builder.length() > 0) {
-        builder.insert(0, separator);
-      }
-      builder.insert(0, parent.getName());
-    });
+        if (builder.length() > 0) {
+          builder.insert(0, separator);
+        }
+        builder.insert(0, parent.getName());
+      });
     if (key != null && key.length() > 0) {
       if (builder.length() > 0) {
         builder.append(separator);
