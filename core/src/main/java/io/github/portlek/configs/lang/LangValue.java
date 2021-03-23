@@ -29,10 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.cactoos.map.MapEntry;
 import org.cactoos.map.MapOf;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +46,12 @@ import org.jetbrains.annotations.Nullable;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public final class LangValue<T> {
+
+  /**
+   * the current lang.
+   */
+  @NotNull
+  private final AtomicReference<String> currentLang = new AtomicReference<>();
 
   /**
    * the t class.
@@ -63,8 +69,6 @@ public final class LangValue<T> {
    * the holder.
    */
   @Nullable
-  @Getter
-  @Setter
   private LangHolder holder;
 
   /**
@@ -90,8 +94,8 @@ public final class LangValue<T> {
    * @return a newly created {@code this} instance.
    */
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type,
-                                 @NotNull final String key1, @NotNull final T value1) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type,
+                                        @NotNull final String key1, @NotNull final T value1) {
     return LangValue.create(type,
       new MapEntry<>(key1, value1));
   }
@@ -109,9 +113,9 @@ public final class LangValue<T> {
    * @return a newly created {@code this} instance.
    */
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type,
-                                 @NotNull final String key1, @NotNull final T value1,
-                                 @NotNull final String key2, @NotNull final T value2) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type,
+                                        @NotNull final String key1, @NotNull final T value1,
+                                        @NotNull final String key2, @NotNull final T value2) {
     return LangValue.create(type,
       new MapEntry<>(key1, value1),
       new MapEntry<>(key2, value2));
@@ -132,10 +136,10 @@ public final class LangValue<T> {
    * @return a newly created {@code this} instance.
    */
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type,
-                                 @NotNull final String key1, @NotNull final T value1,
-                                 @NotNull final String key2, @NotNull final T value2,
-                                 @NotNull final String key3, @NotNull final T value3) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type,
+                                        @NotNull final String key1, @NotNull final T value1,
+                                        @NotNull final String key2, @NotNull final T value2,
+                                        @NotNull final String key3, @NotNull final T value3) {
     return LangValue.create(type,
       new MapEntry<>(key1, value1),
       new MapEntry<>(key2, value2),
@@ -159,11 +163,11 @@ public final class LangValue<T> {
    * @return a newly created {@code this} instance.
    */
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type,
-                                 @NotNull final String key1, @NotNull final T value1,
-                                 @NotNull final String key2, @NotNull final T value2,
-                                 @NotNull final String key3, @NotNull final T value3,
-                                 @NotNull final String key4, @NotNull final T value4) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type,
+                                        @NotNull final String key1, @NotNull final T value1,
+                                        @NotNull final String key2, @NotNull final T value2,
+                                        @NotNull final String key3, @NotNull final T value3,
+                                        @NotNull final String key4, @NotNull final T value4) {
     return LangValue.create(type,
       new MapEntry<>(key1, value1),
       new MapEntry<>(key2, value2),
@@ -190,12 +194,12 @@ public final class LangValue<T> {
    * @return a newly created {@code this} instance.
    */
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type,
-                                 @NotNull final String key1, @NotNull final T value1,
-                                 @NotNull final String key2, @NotNull final T value2,
-                                 @NotNull final String key3, @NotNull final T value3,
-                                 @NotNull final String key4, @NotNull final T value4,
-                                 @NotNull final String key5, @NotNull final T value5) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type,
+                                        @NotNull final String key1, @NotNull final T value1,
+                                        @NotNull final String key2, @NotNull final T value2,
+                                        @NotNull final String key3, @NotNull final T value3,
+                                        @NotNull final String key4, @NotNull final T value4,
+                                        @NotNull final String key5, @NotNull final T value5) {
     return LangValue.create(type,
       new MapEntry<>(key1, value1),
       new MapEntry<>(key2, value2),
@@ -215,7 +219,7 @@ public final class LangValue<T> {
    */
   @SafeVarargs
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type, @NotNull final Map.Entry<String, T>... values) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type, @NotNull final Map.Entry<String, T>... values) {
     return LangValue.create(type, new MapOf<>(values));
   }
 
@@ -229,9 +233,9 @@ public final class LangValue<T> {
    * @return a newly created {@code this} instance.
    */
   @NotNull
-  static <T> LangValue<T> create(@NotNull final Class<T> type, @NotNull final Map<String, T> values) {
+  public static <T> LangValue<T> create(@NotNull final Class<T> type, @NotNull final Map<String, T> values) {
     return LangValue.builder(type)
-      .setValues(values)
+      .setDefaults(values)
       .build();
   }
 
@@ -242,20 +246,52 @@ public final class LangValue<T> {
    */
   @NotNull
   public Optional<T> get() {
+    final var currentLang = this.currentLang.get();
+    if (currentLang == null) {
+      return Optional.empty();
+    }
     return Optional.ofNullable(this.holder)
-      .flatMap(holder -> this.get(holder.getDefaultLanguage()));
+      .map(holder -> this.values.get(currentLang));
   }
 
   /**
-   * gets the value at {@code key}.
+   * obtains the {@link #holder}.
    *
-   * @param key the key to get.
-   *
-   * @return value at the key.
+   * @return holder.
    */
   @NotNull
-  public Optional<T> get(@NotNull final String key) {
-    return Optional.ofNullable(this.values.get(key));
+  public LangHolder getHolder() {
+    return Objects.requireNonNull(this.holder, "Load the fields before use #getHolder() method!");
+  }
+
+  /**
+   * sets hte {@link #holder} and {@link #currentLang}.
+   *
+   * @param holder the holder to set.
+   */
+  public void setHolder(@NotNull final LangHolder holder) {
+    this.holder = holder;
+    this.currentLang.set(holder.getDefaultLanguage());
+  }
+
+  /**
+   * sets {@link #currentLang} if the holder is not null and {@link LangHolder#getSupportedLanguages()} contains the
+   * given {@code lang}.
+   *
+   * @param lang the lang to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public LangValue<T> lang(@NotNull final String lang) {
+    if (this.holder == null) {
+      return this;
+    }
+    if (!this.holder.getSupportedLanguages().contains(lang)) {
+      return this;
+    }
+    this.currentLang.set(lang);
+    return this;
   }
 
   /**
@@ -276,10 +312,10 @@ public final class LangValue<T> {
      * keys and its value as {@code T}.
      */
     @NotNull
-    private Map<String, T> values = new HashMap<>();
+    private Map<String, T> defaults = new HashMap<>();
 
     /**
-     * adds the given key and its value into {@link #values}.
+     * adds the given key and its value into {@link #defaults}.
      *
      * @param key the key to add.
      * @param value the value to add.
@@ -287,8 +323,8 @@ public final class LangValue<T> {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder<T> addValue(@NotNull final String key, @NotNull final T value) {
-      this.values.put(key, value);
+    public Builder<T> addDefault(@NotNull final String key, @NotNull final T value) {
+      this.defaults.put(key, value);
       return this;
     }
 
@@ -299,19 +335,19 @@ public final class LangValue<T> {
      */
     @NotNull
     public LangValue<T> build() {
-      return new LangValue<>(this.type, this.values);
+      return new LangValue<>(this.type, this.defaults);
     }
 
     /**
-     * sets {@link #values} to the given {@code values}.
+     * sets {@link #defaults} to the given {@code values}.
      *
-     * @param values the values to set.
+     * @param defaults the defaults to set.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder<T> setValues(@NotNull final Map<String, T> values) {
-      this.values = Objects.requireNonNull(values, "values");
+    public Builder<T> setDefaults(@NotNull final Map<String, T> defaults) {
+      this.defaults = Objects.requireNonNull(defaults, "values");
       return this;
     }
   }

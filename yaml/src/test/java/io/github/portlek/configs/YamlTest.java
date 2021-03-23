@@ -39,7 +39,7 @@ public final class YamlTest {
   public static void main(final String[] args) {
     ConfigLoader.builder()
       .setFileName("test")
-      .setFolderPath(Path.of(System.getProperty("user.dir")))
+      .setFolder(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
       .setConfigHolder(new ConfigHolder0())
       .setAsyncExecutor(Executors.newSingleThreadExecutor())

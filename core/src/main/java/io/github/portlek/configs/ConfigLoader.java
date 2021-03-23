@@ -128,7 +128,7 @@ public final class ConfigLoader {
    */
   @NotNull
   public FileConfiguration getConfiguration() {
-    return Objects.requireNonNull(this.configuration, "Use #load() method before save the config!");
+    return Objects.requireNonNull(this.configuration, "Use #load() method before use #getConfiguration() method!");
   }
 
   /**
@@ -138,7 +138,7 @@ public final class ConfigLoader {
    */
   @NotNull
   public File getFile() {
-    return Objects.requireNonNull(this.file, "Use #load() method before save the config!");
+    return Objects.requireNonNull(this.file, "Use #load() method before use #getFile() method!");
   }
 
   /**
@@ -243,21 +243,6 @@ public final class ConfigLoader {
   public static final class Builder {
 
     /**
-     * the loaders.
-     */
-    @NotNull
-    private final List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
-      this.add(FlConfigurationSection.INSTANCE);
-      this.add(FlConfiguration.INSTANCE);
-      this.add(FlConfigHolder.INSTANCE);
-      this.add(FlConfigLoader.INSTANCE);
-      this.add(FlRawField.INSTANCE);
-      this.add(FlUniqueId.INSTANCE);
-      this.add(FlLocale.INSTANCE);
-      this.add(FlFile.INSTANCE);
-    }};
-
-    /**
      * the async executor.
      */
     @NotNull
@@ -286,6 +271,21 @@ public final class ConfigLoader {
      */
     @Nullable
     private Path folderPath;
+
+    /**
+     * the loaders.
+     */
+    @NotNull
+    private List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
+      this.add(FlConfigurationSection.INSTANCE);
+      this.add(FlConfiguration.INSTANCE);
+      this.add(FlConfigHolder.INSTANCE);
+      this.add(FlConfigLoader.INSTANCE);
+      this.add(FlRawField.INSTANCE);
+      this.add(FlUniqueId.INSTANCE);
+      this.add(FlLocale.INSTANCE);
+      this.add(FlFile.INSTANCE);
+    }};
 
     /**
      * adds loaders.
@@ -373,10 +373,12 @@ public final class ConfigLoader {
      * @param file the file to set.
      *
      * @return {@code this} for builder chain.
+     *
+     * @see #setFolder(Path)
      */
     @NotNull
-    public Builder setFolderPath(@NotNull final File file) {
-      return this.setFolderPath(file.toPath());
+    public Builder setFolder(@NotNull final File file) {
+      return this.setFolder(file.toPath());
     }
 
     /**
@@ -387,8 +389,21 @@ public final class ConfigLoader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setFolderPath(@NotNull final Path folderPath) {
+    public Builder setFolder(@NotNull final Path folderPath) {
       this.folderPath = folderPath;
+      return this;
+    }
+
+    /**
+     * sets {@link #loaders}.
+     *
+     * @param loaders the loaders to sets.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setLoaders(@NotNull final List<Supplier<? extends FieldLoader>> loaders) {
+      this.loaders = loaders;
       return this;
     }
   }
