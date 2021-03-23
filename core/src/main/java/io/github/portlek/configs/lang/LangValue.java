@@ -299,6 +299,16 @@ public final class LangValue<T> {
   }
 
   /**
+   * puts the given key and key into {@link #values}.
+   *
+   * @param key the key to put.
+   * @param value the value to put.
+   */
+  public void put(@NotNull final String key, @NotNull final T value) {
+    this.values.put(key, value);
+  }
+
+  /**
    * a class that helps to create {@link LangValue} instances.
    *
    * @param <T> type of the values.
@@ -339,7 +349,7 @@ public final class LangValue<T> {
      */
     @NotNull
     public LangValue<T> build() {
-      return new LangValue<>(this.type, this.defaults);
+      return new LangValue<>(this.type, new HashMap<>(this.defaults));
     }
 
     /**
