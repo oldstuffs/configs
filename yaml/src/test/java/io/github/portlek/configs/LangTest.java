@@ -23,34 +23,25 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.lang.LangHolder;
+import io.github.portlek.configs.yaml.YamlType;
 import java.io.File;
-import java.util.function.Supplier;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * an implementation to serialize {@link File}.
- */
-public final class FlFile extends BaseFieldLoader {
+@RequiredArgsConstructor
+public final class LangTest implements LangHolder {
 
-  /**
-   * the instance.
-   */
-  public static final Supplier<FlFile> INSTANCE = FlFile::new;
+  @NotNull
+  private final File dataFolder;
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    if (field.hasFinal()) {
-      return false;
-    }
-    return File.class == field.getType();
-  }
-
-  @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFile());
+  public List<ConfigLoader.Builder> getSupportedLanguages() {
+    return List.of(
+      ConfigLoader.builder("en", this.dataFolder, YamlType.get()),
+      ConfigLoader.builder("tr", this.dataFolder, YamlType.get()));
   }
 }

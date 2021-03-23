@@ -69,6 +69,9 @@ public final class FlLocale extends BaseFieldLoader {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    if (field.hasFinal()) {
+      return false;
+    }
     return Locale.class == field.getType();
   }
 

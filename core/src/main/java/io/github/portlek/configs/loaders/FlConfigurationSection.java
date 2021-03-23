@@ -44,6 +44,9 @@ public final class FlConfigurationSection extends BaseFieldLoader {
 
   @Override
   public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+    if (field.hasFinal()) {
+      return false;
+    }
     return ConfigurationSection.class == field.getType();
   }
 

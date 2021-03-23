@@ -33,6 +33,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.Executors;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 public final class YamlTest {
 
@@ -41,7 +43,7 @@ public final class YamlTest {
       .setFileName("test")
       .setFolder(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setConfigHolder(new ConfigHolder0())
+      .setConfigHolder(new ConfigHolder0(new File("test")))
       .setAsyncExecutor(Executors.newSingleThreadExecutor())
       .build()
       .load(true, true)
@@ -50,6 +52,7 @@ public final class YamlTest {
       });
   }
 
+  @RequiredArgsConstructor
   private static final class ConfigHolder0 implements ConfigHolder {
 
     public static final ConfigHolder1 CHILD = new ConfigHolder1();
@@ -65,6 +68,9 @@ public final class YamlTest {
     public static String test = "test";
 
     public static List<String> testList = List.of();
+
+    @NotNull
+    private final File folder;
   }
 
   @Route("section-2")
