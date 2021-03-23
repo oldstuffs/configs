@@ -286,7 +286,7 @@ public final class LangValue<T> {
     final var control = this.holder.getSupportedLanguages().stream()
       .map(ConfigLoader.Builder::getFileName)
       .filter(Objects::nonNull)
-      .anyMatch(fileName -> fileName.equalsIgnoreCase(lang));
+      .anyMatch(lang::equalsIgnoreCase);
     if (control) {
       this.currentLang.set(lang);
     }
