@@ -246,12 +246,7 @@ public final class LangValue<T> {
    */
   @NotNull
   public Optional<T> get() {
-    final var currentLang = this.currentLang.get();
-    if (currentLang == null) {
-      return Optional.empty();
-    }
-    return Optional.ofNullable(this.holder)
-      .map(holder -> this.values.get(currentLang));
+    return Optional.ofNullable(this.currentLang.get()).map(this.values::get);
   }
 
   /**
@@ -284,10 +279,8 @@ public final class LangValue<T> {
    */
   @NotNull
   public LangValue<T> lang(@NotNull final String lang) {
-    if (this.holder == null) {
-      return this;
-    }
-    if (!this.holder.getSupportedLanguages().contains(lang)) {
+    if (this.holder == null ||
+      !this.holder.getSupportedLanguages().contains(lang)) {
       return this;
     }
     this.currentLang.set(lang);
