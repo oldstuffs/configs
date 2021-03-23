@@ -78,6 +78,7 @@ public final class LangValue<T> {
   /**
    * creates a new {@link Builder} instance.
    *
+   * @param type the type to create.
    * @param <T> type of the values.
    *
    * @return a builder instance.

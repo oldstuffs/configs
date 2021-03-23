@@ -40,6 +40,9 @@ public final class LangLoader {
   @NotNull
   private final LangHolder holder;
 
+  /**
+   * loads all the lang files.
+   */
   public static void load() {
   }
 }
