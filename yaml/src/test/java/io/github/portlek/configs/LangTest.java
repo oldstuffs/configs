@@ -26,7 +26,10 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.lang.LangLoader;
 import io.github.portlek.configs.lang.LangValue;
+import io.github.portlek.configs.yaml.YamlType;
+import java.nio.file.Path;
 import lombok.RequiredArgsConstructor;
 import org.cactoos.map.MapEntry;
 
@@ -37,4 +40,12 @@ public final class LangTest implements ConfigHolder {
   public static final LangValue<String> test1 = LangValue.create(String.class,
     new MapEntry<>("en_US", "English."),
     new MapEntry<>("tr_TR", "Türkçe."));
+
+  public static void main(final String[] args) {
+    final var here = Path.of(System.getProperty("user.dir"));
+    LangLoader.builder()
+      .addBuilder("en_US", "en", here, YamlType.get())
+      .addBuilder("tr_TR", "tr", here, YamlType.get())
+      .build();
+  }
 }
