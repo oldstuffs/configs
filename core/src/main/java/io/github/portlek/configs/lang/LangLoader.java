@@ -25,8 +25,14 @@
 
 package io.github.portlek.configs.lang;
 
+import io.github.portlek.configs.ConfigLoader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents language file loaders.
@@ -35,14 +41,35 @@ import org.jetbrains.annotations.NotNull;
 public final class LangLoader {
 
   /**
-   * the holder.
+   * the config builders.
    */
   @NotNull
-  private final LangHolder holder;
+  private final Map<String, ConfigLoader.Builder> builders;
 
   /**
-   * loads all the lang files.
+   * the keys.
    */
-  public static void load() {
+  @Nullable
+  private List<String> keys;
+
+  @NotNull
+  public Optional<String> getDefaultLanguage() {
+    if (this.builders.isEmpty()) {
+      return Optional.empty();
+    }
+    return Optional.of(this.getKeys().get(0));
+  }
+
+  /**
+   * obtains the lang keys.
+   *
+   * @return lang keys.
+   */
+  @NotNull
+  public List<String> getKeys() {
+    if (this.keys == null) {
+      this.keys = new ArrayList<>(this.builders.keySet());
+    }
+    return this.keys;
   }
 }

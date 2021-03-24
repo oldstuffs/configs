@@ -70,10 +70,10 @@ public final class LangValue<T> {
   private final Map<String, T> values;
 
   /**
-   * the holder.
+   * the loader.
    */
   @Nullable
-  private LangHolder holder;
+  private LangLoader loader;
 
   /**
    * creates a new {@link Builder} instance.
@@ -245,7 +245,7 @@ public final class LangValue<T> {
   }
 
   /**
-   * gets the value at {@link LangHolder#getDefaultLanguage()}.
+   * gets the value at {@link LangLoader#getDefaultLanguage()}.
    *
    * @param lang the lang to set {@link #currentLang}.
    *
