@@ -37,6 +37,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -121,14 +122,12 @@ public abstract class FileConfiguration extends MemoryConfiguration {
    * @throws IllegalArgumentException thrown when reader is null
    */
   public void load(final Reader reader) throws IOException, InvalidConfigurationException {
-    try (final BufferedReader input = reader instanceof BufferedReader ? (BufferedReader) reader : new BufferedReader(reader)) {
-      final StringBuilder builder = new StringBuilder();
-      String line;
-      while ((line = input.readLine()) != null) {
-        builder.append(line);
-        builder.append('\n');
-      }
-      this.loadFromString(builder.toString());
+    try (final BufferedReader input = reader instanceof BufferedReader
+      ? (BufferedReader) reader
+      : new BufferedReader(reader)) {
+      this.loadFromString(input.lines()
+        .map(line -> line + '\n')
+        .collect(Collectors.joining()));
     }
   }
 

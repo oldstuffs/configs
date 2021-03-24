@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotation.Ignore;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
@@ -32,25 +33,32 @@ import io.github.portlek.configs.yaml.YamlType;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 public final class YamlTest {
 
-  public static void main(final String[] args) {
+  public static void main(final String[] args) throws ExecutionException, InterruptedException {
     ConfigLoader.builder()
       .setFileName("test")
-      .setFolderPath(Path.of(System.getProperty("user.dir")))
+      .setFolder(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setConfigHolder(ConfigHolder0.class)
-      .setAsyncExecutor(Executors.newSingleThreadExecutor())
+      .setConfigHolder(new ConfigHolder0(new File("test")))
+      .setAsyncExecutor(Executors.newFixedThreadPool(4))
       .build()
       .load(true, true)
       .thenAccept(configLoader -> {
-        System.out.println(configLoader.getConfiguration().getString("test"));
-      });
+        System.out.println("config holder 1 -> " + ConfigHolder1.testMap);
+      }).get();
   }
 
+  @RequiredArgsConstructor
   private static final class ConfigHolder0 implements ConfigHolder {
+
+    public static final ConfigHolder1 CHILD = new ConfigHolder1();
 
     public static FileConfiguration configuration;
 
@@ -58,13 +66,15 @@ public final class YamlTest {
 
     public static ConfigLoader loader;
 
-    public static ConfigHolder1 parentSection;
-
     public static ConfigurationSection section;
 
     public static String test = "test";
 
-    public static List<String> testList = List.of();
+    public static List<Integer> testList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
+
+    @NotNull
+    @Ignore
+    private final File folder;
   }
 
   @Route("section-2")
@@ -80,6 +90,13 @@ public final class YamlTest {
 
     public static String test = "test section";
 
-    public static List<String> testList = List.of();
+    public static List<String> testList = List.of("1", "2", "3", "4", "5", "6", "7");
+
+    public static Map<String, Integer> testMap = Map.of(
+      "test-1", 1,
+      "test-2", 2,
+      "test-3", 3,
+      "test-4", 4,
+      "test-5", 5);
   }
 }

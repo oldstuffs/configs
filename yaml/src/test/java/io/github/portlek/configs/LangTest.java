@@ -23,31 +23,28 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
-import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
+import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.lang.LangValue;
+import io.github.portlek.configs.yaml.YamlType;
+import java.nio.file.Path;
+import lombok.RequiredArgsConstructor;
+import org.cactoos.map.MapEntry;
 
-/**
- * an implementation to load {@link FileConfiguration}.
- */
-public final class FlConfiguration extends BaseFieldLoader {
+@RequiredArgsConstructor
+public final class LangTest implements ConfigHolder {
 
-  /**
-   * the instance.
-   */
-  public static final Supplier<FlConfiguration> INSTANCE = FlConfiguration::new;
+  @Route("test-1")
+  public static final LangValue<String> test1 = LangValue.create(String.class,
+    new MapEntry<>("en_US", "English."),
+    new MapEntry<>("tr_TR", "Türkçe."));
 
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return FileConfiguration.class == field.getType();
-  }
-
-  @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFileConfiguration());
+  public static void main(final String[] args) {
+    final var here = Path.of(System.getProperty("user.dir"));
+    final var loader = LangLoader.builder()
+      .addBuilder("en_US", here, YamlType.get())
+      .addBuilder("tr_TR", here, YamlType.get())
+      .build();
   }
 }

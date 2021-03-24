@@ -26,7 +26,7 @@
 package io.github.portlek.configs.bukkit.loaders;
 
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
@@ -45,12 +45,12 @@ public final class FlItemStack extends BaseFieldLoader {
   public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     return ItemStack.class == field.getType();
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());

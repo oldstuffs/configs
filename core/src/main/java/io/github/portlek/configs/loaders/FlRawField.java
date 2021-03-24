@@ -25,9 +25,11 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize raw fields.
+ * an implementation to load raw fields.
  */
 @SuppressWarnings("rawtypes")
 public final class FlRawField extends BaseFieldLoader {
@@ -84,30 +86,45 @@ public final class FlRawField extends BaseFieldLoader {
    *
    * @param valueAtPath the value at path.
    * @param field the field.
+   * @param section the section to load.
+   * @param path the path to load.
    */
-  private static void loadList(@NotNull final Object valueAtPath, @NotNull final RefField field) {
-    if (!(valueAtPath instanceof List)) {
+  private static void loadList(@NotNull final Object valueAtPath, @NotNull final RefField field,
+                               @NotNull final ConfigurationSection section, @NotNull final String path) {
+    FlRawField.loadList(valueAtPath, field, null, section, path);
+  }
+
+  /**
+   * loads list.
+   *
+   * @param valueAtPath the value at path.
+   * @param field the field.
+   * @param fieldValue the field value to load.
+   * @param section the section to load.
+   * @param path the path to load.
+   */
+  private static void loadList(@NotNull final Object valueAtPath, @NotNull final RefField field,
+                               @Nullable final Object fieldValue, @NotNull final ConfigurationSection section,
+                               @NotNull final String path) {
+    if (!(valueAtPath instanceof List<?>)) {
       return;
     }
-    final var list = (List) valueAtPath;
+    final var list = (List<?>) valueAtPath;
     if (list.isEmpty()) {
-      try {
-        field.setValue(new ArrayList());
-      } catch (final Throwable t) {
-        t.printStackTrace();
-      }
+      field.setValue(new ArrayList<>());
       return;
     }
     final var listObject = list.get(0);
     final var listObjectClass = listObject.getClass();
-    if (!FlRawField.RAWS.contains(listObjectClass) &&
-      !FlRawField.GENERICS.contains(listObjectClass)) {
+    if (!FlRawField.RAWS.contains(listObjectClass) && !FlRawField.GENERICS.contains(listObjectClass)) {
       return;
     }
-    try {
+    final var genericType = (ParameterizedType) field.getRealField().getGenericType();
+    final var genericClass = (Class<?>) genericType.getActualTypeArguments()[0];
+    if (genericClass.isAssignableFrom(listObjectClass)) {
       field.setValue(list);
-    } catch (final Throwable t) {
-      t.printStackTrace();
+    } else if (fieldValue != null) {
+      section.set(path, fieldValue);
     }
   }
 
@@ -116,68 +133,96 @@ public final class FlRawField extends BaseFieldLoader {
    *
    * @param valueAtPath the value at path.
    * @param field the field.
+   * @param section the section to load.
+   * @param path the path to load.
    */
-  private static void loadMap(@NotNull final Object valueAtPath, @NotNull final RefField field) {
-    if (!(valueAtPath instanceof Map)) {
+  private static void loadMap(@NotNull final Object valueAtPath, @NotNull final RefField field,
+                              @NotNull final ConfigurationSection section, @NotNull final String path) {
+    FlRawField.loadMap(valueAtPath, field, null, section, path);
+  }
+
+  /**
+   * loads map.
+   *
+   * @param valueAtPath the value at path.
+   * @param field the field.
+   * @param fieldValue the field value to load.
+   * @param section the section to load.
+   * @param path the path to load.
+   */
+  private static void loadMap(@NotNull final Object valueAtPath, @NotNull final RefField field,
+                              @Nullable final Object fieldValue, @NotNull final ConfigurationSection section,
+                              @NotNull final String path) {
+    final Object finalValueAtPath;
+    if (valueAtPath instanceof ConfigurationSection) {
+      finalValueAtPath = ((ConfigurationSection) valueAtPath).getMapValues(false);
+    } else {
+      finalValueAtPath = valueAtPath;
+    }
+    if (!(finalValueAtPath instanceof Map<?, ?>)) {
       return;
     }
-    final var map = (Map) valueAtPath;
+    final var map = (Map<?, ?>) finalValueAtPath;
     if (map.isEmpty()) {
-      try {
-        field.setValue(new HashMap());
-      } catch (final Throwable t) {
-        t.printStackTrace();
-      }
+      field.setValue(new HashMap<>());
       return;
     }
-    final var mapObject = map.entrySet().toArray()[0];
-    final var mapObjectClass = mapObject.getClass();
-    if (!FlRawField.RAWS.contains(mapObjectClass) &&
-      !FlRawField.GENERICS.contains(mapObjectClass)) {
+    final var mapEntry = map.entrySet().toArray(Map.Entry[]::new)[0];
+    final var mapEntryKey = mapEntry.getKey();
+    final var mapEntryValue = mapEntry.getValue();
+    final var mapEntryKeyClass = mapEntryKey.getClass();
+    final var mapEntryValueClass = mapEntryValue.getClass();
+    if (!FlRawField.RAWS.contains(mapEntryKeyClass) && !FlRawField.GENERICS.contains(mapEntryKeyClass) ||
+      !FlRawField.RAWS.contains(mapEntryValueClass) && !FlRawField.GENERICS.contains(mapEntryValueClass)) {
       return;
     }
-    try {
+    final var genericType = (ParameterizedType) field.getRealField().getGenericType();
+    final var keyClass = (Class<?>) genericType.getActualTypeArguments()[0];
+    final var valueClass = (Class<?>) genericType.getActualTypeArguments()[1];
+    if (keyClass.isAssignableFrom(mapEntryKeyClass) &&
+      valueClass.isAssignableFrom(mapEntryValueClass)) {
       field.setValue(map);
-    } catch (final Throwable t) {
-      t.printStackTrace();
+    } else if (fieldValue != null) {
+      section.set(path, fieldValue);
     }
   }
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     return FlRawField.RAWS.contains(field.getType()) ||
       FlRawField.GENERICS.contains(field.getType());
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());
-    final var fieldValue = field.getValue();
+    final var fieldValueOptional = field.of(loader.getConfigHolder()).getValue();
     final var section = this.getSection(loader);
     final var valueAtPath = section.get(path);
     final var fieldType = field.getType();
-    if (fieldValue.isPresent()) {
+    if (fieldValueOptional.isPresent()) {
+      final var fieldValue = fieldValueOptional.get();
       if (valueAtPath != null) {
         if (FlRawField.GENERICS.contains(fieldType)) {
-          FlRawField.loadList(valueAtPath, field);
-          FlRawField.loadMap(valueAtPath, field);
+          FlRawField.loadList(valueAtPath, field, fieldValue, section, path);
+          FlRawField.loadMap(valueAtPath, field, fieldValue, section, path);
         } else {
           final var converted = FlRawField.convertFieldType(field, valueAtPath);
           if (converted == null) {
-            section.set(path, fieldValue.get());
+            section.set(path, fieldValue);
           } else {
             field.setValue(fieldType.cast(converted));
           }
         }
       } else {
-        section.set(path, fieldValue.get());
+        section.set(path, fieldValue);
       }
     } else if (valueAtPath != null) {
       if (FlRawField.GENERICS.contains(fieldType)) {
-        FlRawField.loadList(valueAtPath, field);
-        FlRawField.loadMap(valueAtPath, field);
+        FlRawField.loadList(valueAtPath, field, section, path);
+        FlRawField.loadMap(valueAtPath, field, section, path);
       } else {
         field.setValue(fieldType.cast(valueAtPath));
       }

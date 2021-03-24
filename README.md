@@ -3,7 +3,7 @@
 [![idea](https://www.elegantobjects.org/intellij-idea.svg)](https://www.jetbrains.com/idea/)
 
 ![master](https://github.com/portlek/configs/workflows/build/badge.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-parent?label=version)](https://repo1.maven.org/maven2/io/github/portlek/configs-parent/)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.portlek/configs-core?label=version)](https://repo1.maven.org/maven2/io/github/portlek/configs-core/)
 
 ## How to use
 

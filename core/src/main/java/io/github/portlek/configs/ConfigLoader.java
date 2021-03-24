@@ -27,12 +27,13 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import io.github.portlek.configs.loaders.FieldLoader;
 import io.github.portlek.configs.loaders.FlConfigHolder;
 import io.github.portlek.configs.loaders.FlConfigLoader;
 import io.github.portlek.configs.loaders.FlConfiguration;
 import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
+import io.github.portlek.configs.loaders.FlLangLoader;
+import io.github.portlek.configs.loaders.FlLangValueLoader;
 import io.github.portlek.configs.loaders.FlLocale;
 import io.github.portlek.configs.loaders.FlRawField;
 import io.github.portlek.configs.loaders.FlUniqueId;
@@ -49,7 +50,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.function.Supplier;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,9 +60,9 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents config loaders.
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public final class ConfigLoader {
+public final class ConfigLoader implements Loader {
 
   /**
    * the async executor.
@@ -71,7 +74,7 @@ public final class ConfigLoader {
    * the class config holder.
    */
   @Nullable
-  private final Class<? extends ConfigHolder> configHolder;
+  private final ConfigHolder configHolder;
 
   /**
    * the config type.
@@ -120,13 +123,93 @@ public final class ConfigLoader {
   }
 
   /**
-   * obtains the configuration.
+   * creates a new {@link Builder} instance.
    *
-   * @return configuration.
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
    */
   @NotNull
-  public FileConfiguration getConfiguration() {
-    return Objects.requireNonNull(this.configuration, "Use #load() method before save the config!");
+  public static Builder builder(@NotNull final String fileName, @NotNull final File folder,
+                                @NotNull final ConfigType configType) {
+    return ConfigLoader.builder(fileName, folder.toPath(), configType);
+  }
+
+  /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builder(@NotNull final String fileName, @NotNull final Path folder,
+                                @NotNull final ConfigType configType) {
+    return ConfigLoader.builder()
+      .setFileName(fileName)
+      .setFolder(folder)
+      .setConfigType(configType);
+  }
+
+  /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builderForLang(@NotNull final String fileName, @NotNull final File folder,
+                                       @NotNull final ConfigType configType) {
+    return ConfigLoader.builderForLang(fileName, folder.toPath(), configType);
+  }
+
+  /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builderForLang(@NotNull final String fileName, @NotNull final Path folder,
+                                       @NotNull final ConfigType configType) {
+    return ConfigLoader.builder()
+      .setFileName(fileName)
+      .setFolder(folder)
+      .setConfigType(configType)
+      .setLoaders(List.of(
+        FlConfigurationSection.INSTANCE,
+        FlLangValueLoader.INSTANCE,
+        FlConfiguration.INSTANCE,
+        FlConfigHolder.INSTANCE,
+        FlLangLoader.INSTANCE,
+        FlFile.INSTANCE
+      ));
+  }
+
+  /**
+   * creates the folder and file then sets {@link #file}.
+   */
+  public void createFolderAndFile() {
+    final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
+    this.file = filePath.toFile();
+    if (!Files.notExists(filePath)) {
+      return;
+    }
+    try {
+      Files.createFile(filePath);
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -135,43 +218,20 @@ public final class ConfigLoader {
    * @return file.
    */
   @NotNull
+  @Override
   public File getFile() {
-    return Objects.requireNonNull(this.file, "Use #load() method before save the config!");
+    return Objects.requireNonNull(this.file, "Use #load() method before use #getFile() method!");
   }
 
   /**
-   * loads the config.
+   * obtains the configuration.
    *
-   * @param save the save to load.
-   * @param async the async to load.
-   *
-   * @return loaded config.
+   * @return configuration.
    */
   @NotNull
-  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
-    final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
-    this.file = filePath.toFile();
-    if (Files.notExists(filePath)) {
-      try {
-        Files.createFile(filePath);
-      } catch (final IOException e) {
-        e.printStackTrace();
-      }
-    }
-    if (!async) {
-      this.loadFile();
-      this.loadFieldsAndSave(save);
-      return CompletableFuture.completedFuture(this);
-    }
-    return CompletableFuture.runAsync(this::loadFile, this.asyncExecutor)
-      .whenCompleteAsync((unused, throwable) -> {
-        if (throwable != null) {
-          throwable.printStackTrace();
-          return;
-        }
-        this.loadFieldsAndSave(save);
-      }, this.asyncExecutor)
-      .thenApplyAsync(unused -> this, this.asyncExecutor);
+  @Override
+  public FileConfiguration getFileConfiguration() {
+    return Objects.requireNonNull(this.configuration, "Use #load() method before use #getConfiguration() method!");
   }
 
   /**
@@ -197,12 +257,28 @@ public final class ConfigLoader {
   }
 
   /**
-   * runs when config is saving.
+   * loads the config.
    *
-   * @throws IOException if something goes wrong when saving the file.
+   * @param save the save to load.
+   * @param async the async to load.
+   *
+   * @return loaded config.
    */
-  public void save() throws IOException {
-    this.configType.save(this.getFile(), this.getConfiguration());
+  @NotNull
+  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
+    final var future = new CompletableFuture<ConfigLoader>();
+    final var job = (Supplier<ConfigLoader>) () -> {
+      this.createFolderAndFile();
+      this.loadFile();
+      this.loadFieldsAndSave(save);
+      return this;
+    };
+    if (async) {
+      future.completeAsync(job, this.asyncExecutor);
+    } else {
+      future.complete(job.get());
+    }
+    return future;
   }
 
   /**
@@ -210,23 +286,19 @@ public final class ConfigLoader {
    *
    * @param save the save to load.
    */
-  private void loadFieldsAndSave(final boolean save) {
+  public void loadFieldsAndSave(final boolean save) {
     if (this.configHolder != null) {
-      FieldLoader.load(this, this.configHolder, this.loaders);
+      FieldLoader.load(this, this.configHolder);
     }
     if (save) {
-      try {
-        this.save();
-      } catch (final IOException e) {
-        throw new RuntimeException(e);
-      }
+      this.save();
     }
   }
 
   /**
-   * loads the file configuration from {@link this#file}.
+   * loads the file configuration from {@link #file}.
    */
-  private void loadFile() {
+  public void loadFile() {
     Validate.checkNull(this.file, "file");
     try {
       this.configuration = this.configType.load(this.file);
@@ -236,25 +308,22 @@ public final class ConfigLoader {
   }
 
   /**
+   * runs when config is saving.
+   */
+  public void save() {
+    try {
+      this.configType.save(this.getFile(), this.getFileConfiguration());
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
    * a class that represents class loader builders.
    */
   @Getter
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
   public static final class Builder {
-
-    /**
-     * the loaders.
-     */
-    @NotNull
-    private final List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
-      this.add(FlConfigurationSection.INSTANCE);
-      this.add(FlConfiguration.INSTANCE);
-      this.add(FlConfigHolder.INSTANCE);
-      this.add(FlConfigLoader.INSTANCE);
-      this.add(FlRawField.INSTANCE);
-      this.add(FlUniqueId.INSTANCE);
-      this.add(FlLocale.INSTANCE);
-      this.add(FlFile.INSTANCE);
-    }};
 
     /**
      * the async executor.
@@ -266,7 +335,7 @@ public final class ConfigLoader {
      * the config holder.
      */
     @Nullable
-    private Class<? extends ConfigHolder> configHolder;
+    private ConfigHolder configHolder;
 
     /**
      * the config type.
@@ -287,10 +356,19 @@ public final class ConfigLoader {
     private Path folderPath;
 
     /**
-     * ctor.
+     * the loaders.
      */
-    private Builder() {
-    }
+    @NotNull
+    private List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
+      this.add(FlConfigurationSection.INSTANCE);
+      this.add(FlConfiguration.INSTANCE);
+      this.add(FlConfigHolder.INSTANCE);
+      this.add(FlConfigLoader.INSTANCE);
+      this.add(FlRawField.INSTANCE);
+      this.add(FlUniqueId.INSTANCE);
+      this.add(FlLocale.INSTANCE);
+      this.add(FlFile.INSTANCE);
+    }};
 
     /**
      * adds loaders.
@@ -341,7 +419,7 @@ public final class ConfigLoader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setConfigHolder(@NotNull final Class<? extends ConfigHolder> configHolder) {
+    public Builder setConfigHolder(@NotNull final ConfigHolder configHolder) {
       this.configHolder = configHolder;
       return this;
     }
@@ -373,15 +451,18 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the file path.
+     * sets the folder path.
      *
-     * @param file the file to set.
+     * @param folder the folder to set.
      *
      * @return {@code this} for builder chain.
+     *
+     * @see #setFolder(Path)
      */
     @NotNull
-    public Builder setFolderPath(@NotNull final File file) {
-      return this.setFolderPath(file.toPath());
+    public Builder setFolder(@NotNull final File folder) {
+      this.folderPath = folder.toPath();
+      return this;
     }
 
     /**
@@ -392,8 +473,21 @@ public final class ConfigLoader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setFolderPath(@NotNull final Path folderPath) {
+    public Builder setFolder(@NotNull final Path folderPath) {
       this.folderPath = folderPath;
+      return this;
+    }
+
+    /**
+     * sets {@link #loaders}.
+     *
+     * @param loaders the loaders to sets.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setLoaders(@NotNull final List<Supplier<? extends FieldLoader>> loaders) {
+      this.loaders = loaders;
       return this;
     }
   }

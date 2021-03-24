@@ -26,12 +26,13 @@
 package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigLoader}.
+ * an implementation to load {@link ConfigLoader}.
  */
 public final class FlConfigLoader extends BaseFieldLoader {
 
@@ -41,12 +42,13 @@ public final class FlConfigLoader extends BaseFieldLoader {
   public static final Supplier<FlConfigLoader> INSTANCE = FlConfigLoader::new;
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    return ConfigLoader.class == field.getType();
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    return field.getType() == ConfigLoader.class &&
+      loader.getClass() == ConfigLoader.class;
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     field.setValue(loader);
   }
 }

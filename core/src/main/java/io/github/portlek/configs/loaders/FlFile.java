@@ -25,14 +25,14 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.reflection.RefField;
 import java.io.File;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link File}.
+ * an implementation to load {@link File}.
  */
 public final class FlFile extends BaseFieldLoader {
 
@@ -42,12 +42,12 @@ public final class FlFile extends BaseFieldLoader {
   public static final Supplier<FlFile> INSTANCE = FlFile::new;
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     return File.class == field.getType();
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     field.setValue(loader.getFile());
   }
 }
