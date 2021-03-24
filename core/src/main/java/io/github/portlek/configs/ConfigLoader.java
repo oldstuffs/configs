@@ -31,7 +31,7 @@ import io.github.portlek.configs.loaders.FlConfigHolder;
 import io.github.portlek.configs.loaders.FlConfiguration;
 import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
-import io.github.portlek.configs.loaders.FlLoader;
+import io.github.portlek.configs.loaders.FlConfigLoader;
 import io.github.portlek.configs.loaders.FlLocale;
 import io.github.portlek.configs.loaders.FlRawField;
 import io.github.portlek.configs.loaders.FlUniqueId;
@@ -188,7 +188,7 @@ public final class ConfigLoader implements Loader {
         FlConfigurationSection.INSTANCE,
         FlConfiguration.INSTANCE,
         FlConfigHolder.INSTANCE,
-        FlLoader.INSTANCE,
+        FlConfigLoader.INSTANCE,
         FlFile.INSTANCE
       ));
   }
@@ -360,7 +360,7 @@ public final class ConfigLoader implements Loader {
       this.add(FlConfigurationSection.INSTANCE);
       this.add(FlConfiguration.INSTANCE);
       this.add(FlConfigHolder.INSTANCE);
-      this.add(FlLoader.INSTANCE);
+      this.add(FlConfigLoader.INSTANCE);
       this.add(FlRawField.INSTANCE);
       this.add(FlUniqueId.INSTANCE);
       this.add(FlLocale.INSTANCE);

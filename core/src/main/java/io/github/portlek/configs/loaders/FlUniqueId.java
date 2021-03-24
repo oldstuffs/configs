@@ -36,7 +36,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize {@link Locale}.
+ * an implementation to load {@link Locale}.
  */
 public final class FlUniqueId extends BaseFieldLoader {
 

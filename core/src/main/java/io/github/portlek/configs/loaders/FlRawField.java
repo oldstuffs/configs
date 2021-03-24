@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize raw fields.
+ * an implementation to load raw fields.
  */
 @SuppressWarnings("rawtypes")
 public final class FlRawField extends BaseFieldLoader {

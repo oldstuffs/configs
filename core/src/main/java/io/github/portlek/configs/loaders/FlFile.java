@@ -32,7 +32,7 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link File}.
+ * an implementation to load {@link File}.
  */
 public final class FlFile extends BaseFieldLoader {
 
