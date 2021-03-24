@@ -328,7 +328,8 @@ public final class LangValue<T> {
    *
    * @param <T> type of the values.
    */
-  @RequiredArgsConstructor
+  @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+  @Getter
   public static final class Builder<T> {
 
     /**

@@ -37,6 +37,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +47,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that represents language file loaders.
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@Getter
 public final class LangLoader {
 
   /**
@@ -114,6 +118,8 @@ public final class LangLoader {
   /**
    * a class that represents class loader builders.
    */
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
+  @Getter
   public static final class Builder {
 
     /**
