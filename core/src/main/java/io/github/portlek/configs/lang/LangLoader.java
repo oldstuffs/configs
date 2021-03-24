@@ -27,6 +27,7 @@ package io.github.portlek.configs.lang;
 
 import io.github.portlek.configs.ConfigLoader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -52,6 +53,17 @@ public final class LangLoader {
   @Nullable
   private List<String> keys;
 
+  /**
+   * the values.
+   */
+  @Nullable
+  private List<ConfigLoader.Builder> values;
+
+  /**
+   * obtains the default language key.
+   *
+   * @return default language key.
+   */
   @NotNull
   public Optional<String> getDefaultLanguage() {
     if (this.builders.isEmpty()) {
@@ -70,6 +82,19 @@ public final class LangLoader {
     if (this.keys == null) {
       this.keys = new ArrayList<>(this.builders.keySet());
     }
-    return this.keys;
+    return Collections.unmodifiableList(this.keys);
+  }
+
+  /**
+   * obtains the lang values.
+   *
+   * @return lang values.
+   */
+  @NotNull
+  public List<ConfigLoader.Builder> getValues() {
+    if (this.values == null) {
+      this.values = new ArrayList<>(this.builders.values());
+    }
+    return Collections.unmodifiableList(this.values);
   }
 }

@@ -42,7 +42,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that contains values in terms of {@link LangHolder#getSupportedLanguages()}.
+ * a class that contains language keys with its values.
  *
  * @param <T> type of the values.
  */
@@ -249,7 +249,7 @@ public final class LangValue<T> {
    *
    * @param lang the lang to set {@link #currentLang}.
    *
-   * @return value at the default language of {@link #holder}.
+   * @return value at the default language of {@link #loader}.
    */
   @NotNull
   public Optional<T> get(@NotNull final String lang) {
@@ -257,9 +257,9 @@ public final class LangValue<T> {
   }
 
   /**
-   * gets the value at {@link LangHolder#getDefaultLanguage()}.
+   * gets the value at {@link LangLoader#getDefaultLanguage()}.
    *
-   * @return value at the default language of {@link #holder}.
+   * @return value at the default language of {@link #loader}.
    */
   @NotNull
   public Optional<T> get() {
@@ -267,27 +267,17 @@ public final class LangValue<T> {
   }
 
   /**
-   * obtains the {@link #holder}.
+   * obtains the {@link #loader}.
    *
    * @return holder.
    */
   @NotNull
-  public LangHolder getHolder() {
-    return Objects.requireNonNull(this.holder, "Load the fields before use #getHolder() method!");
+  public LangLoader getLoader() {
+    return Objects.requireNonNull(this.loader, "Load the fields before use #getLoader() method!");
   }
 
   /**
-   * sets hte {@link #holder} and {@link #currentLang}.
-   *
-   * @param holder the holder to set.
-   */
-  public void setHolder(@NotNull final LangHolder holder) {
-    this.holder = holder;
-    this.currentLang.set(holder.getDefaultLanguage());
-  }
-
-  /**
-   * sets {@link #currentLang} if the holder is not null and {@link LangHolder#getSupportedLanguages()} contains the
+   * sets {@link #currentLang} if the holder is not null and {@link LangLoader#getKeys()} contains the
    * given {@code lang}.
    *
    * @param lang the lang to set.
@@ -296,10 +286,10 @@ public final class LangValue<T> {
    */
   @NotNull
   public LangValue<T> lang(@NotNull final String lang) {
-    if (this.holder == null) {
+    if (this.loader == null) {
       return this;
     }
-    final var control = this.holder.getSupportedLanguages().stream()
+    final var control = this.loader.getValues().stream()
       .map(ConfigLoader.Builder::getFileName)
       .filter(Objects::nonNull)
       .anyMatch(lang::equalsIgnoreCase);
@@ -319,6 +309,16 @@ public final class LangValue<T> {
    */
   public void put(@NotNull final String key, @NotNull final T value) {
     this.values.put(key, value);
+  }
+
+  /**
+   * sets hte {@link #loader} and {@link #currentLang}.
+   *
+   * @param loader the loader to set.
+   */
+  public void setHolder(@NotNull final LangLoader loader) {
+    this.loader = loader;
+    loader.getDefaultLanguage().ifPresent(this.currentLang::set);
   }
 
   /**
