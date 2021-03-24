@@ -57,13 +57,13 @@ public interface FieldLoader {
                                          @Nullable final ConfigurationSection section) {
     return suppliers.stream()
       .map(Supplier::get)
-      .peek(loader -> {
-        loader.setParentHolder(parentHolder);
+      .peek(fieldLoader -> {
+        fieldLoader.setParentHolder(parentHolder);
         if (section != null) {
-          loader.setSection(section);
+          fieldLoader.setSection(section);
         }
         if (parentField != null) {
-          loader.setParentField(parentField);
+          fieldLoader.setParentField(parentField);
         }
       })
       .collect(Collectors.toList());

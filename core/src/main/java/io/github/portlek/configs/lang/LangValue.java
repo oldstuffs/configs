@@ -26,6 +26,7 @@
 package io.github.portlek.configs.lang;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.LangLoader;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.HashMap;

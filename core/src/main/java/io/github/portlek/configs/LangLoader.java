@@ -23,15 +23,11 @@
  *
  */
 
-package io.github.portlek.configs.lang;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.ConfigLoader;
-import io.github.portlek.configs.ConfigType;
-import io.github.portlek.configs.FieldLoader;
-import io.github.portlek.configs.Loader;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,19 +35,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents language file loaders.
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public final class LangLoader implements Loader {
 
@@ -62,10 +60,26 @@ public final class LangLoader implements Loader {
   private final Map<String, ConfigLoader.Builder> builders;
 
   /**
+   * the built config loaders.
+   */
+  private final StringLoaderEntry[] built;
+
+  /**
    * the config holder.
    */
   @Nullable
   private final ConfigHolder configHolder;
+
+  /**
+   * the current statement.
+   */
+  private final AtomicInteger statement = new AtomicInteger();
+
+  /**
+   * the default language.
+   */
+  @Nullable
+  private String defaultLanguage;
 
   /**
    * the keys.
@@ -80,6 +94,19 @@ public final class LangLoader implements Loader {
   private List<ConfigLoader.Builder> values;
 
   /**
+   * ctor.
+   *
+   * @param builders the builders.
+   * @param configHolder the config holder.
+   */
+  private LangLoader(@NotNull final Map<String, ConfigLoader.Builder> builders,
+                     @Nullable final ConfigHolder configHolder) {
+    this.builders = builders;
+    this.configHolder = configHolder;
+    this.built = new StringLoaderEntry[this.builders.size()];
+  }
+
+  /**
    * creates a new {@link Builder} instance.
    *
    * @return a newly created builder instance.
@@ -90,13 +117,38 @@ public final class LangLoader implements Loader {
   }
 
   /**
+   * obtains the {@link #built}.
+   *
+   * @return built.
+   */
+  @NotNull
+  public StringLoaderEntry[] getBuilt() {
+    synchronized (this.built) {
+      if (this.built.length == 0) {
+        throw new IllegalStateException("Couldn't find any built config loader instance.");
+      }
+      if (this.built[0] == null) {
+        final var list = this.builders.entrySet().stream()
+          .map(entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), entry.getValue().build()))
+          .collect(Collectors.toList());
+        IntStream.range(0, list.size())
+          .forEach(index -> this.built[index] = new StringLoaderEntry(list.get(index)));
+      }
+      return this.built.clone();
+    }
+  }
+
+  /**
    * obtains the default language key.
    *
    * @return default language key.
    */
   @NotNull
   public Optional<String> getDefaultLanguage() {
-    return this.getKeys().stream().findFirst();
+    if (this.defaultLanguage == null) {
+      this.defaultLanguage = this.getKeys().stream().findFirst().orElse(null);
+    }
+    return Optional.ofNullable(this.defaultLanguage);
   }
 
   /**
@@ -158,38 +210,62 @@ public final class LangLoader implements Loader {
   @NotNull
   public CompletableFuture<LangLoader> load(final boolean save, final boolean async) {
     final var future = new CompletableFuture<LangLoader>();
-    final var values = this.getValues();
     final var job = (Function<ConfigLoader, Runnable>) loader -> () -> {
       loader.createFolderAndFile();
       loader.loadFile();
       this.loadFieldsAndSave(loader, save);
     };
-    if (async) {
-      values.stream()
-        .map(ConfigLoader.Builder::build)
-        .forEach(loader -> future.thenRunAsync(job.apply(loader), loader.getAsyncExecutor()));
-    } else {
-      values.stream()
-        .map(ConfigLoader.Builder::build)
-        .map(job)
-        .forEach(future::thenRun);
-    }
+    Arrays.stream(this.getBuilt())
+      .map(StringLoaderEntry::getValue)
+      .forEach(built -> {
+        if (async) {
+          future.thenRunAsync(job.apply(built), built.getAsyncExecutor());
+        } else {
+          future.thenRun(job.apply(built));
+        }
+      });
     return future.thenApply(langLoader -> langLoader);
   }
 
   /**
    * loads fields in the {@link #configHolder} then saves if {@code save} is true.
    *
-   * @param loader the loader to load.
+   * @param configLoader the config loader to load.
    * @param save the save to load.
    */
-  public void loadFieldsAndSave(@NotNull final ConfigLoader loader, final boolean save) {
+  public void loadFieldsAndSave(@NotNull final ConfigLoader configLoader, final boolean save) {
     if (this.configHolder != null) {
-      FieldLoader.load(this, this.configHolder, loader.getLoaders());
+      FieldLoader.load(this, this.configHolder, configLoader.getLoaders());
     }
     if (save) {
-      loader.save();
+      configLoader.save();
     }
+  }
+
+  /**
+   * polls the current config loader
+   *
+   * @return config loader.
+   */
+  @NotNull
+  public Map.Entry<String, ConfigLoader> pollConfigLoader() {
+    final var built = this.getBuilt();
+    if (built.length == 0) {
+      throw new IllegalStateException("Couldn't find any built config loader.");
+    }
+    return built[this.pollStatement()];
+  }
+
+  /**
+   * polls and increase {@link #statement} by 1.
+   *
+   * @return the current statement.
+   */
+  public int pollStatement() {
+    if (this.statement.get() > this.getKeys().size()) {
+      this.statement.set(0);
+    }
+    return this.statement.getAndIncrement();
   }
 
   /**
@@ -393,5 +469,19 @@ public final class LangLoader implements Loader {
       this.holder = holder;
       return this;
     }
+  }
+
+  /**
+   * a string and config loader map entry to avoid generic types.
+   */
+  @RequiredArgsConstructor
+  public static final class StringLoaderEntry implements Map.Entry<String, ConfigLoader> {
+
+    /**
+     * the original entry to delegate.
+     */
+    @NotNull
+    @Delegate
+    private final Map.Entry<String, ConfigLoader> original;
   }
 }

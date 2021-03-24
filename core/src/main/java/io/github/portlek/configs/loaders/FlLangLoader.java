@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.LangLoader;
 import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.lang.LangLoader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;

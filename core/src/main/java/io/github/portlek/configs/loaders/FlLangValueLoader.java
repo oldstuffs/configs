@@ -25,8 +25,9 @@
 
 package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.LangLoader;
 import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.lang.LangLoader;
+import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.lang.LangValue;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
@@ -50,6 +51,21 @@ public final class FlLangValueLoader extends BaseFieldLoader {
 
   @Override
   public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    final var path = field.getAnnotation(Route.class)
+      .map(Route::value)
+      .orElse(field.getName());
     final var lang = (LangLoader) loader;
+    final var fieldValueOptional = field.of(lang.getConfigHolder()).getValue()
+      .filter(LangValue.class::isInstance)
+      .map(LangValue.class::cast);
+    for (final var entry : lang.getBuilt()) {
+      final var key = entry.getKey();
+      final var value = entry.getValue();
+      final var section = this.getSection(value);
+      final var valueAtPath = section.get(path);
+      if (fieldValueOptional.isPresent()) {
+      } else if (valueAtPath != null) {
+      }
+    }
   }
 }

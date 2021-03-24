@@ -26,7 +26,6 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.lang.LangLoader;
 import io.github.portlek.configs.lang.LangValue;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
