@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.cactoos.map.MapEntry;
+import org.cactoos.map.MapOf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -119,6 +121,19 @@ public final class LangLoader {
      */
     @NotNull
     private Map<String, ConfigLoader.Builder> builders = new HashMap<>();
+
+    /**
+     * adds the key with builder.
+     *
+     * @param builders the builders to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @SafeVarargs
+    @NotNull
+    public final Builder addBuilder(@NotNull final Map.Entry<String, ConfigLoader.Builder>... builders) {
+      return this.addBuilder(new MapOf<>(builders));
+    }
 
     /**
      * adds a builder from the given file name as key and with other parameters.
@@ -208,7 +223,19 @@ public final class LangLoader {
      */
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final ConfigLoader.Builder builder) {
-      this.builders.put(key, builder);
+      return this.addBuilder(new MapEntry<>(key, builder));
+    }
+
+    /**
+     * adds the key with builder.
+     *
+     * @param builders the builders to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final Map<String, ConfigLoader.Builder> builders) {
+      this.builders.putAll(builders);
       return this;
     }
 
