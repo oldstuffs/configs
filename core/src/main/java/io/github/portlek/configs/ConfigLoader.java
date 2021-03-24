@@ -32,6 +32,7 @@ import io.github.portlek.configs.loaders.FlConfiguration;
 import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
 import io.github.portlek.configs.loaders.FlConfigLoader;
+import io.github.portlek.configs.loaders.FlLangLoader;
 import io.github.portlek.configs.loaders.FlLocale;
 import io.github.portlek.configs.loaders.FlRawField;
 import io.github.portlek.configs.loaders.FlUniqueId;
@@ -188,7 +189,7 @@ public final class ConfigLoader implements Loader {
         FlConfigurationSection.INSTANCE,
         FlConfiguration.INSTANCE,
         FlConfigHolder.INSTANCE,
-        FlConfigLoader.INSTANCE,
+        FlLangLoader.INSTANCE,
         FlFile.INSTANCE
       ));
   }
