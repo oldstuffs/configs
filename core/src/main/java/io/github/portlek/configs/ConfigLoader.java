@@ -293,7 +293,7 @@ public final class ConfigLoader implements Loader {
   }
 
   /**
-   * loads the file configuration from {@link this#file}.
+   * loads the file configuration from {@link #file}.
    */
   public void loadFile() {
     Validate.checkNull(this.file, "file");
