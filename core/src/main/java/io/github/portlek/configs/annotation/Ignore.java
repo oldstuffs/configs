@@ -23,32 +23,18 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.annotation;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
-import java.util.function.Supplier;
-import org.jetbrains.annotations.NotNull;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * an implementation to serialize {@link FileConfiguration}.
+ * an annotation to define which fields shouldn't load.
  */
-public final class FlConfigurationSection extends BaseFieldLoader {
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Ignore {
 
-  /**
-   * the instance.
-   */
-  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
-
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return ConfigurationSection.class == field.getType();
-  }
-
-  @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(this.getSection(loader));
-  }
 }

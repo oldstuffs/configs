@@ -26,7 +26,8 @@
 package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.FieldLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
 import io.github.portlek.reflection.clazz.ClassOf;
@@ -45,20 +46,20 @@ public final class FlConfigHolder extends BaseFieldLoader {
   public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     return ConfigHolder.class.isAssignableFrom(field.getType());
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     final var parent = Optional.ofNullable(this.getParentHolder())
       .orElse(loader.getConfigHolder());
     field.of(parent).getValue()
       .filter(ConfigHolder.class::isInstance)
       .map(ConfigHolder.class::cast)
       .ifPresent(configHolder ->
-        FieldLoader.load(loader, configHolder, loader.getLoaders(), field,
-          this.getSection(loader).createSection(field.getAnnotation(Route.class)
+        FieldLoader.load(loader, configHolder, field,
+          this.getSection(loader).getSectionOrCreate(field.getAnnotation(Route.class)
             .map(Route::value)
             .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
               .map(Route::value)

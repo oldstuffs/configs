@@ -27,7 +27,6 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import io.github.portlek.configs.loaders.FieldLoader;
 import io.github.portlek.configs.loaders.FlConfigHolder;
 import io.github.portlek.configs.loaders.FlConfigLoader;
 import io.github.portlek.configs.loaders.FlConfiguration;
@@ -61,7 +60,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public final class ConfigLoader {
+public final class ConfigLoader implements Loader {
 
   /**
    * the async executor.
@@ -195,13 +194,19 @@ public final class ConfigLoader {
   }
 
   /**
-   * obtains the configuration.
-   *
-   * @return configuration.
+   * creates the folder and file then sets {@link #file}.
    */
-  @NotNull
-  public FileConfiguration getConfiguration() {
-    return Objects.requireNonNull(this.configuration, "Use #load() method before use #getConfiguration() method!");
+  public void createFolderAndFile() {
+    final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
+    this.file = filePath.toFile();
+    if (!Files.notExists(filePath)) {
+      return;
+    }
+    try {
+      Files.createFile(filePath);
+    } catch (final IOException e) {
+      e.printStackTrace();
+    }
   }
 
   /**
@@ -210,43 +215,20 @@ public final class ConfigLoader {
    * @return file.
    */
   @NotNull
+  @Override
   public File getFile() {
     return Objects.requireNonNull(this.file, "Use #load() method before use #getFile() method!");
   }
 
   /**
-   * loads the config.
+   * obtains the configuration.
    *
-   * @param save the save to load.
-   * @param async the async to load.
-   *
-   * @return loaded config.
+   * @return configuration.
    */
   @NotNull
-  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
-    final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
-    this.file = filePath.toFile();
-    if (Files.notExists(filePath)) {
-      try {
-        Files.createFile(filePath);
-      } catch (final IOException e) {
-        e.printStackTrace();
-      }
-    }
-    if (!async) {
-      this.loadFile();
-      this.loadFieldsAndSave(save);
-      return CompletableFuture.completedFuture(this);
-    }
-    return CompletableFuture.runAsync(this::loadFile, this.asyncExecutor)
-      .whenCompleteAsync((unused, throwable) -> {
-        if (throwable != null) {
-          throwable.printStackTrace();
-          return;
-        }
-        this.loadFieldsAndSave(save);
-      }, this.asyncExecutor)
-      .thenApplyAsync(unused -> this, this.asyncExecutor);
+  @Override
+  public FileConfiguration getFileConfiguration() {
+    return Objects.requireNonNull(this.configuration, "Use #load() method before use #getConfiguration() method!");
   }
 
   /**
@@ -272,14 +254,28 @@ public final class ConfigLoader {
   }
 
   /**
-   * runs when config is saving.
+   * loads the config.
+   *
+   * @param save the save to load.
+   * @param async the async to load.
+   *
+   * @return loaded config.
    */
-  public void save() {
-    try {
-      this.configType.save(this.getFile(), this.getConfiguration());
-    } catch (final IOException e) {
-      e.printStackTrace();
+  @NotNull
+  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
+    final var future = new CompletableFuture<ConfigLoader>();
+    final var job = (Supplier<ConfigLoader>) () -> {
+      this.createFolderAndFile();
+      this.loadFile();
+      this.loadFieldsAndSave(save);
+      return this;
+    };
+    if (async) {
+      future.completeAsync(job, this.asyncExecutor);
+    } else {
+      future.complete(job.get());
     }
+    return future;
   }
 
   /**
@@ -287,9 +283,9 @@ public final class ConfigLoader {
    *
    * @param save the save to load.
    */
-  private void loadFieldsAndSave(final boolean save) {
+  public void loadFieldsAndSave(final boolean save) {
     if (this.configHolder != null) {
-      FieldLoader.load(this, this.configHolder, this.loaders);
+      FieldLoader.load(this, this.configHolder);
     }
     if (save) {
       this.save();
@@ -299,12 +295,23 @@ public final class ConfigLoader {
   /**
    * loads the file configuration from {@link this#file}.
    */
-  private void loadFile() {
+  public void loadFile() {
     Validate.checkNull(this.file, "file");
     try {
       this.configuration = this.configType.load(this.file);
     } catch (final IOException | InvalidConfigurationException e) {
       throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * runs when config is saving.
+   */
+  public void save() {
+    try {
+      this.configType.save(this.getFile(), this.getFileConfiguration());
+    } catch (final IOException e) {
+      e.printStackTrace();
     }
   }
 

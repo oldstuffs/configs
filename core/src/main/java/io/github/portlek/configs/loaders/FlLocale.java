@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
 import java.util.Locale;
@@ -68,15 +68,12 @@ public final class FlLocale extends BaseFieldLoader {
   }
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
-    if (field.hasFinal()) {
-      return false;
-    }
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     return Locale.class == field.getType();
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());

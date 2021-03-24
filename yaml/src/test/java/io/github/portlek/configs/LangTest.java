@@ -44,8 +44,8 @@ public final class LangTest implements ConfigHolder {
   public static void main(final String[] args) {
     final var here = Path.of(System.getProperty("user.dir"));
     final var loader = LangLoader.builder()
-      .addBuilder("en_US", "en", here, YamlType.get())
-      .addBuilder("tr_TR", "tr", here, YamlType.get())
+      .addBuilder("en_US", here, YamlType.get())
+      .addBuilder("tr_TR", here, YamlType.get())
       .build();
   }
 }

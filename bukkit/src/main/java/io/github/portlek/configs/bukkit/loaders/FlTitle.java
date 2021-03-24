@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.bukkit.loaders;
 
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.bukkit.data.SentTitle;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
@@ -45,12 +45,12 @@ public final class FlTitle extends BaseFieldLoader {
   public static final Supplier<FlTitle> INSTANCE = FlTitle::new;
 
   @Override
-  public boolean canLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public boolean canLoad(final @NotNull Loader loader, @NotNull final RefField field) {
     return SentTitle.class == field.getType();
   }
 
   @Override
-  public void onLoad(@NotNull final ConfigLoader loader, @NotNull final RefField field) {
+  public void onLoad(final @NotNull Loader loader, @NotNull final RefField field) {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());

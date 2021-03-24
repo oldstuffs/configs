@@ -23,32 +23,57 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
+import java.io.File;
+import java.util.List;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize {@link FileConfiguration}.
+ * an interface to determine config loaders.
  */
-public final class FlConfigurationSection extends BaseFieldLoader {
+public interface Loader {
 
   /**
-   * the instance.
+   * obtains the config holder.
+   *
+   * @return config holder.
    */
-  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
-
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return ConfigurationSection.class == field.getType();
+  @Nullable
+  default ConfigHolder getConfigHolder() {
+    throw new UnsupportedOperationException("not implemented");
   }
 
-  @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(this.getSection(loader));
+  /**
+   * obtains the file.
+   *
+   * @return file.
+   */
+  @NotNull
+  default File getFile() {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  /**
+   * obtains the file configuration.
+   *
+   * @return file configuration.
+   */
+  @NotNull
+  default FileConfiguration getFileConfiguration() {
+    throw new UnsupportedOperationException("not implemented");
+  }
+
+  /**
+   * obtains the field loaders.
+   *
+   * @return field loaders.
+   */
+  @NotNull
+  default List<Supplier<? extends FieldLoader>> getLoaders() {
+    throw new UnsupportedOperationException("not implemented");
   }
 }

@@ -28,7 +28,8 @@ package io.github.portlek.configs.lang;
 import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigType;
-import io.github.portlek.configs.util.Validate;
+import io.github.portlek.configs.FieldLoader;
+import io.github.portlek.configs.Loader;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -51,7 +53,7 @@ import org.jetbrains.annotations.Nullable;
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public final class LangLoader {
+public final class LangLoader implements Loader {
 
   /**
    * the config builders.
@@ -60,10 +62,10 @@ public final class LangLoader {
   private final Map<String, ConfigLoader.Builder> builders;
 
   /**
-   * the holder.
+   * the config holder.
    */
-  @NotNull
-  private final ConfigHolder holder;
+  @Nullable
+  private final ConfigHolder configHolder;
 
   /**
    * the keys.
@@ -129,7 +131,7 @@ public final class LangLoader {
    * @return loaded config.
    */
   @NotNull
-  public ConfigLoader load() {
+  public LangLoader load() {
     return this.load(false);
   }
 
@@ -141,7 +143,7 @@ public final class LangLoader {
    * @return loaded config.
    */
   @NotNull
-  public ConfigLoader load(final boolean save) {
+  public LangLoader load(final boolean save) {
     return this.load(save, false).join();
   }
 
@@ -154,8 +156,42 @@ public final class LangLoader {
    * @return loaded config.
    */
   @NotNull
-  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
-    return CompletableFuture.completedFuture(null);
+  public CompletableFuture<LangLoader> load(final boolean save, final boolean async) {
+    final var future = new CompletableFuture<LangLoader>();
+    final var values = this.getValues();
+    final var job = (Function<ConfigLoader, Runnable>) loader -> () -> {
+      loader.createFolderAndFile();
+      loader.loadFile();
+      this.loadFieldsAndSave(loader, save);
+    };
+    if (async) {
+      for (final var value : values) {
+        final var loader = value.build();
+        future.thenRunAsync(job.apply(loader), loader.getAsyncExecutor());
+      }
+    } else {
+      for (final var value : values) {
+        final var build = value.build();
+        final var runnable = job.apply(build);
+        future.thenRun(runnable);
+      }
+    }
+    return future.thenApply(langLoader -> langLoader);
+  }
+
+  /**
+   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
+   *
+   * @param loader the loader to load.
+   * @param save the save to load.
+   */
+  public void loadFieldsAndSave(@NotNull final ConfigLoader loader, final boolean save) {
+    if (this.configHolder != null) {
+      FieldLoader.load(this, this.configHolder, loader.getLoaders());
+    }
+    if (save) {
+      loader.save();
+    }
   }
 
   /**
@@ -324,7 +360,6 @@ public final class LangLoader {
      */
     @NotNull
     public LangLoader build() {
-      Validate.checkNull(this.holder, "Use #setHolder(ConfigHolder) method to set config holder!");
       if (this.builders.isEmpty()) {
         throw new IllegalStateException("#builders is empty");
       }

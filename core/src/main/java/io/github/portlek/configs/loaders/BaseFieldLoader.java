@@ -26,7 +26,8 @@
 package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.FieldLoader;
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
 import java.util.Objects;
@@ -75,7 +76,7 @@ public abstract class BaseFieldLoader implements FieldLoader {
    * @return current section.
    */
   @NotNull
-  protected final ConfigurationSection getSection(@NotNull final ConfigLoader loader) {
-    return Objects.requireNonNullElseGet(this.section, loader::getConfiguration);
+  protected final ConfigurationSection getSection(@NotNull final Loader loader) {
+    return Objects.requireNonNullElseGet(this.section, loader::getFileConfiguration);
   }
 }

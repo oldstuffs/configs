@@ -23,10 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs;
 
-import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.annotation.Ignore;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
 import io.github.portlek.reflection.clazz.ClassOf;
@@ -73,32 +72,56 @@ public interface FieldLoader {
   /**
    * loads the given holder class's fields with the given field loaders.
    *
-   * @param configLoader the config loader to load.
+   * @param loader the loader to load.
+   * @param holder the holder to load.
+   */
+  static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder) {
+    FieldLoader.load(loader, holder, loader.getLoaders(), null, null);
+  }
+
+  /**
+   * loads the given holder class's fields with the given field loaders.
+   *
+   * @param loader the loader to load.
    * @param holder the holder to load.
    * @param loaders the loaders to load.
    */
-  static void load(@NotNull final ConfigLoader configLoader, @NotNull final ConfigHolder holder,
+  static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
                    @NotNull final List<Supplier<? extends FieldLoader>> loaders) {
-    FieldLoader.load(configLoader, holder, loaders, null, null);
+    FieldLoader.load(loader, holder, loaders, null, null);
   }
 
   /**
    * loads the given holder class's fields with the given field suppliers.
    *
-   * @param configLoader the config loader to load.
+   * @param loader the loader to load.
+   * @param holder the holder to load.
+   * @param parentField the parent field to load.
+   * @param section the section to load.
+   */
+  static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
+                   @Nullable final RefField parentField, @Nullable final ConfigurationSection section) {
+    FieldLoader.load(loader, holder, loader.getLoaders(), parentField, section);
+  }
+
+  /**
+   * loads the given holder class's fields with the given field suppliers.
+   *
+   * @param loader the loader to load.
    * @param holder the holder to load.
    * @param suppliers the suppliers to load.
    * @param parentField the parent field to load.
    * @param section the section to load.
    */
-  static void load(@NotNull final ConfigLoader configLoader, @NotNull final ConfigHolder holder,
+  static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
                    @NotNull final List<Supplier<? extends FieldLoader>> suppliers, @Nullable final RefField parentField,
                    @Nullable final ConfigurationSection section) {
     final var loaders = FieldLoader.createLoaders(holder, suppliers, parentField, section);
     new ClassOf<>(holder).getDeclaredFields().forEach(field -> loaders.stream()
-      .filter(loader -> loader.canLoad(configLoader, field))
+      .filter(fieldLoader -> !field.hasAnnotation(Ignore.class))
+      .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
       .findFirst()
-      .ifPresent(loader -> loader.onLoad(configLoader, field)));
+      .ifPresent(fieldLoader -> fieldLoader.onLoad(loader, field)));
   }
 
   /**
@@ -109,7 +132,7 @@ public interface FieldLoader {
    *
    * @return {@code true} if the field can load by the reader.
    */
-  boolean canLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+  boolean canLoad(@NotNull Loader loader, @NotNull RefField field);
 
   /**
    * obtains the parent field.
@@ -162,5 +185,5 @@ public interface FieldLoader {
    * @param loader the loader to load.
    * @param field the field to load.
    */
-  void onLoad(@NotNull ConfigLoader loader, @NotNull RefField field);
+  void onLoad(@NotNull Loader loader, @NotNull RefField field);
 }
