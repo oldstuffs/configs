@@ -13,7 +13,7 @@
               <option value="clean"/>
               <option value="install"/>
               <option value="-T"/>
-              <option value="2"/>
+              <option value="3"/>
             </list>
           </option>
           <option name="pomFileName"/>
