@@ -28,7 +28,7 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import io.github.portlek.configs.loaders.FlConfigHolder;
-import io.github.portlek.configs.loaders.FlConfigLoader;
+import io.github.portlek.configs.loaders.FlLoader;
 import io.github.portlek.configs.loaders.FlConfiguration;
 import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
@@ -188,7 +188,7 @@ public final class ConfigLoader implements Loader {
         FlConfigurationSection.INSTANCE,
         FlConfiguration.INSTANCE,
         FlConfigHolder.INSTANCE,
-        FlConfigLoader.INSTANCE,
+        FlLoader.INSTANCE,
         FlFile.INSTANCE
       ));
   }
@@ -360,7 +360,7 @@ public final class ConfigLoader implements Loader {
       this.add(FlConfigurationSection.INSTANCE);
       this.add(FlConfiguration.INSTANCE);
       this.add(FlConfigHolder.INSTANCE);
-      this.add(FlConfigLoader.INSTANCE);
+      this.add(FlLoader.INSTANCE);
       this.add(FlRawField.INSTANCE);
       this.add(FlUniqueId.INSTANCE);
       this.add(FlLocale.INSTANCE);

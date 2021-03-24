@@ -25,21 +25,20 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ConfigLoader}.
+ * an implementation to serialize {@link Loader}.
  */
-public final class FlConfigLoader extends BaseFieldLoader {
+public final class FlLoader extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigLoader> INSTANCE = FlConfigLoader::new;
+  public static final Supplier<FlLoader> INSTANCE = FlLoader::new;
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
