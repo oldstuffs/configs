@@ -361,6 +361,10 @@ public final class LangLoader implements Loader {
       if (this.builders.isEmpty()) {
         throw new IllegalStateException("#builders is empty");
       }
+      if (this.holder != null) {
+        this.builders.values().forEach(builder ->
+          builder.setConfigHolder(this.holder));
+      }
       return new LangLoader(this.builders, this.holder);
     }
 
