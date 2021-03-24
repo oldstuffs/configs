@@ -25,8 +25,10 @@
 
 package io.github.portlek.configs.lang;
 
+import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigType;
+import io.github.portlek.configs.util.Validate;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -56,6 +59,12 @@ public final class LangLoader {
    */
   @NotNull
   private final Map<String, ConfigLoader.Builder> builders;
+
+  /**
+   * the holder.
+   */
+  @NotNull
+  private final ConfigHolder holder;
 
   /**
    * the keys.
@@ -116,6 +125,41 @@ public final class LangLoader {
   }
 
   /**
+   * loads the config.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public ConfigLoader load() {
+    return this.load(false);
+  }
+
+  /**
+   * loads the config.
+   *
+   * @param save the save to load.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public ConfigLoader load(final boolean save) {
+    return this.load(save, false).join();
+  }
+
+  /**
+   * loads the config.
+   *
+   * @param save the save to load.
+   * @param async the async to load.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public CompletableFuture<ConfigLoader> load(final boolean save, final boolean async) {
+    return CompletableFuture.completedFuture(null);
+  }
+
+  /**
    * a class that represents class loader builders.
    */
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -127,6 +171,12 @@ public final class LangLoader {
      */
     @NotNull
     private Map<String, ConfigLoader.Builder> builders = new HashMap<>();
+
+    /**
+     * the holder.
+     */
+    @Nullable
+    private ConfigHolder holder;
 
     /**
      * adds the key with builder.
@@ -170,7 +220,7 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String fileName, @NotNull final Path folder,
                               @NotNull final ConfigType configType) {
-      this.builders.put(fileName, ConfigLoader.builder(fileName, folder, configType));
+      this.builders.put(fileName, ConfigLoader.builderForLang(fileName, folder, configType));
       return this;
     }
 
@@ -187,7 +237,7 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final String fileName, @NotNull final Path folder,
                               @NotNull final ConfigType configType) {
-      this.builders.put(key, ConfigLoader.builder(fileName, folder, configType));
+      this.builders.put(key, ConfigLoader.builderForLang(fileName, folder, configType));
       return this;
     }
 
@@ -203,7 +253,7 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String fileName, @NotNull final File folder,
                               @NotNull final ConfigType configType) {
-      this.builders.put(fileName, ConfigLoader.builder(fileName, folder, configType));
+      this.builders.put(fileName, ConfigLoader.builderForLang(fileName, folder, configType));
       return this;
     }
 
@@ -220,7 +270,7 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final String fileName, @NotNull final File folder,
                               @NotNull final ConfigType configType) {
-      this.builders.put(key, ConfigLoader.builder(fileName, folder, configType));
+      this.builders.put(key, ConfigLoader.builderForLang(fileName, folder, configType));
       return this;
     }
 
@@ -275,10 +325,11 @@ public final class LangLoader {
      */
     @NotNull
     public LangLoader build() {
+      Validate.checkNull(this.holder, "Use #setHolder(ConfigHolder) method to set config holder!");
       if (this.builders.isEmpty()) {
         throw new IllegalStateException("#builders is empty");
       }
-      return new LangLoader(this.builders);
+      return new LangLoader(this.builders, this.holder);
     }
 
     /**
@@ -291,6 +342,19 @@ public final class LangLoader {
     @NotNull
     public Builder setBuilders(@NotNull final Map<String, ConfigLoader.Builder> builders) {
       this.builders = builders;
+      return this;
+    }
+
+    /**
+     * sets the config holder.
+     *
+     * @param holder the holder to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setHolder(@NotNull final ConfigHolder holder) {
+      this.holder = holder;
       return this;
     }
   }

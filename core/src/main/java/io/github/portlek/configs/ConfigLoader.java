@@ -155,6 +155,46 @@ public final class ConfigLoader {
   }
 
   /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builderForLang(@NotNull final String fileName, @NotNull final File folder,
+                                       @NotNull final ConfigType configType) {
+    return ConfigLoader.builderForLang(fileName, folder.toPath(), configType);
+  }
+
+  /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builderForLang(@NotNull final String fileName, @NotNull final Path folder,
+                                       @NotNull final ConfigType configType) {
+    return ConfigLoader.builder()
+      .setFileName(fileName)
+      .setFolder(folder)
+      .setConfigType(configType)
+      .setLoaders(List.of(
+        FlConfigurationSection.INSTANCE,
+        FlConfiguration.INSTANCE,
+        FlConfigHolder.INSTANCE,
+        FlConfigLoader.INSTANCE,
+        FlFile.INSTANCE
+      ));
+  }
+
+  /**
    * obtains the configuration.
    *
    * @return configuration.
