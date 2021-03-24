@@ -70,7 +70,7 @@ public final class YamlTest {
 
     public static String test = "test";
 
-    public static List<Integer> testList = List.of(1,2,3,4,5,6,7,8,9);
+    public static List<Integer> testList = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
     @NotNull
     @Ignore
@@ -90,7 +90,7 @@ public final class YamlTest {
 
     public static String test = "test section";
 
-    public static List<String> testList = List.of("1","2","3","4","5","6","7");
+    public static List<String> testList = List.of("1", "2", "3", "4", "5", "6", "7");
 
     public static Map<String, Integer> testMap = Map.of(
       "test-1", 1,
