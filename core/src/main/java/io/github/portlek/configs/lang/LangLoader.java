@@ -213,6 +213,19 @@ public final class LangLoader {
     }
 
     /**
+     * builds and create a new {@link LangLoader} instance.
+     *
+     * @return a newly created lang loader instance.
+     */
+    @NotNull
+    public LangLoader build() {
+      if (this.builders.isEmpty()) {
+        throw new IllegalStateException("#builders is empty");
+      }
+      return new LangLoader(this.builders);
+    }
+
+    /**
      * sets the builder.
      *
      * @param builders the builders to set.
