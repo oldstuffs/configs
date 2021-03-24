@@ -401,17 +401,18 @@ public final class ConfigLoader {
     }
 
     /**
-     * sets the file path.
+     * sets the folder path.
      *
-     * @param file the file to set.
+     * @param folder the folder to set.
      *
      * @return {@code this} for builder chain.
      *
      * @see #setFolder(Path)
      */
     @NotNull
-    public Builder setFolder(@NotNull final File file) {
-      return this.setFolder(file.toPath());
+    public Builder setFolder(@NotNull final File folder) {
+      this.folderPath = folder.toPath();
+      return this;
     }
 
     /**

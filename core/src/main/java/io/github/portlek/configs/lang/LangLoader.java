@@ -29,7 +29,6 @@ import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigType;
 import java.io.File;
 import java.nio.file.Path;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -133,9 +132,9 @@ public final class LangLoader {
     @SafeVarargs
     @NotNull
     public final Builder addBuilder(@NotNull final Map.Entry<String, ConfigLoader.Builder>... builders) {
-      final var map = Arrays.stream(builders)
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new));
-      return this.addBuilder(map);
+      Arrays.stream(builders)
+        .forEach(builder -> this.builders.put(builder.getKey(), builder.getValue()));
+      return this;
     }
 
     /**
@@ -148,8 +147,9 @@ public final class LangLoader {
     @SafeVarargs
     @NotNull
     public final Builder setBuilders(@NotNull final Map.Entry<String, ConfigLoader.Builder>... builders) {
-      return this.setBuilders(Arrays.stream(builders)
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new)));
+      this.builders = Arrays.stream(builders)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new));
+      return this;
     }
 
     /**
@@ -164,7 +164,8 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String fileName, @NotNull final Path folder,
                               @NotNull final ConfigType configType) {
-      return this.addBuilder(fileName, fileName, folder, configType);
+      this.builders.put(fileName, ConfigLoader.builder(fileName, folder, configType));
+      return this;
     }
 
     /**
@@ -180,7 +181,8 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final String fileName, @NotNull final Path folder,
                               @NotNull final ConfigType configType) {
-      return this.addBuilder(key, ConfigLoader.builder(fileName, folder, configType));
+      this.builders.put(key, ConfigLoader.builder(fileName, folder, configType));
+      return this;
     }
 
     /**
@@ -195,7 +197,8 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String fileName, @NotNull final File folder,
                               @NotNull final ConfigType configType) {
-      return this.addBuilder(fileName, fileName, folder, configType);
+      this.builders.put(fileName, ConfigLoader.builder(fileName, folder, configType));
+      return this;
     }
 
     /**
@@ -211,7 +214,8 @@ public final class LangLoader {
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final String fileName, @NotNull final File folder,
                               @NotNull final ConfigType configType) {
-      return this.addBuilder(key, fileName, folder.toPath(), configType);
+      this.builders.put(key, ConfigLoader.builder(fileName, folder, configType));
+      return this;
     }
 
     /**
@@ -227,7 +231,8 @@ public final class LangLoader {
       if (key == null) {
         return this;
       }
-      return this.addBuilder(key, builder);
+      this.builders.put(key, builder);
+      return this;
     }
 
     /**
@@ -240,7 +245,8 @@ public final class LangLoader {
      */
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final ConfigLoader.Builder builder) {
-      return this.addBuilder(new AbstractMap.SimpleEntry<>(key, builder));
+      this.builders.put(key, builder);
+      return this;
     }
 
     /**
