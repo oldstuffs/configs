@@ -31,7 +31,6 @@ import io.github.portlek.configs.ConfigType;
 import io.github.portlek.configs.util.Validate;
 import java.io.File;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
