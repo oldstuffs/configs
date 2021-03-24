@@ -26,30 +26,15 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.lang.LangHolder;
 import io.github.portlek.configs.lang.LangValue;
-import io.github.portlek.configs.yaml.YamlType;
-import java.io.File;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.cactoos.map.MapEntry;
-import org.jetbrains.annotations.NotNull;
 
 @RequiredArgsConstructor
-public final class LangTest implements LangHolder {
+public final class LangTest implements ConfigHolder {
 
   @Route("test-1")
   public static final LangValue<String> test1 = LangValue.create(String.class,
     new MapEntry<>("en_US", "English."),
     new MapEntry<>("tr_TR", "Türkçe."));
-
-  @NotNull
-  private final File dataFolder;
-
-  @Override
-  public List<ConfigLoader.Builder> getSupportedLanguages() {
-    return List.of(
-      ConfigLoader.builder("en_US", this.dataFolder, YamlType.get()),
-      ConfigLoader.builder("tr_TR", this.dataFolder, YamlType.get()));
-  }
 }

@@ -26,8 +26,12 @@
 package io.github.portlek.configs.lang;
 
 import io.github.portlek.configs.ConfigLoader;
+import io.github.portlek.configs.ConfigType;
+import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -60,16 +64,23 @@ public final class LangLoader {
   private List<ConfigLoader.Builder> values;
 
   /**
+   * creates a new {@link Builder} instance.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  /**
    * obtains the default language key.
    *
    * @return default language key.
    */
   @NotNull
   public Optional<String> getDefaultLanguage() {
-    if (this.builders.isEmpty()) {
-      return Optional.empty();
-    }
-    return Optional.of(this.getKeys().get(0));
+    return this.getKeys().stream().findFirst();
   }
 
   /**
@@ -96,5 +107,122 @@ public final class LangLoader {
       this.values = new ArrayList<>(this.builders.values());
     }
     return Collections.unmodifiableList(this.values);
+  }
+
+  /**
+   * a class that represents class loader builders.
+   */
+  public static final class Builder {
+
+    /**
+     * the config builders.
+     */
+    @NotNull
+    private Map<String, ConfigLoader.Builder> builders = new HashMap<>();
+
+    /**
+     * adds a builder from the given file name as key and with other parameters.
+     *
+     * @param fileName the file name to add.
+     * @param folder the folder to add.
+     * @param configType the config type to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final String fileName, @NotNull final Path folder,
+                              @NotNull final ConfigType configType) {
+      return this.addBuilder(fileName, fileName, folder, configType);
+    }
+
+    /**
+     * adds a builder from the given key and with other parameters.
+     *
+     * @param key the key to add.
+     * @param fileName the file name to add.
+     * @param folder the folder to add.
+     * @param configType the config type to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final String key, @NotNull final String fileName, @NotNull final Path folder,
+                              @NotNull final ConfigType configType) {
+      return this.addBuilder(key, ConfigLoader.builder(fileName, folder, configType));
+    }
+
+    /**
+     * adds a builder from the given file name as key and with other parameters.
+     *
+     * @param fileName the file name to add.
+     * @param folder the folder to add.
+     * @param configType the config type to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final String fileName, @NotNull final File folder,
+                              @NotNull final ConfigType configType) {
+      return this.addBuilder(fileName, fileName, folder, configType);
+    }
+
+    /**
+     * adds a builder from the given key and with other parameters.
+     *
+     * @param key the key to add.
+     * @param fileName the file name to add.
+     * @param folder the folder to add.
+     * @param configType the config type to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final String key, @NotNull final String fileName, @NotNull final File folder,
+                              @NotNull final ConfigType configType) {
+      return this.addBuilder(key, fileName, folder.toPath(), configType);
+    }
+
+    /**
+     * adds the builder with its file name as key.
+     *
+     * @param builder the builder to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final ConfigLoader.Builder builder) {
+      final var key = builder.getFileName();
+      if (key == null) {
+        return this;
+      }
+      return this.addBuilder(key, builder);
+    }
+
+    /**
+     * adds the key with builder.
+     *
+     * @param key the key to add.
+     * @param builder the builder to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addBuilder(@NotNull final String key, @NotNull final ConfigLoader.Builder builder) {
+      this.builders.put(key, builder);
+      return this;
+    }
+
+    /**
+     * sets the builder.
+     *
+     * @param builders the builders to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setBuilders(@NotNull final Map<String, ConfigLoader.Builder> builders) {
+      this.builders = builders;
+      return this;
+    }
   }
 }

@@ -133,6 +133,21 @@ public final class ConfigLoader {
   @NotNull
   public static Builder builder(@NotNull final String fileName, @NotNull final File folder,
                                 @NotNull final ConfigType configType) {
+    return ConfigLoader.builder(fileName, folder.toPath(), configType);
+  }
+
+  /**
+   * creates a new {@link Builder} instance.
+   *
+   * @param fileName the file name to create.
+   * @param folder the folder to create.
+   * @param configType the config type to create.
+   *
+   * @return a newly created builder instance.
+   */
+  @NotNull
+  public static Builder builder(@NotNull final String fileName, @NotNull final Path folder,
+                                @NotNull final ConfigType configType) {
     return ConfigLoader.builder()
       .setFileName(fileName)
       .setFolder(folder)
