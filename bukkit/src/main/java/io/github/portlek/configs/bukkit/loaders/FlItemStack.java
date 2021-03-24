@@ -45,12 +45,12 @@ public final class FlItemStack extends BaseFieldLoader {
   public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
 
   @Override
-  public boolean canLoad(final @NotNull Loader loader, @NotNull final RefField field) {
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     return ItemStack.class == field.getType();
   }
 
   @Override
-  public void onLoad(final @NotNull Loader loader, @NotNull final RefField field) {
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());
