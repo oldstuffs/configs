@@ -165,16 +165,14 @@ public final class LangLoader implements Loader {
       this.loadFieldsAndSave(loader, save);
     };
     if (async) {
-      for (final var value : values) {
-        final var loader = value.build();
-        future.thenRunAsync(job.apply(loader), loader.getAsyncExecutor());
-      }
+      values.stream()
+        .map(ConfigLoader.Builder::build)
+        .forEach(loader -> future.thenRunAsync(job.apply(loader), loader.getAsyncExecutor()));
     } else {
-      for (final var value : values) {
-        final var build = value.build();
-        final var runnable = job.apply(build);
-        future.thenRun(runnable);
-      }
+      values.stream()
+        .map(ConfigLoader.Builder::build)
+        .map(job)
+        .forEach(future::thenRun);
     }
     return future.thenApply(langLoader -> langLoader);
   }
