@@ -106,7 +106,7 @@ public final class LangLoader {
   @NotNull
   public List<String> getKeys() {
     if (this.keys == null) {
-      this.keys = new ArrayList<>(this.builders.keySet());
+      this.keys = List.copyOf(this.builders.keySet());
     }
     return Collections.unmodifiableList(this.keys);
   }
@@ -119,7 +119,7 @@ public final class LangLoader {
   @NotNull
   public List<ConfigLoader.Builder> getValues() {
     if (this.values == null) {
-      this.values = new ArrayList<>(this.builders.values());
+      this.values = List.copyOf(this.builders.values());
     }
     return Collections.unmodifiableList(this.values);
   }
