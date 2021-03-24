@@ -29,15 +29,16 @@ import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.ConfigType;
 import java.io.File;
 import java.nio.file.Path;
+import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.cactoos.map.MapEntry;
-import org.cactoos.map.MapOf;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -132,7 +133,23 @@ public final class LangLoader {
     @SafeVarargs
     @NotNull
     public final Builder addBuilder(@NotNull final Map.Entry<String, ConfigLoader.Builder>... builders) {
-      return this.addBuilder(new MapOf<>(builders));
+      final var map = Arrays.stream(builders)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new));
+      return this.addBuilder(map);
+    }
+
+    /**
+     * sets the builder.
+     *
+     * @param builders the builders to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @SafeVarargs
+    @NotNull
+    public final Builder setBuilders(@NotNull final Map.Entry<String, ConfigLoader.Builder>... builders) {
+      return this.setBuilders(Arrays.stream(builders)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> b, HashMap::new)));
     }
 
     /**
@@ -223,7 +240,7 @@ public final class LangLoader {
      */
     @NotNull
     public Builder addBuilder(@NotNull final String key, @NotNull final ConfigLoader.Builder builder) {
-      return this.addBuilder(new MapEntry<>(key, builder));
+      return this.addBuilder(new AbstractMap.SimpleEntry<>(key, builder));
     }
 
     /**
