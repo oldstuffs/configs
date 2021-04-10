@@ -62,7 +62,7 @@ public final class FlInetSocketAddress extends BaseFieldLoader {
     if (strings.length != 2) {
       return Optional.empty();
     }
-    return Optional.of(InetSocketAddress.createUnresolved(strings[0], NumberConversions.toInt(strings[1], 1)));
+    return Optional.of(new InetSocketAddress(strings[0], NumberConversions.toInt(strings[1], 1)));
   }
 
   @Override

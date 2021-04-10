@@ -62,7 +62,7 @@ public final class YamlTest {
 
     public static final ConfigHolder1 CHILD = new ConfigHolder1();
 
-    public static InetSocketAddress address = InetSocketAddress.createUnresolved("localhost", 25565);
+    public static InetSocketAddress address = new InetSocketAddress("localhost", 25565);
 
     public static FileConfiguration configuration;
 
