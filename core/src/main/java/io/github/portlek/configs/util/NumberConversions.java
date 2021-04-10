@@ -49,6 +49,10 @@ public class NumberConversions {
   }
 
   public int toInt(final Object object) {
+    return NumberConversions.toInt(object, 0);
+  }
+
+  public int toInt(final Object object, final int fallback) {
     if (object instanceof Number) {
       return ((Number) object).intValue();
     }
@@ -56,7 +60,7 @@ public class NumberConversions {
       return Integer.parseInt(object.toString());
     } catch (final NumberFormatException | NullPointerException ignored) {
     }
-    return 0;
+    return fallback;
   }
 
   public long toLong(final Object object) {
