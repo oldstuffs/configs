@@ -32,6 +32,7 @@ import io.github.portlek.configs.loaders.FlConfigLoader;
 import io.github.portlek.configs.loaders.FlConfiguration;
 import io.github.portlek.configs.loaders.FlConfigurationSection;
 import io.github.portlek.configs.loaders.FlFile;
+import io.github.portlek.configs.loaders.FlInetSocketAddress;
 import io.github.portlek.configs.loaders.FlLangLoader;
 import io.github.portlek.configs.loaders.FlLangValueLoader;
 import io.github.portlek.configs.loaders.FlLocale;
@@ -361,6 +362,7 @@ public final class ConfigLoader implements Loader {
     @NotNull
     private List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
       this.add(FlConfigurationSection.INSTANCE);
+      this.add(FlInetSocketAddress.INSTANCE);
       this.add(FlConfiguration.INSTANCE);
       this.add(FlConfigHolder.INSTANCE);
       this.add(FlConfigLoader.INSTANCE);
