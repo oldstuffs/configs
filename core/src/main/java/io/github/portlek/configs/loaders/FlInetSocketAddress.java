@@ -59,13 +59,10 @@ public final class FlInetSocketAddress extends BaseFieldLoader {
     }
     final var trim = raw.trim();
     final var strings = trim.split(":");
-    if (trim.contains(":") && strings.length != 2) {
-      return Optional.of(InetSocketAddress.createUnresolved("0.0.0.0", 1));
-    }
     if (strings.length != 2) {
       return Optional.empty();
     }
-    return Optional.of(InetSocketAddress.createUnresolved(strings[0], NumberConversions.toInt(strings[0], 1)));
+    return Optional.of(InetSocketAddress.createUnresolved(strings[0], NumberConversions.toInt(strings[1], 1)));
   }
 
   @Override

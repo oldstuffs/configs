@@ -31,6 +31,7 @@ import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.yaml.YamlType;
 import java.io.File;
+import java.net.InetSocketAddress;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public final class YamlTest {
       .load(true, true)
       .thenAccept(configLoader -> {
         System.out.println("config holder 1 -> " + ConfigHolder1.testMap);
+        System.out.println(ConfigHolder0.address);
       }).get();
   }
 
@@ -59,6 +61,8 @@ public final class YamlTest {
   private static final class ConfigHolder0 implements ConfigHolder {
 
     public static final ConfigHolder1 CHILD = new ConfigHolder1();
+
+    public static InetSocketAddress address = InetSocketAddress.createUnresolved("localhost", 25565);
 
     public static FileConfiguration configuration;
 
