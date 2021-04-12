@@ -104,20 +104,6 @@ public final class SentTitle {
   }
 
   /**
-   * sets the given sent title to the given section.
-   *
-   * @param sentTitle the sent title to set.
-   * @param section the section to set.
-   */
-  public static void serialize(@NotNull final SentTitle sentTitle, @NotNull final ConfigurationSection section) {
-    section.set("title", sentTitle.title);
-    section.set("sub-title", sentTitle.subTitle);
-    section.set("fade-in", sentTitle.fadeIn);
-    section.set("stay", sentTitle.stay);
-    section.set("fade-out", sentTitle.fadeOut);
-  }
-
-  /**
    * sends the title to the given player.
    *
    * @param player the player to send.
@@ -137,5 +123,18 @@ public final class SentTitle {
                    @NotNull final UnaryOperator<String> subTitle) {
     Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut, title.apply(this.title),
       subTitle.apply(this.subTitle));
+  }
+
+  /**
+   * sets the given sent title to the given section.
+   *
+   * @param section the section to set.
+   */
+  public void serialize(@NotNull final ConfigurationSection section) {
+    section.set("title", this.title);
+    section.set("sub-title", this.subTitle);
+    section.set("fade-in", this.fadeIn);
+    section.set("stay", this.stay);
+    section.set("fade-out", this.fadeOut);
   }
 }

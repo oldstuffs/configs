@@ -66,7 +66,7 @@ public final class FlTitle extends BaseFieldLoader {
       if (valueAtPath.isPresent()) {
         field.setValue(valueAtPath.get());
       } else {
-        SentTitle.serialize(sentTitle, section);
+        sentTitle.serialize(section);
       }
     } else {
       valueAtPath.ifPresent(field::setValue);
