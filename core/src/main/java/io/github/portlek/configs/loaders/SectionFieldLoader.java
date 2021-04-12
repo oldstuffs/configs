@@ -51,8 +51,13 @@ public abstract class SectionFieldLoader<T> extends BaseFieldLoader
    * ctor.
    */
   protected SectionFieldLoader() {
-    this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-      .getActualTypeArguments()[0];
+    try {
+      //noinspection unchecked
+      this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+        .getActualTypeArguments()[0];
+    } catch (final Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   @Override
