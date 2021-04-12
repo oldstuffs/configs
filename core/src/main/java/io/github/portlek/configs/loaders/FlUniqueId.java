@@ -25,9 +25,7 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an implementation to load {@link Locale}.
  */
-public final class FlUniqueId extends BaseFieldLoader {
+public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
 
   /**
    * the instance.
@@ -64,28 +62,21 @@ public final class FlUniqueId extends BaseFieldLoader {
     return Optional.empty();
   }
 
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return UUID.class == field.getType();
+  public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
+    return Optional.ofNullable(section.getString(path));
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var fieldValue = field.getValue();
-    final var section = this.getSection(loader);
-    final var valueAtPath = FlUniqueId.convertToUniqueId(section.getString(path));
-    if (fieldValue.isPresent()) {
-      final var uniqueId = (UUID) fieldValue.get();
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        section.set(path, uniqueId.toString());
-      }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
-    }
+  public Optional<UUID> toFinal(@NotNull final String rawValue) {
+    return FlUniqueId.convertToUniqueId(rawValue);
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> toRaw(final @NotNull UUID finalValue) {
+    return Optional.ofNullable(finalValue.toString());
   }
 }

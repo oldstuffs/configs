@@ -25,12 +25,9 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.reflection.RefField;
-import java.lang.reflect.ParameterizedType;
 import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -38,64 +35,20 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <T> type of the final value.
  */
-public abstract class SectionFieldLoader<T> extends BaseFieldLoader
-  implements SectionSerializer<Map<String, Object>, T> {
+public abstract class SectionFieldLoader<T> extends GenericFieldLoader<Map<String, Object>, T> {
 
-  /**
-   * the persistent class.
-   */
   @NotNull
-  private final Class<T> persistentClass;
-
-  /**
-   * ctor.
-   */
-  protected SectionFieldLoader() {
-    try {
-      //noinspection unchecked
-      this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-        .getActualTypeArguments()[0];
-    } catch (final Exception e) {
-      throw new RuntimeException(e);
-    }
+  @Override
+  public final Optional<Map<String, Object>> toConfigObject(@NotNull final ConfigurationSection section,
+                                                            @NotNull final String path) {
+    return Optional.of(section.getMapValues(false));
   }
 
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return this.persistentClass.isAssignableFrom(field.getType());
-  }
-
-  @Override
-  public final void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var fieldValueOptional = field.getValue();
-    final var currentSection = this.getSection(loader);
-    var section = currentSection.getConfigurationSection(path);
-    if (section == null) {
-      section = currentSection.createSection(path);
-    }
-    final var finalValue0 = this.toFinal(section);
-    final var valueAtPath = finalValue0.isPresent()
-      ? finalValue0
-      : this.toFinal(section.getMapValues(false));
-    if (fieldValueOptional.isPresent()) {
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        final var fieldValue = fieldValueOptional.get();
-        if (fieldValue instanceof DataSerializer) {
-          this.toRaw(section, (DataSerializer) fieldValue);
-        } else {
-          final var rawValue = this.toRaw((T) fieldValue);
-          if (rawValue.isPresent()) {
-            section.set(path, rawValue);
-          }
-        }
-      }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
-    }
+  protected final ConfigurationSection prepareSection(@NotNull final ConfigurationSection currentSection,
+                                                      @NotNull final String path) {
+    return Optional.ofNullable(currentSection.getConfigurationSection(path))
+      .orElse(currentSection.createSection(path));
   }
 }

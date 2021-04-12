@@ -38,6 +38,17 @@ import org.jetbrains.annotations.NotNull;
 public interface SectionSerializer<R, F> {
 
   /**
+   * obtains the raw config object.
+   *
+   * @param section the section to obtain.
+   * @param path the path to obtain.
+   *
+   * @return obtained raw value from config.
+   */
+  @NotNull
+  Optional<R> toConfigObject(@NotNull ConfigurationSection section, @NotNull String path);
+
+  /**
    * converts the given section into {@link F}.
    *
    * @param section the section to convert.
@@ -79,7 +90,8 @@ public interface SectionSerializer<R, F> {
    * @param section the section to write.
    * @param finalValue the final value to write.
    */
-  default void toRaw(@NotNull final ConfigurationSection section, @NotNull final DataSerializer finalValue) {
+  default <D extends DataSerializer> void toRaw(@NotNull final ConfigurationSection section,
+                                                @NotNull final D finalValue) {
     finalValue.serialize(section);
   }
 }

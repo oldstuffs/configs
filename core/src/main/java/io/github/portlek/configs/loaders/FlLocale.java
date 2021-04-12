@@ -25,9 +25,7 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -37,7 +35,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an implementation to load {@link Locale}.
  */
-public final class FlLocale extends BaseFieldLoader {
+public final class FlLocale extends GenericFieldLoader<String, Locale> {
 
   /**
    * the instance.
@@ -67,28 +65,21 @@ public final class FlLocale extends BaseFieldLoader {
     return Optional.of(new Locale(strings[0], strings[1]));
   }
 
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return Locale.class == field.getType();
+  public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
+    return Optional.ofNullable(section.getString(path));
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var fieldValue = field.getValue();
-    final var section = this.getSection(loader);
-    final var valueAtPath = FlLocale.convertToLocale(section.getString(path));
-    if (fieldValue.isPresent()) {
-      final var locale = (Locale) fieldValue.get();
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        section.set(path, locale.getLanguage() + "_" + locale.getCountry());
-      }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
-    }
+  public Optional<Locale> toFinal(@NotNull final String rawValue) {
+    return FlLocale.convertToLocale(rawValue);
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> toRaw(@NotNull final Locale finalValue) {
+    return Optional.of(finalValue.getLanguage() + "_" + finalValue.getCountry());
   }
 }
