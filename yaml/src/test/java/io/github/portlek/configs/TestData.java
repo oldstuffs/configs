@@ -28,9 +28,11 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.DataSerializer;
 import java.util.Optional;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@ToString
 public final class TestData implements DataSerializer {
 
   /**
