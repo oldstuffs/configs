@@ -23,44 +23,63 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.loaders;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
-import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.loaders.SectionFieldLoader;
-import io.github.portlek.reflection.RefField;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize {@link ItemStack}.
+ * an interface to determine section serializers.
+ *
+ * @param <R> type of the raw value.
+ * @param <F> type of the final value.
  */
-public final class FlItemStack extends SectionFieldLoader<ItemStack> {
+public interface SectionSerializer<R, F> {
 
   /**
-   * the instance.
+   * converts the given section into {@link F}.
+   *
+   * @param section the section to convert.
+   *
+   * @return converted final value.
    */
-  public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
-
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return ItemStack.class == field.getType();
+  @NotNull
+  default Optional<F> toFinal(@NotNull final ConfigurationSection section) {
+    return Optional.empty();
   }
 
+  /**
+   * converts the given raw value into {@link F}.
+   *
+   * @param rawValue the raw value to convert.
+   *
+   * @return converted final value.
+   */
   @NotNull
-  @Override
-  public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue) {
-    return ItemStackUtil.from(rawValue);
+  default Optional<F> toFinal(@NotNull final R rawValue) {
+    return Optional.empty();
   }
 
+  /**
+   * converts the given final value into {@link R}.
+   *
+   * @param finalValue the final value to convert.
+   *
+   * @return converted raw value.
+   */
   @NotNull
-  @Override
-  public Optional<Map<String, Object>> toRaw(@NotNull final ItemStack finalValue) {
-    return Optional.of(ItemStackUtil.to(finalValue));
+  default Optional<R> toRaw(@NotNull final F finalValue) {
+    return Optional.empty();
+  }
+
+  /**
+   * writes the given final value into the section.
+   *
+   * @param section the section to write.
+   * @param finalValue the final value to write.
+   */
+  default void toRaw(@NotNull final ConfigurationSection section, @NotNull final DataSerializer finalValue) {
+    finalValue.serialize(section);
   }
 }

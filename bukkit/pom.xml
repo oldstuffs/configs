@@ -34,27 +34,18 @@
   </parent>
   <artifactId>configs-bukkit</artifactId>
   <name>configs-bukkit</name>
-  <repositories>
-    <repository>
-      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-      <id>spigot-repo</id>
-    </repository>
-  </repositories>
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>configs-core</artifactId>
-      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>io.github.portlek</groupId>
       <artifactId>BukkitItemBuilder</artifactId>
-      <version>4.0.1</version>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.16.5-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

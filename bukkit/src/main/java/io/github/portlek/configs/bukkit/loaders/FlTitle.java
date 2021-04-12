@@ -26,18 +26,19 @@
 package io.github.portlek.configs.bukkit.loaders;
 
 import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.bukkit.data.SentTitle;
-import io.github.portlek.configs.loaders.BaseFieldLoader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.loaders.SectionFieldLoader;
 import io.github.portlek.reflection.RefField;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to serialize {@link ItemStack}.
+ * an implementation to serialize {@link SentTitle}.
  */
-public final class FlTitle extends BaseFieldLoader {
+public final class FlTitle extends SectionFieldLoader<SentTitle> {
 
   /**
    * the instance.
@@ -49,27 +50,9 @@ public final class FlTitle extends BaseFieldLoader {
     return SentTitle.class == field.getType();
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var fieldValue = field.getValue();
-    final var currentSection = this.getSection(loader);
-    var section = currentSection.getConfigurationSection(path);
-    if (section == null) {
-      section = currentSection.createSection(path);
-    }
-    final var valueAtPath = SentTitle.deserialize(section);
-    if (fieldValue.isPresent()) {
-      final var sentTitle = (SentTitle) fieldValue.get();
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        sentTitle.serialize(section);
-      }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
-    }
+  public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section) {
+    return SentTitle.deserialize(section);
   }
 }

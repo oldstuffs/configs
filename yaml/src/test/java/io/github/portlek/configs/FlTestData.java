@@ -25,27 +25,31 @@
 
 package io.github.portlek.configs;
 
-import io.github.portlek.configs.yaml.YamlType;
-import java.nio.file.Path;
-import java.util.concurrent.Executors;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.loaders.SectionFieldLoader;
+import io.github.portlek.reflection.RefField;
+import java.util.Optional;
+import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
-public final class YamlTest {
+/**
+ * an implementation to serialize {@link FlTestData}.
+ */
+public final class FlTestData extends SectionFieldLoader<TestData> {
 
-  public static void main(final String[] args) {
-    ConfigLoader.builder()
-      .setFileName("test")
-      .setFolder(Path.of(System.getProperty("user.dir")))
-      .setConfigType(YamlType.get())
-      .setConfigHolder(new ConfigHolder0())
-      .setAsyncExecutor(Executors.newFixedThreadPool(4))
-      .addLoaders(FlTestData.INSTANCE)
-      .build()
-      .load(true);
-    System.out.println(ConfigHolder0.test);
+  /**
+   * the instance.
+   */
+  public static final Supplier<FlTestData> INSTANCE = FlTestData::new;
+
+  @Override
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    return TestData.class == field.getType();
   }
 
-  private static final class ConfigHolder0 implements ConfigHolder {
-
-    public static TestData test = new TestData("title", "sub-title", 20, 20, 20);
+  @NotNull
+  @Override
+  public Optional<TestData> toFinal(@NotNull final ConfigurationSection section) {
+    return TestData.deserialize(section);
   }
 }

@@ -23,29 +23,20 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.yaml.YamlType;
-import java.nio.file.Path;
-import java.util.concurrent.Executors;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
-public final class YamlTest {
+/**
+ * an interface to determine data serializers.
+ */
+public interface DataSerializer {
 
-  public static void main(final String[] args) {
-    ConfigLoader.builder()
-      .setFileName("test")
-      .setFolder(Path.of(System.getProperty("user.dir")))
-      .setConfigType(YamlType.get())
-      .setConfigHolder(new ConfigHolder0())
-      .setAsyncExecutor(Executors.newFixedThreadPool(4))
-      .addLoaders(FlTestData.INSTANCE)
-      .build()
-      .load(true);
-    System.out.println(ConfigHolder0.test);
-  }
-
-  private static final class ConfigHolder0 implements ConfigHolder {
-
-    public static TestData test = new TestData("title", "sub-title", 20, 20, 20);
-  }
+  /**
+   * serializes the given value into the section.
+   *
+   * @param section the section to serialize.
+   */
+  void serialize(@NotNull ConfigurationSection section);
 }
