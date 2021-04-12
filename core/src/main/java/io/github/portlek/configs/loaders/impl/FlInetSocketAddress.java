@@ -23,46 +23,45 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import java.util.Locale;
+import io.github.portlek.configs.loaders.GenericFieldLoader;
+import io.github.portlek.configs.util.NumberConversions;
+import java.net.InetSocketAddress;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to load {@link Locale}.
+ * an implementation to load {@link InetSocketAddress}.
  */
-public final class FlLocale extends GenericFieldLoader<String, Locale> {
+public final class FlInetSocketAddress extends GenericFieldLoader<String, InetSocketAddress> {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlLocale> INSTANCE = FlLocale::new;
+  public static final Supplier<FlInetSocketAddress> INSTANCE = FlInetSocketAddress::new;
 
   /**
-   * converts the given raw string to a {@link Locale}.
+   * converts the given raw string to a {@link InetSocketAddress}.
    *
    * @param raw the raw to convert.
    *
-   * @return converted locale from string.
+   * @return converted address from string.
    */
   @NotNull
-  private static Optional<Locale> convertToLocale(@Nullable final String raw) {
+  private static Optional<InetSocketAddress> convertToAddress(@Nullable final String raw) {
     if (raw == null) {
       return Optional.empty();
     }
     final var trim = raw.trim();
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Optional.of(Locale.ROOT);
-    }
+    final var strings = trim.split(":");
     if (strings.length != 2) {
       return Optional.empty();
     }
-    return Optional.of(new Locale(strings[0], strings[1]));
+    return Optional.of(new InetSocketAddress(strings[0], NumberConversions.toInt(strings[1], 1)));
   }
 
   @NotNull
@@ -73,13 +72,13 @@ public final class FlLocale extends GenericFieldLoader<String, Locale> {
 
   @NotNull
   @Override
-  public Optional<Locale> toFinal(@NotNull final String rawValue) {
-    return FlLocale.convertToLocale(rawValue);
+  public Optional<InetSocketAddress> toFinal(@NotNull final String rawValue) {
+    return FlInetSocketAddress.convertToAddress(rawValue);
   }
 
   @NotNull
   @Override
-  public Optional<String> toRaw(@NotNull final Locale finalValue) {
-    return Optional.of(finalValue.getLanguage() + "_" + finalValue.getCountry());
+  public Optional<String> toRaw(@NotNull final InetSocketAddress finalValue) {
+    return Optional.of(finalValue.getHostName() + ":" + finalValue.getPort());
   }
 }

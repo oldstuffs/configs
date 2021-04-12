@@ -23,60 +23,33 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import java.util.Locale;
-import java.util.Optional;
-import java.util.UUID;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
+import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to load {@link Locale}.
+ * an implementation to load {@link FileConfiguration}.
  */
-public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
+public final class FlConfigurationSection extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
+  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
 
-  /**
-   * converts the given raw string to a {@link UUID}.
-   *
-   * @param raw the raw to convert.
-   *
-   * @return converted unique id from string.
-   */
-  @NotNull
-  private static Optional<UUID> convertToUniqueId(@Nullable final String raw) {
-    if (raw == null) {
-      return Optional.empty();
-    }
-    try {
-      return Optional.of(UUID.fromString(raw));
-    } catch (final Throwable ignored) {
-    }
-    return Optional.empty();
+  @Override
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    return ConfigurationSection.class == field.getType();
   }
 
-  @NotNull
   @Override
-  public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
-    return Optional.ofNullable(section.getString(path));
-  }
-
-  @NotNull
-  @Override
-  public Optional<UUID> toFinal(@NotNull final String rawValue) {
-    return FlUniqueId.convertToUniqueId(rawValue);
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> toRaw(final @NotNull UUID finalValue) {
-    return Optional.ofNullable(finalValue.toString());
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    field.setValue(this.getSection(loader));
   }
 }

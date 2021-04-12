@@ -23,32 +23,32 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
-import io.github.portlek.configs.LangLoader;
 import io.github.portlek.configs.Loader;
+import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to load {@link LangLoader}.
+ * an implementation to load {@link FileConfiguration}.
  */
-public final class FlLangLoader extends BaseFieldLoader {
+public final class FlConfiguration extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlLangLoader> INSTANCE = FlLangLoader::new;
+  public static final Supplier<FlConfiguration> INSTANCE = FlConfiguration::new;
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return field.getType() == LangLoader.class &&
-      loader.getClass() == LangLoader.class;
+    return FileConfiguration.class == field.getType();
   }
 
   @Override
   public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(loader);
+    field.setValue(loader.getFileConfiguration());
   }
 }

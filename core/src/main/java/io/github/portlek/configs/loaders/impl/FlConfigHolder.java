@@ -23,31 +23,47 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.configuration.FileConfiguration;
+import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
+import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to load {@link FileConfiguration}.
+ * an implementation to load {@link ConfigHolder}.
  */
-public final class FlConfiguration extends BaseFieldLoader {
+public final class FlConfigHolder extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlConfiguration> INSTANCE = FlConfiguration::new;
+  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return FileConfiguration.class == field.getType();
+    return ConfigHolder.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFileConfiguration());
+    final var parent = Optional.ofNullable(this.getParentHolder())
+      .orElse(loader.getConfigHolder());
+    field.of(parent).getValue()
+      .filter(ConfigHolder.class::isInstance)
+      .map(ConfigHolder.class::cast)
+      .ifPresent(configHolder ->
+        FieldLoader.load(loader, configHolder, field,
+          this.getSection(loader).getSectionOrCreate(field.getAnnotation(Route.class)
+            .map(Route::value)
+            .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
+              .map(Route::value)
+              .orElse(field.getName())))));
   }
 }
