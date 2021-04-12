@@ -25,11 +25,11 @@
 
 package io.github.portlek.configs.loaders;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
+import java.lang.reflect.ParameterizedType;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,8 +41,24 @@ import org.jetbrains.annotations.NotNull;
 public abstract class SectionFieldLoader<T> extends BaseFieldLoader
   implements SectionSerializer<Map<String, Object>, T> {
 
-  private final TypeReference<T> type = new TypeReference<>() {
-  };
+  /**
+   * the persistent class.
+   */
+  @NotNull
+  private final Class<T> persistentClass;
+
+  /**
+   * ctor.
+   */
+  protected SectionFieldLoader() {
+    this.persistentClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass())
+      .getActualTypeArguments()[0];
+  }
+
+  @Override
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    return this.persistentClass.isAssignableFrom(field.getType());
+  }
 
   @Override
   public final void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {

@@ -42,11 +42,6 @@ public final class FlTestData extends SectionFieldLoader<TestData> {
    */
   public static final Supplier<FlTestData> INSTANCE = FlTestData::new;
 
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return TestData.class == field.getType();
-  }
-
   @NotNull
   @Override
   public Optional<TestData> toFinal(@NotNull final ConfigurationSection section) {

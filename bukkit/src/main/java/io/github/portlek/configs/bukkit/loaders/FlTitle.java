@@ -25,14 +25,11 @@
 
 package io.github.portlek.configs.bukkit.loaders;
 
-import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.bukkit.data.SentTitle;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
-import io.github.portlek.reflection.RefField;
 import java.util.Optional;
 import java.util.function.Supplier;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -44,11 +41,6 @@ public final class FlTitle extends SectionFieldLoader<SentTitle> {
    * the instance.
    */
   public static final Supplier<FlTitle> INSTANCE = FlTitle::new;
-
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return SentTitle.class == field.getType();
-  }
 
   @NotNull
   @Override
