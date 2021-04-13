@@ -40,11 +40,19 @@ public final class LangTest implements ConfigHolder {
     new MapEntry<>("en_US", "English."),
     new MapEntry<>("tr_TR", "Türkçe."));
 
-  public static void main(final String[] args) {
+  public static void main(final String[] args) throws InterruptedException {
     final var here = Path.of(System.getProperty("user.dir"));
-    final var loader = LangLoader.builder()
+    LangLoader.builder()
       .addBuilder("en_US", here, YamlType.get())
       .addBuilder("tr_TR", here, YamlType.get())
-      .build();
+      .build()
+      .load(true, true)
+      .thenAccept(langLoader -> {
+        System.out.println(Thread.currentThread());
+        System.out.println(langLoader);
+      });
+    while (true) {
+      Thread.sleep(50L);
+    }
   }
 }

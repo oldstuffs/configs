@@ -23,21 +23,17 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.data;
+package io.github.portlek.configs;
 
-import com.cryptomorin.xseries.messages.Titles;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.DataSerializer;
 import java.util.Optional;
-import java.util.function.UnaryOperator;
-import org.bukkit.entity.Player;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * a class that helps developers to send title to players easily.
- */
-public final class SentTitle implements DataSerializer {
+@ToString
+public final class TestData implements DataSerializer {
 
   /**
    * the fade in time.
@@ -75,8 +71,8 @@ public final class SentTitle implements DataSerializer {
    * @param stay the stay.
    * @param fadeOut the fade out.
    */
-  public SentTitle(@Nullable final String title, @Nullable final String subTitle, final int fadeIn, final int stay,
-                   final int fadeOut) {
+  public TestData(@Nullable final String title, @Nullable final String subTitle, final int fadeIn, final int stay,
+                  final int fadeOut) {
     this.title = title;
     this.subTitle = subTitle;
     this.fadeIn = fadeIn;
@@ -92,7 +88,7 @@ public final class SentTitle implements DataSerializer {
    * @return a sent title instance at the section path.
    */
   @NotNull
-  public static Optional<SentTitle> deserialize(@NotNull final ConfigurationSection section) {
+  public static Optional<TestData> deserialize(@NotNull final ConfigurationSection section) {
     final var title = section.getString("title");
     final var subTitle = section.getString("sub-title");
     if (title == null && subTitle == null) {
@@ -101,29 +97,7 @@ public final class SentTitle implements DataSerializer {
     final var fadeIn = section.getInt("fade-in", 20);
     final var stay = section.getInt("stay", 20);
     final var fadeOut = section.getInt("fade-out", 20);
-    return Optional.of(new SentTitle(title, subTitle, fadeIn, stay, fadeOut));
-  }
-
-  /**
-   * sends the title to the given player.
-   *
-   * @param player the player to send.
-   */
-  public void send(@NotNull final Player player) {
-    Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut, this.title, this.subTitle);
-  }
-
-  /**
-   * sends the title to the given player.
-   *
-   * @param player the player to send.
-   * @param title the title function to send.
-   * @param subTitle the sub title function to send.
-   */
-  public void send(@NotNull final Player player, @NotNull final UnaryOperator<String> title,
-                   @NotNull final UnaryOperator<String> subTitle) {
-    Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut, title.apply(this.title),
-      subTitle.apply(this.subTitle));
+    return Optional.of(new TestData(title, subTitle, fadeIn, stay, fadeOut));
   }
 
   /**

@@ -25,29 +25,18 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.reflection.RefField;
-import java.io.File;
-import java.util.function.Supplier;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to load {@link File}.
+ * an interface to determine data serializers.
  */
-public final class FlFile extends BaseFieldLoader {
+public interface DataSerializer {
 
   /**
-   * the instance.
+   * serializes the given value into the section.
+   *
+   * @param section the section to serialize.
    */
-  public static final Supplier<FlFile> INSTANCE = FlFile::new;
-
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return File.class == field.getType();
-  }
-
-  @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFile());
-  }
+  void serialize(@NotNull ConfigurationSection section);
 }

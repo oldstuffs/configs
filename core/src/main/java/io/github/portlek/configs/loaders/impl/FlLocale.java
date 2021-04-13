@@ -23,14 +23,12 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.loaders.GenericFieldLoader;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -38,54 +36,51 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an implementation to load {@link Locale}.
  */
-public final class FlUniqueId extends BaseFieldLoader {
+public final class FlLocale extends GenericFieldLoader<String, Locale> {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
+  public static final Supplier<FlLocale> INSTANCE = FlLocale::new;
 
   /**
-   * converts the given raw string to a {@link UUID}.
+   * converts the given raw string to a {@link Locale}.
    *
    * @param raw the raw to convert.
    *
-   * @return converted unique id from string.
+   * @return converted locale from string.
    */
   @NotNull
-  private static Optional<UUID> convertToUniqueId(@Nullable final String raw) {
+  private static Optional<Locale> convertToLocale(@Nullable final String raw) {
     if (raw == null) {
       return Optional.empty();
     }
-    try {
-      return Optional.of(UUID.fromString(raw));
-    } catch (final Throwable ignored) {
+    final var trim = raw.trim();
+    final var strings = trim.split("_");
+    if (trim.contains("_") && strings.length != 2) {
+      return Optional.of(Locale.ROOT);
     }
-    return Optional.empty();
+    if (strings.length != 2) {
+      return Optional.empty();
+    }
+    return Optional.of(new Locale(strings[0], strings[1]));
   }
 
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return UUID.class == field.getType();
+  public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
+    return Optional.ofNullable(section.getString(path));
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var fieldValue = field.getValue();
-    final var section = this.getSection(loader);
-    final var valueAtPath = FlUniqueId.convertToUniqueId(section.getString(path));
-    if (fieldValue.isPresent()) {
-      final var uniqueId = (UUID) fieldValue.get();
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        section.set(path, uniqueId.toString());
-      }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
-    }
+  public Optional<Locale> toFinal(@NotNull final String rawValue) {
+    return FlLocale.convertToLocale(rawValue);
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> toRaw(@NotNull final Locale finalValue) {
+    return Optional.of(finalValue.getLanguage() + "_" + finalValue.getCountry());
   }
 }

@@ -23,49 +23,47 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
-import io.github.portlek.configs.LangLoader;
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.lang.LangValue;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
+import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to load {@link LangValue}.
+ * an implementation to load {@link ConfigHolder}.
  */
-public final class FlLangValueLoader extends BaseFieldLoader {
+public final class FlConfigHolder extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlLangValueLoader> INSTANCE = FlLangValueLoader::new;
+  public static final Supplier<FlConfigHolder> INSTANCE = FlConfigHolder::new;
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return field.getType() == LangValue.class &&
-      loader.getClass() == LangLoader.class;
+    return ConfigHolder.class.isAssignableFrom(field.getType());
   }
 
   @Override
   public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var lang = (LangLoader) loader;
-    final var fieldValueOptional = field.of(lang.getConfigHolder()).getValue()
-      .filter(LangValue.class::isInstance)
-      .map(LangValue.class::cast);
-    for (final var entry : lang.getBuilt()) {
-      final var key = entry.getKey();
-      final var value = entry.getValue();
-      final var section = this.getSection(value);
-      final var valueAtPath = section.get(path);
-      if (fieldValueOptional.isPresent()) {
-      } else if (valueAtPath != null) {
-      }
-    }
+    final var parent = Optional.ofNullable(this.getParentHolder())
+      .orElse(loader.getConfigHolder());
+    field.of(parent).getValue()
+      .filter(ConfigHolder.class::isInstance)
+      .map(ConfigHolder.class::cast)
+      .ifPresent(configHolder ->
+        FieldLoader.load(loader, configHolder, field,
+          this.getSection(loader).getSectionOrCreate(field.getAnnotation(Route.class)
+            .map(Route::value)
+            .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)
+              .map(Route::value)
+              .orElse(field.getName())))));
   }
 }

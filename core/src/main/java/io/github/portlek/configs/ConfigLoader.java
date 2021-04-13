@@ -27,17 +27,17 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
-import io.github.portlek.configs.loaders.FlConfigHolder;
-import io.github.portlek.configs.loaders.FlConfigLoader;
-import io.github.portlek.configs.loaders.FlConfiguration;
-import io.github.portlek.configs.loaders.FlConfigurationSection;
-import io.github.portlek.configs.loaders.FlFile;
-import io.github.portlek.configs.loaders.FlInetSocketAddress;
-import io.github.portlek.configs.loaders.FlLangLoader;
-import io.github.portlek.configs.loaders.FlLangValueLoader;
-import io.github.portlek.configs.loaders.FlLocale;
-import io.github.portlek.configs.loaders.FlRawField;
-import io.github.portlek.configs.loaders.FlUniqueId;
+import io.github.portlek.configs.loaders.impl.FlConfigHolder;
+import io.github.portlek.configs.loaders.impl.FlConfigLoader;
+import io.github.portlek.configs.loaders.impl.FlConfiguration;
+import io.github.portlek.configs.loaders.impl.FlConfigurationSection;
+import io.github.portlek.configs.loaders.impl.FlFile;
+import io.github.portlek.configs.loaders.impl.FlInetSocketAddress;
+import io.github.portlek.configs.loaders.impl.FlLangLoader;
+import io.github.portlek.configs.loaders.impl.FlLangValueLoader;
+import io.github.portlek.configs.loaders.impl.FlLocale;
+import io.github.portlek.configs.loaders.impl.FlRawField;
+import io.github.portlek.configs.loaders.impl.FlUniqueId;
 import io.github.portlek.configs.util.Validate;
 import java.io.File;
 import java.io.IOException;
@@ -198,22 +198,6 @@ public final class ConfigLoader implements Loader {
   }
 
   /**
-   * creates the folder and file then sets {@link #file}.
-   */
-  public void createFolderAndFile() {
-    final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
-    this.file = filePath.toFile();
-    if (!Files.notExists(filePath)) {
-      return;
-    }
-    try {
-      Files.createFile(filePath);
-    } catch (final IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
    * obtains the file.
    *
    * @return file.
@@ -283,23 +267,36 @@ public final class ConfigLoader implements Loader {
   }
 
   /**
-   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
-   *
-   * @param save the save to load.
+   * runs when config is saving.
    */
-  public void loadFieldsAndSave(final boolean save) {
-    if (this.configHolder != null) {
-      FieldLoader.load(this, this.configHolder);
+  public void save() {
+    try {
+      this.configType.save(this.getFile(), this.getFileConfiguration());
+    } catch (final IOException e) {
+      e.printStackTrace();
     }
-    if (save) {
-      this.save();
+  }
+
+  /**
+   * creates the folder and file then sets {@link #file}.
+   */
+  void createFolderAndFile() {
+    final var filePath = this.folderPath.resolve(this.fileName + this.configType.getSuffix());
+    this.file = filePath.toFile();
+    if (!Files.notExists(filePath)) {
+      return;
+    }
+    try {
+      Files.createFile(filePath);
+    } catch (final IOException e) {
+      e.printStackTrace();
     }
   }
 
   /**
    * loads the file configuration from {@link #file}.
    */
-  public void loadFile() {
+  void loadFile() {
     Validate.checkNull(this.file, "file");
     try {
       this.configuration = this.configType.load(this.file);
@@ -309,13 +306,16 @@ public final class ConfigLoader implements Loader {
   }
 
   /**
-   * runs when config is saving.
+   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
+   *
+   * @param save the save to load.
    */
-  public void save() {
-    try {
-      this.configType.save(this.getFile(), this.getFileConfiguration());
-    } catch (final IOException e) {
-      e.printStackTrace();
+  private void loadFieldsAndSave(final boolean save) {
+    if (this.configHolder != null) {
+      FieldLoader.load(this, this.configHolder);
+    }
+    if (save) {
+      this.save();
     }
   }
 
@@ -330,7 +330,7 @@ public final class ConfigLoader implements Loader {
      * the async executor.
      */
     @NotNull
-    private Executor asyncExecutor = Executors.newSingleThreadExecutor();
+    private Executor asyncExecutor = Executors.newWorkStealingPool();
 
     /**
      * the config holder.

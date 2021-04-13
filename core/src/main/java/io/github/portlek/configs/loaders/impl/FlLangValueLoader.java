@@ -23,51 +23,31 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.LangLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.util.NumberConversions;
+import io.github.portlek.configs.lang.LangValue;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
-import java.net.InetSocketAddress;
-import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to load {@link InetSocketAddress}.
+ * an implementation to load {@link LangValue}.
  */
-public final class FlInetSocketAddress extends BaseFieldLoader {
+public final class FlLangValueLoader extends BaseFieldLoader {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlInetSocketAddress> INSTANCE = FlInetSocketAddress::new;
-
-  /**
-   * converts the given raw string to a {@link InetSocketAddress}.
-   *
-   * @param raw the raw to convert.
-   *
-   * @return converted address from string.
-   */
-  @NotNull
-  private static Optional<InetSocketAddress> convertToAddress(@Nullable final String raw) {
-    if (raw == null) {
-      return Optional.empty();
-    }
-    final var trim = raw.trim();
-    final var strings = trim.split(":");
-    if (strings.length != 2) {
-      return Optional.empty();
-    }
-    return Optional.of(new InetSocketAddress(strings[0], NumberConversions.toInt(strings[1], 1)));
-  }
+  public static final Supplier<FlLangValueLoader> INSTANCE = FlLangValueLoader::new;
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return InetSocketAddress.class == field.getType();
+    return field.getType() == LangValue.class &&
+      loader.getClass() == LangLoader.class;
   }
 
   @Override
@@ -75,18 +55,18 @@ public final class FlInetSocketAddress extends BaseFieldLoader {
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());
-    final var fieldValue = field.getValue();
-    final var section = this.getSection(loader);
-    final var valueAtPath = FlInetSocketAddress.convertToAddress(section.getString(path));
-    if (fieldValue.isPresent()) {
-      final var address = (InetSocketAddress) fieldValue.get();
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        section.set(path, address.getHostName() + ":" + address.getPort());
+    final var lang = (LangLoader) loader;
+    final var fieldValueOptional = field.of(lang.getConfigHolder()).getValue()
+      .filter(LangValue.class::isInstance)
+      .map(LangValue.class::cast);
+    for (final var entry : lang.getBuilt()) {
+      final var key = entry.getKey();
+      final var value = entry.getValue();
+      final var section = this.getSection(value);
+      final var valueAtPath = section.get(path);
+      if (fieldValueOptional.isPresent()) {
+      } else if (valueAtPath != null) {
       }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
     }
   }
 }

@@ -25,29 +25,30 @@
 
 package io.github.portlek.configs.loaders;
 
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
-import java.util.function.Supplier;
+import io.github.portlek.configs.configuration.ConfigurationSection;
+import java.util.Map;
+import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an implementation to load {@link FileConfiguration}.
+ * an abstract class to load fields which have to write in a {@link ConfigurationSection}.
+ *
+ * @param <T> type of the final value.
  */
-public final class FlConfiguration extends BaseFieldLoader {
+public abstract class SectionFieldLoader<T> extends GenericFieldLoader<Map<String, Object>, T> {
 
-  /**
-   * the instance.
-   */
-  public static final Supplier<FlConfiguration> INSTANCE = FlConfiguration::new;
-
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return FileConfiguration.class == field.getType();
+  public final Optional<Map<String, Object>> toConfigObject(@NotNull final ConfigurationSection section,
+                                                            @NotNull final String path) {
+    return Optional.of(section.getMapValues(false));
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(loader.getFileConfiguration());
+  protected final ConfigurationSection prepareSection(@NotNull final ConfigurationSection currentSection,
+                                                      @NotNull final String path) {
+    return Optional.ofNullable(currentSection.getConfigurationSection(path))
+      .orElse(currentSection.createSection(path));
   }
 }

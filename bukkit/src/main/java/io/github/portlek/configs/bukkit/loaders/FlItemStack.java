@@ -26,10 +26,9 @@
 package io.github.portlek.configs.bukkit.loaders;
 
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
-import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.Route;
-import io.github.portlek.configs.loaders.BaseFieldLoader;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.loaders.SectionFieldLoader;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -37,39 +36,22 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an implementation to serialize {@link ItemStack}.
  */
-public final class FlItemStack extends BaseFieldLoader {
+public final class FlItemStack extends SectionFieldLoader<ItemStack> {
 
   /**
    * the instance.
    */
   public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
 
+  @NotNull
   @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return ItemStack.class == field.getType();
+  public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue) {
+    return ItemStackUtil.from(rawValue);
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    final var path = field.getAnnotation(Route.class)
-      .map(Route::value)
-      .orElse(field.getName());
-    final var fieldValue = field.getValue();
-    final var currentSection = this.getSection(loader);
-    var section = currentSection.getConfigurationSection(path);
-    if (section == null) {
-      section = currentSection.createSection(path);
-    }
-    final var valueAtPath = ItemStackUtil.from(section.getMapValues(false));
-    if (fieldValue.isPresent()) {
-      final var itemStack = (ItemStack) fieldValue.get();
-      if (valueAtPath.isPresent()) {
-        field.setValue(valueAtPath.get());
-      } else {
-        section.set(path, ItemStackUtil.to(itemStack));
-      }
-    } else {
-      valueAtPath.ifPresent(field::setValue);
-    }
+  public Optional<Map<String, Object>> toRaw(@NotNull final ItemStack finalValue) {
+    return Optional.of(ItemStackUtil.to(finalValue));
   }
 }

@@ -23,32 +23,61 @@
  *
  */
 
-package io.github.portlek.configs.loaders;
+package io.github.portlek.configs.loaders.impl;
 
-import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.configuration.FileConfiguration;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.loaders.GenericFieldLoader;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to load {@link FileConfiguration}.
+ * an implementation to load {@link Locale}.
  */
-public final class FlConfigurationSection extends BaseFieldLoader {
+public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
+  public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
 
-  @Override
-  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    return ConfigurationSection.class == field.getType();
+  /**
+   * converts the given raw string to a {@link UUID}.
+   *
+   * @param raw the raw to convert.
+   *
+   * @return converted unique id from string.
+   */
+  @NotNull
+  private static Optional<UUID> convertToUniqueId(@Nullable final String raw) {
+    if (raw == null) {
+      return Optional.empty();
+    }
+    try {
+      return Optional.of(UUID.fromString(raw));
+    } catch (final Throwable ignored) {
+    }
+    return Optional.empty();
   }
 
+  @NotNull
   @Override
-  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(this.getSection(loader));
+  public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
+    return Optional.ofNullable(section.getString(path));
+  }
+
+  @NotNull
+  @Override
+  public Optional<UUID> toFinal(@NotNull final String rawValue) {
+    return FlUniqueId.convertToUniqueId(rawValue);
+  }
+
+  @NotNull
+  @Override
+  public Optional<String> toRaw(final @NotNull UUID finalValue) {
+    return Optional.ofNullable(finalValue.toString());
   }
 }

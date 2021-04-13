@@ -23,29 +23,33 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.loaders.impl;
 
-import io.github.portlek.configs.yaml.YamlType;
-import java.nio.file.Path;
-import java.util.concurrent.Executors;
+import io.github.portlek.configs.LangLoader;
+import io.github.portlek.configs.Loader;
+import io.github.portlek.configs.loaders.BaseFieldLoader;
+import io.github.portlek.reflection.RefField;
+import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
-public final class YamlTest {
+/**
+ * an implementation to load {@link LangLoader}.
+ */
+public final class FlLangLoader extends BaseFieldLoader {
 
-  public static void main(final String[] args) {
-    ConfigLoader.builder()
-      .setFileName("test")
-      .setFolder(Path.of(System.getProperty("user.dir")))
-      .setConfigType(YamlType.get())
-      .setConfigHolder(new ConfigHolder0())
-      .setAsyncExecutor(Executors.newFixedThreadPool(4))
-      .addLoaders(FlTestData.INSTANCE)
-      .build()
-      .load(true);
-    System.out.println(ConfigHolder0.test);
+  /**
+   * the instance.
+   */
+  public static final Supplier<FlLangLoader> INSTANCE = FlLangLoader::new;
+
+  @Override
+  public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    return field.getType() == LangLoader.class &&
+      loader.getClass() == LangLoader.class;
   }
 
-  private static final class ConfigHolder0 implements ConfigHolder {
-
-    public static TestData test = new TestData("title", "sub-title", 20, 20, 20);
+  @Override
+  public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
+    field.setValue(loader);
   }
 }

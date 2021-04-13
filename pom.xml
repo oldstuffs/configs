@@ -46,17 +46,50 @@
   <properties>
     <java.version>11</java.version>
   </properties>
-  <dependencies>
-    <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>reflection</artifactId>
-      <version>4.1.1</version>
-    </dependency>
-  </dependencies>
   <modules>
     <module>core</module>
     <module>json</module>
     <module>yaml</module>
     <module>bukkit</module>
   </modules>
+  <repositories>
+    <repository>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+      <id>spigot-repo</id>
+    </repository>
+  </repositories>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-core</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>reflection</artifactId>
+        <version>4.1.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.12.2</version>
+      </dependency>
+      <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-yaml</artifactId>
+        <version>2.12.2</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>BukkitItemBuilder</artifactId>
+        <version>4.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.spigotmc</groupId>
+        <artifactId>spigot-api</artifactId>
+        <version>1.16.5-R0.1-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>

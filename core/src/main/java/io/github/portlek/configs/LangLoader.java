@@ -35,6 +35,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -52,6 +54,12 @@ import org.jetbrains.annotations.Nullable;
  */
 @Getter
 public final class LangLoader implements Loader {
+
+  /**
+   * the async executor.
+   */
+  @NotNull
+  public final Executor asyncExecutor;
 
   /**
    * the config builders.
@@ -96,11 +104,13 @@ public final class LangLoader implements Loader {
   /**
    * ctor.
    *
+   * @param asyncExecutor the async executor.
    * @param builders the builders.
    * @param configHolder the config holder.
    */
-  private LangLoader(@NotNull final Map<String, ConfigLoader.Builder> builders,
+  private LangLoader(@NotNull final Executor asyncExecutor, @NotNull final Map<String, ConfigLoader.Builder> builders,
                      @Nullable final ConfigHolder configHolder) {
+    this.asyncExecutor = asyncExecutor;
     this.builders = builders;
     this.configHolder = configHolder;
     this.built = new StringLoaderEntry[this.builders.size()];
@@ -224,22 +234,12 @@ public final class LangLoader implements Loader {
           future.thenRun(job.apply(built));
         }
       });
-    return future.thenApply(langLoader -> langLoader);
-  }
-
-  /**
-   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
-   *
-   * @param configLoader the config loader to load.
-   * @param save the save to load.
-   */
-  public void loadFieldsAndSave(@NotNull final ConfigLoader configLoader, final boolean save) {
-    if (this.configHolder != null) {
-      FieldLoader.load(this, this.configHolder, configLoader.getLoaders());
+    if (async) {
+      future.completeAsync(() -> this, this.asyncExecutor);
+    } else {
+      future.complete(this);
     }
-    if (save) {
-      configLoader.save();
-    }
+    return future;
   }
 
   /**
@@ -257,11 +257,26 @@ public final class LangLoader implements Loader {
   }
 
   /**
+   * loads fields in the {@link #configHolder} then saves if {@code save} is true.
+   *
+   * @param configLoader the config loader to load.
+   * @param save the save to load.
+   */
+  private void loadFieldsAndSave(@NotNull final ConfigLoader configLoader, final boolean save) {
+    if (this.configHolder != null) {
+      FieldLoader.load(this, this.configHolder, configLoader.getLoaders());
+    }
+    if (save) {
+      configLoader.save();
+    }
+  }
+
+  /**
    * polls and increase {@link #statement} by 1.
    *
    * @return the current statement.
    */
-  public int pollStatement() {
+  private int pollStatement() {
     if (this.statement.get() > this.getKeys().size()) {
       this.statement.set(0);
     }
@@ -274,6 +289,12 @@ public final class LangLoader implements Loader {
   @NoArgsConstructor(access = AccessLevel.PRIVATE)
   @Getter
   public static final class Builder {
+
+    /**
+     * the async executor.
+     */
+    @NotNull
+    private Executor asyncExecutor = Executors.newWorkStealingPool();
 
     /**
      * the config builders.
@@ -441,7 +462,20 @@ public final class LangLoader implements Loader {
         this.builders.values().forEach(builder ->
           builder.setConfigHolder(this.holder));
       }
-      return new LangLoader(this.builders, this.holder);
+      return new LangLoader(this.asyncExecutor, this.builders, this.holder);
+    }
+
+    /**
+     * sets the async executor type.
+     *
+     * @param asyncExecutor the async executor to set.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setAsyncExecutor(@NotNull final Executor asyncExecutor) {
+      this.asyncExecutor = asyncExecutor;
+      return this;
     }
 
     /**
