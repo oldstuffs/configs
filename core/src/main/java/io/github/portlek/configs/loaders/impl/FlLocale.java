@@ -74,7 +74,7 @@ public final class FlLocale extends GenericFieldLoader<String, Locale> {
 
   @NotNull
   @Override
-  public Optional<Locale> toFinal(@NotNull final String rawValue) {
+  public Optional<Locale> toFinal(@NotNull final String rawValue, @Nullable final Locale fieldValue) {
     return FlLocale.convertToLocale(rawValue);
   }
 

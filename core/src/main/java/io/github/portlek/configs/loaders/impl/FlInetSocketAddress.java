@@ -72,7 +72,8 @@ public final class FlInetSocketAddress extends GenericFieldLoader<String, InetSo
 
   @NotNull
   @Override
-  public Optional<InetSocketAddress> toFinal(@NotNull final String rawValue) {
+  public Optional<InetSocketAddress> toFinal(@NotNull final String rawValue,
+                                             @Nullable final InetSocketAddress fieldValue) {
     return FlInetSocketAddress.convertToAddress(rawValue);
   }
 

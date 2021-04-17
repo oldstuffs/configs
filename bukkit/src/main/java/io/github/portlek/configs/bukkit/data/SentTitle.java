@@ -28,7 +28,11 @@ package io.github.portlek.configs.bukkit.data;
 import com.cryptomorin.xseries.messages.Titles;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.DataSerializer;
+import io.github.portlek.replaceable.Replaceable;
+import io.github.portlek.replaceable.rp.RpString;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -58,13 +62,13 @@ public final class SentTitle implements DataSerializer {
    * the sub title.
    */
   @Nullable
-  private final String subTitle;
+  private final RpString subTitle;
 
   /**
    * the title.
    */
   @Nullable
-  private final String title;
+  private final RpString title;
 
   /**
    * ctor.
@@ -76,6 +80,22 @@ public final class SentTitle implements DataSerializer {
    * @param fadeOut the fade out.
    */
   public SentTitle(@Nullable final String title, @Nullable final String subTitle, final int fadeIn, final int stay,
+                   final int fadeOut) {
+    this(title == null ? null : Replaceable.from(title),
+      subTitle == null ? null : Replaceable.from(subTitle),
+      fadeIn, stay, fadeOut);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param title the title.
+   * @param subTitle the sub title.
+   * @param fadeIn the fade in.
+   * @param stay the stay.
+   * @param fadeOut the fade out.
+   */
+  public SentTitle(@Nullable final RpString title, @Nullable final RpString subTitle, final int fadeIn, final int stay,
                    final int fadeOut) {
     this.title = title;
     this.subTitle = subTitle;
@@ -92,7 +112,8 @@ public final class SentTitle implements DataSerializer {
    * @return a sent title instance at the section path.
    */
   @NotNull
-  public static Optional<SentTitle> deserialize(@NotNull final ConfigurationSection section) {
+  public static Optional<SentTitle> deserialize(@NotNull final ConfigurationSection section,
+                                                @Nullable final SentTitle fieldValue) {
     final var title = section.getString("title");
     final var subTitle = section.getString("sub-title");
     if (title == null && subTitle == null) {
@@ -101,7 +122,19 @@ public final class SentTitle implements DataSerializer {
     final var fadeIn = section.getInt("fade-in", 20);
     final var stay = section.getInt("stay", 20);
     final var fadeOut = section.getInt("fade-out", 20);
-    return Optional.of(new SentTitle(title, subTitle, fadeIn, stay, fadeOut));
+    final RpString fieldTitle;
+    final RpString fieldSubTitle;
+    if (fieldValue == null || fieldValue.title == null) {
+      fieldTitle = title == null ? null : Replaceable.from(title);
+    } else {
+      fieldTitle = title == null ? null : fieldValue.title.value(title);
+    }
+    if (fieldValue == null || fieldValue.subTitle == null) {
+      fieldSubTitle = subTitle == null ? null : Replaceable.from(subTitle);
+    } else {
+      fieldSubTitle = subTitle == null ? null : fieldValue.subTitle.value(subTitle);
+    }
+    return Optional.of(new SentTitle(fieldTitle, fieldSubTitle, fadeIn, stay, fadeOut));
   }
 
   /**
@@ -109,8 +142,12 @@ public final class SentTitle implements DataSerializer {
    *
    * @param player the player to send.
    */
-  public void send(@NotNull final Player player) {
-    Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut, this.title, this.subTitle);
+  @SafeVarargs
+  public final void send(@NotNull final Player player,
+                         @NotNull final Map.Entry<String, Supplier<String>>... entries) {
+    Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut,
+      this.title == null ? null : this.title.build(entries),
+      this.subTitle == null ? null : this.subTitle.build(entries));
   }
 
   /**
@@ -120,10 +157,13 @@ public final class SentTitle implements DataSerializer {
    * @param title the title function to send.
    * @param subTitle the sub title function to send.
    */
-  public void send(@NotNull final Player player, @NotNull final UnaryOperator<String> title,
-                   @NotNull final UnaryOperator<String> subTitle) {
-    Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut, title.apply(this.title),
-      subTitle.apply(this.subTitle));
+  @SafeVarargs
+  public final void send(@NotNull final Player player, @NotNull final UnaryOperator<String> title,
+                         @NotNull final UnaryOperator<String> subTitle,
+                         @NotNull final Map.Entry<String, Supplier<String>>... entries) {
+    Titles.sendTitle(player, this.fadeIn, this.stay, this.fadeOut,
+      this.title == null ? null : title.apply(this.title.build(entries)),
+      this.subTitle == null ? null : subTitle.apply(this.subTitle.build(entries)));
   }
 
   /**

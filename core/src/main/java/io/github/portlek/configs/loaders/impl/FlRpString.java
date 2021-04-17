@@ -27,41 +27,22 @@ package io.github.portlek.configs.loaders.impl;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
-import java.util.Locale;
+import io.github.portlek.replaceable.Replaceable;
+import io.github.portlek.replaceable.rp.RpString;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to load {@link Locale}.
+ * an implementation to load {@link RpString}.
  */
-public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
+public final class FlRpString extends GenericFieldLoader<String, RpString> {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
-
-  /**
-   * converts the given raw string to a {@link UUID}.
-   *
-   * @param raw the raw to convert.
-   *
-   * @return converted unique id from string.
-   */
-  @NotNull
-  private static Optional<UUID> convertToUniqueId(@Nullable final String raw) {
-    if (raw == null) {
-      return Optional.empty();
-    }
-    try {
-      return Optional.of(UUID.fromString(raw));
-    } catch (final Throwable ignored) {
-    }
-    return Optional.empty();
-  }
+  public static final Supplier<FlRpString> INSTANCE = FlRpString::new;
 
   @NotNull
   @Override
@@ -71,13 +52,16 @@ public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
 
   @NotNull
   @Override
-  public Optional<UUID> toFinal(@NotNull final String rawValue, @Nullable final UUID fieldValue) {
-    return FlUniqueId.convertToUniqueId(rawValue);
+  public Optional<RpString> toFinal(@NotNull final String rawValue, @Nullable final RpString fieldValue) {
+    if (fieldValue == null) {
+      return Optional.of(Replaceable.from(rawValue));
+    }
+    return Optional.of(fieldValue.value(rawValue));
   }
 
   @NotNull
   @Override
-  public Optional<String> toRaw(final @NotNull UUID finalValue) {
-    return Optional.ofNullable(finalValue.toString());
+  public Optional<String> toRaw(@NotNull final RpString finalValue) {
+    return Optional.of(finalValue.getValue());
   }
 }

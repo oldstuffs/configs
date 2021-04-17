@@ -90,6 +90,11 @@
         <artifactId>spigot-api</artifactId>
         <version>1.16.5-R0.1-SNAPSHOT</version>
       </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>replaceable</artifactId>
+        <version>1.6</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>

@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize {@link ItemStack}.
@@ -45,7 +46,8 @@ public final class FlItemStack extends SectionFieldLoader<ItemStack> {
 
   @NotNull
   @Override
-  public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue) {
+  public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue,
+                                     @Nullable final ItemStack fieldValue) {
     return ItemStackUtil.from(rawValue);
   }
 

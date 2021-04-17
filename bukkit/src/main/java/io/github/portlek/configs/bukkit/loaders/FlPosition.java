@@ -31,6 +31,7 @@ import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize {@link Position}.
@@ -44,7 +45,7 @@ public final class FlPosition extends SectionFieldLoader<Position> {
 
   @NotNull
   @Override
-  public Optional<Position> toFinal(@NotNull final ConfigurationSection section) {
+  public Optional<Position> toFinal(@NotNull final ConfigurationSection section, @Nullable final Position fieldValue) {
     return Position.deserialize(section);
   }
 }
