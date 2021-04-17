@@ -14,6 +14,7 @@
               <option value="install"/>
               <option value="-T"/>
               <option value="3"/>
+              <option value="-Pcheckstyle"/>
             </list>
           </option>
           <option name="pomFileName"/>

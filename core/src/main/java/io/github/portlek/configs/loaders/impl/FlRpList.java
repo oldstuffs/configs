@@ -27,8 +27,7 @@ package io.github.portlek.configs.loaders.impl;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
-import io.github.portlek.replaceable.Replaceable;
-import io.github.portlek.replaceable.rp.RpList;
+import io.github.portlek.replaceable.RpList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -55,7 +54,7 @@ public final class FlRpList extends GenericFieldLoader<List<String>, RpList> {
   @Override
   public Optional<RpList> toFinal(@NotNull final List<String> rawValue, @Nullable final RpList fieldValue) {
     if (fieldValue == null) {
-      return Optional.of(Replaceable.from(rawValue));
+      return Optional.of(RpList.from(rawValue));
     }
     return Optional.of(fieldValue.value(rawValue));
   }

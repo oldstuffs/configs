@@ -28,8 +28,7 @@ package io.github.portlek.configs.bukkit.data;
 import com.cryptomorin.xseries.messages.Titles;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.DataSerializer;
-import io.github.portlek.replaceable.Replaceable;
-import io.github.portlek.replaceable.rp.RpString;
+import io.github.portlek.replaceable.RpString;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -81,8 +80,8 @@ public final class SentTitle implements DataSerializer {
    */
   public SentTitle(@Nullable final String title, @Nullable final String subTitle, final int fadeIn, final int stay,
                    final int fadeOut) {
-    this(title == null ? null : Replaceable.from(title),
-      subTitle == null ? null : Replaceable.from(subTitle),
+    this(title == null ? null : RpString.from(title),
+      subTitle == null ? null : RpString.from(subTitle),
       fadeIn, stay, fadeOut);
   }
 
@@ -125,12 +124,12 @@ public final class SentTitle implements DataSerializer {
     final RpString fieldTitle;
     final RpString fieldSubTitle;
     if (fieldValue == null || fieldValue.title == null) {
-      fieldTitle = title == null ? null : Replaceable.from(title);
+      fieldTitle = title == null ? null : RpString.from(title);
     } else {
       fieldTitle = title == null ? null : fieldValue.title.value(title);
     }
     if (fieldValue == null || fieldValue.subTitle == null) {
-      fieldSubTitle = subTitle == null ? null : Replaceable.from(subTitle);
+      fieldSubTitle = subTitle == null ? null : RpString.from(subTitle);
     } else {
       fieldSubTitle = subTitle == null ? null : fieldValue.subTitle.value(subTitle);
     }

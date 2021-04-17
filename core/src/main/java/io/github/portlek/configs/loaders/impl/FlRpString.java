@@ -27,8 +27,7 @@ package io.github.portlek.configs.loaders.impl;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
-import io.github.portlek.replaceable.Replaceable;
-import io.github.portlek.replaceable.rp.RpString;
+import io.github.portlek.replaceable.RpString;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +53,7 @@ public final class FlRpString extends GenericFieldLoader<String, RpString> {
   @Override
   public Optional<RpString> toFinal(@NotNull final String rawValue, @Nullable final RpString fieldValue) {
     if (fieldValue == null) {
-      return Optional.of(Replaceable.from(rawValue));
+      return Optional.of(RpString.from(rawValue));
     }
     return Optional.of(fieldValue.value(rawValue));
   }
