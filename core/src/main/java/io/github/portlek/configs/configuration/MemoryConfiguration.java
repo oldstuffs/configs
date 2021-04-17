@@ -39,8 +39,14 @@ import org.jetbrains.annotations.NotNull;
  */
 public class MemoryConfiguration extends MemorySection implements Configuration {
 
+  /**
+   * the defaults.
+   */
   protected Configuration defaults;
 
+  /**
+   * the options.
+   */
   protected MemoryConfigurationOptions options;
 
   /**

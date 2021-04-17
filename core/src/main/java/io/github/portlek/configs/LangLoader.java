@@ -243,7 +243,7 @@ public final class LangLoader implements Loader {
   }
 
   /**
-   * polls the current config loader
+   * polls the current config loader.
    *
    * @return config loader.
    */

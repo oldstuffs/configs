@@ -41,7 +41,7 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * This is a base class for all File based implementations of {@link Configuration}
+ * This is a base class for all File based implementations of {@link Configuration}.
  *
  * @author Bukkit
  * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/file/FileConfiguration.java">Bukkit

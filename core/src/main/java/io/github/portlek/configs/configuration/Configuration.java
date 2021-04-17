@@ -29,7 +29,7 @@ import java.util.Map;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Represents a source of configurable options and settings
+ * Represents a source of configurable options and settings.
  *
  * @author Bukkit
  * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/Configuration.java">Bukkit

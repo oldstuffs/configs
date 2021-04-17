@@ -28,7 +28,7 @@ package io.github.portlek.configs.exceptions;
 import io.github.portlek.configs.configuration.Configuration;
 
 /**
- * Exception thrown when attempting to load an invalid {@link Configuration}
+ * Exception thrown when attempting to load an invalid {@link Configuration}.
  *
  * @author Bukkit
  * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/InvalidConfigurationException.java">Bukkit

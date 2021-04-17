@@ -94,6 +94,7 @@ public interface SectionSerializer<R, F> {
    *
    * @param section the section to write.
    * @param finalValue the final value to write.
+   * @param <D> type of the final value.
    */
   default <D extends DataSerializer> void toRaw(@NotNull final ConfigurationSection section,
                                                 @NotNull final D finalValue) {

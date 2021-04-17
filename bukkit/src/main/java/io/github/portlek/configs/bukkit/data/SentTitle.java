@@ -107,6 +107,7 @@ public final class SentTitle implements DataSerializer {
    * gets the sent title from the given section.
    *
    * @param section the section to get.
+   * @param fieldValue the field value to deserialize.
    *
    * @return a sent title instance at the section path.
    */
@@ -140,6 +141,7 @@ public final class SentTitle implements DataSerializer {
    * sends the title to the given player.
    *
    * @param player the player to send.
+   * @param entries the entries to send.
    */
   @SafeVarargs
   public final void send(@NotNull final Player player,
@@ -155,6 +157,7 @@ public final class SentTitle implements DataSerializer {
    * @param player the player to send.
    * @param title the title function to send.
    * @param subTitle the sub title function to send.
+   * @param entries the entries to send.
    */
   @SafeVarargs
   public final void send(@NotNull final Player player, @NotNull final UnaryOperator<String> title,

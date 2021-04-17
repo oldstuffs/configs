@@ -48,14 +48,29 @@ import org.jetbrains.annotations.Nullable;
  */
 public class MemorySection implements ConfigurationSection {
 
+  /**
+   * the map.
+   */
   protected final Map<String, Object> map = new LinkedHashMap<>();
 
+  /**
+   * the full path.
+   */
   private final String fullPath;
 
+  /**
+   * the parent.
+   */
   private final ConfigurationSection parent;
 
+  /**
+   * the path.
+   */
   private final String path;
 
+  /**
+   * the root.
+   */
   private final Configuration root;
 
   /**
@@ -172,7 +187,8 @@ public class MemorySection implements ConfigurationSection {
     final char separator = root.options().pathSeparator();
     // i1 is the leading (higher) index
     // i2 is the trailing (lower) index
-    int i1 = -1, i2;
+    var i1 = -1;
+    int i2;
     ConfigurationSection section = this;
     while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
       final String node = path.substring(i2, i1);
@@ -223,7 +239,8 @@ public class MemorySection implements ConfigurationSection {
     final char separator = root.options().pathSeparator();
     // i1 is the leading (higher) index
     // i2 is the trailing (lower) index
-    int i1 = -1, i2;
+    var i1 = -1;
+    int i2;
     ConfigurationSection section = this;
     while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
       section = section.getConfigurationSection(path.substring(i2, i1));
@@ -678,7 +695,8 @@ public class MemorySection implements ConfigurationSection {
     final char separator = root.options().pathSeparator();
     // i1 is the leading (higher) index
     // i2 is the trailing (lower) index
-    int i1 = -1, i2;
+    var i1 = -1;
+    int i2;
     ConfigurationSection section = this;
     while ((i1 = path.indexOf(separator, i2 = i1 + 1)) != -1) {
       final String node = path.substring(i2, i1);

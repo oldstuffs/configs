@@ -30,7 +30,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
- * Various settings for controlling the input and output of a {@link FileConfiguration}
+ * Various settings for controlling the input and output of a {@link FileConfiguration}.
  *
  * @author Bukkit
  * @author Carlos Lazaro Costa (added charset option)
@@ -39,20 +39,46 @@ import java.util.Objects;
  */
 public class FileConfigurationOptions extends MemoryConfigurationOptions {
 
+  /**
+   * the charset.
+   */
   private Charset charset = StandardCharsets.UTF_8;
 
+  /**
+   * the copy header.
+   */
   private boolean copyHeader = true;
 
+  /**
+   * the header.
+   */
   private String header = null;
 
+  /**
+   * ctor.
+   *
+   * @param configuration the configuration.
+   */
   protected FileConfigurationOptions(final MemoryConfiguration configuration) {
     super(configuration);
   }
 
+  /**
+   * obtains the charset.
+   *
+   * @return charset.
+   */
   public Charset charset() {
     return this.charset;
   }
 
+  /**
+   * sets the charset.
+   *
+   * @param charset the charset to set.
+   *
+   * @return {@code this} for builder chain.
+   */
   public FileConfigurationOptions charset(final Charset charset) {
     this.charset = charset;
     return this;
@@ -139,6 +165,11 @@ public class FileConfigurationOptions extends MemoryConfigurationOptions {
     return this.header;
   }
 
+  /**
+   * checks if {@link #charset} starts with UTF.
+   *
+   * @return {@code true} if {@link #charset} starts with UTF.
+   */
   public boolean isUnicode() {
     return this.charset.name().startsWith("UTF");
   }
