@@ -28,6 +28,7 @@ package io.github.portlek.configs.loaders;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine section serializers.
@@ -54,11 +55,12 @@ public interface SectionSerializer<R, F> {
    * converts the given section into {@link F}.
    *
    * @param section the section to convert.
+   * @param fieldValue the field value to convert.
    *
    * @return converted final value.
    */
   @NotNull
-  default Optional<F> toFinal(@NotNull final ConfigurationSection section) {
+  default Optional<F> toFinal(@NotNull final ConfigurationSection section, @Nullable final F fieldValue) {
     return Optional.empty();
   }
 
@@ -66,11 +68,12 @@ public interface SectionSerializer<R, F> {
    * converts the given raw value into {@link F}.
    *
    * @param rawValue the raw value to convert.
+   * @param fieldValue the field value to convert.
    *
    * @return converted final value.
    */
   @NotNull
-  default Optional<F> toFinal(@NotNull final R rawValue) {
+  default Optional<F> toFinal(@NotNull final R rawValue, @Nullable final F fieldValue) {
     return Optional.empty();
   }
 

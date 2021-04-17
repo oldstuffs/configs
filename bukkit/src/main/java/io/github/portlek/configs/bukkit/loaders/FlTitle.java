@@ -31,6 +31,7 @@ import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Optional;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an implementation to serialize {@link SentTitle}.
@@ -44,7 +45,8 @@ public final class FlTitle extends SectionFieldLoader<SentTitle> {
 
   @NotNull
   @Override
-  public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section) {
-    return SentTitle.deserialize(section);
+  public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section,
+                                     @Nullable final SentTitle fieldValue) {
+    return SentTitle.deserialize(section, fieldValue);
   }
 }

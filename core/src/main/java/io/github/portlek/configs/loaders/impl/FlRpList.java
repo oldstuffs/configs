@@ -27,57 +27,42 @@ package io.github.portlek.configs.loaders.impl;
 
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
-import java.util.Locale;
+import io.github.portlek.replaceable.Replaceable;
+import io.github.portlek.replaceable.rp.RpList;
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to load {@link Locale}.
+ * an implementation to load {@link RpList}.
  */
-public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
+public final class FlRpList extends GenericFieldLoader<List<String>, RpList> {
 
   /**
    * the instance.
    */
-  public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
+  public static final Supplier<FlRpList> INSTANCE = FlRpList::new;
 
-  /**
-   * converts the given raw string to a {@link UUID}.
-   *
-   * @param raw the raw to convert.
-   *
-   * @return converted unique id from string.
-   */
   @NotNull
-  private static Optional<UUID> convertToUniqueId(@Nullable final String raw) {
-    if (raw == null) {
-      return Optional.empty();
+  @Override
+  public Optional<List<String>> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
+    return Optional.of(section.getStringList(path));
+  }
+
+  @NotNull
+  @Override
+  public Optional<RpList> toFinal(@NotNull final List<String> rawValue, @Nullable final RpList fieldValue) {
+    if (fieldValue == null) {
+      return Optional.of(Replaceable.from(rawValue));
     }
-    try {
-      return Optional.of(UUID.fromString(raw));
-    } catch (final Throwable ignored) {
-    }
-    return Optional.empty();
+    return Optional.of(fieldValue.value(rawValue));
   }
 
   @NotNull
   @Override
-  public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
-    return Optional.ofNullable(section.getString(path));
-  }
-
-  @NotNull
-  @Override
-  public Optional<UUID> toFinal(@NotNull final String rawValue, @Nullable final UUID fieldValue) {
-    return FlUniqueId.convertToUniqueId(rawValue);
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> toRaw(final @NotNull UUID finalValue) {
-    return Optional.ofNullable(finalValue.toString());
+  public Optional<List<String>> toRaw(@NotNull final RpList finalValue) {
+    return Optional.of(finalValue.getValue());
   }
 }

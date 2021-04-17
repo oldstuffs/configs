@@ -70,15 +70,17 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var path = field.getAnnotation(Route.class)
       .map(Route::value)
       .orElse(field.getName());
-    final var fieldValueOptional = field.getValue();
+    final var fieldValueOptional = field.getValue()
+      .filter(o -> this.persistentClass.isAssignableFrom(o.getClass()))
+      .map(this.persistentClass::cast);
     final var section = this.prepareSection(this.getSection(loader), path);
-    final var finalValue0 = this.toFinal(section);
+    final var finalValue0 = this.toFinal(section, fieldValueOptional.orElse(null));
     final Optional<F> valueAtPath;
     if (finalValue0.isPresent()) {
       valueAtPath = finalValue0;
     } else {
       valueAtPath = this.toConfigObject(section, path)
-        .flatMap(this::toFinal);
+        .flatMap(r -> this.toFinal(r, fieldValueOptional.orElse(null)));
     }
     if (fieldValueOptional.isPresent()) {
       if (valueAtPath.isPresent()) {
@@ -88,7 +90,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
         if (fieldValue instanceof DataSerializer) {
           this.toRaw(section, (DataSerializer) fieldValue);
         } else {
-          final var rawValue = this.toRaw((F) fieldValue);
+          final var rawValue = this.toRaw(fieldValue);
           if (rawValue.isPresent()) {
             section.set(path, rawValue);
           }
