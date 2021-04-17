@@ -25,16 +25,19 @@
 
 package io.github.portlek.configs.util;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * an utility class that helps developer to write simple expressions.
  */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Validate {
+
+  /**
+   * ctor.
+   */
+  private Validate() {
+  }
 
   /**
    * checks if the text is empty.

@@ -28,7 +28,7 @@ package io.github.portlek.configs.util;
 import lombok.experimental.UtilityClass;
 
 /**
- * Utils for casting number types to other number types
+ * Utils for casting number types to other number types.
  *
  * @author Bukkit
  * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/util/NumberConversions.java">Bukkit
@@ -37,6 +37,13 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class NumberConversions {
 
+  /**
+   * converts the given object into {@link Double}.
+   *
+   * @param object the object to convert.
+   *
+   * @return converted double number.
+   */
   public double toDouble(final Object object) {
     if (object instanceof Number) {
       return ((Number) object).doubleValue();
@@ -48,10 +55,25 @@ public class NumberConversions {
     return 0;
   }
 
+  /**
+   * converts the given object into {@link Integer}.
+   *
+   * @param object the object to convert.
+   *
+   * @return converted integer number.
+   */
   public int toInt(final Object object) {
     return NumberConversions.toInt(object, 0);
   }
 
+  /**
+   * converts the given object into {@link Integer}.
+   *
+   * @param object the object to convert.
+   * @param fallback the fallback to convert.
+   *
+   * @return converted integer number.
+   */
   public int toInt(final Object object, final int fallback) {
     if (object instanceof Number) {
       return ((Number) object).intValue();
@@ -63,6 +85,13 @@ public class NumberConversions {
     return fallback;
   }
 
+  /**
+   * converts the given object into {@link Long}.
+   *
+   * @param object the object to convert.
+   *
+   * @return converted long number.
+   */
   public long toLong(final Object object) {
     if (object instanceof Number) {
       return ((Number) object).longValue();

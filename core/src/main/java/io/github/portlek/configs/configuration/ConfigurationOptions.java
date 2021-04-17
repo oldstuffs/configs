@@ -28,21 +28,38 @@ package io.github.portlek.configs.configuration;
 import java.util.Objects;
 
 /**
- * Various settings for controlling the input and output of a {@link Configuration}
+ * Various settings for controlling the input and output of a {@link Configuration}.
  *
  * @author Bukkit
  * @see <a href="https://github.com/Bukkit/Bukkit/tree/master/src/main/java/org/bukkit/configuration/ConfigurationOptions.java">Source</a>
  */
 public class ConfigurationOptions {
 
+  /**
+   * the configuration.
+   */
   private final Configuration configuration;
 
+  /**
+   * the copy defaults.
+   */
   private boolean copyDefaults = true;
 
+  /**
+   * the indent.
+   */
   private int indent = 2;
 
+  /**
+   * the path seperator.
+   */
   private char pathSeparator = '.';
 
+  /**
+   * ctor.
+   *
+   * @param configuration the configuration.
+   */
   protected ConfigurationOptions(final Configuration configuration) {
     this.configuration = configuration;
   }
@@ -120,7 +137,7 @@ public class ConfigurationOptions {
   }
 
   /**
-   * Sets the char that will be used to separate {@link ConfigurationSection}s
+   * Sets the char that will be used to separate {@link ConfigurationSection}s.
    *
    * @param value Path separator
    *
@@ -132,7 +149,7 @@ public class ConfigurationOptions {
   }
 
   /**
-   * Gets the char that will be used to separate {@link ConfigurationSection}s
+   * Gets the char that will be used to separate {@link ConfigurationSection}s.
    *
    * @return Path separator
    */
