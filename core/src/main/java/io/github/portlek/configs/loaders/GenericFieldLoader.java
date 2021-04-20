@@ -54,7 +54,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     try {
       //noinspection unchecked
       this.persistentClass = (Class<F>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-        .getActualTypeArguments()[0];
+        .getActualTypeArguments()[1];
     } catch (final Exception e) {
       throw new RuntimeException(e);
     }
