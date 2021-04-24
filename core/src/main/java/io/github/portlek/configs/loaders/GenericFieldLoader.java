@@ -50,11 +50,15 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
   /**
    * ctor.
    */
+  @SuppressWarnings("unchecked")
   protected GenericFieldLoader() {
     try {
-      //noinspection unchecked
-      this.persistentClass = (Class<F>) ((ParameterizedType) this.getClass().getGenericSuperclass())
-        .getActualTypeArguments()[1];
+      final var x = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments();
+      if (x.length == 1) {
+        this.persistentClass = (Class<F>) x[0];
+      } else {
+        this.persistentClass = (Class<F>) x[1];
+      }
     } catch (final Exception e) {
       throw new RuntimeException(e);
     }
