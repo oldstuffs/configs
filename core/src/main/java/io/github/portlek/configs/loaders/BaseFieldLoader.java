@@ -41,6 +41,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * an abstract class that represents base field loaders.
  */
+@Setter
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseFieldLoader implements FieldLoader {
 
@@ -48,24 +50,18 @@ public abstract class BaseFieldLoader implements FieldLoader {
    * the parent field.
    */
   @Nullable
-  @Setter
-  @Getter
   private RefField parentField;
 
   /**
    * the parent holder.
    */
   @Nullable
-  @Setter
-  @Getter
   private ConfigHolder parentHolder;
 
   /**
    * the current section.
    */
   @Nullable
-  @Setter
-  @Getter
   private ConfigurationSection section;
 
   /**
