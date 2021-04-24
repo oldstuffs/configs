@@ -90,10 +90,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
         if (fieldValue instanceof DataSerializer) {
           this.toRaw(section, (DataSerializer) fieldValue);
         } else {
-          final var rawValue = this.toRaw(fieldValue);
-          if (rawValue.isPresent()) {
-            section.set(path, rawValue);
-          }
+          this.toRaw(fieldValue).ifPresent(r -> section.set(path, r));
         }
       }
     } else {
