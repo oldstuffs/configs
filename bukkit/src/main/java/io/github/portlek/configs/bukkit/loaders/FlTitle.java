@@ -43,6 +43,13 @@ public final class FlTitle extends SectionFieldLoader<SentTitle> {
    */
   public static final Supplier<FlTitle> INSTANCE = FlTitle::new;
 
+  /**
+   * ctor.
+   */
+  private FlTitle() {
+    super(SentTitle.class);
+  }
+
   @NotNull
   @Override
   public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section,

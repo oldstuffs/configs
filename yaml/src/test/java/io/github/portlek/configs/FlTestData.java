@@ -42,6 +42,13 @@ public final class FlTestData extends SectionFieldLoader<TestData> {
    */
   public static final Supplier<FlTestData> INSTANCE = FlTestData::new;
 
+  /**
+   * ctor.
+   */
+  private FlTestData() {
+    super(TestData.class);
+  }
+
   @NotNull
   @Override
   public Optional<TestData> toFinal(@NotNull final ConfigurationSection section, @Nullable final TestData fieldValue) {

@@ -44,6 +44,13 @@ public final class FlLocale extends GenericFieldLoader<String, Locale> {
   public static final Supplier<FlLocale> INSTANCE = FlLocale::new;
 
   /**
+   * ctor.
+   */
+  private FlLocale() {
+    super(Locale.class);
+  }
+
+  /**
    * converts the given raw string to a {@link Locale}.
    *
    * @param raw the raw to convert.

@@ -44,6 +44,13 @@ public final class FlRpList extends GenericFieldLoader<List<String>, RpList> {
    */
   public static final Supplier<FlRpList> INSTANCE = FlRpList::new;
 
+  /**
+   * ctor.
+   */
+  private FlRpList() {
+    super(RpList.class);
+  }
+
   @NotNull
   @Override
   public Optional<List<String>> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {

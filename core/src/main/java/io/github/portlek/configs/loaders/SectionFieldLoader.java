@@ -37,6 +37,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class SectionFieldLoader<T> extends GenericFieldLoader<Map<String, Object>, T> {
 
+  /**
+   * ctor.
+   *
+   * @param persistentClass the persistent class.
+   */
+  protected SectionFieldLoader(@NotNull final Class<T> persistentClass) {
+    super(persistentClass);
+  }
+
   @NotNull
   @Override
   public final Optional<Map<String, Object>> toConfigObject(@NotNull final ConfigurationSection section,
