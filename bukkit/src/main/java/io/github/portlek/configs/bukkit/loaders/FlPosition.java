@@ -43,6 +43,13 @@ public final class FlPosition extends SectionFieldLoader<Position> {
    */
   public static final Supplier<FlPosition> INSTANCE = FlPosition::new;
 
+  /**
+   * ctor.
+   */
+  private FlPosition() {
+    super(Position.class);
+  }
+
   @NotNull
   @Override
   public Optional<Position> toFinal(@NotNull final ConfigurationSection section, @Nullable final Position fieldValue) {

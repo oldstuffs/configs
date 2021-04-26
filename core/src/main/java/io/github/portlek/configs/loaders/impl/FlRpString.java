@@ -43,6 +43,13 @@ public final class FlRpString extends GenericFieldLoader<String, RpString> {
    */
   public static final Supplier<FlRpString> INSTANCE = FlRpString::new;
 
+  /**
+   * ctor.
+   */
+  private FlRpString() {
+    super(RpString.class);
+  }
+
   @NotNull
   @Override
   public Optional<String> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {

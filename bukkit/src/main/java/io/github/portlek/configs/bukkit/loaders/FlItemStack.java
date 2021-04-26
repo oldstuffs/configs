@@ -44,6 +44,13 @@ public final class FlItemStack extends SectionFieldLoader<ItemStack> {
    */
   public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
 
+  /**
+   * ctor.
+   */
+  private FlItemStack() {
+    super(ItemStack.class);
+  }
+
   @NotNull
   @Override
   public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue,

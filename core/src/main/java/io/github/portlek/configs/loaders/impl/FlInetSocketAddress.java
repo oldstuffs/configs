@@ -45,6 +45,13 @@ public final class FlInetSocketAddress extends GenericFieldLoader<String, InetSo
   public static final Supplier<FlInetSocketAddress> INSTANCE = FlInetSocketAddress::new;
 
   /**
+   * ctor.
+   */
+  private FlInetSocketAddress() {
+    super(InetSocketAddress.class);
+  }
+
+  /**
    * converts the given raw string to a {@link InetSocketAddress}.
    *
    * @param raw the raw to convert.

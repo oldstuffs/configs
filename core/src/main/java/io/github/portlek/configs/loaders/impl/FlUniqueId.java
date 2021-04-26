@@ -45,6 +45,13 @@ public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
   public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
 
   /**
+   * ctor.
+   */
+  private FlUniqueId() {
+    super(UUID.class);
+  }
+
+  /**
    * converts the given raw string to a {@link UUID}.
    *
    * @param raw the raw to convert.
