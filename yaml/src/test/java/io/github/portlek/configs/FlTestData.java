@@ -32,19 +32,10 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * an implementation to serialize {@link FlTestData}.
- */
 public final class FlTestData extends SectionFieldLoader<TestData> {
 
-  /**
-   * the instance.
-   */
   public static final Supplier<FlTestData> INSTANCE = FlTestData::new;
 
-  /**
-   * ctor.
-   */
   private FlTestData() {
     super(TestData.class);
   }
