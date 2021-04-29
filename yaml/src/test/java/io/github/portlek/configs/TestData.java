@@ -35,42 +35,18 @@ import org.jetbrains.annotations.Nullable;
 @ToString
 public final class TestData implements DataSerializer {
 
-  /**
-   * the fade in time.
-   */
   private final int fadeIn;
 
-  /**
-   * the fade out time.
-   */
   private final int fadeOut;
 
-  /**
-   * the stay time.
-   */
   private final int stay;
 
-  /**
-   * the sub title.
-   */
   @Nullable
   private final String subTitle;
 
-  /**
-   * the title.
-   */
   @Nullable
   private final String title;
 
-  /**
-   * ctor.
-   *
-   * @param title the title.
-   * @param subTitle the sub title.
-   * @param fadeIn the fade in.
-   * @param stay the stay.
-   * @param fadeOut the fade out.
-   */
   public TestData(@Nullable final String title, @Nullable final String subTitle, final int fadeIn, final int stay,
                   final int fadeOut) {
     this.title = title;
@@ -80,13 +56,6 @@ public final class TestData implements DataSerializer {
     this.fadeOut = fadeOut;
   }
 
-  /**
-   * gets the sent title from the given section.
-   *
-   * @param section the section to get.
-   *
-   * @return a sent title instance at the section path.
-   */
   @NotNull
   public static Optional<TestData> deserialize(@NotNull final ConfigurationSection section) {
     final var title = section.getString("title");
@@ -100,11 +69,6 @@ public final class TestData implements DataSerializer {
     return Optional.of(new TestData(title, subTitle, fadeIn, stay, fadeOut));
   }
 
-  /**
-   * sets the given sent title to the given section.
-   *
-   * @param section the section to set.
-   */
   @Override
   public void serialize(@NotNull final ConfigurationSection section) {
     section.set("title", this.title);

@@ -177,8 +177,9 @@ public class MemorySection implements ConfigurationSection {
     return (ignoreDefault ? this.get(path, null) : this.get(path)) != null;
   }
 
+  @NotNull
   @Override
-  public @NotNull ConfigurationSection createSection(@NotNull final String path) {
+  public ConfigurationSection createSection(@NotNull final String path) {
     Validate.checkEmpty(path, "Cannot create section at empty path");
     final Configuration root = this.getRoot();
     if (root == null) {
@@ -208,8 +209,9 @@ public class MemorySection implements ConfigurationSection {
     return section.createSection(key);
   }
 
+  @NotNull
   @Override
-  public @NotNull ConfigurationSection createSection(@NotNull final String path, final @NotNull Map<?, ?> map) {
+  public ConfigurationSection createSection(@NotNull final String path, @NotNull final Map<?, ?> map) {
     final ConfigurationSection section = this.createSection(path);
     map.forEach((key, value) -> {
       if (value instanceof Map) {
@@ -268,8 +270,9 @@ public class MemorySection implements ConfigurationSection {
     return val instanceof Boolean ? (Boolean) val : def;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Boolean> getBooleanList(@NotNull final String path) {
+  public List<Boolean> getBooleanList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -289,8 +292,9 @@ public class MemorySection implements ConfigurationSection {
     return result;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Byte> getByteList(@NotNull final String path) {
+  public List<Byte> getByteList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -313,8 +317,9 @@ public class MemorySection implements ConfigurationSection {
     return result;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Character> getCharacterList(@NotNull final String path) {
+  public List<Character> getCharacterList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -374,8 +379,9 @@ public class MemorySection implements ConfigurationSection {
     return val instanceof Number ? NumberConversions.toDouble(val) : def;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Double> getDoubleList(@NotNull final String path) {
+  public List<Double> getDoubleList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -399,8 +405,9 @@ public class MemorySection implements ConfigurationSection {
     return result;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Float> getFloatList(@NotNull final String path) {
+  public List<Float> getFloatList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -436,8 +443,9 @@ public class MemorySection implements ConfigurationSection {
     return val instanceof Number ? NumberConversions.toInt(val) : def;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Integer> getIntegerList(@NotNull final String path) {
+  public List<Integer> getIntegerList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -461,8 +469,9 @@ public class MemorySection implements ConfigurationSection {
     return result;
   }
 
+  @NotNull
   @Override
-  public @NotNull Set<String> getKeys(final boolean deep) {
+  public Set<String> getKeys(final boolean deep) {
     final Set<String> result = new LinkedHashSet<>();
     final Configuration root = this.getRoot();
     if (root != null && root.options().copyDefaults()) {
@@ -494,7 +503,7 @@ public class MemorySection implements ConfigurationSection {
   }
 
   @Override
-  public long getLong(final @NotNull String path, final long def) {
+  public long getLong(@NotNull final String path, final long def) {
     final Object val = this.get(path, def);
     return val instanceof Number ? NumberConversions.toLong(val) : def;
   }
@@ -525,8 +534,9 @@ public class MemorySection implements ConfigurationSection {
     return result;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Map<?, ?>> getMapList(@NotNull final String path) {
+  public List<Map<?, ?>> getMapList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     final List<Map<?, ?>> result = new ArrayList<>();
     if (list == null) {
@@ -539,8 +549,9 @@ public class MemorySection implements ConfigurationSection {
     return result;
   }
 
+  @NotNull
   @Override
-  public @NotNull String getName() {
+  public String getName() {
     return this.path;
   }
 
@@ -568,8 +579,9 @@ public class MemorySection implements ConfigurationSection {
     return this.root;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<Short> getShortList(@NotNull final String path) {
+  public List<Short> getShortList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -605,8 +617,9 @@ public class MemorySection implements ConfigurationSection {
     return val != null ? val.toString() : def;
   }
 
+  @NotNull
   @Override
-  public @NotNull List<String> getStringList(@NotNull final String path) {
+  public List<String> getStringList(@NotNull final String path) {
     final List<?> list = this.getList(path);
     if (list == null) {
       return new ArrayList<>(0);
@@ -617,8 +630,9 @@ public class MemorySection implements ConfigurationSection {
       .collect(Collectors.toList());
   }
 
+  @NotNull
   @Override
-  public @NotNull Map<String, Object> getValues(final boolean deep) {
+  public Map<String, Object> getValues(final boolean deep) {
     final Map<String, Object> result = new LinkedHashMap<>();
     final Configuration root = this.getRoot();
     if (root != null && root.options().copyDefaults()) {

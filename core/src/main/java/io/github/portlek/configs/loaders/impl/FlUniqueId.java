@@ -84,7 +84,7 @@ public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
 
   @NotNull
   @Override
-  public Optional<String> toRaw(final @NotNull UUID finalValue) {
+  public Optional<String> toRaw(@NotNull final UUID finalValue) {
     return Optional.ofNullable(finalValue.toString());
   }
 }

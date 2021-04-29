@@ -57,7 +57,6 @@ public abstract class SectionFieldLoader<T> extends GenericFieldLoader<Map<Strin
   @Override
   protected final ConfigurationSection prepareSection(@NotNull final ConfigurationSection currentSection,
                                                       @NotNull final String path) {
-    return Optional.ofNullable(currentSection.getConfigurationSection(path))
-      .orElse(currentSection.createSection(path));
+    return currentSection.getSectionOrCreate(path);
   }
 }
