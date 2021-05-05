@@ -30,6 +30,7 @@ import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class YamlTest {
 
@@ -44,18 +45,20 @@ public final class YamlTest {
       .setFileVersion(3)
       .build()
       .load(true);
+    final var version = new AtomicInteger(0);
+
   }
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    @From(value = 3, remove = true)
+    @From(changedVersion = 3, remove = true)
     public static TestData test = new TestData("title-1", "sub-title-1", 20, 20, 20);
 
-    @From(2)
+    @From(version = 2)
     @Route("test-2")
     public static TestData test2 = new TestData("title-2", "sub-title-2", 20, 20, 20);
 
-    @From(3)
+    @From(version = 3)
     @Route("test-3")
     public static TestData test3 = new TestData("title-1", "sub-title-1", 20, 20, 20);
   }

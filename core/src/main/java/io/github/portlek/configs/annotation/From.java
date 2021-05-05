@@ -38,6 +38,15 @@ import java.lang.annotation.Target;
 public @interface From {
 
   /**
+   * obtains the changed version.
+   * <p>
+   * if {@link #version()} is bigger than the value, sets changed version to {@link #version()}.
+   *
+   * @return changed version.
+   */
+  int changedVersion() default 1;
+
+  /**
    * obtains the remove.
    *
    * @return remove.
@@ -49,5 +58,5 @@ public @interface From {
    *
    * @return version.
    */
-  int value() default 1;
+  int version() default 1;
 }
