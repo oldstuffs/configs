@@ -23,32 +23,23 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.annotation;
 
-import io.github.portlek.configs.annotation.From;
-import io.github.portlek.configs.yaml.YamlType;
-import java.nio.file.Path;
-import java.util.concurrent.Executors;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public final class YamlTest {
+/**
+ * an annotation to define the field's version coming from.
+ */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface From {
 
-  public static void main(final String[] args) {
-    ConfigLoader.builder()
-      .setFileName("test")
-      .setFolder(Path.of(System.getProperty("user.dir")))
-      .setConfigType(YamlType.get())
-      .setConfigHolder(new ConfigHolder0())
-      .setAsyncExecutor(Executors.newFixedThreadPool(4))
-      .addLoaders(FlTestData.INSTANCE)
-      .setFileVersion(10)
-      .build()
-      .load(true);
-    System.out.println(ConfigHolder0.test);
-  }
-
-  private static final class ConfigHolder0 implements ConfigHolder {
-
-    @From(10)
-    public static TestData test = new TestData("title", "sub-title", 20, 20, 20);
-  }
+  /**
+   * the version.
+   * @return version.
+   */
+  int value() default 1;
 }
