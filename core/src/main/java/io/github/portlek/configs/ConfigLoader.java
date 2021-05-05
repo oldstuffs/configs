@@ -44,9 +44,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -327,6 +329,12 @@ public final class ConfigLoader implements Loader {
   public static final class Builder {
 
     /**
+     * the file versions.
+     */
+    @NotNull
+    private final Set<Integer> fileVersions = new HashSet<>();
+
+    /**
      * the async executor.
      */
     @NotNull
@@ -382,7 +390,22 @@ public final class ConfigLoader implements Loader {
     @SafeVarargs
     @NotNull
     public final Builder addLoaders(@NotNull final Supplier<? extends FieldLoader>... loaders) {
-      this.loaders.addAll(Arrays.asList(loaders));
+      Collections.addAll(this.loaders, loaders);
+      return this;
+    }
+
+    /**
+     * adds file versions.
+     *
+     * @param versions the versions to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addFileVersions(final int... versions) {
+      for (final var version : versions) {
+        this.fileVersions.add(version);
+      }
       return this;
     }
 
