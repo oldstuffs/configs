@@ -53,6 +53,9 @@ public class FileVersions {
       return;
     }
     final var from = fromOptional.get();
+    final var changedVersion = from.changedVersion();
+    final var version = from.version();
+    final var remove = from.remove();
     IntStream.range(1, loader.getFileVersion()).forEach(value -> {
     });
   }
