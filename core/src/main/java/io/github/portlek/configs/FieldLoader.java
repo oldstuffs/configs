@@ -122,8 +122,7 @@ public interface FieldLoader {
       .filter(fieldLoader -> !field.hasAnnotation(Ignore.class))
       .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
       .findFirst()
-      .filter(fieldLoader -> FileVersions.onLoad(fieldLoader, loader, field))
-      .ifPresent(fieldLoader -> fieldLoader.onLoad(loader, field)));
+      .ifPresent(fieldLoader -> FileVersions.onLoad(fieldLoader, loader, field)));
   }
 
   /**

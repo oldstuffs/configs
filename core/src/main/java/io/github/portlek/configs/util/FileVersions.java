@@ -29,7 +29,6 @@ import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.From;
 import io.github.portlek.reflection.RefField;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.IntStream;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -41,25 +40,20 @@ import org.jetbrains.annotations.NotNull;
 public class FileVersions {
 
   /**
-   * checks if the field should load or not.
+   * loads the field.
    *
    * @param fieldLoader the field loader to check.
    * @param loader the loader to check.
    * @param field the field to check.
-   *
-   * @return {@code true} if the field should load.
    */
-  public boolean onLoad(@NotNull final FieldLoader fieldLoader, @NotNull final Loader loader,
-                        @NotNull final RefField field) {
+  public void onLoad(@NotNull final FieldLoader fieldLoader, @NotNull final Loader loader,
+                     @NotNull final RefField field) {
     final var fromOptional = field.getAnnotation(From.class);
     if (fromOptional.isEmpty()) {
-      return true;
+      return;
     }
     final var from = fromOptional.get();
-    final var check = new AtomicBoolean(true);
     IntStream.range(1, loader.getFileVersion()).forEach(value -> {
-      check.compareAndSet(false, true);
     });
-    return check.get();
   }
 }
