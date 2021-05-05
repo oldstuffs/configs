@@ -26,6 +26,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.From;
+import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 import java.util.concurrent.Executors;
@@ -40,15 +41,22 @@ public final class YamlTest {
       .setConfigHolder(new ConfigHolder0())
       .setAsyncExecutor(Executors.newFixedThreadPool(4))
       .addLoaders(FlTestData.INSTANCE)
-      .setFileVersion(10)
+      .setFileVersion(3)
       .build()
       .load(true);
-    System.out.println(ConfigHolder0.test);
   }
 
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    @From(10)
-    public static TestData test = new TestData("title", "sub-title", 20, 20, 20);
+    @From(value = 3, remove = true)
+    public static TestData test = new TestData("title-1", "sub-title-1", 20, 20, 20);
+
+    @From(2)
+    @Route("test-2")
+    public static TestData test2 = new TestData("title-2", "sub-title-2", 20, 20, 20);
+
+    @From(3)
+    @Route("test-3")
+    public static TestData test3 = new TestData("title-1", "sub-title-1", 20, 20, 20);
   }
 }

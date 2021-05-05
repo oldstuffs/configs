@@ -38,7 +38,14 @@ import java.lang.annotation.Target;
 public @interface From {
 
   /**
-   * the version.
+   * obtains the remove.
+   *
+   * @return remove.
+   */
+  boolean remove() default false;
+
+  /**
+   * obtains the version.
    *
    * @return version.
    */

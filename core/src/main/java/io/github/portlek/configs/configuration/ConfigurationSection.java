@@ -64,7 +64,7 @@ public interface ConfigurationSection {
   void addDefault(@NotNull String path, @Nullable Object value);
 
   /**
-   * Checks if this {@link ConfigurationSection} contains the given path.
+   * Checks if this {@code this} contains the given path.
    * <p>
    * If the value for the requested path does not exist but a default value
    * has been specified, this will return true.
@@ -79,7 +79,7 @@ public interface ConfigurationSection {
   boolean contains(@NotNull String path);
 
   /**
-   * Checks if this {@link ConfigurationSection} contains the given path.
+   * Checks if this {@code this} contains the given path.
    * <p>
    * If the value for the requested path does not exist, the boolean parameter
    * of true has been specified, a default value for the path exists, this
@@ -100,10 +100,10 @@ public interface ConfigurationSection {
   boolean contains(@NotNull String path, boolean ignoreDefault);
 
   /**
-   * Creates an empty {@link ConfigurationSection} at the specified path.
+   * Creates an empty {@code this} at the specified path.
    * <p>
    * Any value that was previously set at this path will be overwritten. If
-   * the previous value was itself a {@link ConfigurationSection}, it will
+   * the previous value was itself a {@code this}, it will
    * be orphaned.
    *
    * @param path Path to create the section at.
@@ -114,11 +114,11 @@ public interface ConfigurationSection {
   ConfigurationSection createSection(@NotNull String path);
 
   /**
-   * Creates a {@link ConfigurationSection} at the specified path, with
+   * Creates a {@code this} at the specified path, with
    * specified values.
    * <p>
    * Any value that was previously set at this path will be overwritten. If
-   * the previous value was itself a {@link ConfigurationSection}, it will
+   * the previous value was itself a {@code this}, it will
    * be orphaned.
    *
    * @param path Path to create the section at.
@@ -255,7 +255,7 @@ public interface ConfigurationSection {
   ConfigurationSection getConfigurationSection(@NotNull String path);
 
   /**
-   * Gets the path of this {@link ConfigurationSection} from its root {@link
+   * Gets the path of this {@code this} from its root {@link
    * Configuration}
    * <p>
    * For any {@link Configuration} themselves, this will return an empty
@@ -273,7 +273,7 @@ public interface ConfigurationSection {
   String getCurrentPath();
 
   /**
-   * Gets the equivalent {@link ConfigurationSection} from the default
+   * Gets the equivalent {@code this} from the default
    * {@link Configuration} defined in {@link #getRoot()}.
    * <p>
    * If the root contains no defaults, or the defaults doesn't contain a
@@ -397,7 +397,7 @@ public interface ConfigurationSection {
    * Gets a set containing all keys in this section.
    * <p>
    * If deep is set to true, then this will contain all the keys within any
-   * child {@link ConfigurationSection}s (and their children, etc). These
+   * child {@code this}s (and their children, etc). These
    * will be in a valid path notation for you to use.
    * <p>
    * If deep is set to false, then this will contain only the keys of any
@@ -534,7 +534,7 @@ public interface ConfigurationSection {
   }
 
   /**
-   * Gets the name of this individual {@link ConfigurationSection}, in the
+   * Gets the name of this individual {@code this}, in the
    * path.
    * <p>
    * This will always be the final part of {@link #getCurrentPath()}, unless
@@ -593,8 +593,8 @@ public interface ConfigurationSection {
   @Nullable <T> T getObject(@NotNull String path, @NotNull Class<T> clazz, @Nullable T def);
 
   /**
-   * Gets the parent {@link ConfigurationSection} that directly contains
-   * this {@link ConfigurationSection}.
+   * Gets the parent {@code this} that directly contains
+   * this {@code this}.
    * <p>
    * For any {@link Configuration} themselves, this will return null.
    * <p>
@@ -714,7 +714,7 @@ public interface ConfigurationSection {
    * Gets a Map containing all keys and their values for this section.
    * <p>
    * If deep is set to true, then this will contain all the keys and values
-   * within any child {@link ConfigurationSection}s (and their children,
+   * within any child {@code this}s (and their children,
    * etc). These keys will be in a valid path notation for you to use.
    * <p>
    * If deep is set to false, then this will contain only the keys and
@@ -814,7 +814,7 @@ public interface ConfigurationSection {
   boolean isLong(@NotNull String path);
 
   /**
-   * Checks if this {@link ConfigurationSection} has a value set for the
+   * Checks if this {@code this} has a value set for the
    * given path.
    * <p>
    * If the value for the requested path does not exist but a default value
@@ -844,6 +844,17 @@ public interface ConfigurationSection {
   boolean isString(@NotNull String path);
 
   /**
+   * removes the value at the given path.
+   *
+   * @param path the path to remove.
+   *
+   * @see #set(String, Object)
+   */
+  default void remove(@NotNull final String path) {
+    this.set(path, null);
+  }
+
+  /**
    * Sets the specified path to the given value.
    * <p>
    * If value is null, the entry will be removed. Any existing entry will be
@@ -851,7 +862,7 @@ public interface ConfigurationSection {
    * <p>
    * Some implementations may have limitations on what you may store. See
    * their individual javadocs for details. No implementations should allow
-   * you to store {@link Configuration}s or {@link ConfigurationSection}s,
+   * you to store {@link Configuration}s or {@code this}s,
    * please use {@link #createSection(java.lang.String)} for that.
    *
    * @param path Path of the object to set.

@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 public @interface Comment {
 
   /**
-   * comment string.
+   * obtains comment string.
    *
    * @return comment.
    */

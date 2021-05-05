@@ -39,7 +39,7 @@ import org.jetbrains.annotations.NotNull;
 public @interface Route {
 
   /**
-   * path of the value.
+   * obtains path of the value.
    *
    * @return path.
    */
