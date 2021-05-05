@@ -39,6 +39,7 @@ public @interface From {
 
   /**
    * the version.
+   *
    * @return version.
    */
   int value() default 1;
