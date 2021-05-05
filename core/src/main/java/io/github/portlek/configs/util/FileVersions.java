@@ -42,21 +42,23 @@ public class FileVersions {
   /**
    * loads the field.
    *
-   * @param fieldLoader the field loader to check.
-   * @param loader the loader to check.
-   * @param field the field to check.
+   * @param fieldLoader the field loader to load.
+   * @param loader the loader to load.
+   * @param field the field to load.
    */
-  public void onLoad(@NotNull final FieldLoader fieldLoader, @NotNull final Loader loader,
-                     @NotNull final RefField field) {
+  public void onLoad(@NotNull final FieldLoader fieldLoader, @NotNull final Loader loader, @NotNull final RefField field) {
     final var fromOptional = field.getAnnotation(From.class);
     if (fromOptional.isEmpty()) {
       return;
     }
+    final var fileVersion = fieldLoader.getSection().getInt("file-version", 1);
     final var from = fromOptional.get();
-    final var changedVersion = from.changedVersion();
-    final var version = from.version();
+    final var version = from.createdVersion();
+    final var changedVersion = Math.max(version, from.changedVersion());
     final var remove = from.remove();
-    IntStream.range(1, loader.getFileVersion()).forEach(value -> {
+    IntStream.range(fileVersion, loader.getFileVersion()).forEach(value -> {
+      if (value == changedVersion) {
+      }
     });
   }
 }

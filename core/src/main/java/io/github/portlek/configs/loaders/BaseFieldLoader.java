@@ -27,13 +27,11 @@ package io.github.portlek.configs.loaders;
 
 import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.FieldLoader;
-import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,36 +41,24 @@ import org.jetbrains.annotations.Nullable;
  */
 @Setter
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseFieldLoader implements FieldLoader {
+
+  /**
+   * the holder.
+   */
+  @NotNull
+  private final ConfigHolder holder;
+
+  /**
+   * the current section.
+   */
+  @NotNull
+  private final ConfigurationSection section;
 
   /**
    * the parent field.
    */
   @Nullable
   private RefField parentField;
-
-  /**
-   * the parent holder.
-   */
-  @Nullable
-  private ConfigHolder parentHolder;
-
-  /**
-   * the current section.
-   */
-  @Nullable
-  private ConfigurationSection section;
-
-  /**
-   * obtains the section.
-   *
-   * @param loader the loader to get fallback.
-   *
-   * @return current section.
-   */
-  @NotNull
-  protected final ConfigurationSection getSection(@NotNull final Loader loader) {
-    return Objects.requireNonNullElseGet(this.section, loader::getFileConfiguration);
-  }
 }

@@ -25,9 +25,12 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -80,7 +83,7 @@ public interface Loader {
    * @return field loaders.
    */
   @NotNull
-  default List<Supplier<? extends FieldLoader>> getLoaders() {
+  default List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> getLoaders() {
     throw new UnsupportedOperationException("not implemented");
   }
 }

@@ -30,7 +30,6 @@ import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public final class YamlTest {
 
@@ -52,11 +51,11 @@ public final class YamlTest {
     @From(changedVersion = 3, remove = true)
     public static TestData test = new TestData("title-1", "sub-title-1", 20, 20, 20);
 
-    @From(version = 2)
+    @From(createdVersion = 2)
     @Route("test-2")
     public static TestData test2 = new TestData("title-2", "sub-title-2", 20, 20, 20);
 
-    @From(version = 3)
+    @From(createdVersion = 3)
     @Route("test-3")
     public static TestData test3 = new TestData("title-1", "sub-title-1", 20, 20, 20);
   }

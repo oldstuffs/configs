@@ -40,7 +40,7 @@ public @interface From {
   /**
    * obtains the changed version.
    * <p>
-   * if {@link #version()} is bigger than the value, sets changed version to {@link #version()}.
+   * if {@link #createdVersion()} is bigger than the value, sets changed version to {@link #createdVersion()}.
    *
    * @return changed version.
    */
@@ -54,9 +54,9 @@ public @interface From {
   boolean remove() default false;
 
   /**
-   * obtains the version.
+   * obtains the created version.
    *
-   * @return version.
+   * @return created version.
    */
-  int version() default 1;
+  int createdVersion() default 1;
 }
