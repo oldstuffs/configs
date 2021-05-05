@@ -45,10 +45,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -329,12 +327,6 @@ public final class ConfigLoader implements Loader {
   public static final class Builder {
 
     /**
-     * the file versions.
-     */
-    @NotNull
-    private final Set<Integer> fileVersions = new HashSet<>();
-
-    /**
      * the async executor.
      */
     @NotNull
@@ -357,6 +349,11 @@ public final class ConfigLoader implements Loader {
      */
     @Nullable
     private String fileName;
+
+    /**
+     * the file version.
+     */
+    private int fileVersion = 1;
 
     /**
      * the folder path.
@@ -391,21 +388,6 @@ public final class ConfigLoader implements Loader {
     @NotNull
     public final Builder addLoaders(@NotNull final Supplier<? extends FieldLoader>... loaders) {
       Collections.addAll(this.loaders, loaders);
-      return this;
-    }
-
-    /**
-     * adds file versions.
-     *
-     * @param versions the versions to add.
-     *
-     * @return {@code this} for builder chain.
-     */
-    @NotNull
-    public Builder addFileVersions(final int... versions) {
-      for (final var version : versions) {
-        this.fileVersions.add(version);
-      }
       return this;
     }
 
@@ -472,6 +454,19 @@ public final class ConfigLoader implements Loader {
     @NotNull
     public Builder setFileName(@NotNull final String fileName) {
       this.fileName = fileName;
+      return this;
+    }
+
+    /**
+     * sets file versions.
+     *
+     * @param fileVersion the file version to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setFileVersion(final int fileVersion) {
+      this.fileVersion = fileVersion;
       return this;
     }
 

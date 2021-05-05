@@ -39,7 +39,7 @@ public final class YamlTest {
       .setConfigHolder(new ConfigHolder0())
       .setAsyncExecutor(Executors.newFixedThreadPool(4))
       .addLoaders(FlTestData.INSTANCE)
-      .addFileVersions(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+      .setFileVersion(10)
       .build()
       .load(true);
     System.out.println(ConfigHolder0.test);
