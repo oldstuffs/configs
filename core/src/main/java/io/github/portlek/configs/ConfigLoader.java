@@ -69,7 +69,7 @@ public final class ConfigLoader implements Loader {
    * the async executor.
    */
   @NotNull
-  public final Executor asyncExecutor;
+  private final Executor asyncExecutor;
 
   /**
    * the class config holder.
@@ -88,6 +88,11 @@ public final class ConfigLoader implements Loader {
    */
   @NotNull
   private final String fileName;
+
+  /**
+   * the file version.
+   */
+  private final int fileVersion;
 
   /**
    * the folder path.
@@ -401,8 +406,8 @@ public final class ConfigLoader implements Loader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.folderPath,
-        this.loaders);
+      return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.fileVersion,
+        this.folderPath, this.loaders);
     }
 
     /**
@@ -466,6 +471,9 @@ public final class ConfigLoader implements Loader {
      */
     @NotNull
     public Builder setFileVersion(final int fileVersion) {
+      if (fileVersion < 1) {
+        throw new IllegalArgumentException("The file version must be bigger than 0!");
+      }
       this.fileVersion = fileVersion;
       return this;
     }

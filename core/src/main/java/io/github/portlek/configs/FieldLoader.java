@@ -27,6 +27,7 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.Ignore;
 import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.util.FileVersions;
 import io.github.portlek.reflection.RefField;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.List;
@@ -121,6 +122,7 @@ public interface FieldLoader {
       .filter(fieldLoader -> !field.hasAnnotation(Ignore.class))
       .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
       .findFirst()
+      .filter(fieldLoader -> FileVersions.onLoad(fieldLoader, loader, field))
       .ifPresent(fieldLoader -> fieldLoader.onLoad(loader, field)));
   }
 

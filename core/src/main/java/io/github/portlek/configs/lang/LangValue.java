@@ -27,7 +27,6 @@ package io.github.portlek.configs.lang;
 
 import io.github.portlek.configs.ConfigLoader;
 import io.github.portlek.configs.LangLoader;
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -104,7 +103,7 @@ public final class LangValue<T> {
   public static <T> LangValue<T> create(@NotNull final Class<T> type,
                                         @NotNull final String key1, @NotNull final T value1) {
     return LangValue.create(type,
-      new AbstractMap.SimpleEntry<>(key1, value1));
+      Map.entry(key1, value1));
   }
 
   /**
@@ -124,8 +123,8 @@ public final class LangValue<T> {
                                         @NotNull final String key1, @NotNull final T value1,
                                         @NotNull final String key2, @NotNull final T value2) {
     return LangValue.create(type,
-      new AbstractMap.SimpleEntry<>(key1, value1),
-      new AbstractMap.SimpleEntry<>(key2, value2));
+      Map.entry(key1, value1),
+      Map.entry(key2, value2));
   }
 
   /**
@@ -148,9 +147,9 @@ public final class LangValue<T> {
                                         @NotNull final String key2, @NotNull final T value2,
                                         @NotNull final String key3, @NotNull final T value3) {
     return LangValue.create(type,
-      new AbstractMap.SimpleEntry<>(key1, value1),
-      new AbstractMap.SimpleEntry<>(key2, value2),
-      new AbstractMap.SimpleEntry<>(key3, value3));
+      Map.entry(key1, value1),
+      Map.entry(key2, value2),
+      Map.entry(key3, value3));
   }
 
   /**
@@ -176,10 +175,10 @@ public final class LangValue<T> {
                                         @NotNull final String key3, @NotNull final T value3,
                                         @NotNull final String key4, @NotNull final T value4) {
     return LangValue.create(type,
-      new AbstractMap.SimpleEntry<>(key1, value1),
-      new AbstractMap.SimpleEntry<>(key2, value2),
-      new AbstractMap.SimpleEntry<>(key3, value3),
-      new AbstractMap.SimpleEntry<>(key4, value4));
+      Map.entry(key1, value1),
+      Map.entry(key2, value2),
+      Map.entry(key3, value3),
+      Map.entry(key4, value4));
   }
 
   /**
@@ -208,11 +207,11 @@ public final class LangValue<T> {
                                         @NotNull final String key4, @NotNull final T value4,
                                         @NotNull final String key5, @NotNull final T value5) {
     return LangValue.create(type,
-      new AbstractMap.SimpleEntry<>(key1, value1),
-      new AbstractMap.SimpleEntry<>(key2, value2),
-      new AbstractMap.SimpleEntry<>(key3, value3),
-      new AbstractMap.SimpleEntry<>(key4, value4),
-      new AbstractMap.SimpleEntry<>(key5, value5));
+      Map.entry(key1, value1),
+      Map.entry(key2, value2),
+      Map.entry(key3, value3),
+      Map.entry(key4, value4),
+      Map.entry(key5, value5));
   }
 
   /**

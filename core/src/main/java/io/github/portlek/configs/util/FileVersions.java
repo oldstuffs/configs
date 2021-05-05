@@ -23,64 +23,43 @@
  *
  */
 
-package io.github.portlek.configs;
+package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.configuration.FileConfiguration;
-import java.io.File;
-import java.util.List;
-import java.util.function.Supplier;
+import io.github.portlek.configs.FieldLoader;
+import io.github.portlek.configs.Loader;
+import io.github.portlek.configs.annotation.From;
+import io.github.portlek.reflection.RefField;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
+import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * an interface to determine config loaders.
+ * a class that contains utility methods to cover file version operations.
  */
-public interface Loader {
+@UtilityClass
+public class FileVersions {
 
   /**
-   * obtains the config holder.
+   * checks if the field should load or not.
    *
-   * @return config holder.
-   */
-  @Nullable
-  default ConfigHolder getConfigHolder() {
-    throw new UnsupportedOperationException("not implemented");
-  }
-
-  /**
-   * obtains the file.
+   * @param fieldLoader the field loader to check.
+   * @param loader the loader to check.
+   * @param field the field to check.
    *
-   * @return file.
+   * @return {@code true} if the field should load.
    */
-  @NotNull
-  default File getFile() {
-    throw new UnsupportedOperationException("not implemented");
-  }
-
-  /**
-   * obtains the file configuration.
-   *
-   * @return file configuration.
-   */
-  @NotNull
-  default FileConfiguration getFileConfiguration() {
-    throw new UnsupportedOperationException("not implemented");
-  }
-
-  /**
-   * obtains the file version.
-   *
-   * @return file version.
-   */
-  int getFileVersion();
-
-  /**
-   * obtains the field loaders.
-   *
-   * @return field loaders.
-   */
-  @NotNull
-  default List<Supplier<? extends FieldLoader>> getLoaders() {
-    throw new UnsupportedOperationException("not implemented");
+  public boolean onLoad(@NotNull final FieldLoader fieldLoader, @NotNull final Loader loader,
+                        @NotNull final RefField field) {
+    final var fromOptional = field.getAnnotation(From.class);
+    if (fromOptional.isEmpty()) {
+      return true;
+    }
+    final var from = fromOptional.get();
+    final var check = new AtomicBoolean(true);
+    IntStream.range(1, loader.getFileVersion()).forEach(value -> {
+      check.compareAndSet(false, true);
+    });
+    return check.get();
   }
 }

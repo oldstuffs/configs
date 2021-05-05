@@ -45,8 +45,6 @@ public final class YamlTest {
       .setFileVersion(3)
       .build()
       .load(true);
-    final var version = new AtomicInteger(0);
-
   }
 
   private static final class ConfigHolder0 implements ConfigHolder {

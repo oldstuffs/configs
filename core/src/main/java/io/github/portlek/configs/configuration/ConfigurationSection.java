@@ -25,7 +25,6 @@
 
 package io.github.portlek.configs.configuration;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -526,9 +525,9 @@ public interface ConfigurationSection {
         final var key = entry.getKey();
         final var value = entry.getValue();
         if (value instanceof ConfigurationSection) {
-          return new AbstractMap.SimpleEntry<>(key, ((ConfigurationSection) value).getMapValues(deep));
+          return Map.entry(key, ((ConfigurationSection) value).getMapValues(deep));
         }
-        return new AbstractMap.SimpleEntry<>(key, value);
+        return Map.entry(key, value);
       })
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
