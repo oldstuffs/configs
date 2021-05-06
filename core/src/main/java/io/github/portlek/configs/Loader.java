@@ -30,8 +30,6 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.util.List;
 import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

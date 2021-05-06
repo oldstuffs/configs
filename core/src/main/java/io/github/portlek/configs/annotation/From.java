@@ -47,16 +47,16 @@ public @interface From {
   int changedVersion() default 1;
 
   /**
-   * obtains the remove.
-   *
-   * @return remove.
-   */
-  boolean remove() default false;
-
-  /**
    * obtains the created version.
    *
    * @return created version.
    */
   int createdVersion() default 1;
+
+  /**
+   * obtains the remove.
+   *
+   * @return remove.
+   */
+  boolean remove() default false;
 }
