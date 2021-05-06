@@ -25,10 +25,13 @@
 
 package io.github.portlek.configs.bukkit.loaders;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.bukkit.data.SentTitle;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,13 +44,16 @@ public final class FlTitle extends SectionFieldLoader<SentTitle> {
   /**
    * the instance.
    */
-  public static final Supplier<FlTitle> INSTANCE = FlTitle::new;
+  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlTitle::new;
 
   /**
    * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
    */
-  private FlTitle() {
-    super(SentTitle.class);
+  private FlTitle(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, SentTitle.class);
   }
 
   @NotNull
