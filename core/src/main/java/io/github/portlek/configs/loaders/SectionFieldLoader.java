@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import java.util.Map;
 import java.util.Optional;
@@ -40,10 +41,13 @@ public abstract class SectionFieldLoader<T> extends GenericFieldLoader<Map<Strin
   /**
    * ctor.
    *
-   * @param persistentClass the persistent class.
+   * @param holder the holder.
+   * @param section the section.
+   * @param finalClass the final class.
    */
-  protected SectionFieldLoader(@NotNull final Class<T> persistentClass) {
-    super(persistentClass);
+  protected SectionFieldLoader(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section,
+                               @NotNull final Class<T> finalClass) {
+    super(holder, section, finalClass);
   }
 
   @NotNull

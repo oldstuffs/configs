@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import io.github.portlek.configs.loaders.impl.FlConfigHolder;
@@ -50,6 +51,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -104,7 +106,7 @@ public final class ConfigLoader implements Loader {
    * the loaders.
    */
   @NotNull
-  private final List<Supplier<? extends FieldLoader>> loaders;
+  private final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders;
 
   /**
    * the configuration.
@@ -370,7 +372,7 @@ public final class ConfigLoader implements Loader {
      * the loaders.
      */
     @NotNull
-    private List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
+    private List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders = new ArrayList<>() {{
       this.add(FlConfigurationSection.INSTANCE);
       this.add(FlInetSocketAddress.INSTANCE);
       this.add(FlConfiguration.INSTANCE);
@@ -391,7 +393,8 @@ public final class ConfigLoader implements Loader {
      */
     @SafeVarargs
     @NotNull
-    public final Builder addLoaders(@NotNull final Supplier<? extends FieldLoader>... loaders) {
+    public final Builder addLoaders(
+      @NotNull final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>... loaders) {
       Collections.addAll(this.loaders, loaders);
       return this;
     }
@@ -514,7 +517,8 @@ public final class ConfigLoader implements Loader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setLoaders(@NotNull final List<Supplier<? extends FieldLoader>> loaders) {
+    public Builder setLoaders(
+      @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders) {
       this.loaders = loaders;
       return this;
     }

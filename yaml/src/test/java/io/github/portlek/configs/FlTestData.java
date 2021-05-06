@@ -28,16 +28,16 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class FlTestData extends SectionFieldLoader<TestData> {
 
-  public static final Supplier<FlTestData> INSTANCE = FlTestData::new;
+  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlTestData::new;
 
-  private FlTestData() {
-    super(TestData.class);
+  private FlTestData(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, TestData.class);
   }
 
   @NotNull

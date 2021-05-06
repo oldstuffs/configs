@@ -44,7 +44,8 @@ public final class FlConfigHolder extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, FlConfigHolder> INSTANCE = FlConfigHolder::new;
+  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE =
+    FlConfigHolder::new;
 
   /**
    * ctor.

@@ -25,11 +25,13 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,13 +43,16 @@ public final class FlLocale extends GenericFieldLoader<String, Locale> {
   /**
    * the instance.
    */
-  public static final Supplier<FlLocale> INSTANCE = FlLocale::new;
+  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlLocale::new;
 
   /**
    * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
    */
-  private FlLocale() {
-    super(Locale.class);
+  private FlLocale(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, Locale.class);
   }
 
   /**

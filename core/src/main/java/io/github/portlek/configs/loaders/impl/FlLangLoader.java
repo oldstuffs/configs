@@ -25,11 +25,14 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.LangLoader;
 import io.github.portlek.configs.Loader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
-import java.util.function.Supplier;
+import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -40,7 +43,18 @@ public final class FlLangLoader extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlLangLoader> INSTANCE = FlLangLoader::new;
+  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE =
+    FlLangLoader::new;
+
+  /**
+   * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
+   */
+  private FlLangLoader(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section);
+  }
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
