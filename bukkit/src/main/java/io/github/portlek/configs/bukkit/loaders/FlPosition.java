@@ -25,11 +25,13 @@
 
 package io.github.portlek.configs.bukkit.loaders;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.bukkit.data.Position;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,13 +43,16 @@ public final class FlPosition extends SectionFieldLoader<Position> {
   /**
    * the instance.
    */
-  public static final Supplier<FlPosition> INSTANCE = FlPosition::new;
+  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlPosition::new;
 
   /**
    * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
    */
-  private FlPosition() {
-    super(Position.class);
+  private FlPosition(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, Position.class);
   }
 
   @NotNull
