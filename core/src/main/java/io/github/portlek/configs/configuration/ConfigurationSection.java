@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -155,7 +156,7 @@ public interface ConfigurationSection {
    *
    * @return Requested Object.
    */
-  @Nullable
+  @Contract("_, !null -> !null")
   Object get(@NotNull String path, @Nullable Object def);
 
   /**
