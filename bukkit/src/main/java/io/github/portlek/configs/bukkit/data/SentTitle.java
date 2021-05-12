@@ -175,8 +175,12 @@ public final class SentTitle implements DataSerializer {
    */
   @Override
   public void serialize(@NotNull final ConfigurationSection section) {
-    section.set("title", this.title);
-    section.set("sub-title", this.subTitle);
+    if (this.title != null) {
+      section.set("title", this.title.getValue());
+    }
+    if (this.subTitle != null) {
+      section.set("sub-title", this.subTitle.getValue());
+    }
     section.set("fade-in", this.fadeIn);
     section.set("stay", this.stay);
     section.set("fade-out", this.fadeOut);
