@@ -53,7 +53,8 @@ public final class FlRpList extends GenericFieldLoader<List<String>, RpList> {
 
   @NotNull
   @Override
-  public Optional<List<String>> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path) {
+  public Optional<List<String>> toConfigObject(@NotNull final ConfigurationSection section,
+                                               @NotNull final String path) {
     return Optional.of(section.getStringList(path));
   }
 

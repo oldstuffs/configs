@@ -68,9 +68,10 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final Optional<F> valueAtPath;
     if (finalValue0.isPresent()) {
       valueAtPath = finalValue0;
+    } else if (section.contains(path)) {
+      valueAtPath = this.toConfigObject(section, path).flatMap(r -> this.toFinal(r, fieldValueOptional.orElse(null)));
     } else {
-      valueAtPath = this.toConfigObject(section, path)
-        .flatMap(r -> this.toFinal(r, fieldValueOptional.orElse(null)));
+      valueAtPath = Optional.empty();
     }
     if (fieldValueOptional.isPresent()) {
       if (valueAtPath.isPresent()) {
