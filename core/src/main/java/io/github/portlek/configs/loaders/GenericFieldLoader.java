@@ -62,7 +62,8 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var fieldValueOptional = field.getValue()
       .filter(o -> this.finalClass.isAssignableFrom(o.getClass()))
       .map(this.finalClass::cast);
-    final var section = this.prepareSection(this.getSection(loader), path);
+    final var parentSection = this.getSection(loader);
+    final var section = this.prepareSection(parentSection, path);
     final var finalValue0 = this.toFinal(section, fieldValueOptional.orElse(null));
     final Optional<F> valueAtPath;
     if (finalValue0.isPresent()) {
@@ -79,7 +80,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
         if (fieldValue instanceof DataSerializer) {
           this.toRaw(section, (DataSerializer) fieldValue);
         } else {
-          this.toRaw(fieldValue).ifPresent(r -> section.set(path, r));
+          this.toRaw(fieldValue).ifPresent(r -> parentSection.set(path, r));
         }
       }
     } else {
