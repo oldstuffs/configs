@@ -29,16 +29,16 @@ import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.lang.LangValue;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.cactoos.map.MapEntry;
 
 @RequiredArgsConstructor
 public final class LangTest implements ConfigHolder {
 
   @Route("test-1")
   public static final LangValue<String> test1 = LangValue.create(String.class,
-    new MapEntry<>("en_US", "English."),
-    new MapEntry<>("tr_TR", "Türkçe."));
+    Map.entry("en_US", "English."),
+    Map.entry("tr_TR", "Türkçe."));
 
   public static void main(final String[] args) throws InterruptedException {
     final var here = Path.of(System.getProperty("user.dir"));
