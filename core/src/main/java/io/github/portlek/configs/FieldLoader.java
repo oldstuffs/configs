@@ -57,8 +57,7 @@ public interface FieldLoader {
   static List<FieldLoader> createLoaders(
     @NotNull final Loader loader, @NotNull final ConfigHolder holder,
     @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> functions,
-    @Nullable final RefField parentField,
-    @Nullable final ConfigurationSection section) {
+    @Nullable final RefField parentField, @Nullable final ConfigurationSection section) {
     return functions.stream()
       .map(function -> function.apply(holder, Objects.requireNonNullElse(section, loader.getFileConfiguration())))
       .peek(fieldLoader -> {
