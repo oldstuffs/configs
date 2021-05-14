@@ -74,6 +74,7 @@
         <groupId>io.github.portlek</groupId>
         <artifactId>configs-core</artifactId>
         <version>${project.version}</version>
+        <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>io.github.portlek</groupId>
