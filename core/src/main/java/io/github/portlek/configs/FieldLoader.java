@@ -31,6 +31,7 @@ import io.github.portlek.configs.util.FileVersions;
 import io.github.portlek.reflection.RefField;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -114,14 +115,14 @@ public interface FieldLoader {
   static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
                    @NotNull final List<Func> functions, @Nullable final RefField parentField,
                    @Nullable final ConfigurationSection section) {
-    FileVersions.onLoad(loader);
     final var loaders = FieldLoader.createLoaders(loader, holder, functions, parentField, section);
-    new ClassOf<>(holder).getDeclaredFields().forEach(field -> loaders.stream()
-      .filter(fieldLoader -> !field.hasAnnotation(Ignore.class))
-      .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
-      .findFirst()
-      .ifPresent(fieldLoader -> FileVersions.onLoadField(loader, field, fieldLoader)));
-    FileVersions.onUpdate(loader);
+    final var fields = new ClassOf<>(holder).getDeclaredFields().stream()
+      .filter(field -> !field.hasAnnotation(Ignore.class))
+      .flatMap(field -> loaders.stream()
+        .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
+        .map(fieldLoader -> Map.entry(field, fieldLoader)))
+      .collect(Collectors.toSet());
+    FileVersions.load(loader, fields);
     holder.onLoad();
   }
 

@@ -27,8 +27,12 @@ package io.github.portlek.configs.util;
 
 import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
+import io.github.portlek.configs.annotation.From;
 import io.github.portlek.reflection.RefField;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.IntStream;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,15 +43,28 @@ import org.jetbrains.annotations.NotNull;
 public class FileVersions {
 
   /**
+   * loads the fields.
+   *
+   * @param loader the loader to load.
+   * @param fields the fields to load.
+   */
+  public void load(@NotNull final Loader loader,
+                   @NotNull final Collection<Map.Entry<RefField, FieldLoader>> fields) {
+    IntStream.range(0, loader.getFileVersion()).forEach(index -> {
+      FileVersions.onLoad(loader, index);
+      fields.forEach(entry -> FileVersions.onLoadField(loader, entry.getKey(), entry.getValue()));
+      FileVersions.onUpdate(loader);
+    });
+  }
+
+  /**
    * runs {@link Loader#getFileVersionOperations()}.
    *
    * @param loader the loader to run.
+   * @param fileVersionIndex the file version index to run.
    */
-  public void onLoad(@NotNull final Loader loader) {
-    final var actualVersion = Math.min(
-      loader.getFileVersion(),
-      Math.max(1, loader.getFileConfiguration().getInt("file-version", 1)));
-    Optional.ofNullable(loader.getFileVersionOperations().get(actualVersion))
+  private void onLoad(@NotNull final Loader loader, final int fileVersionIndex) {
+    Optional.ofNullable(loader.getFileVersionOperations().get(fileVersionIndex))
       .ifPresent(Runnable::run);
   }
 
@@ -58,10 +75,15 @@ public class FileVersions {
    * @param field the field to load.
    * @param fieldLoader the field loader to load.
    */
-  public void onLoadField(@NotNull final Loader loader, @NotNull final RefField field,
-                          @NotNull final FieldLoader fieldLoader) {
+  private void onLoadField(@NotNull final Loader loader, @NotNull final RefField field,
+                           @NotNull final FieldLoader fieldLoader) {
     final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
-    fieldLoader.onLoad(loader, field);
+    field.getAnnotation(From.class, from -> {
+      final var createdVersion = from.createdVersion();
+      if (createdVersion == fileVersion) {
+        fieldLoader.onLoad(loader, field);
+      }
+    });
   }
 
   /**
@@ -69,7 +91,7 @@ public class FileVersions {
    *
    * @param loader the loader to increase.
    */
-  public void onUpdate(@NotNull final Loader loader) {
+  private void onUpdate(@NotNull final Loader loader) {
     final var configuration = loader.getFileConfiguration();
     final var latestVersion = loader.getFileVersion();
     final var fileVersion = configuration.getInt("file-version", 1);
