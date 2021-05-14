@@ -166,6 +166,12 @@ public final class LangLoader implements Loader {
     return this.pollConfigLoader().getValue().getFileVersion();
   }
 
+  @NotNull
+  @Override
+  public Map<Integer, Runnable> getFileVersionOperations() {
+    return this.pollConfigLoader().getValue().getFileVersionOperations();
+  }
+
   /**
    * obtains the lang keys.
    *
