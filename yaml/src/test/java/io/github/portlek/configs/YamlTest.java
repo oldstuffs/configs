@@ -56,13 +56,16 @@ public final class YamlTest {
       .load(true);
   }
 
-  @FileVersion(2)
+  @FileVersion(3)
   private static final class ConfigHolder0 implements ConfigHolder {
 
     @From(removedVersion = 2)
     public static String test1 = "test-1";
 
-    @From(2)
+    @From(value = 2, removedVersion = 3)
     public static String test2 = "test-2";
+
+    @From(3)
+    public static String test3 = "test-3";
   }
 }
