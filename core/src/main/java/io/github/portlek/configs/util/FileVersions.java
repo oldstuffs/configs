@@ -79,7 +79,7 @@ public class FileVersions {
       configuration.set("file-version", latestVersion);
     }
     final var actualVersion = configuration.getInt("file-version", 1);
-    if (latestVersion >= actualVersion) {
+    if (latestVersion > actualVersion) {
       configuration.set("file-version", actualVersion + 1);
     }
   }
