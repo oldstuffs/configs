@@ -32,40 +32,37 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
-public final class YamlTest {
+@FileVersion(3)
+public final class YamlTest implements ConfigHolder {
+
+  @From(removedVersion = 2)
+  public static String test1 = "test-1";
+
+  @From(version = 2, removedVersion = 3)
+  public static String test2 = "test-2";
+
+  @From(version = 3)
+  public static String test3 = "test-3";
 
   public static void main(final String[] args) {
     ConfigLoader.builder()
       .setFileName("test")
       .setFolder(Path.of(System.getProperty("user.dir")))
       .setConfigType(YamlType.get())
-      .setConfigHolder(new ConfigHolder0())
+      .setConfigHolder(new YamlTest())
       .setAsyncExecutor(Executors.newFixedThreadPool(4))
       .addLoaders(FlTestData.INSTANCE)
       .addFileVersionOperation(
-        Map.entry(1, () -> {
+        Map.entry(1, loader -> {
           System.out.println("version 1 loaded");
         }),
-        Map.entry(2, () -> {
+        Map.entry(2, loader -> {
           System.out.println("version 2 loaded");
         }),
-        Map.entry(3, () -> {
+        Map.entry(3, loader -> {
           System.out.println("version 3 loaded");
         }))
       .build()
       .load(true);
-  }
-
-  @FileVersion(3)
-  private static final class ConfigHolder0 implements ConfigHolder {
-
-    @From(removedVersion = 2)
-    public static String test1 = "test-1";
-
-    @From(value = 2, removedVersion = 3)
-    public static String test2 = "test-2";
-
-    @From(3)
-    public static String test3 = "test-3";
   }
 }

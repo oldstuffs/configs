@@ -83,7 +83,7 @@ public class FileVersions {
    */
   private void onLoad(@NotNull final Loader loader, final int fileVersionIndex) {
     Optional.ofNullable(loader.getFileVersionOperations().get(fileVersionIndex))
-      .ifPresent(Runnable::run);
+      .ifPresent(operation -> operation.accept(loader));
     FileVersions.onUpdate(loader);
   }
 
@@ -103,7 +103,7 @@ public class FileVersions {
           .map(Route::value)
           .orElse(field.getName());
         fieldLoader.getSection().remove(path);
-      } else if (from.value() == fileVersion) {
+      } else if (from.version() == fileVersion) {
         fieldLoader.onLoad(loader, field);
       }
     });

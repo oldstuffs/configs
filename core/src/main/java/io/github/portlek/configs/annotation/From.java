@@ -49,5 +49,5 @@ public @interface From {
    *
    * @return created version.
    */
-  int value() default 1;
+  int version() default 1;
 }

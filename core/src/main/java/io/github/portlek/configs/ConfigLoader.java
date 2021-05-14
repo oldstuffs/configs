@@ -54,6 +54,7 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -101,7 +102,7 @@ public final class ConfigLoader implements Loader {
   /**
    * the file version operations.
    */
-  private final Map<Integer, Runnable> fileVersionOperations;
+  private final Map<Integer, Consumer<Loader>> fileVersionOperations;
 
   /**
    * the folder path.
@@ -343,7 +344,7 @@ public final class ConfigLoader implements Loader {
     /**
      * the file version operations.
      */
-    private final Map<Integer, Runnable> fileVersionOperations = new HashMap<>();
+    private final Map<Integer, Consumer<Loader>> fileVersionOperations = new HashMap<>();
 
     /**
      * the async executor.
@@ -405,9 +406,9 @@ public final class ConfigLoader implements Loader {
      */
     @SafeVarargs
     @NotNull
-    public final Builder addFileVersionOperation(@NotNull final Map.Entry<Integer, Runnable>... operations) {
+    public final Builder addFileVersionOperation(@NotNull final Map.Entry<Integer, Consumer<Loader>>... operations) {
       for (final var operation : operations) {
-        this.fileVersionOperations.put(operation.getKey(), operation.getValue());
+        this.addFileVersionOperation(operation.getKey(), operation.getValue());
       }
       return this;
     }
@@ -416,13 +417,13 @@ public final class ConfigLoader implements Loader {
      * adds file version operations.
      *
      * @param version the version to add.
-     * @param runnable the runnable to add.
+     * @param operations the runnable to add.
      *
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder addFileVersionOperation(final int version, @NotNull final Runnable runnable) {
-      this.fileVersionOperations.put(version, runnable);
+    public Builder addFileVersionOperation(final int version, @NotNull final Consumer<Loader> operations) {
+      this.fileVersionOperations.put(version, operations);
       return this;
     }
 

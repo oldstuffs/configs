@@ -38,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -168,7 +169,7 @@ public final class LangLoader implements Loader {
 
   @NotNull
   @Override
-  public Map<Integer, Runnable> getFileVersionOperations() {
+  public Map<Integer, Consumer<Loader>> getFileVersionOperations() {
     return this.pollConfigLoader().getValue().getFileVersionOperations();
   }
 

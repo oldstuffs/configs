@@ -29,6 +29,7 @@ import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +81,7 @@ public interface Loader {
    * @return file version operations.
    */
   @NotNull
-  Map<Integer, Runnable> getFileVersionOperations();
+  Map<Integer, Consumer<Loader>> getFileVersionOperations();
 
   /**
    * obtains the field loaders.
