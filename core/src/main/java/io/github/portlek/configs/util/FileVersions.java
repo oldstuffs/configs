@@ -72,7 +72,6 @@ public class FileVersions {
     IntStream.range(fileVersion, loader.getFileVersion() + 1).forEach(index -> {
       fromFields.forEach(entry -> FileVersions.onLoadField(loader, entry.getKey(), entry.getValue()));
       FileVersions.onLoad(loader, index);
-      FileVersions.onUpdate(loader);
     });
   }
 
@@ -85,6 +84,7 @@ public class FileVersions {
   private void onLoad(@NotNull final Loader loader, final int fileVersionIndex) {
     Optional.ofNullable(loader.getFileVersionOperations().get(fileVersionIndex))
       .ifPresent(Runnable::run);
+    FileVersions.onUpdate(loader);
   }
 
   /**
