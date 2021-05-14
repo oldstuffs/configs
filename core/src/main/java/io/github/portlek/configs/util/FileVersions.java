@@ -46,4 +46,14 @@ public class FileVersions {
     Optional.ofNullable(loader.getFileVersionOperations().get(fileVersion))
       .ifPresent(Runnable::run);
   }
+
+  /**
+   * increases the file version of the loader.
+   *
+   * @param loader the loader to increase.
+   */
+  public void onUpdate(@NotNull final Loader loader) {
+    final var configuration = loader.getFileConfiguration();
+    configuration.set("file-version", configuration.getInt("file-version", 1) + 1);
+  }
 }

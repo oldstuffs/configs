@@ -121,6 +121,7 @@ public interface FieldLoader {
       .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
       .findFirst()
       .ifPresent(fieldLoader -> fieldLoader.onLoad(loader, field)));
+    FileVersions.onUpdate(loader);
     holder.onLoad();
   }
 
