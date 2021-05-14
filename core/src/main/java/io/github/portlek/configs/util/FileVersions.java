@@ -71,10 +71,12 @@ public class FileVersions {
   public void onUpdate(@NotNull final Loader loader) {
     final var configuration = loader.getFileConfiguration();
     final var fileVersion = configuration.getInt("file-version", 1);
-    final var actualVersion = Math.min(loader.getFileVersion(), Math.max(1, fileVersion));
-    final var newVersion = actualVersion != fileVersion && loader.getFileVersion() > actualVersion
-      ? actualVersion + 1
-      : actualVersion;
-    configuration.set("file-version", newVersion);
+    final var latestVersion = loader.getFileVersion();
+    final var actualVersion = Math.min(latestVersion, Math.max(1, fileVersion));
+    if (latestVersion > actualVersion) {
+      configuration.set("file-version", actualVersion + 1);
+    } else {
+      configuration.set("file-version", actualVersion);
+    }
   }
 }
