@@ -70,8 +70,8 @@ public class FileVersions {
     }
     nonFromFields.forEach(entry -> entry.getValue().onLoad(loader, entry.getKey()));
     IntStream.range(fileVersion, loader.getFileVersion() + 1).forEach(index -> {
-      FileVersions.onLoad(loader, index);
       fromFields.forEach(entry -> FileVersions.onLoadField(loader, entry.getKey(), entry.getValue()));
+      FileVersions.onLoad(loader, index);
       FileVersions.onUpdate(loader);
     });
   }
