@@ -26,6 +26,7 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.FileVersion;
+import io.github.portlek.configs.annotation.From;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
 import java.util.Map;
@@ -43,14 +44,25 @@ public final class YamlTest {
       .addLoaders(FlTestData.INSTANCE)
       .addFileVersionOperation(
         Map.entry(1, () -> {
+          System.out.println("version 1 loaded");
+        }),
+        Map.entry(2, () -> {
+          System.out.println("version 2 loaded");
+        }),
+        Map.entry(3, () -> {
+          System.out.println("version 3 loaded");
         }))
       .build()
       .load(true);
   }
 
-  @FileVersion
+  @FileVersion(2)
   private static final class ConfigHolder0 implements ConfigHolder {
 
+    @From(removedVersion = 2)
     public static String test1 = "test-1";
+
+    @From(2)
+    public static String test2 = "test-2";
   }
 }

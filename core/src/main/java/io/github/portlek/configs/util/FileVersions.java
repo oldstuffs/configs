@@ -51,7 +51,14 @@ public class FileVersions {
    * @param fields the fields to load.
    */
   public void load(@NotNull final Loader loader, @NotNull final Collection<Map.Entry<RefField, FieldLoader>> fields) {
-    final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
+    final var configuration = loader.getFileConfiguration();
+    final int fileVersion;
+    if (configuration.contains("file-version")) {
+      fileVersion = configuration.getInt("file-version", 1);
+    } else {
+      configuration.set("file-version", 1);
+      fileVersion = 1;
+    }
     final var nonFromFields = new HashSet<Map.Entry<RefField, FieldLoader>>();
     final var fromFields = new HashSet<Map.Entry<RefField, FieldLoader>>();
     for (final var field : fields) {
