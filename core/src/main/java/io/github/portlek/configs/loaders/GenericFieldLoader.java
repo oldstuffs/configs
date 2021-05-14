@@ -25,13 +25,12 @@
 
 package io.github.portlek.configs.loaders;
 
+import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
 import java.util.Optional;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -40,7 +39,6 @@ import org.jetbrains.annotations.NotNull;
  * @param <R> type of the raw value.
  * @param <F> type of the final value.
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implements SectionSerializer<R, F> {
 
   /**
@@ -48,6 +46,19 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
    */
   @NotNull
   private final Class<F> finalClass;
+
+  /**
+   * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
+   * @param finalClass final class.
+   */
+  protected GenericFieldLoader(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section,
+                               @NotNull final Class<F> finalClass) {
+    super(holder, section);
+    this.finalClass = finalClass;
+  }
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
@@ -62,7 +73,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var fieldValueOptional = field.getValue()
       .filter(o -> this.finalClass.isAssignableFrom(o.getClass()))
       .map(this.finalClass::cast);
-    final var parentSection = this.getSection(loader);
+    final var parentSection = this.getSection();
     final var section = this.prepareSection(parentSection, path);
     final var finalValue0 = this.toFinal(section, fieldValueOptional.orElse(null));
     final Optional<F> valueAtPath;

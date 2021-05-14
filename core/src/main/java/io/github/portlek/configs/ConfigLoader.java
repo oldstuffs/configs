@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotation.FileVersion;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import io.github.portlek.configs.loaders.impl.FlConfigHolder;
@@ -39,17 +40,21 @@ import io.github.portlek.configs.loaders.impl.FlLocale;
 import io.github.portlek.configs.loaders.impl.FlRawField;
 import io.github.portlek.configs.loaders.impl.FlUniqueId;
 import io.github.portlek.configs.util.Validate;
+import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -69,7 +74,7 @@ public final class ConfigLoader implements Loader {
    * the async executor.
    */
   @NotNull
-  public final Executor asyncExecutor;
+  private final Executor asyncExecutor;
 
   /**
    * the class config holder.
@@ -90,6 +95,16 @@ public final class ConfigLoader implements Loader {
   private final String fileName;
 
   /**
+   * the file version.
+   */
+  private final int fileVersion;
+
+  /**
+   * the file version operations.
+   */
+  private final Map<Integer, Consumer<Loader>> fileVersionOperations;
+
+  /**
    * the folder path.
    */
   @NotNull
@@ -99,7 +114,7 @@ public final class ConfigLoader implements Loader {
    * the loaders.
    */
   @NotNull
-  private final List<Supplier<? extends FieldLoader>> loaders;
+  private final List<FieldLoader.Func> loaders;
 
   /**
    * the configuration.
@@ -327,6 +342,11 @@ public final class ConfigLoader implements Loader {
   public static final class Builder {
 
     /**
+     * the file version operations.
+     */
+    private final Map<Integer, Consumer<Loader>> fileVersionOperations = new HashMap<>();
+
+    /**
      * the async executor.
      */
     @NotNull
@@ -351,6 +371,11 @@ public final class ConfigLoader implements Loader {
     private String fileName;
 
     /**
+     * the file version.
+     */
+    private int fileVersion = 1;
+
+    /**
      * the folder path.
      */
     @Nullable
@@ -360,7 +385,7 @@ public final class ConfigLoader implements Loader {
      * the loaders.
      */
     @NotNull
-    private List<Supplier<? extends FieldLoader>> loaders = new ArrayList<>() {{
+    private List<FieldLoader.Func> loaders = new ArrayList<>() {{
       this.add(FlConfigurationSection.INSTANCE);
       this.add(FlInetSocketAddress.INSTANCE);
       this.add(FlConfiguration.INSTANCE);
@@ -373,16 +398,45 @@ public final class ConfigLoader implements Loader {
     }};
 
     /**
+     * adds file version operations.
+     *
+     * @param operations the operations to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @SafeVarargs
+    @NotNull
+    public final Builder addFileVersionOperation(@NotNull final Map.Entry<Integer, Consumer<Loader>>... operations) {
+      for (final var operation : operations) {
+        this.addFileVersionOperation(operation.getKey(), operation.getValue());
+      }
+      return this;
+    }
+
+    /**
+     * adds file version operations.
+     *
+     * @param version the version to add.
+     * @param operations the runnable to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addFileVersionOperation(final int version, @NotNull final Consumer<Loader> operations) {
+      this.fileVersionOperations.put(version, operations);
+      return this;
+    }
+
+    /**
      * adds loaders.
      *
      * @param loaders the loaders to add.
      *
      * @return {@code this} for builder chain.
      */
-    @SafeVarargs
     @NotNull
-    public final Builder addLoaders(@NotNull final Supplier<? extends FieldLoader>... loaders) {
-      this.loaders.addAll(Arrays.asList(loaders));
+    public Builder addLoaders(@NotNull final FieldLoader.Func... loaders) {
+      Collections.addAll(this.loaders, loaders);
       return this;
     }
 
@@ -396,8 +450,12 @@ public final class ConfigLoader implements Loader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
-      return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.folderPath,
-        this.loaders);
+      if (this.configHolder != null) {
+        new ClassOf<>(this.configHolder).getAnnotation(FileVersion.class, fileVersion ->
+          this.fileVersion = fileVersion.value());
+      }
+      return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.fileVersion,
+        this.fileVersionOperations, this.folderPath, this.loaders);
     }
 
     /**
@@ -453,6 +511,22 @@ public final class ConfigLoader implements Loader {
     }
 
     /**
+     * sets file versions.
+     *
+     * @param fileVersion the file version to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder setFileVersion(final int fileVersion) {
+      if (fileVersion < 1) {
+        throw new IllegalArgumentException("The file version must be bigger than 0!");
+      }
+      this.fileVersion = fileVersion;
+      return this;
+    }
+
+    /**
      * sets the folder path.
      *
      * @param folder the folder to set.
@@ -488,7 +562,8 @@ public final class ConfigLoader implements Loader {
      * @return {@code this} for builder chain.
      */
     @NotNull
-    public Builder setLoaders(@NotNull final List<Supplier<? extends FieldLoader>> loaders) {
+    public Builder setLoaders(
+      @NotNull final List<FieldLoader.Func> loaders) {
       this.loaders = loaders;
       return this;
     }

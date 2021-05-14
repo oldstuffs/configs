@@ -25,12 +25,13 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -41,7 +42,17 @@ public final class FlConfigurationSection extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlConfigurationSection> INSTANCE = FlConfigurationSection::new;
+  public static final FieldLoader.Func INSTANCE = FlConfigurationSection::new;
+
+  /**
+   * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
+   */
+  private FlConfigurationSection(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section);
+  }
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
@@ -50,6 +61,6 @@ public final class FlConfigurationSection extends BaseFieldLoader {
 
   @Override
   public void onLoad(@NotNull final Loader loader, @NotNull final RefField field) {
-    field.setValue(this.getSection(loader));
+    field.setValue(this.getSection());
   }
 }

@@ -26,10 +26,12 @@
 package io.github.portlek.configs.bukkit.loaders;
 
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,13 +44,16 @@ public final class FlItemStack extends SectionFieldLoader<ItemStack> {
   /**
    * the instance.
    */
-  public static final Supplier<FlItemStack> INSTANCE = FlItemStack::new;
+  public static final FieldLoader.Func INSTANCE = FlItemStack::new;
 
   /**
    * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
    */
-  private FlItemStack() {
-    super(ItemStack.class);
+  private FlItemStack(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, ItemStack.class);
   }
 
   @NotNull

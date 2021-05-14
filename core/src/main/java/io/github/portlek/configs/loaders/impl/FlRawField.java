@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.configuration.ConfigurationSection;
@@ -35,7 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,7 +49,7 @@ public final class FlRawField extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlRawField> INSTANCE = FlRawField::new;
+  public static final FieldLoader.Func INSTANCE = FlRawField::new;
 
   /**
    * the generic classes.
@@ -61,6 +62,16 @@ public final class FlRawField extends BaseFieldLoader {
   private static final List<Class> RAWS = List.of(String.class, Integer.class, int.class, Boolean.class,
     boolean.class, long.class, Long.class, double.class, Double.class, char.class, Character.class, byte.class,
     Byte.class, float.class, Float.class, short.class, Short.class);
+
+  /**
+   * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
+   */
+  private FlRawField(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section);
+  }
 
   /**
    * converts the given value at path into the field's type.
@@ -200,7 +211,7 @@ public final class FlRawField extends BaseFieldLoader {
       .map(Route::value)
       .orElse(field.getName());
     final var fieldValueOptional = field.of(loader.getConfigHolder()).getValue();
-    final var section = this.getSection(loader);
+    final var section = this.getSection();
     final var valueAtPath = section.get(path);
     final var fieldType = field.getType();
     if (fieldValueOptional.isPresent()) {

@@ -23,41 +23,31 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.loaders;
+package io.github.portlek.configs.annotation;
 
-import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.FieldLoader;
-import io.github.portlek.configs.bukkit.data.SentTitle;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.loaders.SectionFieldLoader;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * an implementation to serialize {@link SentTitle}.
+ * an annotation to define the field's version coming from.
  */
-public final class FlTitle extends SectionFieldLoader<SentTitle> {
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface From {
 
   /**
-   * the instance.
-   */
-  public static final FieldLoader.Func INSTANCE = FlTitle::new;
-
-  /**
-   * ctor.
+   * obtains the removed version.
    *
-   * @param holder the holder.
-   * @param section the section.
+   * @return removed version.
    */
-  private FlTitle(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
-    super(holder, section, SentTitle.class);
-  }
+  int removedVersion() default 0;
 
-  @NotNull
-  @Override
-  public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section,
-                                     @Nullable final SentTitle fieldValue) {
-    return SentTitle.deserialize(section, fieldValue);
-  }
+  /**
+   * obtains the created version.
+   *
+   * @return created version.
+   */
+  int version() default 1;
 }

@@ -25,12 +25,13 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
 import io.github.portlek.replaceable.RpList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,13 +43,16 @@ public final class FlRpList extends GenericFieldLoader<List<String>, RpList> {
   /**
    * the instance.
    */
-  public static final Supplier<FlRpList> INSTANCE = FlRpList::new;
+  public static final FieldLoader.Func INSTANCE = FlRpList::new;
 
   /**
    * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
    */
-  private FlRpList() {
-    super(RpList.class);
+  private FlRpList(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, RpList.class);
   }
 
   @NotNull

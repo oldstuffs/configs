@@ -27,10 +27,13 @@ package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.Ignore;
 import io.github.portlek.configs.configuration.ConfigurationSection;
+import io.github.portlek.configs.util.FileVersions;
 import io.github.portlek.reflection.RefField;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,27 +44,23 @@ import org.jetbrains.annotations.Nullable;
 public interface FieldLoader {
 
   /**
-   * creates field loaders from the given suppliers when it created sets the given parent field and section into it.
+   * creates field loaders.
    *
-   * @param parentHolder the parent holder to create.
-   * @param suppliers the suppliers to create.
+   * @param loader the loader to create.
+   * @param holder the holder to create.
+   * @param functions the functions to create.
    * @param parentField the parent field to create.
    * @param section the section to create.
    *
    * @return a newly created field loaders.
    */
   @NotNull
-  static List<FieldLoader> createLoaders(@NotNull final ConfigHolder parentHolder,
-                                         @NotNull final List<Supplier<? extends FieldLoader>> suppliers,
-                                         @Nullable final RefField parentField,
+  static List<FieldLoader> createLoaders(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
+                                         @NotNull final List<Func> functions, @Nullable final RefField parentField,
                                          @Nullable final ConfigurationSection section) {
-    return suppliers.stream()
-      .map(Supplier::get)
+    return functions.stream()
+      .map(function -> function.apply(holder, Objects.requireNonNullElse(section, loader.getFileConfiguration())))
       .peek(fieldLoader -> {
-        fieldLoader.setParentHolder(parentHolder);
-        if (section != null) {
-          fieldLoader.setSection(section);
-        }
         if (parentField != null) {
           fieldLoader.setParentField(parentField);
         }
@@ -87,7 +86,7 @@ public interface FieldLoader {
    * @param loaders the loaders to load.
    */
   static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
-                   @NotNull final List<Supplier<? extends FieldLoader>> loaders) {
+                   @NotNull final List<Func> loaders) {
     FieldLoader.load(loader, holder, loaders, null, null);
   }
 
@@ -105,23 +104,26 @@ public interface FieldLoader {
   }
 
   /**
-   * loads the given holder class's fields with the given field suppliers.
+   * loads the given holder class's fields with the given field functions.
    *
    * @param loader the loader to load.
    * @param holder the holder to load.
-   * @param suppliers the suppliers to load.
+   * @param functions the functions to load.
    * @param parentField the parent field to load.
    * @param section the section to load.
    */
   static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
-                   @NotNull final List<Supplier<? extends FieldLoader>> suppliers, @Nullable final RefField parentField,
+                   @NotNull final List<Func> functions, @Nullable final RefField parentField,
                    @Nullable final ConfigurationSection section) {
-    final var loaders = FieldLoader.createLoaders(holder, suppliers, parentField, section);
-    new ClassOf<>(holder).getDeclaredFields().forEach(field -> loaders.stream()
-      .filter(fieldLoader -> !field.hasAnnotation(Ignore.class))
-      .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
-      .findFirst()
-      .ifPresent(fieldLoader -> fieldLoader.onLoad(loader, field)));
+    final var loaders = FieldLoader.createLoaders(loader, holder, functions, parentField, section);
+    final var fields = new ClassOf<>(holder).getDeclaredFields().stream()
+      .filter(field -> !field.hasAnnotation(Ignore.class))
+      .flatMap(field -> loaders.stream()
+        .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
+        .map(fieldLoader -> Map.entry(field, fieldLoader)))
+      .collect(Collectors.toSet());
+    FileVersions.load(loader, fields);
+    holder.onLoad();
   }
 
   /**
@@ -133,6 +135,14 @@ public interface FieldLoader {
    * @return {@code true} if the field can load by the reader.
    */
   boolean canLoad(@NotNull Loader loader, @NotNull RefField field);
+
+  /**
+   * obtains the parent holder.
+   *
+   * @return parent holder.
+   */
+  @NotNull
+  ConfigHolder getHolder();
 
   /**
    * obtains the parent field.
@@ -150,34 +160,12 @@ public interface FieldLoader {
   void setParentField(@NotNull RefField parentField);
 
   /**
-   * obtains the parent holder.
-   *
-   * @return parent holder.
-   */
-  @Nullable
-  ConfigHolder getParentHolder();
-
-  /**
-   * sets the parent holder.
-   *
-   * @param parentHolder the parent holder to set.
-   */
-  void setParentHolder(@NotNull ConfigHolder parentHolder);
-
-  /**
    * obtains the current section.
    *
    * @return current section.
    */
-  @Nullable
+  @NotNull
   ConfigurationSection getSection();
-
-  /**
-   * sets the section.
-   *
-   * @param section the section to set.
-   */
-  void setSection(@NotNull ConfigurationSection section);
 
   /**
    * loads the field value.
@@ -186,4 +174,12 @@ public interface FieldLoader {
    * @param field the field to load.
    */
   void onLoad(@NotNull Loader loader, @NotNull RefField field);
+
+  /**
+   * a functional interface to create field loader instances.
+   */
+  @FunctionalInterface
+  interface Func extends BiFunction<ConfigHolder, ConfigurationSection, FieldLoader> {
+
+  }
 }

@@ -23,41 +23,24 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.loaders;
+package io.github.portlek.configs.annotation;
 
-import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.FieldLoader;
-import io.github.portlek.configs.bukkit.data.SentTitle;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.loaders.SectionFieldLoader;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * an implementation to serialize {@link SentTitle}.
+ * an annotation to define file version value of the config.
  */
-public final class FlTitle extends SectionFieldLoader<SentTitle> {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface FileVersion {
 
   /**
-   * the instance.
-   */
-  public static final FieldLoader.Func INSTANCE = FlTitle::new;
-
-  /**
-   * ctor.
+   * obtains the file version.
    *
-   * @param holder the holder.
-   * @param section the section.
+   * @return file version.
    */
-  private FlTitle(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
-    super(holder, section, SentTitle.class);
-  }
-
-  @NotNull
-  @Override
-  public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section,
-                                     @Nullable final SentTitle fieldValue) {
-    return SentTitle.deserialize(section, fieldValue);
-  }
+  int value() default 1;
 }

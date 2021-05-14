@@ -25,13 +25,15 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.LangLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.Route;
+import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.lang.LangValue;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -42,7 +44,17 @@ public final class FlLangValueLoader extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final Supplier<FlLangValueLoader> INSTANCE = FlLangValueLoader::new;
+  public static final FieldLoader.Func INSTANCE = FlLangValueLoader::new;
+
+  /**
+   * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
+   */
+  private FlLangValueLoader(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section);
+  }
 
   @Override
   public boolean canLoad(@NotNull final Loader loader, @NotNull final RefField field) {
@@ -62,7 +74,7 @@ public final class FlLangValueLoader extends BaseFieldLoader {
     for (final var entry : lang.getBuilt()) {
       final var key = entry.getKey();
       final var value = entry.getValue();
-      final var section = this.getSection(value);
+      final var section = this.getSection();
       final var valueAtPath = section.get(path);
       if (fieldValueOptional.isPresent()) {
       } else if (valueAtPath != null) {

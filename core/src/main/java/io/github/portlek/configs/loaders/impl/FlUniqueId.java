@@ -25,12 +25,13 @@
 
 package io.github.portlek.configs.loaders.impl;
 
+import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Supplier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,13 +43,16 @@ public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
   /**
    * the instance.
    */
-  public static final Supplier<FlUniqueId> INSTANCE = FlUniqueId::new;
+  public static final FieldLoader.Func INSTANCE = FlUniqueId::new;
 
   /**
    * ctor.
+   *
+   * @param holder the holder.
+   * @param section the section.
    */
-  private FlUniqueId() {
-    super(UUID.class);
+  private FlUniqueId(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
+    super(holder, section, UUID.class);
   }
 
   /**

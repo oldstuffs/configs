@@ -38,6 +38,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -161,6 +162,17 @@ public final class LangLoader implements Loader {
     return Optional.ofNullable(this.defaultLanguage);
   }
 
+  @Override
+  public int getFileVersion() {
+    return this.pollConfigLoader().getValue().getFileVersion();
+  }
+
+  @NotNull
+  @Override
+  public Map<Integer, Consumer<Loader>> getFileVersionOperations() {
+    return this.pollConfigLoader().getValue().getFileVersionOperations();
+  }
+
   /**
    * obtains the lang keys.
    *
@@ -185,16 +197,6 @@ public final class LangLoader implements Loader {
       this.values = List.copyOf(this.builders.values());
     }
     return Collections.unmodifiableList(this.values);
-  }
-
-  /**
-   * loads the config.
-   *
-   * @return loaded config.
-   */
-  @NotNull
-  public LangLoader load() {
-    return this.load(false);
   }
 
   /**
@@ -243,6 +245,16 @@ public final class LangLoader implements Loader {
   }
 
   /**
+   * loads the config.
+   *
+   * @return loaded config.
+   */
+  @NotNull
+  public LangLoader load() {
+    return this.load(false);
+  }
+
+  /**
    * polls the current config loader.
    *
    * @return config loader.
@@ -286,8 +298,8 @@ public final class LangLoader implements Loader {
   /**
    * a class that represents class loader builders.
    */
-  @NoArgsConstructor(access = AccessLevel.PRIVATE)
   @Getter
+  @NoArgsConstructor(access = AccessLevel.PRIVATE)
   public static final class Builder {
 
     /**
