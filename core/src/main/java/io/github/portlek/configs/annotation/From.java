@@ -38,11 +38,11 @@ import java.lang.annotation.Target;
 public @interface From {
 
   /**
-   * obtains the changed version.
+   * obtains the removed version.
    *
-   * @return changed version.
+   * @return removed version.
    */
-  int migrationVersion() default 0;
+  int removedVersion() default 0;
 
   /**
    * obtains the created version.

@@ -91,7 +91,7 @@ public class FileVersions {
                            @NotNull final FieldLoader fieldLoader) {
     final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
     field.getAnnotation(From.class, from -> {
-      if (from.migrationVersion() == fileVersion) {
+      if (from.removedVersion() == fileVersion) {
         final var path = field.getAnnotation(Route.class)
           .map(Route::value)
           .orElse(field.getName());
