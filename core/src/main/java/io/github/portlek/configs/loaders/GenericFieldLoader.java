@@ -73,7 +73,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var fieldValueOptional = field.getValue()
       .filter(o -> this.finalClass.isAssignableFrom(o.getClass()))
       .map(this.finalClass::cast);
-    final var parentSection = this.getSection(loader);
+    final var parentSection = this.getSection();
     final var section = this.prepareSection(parentSection, path);
     final var finalValue0 = this.toFinal(section, fieldValueOptional.orElse(null));
     final Optional<F> valueAtPath;
