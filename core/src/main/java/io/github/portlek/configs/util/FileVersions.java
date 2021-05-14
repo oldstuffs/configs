@@ -25,7 +25,9 @@
 
 package io.github.portlek.configs.util;
 
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
+import io.github.portlek.reflection.RefField;
 import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +47,18 @@ public class FileVersions {
     final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
     Optional.ofNullable(loader.getFileVersionOperations().get(fileVersion))
       .ifPresent(Runnable::run);
+  }
+
+  /**
+   * loads the field.
+   *
+   * @param loader the loader to load.
+   * @param field the field to load.
+   * @param fieldLoader the field loader to load.
+   */
+  public void onLoadField(@NotNull final Loader loader, @NotNull final RefField field,
+                          @NotNull final FieldLoader fieldLoader) {
+    fieldLoader.onLoad(loader, field);
   }
 
   /**
