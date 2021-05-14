@@ -39,24 +39,15 @@ public @interface From {
 
   /**
    * obtains the changed version.
-   * <p>
-   * if {@link #createdVersion()} is bigger than the value, sets changed version to {@link #createdVersion()}.
    *
    * @return changed version.
    */
-  int changedVersion() default 1;
+  int migrationVersion() default 0;
 
   /**
    * obtains the created version.
    *
    * @return created version.
    */
-  int createdVersion() default 1;
-
-  /**
-   * obtains the remove.
-   *
-   * @return remove.
-   */
-  boolean remove() default false;
+  int value() default 1;
 }

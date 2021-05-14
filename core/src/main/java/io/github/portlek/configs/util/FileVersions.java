@@ -28,8 +28,10 @@ package io.github.portlek.configs.util;
 import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.annotation.From;
+import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.reflection.RefField;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -48,11 +50,21 @@ public class FileVersions {
    * @param loader the loader to load.
    * @param fields the fields to load.
    */
-  public void load(@NotNull final Loader loader,
-                   @NotNull final Collection<Map.Entry<RefField, FieldLoader>> fields) {
-    IntStream.range(0, loader.getFileVersion()).forEach(index -> {
+  public void load(@NotNull final Loader loader, @NotNull final Collection<Map.Entry<RefField, FieldLoader>> fields) {
+    final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
+    final var nonFromFields = new HashSet<Map.Entry<RefField, FieldLoader>>();
+    final var fromFields = new HashSet<Map.Entry<RefField, FieldLoader>>();
+    for (final var field : fields) {
+      if (field.getKey().hasAnnotation(From.class)) {
+        fromFields.add(field);
+      } else {
+        nonFromFields.addAll(fields);
+      }
+    }
+    nonFromFields.forEach(entry -> entry.getValue().onLoad(loader, entry.getKey()));
+    IntStream.range(fileVersion, loader.getFileVersion() + 1).forEach(index -> {
       FileVersions.onLoad(loader, index);
-      fields.forEach(entry -> FileVersions.onLoadField(loader, entry.getKey(), entry.getValue()));
+      fromFields.forEach(entry -> FileVersions.onLoadField(loader, entry.getKey(), entry.getValue()));
       FileVersions.onUpdate(loader);
     });
   }
@@ -79,8 +91,12 @@ public class FileVersions {
                            @NotNull final FieldLoader fieldLoader) {
     final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
     field.getAnnotation(From.class, from -> {
-      final var createdVersion = from.createdVersion();
-      if (createdVersion == fileVersion) {
+      if (from.migrationVersion() == fileVersion) {
+        final var path = field.getAnnotation(Route.class)
+          .map(Route::value)
+          .orElse(field.getName());
+        fieldLoader.getSection().remove(path);
+      } else if (from.value() == fileVersion) {
         fieldLoader.onLoad(loader, field);
       }
     });
