@@ -61,12 +61,12 @@ public final class FlItemStack extends SectionFieldLoader<ItemStack> {
   @Override
   public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue,
                                      @Nullable final ItemStack fieldValue) {
-    return ItemStackUtil.from(rawValue);
+    return ItemStackUtil.deserialize(rawValue);
   }
 
   @NotNull
   @Override
   public Optional<Map<String, Object>> toRaw(@NotNull final ItemStack finalValue) {
-    return Optional.of(ItemStackUtil.to(finalValue));
+    return Optional.of(ItemStackUtil.serialize(finalValue));
   }
 }

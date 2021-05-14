@@ -116,7 +116,9 @@ public final class Position implements DataSerializer {
     final var x = section.getDouble("x");
     final var y = section.getDouble("y");
     final var z = section.getDouble("z");
-    return Optional.of(new Position(world, x, y, z));
+    final var yaw = ((Double) section.getDouble("yaw")).floatValue();
+    final var pitch = ((Double) section.getDouble("pitch")).floatValue();
+    return Optional.of(new Position(world, x, y, z, yaw, pitch));
   }
 
   /**
@@ -151,5 +153,7 @@ public final class Position implements DataSerializer {
     section.set("x", this.x);
     section.set("y", this.y);
     section.set("z", this.z);
+    section.set("yaw", this.yaw);
+    section.set("pitch", this.pitch);
   }
 }
