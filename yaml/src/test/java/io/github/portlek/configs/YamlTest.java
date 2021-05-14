@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotation.FileVersion;
 import io.github.portlek.configs.annotation.From;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.yaml.YamlType;
@@ -46,6 +47,7 @@ public final class YamlTest {
       .load(true);
   }
 
+  @FileVersion(3)
   private static final class ConfigHolder0 implements ConfigHolder {
 
     @From(changedVersion = 3, remove = true)

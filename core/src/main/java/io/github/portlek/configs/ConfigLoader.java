@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs;
 
+import io.github.portlek.configs.annotation.FileVersion;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
@@ -40,6 +41,7 @@ import io.github.portlek.configs.loaders.impl.FlLocale;
 import io.github.portlek.configs.loaders.impl.FlRawField;
 import io.github.portlek.configs.loaders.impl.FlUniqueId;
 import io.github.portlek.configs.util.Validate;
+import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -409,6 +411,10 @@ public final class ConfigLoader implements Loader {
       Validate.checkNull(this.configType, "Use #setConfigType(ConfigType) method to set config type!");
       Validate.checkNull(this.fileName, "Use #setFileName(String) method to set file name!");
       Validate.checkNull(this.folderPath, "Use #setFolderPath(Path) method to set file path!");
+      if (this.configHolder != null) {
+        new ClassOf<>(this.configHolder).getAnnotation(FileVersion.class, fileVersion ->
+          this.fileVersion = fileVersion.value());
+      }
       return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.fileVersion,
         this.folderPath, this.loaders);
     }
