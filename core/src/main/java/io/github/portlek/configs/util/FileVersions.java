@@ -60,6 +60,7 @@ public class FileVersions {
    */
   public void onLoadField(@NotNull final Loader loader, @NotNull final RefField field,
                           @NotNull final FieldLoader fieldLoader) {
+    final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
     fieldLoader.onLoad(loader, field);
   }
 
@@ -75,8 +76,6 @@ public class FileVersions {
     final var actualVersion = Math.min(latestVersion, Math.max(1, fileVersion));
     if (latestVersion > actualVersion) {
       configuration.set("file-version", actualVersion + 1);
-    } else {
-      configuration.set("file-version", actualVersion);
     }
   }
 }
