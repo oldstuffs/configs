@@ -31,7 +31,6 @@ import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +42,7 @@ public final class FlLocale extends GenericFieldLoader<String, Locale> {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlLocale::new;
+  public static final FieldLoader.Func INSTANCE = FlLocale::new;
 
   /**
    * ctor.

@@ -26,7 +26,6 @@
 package io.github.portlek.configs;
 
 import io.github.portlek.configs.annotation.FileVersion;
-import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import io.github.portlek.configs.exceptions.InvalidConfigurationException;
 import io.github.portlek.configs.loaders.impl.FlConfigHolder;
@@ -55,7 +54,6 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -115,7 +113,7 @@ public final class ConfigLoader implements Loader {
    * the loaders.
    */
   @NotNull
-  private final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders;
+  private final List<FieldLoader.Func> loaders;
 
   /**
    * the configuration.
@@ -386,7 +384,7 @@ public final class ConfigLoader implements Loader {
      * the loaders.
      */
     @NotNull
-    private List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders = new ArrayList<>() {{
+    private List<FieldLoader.Func> loaders = new ArrayList<>() {{
       this.add(FlConfigurationSection.INSTANCE);
       this.add(FlInetSocketAddress.INSTANCE);
       this.add(FlConfiguration.INSTANCE);
@@ -415,21 +413,6 @@ public final class ConfigLoader implements Loader {
     }
 
     /**
-     * adds loaders.
-     *
-     * @param loaders the loaders to add.
-     *
-     * @return {@code this} for builder chain.
-     */
-    @SafeVarargs
-    @NotNull
-    public final Builder addLoaders(
-      @NotNull final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>... loaders) {
-      Collections.addAll(this.loaders, loaders);
-      return this;
-    }
-
-    /**
      * adds file version operations.
      *
      * @param version the version to add.
@@ -440,6 +423,19 @@ public final class ConfigLoader implements Loader {
     @NotNull
     public Builder addFileVersionOperation(final int version, @NotNull final Runnable runnable) {
       this.fileVersionOperations.put(version, runnable);
+      return this;
+    }
+
+    /**
+     * adds loaders.
+     *
+     * @param loaders the loaders to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addLoaders(@NotNull final FieldLoader.Func... loaders) {
+      Collections.addAll(this.loaders, loaders);
       return this;
     }
 
@@ -566,7 +562,7 @@ public final class ConfigLoader implements Loader {
      */
     @NotNull
     public Builder setLoaders(
-      @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders) {
+      @NotNull final List<FieldLoader.Func> loaders) {
       this.loaders = loaders;
       return this;
     }

@@ -32,7 +32,6 @@ import io.github.portlek.configs.loaders.GenericFieldLoader;
 import io.github.portlek.replaceable.RpList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,7 +43,7 @@ public final class FlRpList extends GenericFieldLoader<List<String>, RpList> {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlRpList::new;
+  public static final FieldLoader.Func INSTANCE = FlRpList::new;
 
   /**
    * ctor.

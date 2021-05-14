@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 public final class FlTestData extends SectionFieldLoader<TestData> {
 
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlTestData::new;
+  public static final FieldLoader.Func INSTANCE = FlTestData::new;
 
   private FlTestData(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
     super(holder, section, TestData.class);

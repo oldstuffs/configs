@@ -43,7 +43,7 @@ public final class FlPosition extends SectionFieldLoader<Position> {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlPosition::new;
+  public static final FieldLoader.Func INSTANCE = FlPosition::new;
 
   /**
    * ctor.

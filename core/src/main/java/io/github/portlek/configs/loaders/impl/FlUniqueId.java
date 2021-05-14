@@ -32,7 +32,6 @@ import io.github.portlek.configs.loaders.GenericFieldLoader;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,7 +43,7 @@ public final class FlUniqueId extends GenericFieldLoader<String, UUID> {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlUniqueId::new;
+  public static final FieldLoader.Func INSTANCE = FlUniqueId::new;
 
   /**
    * ctor.

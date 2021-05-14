@@ -32,7 +32,6 @@ import io.github.portlek.configs.Loader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.BaseFieldLoader;
 import io.github.portlek.reflection.RefField;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,8 +42,7 @@ public final class FlLangLoader extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE =
-    FlLangLoader::new;
+  public static final FieldLoader.Func INSTANCE = FlLangLoader::new;
 
   /**
    * ctor.

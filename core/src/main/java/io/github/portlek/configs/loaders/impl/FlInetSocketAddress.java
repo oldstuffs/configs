@@ -32,7 +32,6 @@ import io.github.portlek.configs.loaders.GenericFieldLoader;
 import io.github.portlek.configs.util.NumberConversions;
 import java.net.InetSocketAddress;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,8 +43,7 @@ public final class FlInetSocketAddress extends GenericFieldLoader<String, InetSo
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE =
-    FlInetSocketAddress::new;
+  public static final FieldLoader.Func INSTANCE = FlInetSocketAddress::new;
 
   /**
    * ctor.

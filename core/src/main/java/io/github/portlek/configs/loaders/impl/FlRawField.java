@@ -37,7 +37,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,7 +49,7 @@ public final class FlRawField extends BaseFieldLoader {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlRawField::new;
+  public static final FieldLoader.Func INSTANCE = FlRawField::new;
 
   /**
    * the generic classes.

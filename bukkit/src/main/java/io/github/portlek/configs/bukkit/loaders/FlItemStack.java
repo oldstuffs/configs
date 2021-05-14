@@ -32,7 +32,6 @@ import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +44,7 @@ public final class FlItemStack extends SectionFieldLoader<ItemStack> {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader> INSTANCE = FlItemStack::new;
+  public static final FieldLoader.Func INSTANCE = FlItemStack::new;
 
   /**
    * ctor.

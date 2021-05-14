@@ -54,10 +54,9 @@ public interface FieldLoader {
    * @return a newly created field loaders.
    */
   @NotNull
-  static List<FieldLoader> createLoaders(
-    @NotNull final Loader loader, @NotNull final ConfigHolder holder,
-    @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> functions,
-    @Nullable final RefField parentField, @Nullable final ConfigurationSection section) {
+  static List<FieldLoader> createLoaders(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
+                                         @NotNull final List<Func> functions, @Nullable final RefField parentField,
+                                         @Nullable final ConfigurationSection section) {
     return functions.stream()
       .map(function -> function.apply(holder, Objects.requireNonNullElse(section, loader.getFileConfiguration())))
       .peek(fieldLoader -> {
@@ -86,7 +85,7 @@ public interface FieldLoader {
    * @param loaders the loaders to load.
    */
   static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
-                   @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> loaders) {
+                   @NotNull final List<Func> loaders) {
     FieldLoader.load(loader, holder, loaders, null, null);
   }
 
@@ -113,8 +112,8 @@ public interface FieldLoader {
    * @param section the section to load.
    */
   static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
-                   @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> functions,
-                   @Nullable final RefField parentField, @Nullable final ConfigurationSection section) {
+                   @NotNull final List<Func> functions, @Nullable final RefField parentField,
+                   @Nullable final ConfigurationSection section) {
     FileVersions.onLoad(loader);
     final var loaders = FieldLoader.createLoaders(loader, holder, functions, parentField, section);
     new ClassOf<>(holder).getDeclaredFields().forEach(field -> loaders.stream()
@@ -173,4 +172,12 @@ public interface FieldLoader {
    * @param field the field to load.
    */
   void onLoad(@NotNull Loader loader, @NotNull RefField field);
+
+  /**
+   * a functional interface to create field loader instances.
+   */
+  @FunctionalInterface
+  interface Func extends BiFunction<ConfigHolder, ConfigurationSection, FieldLoader> {
+
+  }
 }
