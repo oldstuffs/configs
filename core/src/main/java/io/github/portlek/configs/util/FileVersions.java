@@ -73,11 +73,14 @@ public class FileVersions {
     final var configuration = loader.getFileConfiguration();
     final var latestVersion = loader.getFileVersion();
     final var fileVersion = configuration.getInt("file-version", 1);
-    final var actualVersion = Math.min(latestVersion, Math.max(1, fileVersion));
-    if (latestVersion > actualVersion) {
-      configuration.set("file-version", actualVersion + 1);
-    } else if (latestVersion != fileVersion) {
+    if (fileVersion < 1) {
+      configuration.set("file-version", 1);
+    } else if (fileVersion > latestVersion) {
       configuration.set("file-version", latestVersion);
+    }
+    final var actualVersion = configuration.getInt("file-version", 1);
+    if (latestVersion >= actualVersion) {
+      configuration.set("file-version", actualVersion + 1);
     }
   }
 }
