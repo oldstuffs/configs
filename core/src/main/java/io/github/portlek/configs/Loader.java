@@ -29,6 +29,7 @@ import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.configuration.FileConfiguration;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -74,6 +75,14 @@ public interface Loader {
    * @return file version.
    */
   int getFileVersion();
+
+  /**
+   * obtains the file version operations.
+   *
+   * @return file version operations.
+   */
+  @NotNull
+  Map<Integer, Runnable> getFileVersionOperations();
 
   /**
    * obtains the field loaders.

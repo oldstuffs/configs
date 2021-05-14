@@ -25,11 +25,8 @@
 
 package io.github.portlek.configs.util;
 
-import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.Loader;
-import io.github.portlek.configs.annotation.From;
-import io.github.portlek.reflection.RefField;
-import java.util.stream.IntStream;
+import java.util.Optional;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
@@ -40,25 +37,13 @@ import org.jetbrains.annotations.NotNull;
 public class FileVersions {
 
   /**
-   * loads the field.
+   * runs {@link Loader#getFileVersionOperations()}.
    *
-   * @param fieldLoader the field loader to load.
-   * @param loader the loader to load.
-   * @param field the field to load.
+   * @param loader the loader to run.
    */
-  public void onLoad(@NotNull final FieldLoader fieldLoader, @NotNull final Loader loader, @NotNull final RefField field) {
-    final var fromOptional = field.getAnnotation(From.class);
-    if (fromOptional.isEmpty()) {
-      return;
-    }
-    final var fileVersion = fieldLoader.getSection().getInt("file-version", 1);
-    final var from = fromOptional.get();
-    final var version = from.createdVersion();
-    final var changedVersion = Math.max(version, from.changedVersion());
-    final var remove = from.remove();
-    IntStream.range(fileVersion, loader.getFileVersion()).forEach(value -> {
-      if (value == changedVersion) {
-      }
-    });
+  public void onLoad(@NotNull final Loader loader) {
+    final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
+    Optional.ofNullable(loader.getFileVersionOperations().get(fileVersion))
+      .ifPresent(Runnable::run);
   }
 }

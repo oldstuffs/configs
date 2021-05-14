@@ -30,6 +30,7 @@ import io.github.portlek.configs.annotation.From;
 import io.github.portlek.configs.annotation.Route;
 import io.github.portlek.configs.yaml.YamlType;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 public final class YamlTest {
@@ -43,6 +44,9 @@ public final class YamlTest {
       .setAsyncExecutor(Executors.newFixedThreadPool(4))
       .addLoaders(FlTestData.INSTANCE)
       .setFileVersion(3)
+      .addFileVersionOperation(
+        Map.entry(1, () -> {
+        }))
       .build()
       .load(true);
   }

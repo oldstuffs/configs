@@ -116,12 +116,13 @@ public interface FieldLoader {
   static void load(@NotNull final Loader loader, @NotNull final ConfigHolder holder,
                    @NotNull final List<BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>> functions,
                    @Nullable final RefField parentField, @Nullable final ConfigurationSection section) {
+    FileVersions.onLoad(loader);
     final var loaders = FieldLoader.createLoaders(loader, holder, functions, parentField, section);
     new ClassOf<>(holder).getDeclaredFields().forEach(field -> loaders.stream()
       .filter(fieldLoader -> !field.hasAnnotation(Ignore.class))
       .filter(fieldLoader -> fieldLoader.canLoad(loader, field))
       .findFirst()
-      .ifPresent(fieldLoader -> FileVersions.onLoad(fieldLoader, loader, field)));
+      .ifPresent(fieldLoader -> fieldLoader.onLoad(loader, field)));
     holder.onLoad();
   }
 

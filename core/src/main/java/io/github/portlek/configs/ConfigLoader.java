@@ -48,7 +48,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -97,6 +99,11 @@ public final class ConfigLoader implements Loader {
    * the file version.
    */
   private final int fileVersion;
+
+  /**
+   * the file version operations.
+   */
+  private final Map<Integer, Runnable> fileVersionOperations;
 
   /**
    * the folder path.
@@ -336,6 +343,11 @@ public final class ConfigLoader implements Loader {
   public static final class Builder {
 
     /**
+     * the file version operations.
+     */
+    private final Map<Integer, Runnable> fileVersionOperations = new HashMap<>();
+
+    /**
      * the async executor.
      */
     @NotNull
@@ -387,6 +399,22 @@ public final class ConfigLoader implements Loader {
     }};
 
     /**
+     * adds file version operations.
+     *
+     * @param operations the operations to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @SafeVarargs
+    @NotNull
+    public final Builder addFileVersionOperation(@NotNull final Map.Entry<Integer, Runnable>... operations) {
+      for (final var operation : operations) {
+        this.fileVersionOperations.put(operation.getKey(), operation.getValue());
+      }
+      return this;
+    }
+
+    /**
      * adds loaders.
      *
      * @param loaders the loaders to add.
@@ -398,6 +426,20 @@ public final class ConfigLoader implements Loader {
     public final Builder addLoaders(
       @NotNull final BiFunction<ConfigHolder, ConfigurationSection, ? extends FieldLoader>... loaders) {
       Collections.addAll(this.loaders, loaders);
+      return this;
+    }
+
+    /**
+     * adds file version operations.
+     *
+     * @param version the version to add.
+     * @param runnable the runnable to add.
+     *
+     * @return {@code this} for builder chain.
+     */
+    @NotNull
+    public Builder addFileVersionOperation(final int version, @NotNull final Runnable runnable) {
+      this.fileVersionOperations.put(version, runnable);
       return this;
     }
 
@@ -416,7 +458,7 @@ public final class ConfigLoader implements Loader {
           this.fileVersion = fileVersion.value());
       }
       return new ConfigLoader(this.asyncExecutor, this.configHolder, this.configType, this.fileName, this.fileVersion,
-        this.folderPath, this.loaders);
+        this.fileVersionOperations, this.folderPath, this.loaders);
     }
 
     /**
