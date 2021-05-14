@@ -68,6 +68,13 @@ public class FileVersions {
    */
   public void onUpdate(@NotNull final Loader loader) {
     final var configuration = loader.getFileConfiguration();
-    configuration.set("file-version", configuration.getInt("file-version", 1) + 1);
+    final var fileVersion = configuration.getInt("file-version", 1);
+    if (fileVersion > loader.getFileVersion()) {
+      configuration.set("file-version", loader.getFileVersion());
+    } else if (fileVersion < 1) {
+      configuration.set("file-version", 1);
+    } else if (loader.getFileVersion() > fileVersion) {
+      configuration.set("file-version", fileVersion + 1);
+    }
   }
 }
