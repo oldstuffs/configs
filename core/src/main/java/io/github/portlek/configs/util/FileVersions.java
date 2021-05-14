@@ -44,8 +44,10 @@ public class FileVersions {
    * @param loader the loader to run.
    */
   public void onLoad(@NotNull final Loader loader) {
-    final var fileVersion = loader.getFileConfiguration().getInt("file-version", 1);
-    Optional.ofNullable(loader.getFileVersionOperations().get(fileVersion))
+    final var actualVersion = Math.min(
+      loader.getFileVersion(),
+      Math.max(1, loader.getFileConfiguration().getInt("file-version", 1)));
+    Optional.ofNullable(loader.getFileVersionOperations().get(actualVersion))
       .ifPresent(Runnable::run);
   }
 
@@ -69,12 +71,10 @@ public class FileVersions {
   public void onUpdate(@NotNull final Loader loader) {
     final var configuration = loader.getFileConfiguration();
     final var fileVersion = configuration.getInt("file-version", 1);
-    if (fileVersion > loader.getFileVersion()) {
-      configuration.set("file-version", loader.getFileVersion());
-    } else if (fileVersion < 1) {
-      configuration.set("file-version", 1);
-    } else if (loader.getFileVersion() > fileVersion) {
-      configuration.set("file-version", fileVersion + 1);
-    }
+    final var actualVersion = Math.min(loader.getFileVersion(), Math.max(1, fileVersion));
+    final var newVersion = actualVersion != fileVersion && loader.getFileVersion() > actualVersion
+      ? actualVersion + 1
+      : actualVersion;
+    configuration.set("file-version", newVersion);
   }
 }
