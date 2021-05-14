@@ -54,14 +54,14 @@ public final class YamlTest {
   @FileVersion(3)
   private static final class ConfigHolder0 implements ConfigHolder {
 
-    @From(changedVersion = 3, remove = true)
+    @From(migrationVersion = 3)
     public static TestData test = new TestData("title-1", "sub-title-1", 20, 20, 20);
 
-    @From(createdVersion = 2)
+    @From(migrationVersion = 2)
     @Route("test-2")
     public static TestData test2 = new TestData("title-2", "sub-title-2", 20, 20, 20);
 
-    @From(createdVersion = 3)
+    @From(3)
     @Route("test-3")
     public static TestData test3 = new TestData("title-1", "sub-title-1", 20, 20, 20);
   }
