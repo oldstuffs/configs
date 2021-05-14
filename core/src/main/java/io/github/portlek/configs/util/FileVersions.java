@@ -75,7 +75,8 @@ public class FileVersions {
     final var fileVersion = configuration.getInt("file-version", 1);
     if (fileVersion < 1) {
       configuration.set("file-version", 1);
-    } else if (fileVersion > latestVersion) {
+    }
+    if (fileVersion > latestVersion) {
       configuration.set("file-version", latestVersion);
     }
     final var actualVersion = configuration.getInt("file-version", 1);
