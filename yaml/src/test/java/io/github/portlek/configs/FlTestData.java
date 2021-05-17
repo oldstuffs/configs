@@ -41,7 +41,7 @@ public final class FlTestData extends SectionFieldLoader<TestData> {
 
   @NotNull
   @Override
-  public Optional<TestData> toFinal(@NotNull final ConfigurationSection section, final @NotNull String path, @Nullable final TestData fieldValue) {
+  public Optional<TestData> toFinal(@NotNull final ConfigurationSection section, @NotNull final String path, @Nullable final TestData fieldValue) {
     return TestData.deserialize(section);
   }
 }
