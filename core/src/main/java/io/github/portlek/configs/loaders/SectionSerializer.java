@@ -47,7 +47,7 @@ public interface SectionSerializer<R, F> {
    * @return obtained raw value from config.
    */
   @NotNull
-  Optional<R> toConfigObject(@NotNull final ConfigurationSection section, @NotNull final String path);
+  Optional<R> toConfigObject(@NotNull ConfigurationSection section, @NotNull String path);
 
   /**
    * converts the given raw value into {@link F}.
