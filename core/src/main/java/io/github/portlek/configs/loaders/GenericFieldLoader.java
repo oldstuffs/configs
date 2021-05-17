@@ -73,18 +73,10 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var fieldValueOptional = field.getValue()
       .filter(o -> this.finalClass.isAssignableFrom(o.getClass()))
       .map(this.finalClass::cast);
-    final var parentSection = this.getSection();
-    final var section = this.prepareSection(parentSection, path);
-    final var finalValue0 = this.toFinal(section, fieldValueOptional.orElse(null));
-    final Optional<F> valueAtPath;
-    if (finalValue0.isPresent()) {
-      valueAtPath = finalValue0;
-    } else if (section.contains(path)) {
-      valueAtPath = this.toConfigObject(section, path)
-        .flatMap(r -> this.toFinal(r, fieldValueOptional.orElse(null)));
-    } else {
-      valueAtPath = Optional.empty();
-    }
+    final var section = this.getSection();
+    final var valueAtPath = section.contains(path)
+      ? this.toConfigObject(section, path).flatMap(r -> this.toFinal(r, fieldValueOptional.orElse(null)))
+      : Optional.empty();
     if (fieldValueOptional.isPresent()) {
       if (valueAtPath.isPresent()) {
         field.setValue(valueAtPath.get());
@@ -93,25 +85,11 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
         if (fieldValue instanceof DataSerializer) {
           this.toRaw(section, (DataSerializer) fieldValue);
         } else {
-          this.toRaw(fieldValue).ifPresent(r -> parentSection.set(path, r));
+          this.toRaw(fieldValue).ifPresent(r -> section.set(path, r));
         }
       }
     } else {
       valueAtPath.ifPresent(field::setValue);
     }
-  }
-
-  /**
-   * prepares the configuration section.
-   *
-   * @param currentSection the current section.
-   * @param path the path to prepare.
-   *
-   * @return prepared configuration section.
-   */
-  @NotNull
-  protected ConfigurationSection prepareSection(@NotNull final ConfigurationSection currentSection,
-                                                @NotNull final String path) {
-    return currentSection;
   }
 }
