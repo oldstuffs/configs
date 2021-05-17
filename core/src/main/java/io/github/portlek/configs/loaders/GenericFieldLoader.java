@@ -74,17 +74,16 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var fieldValueOptional = field.getValue()
       .filter(o -> this.finalClass.isAssignableFrom(o.getClass()))
       .map(this.finalClass::cast);
-    final var section = this.getSection();
-    final var valueAtPath = this.valueAtPath(section, path, fieldValueOptional.orElse(null));
+    final var valueAtPath = this.valueAtPath(path, fieldValueOptional.orElse(null));
     if (fieldValueOptional.isPresent()) {
       if (valueAtPath.isPresent()) {
         field.setValue(valueAtPath.get());
       } else {
         final var fieldValue = fieldValueOptional.get();
         if (fieldValue instanceof DataSerializer) {
-          this.toRaw(section, (DataSerializer) fieldValue);
+          this.toRaw(this.getSection(), (DataSerializer) fieldValue);
         } else {
-          this.toRaw(fieldValue).ifPresent(r -> section.set(path, r));
+          this.toRaw(fieldValue).ifPresent(r -> this.getSection().set(path, r));
         }
       }
     } else {
@@ -95,20 +94,19 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
   /**
    * calculates value at path.
    *
-   * @param section the section to calculate.
    * @param path the path to calculate.
    * @param fieldValue the field value to calculate.
    *
    * @return value at path.
    */
   @NotNull
-  private Optional<F> valueAtPath(@NotNull final ConfigurationSection section, @NotNull final String path,
+  private Optional<F> valueAtPath(@NotNull final String path,
                                   @Nullable final F fieldValue) {
-    final var finalValue = this.toFinal(section, path, fieldValue);
+    final var finalValue = this.toFinal(this.getSection(), path, fieldValue);
     final var otherFinalValue = finalValue.isPresent()
       ? finalValue
-      : this.toConfigObject(section, path).flatMap(r -> this.toFinal(r, fieldValue));
-    return section.contains(path)
+      : this.toConfigObject(this.getSection(), path).flatMap(r -> this.toFinal(r, fieldValue));
+    return this.getSection().contains(path)
       ? otherFinalValue
       : Optional.empty();
   }
