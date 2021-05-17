@@ -57,7 +57,7 @@ public final class FlTitle extends SectionFieldLoader<SentTitle> {
   @NotNull
   @Override
   public Optional<SentTitle> toFinal(@NotNull final ConfigurationSection section,
-                                     @Nullable final SentTitle fieldValue) {
+                                     @NotNull final String path, @Nullable final SentTitle fieldValue) {
     return SentTitle.deserialize(section, fieldValue);
   }
 }

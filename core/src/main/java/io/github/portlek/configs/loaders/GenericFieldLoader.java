@@ -32,6 +32,7 @@ import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.reflection.RefField;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an abstract class to load fields which have to write in a {@link ConfigurationSection}.
@@ -73,18 +74,8 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
     final var fieldValueOptional = field.getValue()
       .filter(o -> this.finalClass.isAssignableFrom(o.getClass()))
       .map(this.finalClass::cast);
-    final var parentSection = this.getSection();
-    final var section = this.prepareSection(parentSection, path);
-    final var finalValue0 = this.toFinal(section, fieldValueOptional.orElse(null));
-    final Optional<F> valueAtPath;
-    if (finalValue0.isPresent()) {
-      valueAtPath = finalValue0;
-    } else if (section.contains(path)) {
-      valueAtPath = this.toConfigObject(section, path)
-        .flatMap(r -> this.toFinal(r, fieldValueOptional.orElse(null)));
-    } else {
-      valueAtPath = Optional.empty();
-    }
+    final var section = this.getSection();
+    final var valueAtPath = this.valueAtPath(section, path, fieldValueOptional.orElse(null));
     if (fieldValueOptional.isPresent()) {
       if (valueAtPath.isPresent()) {
         field.setValue(valueAtPath.get());
@@ -93,7 +84,7 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
         if (fieldValue instanceof DataSerializer) {
           this.toRaw(section, (DataSerializer) fieldValue);
         } else {
-          this.toRaw(fieldValue).ifPresent(r -> parentSection.set(path, r));
+          this.toRaw(fieldValue).ifPresent(r -> section.set(path, r));
         }
       }
     } else {
@@ -102,16 +93,23 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
   }
 
   /**
-   * prepares the configuration section.
+   * calculates value at path.
    *
-   * @param currentSection the current section.
-   * @param path the path to prepare.
+   * @param section the section to calculate.
+   * @param path the path to calculate.
+   * @param fieldValue the field value to calculate.
    *
-   * @return prepared configuration section.
+   * @return value at path.
    */
   @NotNull
-  protected ConfigurationSection prepareSection(@NotNull final ConfigurationSection currentSection,
-                                                @NotNull final String path) {
-    return currentSection;
+  private Optional<F> valueAtPath(@NotNull final ConfigurationSection section, @NotNull final String path,
+                                  @Nullable final F fieldValue) {
+    final var finalValue = this.toFinal(section, path, fieldValue);
+    final var otherFinalValue = finalValue.isPresent()
+      ? finalValue
+      : this.toConfigObject(section, path).flatMap(r -> this.toFinal(r, fieldValue));
+    return section.contains(path)
+      ? otherFinalValue
+      : Optional.empty();
   }
 }

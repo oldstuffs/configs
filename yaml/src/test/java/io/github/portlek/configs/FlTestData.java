@@ -28,7 +28,6 @@ package io.github.portlek.configs;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.SectionFieldLoader;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,7 +41,8 @@ public final class FlTestData extends SectionFieldLoader<TestData> {
 
   @NotNull
   @Override
-  public Optional<TestData> toFinal(@NotNull final ConfigurationSection section, @Nullable final TestData fieldValue) {
+  public Optional<TestData> toFinal(@NotNull final ConfigurationSection section, @NotNull final String path,
+                                    @Nullable final TestData fieldValue) {
     return TestData.deserialize(section);
   }
 }

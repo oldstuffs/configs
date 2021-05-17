@@ -54,13 +54,6 @@ public abstract class SectionFieldLoader<T> extends GenericFieldLoader<Map<Strin
   @Override
   public final Optional<Map<String, Object>> toConfigObject(@NotNull final ConfigurationSection section,
                                                             @NotNull final String path) {
-    return Optional.of(section.getMapValues(false));
-  }
-
-  @NotNull
-  @Override
-  protected final ConfigurationSection prepareSection(@NotNull final ConfigurationSection currentSection,
-                                                      @NotNull final String path) {
-    return currentSection.getSectionOrCreate(path);
+    return Optional.of(section.getSectionOrCreate(path).getMapValues(false));
   }
 }
