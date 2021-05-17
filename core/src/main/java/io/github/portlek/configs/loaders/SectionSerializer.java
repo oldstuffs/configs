@@ -50,6 +50,21 @@ public interface SectionSerializer<R, F> {
   Optional<R> toConfigObject(@NotNull ConfigurationSection section, @NotNull String path);
 
   /**
+   * converts the given section into {@link F}.
+   *
+   * @param section the section to convert.
+   * @param path the path to convert.
+   * @param fieldValue the field value to convert.
+   *
+   * @return converted final value.
+   */
+  @NotNull
+  default Optional<F> toFinal(@NotNull final ConfigurationSection section, @NotNull final String path,
+                              @Nullable final F fieldValue) {
+    return Optional.empty();
+  }
+
+  /**
    * converts the given raw value into {@link F}.
    *
    * @param rawValue the raw value to convert.
