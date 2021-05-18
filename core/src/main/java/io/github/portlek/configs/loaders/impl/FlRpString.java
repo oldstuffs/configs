@@ -26,11 +26,11 @@
 package io.github.portlek.configs.loaders.impl;
 
 import io.github.portlek.configs.ConfigHolder;
+import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
 import io.github.portlek.configs.loaders.GenericFieldLoader;
 import io.github.portlek.replaceable.RpString;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -42,7 +42,7 @@ public final class FlRpString extends GenericFieldLoader<String, RpString> {
   /**
    * the instance.
    */
-  public static final BiFunction<ConfigHolder, ConfigurationSection, FlRpString> INSTANCE = FlRpString::new;
+  public static final FieldLoader.Func INSTANCE = FlRpString::new;
 
   /**
    * ctor.
