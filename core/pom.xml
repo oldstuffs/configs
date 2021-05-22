@@ -12,7 +12,7 @@
   <name>configs-core</name>
   <dependencies>
     <dependency>
-      <groupId>io.github.portlek</groupId>
+      <groupId>com.github.portlek</groupId>
       <artifactId>reflection</artifactId>
     </dependency>
     <dependency>
@@ -20,7 +20,7 @@
       <artifactId>jackson-databind</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.github.portlek</groupId>
+      <groupId>com.github.portlek</groupId>
       <artifactId>replaceable</artifactId>
     </dependency>
   </dependencies>
