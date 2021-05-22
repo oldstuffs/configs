@@ -54,9 +54,9 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>io.github.portlek</groupId>
+        <groupId>com.github.portlek</groupId>
         <artifactId>reflection</artifactId>
-        <version>4.2.2</version>
+        <version>4.3.1</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -71,17 +71,18 @@
       <dependency>
         <groupId>io.github.portlek</groupId>
         <artifactId>BukkitItemBuilder</artifactId>
-        <version>5.0.6</version>
+        <version>5.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.portlek</groupId>
+        <artifactId>replaceable</artifactId>
+        <version>2.4.0</version>
       </dependency>
       <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
         <version>1.16.5-R0.1-SNAPSHOT</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.portlek</groupId>
-        <artifactId>replaceable</artifactId>
-        <version>2.3.3</version>
+        <scope>provided</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
