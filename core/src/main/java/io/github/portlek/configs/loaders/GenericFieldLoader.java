@@ -100,14 +100,14 @@ public abstract class GenericFieldLoader<R, F> extends BaseFieldLoader implement
    * @return value at path.
    */
   @NotNull
-  private Optional<F> valueAtPath(@NotNull final String path,
-                                  @Nullable final F fieldValue) {
+  private Optional<F> valueAtPath(@NotNull final String path, @Nullable final F fieldValue) {
+    if (!this.getSection().contains(path)) {
+      return Optional.empty();
+    }
     final var finalValue = this.toFinal(this.getSection(), path, fieldValue);
-    final var otherFinalValue = finalValue.isPresent()
-      ? finalValue
-      : this.toConfigObject(this.getSection(), path).flatMap(r -> this.toFinal(r, fieldValue));
-    return this.getSection().contains(path)
-      ? otherFinalValue
-      : Optional.empty();
+    if (finalValue.isPresent()) {
+      return finalValue;
+    }
+    return this.toConfigObject(this.getSection(), path).flatMap(r -> this.toFinal(r, fieldValue));
   }
 }
