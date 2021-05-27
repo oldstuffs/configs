@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.github.parentpom</groupId>
     <artifactId>ppom</artifactId>
-    <version>3.0.6</version>
+    <version>3.0.9</version>
   </parent>
   <groupId>io.github.portlek</groupId>
   <artifactId>configs-parent</artifactId>
@@ -56,7 +56,7 @@
       <dependency>
         <groupId>com.github.portlek</groupId>
         <artifactId>reflection</artifactId>
-        <version>4.3.3</version>
+        <version>4.3.4</version>
       </dependency>
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
@@ -71,7 +71,7 @@
       <dependency>
         <groupId>com.github.portlek</groupId>
         <artifactId>BukkitItemBuilder</artifactId>
-        <version>5.1.5</version>
+        <version>5.1.7</version>
       </dependency>
       <dependency>
         <groupId>com.github.portlek</groupId>
