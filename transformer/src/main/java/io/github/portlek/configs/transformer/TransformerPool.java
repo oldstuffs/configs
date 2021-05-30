@@ -28,6 +28,7 @@ package io.github.portlek.configs.transformer;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -37,6 +38,12 @@ import org.jetbrains.annotations.NotNull;
  */
 @Getter
 public final class TransformerPool {
+
+  /**
+   * the default transformers.
+   */
+  private static final Set<Transformer<?>> DEFAULT_TRANSFORMERS = Set.of(
+  );
 
   /**
    * the data.
@@ -55,13 +62,6 @@ public final class TransformerPool {
    */
   @NotNull
   private final Map<String, Transformer<?>> transformersById = new ConcurrentHashMap<>();
-
-  /**
-   * registers the default transformers.
-   */
-  public void registerDefaultTransformers() {
-    
-  }
 
   /**
    * gets the transformer from the final value's type.
@@ -90,6 +90,13 @@ public final class TransformerPool {
   @NotNull
   public Optional<Transformer<?>> getTransformerById(@NotNull final String id) {
     return Optional.ofNullable(this.transformersById.get(id));
+  }
+
+  /**
+   * registers the default transformers.
+   */
+  public void registerDefaultTransformers() {
+    TransformerPool.DEFAULT_TRANSFORMERS.forEach(this::registerTransformer);
   }
 
   /**

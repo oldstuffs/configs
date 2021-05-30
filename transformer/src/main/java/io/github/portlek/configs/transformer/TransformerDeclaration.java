@@ -25,47 +25,14 @@
 
 package io.github.portlek.configs.transformer;
 
-import java.util.Locale;
-import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine transformers.
+ * an interface to determine transformer declarations.
  *
- * @param <F> type of the final value.
+ * @param <T> type of the declaration.
  */
-public interface Transformer<F> {
-
-  /**
-   * checks if the declaration supports for the transformer.
-   *
-   * @param declaration the declaration to check.
-   *
-   * @return {@code true} if the declaration supports for the transformer.
-   */
-  default boolean canTransform(@NotNull final TransformerDeclaration<?> declaration) {
-    return this.getType().isAssignableFrom(declaration.getType());
-  }
-
-  /**
-   * deserializes the given data into the final value.
-   *
-   * @param data the data to deserialize.
-   *
-   * @return deserialized value.
-   */
-  @NotNull
-  Optional<F> deserialize(@NotNull TransformedData data);
-
-  /**
-   * obtains the id.
-   *
-   * @return id.
-   */
-  @NotNull
-  default String getId() {
-    return this.getType().getSimpleName().toLowerCase(Locale.ROOT);
-  }
+public interface TransformerDeclaration<T> {
 
   /**
    * obtains the type.
@@ -73,13 +40,5 @@ public interface Transformer<F> {
    * @return type.
    */
   @NotNull
-  Class<F> getType();
-
-  /**
-   * serializes the given value into the data.
-   *
-   * @param value the value to serialize.
-   * @param data the data to serialize.
-   */
-  void serialize(@NotNull F value, @NotNull TransformedData data);
+  Class<T> getType();
 }
