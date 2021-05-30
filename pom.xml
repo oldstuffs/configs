@@ -24,11 +24,11 @@
     <java.version>11</java.version>
   </properties>
   <modules>
+    <module>transformer</module>
     <module>core</module>
     <module>json</module>
     <module>yaml</module>
     <module>bukkit</module>
-    <module>transformer</module>
   </modules>
   <repositories>
     <repository>
