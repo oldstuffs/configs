@@ -28,6 +28,7 @@
     <module>json</module>
     <module>yaml</module>
     <module>bukkit</module>
+    <module>transformer</module>
   </modules>
   <repositories>
     <repository>
