@@ -56,7 +56,8 @@ public final class FlPosition extends SectionFieldLoader<Position> {
 
   @NotNull
   @Override
-  public Optional<Position> toFinal(@NotNull final ConfigurationSection section, @NotNull final String path, @Nullable final Position fieldValue) {
+  public Optional<Position> toFinal(@NotNull final ConfigurationSection section, @NotNull final String path,
+                                    @Nullable final Position fieldValue) {
     return Position.deserialize(section);
   }
 }
