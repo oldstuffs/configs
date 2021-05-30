@@ -26,13 +26,8 @@
 package io.github.portlek.configs;
 
 /**
- * an interface to determine configs.
+ * an interface to determine config holders.
  */
 public interface ConfigHolder {
 
-  /**
-   * runs after the config loading complete.
-   */
-  default void onLoad() {
-  }
 }

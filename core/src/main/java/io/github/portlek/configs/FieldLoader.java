@@ -115,7 +115,6 @@ public interface FieldLoader {
         .map(fieldLoader -> Map.entry(field, fieldLoader)))
       .collect(Collectors.toSet());
     FileVersions.load(loader, fields);
-    holder.onLoad();
   }
 
   /**
