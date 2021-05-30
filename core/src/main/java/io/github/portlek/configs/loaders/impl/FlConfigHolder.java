@@ -66,7 +66,7 @@ public final class FlConfigHolder extends BaseFieldLoader {
       .filter(ConfigHolder.class::isInstance)
       .map(ConfigHolder.class::cast)
       .ifPresent(configHolder ->
-        FieldLoader.load(loader, configHolder, field,
+        FieldLoader.load(loader, configHolder,
           this.getSection().getSectionOrCreate(field.getAnnotation(Route.class)
             .map(Route::value)
             .orElseGet(() -> new ClassOf<>(field.getType()).getAnnotation(Route.class)

@@ -28,18 +28,14 @@ package io.github.portlek.configs.loaders;
 import io.github.portlek.configs.ConfigHolder;
 import io.github.portlek.configs.FieldLoader;
 import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.reflection.RefField;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * an abstract class that represents base field loaders.
  */
-@Setter
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BaseFieldLoader implements FieldLoader {
@@ -55,10 +51,4 @@ public abstract class BaseFieldLoader implements FieldLoader {
    */
   @NotNull
   private final ConfigurationSection section;
-
-  /**
-   * the parent field.
-   */
-  @Nullable
-  private RefField parentField;
 }
