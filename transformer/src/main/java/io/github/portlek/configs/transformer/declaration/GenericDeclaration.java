@@ -232,6 +232,7 @@ public final class GenericDeclaration {
    *
    * @return a newly created generic declaration.
    */
+  @NotNull
   private static GenericDeclaration from(@NotNull final String typeName) {
     final var builder = new StringBuilder();
     final var chars = typeName.toCharArray();
@@ -332,5 +333,15 @@ public final class GenericDeclaration {
     return this.type != null
       ? Optional.ofNullable(GenericDeclaration.PRIMITIVE_TO_WRAPPER.get(this.type))
       : Optional.empty();
+  }
+
+  /**
+   * checks if {@link #type} has wrapper type.
+   *
+   * @return {@code true} if {@link #type} has wrapper type.
+   */
+  public boolean hasWrapper() {
+    return this.type != null &&
+      GenericDeclaration.PRIMITIVE_TO_WRAPPER.containsKey(this.type);
   }
 }
