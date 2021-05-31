@@ -26,29 +26,17 @@
 package io.github.portlek.configs.transformer.defaults;
 
 import io.github.portlek.configs.transformer.Transformer;
-import java.util.Optional;
-import org.jetbrains.annotations.NotNull;
+import java.util.function.Function;
 
 /**
  * an implementation of {@link Transformer} to transform {@link String}s.
  */
-public final class TransformerStringToString implements Transformer<String, String> {
+public final class TransformerStringToString extends Transformer.Envelope<String, String> {
 
-  @NotNull
-  @Override
-  public Class<String> getFinalType() {
-    return String.class;
-  }
-
-  @NotNull
-  @Override
-  public Class<String> getRawType() {
-    return String.class;
-  }
-
-  @NotNull
-  @Override
-  public Optional<String> transform(@NotNull final String data) {
-    return Optional.of(data);
+  /**
+   * ctor.
+   */
+  public TransformerStringToString() {
+    super(String.class, String.class, Function.identity());
   }
 }

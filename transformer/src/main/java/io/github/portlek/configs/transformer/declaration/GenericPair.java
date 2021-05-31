@@ -25,7 +25,10 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,20 +37,48 @@ import org.jetbrains.annotations.NotNull;
  * @param <L> type of the left value.
  * @param <R> type of the right value.
  */
+@Getter
+@ToString
+@EqualsAndHashCode
 @RequiredArgsConstructor(staticName = "of")
-public final class GenericsPair<L, R> {
+public final class GenericPair<L, R> {
 
   /**
    * the left.
    */
   @NotNull
-  private final GenericDeclaration<L> left;
+  private final GenericDeclaration left;
 
   /**
    * the right.
    */
   @NotNull
-  private final GenericDeclaration<R> right;
+  private final GenericDeclaration right;
+
+  /**
+   * ctor.
+   *
+   * @param left the left.
+   * @param right the right.
+   */
+  public GenericPair(@NotNull final Class<L> left, @NotNull final Class<R> right) {
+    this(GenericDeclaration.of(left), GenericDeclaration.of(right));
+  }
+
+  /**
+   * creates a new generic pair.
+   *
+   * @param left the left to create.
+   * @param right the right to creat.
+   * @param <L> type of the left value.
+   * @param <R> type of the right value.
+   *
+   * @return a newly created generic pair.
+   */
+  @NotNull
+  public static <L, R> GenericPair<L, R> of(@NotNull final Class<L> left, @NotNull final Class<R> right) {
+    return new GenericPair<>(left, right);
+  }
 
   /**
    * reverses the pair.
@@ -55,7 +86,7 @@ public final class GenericsPair<L, R> {
    * @return reversed pair.
    */
   @NotNull
-  public GenericsPair<R, L> reverse() {
-    return GenericsPair.of(this.right, this.left);
+  public GenericPair<R, L> reverse() {
+    return GenericPair.of(this.right, this.left);
   }
 }

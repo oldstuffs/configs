@@ -34,10 +34,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,27 +46,23 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents generic declarations.
  */
 @Getter
+@ToString
+@EqualsAndHashCode
 @RequiredArgsConstructor(staticName = "of")
 public final class GenericDeclaration {
 
   /**
-   * the primitives.
-   */
-  private static final Collection<Class<?>> PRIMITIVES = Set.of(
-    Boolean.TYPE,
-    Byte.TYPE,
-    Character.TYPE,
-    Double.TYPE,
-    Float.TYPE,
-    Integer.TYPE,
-    Long.TYPE,
-    Short.TYPE);
-
-  /**
    * the primitives by name.
    */
-  private static final Map<String, Class<?>> NAME_TO_PRIMITIVE = GenericDeclaration.PRIMITIVES.stream()
-    .collect(Collectors.toUnmodifiableMap(Class::getName, Function.identity()));
+  private static final Map<String, Class<?>> NAME_TO_PRIMITIVE = Map.of(
+    Boolean.TYPE.getName(), Boolean.TYPE,
+    Byte.TYPE.getName(), Byte.TYPE,
+    Character.TYPE.getName(), Character.TYPE,
+    Double.TYPE.getName(), Double.TYPE,
+    Float.TYPE.getName(), Float.TYPE,
+    Integer.TYPE.getName(), Integer.TYPE,
+    Long.TYPE.getName(), Long.TYPE,
+    Short.TYPE.getName(), Short.TYPE);
 
   /**
    * the primitives by wrappers.
@@ -92,12 +89,6 @@ public final class GenericDeclaration {
     Integer.class,
     Long.class,
     Short.class);
-
-  /**
-   * the primitive wrapper by name.
-   */
-  private static final Map<String, Class<?>> NAME_TO_PRIMITIVE_WRAPPER = GenericDeclaration.PRIMITIVE_WRAPPERS.stream()
-    .collect(Collectors.toUnmodifiableMap(Class::getName, Function.identity()));
 
   /**
    * the is enum.
@@ -127,7 +118,7 @@ public final class GenericDeclaration {
    * @param subTypes the sub types.
    * @param type the type.
    */
-  private GenericDeclaration(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
+  public GenericDeclaration(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
     this(type != null && type.isEnum(), type != null && type.isPrimitive(), subTypes, type);
   }
 
@@ -136,7 +127,7 @@ public final class GenericDeclaration {
    *
    * @param type the type.
    */
-  private GenericDeclaration(@Nullable final Class<?> type) {
+  public GenericDeclaration(@Nullable final Class<?> type) {
     this(Collections.emptyList(), type);
   }
 
@@ -343,18 +334,6 @@ public final class GenericDeclaration {
   }
 
   /**
-   * gets wrapped class.
-   *
-   * @return wrapped class.
-   */
-  @NotNull
-  public Optional<Class<?>> getWrapped() {
-    return this.type != null
-      ? Optional.ofNullable(GenericDeclaration.PRIMITIVE_TO_WRAPPER.get(this.type))
-      : Optional.empty();
-  }
-
-  /**
    * checks if {@link #type} has wrapper type.
    *
    * @return {@code true} if {@link #type} has wrapper type.
@@ -362,5 +341,17 @@ public final class GenericDeclaration {
   public boolean hasWrapper() {
     return this.type != null &&
       GenericDeclaration.PRIMITIVE_WRAPPERS.contains(this.type);
+  }
+
+  /**
+   * gets wrapper class.
+   *
+   * @return wrapper class.
+   */
+  @NotNull
+  public Optional<Class<?>> toWrapper() {
+    return this.type != null
+      ? Optional.ofNullable(GenericDeclaration.PRIMITIVE_TO_WRAPPER.get(this.type))
+      : Optional.empty();
   }
 }

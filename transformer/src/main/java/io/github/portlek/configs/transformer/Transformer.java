@@ -25,11 +25,15 @@
 
 package io.github.portlek.configs.transformer;
 
-import io.github.portlek.configs.transformer.declaration.GenericDeclaration;
-import io.github.portlek.configs.transformer.declaration.GenericsPair;
+import io.github.portlek.configs.transformer.declaration.GenericPair;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.function.Function;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine transformers.
@@ -37,7 +41,24 @@ import org.jetbrains.annotations.NotNull;
  * @param <R> type of the raw value.
  * @param <F> type of the final value.
  */
-public interface Transformer<R, F> {
+public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optional<F>> {
+
+  /**
+   * creates a simple transformer.
+   *
+   * @param rawType the raw type to create.
+   * @param finalType the final type to create.
+   * @param transformation the transformation to create.
+   * @param <R> type of the raw value.
+   * @param <F> type of the final value.
+   *
+   * @return a newly created transformer.
+   */
+  @NotNull
+  static <R, F> Transformer<R, F> create(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                                         @NotNull final Function<@NotNull R, @Nullable F> transformation) {
+    return new Impl<>(finalType, rawType, transformation);
+  }
 
   /**
    * obtains the final type.
@@ -63,8 +84,8 @@ public interface Transformer<R, F> {
    * @return a newly created generic pair.
    */
   @NotNull
-  default GenericsPair<R, F> getPair() {
-    return GenericsPair.of(GenericDeclaration.of(this.getRawType()), GenericDeclaration.of(this.getFinalType()));
+  default GenericPair<R, F> getPair() {
+    return GenericPair.of(this.getRawType(), this.getFinalType());
   }
 
   /**
@@ -76,12 +97,58 @@ public interface Transformer<R, F> {
   Class<R> getRawType();
 
   /**
-   * transforms the raw data into the final.
+   * an abstract that envelopes to {@link Transformer}.
    *
-   * @param data the data to transform.
-   *
-   * @return transformed data.
+   * @param <R> type of the raw value.
+   * @param <F> type of the final value.
    */
-  @NotNull
-  Optional<F> transform(@NotNull R data);
+  @Getter
+  @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+  abstract class Envelope<R, F> implements Transformer<R, F> {
+
+    /**
+     * the final type.
+     */
+    @NotNull
+    private final Class<F> finalType;
+
+    /**
+     * the raw type.
+     */
+    @NotNull
+    private final Class<R> rawType;
+
+    /**
+     * the transformation.
+     */
+    @NotNull
+    private final Function<@NotNull R, @Nullable F> transformation;
+
+    @NotNull
+    @Override
+    public final Optional<F> apply(@NotNull final R r) {
+      return Optional.ofNullable(this.transformation.apply(r));
+    }
+  }
+
+  /**
+   * a simple implementation of {@link Transformer}.
+   *
+   * @param <R> type of the raw value.
+   * @param <F> type of the final value.
+   */
+  final class Impl<R, F> extends Envelope<R, F> {
+
+    /**
+     * ctor.
+     *
+     * @param finalType the final type.
+     * @param rawType the raw type.
+     * @param transformation the transformation.
+     */
+    private Impl(@NotNull final Class<F> finalType, @NotNull final Class<R> rawType,
+                 @NotNull final Function<@NotNull R, @Nullable F> transformation) {
+      super(finalType, rawType, transformation);
+    }
+  }
 }
