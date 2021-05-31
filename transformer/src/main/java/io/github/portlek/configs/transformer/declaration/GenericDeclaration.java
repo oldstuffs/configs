@@ -204,8 +204,4 @@ public final class GenericDeclaration<T> implements Declaration {
   private static <T> GenericDeclaration<T> from(@NotNull final String typeName) {
     return null;
   }
-
-  public static void main(String[] args) {
-    System.out.println(byte.class.getName());
-  }
 }
