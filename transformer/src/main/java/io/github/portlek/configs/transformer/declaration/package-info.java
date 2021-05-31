@@ -22,23 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.portlek.configs.transformer;
-
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine transformer declarations.
- *
- * @param <T> type of the declaration.
+ * the package that contains declaration classes.
  */
-public interface TransformerDeclaration<T> {
-
-  /**
-   * obtains the type.
-   *
-   * @return type.
-   */
-  @NotNull
-  Class<T> getType();
-}
+package io.github.portlek.configs.transformer.declaration;

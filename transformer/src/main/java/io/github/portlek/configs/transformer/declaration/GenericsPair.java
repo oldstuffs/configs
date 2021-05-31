@@ -23,65 +23,39 @@
  *
  */
 
-package io.github.portlek.configs.transformer;
+package io.github.portlek.configs.transformer.declaration;
 
-import io.github.portlek.configs.transformer.declaration.GenericDeclaration;
-import io.github.portlek.configs.transformer.declaration.GenericsPair;
-import java.util.Locale;
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine transformers.
+ * a class that represents generic pairs.
  *
- * @param <R> type of the raw value.
- * @param <F> type of the final value.
+ * @param <L> type of the left value.
+ * @param <R> type of the right value.
  */
-public interface Transformer<R, F> {
+@RequiredArgsConstructor(staticName = "of")
+public final class GenericsPair<L, R> {
 
   /**
-   * obtains the final type.
-   *
-   * @return final type.
+   * the left.
    */
   @NotNull
-  Class<F> getFinalType();
+  private final GenericDeclaration<L> left;
 
   /**
-   * obtains the id.
-   *
-   * @return id.
+   * the right.
    */
   @NotNull
-  default String getId() {
-    return this.getFinalType().getSimpleName().toLowerCase(Locale.ROOT);
+  private final GenericDeclaration<R> right;
+
+  /**
+   * reverses the pair.
+   *
+   * @return reversed pair.
+   */
+  @NotNull
+  public GenericsPair<R, L> reverse() {
+    return GenericsPair.of(this.right, this.left);
   }
-
-  /**
-   * creates a new generic pair.
-   *
-   * @return a newly created generic pair.
-   */
-  @NotNull
-  default GenericsPair<R, F> getPair() {
-    return GenericsPair.of(GenericDeclaration.of(this.getRawType()), GenericDeclaration.of(this.getFinalType()));
-  }
-
-  /**
-   * obtains the raw type.
-   *
-   * @return raw type.
-   */
-  @NotNull
-  Class<R> getRawType();
-
-  /**
-   * transforms the raw data into the final.
-   *
-   * @param data the data to transform.
-   *
-   * @return transformed data.
-   */
-  @NotNull
-  Optional<F> transform(@NotNull R data);
 }

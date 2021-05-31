@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.transformer;
 
+import io.github.portlek.configs.transformer.defaults.TransformerStringToString;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -42,8 +43,8 @@ public final class TransformerPool {
   /**
    * the default transformers.
    */
-  private static final Set<Transformer<?>> DEFAULT_TRANSFORMERS = Set.of(
-  );
+  private static final Set<Transformer<?, ?>> DEFAULT_TRANSFORMERS = Set.of(
+    new TransformerStringToString());
 
   /**
    * the data.
@@ -55,28 +56,29 @@ public final class TransformerPool {
    * the transformers by id.
    */
   @NotNull
-  private final Map<Class<?>, Transformer<?>> transformersByClass = new ConcurrentHashMap<>();
+  private final Map<Class<?>, Transformer<?, ?>> transformersByClass = new ConcurrentHashMap<>();
 
   /**
    * the transformers by id.
    */
   @NotNull
-  private final Map<String, Transformer<?>> transformersById = new ConcurrentHashMap<>();
+  private final Map<String, Transformer<?, ?>> transformersById = new ConcurrentHashMap<>();
 
   /**
    * gets the transformer from the final value's type.
    *
    * @param cls the cls to get.
+   * @param <R> type tof the raw value.
    * @param <F> type of the final value.
    * @param <T> type of the transformer.
    *
    * @return transformer by class.
    */
   @NotNull
-  public <F, T extends Transformer<F>> Optional<T> getTransformerByClass(@NotNull final Class<F> cls) {
+  public <R, F, T extends Transformer<R, F>> Optional<T> getTransformerByClass(@NotNull final Class<F> cls) {
     //noinspection unchecked
     return Optional.ofNullable(this.transformersByClass.get(cls))
-      .filter(transformer -> Objects.equals(transformer.getType(), cls))
+      .filter(transformer -> Objects.equals(transformer.getFinalType(), cls))
       .map(transformer -> (T) transformer);
   }
 
@@ -88,7 +90,7 @@ public final class TransformerPool {
    * @return transformer by id.
    */
   @NotNull
-  public Optional<Transformer<?>> getTransformerById(@NotNull final String id) {
+  public Optional<Transformer<?, ?>> getTransformerById(@NotNull final String id) {
     return Optional.ofNullable(this.transformersById.get(id));
   }
 
@@ -104,8 +106,8 @@ public final class TransformerPool {
    *
    * @param transformer the transformer to add.
    */
-  public void registerTransformer(@NotNull final Transformer<?> transformer) {
+  public void registerTransformer(@NotNull final Transformer<?, ?> transformer) {
     this.transformersById.put(transformer.getId(), transformer);
-    this.transformersByClass.put(transformer.getType(), transformer);
+    this.transformersByClass.put(transformer.getFinalType(), transformer);
   }
 }

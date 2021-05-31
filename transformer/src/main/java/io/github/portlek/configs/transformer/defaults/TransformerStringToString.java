@@ -23,65 +23,32 @@
  *
  */
 
-package io.github.portlek.configs.transformer;
+package io.github.portlek.configs.transformer.defaults;
 
-import io.github.portlek.configs.transformer.declaration.GenericDeclaration;
-import io.github.portlek.configs.transformer.declaration.GenericsPair;
-import java.util.Locale;
+import io.github.portlek.configs.transformer.Transformer;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * an interface to determine transformers.
- *
- * @param <R> type of the raw value.
- * @param <F> type of the final value.
+ * an implementation of {@link Transformer} to transform {@link String}s.
  */
-public interface Transformer<R, F> {
+public final class TransformerStringToString implements Transformer<String, String> {
 
-  /**
-   * obtains the final type.
-   *
-   * @return final type.
-   */
   @NotNull
-  Class<F> getFinalType();
-
-  /**
-   * obtains the id.
-   *
-   * @return id.
-   */
-  @NotNull
-  default String getId() {
-    return this.getFinalType().getSimpleName().toLowerCase(Locale.ROOT);
+  @Override
+  public Class<String> getFinalType() {
+    return String.class;
   }
 
-  /**
-   * creates a new generic pair.
-   *
-   * @return a newly created generic pair.
-   */
   @NotNull
-  default GenericsPair<R, F> getPair() {
-    return GenericsPair.of(GenericDeclaration.of(this.getRawType()), GenericDeclaration.of(this.getFinalType()));
+  @Override
+  public Class<String> getRawType() {
+    return String.class;
   }
 
-  /**
-   * obtains the raw type.
-   *
-   * @return raw type.
-   */
   @NotNull
-  Class<R> getRawType();
-
-  /**
-   * transforms the raw data into the final.
-   *
-   * @param data the data to transform.
-   *
-   * @return transformed data.
-   */
-  @NotNull
-  Optional<F> transform(@NotNull R data);
+  @Override
+  public Optional<String> transform(@NotNull final String data) {
+    return Optional.of(data);
+  }
 }
