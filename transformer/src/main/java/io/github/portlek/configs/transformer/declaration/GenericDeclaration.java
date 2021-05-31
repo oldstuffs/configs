@@ -94,6 +94,12 @@ public final class GenericDeclaration {
     Short.class);
 
   /**
+   * the primitive wrapper by name.
+   */
+  private static final Map<String, Class<?>> NAME_TO_WRAPPER = GenericDeclaration.PRIMITIVE_WRAPPERS.stream()
+    .collect(Collectors.toUnmodifiableMap(Class::getName, Function.identity()));
+
+  /**
    * the is enum.
    */
   private final boolean isEnum;
