@@ -26,26 +26,27 @@
 package io.github.portlek.configs.transformer.declaration;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents generic declarations.
- *
- * @param <T> type of the value.
  */
 @Getter
 @RequiredArgsConstructor(staticName = "of")
-public final class GenericDeclaration<T> implements Declaration {
+public final class GenericDeclaration {
 
   /**
    * the primitives.
@@ -93,13 +94,13 @@ public final class GenericDeclaration<T> implements Declaration {
    * the sub types.
    */
   @NotNull
-  private final List<GenericDeclaration<?>> subTypes;
+  private final List<GenericDeclaration> subTypes;
 
   /**
    * the type.
    */
-  @NotNull
-  private final Class<? extends T> type;
+  @Nullable
+  private final Class<?> type;
 
   /**
    * ctor.
@@ -107,8 +108,8 @@ public final class GenericDeclaration<T> implements Declaration {
    * @param subTypes the sub types.
    * @param type the type.
    */
-  private GenericDeclaration(@NotNull final List<GenericDeclaration<?>> subTypes, @NotNull final Class<? extends T> type) {
-    this(type.isEnum(), type.isPrimitive(), subTypes, type);
+  private GenericDeclaration(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
+    this(type != null && type.isEnum(), type != null && type.isPrimitive(), subTypes, type);
   }
 
   /**
@@ -116,7 +117,7 @@ public final class GenericDeclaration<T> implements Declaration {
    *
    * @param type the type.
    */
-  private GenericDeclaration(@NotNull final Class<? extends T> type) {
+  private GenericDeclaration(@Nullable final Class<?> type) {
     this(Collections.emptyList(), type);
   }
 
@@ -148,13 +149,12 @@ public final class GenericDeclaration<T> implements Declaration {
    * creates a new generic declaration.
    *
    * @param type the type to create.
-   * @param <T> type of the value.
    *
    * @return a newly created generic declaration.
    */
   @NotNull
-  public static <T> GenericDeclaration<T> of(@NotNull final Class<T> type) {
-    return new GenericDeclaration<>(type);
+  public static GenericDeclaration of(@Nullable final Class<?> type) {
+    return new GenericDeclaration(type);
   }
 
   /**
@@ -162,46 +162,175 @@ public final class GenericDeclaration<T> implements Declaration {
    *
    * @param subTypes the sub type to create.
    * @param type the type to create.
-   * @param <T> type of the value.
    *
    * @return a newly created generic declaration.
    */
   @NotNull
-  public static <T> GenericDeclaration<T> of(@NotNull final List<GenericDeclaration<?>> subTypes,
-                                             @NotNull final Class<T> type) {
-    return new GenericDeclaration<>(subTypes, type);
+  public static GenericDeclaration of(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
+    return new GenericDeclaration(subTypes, type);
   }
 
   /**
    * creates a new generic declaration.
    *
    * @param object the object to create.
-   * @param <T> type of the value.
    *
    * @return a newly created generic declaration.
    */
   @NotNull
-  public static <T> GenericDeclaration<T> of(@NotNull final T object) {
+  public static GenericDeclaration of(@NotNull final Object object) {
     if (object instanceof Class<?>) {
-      //noinspection unchecked
-      return new GenericDeclaration<>((Class<? extends T>) object);
+      return new GenericDeclaration((Class<?>) object);
     }
     if (object instanceof Type) {
       return GenericDeclaration.from(((Type) object).getTypeName());
     }
-    //noinspection unchecked
-    return new GenericDeclaration<>((Class<? extends T>) object.getClass());
+    return new GenericDeclaration(object.getClass());
+  }
+
+  /**
+   * gets the primitive object of the given object.
+   *
+   * @param object the object to get.
+   *
+   * @return obtained primitive object.
+   */
+  @SuppressWarnings("UnnecessaryUnboxing")
+  @NotNull
+  public static Object toPrimitive(@NotNull final Object object) {
+    if (object instanceof Boolean) {
+      return ((Boolean) object).booleanValue();
+    }
+    if (object instanceof Byte) {
+      return ((Byte) object).byteValue();
+    }
+    if (object instanceof Character) {
+      return ((Character) object).charValue();
+    }
+    if (object instanceof Double) {
+      return ((Double) object).doubleValue();
+    }
+    if (object instanceof Float) {
+      return ((Float) object).floatValue();
+    }
+    if (object instanceof Integer) {
+      return ((Integer) object).intValue();
+    }
+    if (object instanceof Long) {
+      return ((Long) object).longValue();
+    }
+    if (object instanceof Short) {
+      return ((Short) object).shortValue();
+    }
+    return object;
   }
 
   /**
    * creates a new generic declaration.
    *
-   * @param typeName the type name to create.
-   * @param <T> type of the value.
+   * @param typeName the type name to create
    *
    * @return a newly created generic declaration.
    */
-  private static <T> GenericDeclaration<T> from(@NotNull final String typeName) {
+  private static GenericDeclaration from(@NotNull final String typeName) {
+    final var builder = new StringBuilder();
+    final var chars = typeName.toCharArray();
+    for (var index = 0; index < chars.length; index++) {
+      final var ch = chars[index];
+      if (ch != '<') {
+        builder.append(ch);
+        continue;
+      }
+      final var className = builder.toString();
+      final var type = GenericDeclaration.getPrimitiveOrClass(className);
+      final var genericType = typeName.substring(index + 1, typeName.length() - 1);
+      final var subTypes = GenericDeclaration.getSeparateTypes(genericType).stream()
+        .map(GenericDeclaration::from)
+        .collect(Collectors.toList());
+      return GenericDeclaration.of(subTypes, type);
+    }
+    return GenericDeclaration.of(GenericDeclaration.getPrimitiveOrClass(builder.toString()));
+  }
+
+  /**
+   * gets primitive class from the type name or class.
+   *
+   * @param type the type to get.
+   *
+   * @return obtained class.
+   */
+  @Nullable
+  private static Class<?> getPrimitiveOrClass(@NotNull final String type) {
+    if (GenericDeclaration.NAME_TO_PRIMITIVE.containsKey(type)) {
+      return GenericDeclaration.NAME_TO_PRIMITIVE.get(type);
+    }
+    try {
+      return Class.forName(type);
+    } catch (final ClassNotFoundException ignored) {
+    }
     return null;
+  }
+
+  /**
+   * gets separated types.
+   *
+   * @param types the types to get.
+   *
+   * @return obtained separated types.
+   */
+  @NotNull
+  private static List<String> getSeparateTypes(@NotNull final String types) {
+    final var builder = new StringBuilder();
+    final var charArray = types.toCharArray();
+    var skip = false;
+    final var out = new ArrayList<String>();
+    for (var index = 0; index < charArray.length; index++) {
+      final var c = charArray[index];
+      if (c == '<') {
+        skip = true;
+      }
+      if (c == '>') {
+        skip = false;
+      }
+      if (skip) {
+        builder.append(c);
+        continue;
+      }
+      if (c == ',') {
+        out.add(builder.toString());
+        builder.setLength(0);
+        index++;
+        continue;
+      }
+      builder.append(c);
+    }
+    out.add(builder.toString());
+    return out;
+  }
+
+  /**
+   * gets sub type at the index.
+   *
+   * @param index the index to get.
+   *
+   * @return obtained sub type.
+   */
+  @NotNull
+  public Optional<GenericDeclaration> getSubTypeAt(final int index) {
+    return index >= this.subTypes.size()
+      ? Optional.empty()
+      : Optional.ofNullable(this.subTypes.get(index));
+  }
+
+  /**
+   * gets wrapped class.
+   *
+   * @return wrapped class.
+   */
+  @NotNull
+  public Optional<Class<?>> getWrapped() {
+    return this.type != null
+      ? Optional.ofNullable(GenericDeclaration.PRIMITIVE_TO_WRAPPER.get(this.type))
+      : Optional.empty();
   }
 }
