@@ -81,6 +81,19 @@ public final class GenericDeclaration {
     Short.TYPE, Short.class);
 
   /**
+   * the primitive wrappers.
+   */
+  private static final Collection<Class<?>> PRIMITIVE_WRAPPERS = Set.of(
+    Boolean.class,
+    Byte.class,
+    Character.class,
+    Double.class,
+    Float.class,
+    Integer.class,
+    Long.class,
+    Short.class);
+
+  /**
    * the is enum.
    */
   private final boolean isEnum;
@@ -342,6 +355,6 @@ public final class GenericDeclaration {
    */
   public boolean hasWrapper() {
     return this.type != null &&
-      GenericDeclaration.PRIMITIVE_TO_WRAPPER.containsKey(this.type);
+      GenericDeclaration.PRIMITIVE_WRAPPERS.contains(this.type);
   }
 }
