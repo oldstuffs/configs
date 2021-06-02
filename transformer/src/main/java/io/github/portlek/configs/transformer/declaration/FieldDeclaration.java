@@ -146,7 +146,7 @@ public final class FieldDeclaration {
   @Getter
   @ToString
   @EqualsAndHashCode
-  @RequiredArgsConstructor(staticName = "of")
+  @RequiredArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
   private static final class Key {
 
     /**
