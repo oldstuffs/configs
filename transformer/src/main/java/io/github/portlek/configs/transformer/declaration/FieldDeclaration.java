@@ -170,7 +170,8 @@ public final class FieldDeclaration {
      * @return a newly created key.
      */
     @NotNull
-    public static Key of(@NotNull final TransformedObjectDeclaration transformedObject, @NotNull final RefField field) {
+    private static Key of(@NotNull final TransformedObjectDeclaration transformedObject,
+                          @NotNull final RefField field) {
       return Key.of(transformedObject.getImplementation(), field.getName());
     }
   }
