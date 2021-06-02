@@ -22,21 +22,7 @@
  * SOFTWARE.
  *
  */
-
-package io.github.portlek.configs.transformer;
-
-import org.jetbrains.annotations.NotNull;
-
 /**
- * an interface to determine transformed object.
+ * the package that contains annotations for transformer.
  */
-public interface TransformedObject {
-
-  /**
-   * obtains the implementation class.
-   *
-   * @return implementation class.
-   */
-  @NotNull
-  Class<?> getImplementation();
-}
+package io.github.portlek.configs.transformer.annotations;

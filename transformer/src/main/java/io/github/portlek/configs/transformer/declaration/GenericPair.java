@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor(staticName = "of")
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GenericPair<L, R> {
 
   /**
@@ -56,13 +57,19 @@ public final class GenericPair<L, R> {
   private final GenericDeclaration right;
 
   /**
-   * ctor.
+   * creates a new generic pair.
    *
-   * @param left the left.
-   * @param right the right.
+   * @param left the left to create.
+   * @param right the right to creat.
+   * @param <L> type of the left value.
+   * @param <R> type of the right value.
+   *
+   * @return a newly created generic pair.
    */
-  public GenericPair(@NotNull final Class<L> left, @NotNull final Class<R> right) {
-    this(GenericDeclaration.of(left), GenericDeclaration.of(right));
+  @NotNull
+  public static <L, R> GenericPair<L, R> of(@NotNull final GenericDeclaration left,
+                                            @NotNull final GenericDeclaration right) {
+    return new GenericPair<>(left, right);
   }
 
   /**
@@ -77,7 +84,7 @@ public final class GenericPair<L, R> {
    */
   @NotNull
   public static <L, R> GenericPair<L, R> of(@NotNull final Class<L> left, @NotNull final Class<R> right) {
-    return new GenericPair<>(left, right);
+    return GenericPair.of(GenericDeclaration.of(left), GenericDeclaration.of(right));
   }
 
   /**

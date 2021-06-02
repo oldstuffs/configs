@@ -23,18 +23,45 @@
  *
  */
 
-package io.github.portlek.configs.transformer.annotations;
+package io.github.portlek.configs.transformer.declaration;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import io.github.portlek.configs.transformer.annotations.Comment;
+import io.github.portlek.configs.transformer.annotations.Names;
+import java.util.Map;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * an annotation that excludes the field.
+ * a class that represents transformed object declarations.
  */
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Exclude {
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class TransformedObjectDeclaration {
 
+  /**
+   * the fields.
+   */
+  @NotNull
+  private final Map<String, FieldDeclaration> fields;
+
+  /**
+   * the header.
+   */
+  @Nullable
+  private final Comment header;
+
+  /**
+   * the implementation.
+   */
+  @NotNull
+  private final Class<?> implementation;
+
+  /**
+   * the names.
+   */
+  @Nullable
+  private final Names name;
 }

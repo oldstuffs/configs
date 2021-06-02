@@ -35,6 +35,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -48,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor(staticName = "of")
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GenericDeclaration {
 
   /**
@@ -118,7 +119,7 @@ public final class GenericDeclaration {
    * @param subTypes the sub types.
    * @param type the type.
    */
-  public GenericDeclaration(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
+  private GenericDeclaration(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
     this(type != null && type.isEnum(), type != null && type.isPrimitive(), subTypes, type);
   }
 
@@ -127,7 +128,7 @@ public final class GenericDeclaration {
    *
    * @param type the type.
    */
-  public GenericDeclaration(@Nullable final Class<?> type) {
+  private GenericDeclaration(@Nullable final Class<?> type) {
     this(Collections.emptyList(), type);
   }
 
