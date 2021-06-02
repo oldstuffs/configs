@@ -195,6 +195,14 @@ public abstract class FileConfiguration extends MemoryConfiguration {
     return "";
   }
 
+  /**
+   * writes the data to the file.
+   *
+   * @param file the file to write.
+   * @param data the data to write.
+   *
+   * @throws IOException Thrown when the given file cannot be written to for any reason.
+   */
   protected void write(final File file, final String data) throws IOException {
     if (file.getParentFile() != null) {
       file.getParentFile().mkdirs();
