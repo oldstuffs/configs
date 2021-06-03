@@ -84,19 +84,18 @@ public final class TransformedObjectDeclaration {
    */
   @NotNull
   public static TransformedObjectDeclaration of(@NotNull final Class<?> cls, @Nullable final Object object) {
-    return TransformedObjectDeclaration.CACHES.computeIfAbsent(cls, clazz -> {
-      final var transformedClass = new ClassOf<>(clazz);
-      return TransformedObjectDeclaration.of(
-        transformedClass.getDeclaredFields().stream()
+    final var classof = new ClassOf<>(cls);
+    return TransformedObjectDeclaration.CACHES.computeIfAbsent(cls, clazz ->
+      TransformedObjectDeclaration.of(
+        classof.getDeclaredFields().stream()
           .filter(field -> !field.getName().startsWith("this$"))
           .filter(field -> !field.hasAnnotation(Exclude.class))
           .map(field -> FieldDeclaration.of(Names.Calculated.calculateNames(cls), object, cls, field))
           .collect(Collectors.toMap(FieldDeclaration::getPath, Function.identity(), (f1, f2) -> {
             throw new IllegalStateException(String.format("Duplicate key %s", f1));
           }, LinkedHashMap::new)),
-        transformedClass.getAnnotation(Comment.class).orElse(null),
-        clazz);
-    });
+        classof.getAnnotation(Comment.class).orElse(null),
+        clazz));
   }
 
   /**
