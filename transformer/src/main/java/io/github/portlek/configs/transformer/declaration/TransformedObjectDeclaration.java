@@ -69,7 +69,7 @@ public final class TransformedObjectDeclaration {
   private final Comment header;
 
   /**
-   *
+   * the object class.
    */
   @NotNull
   private final Class<?> objectClass;
