@@ -143,6 +143,12 @@ public @interface Names {
   final class Calculated {
 
     /**
+     * ctor.
+     */
+    private Calculated() {
+    }
+
+    /**
      * calculates the path of the given class and filed.
      *
      * @param cls the cls to calculate.

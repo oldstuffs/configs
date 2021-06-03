@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
+import io.github.portlek.configs.transformer.TransformedObject;
 import io.github.portlek.configs.transformer.annotations.Comment;
 import io.github.portlek.configs.transformer.annotations.Names;
 import java.util.Map;
@@ -35,11 +36,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents transformed object declarations.
+ * a class that represents transformed class declarations.
  */
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class TransformedObjectDeclaration {
+public final class TransformedObjectDeclaration<T extends TransformedObject> {
 
   /**
    * the fields.
@@ -54,14 +55,24 @@ public final class TransformedObjectDeclaration {
   private final Comment header;
 
   /**
-   * the implementation.
-   */
-  @NotNull
-  private final Class<?> implementation;
-
-  /**
    * the names.
    */
   @Nullable
   private final Names name;
+
+  /**
+   * the transformed object.
+   */
+  @NotNull
+  private final T transformedObject;
+
+  /**
+   * obtains the transformed class.
+   *
+   * @return transformed class.
+   */
+  @NotNull
+  public Class<? extends TransformedObject> getTransformedClass() {
+    return this.transformedObject.getClass();
+  }
 }

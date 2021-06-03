@@ -25,8 +25,8 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
+import io.github.portlek.configs.transformer.TransformedObject;
 import io.github.portlek.configs.transformer.annotations.Comment;
-import io.github.portlek.configs.transformer.annotations.Exclude;
 import io.github.portlek.configs.transformer.annotations.Names;
 import io.github.portlek.configs.transformer.annotations.Variable;
 import io.github.portlek.reflection.RefField;
@@ -49,7 +49,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
 public final class FieldDeclaration {
 
   /**
@@ -115,21 +115,17 @@ public final class FieldDeclaration {
    * @return a newly created field declaration.
    */
   @NotNull
-  public static Optional<FieldDeclaration> of(@NotNull final TransformedObjectDeclaration transformedObject,
+  public static Optional<FieldDeclaration> of(@NotNull final TransformedObject transformedObject,
                                               @NotNull final RefField field, @NotNull final Object object) {
-    return Optional.ofNullable(FieldDeclaration.CACHES.computeIfAbsent(Key.of(transformedObject, field), cache -> {
-      if (field.hasAnnotation(Exclude.class)) {
-        return null;
-      }
-      return new FieldDeclaration(
+    return Optional.of(FieldDeclaration.CACHES.computeIfAbsent(Key.of(transformedObject, field.getName()), cache ->
+      FieldDeclaration.of(
         field.getAnnotation(Comment.class).orElse(null),
         field.of(object).getValue().orElse(null),
         field,
-        GenericDeclaration.of(field.getRealField().getGenericType()),
+        GenericDeclaration.of(field),
         object,
-        Names.Calculated.calculatePath(new ClassOf<>(transformedObject), field),
-        field.getAnnotation(Variable.class).orElse(null));
-    }));
+        Names.Calculated.calculatePath(new ClassOf<>(transformedClass), field),
+        field.getAnnotation(Variable.class).orElse(null))));
   }
 
   /**
@@ -145,7 +141,7 @@ public final class FieldDeclaration {
      * the class.
      */
     @NotNull
-    private final Class<?> cls;
+    private final Class<? extends TransformedObject> cls;
 
     /**
      * the field name.

@@ -25,6 +25,8 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
+import io.github.portlek.reflection.RefField;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -184,6 +186,42 @@ public final class GenericDeclaration {
   /**
    * creates a new generic declaration.
    *
+   * @param field the field to create.
+   *
+   * @return a newly created generic declaration.
+   */
+  @NotNull
+  public static GenericDeclaration of(@NotNull final Field field) {
+    return GenericDeclaration.of(field.getGenericType());
+  }
+
+  /**
+   * creates a new generic declaration.
+   *
+   * @param field the field to create.
+   *
+   * @return a newly created generic declaration.
+   */
+  @NotNull
+  public static GenericDeclaration of(@NotNull final RefField field) {
+    return GenericDeclaration.of(field.getRealField());
+  }
+
+  /**
+   * creates a new generic declaration.
+   *
+   * @param type the type to create.
+   *
+   * @return a newly created generic declaration.
+   */
+  @NotNull
+  public static GenericDeclaration of(@NotNull final Type type) {
+    return GenericDeclaration.from(type.getTypeName());
+  }
+
+  /**
+   * creates a new generic declaration.
+   *
    * @param object the object to create.
    *
    * @return a newly created generic declaration.
@@ -191,12 +229,9 @@ public final class GenericDeclaration {
   @NotNull
   public static GenericDeclaration of(@NotNull final Object object) {
     if (object instanceof Class<?>) {
-      return new GenericDeclaration((Class<?>) object);
+      return GenericDeclaration.of((Class<?>) object);
     }
-    if (object instanceof Type) {
-      return GenericDeclaration.from(((Type) object).getTypeName());
-    }
-    return new GenericDeclaration(object.getClass());
+    return GenericDeclaration.of(object.getClass());
   }
 
   /**
