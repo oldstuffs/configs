@@ -104,7 +104,7 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
    */
   @Getter
   @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-  abstract class Envelope<R, F> implements Transformer<R, F> {
+  abstract class Base<R, F> implements Transformer<R, F> {
 
     /**
      * the final type.
@@ -117,18 +117,6 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
      */
     @NotNull
     private final Class<R> rawType;
-
-    /**
-     * the transformation.
-     */
-    @NotNull
-    private final Function<@NotNull R, @Nullable F> transformation;
-
-    @NotNull
-    @Override
-    public final Optional<F> apply(@NotNull final R r) {
-      return Optional.ofNullable(this.transformation.apply(r));
-    }
   }
 
   /**
@@ -137,7 +125,14 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
    * @param <R> type of the raw value.
    * @param <F> type of the final value.
    */
-  final class Impl<R, F> extends Envelope<R, F> {
+  @Getter
+  final class Impl<R, F> extends Base<R, F> {
+
+    /**
+     * the transformation.
+     */
+    @NotNull
+    private final Function<@NotNull R, @Nullable F> transformation;
 
     /**
      * ctor.
@@ -148,7 +143,14 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
      */
     private Impl(@NotNull final Class<F> finalType, @NotNull final Class<R> rawType,
                  @NotNull final Function<@NotNull R, @Nullable F> transformation) {
-      super(finalType, rawType, transformation);
+      super(finalType, rawType);
+      this.transformation = transformation;
+    }
+
+    @NotNull
+    @Override
+    public final Optional<F> apply(@NotNull final R r) {
+      return Optional.ofNullable(this.transformation.apply(r));
     }
   }
 }

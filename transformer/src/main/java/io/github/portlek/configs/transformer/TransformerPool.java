@@ -25,12 +25,12 @@
 
 package io.github.portlek.configs.transformer;
 
-import io.github.portlek.configs.transformer.defaults.TransformerStringToString;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -44,7 +44,7 @@ public final class TransformerPool {
    * the default transformers.
    */
   private static final Set<Transformer<?, ?>> DEFAULT_TRANSFORMERS = Set.of(
-    new TransformerStringToString());
+    Transformer.create(String.class, String.class, Function.identity()));
 
   /**
    * the data.
