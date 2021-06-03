@@ -25,12 +25,10 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
-import io.github.portlek.configs.transformer.TransformedObject;
 import io.github.portlek.configs.transformer.annotations.Comment;
 import io.github.portlek.configs.transformer.annotations.Names;
 import io.github.portlek.configs.transformer.annotations.Variable;
 import io.github.portlek.reflection.RefField;
-import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -82,12 +80,6 @@ public final class FieldDeclaration {
   private final GenericDeclaration genericDeclaration;
 
   /**
-   * the object.
-   */
-  @NotNull
-  private final Object object;
-
-  /**
    * the path.
    */
   @NotNull
@@ -106,26 +98,28 @@ public final class FieldDeclaration {
   private boolean hideVariable;
 
   /**
-   * creates a new field declaration from transformed object and field.
+   * creates a new field declaration.
    *
-   * @param transformedObject the transformed object to create.
+   * @param parent the parent to create.
+   * @param object the object to create
+   * @param cls the cls to create.
    * @param field the field to create.
-   * @param object the object to create.
    *
    * @return a newly created field declaration.
    */
   @NotNull
-  public static Optional<FieldDeclaration> of(@NotNull final TransformedObject transformedObject,
-                                              @NotNull final RefField field, @NotNull final Object object) {
-    return Optional.of(FieldDeclaration.CACHES.computeIfAbsent(Key.of(transformedObject, field.getName()), cache ->
+  public static FieldDeclaration of(@Nullable final Names parent, @Nullable final Object object,
+                                    @NotNull final Class<?> cls, @NotNull final RefField field) {
+    return FieldDeclaration.CACHES.computeIfAbsent(Key.of(cls, field.getName()), cache ->
       FieldDeclaration.of(
         field.getAnnotation(Comment.class).orElse(null),
-        field.of(object).getValue().orElse(null),
+        Optional.ofNullable(object)
+          .flatMap(o -> field.of(o).getValue())
+          .orElse(null),
         field,
         GenericDeclaration.of(field),
-        object,
-        Names.Calculated.calculatePath(new ClassOf<>(transformedClass), field),
-        field.getAnnotation(Variable.class).orElse(null))));
+        Names.Calculated.calculatePath(parent, field),
+        field.getAnnotation(Variable.class).orElse(null)));
   }
 
   /**
@@ -141,26 +135,12 @@ public final class FieldDeclaration {
      * the class.
      */
     @NotNull
-    private final Class<? extends TransformedObject> cls;
+    private final Class<?> cls;
 
     /**
      * the field name.
      */
     @NotNull
     private final String fieldName;
-
-    /**
-     * creates a new key from transformed object and field.
-     *
-     * @param transformedObject the transformed object to create.
-     * @param field the field to create.
-     *
-     * @return a newly created key.
-     */
-    @NotNull
-    private static Key of(@NotNull final TransformedObjectDeclaration transformedObject,
-                          @NotNull final RefField field) {
-      return Key.of(transformedObject.getImplementation(), field.getName());
-    }
   }
 }

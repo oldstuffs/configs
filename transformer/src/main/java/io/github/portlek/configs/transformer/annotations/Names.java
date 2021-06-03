@@ -26,7 +26,6 @@
 package io.github.portlek.configs.transformer.annotations;
 
 import io.github.portlek.reflection.RefField;
-import io.github.portlek.reflection.clazz.ClassOf;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -36,6 +35,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an annotation that controls the pathing of field declarations.
@@ -149,18 +149,40 @@ public @interface Names {
     }
 
     /**
-     * calculates the path of the given class and filed.
+     * calculates names annotation of the given class.
      *
      * @param cls the cls to calculate.
+     *
+     * @return calculated names annotations.
+     */
+    @Nullable
+    public static Names calculateNames(@NotNull final Class<?> cls) {
+      var tempCls = cls;
+      var names = tempCls.getAnnotation(Names.class);
+      while (names == null) {
+        tempCls = tempCls.getEnclosingClass();
+        if (tempCls == null) {
+          return null;
+        }
+        names = tempCls.getAnnotation(Names.class);
+      }
+      return names;
+    }
+
+    /**
+     * calculates the path of the given class and filed.
+     *
+     * @param parent the parent to calculate.
      * @param field the field to calculate.
      *
      * @return calculated path.
      */
     @NotNull
-    public static String calculatePath(@NotNull final ClassOf<?> cls, @NotNull final RefField field) {
+    public static String calculatePath(@Nullable final Names parent, @NotNull final RefField field) {
       final var path = new AtomicReference<String>();
-      cls.getAnnotation(Names.class, names ->
-        path.set(names.modifier().apply(names.strategy().apply(field.getName()))));
+      if (parent != null) {
+        path.set(parent.modifier().apply(parent.strategy().apply(field.getName())));
+      }
       field.getAnnotation(CustomKey.class, customKey ->
         path.set(customKey.value()));
       path.compareAndSet(null, field.getName());

@@ -25,13 +25,20 @@
 
 package io.github.portlek.configs.transformer.declaration;
 
-import io.github.portlek.configs.transformer.TransformedObject;
 import io.github.portlek.configs.transformer.annotations.Comment;
+import io.github.portlek.configs.transformer.annotations.Exclude;
 import io.github.portlek.configs.transformer.annotations.Names;
+import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,8 +46,15 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents transformed class declarations.
  */
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class TransformedObjectDeclaration<T extends TransformedObject> {
+@ToString
+@EqualsAndHashCode
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
+public final class TransformedObjectDeclaration {
+
+  /**
+   * the caches.
+   */
+  private static final Map<Class<?>, TransformedObjectDeclaration> CACHES = new ConcurrentHashMap<>();
 
   /**
    * the fields.
@@ -55,24 +69,57 @@ public final class TransformedObjectDeclaration<T extends TransformedObject> {
   private final Comment header;
 
   /**
-   * the names.
-   */
-  @Nullable
-  private final Names name;
-
-  /**
-   * the transformed object.
-   */
-  @NotNull
-  private final T transformedObject;
-
-  /**
-   * obtains the transformed class.
    *
-   * @return transformed class.
    */
   @NotNull
-  public Class<? extends TransformedObject> getTransformedClass() {
-    return this.transformedObject.getClass();
+  private final Class<?> objectClass;
+
+  /**
+   * creates a new transformed object declaration.
+   *
+   * @param cls the cls to create.
+   * @param object the object to create.
+   *
+   * @return a newly created transformed object declaration.
+   */
+  @NotNull
+  public static TransformedObjectDeclaration of(@NotNull final Class<?> cls, @Nullable final Object object) {
+    return TransformedObjectDeclaration.CACHES.computeIfAbsent(cls, clazz -> {
+      final var transformedClass = new ClassOf<>(clazz);
+      return TransformedObjectDeclaration.of(
+        transformedClass.getDeclaredFields().stream()
+          .filter(field -> !field.getName().startsWith("this$"))
+          .filter(field -> !field.hasAnnotation(Exclude.class))
+          .map(field -> FieldDeclaration.of(Names.Calculated.calculateNames(cls), object, cls, field))
+          .collect(Collectors.toMap(FieldDeclaration::getPath, Function.identity(), (f1, f2) -> {
+            throw new IllegalStateException(String.format("Duplicate key %s", f1));
+          }, LinkedHashMap::new)),
+        transformedClass.getAnnotation(Comment.class).orElse(null),
+        clazz);
+    });
+  }
+
+  /**
+   * creates a new transformed object declaration.
+   *
+   * @param object the object to create.
+   *
+   * @return a newly created transformed object declaration.
+   */
+  @NotNull
+  public static TransformedObjectDeclaration of(@NotNull final Object object) {
+    return TransformedObjectDeclaration.of(object.getClass(), object);
+  }
+
+  /**
+   * creates a new transformed object declaration.
+   *
+   * @param cls the cls to create.
+   *
+   * @return a newly created transformed object declaration.
+   */
+  @NotNull
+  public static TransformedObjectDeclaration of(@NotNull final Class<?> cls) {
+    return TransformedObjectDeclaration.of(cls, null);
   }
 }
