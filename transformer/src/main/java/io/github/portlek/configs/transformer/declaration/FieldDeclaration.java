@@ -26,7 +26,6 @@
 package io.github.portlek.configs.transformer.declaration;
 
 import io.github.portlek.configs.transformer.annotations.Comment;
-import io.github.portlek.configs.transformer.annotations.CustomKey;
 import io.github.portlek.configs.transformer.annotations.Exclude;
 import io.github.portlek.configs.transformer.annotations.Names;
 import io.github.portlek.configs.transformer.annotations.Variable;
@@ -35,7 +34,6 @@ import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicReference;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -119,25 +117,19 @@ public final class FieldDeclaration {
   @NotNull
   public static Optional<FieldDeclaration> of(@NotNull final TransformedObjectDeclaration transformedObject,
                                               @NotNull final RefField field, @NotNull final Object object) {
-    final var cls = new ClassOf<>(transformedObject);
-    final var key = Key.of(transformedObject, field);
-    final var declaration = FieldDeclaration.CACHES.computeIfAbsent(key, cache -> {
+    return Optional.ofNullable(FieldDeclaration.CACHES.computeIfAbsent(Key.of(transformedObject, field), cache -> {
       if (field.hasAnnotation(Exclude.class)) {
         return null;
       }
-      final var path = new AtomicReference<String>();
-      cls.getAnnotation(Names.class, names ->
-        path.set(names.modifier().apply(names.strategy().apply(field.getName()))));
-      field.getAnnotation(CustomKey.class, customKey ->
-        path.set(customKey.value()));
-      path.compareAndSet(null, field.getName());
-      final var comment = field.getAnnotation(Comment.class).orElse(null);
-      final var genericDeclaration = GenericDeclaration.of(field.getRealField().getGenericType());
-      final var variable = field.getAnnotation(Variable.class).orElse(null);
-      final var defaultValue = field.of(object).getValue().orElse(null);
-      return new FieldDeclaration(comment, defaultValue, field, genericDeclaration, object, path.get(), variable);
-    });
-    return Optional.ofNullable(declaration);
+      return new FieldDeclaration(
+        field.getAnnotation(Comment.class).orElse(null),
+        field.of(object).getValue().orElse(null),
+        field,
+        GenericDeclaration.of(field.getRealField().getGenericType()),
+        object,
+        Names.Calculated.calculatePath(new ClassOf<>(transformedObject), field),
+        field.getAnnotation(Variable.class).orElse(null));
+    }));
   }
 
   /**

@@ -25,11 +25,14 @@
 
 package io.github.portlek.configs.transformer.annotations;
 
+import io.github.portlek.reflection.RefField;
+import io.github.portlek.reflection.clazz.ClassOf;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 import org.jetbrains.annotations.NotNull;
@@ -131,6 +134,31 @@ public @interface Names {
     @Override
     public String apply(@NotNull final String s) {
       return this.pattern.matcher(s).replaceAll(this.replacement);
+    }
+  }
+
+  /**
+   * a class that contains utility methods to calculate path of the class and field.
+   */
+  final class Calculated {
+
+    /**
+     * calculates the path of the given class and filed.
+     *
+     * @param cls the cls to calculate.
+     * @param field the field to calculate.
+     *
+     * @return calculated path.
+     */
+    @NotNull
+    public static String calculatePath(@NotNull final ClassOf<?> cls, @NotNull final RefField field) {
+      final var path = new AtomicReference<String>();
+      cls.getAnnotation(Names.class, names ->
+        path.set(names.modifier().apply(names.strategy().apply(field.getName()))));
+      field.getAnnotation(CustomKey.class, customKey ->
+        path.set(customKey.value()));
+      path.compareAndSet(null, field.getName());
+      return path.get();
     }
   }
 }
