@@ -149,7 +149,7 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
 
     @NotNull
     @Override
-    public final Optional<F> apply(@NotNull final R r) {
+    public Optional<F> apply(@NotNull final R r) {
       return Optional.ofNullable(this.transformation.apply(r));
     }
   }
