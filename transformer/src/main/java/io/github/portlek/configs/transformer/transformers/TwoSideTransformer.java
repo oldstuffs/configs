@@ -130,7 +130,6 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
    * @param <R> type of the raw value.
    * @param <F> type of the final value.
    */
-  @Getter
   abstract class Base<R, F> implements TwoSideTransformer<R, F> {
 
     /**
@@ -199,7 +198,6 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
    * @param <R> type of the raw value.
    * @param <F> type of the final value.
    */
-  @Getter
   final class Impl<R, F> extends Base<R, F> {
 
     /**

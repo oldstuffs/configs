@@ -66,7 +66,6 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
    * @param <R> type of the raw value.
    * @param <F> type of the final value.
    */
-  @Getter
   @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
   abstract class Base<R, F> implements Transformer<R, F> {
 
@@ -108,7 +107,6 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
    * @param <R> type of the raw value.
    * @param <F> type of the final value.
    */
-  @Getter
   final class Impl<R, F> extends Base<R, F> {
 
     /**
@@ -118,8 +116,8 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
      * @param finalType the final type to create.
      * @param transformation the transformation.
      */
-    protected Impl(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
-                   @NotNull final Function<@NotNull R, @Nullable F> transformation) {
+    private Impl(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                 @NotNull final Function<@NotNull R, @Nullable F> transformation) {
       super(GenericHolder.create(rawType, finalType), transformation);
     }
   }
