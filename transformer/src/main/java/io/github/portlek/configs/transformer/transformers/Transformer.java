@@ -29,7 +29,6 @@ import io.github.portlek.configs.transformer.generics.GenericHolder;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;

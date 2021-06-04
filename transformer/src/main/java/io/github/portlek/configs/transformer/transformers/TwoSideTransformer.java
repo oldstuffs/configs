@@ -28,7 +28,6 @@ package io.github.portlek.configs.transformer.transformers;
 import io.github.portlek.configs.transformer.generics.GenericHolder;
 import java.util.Optional;
 import java.util.function.Function;
-import lombok.Getter;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -174,8 +173,8 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
      * @param toFinal the to final.
      */
     protected Base(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
-                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
-                 @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
+                   @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                   @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
       this(GenericHolder.create(rawType, finalType), toRaw, toFinal);
     }
 
