@@ -95,6 +95,16 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
   }
 
   /**
+   * converts two side transformer to one side transformer.
+   *
+   * @return one sided transformer.
+   */
+  @NotNull
+  default Transformer<R, F> toOneSideTransformer() {
+    return Transformer.create(this.getLeftType(), this.getRightType(), this::toFinalOrNull);
+  }
+
+  /**
    * converts the {@link F} into {@link R}.
    *
    * @param f the {@link F} to convert.

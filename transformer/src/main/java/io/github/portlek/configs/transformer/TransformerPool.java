@@ -178,8 +178,8 @@ public final class TransformerPool {
    */
   @NotNull
   public TransformerPool registerTransformer(@NotNull final TwoSideTransformer<?, ?> transformer) {
-    return this.registerTransformer(Transformer.create(transformer))
-      .registerTransformer(Transformer.create(transformer.reverse()));
+    return this.registerTransformer(transformer.toOneSideTransformer())
+      .registerTransformer(transformer.reverse().toOneSideTransformer());
   }
 
   /**

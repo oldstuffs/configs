@@ -46,20 +46,6 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
   /**
    * creates a simple transformer.
    *
-   * @param transformer the transformer to create.
-   * @param <R> type of the raw value.
-   * @param <F> type of the final value.
-   *
-   * @return a newly created transformer.
-   */
-  @NotNull
-  static <R, F> Transformer<R, F> create(@NotNull final TwoSideTransformer<R, F> transformer) {
-    return Transformer.create(transformer.getLeftType(), transformer.getRightType(), transformer::toFinalOrNull);
-  }
-
-  /**
-   * creates a simple transformer.
-   *
    * @param rawType the raw type to create.
    * @param finalType the final type to create.
    * @param transformation the transformation to create.
