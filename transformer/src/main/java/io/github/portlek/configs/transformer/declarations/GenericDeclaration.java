@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.transformer.declaration;
+package io.github.portlek.configs.transformer.declarations;
 
 import io.github.portlek.reflection.RefField;
 import java.lang.reflect.Field;

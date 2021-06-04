@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.transformer.declaration;
+package io.github.portlek.configs.transformer.declarations;
 
 import io.github.portlek.configs.transformer.annotations.Comment;
 import io.github.portlek.configs.transformer.annotations.Exclude;
@@ -48,7 +48,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class TransformedObjectDeclaration {
 
   /**
@@ -86,7 +86,7 @@ public final class TransformedObjectDeclaration {
   public static TransformedObjectDeclaration of(@NotNull final Class<?> cls, @Nullable final Object object) {
     return TransformedObjectDeclaration.CACHES.computeIfAbsent(cls, clazz -> {
       final var classOf = new ClassOf<>(clazz);
-      return TransformedObjectDeclaration.of(
+      return new TransformedObjectDeclaration(
         classOf.getDeclaredFields().stream()
           .filter(field -> !field.getName().startsWith("this$"))
           .filter(field -> !field.hasAnnotation(Exclude.class))

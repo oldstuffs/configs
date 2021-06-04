@@ -25,4 +25,4 @@
 /**
  * the package that contains declaration classes.
  */
-package io.github.portlek.configs.transformer.declaration;
+package io.github.portlek.configs.transformer.declarations;

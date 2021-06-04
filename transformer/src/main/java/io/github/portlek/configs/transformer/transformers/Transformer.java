@@ -23,15 +23,15 @@
  *
  */
 
-package io.github.portlek.configs.transformer;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.declaration.GenericPair;
-import java.util.Locale;
+import io.github.portlek.configs.transformer.generics.GenericHolder;
 import java.util.Optional;
 import java.util.function.Function;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +41,21 @@ import org.jetbrains.annotations.Nullable;
  * @param <R> type of the raw value.
  * @param <F> type of the final value.
  */
-public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optional<F>> {
+public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optional<F>>, GenericHolder<R, F> {
+
+  /**
+   * creates a simple transformer.
+   *
+   * @param transformer the transformer to create.
+   * @param <R> type of the raw value.
+   * @param <F> type of the final value.
+   *
+   * @return a newly created transformer.
+   */
+  @NotNull
+  static <R, F> Transformer<R, F> create(@NotNull final TwoSideTransformer<R, F> transformer) {
+    return Transformer.create(transformer.getLeftType(), transformer.getRightType(), transformer::toFinalOrNull);
+  }
 
   /**
    * creates a simple transformer.
@@ -57,44 +71,8 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
   @NotNull
   static <R, F> Transformer<R, F> create(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
                                          @NotNull final Function<@NotNull R, @Nullable F> transformation) {
-    return new Impl<>(finalType, rawType, transformation);
+    return new Impl<>(rawType, finalType, transformation);
   }
-
-  /**
-   * obtains the final type.
-   *
-   * @return final type.
-   */
-  @NotNull
-  Class<F> getFinalType();
-
-  /**
-   * obtains the id.
-   *
-   * @return id.
-   */
-  @NotNull
-  default String getId() {
-    return this.getFinalType().getSimpleName().toLowerCase(Locale.ROOT);
-  }
-
-  /**
-   * creates a new generic pair.
-   *
-   * @return a newly created generic pair.
-   */
-  @NotNull
-  default GenericPair<R, F> getPair() {
-    return GenericPair.of(this.getRawType(), this.getFinalType());
-  }
-
-  /**
-   * obtains the raw type.
-   *
-   * @return raw type.
-   */
-  @NotNull
-  Class<R> getRawType();
 
   /**
    * an abstract that envelopes to {@link Transformer}.
@@ -103,20 +81,39 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
    * @param <F> type of the final value.
    */
   @Getter
-  @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+  @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
   abstract class Base<R, F> implements Transformer<R, F> {
 
     /**
-     * the final type.
+     * the holder.
      */
     @NotNull
-    private final Class<F> finalType;
+    @Delegate
+    private final GenericHolder<R, F> holder;
 
     /**
-     * the raw type.
+     * the transformation.
      */
     @NotNull
-    private final Class<R> rawType;
+    private final Function<@NotNull R, @Nullable F> transformation;
+
+    /**
+     * ctor.
+     *
+     * @param rawType the raw type to create.
+     * @param finalType the final type to create.
+     * @param transformation the transformation.
+     */
+    protected Base(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                   @NotNull final Function<@NotNull R, @Nullable F> transformation) {
+      this(GenericHolder.create(rawType, finalType), transformation);
+    }
+
+    @NotNull
+    @Override
+    public final Optional<F> apply(@NotNull final R r) {
+      return Optional.ofNullable(this.transformation.apply(r));
+    }
   }
 
   /**
@@ -129,28 +126,15 @@ public interface Transformer<R, F> extends Function<@NotNull R, @NotNull Optiona
   final class Impl<R, F> extends Base<R, F> {
 
     /**
-     * the transformation.
-     */
-    @NotNull
-    private final Function<@NotNull R, @Nullable F> transformation;
-
-    /**
      * ctor.
      *
-     * @param finalType the final type.
-     * @param rawType the raw type.
+     * @param rawType the raw type to create.
+     * @param finalType the final type to create.
      * @param transformation the transformation.
      */
-    private Impl(@NotNull final Class<F> finalType, @NotNull final Class<R> rawType,
-                 @NotNull final Function<@NotNull R, @Nullable F> transformation) {
-      super(finalType, rawType);
-      this.transformation = transformation;
-    }
-
-    @NotNull
-    @Override
-    public Optional<F> apply(@NotNull final R r) {
-      return Optional.ofNullable(this.transformation.apply(r));
+    protected Impl(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                   @NotNull final Function<@NotNull R, @Nullable F> transformation) {
+      super(GenericHolder.create(rawType, finalType), transformation);
     }
   }
 }

@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.transformer.declaration;
+package io.github.portlek.configs.transformer.declarations;
 
 import io.github.portlek.configs.transformer.annotations.Comment;
 import io.github.portlek.configs.transformer.annotations.Names;
@@ -47,7 +47,7 @@ import org.jetbrains.annotations.Nullable;
 @Getter
 @ToString
 @EqualsAndHashCode
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE, staticName = "of")
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class FieldDeclaration {
 
   /**
@@ -111,7 +111,7 @@ public final class FieldDeclaration {
   public static FieldDeclaration of(@Nullable final Names parent, @Nullable final Object object,
                                     @NotNull final Class<?> cls, @NotNull final RefField field) {
     return FieldDeclaration.CACHES.computeIfAbsent(Key.of(cls, field.getName()), cache ->
-      FieldDeclaration.of(
+      new FieldDeclaration(
         field.getAnnotation(Comment.class).orElse(null),
         Optional.ofNullable(object)
           .flatMap(o -> field.of(o).getValue())

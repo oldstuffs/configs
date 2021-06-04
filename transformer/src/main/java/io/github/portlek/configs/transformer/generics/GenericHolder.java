@@ -23,77 +23,82 @@
  *
  */
 
-package io.github.portlek.configs.transformer.declaration;
+package io.github.portlek.configs.transformer.generics;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * a class that represents generic pairs.
+ * an interface to determine generic holders.
  *
- * @param <L> type of the left value.
- * @param <R> type of the right value.
+ * @param <L> type of the left object class.
+ * @param <R> type of the right object class.
  */
-@Getter
-@ToString
-@EqualsAndHashCode
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class GenericPair<L, R> {
+public interface GenericHolder<L, R> {
 
   /**
-   * the left.
+   * creates a simple instance of {@code this}.
+   *
+   * @param left the left to create.
+   * @param right the right to create.
+   * @param <L> type of the left object class.
+   * @param <R> type of the right object class.
+   *
+   * @return a newly created {@code this} instance.
    */
   @NotNull
-  private final GenericDeclaration left;
+  static <L, R> GenericHolder<L, R> create(@NotNull final Class<L> left, @NotNull final Class<R> right) {
+    return new Impl<>(left, right);
+  }
 
   /**
-   * the right.
+   * obtains the left type.
+   *
+   * @return left type.
    */
   @NotNull
-  private final GenericDeclaration right;
+  Class<L> getLeftType();
 
   /**
    * creates a new generic pair.
    *
-   * @param left the left to create.
-   * @param right the right to creat.
-   * @param <L> type of the left value.
-   * @param <R> type of the right value.
-   *
    * @return a newly created generic pair.
    */
   @NotNull
-  public static <L, R> GenericPair<L, R> of(@NotNull final GenericDeclaration left,
-                                            @NotNull final GenericDeclaration right) {
-    return new GenericPair<>(left, right);
+  default GenericPair getPair() {
+    return GenericPair.of(this.getLeftType(), this.getRightType());
   }
 
   /**
-   * creates a new generic pair.
+   * obtains the right type.
    *
-   * @param left the left to create.
-   * @param right the right to creat.
-   * @param <L> type of the left value.
-   * @param <R> type of the right value.
-   *
-   * @return a newly created generic pair.
+   * @return right type.
    */
   @NotNull
-  public static <L, R> GenericPair<L, R> of(@NotNull final Class<L> left, @NotNull final Class<R> right) {
-    return GenericPair.of(GenericDeclaration.of(left), GenericDeclaration.of(right));
-  }
+  Class<R> getRightType();
 
   /**
-   * reverses the pair.
+   * a simple implementation of {@link GenericHolder}.
    *
-   * @return reversed pair.
+   * @param <L> type of the left object class.
+   * @param <R> type of the right object class.
    */
-  @NotNull
-  public GenericPair<R, L> reverse() {
-    return GenericPair.of(this.right, this.left);
+  @Getter
+  @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+  final class Impl<L, R> implements GenericHolder<L, R> {
+
+    /**
+     * the left.
+     */
+    @NotNull
+    private final Class<L> leftType;
+
+    /**
+     * the right.
+     */
+    @NotNull
+    private final Class<R> rightType;
   }
 }
