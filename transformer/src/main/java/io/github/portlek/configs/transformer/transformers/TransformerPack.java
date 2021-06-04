@@ -27,6 +27,7 @@ package io.github.portlek.configs.transformer.transformers;
 
 import io.github.portlek.configs.transformer.TransformerPool;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToAddress;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBigDecimal;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBigInteger;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBoolean;
@@ -54,22 +55,22 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
   /**
    * the default transformer pack.
    */
-  TransformerPack DEFAULT = TransformerPack.create(pool -> {
-    pool.registerTransformer(new TransformerObjectToString());
-    pool.registerTransformer(new TransformerStringToString());
-    pool.registerTransformerReversedToString(new TransformerStringToBigDecimal());
-    pool.registerTransformerReversedToString(new TransformerStringToBigInteger());
-    pool.registerTransformerReversedToString(new TransformerStringToBoolean());
-    pool.registerTransformerReversedToString(new TransformerStringToByte());
-    pool.registerTransformerReversedToString(new TransformerStringToCharacter());
-    pool.registerTransformerReversedToString(new TransformerStringToDouble());
-    pool.registerTransformerReversedToString(new TransformerStringToFloat());
-    pool.registerTransformerReversedToString(new TransformerStringToInteger());
-    pool.registerTransformerReversedToString(new TransformerStringToLocale());
-    pool.registerTransformerReversedToString(new TransformerStringToLong());
-    pool.registerTransformerReversedToString(new TransformerStringToShort());
-    pool.registerTransformerReversedToString(new TransformerStringToUniqueId());
-  });
+  TransformerPack DEFAULT = TransformerPack.create(pool -> pool
+    .registerTransformer(new TransformerObjectToString())
+    .registerTransformer(new TransformerStringToString())
+    .registerTransformer(new TransformerStringToAddress())
+    .registerTransformerReversedToString(new TransformerStringToBigDecimal())
+    .registerTransformerReversedToString(new TransformerStringToBigInteger())
+    .registerTransformerReversedToString(new TransformerStringToBoolean())
+    .registerTransformerReversedToString(new TransformerStringToByte())
+    .registerTransformerReversedToString(new TransformerStringToCharacter())
+    .registerTransformerReversedToString(new TransformerStringToDouble())
+    .registerTransformerReversedToString(new TransformerStringToFloat())
+    .registerTransformerReversedToString(new TransformerStringToInteger())
+    .registerTransformerReversedToString(new TransformerStringToLocale())
+    .registerTransformerReversedToString(new TransformerStringToLong())
+    .registerTransformerReversedToString(new TransformerStringToShort())
+    .registerTransformerReversedToString(new TransformerStringToUniqueId()));
 
   /**
    * creates a simple transformer pack instance.

@@ -191,7 +191,7 @@ public final class TransformerPool {
    */
   @NotNull
   public TransformerPool registerTransformerReversedToString(@NotNull final Transformer<?, ?> transformer) {
-    return this.registerTransformer(transformer.getPair(), transformer)
+    return this.registerTransformer(transformer)
       .registerTransformer(transformer.getPair().reverse(), new TransformerObjectToString());
   }
 }
