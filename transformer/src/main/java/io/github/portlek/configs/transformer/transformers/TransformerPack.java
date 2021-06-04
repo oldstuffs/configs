@@ -65,10 +65,10 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
     pool.registerTransformerReversedToString(new TransformerStringToDouble());
     pool.registerTransformerReversedToString(new TransformerStringToFloat());
     pool.registerTransformerReversedToString(new TransformerStringToInteger());
+    pool.registerTransformerReversedToString(new TransformerStringToLocale());
     pool.registerTransformerReversedToString(new TransformerStringToLong());
     pool.registerTransformerReversedToString(new TransformerStringToShort());
     pool.registerTransformerReversedToString(new TransformerStringToUniqueId());
-    pool.registerTransformerReversedToString(new TransformerStringToLocale());
   });
 
   /**
