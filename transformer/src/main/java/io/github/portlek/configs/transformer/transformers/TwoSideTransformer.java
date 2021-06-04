@@ -28,9 +28,7 @@ package io.github.portlek.configs.transformer.transformers;
 import io.github.portlek.configs.transformer.generics.GenericHolder;
 import java.util.Optional;
 import java.util.function.Function;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -59,7 +57,7 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
   static <R, F> TwoSideTransformer<R, F> create(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
                                                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
                                                 @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
-    return new Impl<>(finalType, rawType, toRaw, toFinal);
+    return new Impl<>(rawType, finalType, toRaw, toFinal);
   }
 
   /**
@@ -127,13 +125,12 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
   }
 
   /**
-   * an abstract that envelopes to {@link TwoSideTransformer}.
+   * a simple implementation of {@link TwoSideTransformer}.
    *
    * @param <R> type of the raw value.
    * @param <F> type of the final value.
    */
   @Getter
-  @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
   abstract class Base<R, F> implements TwoSideTransformer<R, F> {
 
     /**
@@ -142,16 +139,6 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
     @NotNull
     @Delegate
     private final GenericHolder<R, F> holder;
-  }
-
-  /**
-   * a simple implementation of {@link TwoSideTransformer}.
-   *
-   * @param <R> type of the raw value.
-   * @param <F> type of the final value.
-   */
-  @Getter
-  final class Impl<R, F> extends Base<R, F> {
 
     /**
      * the transformation.
@@ -168,29 +155,65 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
     /**
      * ctor.
      *
-     * @param finalType the final type.
-     * @param rawType the raw type.
+     * @param holder the holder.
      * @param toRaw the to raw.
      * @param toFinal the to final.
      */
-    private Impl(@NotNull final Class<F> finalType, @NotNull final Class<R> rawType,
-                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
-                 @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
-      super(GenericHolder.create(rawType, finalType));
+    protected Base(@NotNull final GenericHolder<R, F> holder, @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                   @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
+      this.holder = holder;
       this.toRaw = toRaw;
       this.toFinal = toFinal;
     }
 
+    /**
+     * ctor.
+     *
+     * @param rawType the raw type.
+     * @param finalType the final type.
+     * @param toRaw the to raw.
+     * @param toFinal the to final.
+     */
+    protected Base(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                 @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
+      this(GenericHolder.create(rawType, finalType), toRaw, toFinal);
+    }
+
     @NotNull
     @Override
-    public Optional<F> toFinal(@NotNull final R r) {
+    public final Optional<F> toFinal(@NotNull final R r) {
       return Optional.ofNullable(this.toFinal.apply(r));
     }
 
     @NotNull
     @Override
-    public Optional<R> toRaw(@NotNull final F f) {
+    public final Optional<R> toRaw(@NotNull final F f) {
       return Optional.ofNullable(this.toRaw.apply(f));
+    }
+  }
+
+  /**
+   * a simple implementation of {@link TwoSideTransformer}.
+   *
+   * @param <R> type of the raw value.
+   * @param <F> type of the final value.
+   */
+  @Getter
+  final class Impl<R, F> extends Base<R, F> {
+
+    /**
+     * ctor.
+     *
+     * @param rawType the raw type.
+     * @param finalType the final type.
+     * @param toRaw the to raw.
+     * @param toFinal the to final.
+     */
+    private Impl(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                 @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
+      super(rawType, finalType, toRaw, toFinal);
     }
   }
 }

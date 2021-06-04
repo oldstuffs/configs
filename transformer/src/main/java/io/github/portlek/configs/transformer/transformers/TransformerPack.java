@@ -27,7 +27,19 @@ package io.github.portlek.configs.transformer.transformers;
 
 import io.github.portlek.configs.transformer.TransformerPool;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBigDecimal;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBigInteger;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBoolean;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToByte;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToCharacter;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToDouble;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToFloat;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToInteger;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToLocale;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToLong;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToShort;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToString;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToUniqueId;
 import java.util.function.Consumer;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +57,18 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
   TransformerPack DEFAULT = TransformerPack.create(pool -> {
     pool.registerTransformer(new TransformerObjectToString());
     pool.registerTransformer(new TransformerStringToString());
+    pool.registerTransformerReversedToString(new TransformerStringToBigDecimal());
+    pool.registerTransformerReversedToString(new TransformerStringToBigInteger());
+    pool.registerTransformerReversedToString(new TransformerStringToBoolean());
+    pool.registerTransformerReversedToString(new TransformerStringToByte());
+    pool.registerTransformerReversedToString(new TransformerStringToCharacter());
+    pool.registerTransformerReversedToString(new TransformerStringToDouble());
+    pool.registerTransformerReversedToString(new TransformerStringToFloat());
+    pool.registerTransformerReversedToString(new TransformerStringToInteger());
+    pool.registerTransformerReversedToString(new TransformerStringToLong());
+    pool.registerTransformerReversedToString(new TransformerStringToShort());
+    pool.registerTransformerReversedToString(new TransformerStringToUniqueId());
+    pool.registerTransformerReversedToString(new TransformerStringToLocale());
   });
 
   /**
