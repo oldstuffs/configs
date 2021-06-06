@@ -38,7 +38,7 @@ import org.jetbrains.annotations.Nullable;
  * @param <R> type of the raw value.
  * @param <F> type of the final value.
  */
-public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
+public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
 
   /**
    * creates a simple transformer.
@@ -57,6 +57,12 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
                                                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
                                                 @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
     return new Impl<>(rawType, finalType, toRaw, toFinal);
+  }
+
+  @Override
+  @NotNull
+  default Optional<F> apply(@NotNull final R r) {
+    return this.toFinal(r);
   }
 
   /**
@@ -89,16 +95,6 @@ public interface TwoSideTransformer<R, F> extends GenericHolder<R, F> {
   @Nullable
   default F toFinalOrNull(@NotNull final R r) {
     return this.toFinal(r).orElse(null);
-  }
-
-  /**
-   * converts two side transformer to one side transformer.
-   *
-   * @return one sided transformer.
-   */
-  @NotNull
-  default Transformer<R, F> toOneSideTransformer() {
-    return Transformer.create(this.getLeftType(), this.getRightType(), this::toFinalOrNull);
   }
 
   /**
