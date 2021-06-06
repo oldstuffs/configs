@@ -54,12 +54,6 @@ public final class TransformerPool {
   private final TransformedObjectDeclaration declaration;
 
   /**
-   * the data.
-   */
-  @NotNull
-  private final TransformedData transformedData = new TransformedData(this);
-
-  /**
    * the transformers by id.
    */
   @NotNull

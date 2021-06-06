@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.transformer;
 
+import java.util.Map;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +36,18 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 @RequiredArgsConstructor
 public final class TransformedData {
+
+  /**
+   * the deserialized map.
+   */
+  @NotNull
+  private final Map<String, Object> deserializedMap;
+
+  /**
+   * the serialized map.
+   */
+  @NotNull
+  private final Map<String, Object> serializedMap;
 
   /**
    * the transformer pool.
