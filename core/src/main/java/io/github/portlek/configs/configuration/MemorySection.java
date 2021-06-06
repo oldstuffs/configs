@@ -744,6 +744,13 @@ public class MemorySection implements ConfigurationSection {
       "']";
   }
 
+  /**
+   * gets default value at path.
+   *
+   * @param path the path to get.
+   *
+   * @return default value at path.
+   */
   @Nullable
   protected Object getDefault(@NotNull final String path) {
     final Configuration root = this.getRoot();
@@ -751,6 +758,13 @@ public class MemorySection implements ConfigurationSection {
     return defaults == null ? null : defaults.get(MemorySection.createPath(this, path));
   }
 
+  /**
+   * checks if the input is primitive wrapper.
+   *
+   * @param input the input to check.
+   *
+   * @return {@code true} if the input is primitive wrapper.
+   */
   protected boolean isPrimitiveWrapper(final Object input) {
     return input instanceof Integer || input instanceof Boolean ||
       input instanceof Character || input instanceof Byte ||
@@ -758,6 +772,13 @@ public class MemorySection implements ConfigurationSection {
       input instanceof Long || input instanceof Float;
   }
 
+  /**
+   * maps the section's keys into set.
+   *
+   * @param output the output to map.
+   * @param section the section to map.
+   * @param deep the deep to map.
+   */
   protected void mapChildrenKeys(final Set<String> output, final ConfigurationSection section, final boolean deep) {
     if (section instanceof MemorySection) {
       final MemorySection sec = (MemorySection) section;
@@ -776,6 +797,13 @@ public class MemorySection implements ConfigurationSection {
     }
   }
 
+  /**
+   * maps the section' values into set.
+   *
+   * @param output the output to map.
+   * @param section the section to map.
+   * @param deep the deep to map.
+   */
   protected void mapChildrenValues(final Map<String, Object> output, final ConfigurationSection section,
                                    final boolean deep) {
     if (section instanceof MemorySection) {
