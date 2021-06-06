@@ -37,6 +37,7 @@ public final class TransformerStringToBigInteger extends Transformer.Base<String
    * ctor.
    */
   public TransformerStringToBigInteger() {
-    super(String.class, BigInteger.class, BigInteger::new);
+    super(String.class, BigInteger.class,
+      BigInteger::new);
   }
 }

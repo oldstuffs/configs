@@ -37,6 +37,7 @@ public final class TransformerStringToInteger extends Transformer.Base<String, I
    * ctor.
    */
   public TransformerStringToInteger() {
-    super(String.class, Integer.class, s -> new BigDecimal(s).intValueExact());
+    super(String.class, Integer.class,
+      s -> new BigDecimal(s).intValueExact());
   }
 }

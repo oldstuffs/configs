@@ -25,19 +25,26 @@
 
 package io.github.portlek.configs.transformer.transformers.defaults;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import java.util.Objects;
+import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
+import io.github.portlek.replaceable.RpBase;
+import io.github.portlek.replaceable.RpString;
+import java.math.BigDecimal;
+import java.net.InetSocketAddress;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents transformers between {@link Object} and {@link String}.
+ * a class that represents transformers between {@link String} and {@link RpString}.
  */
-public final class TransformerObjectToString extends Transformer.Base<Object, String> {
+public final class TransformerStringToRpString extends TwoSideTransformer.Base<String, RpString> {
 
   /**
    * ctor.
    */
-  public TransformerObjectToString() {
-    super(Object.class, String.class,
-      Objects::toString);
+  public TransformerStringToRpString() {
+    super(String.class, RpString.class,
+      RpBase::getValue,
+      RpString::from,
+      (s, rpString) -> rpString.value(s));
   }
 }

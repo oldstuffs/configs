@@ -27,6 +27,7 @@ package io.github.portlek.configs.transformer.serializers;
 
 import io.github.portlek.configs.transformer.TransformedData;
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
+import java.lang.reflect.Field;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +48,21 @@ public interface ObjectSerializer<T> {
    */
   @NotNull
   Optional<T> deserialize(@NotNull TransformedData transformedData, @NotNull GenericDeclaration declaration);
+
+  /**
+   * deserializes the object.
+   *
+   * @param field the field to serialize.
+   * @param transformedData the transformed data to deserialize.
+   * @param declaration the declaration to deserialize.
+   *
+   * @return deserialized object.
+   */
+  @NotNull
+  default Optional<T> deserialize(@NotNull final T field, @NotNull final TransformedData transformedData,
+                                  @NotNull final GenericDeclaration declaration) {
+    return this.deserialize(transformedData, declaration);
+  }
 
   /**
    * serializes the object.

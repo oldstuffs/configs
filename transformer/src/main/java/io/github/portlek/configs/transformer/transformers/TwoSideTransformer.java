@@ -27,6 +27,7 @@ package io.github.portlek.configs.transformer.transformers;
 
 import io.github.portlek.configs.transformer.generics.GenericHolder;
 import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
@@ -59,10 +60,25 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
     return new Impl<>(rawType, finalType, toRaw, toFinal);
   }
 
-  @Override
+  /**
+   * creates a simple transformer.
+   *
+   * @param rawType the raw type to create.
+   * @param finalType the final type to create.
+   * @param toRaw the to raw to create.
+   * @param toFinal the to final to create.
+   * @param toFinalWithField the to final with field to create.
+   * @param <R> type of the raw value.
+   * @param <F> type of the final value.
+   *
+   * @return a newly created transformer.
+   */
   @NotNull
-  default Optional<F> apply(@NotNull final R r) {
-    return this.toFinal(r);
+  static <R, F> TwoSideTransformer<R, F> create(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                                                @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                                                @NotNull final Function<@NotNull R, @Nullable F> toFinal,
+                                                @NotNull final BiFunction<@NotNull R, @NotNull F, @Nullable F> toFinalWithField) {
+    return new Impl<>(rawType, finalType, toRaw, toFinal, toFinalWithField);
   }
 
   /**
@@ -98,6 +114,30 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
   }
 
   /**
+   * converts the {@link R} into {@link F}.
+   *
+   * @param r the {@link R} to convert.
+   * @param field the field to convert.
+   *
+   * @return {@link F} value.
+   */
+  @NotNull
+  Optional<F> toFinalWithField(@NotNull final R r, @NotNull final F field);
+
+  /**
+   * converts the {@link R} into {@link F}.
+   *
+   * @param r the {@link R} to convert.
+   * @param field the field to convert.
+   *
+   * @return {@link F} value.
+   */
+  @Nullable
+  default F toFinalWithFieldOrNull(@NotNull final R r, @NotNull final F field) {
+    return this.toFinalWithField(r, field).orElse(null);
+  }
+
+  /**
    * converts the {@link F} into {@link R}.
    *
    * @param f the {@link F} to convert.
@@ -119,6 +159,18 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
     return this.toRaw(f).orElse(null);
   }
 
+  @Override
+  @NotNull
+  default Optional<F> transform(@NotNull final R r) {
+    return this.toFinal(r);
+  }
+
+  @Override
+  @NotNull
+  default Optional<F> transformWithField(@NotNull final R r, @NotNull final F field) {
+    return this.toFinalWithField(r, field);
+  }
+
   /**
    * a simple implementation of {@link TwoSideTransformer}.
    *
@@ -135,13 +187,19 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
     private final GenericHolder<R, F> holder;
 
     /**
-     * the transformation.
+     * the to final.
      */
     @NotNull
     private final Function<@NotNull R, @Nullable F> toFinal;
 
     /**
-     * the transformation.
+     * the to final with field.
+     */
+    @NotNull
+    private final BiFunction<@NotNull R, @NotNull F, @Nullable F> toFinalWithField;
+
+    /**
+     * the to raw.
      */
     @NotNull
     private final Function<@NotNull F, @Nullable R> toRaw;
@@ -152,12 +210,15 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
      * @param holder the holder.
      * @param toRaw the to raw.
      * @param toFinal the to final.
+     * @param toFinalWithField the to final with field.
      */
     protected Base(@NotNull final GenericHolder<R, F> holder, @NotNull final Function<@NotNull F, @Nullable R> toRaw,
-                   @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
+                   @NotNull final Function<@NotNull R, @Nullable F> toFinal,
+                   @NotNull final BiFunction<@NotNull R, @NotNull F, @Nullable F> toFinalWithField) {
       this.holder = holder;
       this.toRaw = toRaw;
       this.toFinal = toFinal;
+      this.toFinalWithField = toFinalWithField;
     }
 
     /**
@@ -171,13 +232,36 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
     protected Base(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
                    @NotNull final Function<@NotNull F, @Nullable R> toRaw,
                    @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
-      this(GenericHolder.create(rawType, finalType), toRaw, toFinal);
+      this(GenericHolder.create(rawType, finalType), toRaw, toFinal,
+        (r, field) -> toFinal.apply(r));
+    }
+
+    /**
+     * ctor.
+     *
+     * @param rawType the raw type.
+     * @param finalType the final type.
+     * @param toRaw the to raw.
+     * @param toFinal the to final.
+     * @param toFinalWithField the to final with field.
+     */
+    protected Base(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                   @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                   @NotNull final Function<@NotNull R, @Nullable F> toFinal,
+                   @NotNull final BiFunction<@NotNull R, @NotNull F, @Nullable F> toFinalWithField) {
+      this(GenericHolder.create(rawType, finalType), toRaw, toFinal, toFinalWithField);
     }
 
     @NotNull
     @Override
     public final Optional<F> toFinal(@NotNull final R r) {
       return Optional.ofNullable(this.toFinal.apply(r));
+    }
+
+    @NotNull
+    @Override
+    public final Optional<F> toFinalWithField(@NotNull final R r, final @NotNull F field) {
+      return Optional.ofNullable(this.toFinalWithField.apply(r, field));
     }
 
     @NotNull
@@ -206,7 +290,24 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
     private Impl(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
                  @NotNull final Function<@NotNull F, @Nullable R> toRaw,
                  @NotNull final Function<@NotNull R, @Nullable F> toFinal) {
-      super(rawType, finalType, toRaw, toFinal);
+      super(rawType, finalType, toRaw, toFinal,
+        (r, field) -> toFinal.apply(r));
+    }
+
+    /**
+     * ctor.
+     *
+     * @param rawType the raw type.
+     * @param finalType the final type.
+     * @param toRaw the to raw.
+     * @param toFinal the to final.
+     * @param toFinalWithField the to final with field.
+     */
+    private Impl(@NotNull final Class<R> rawType, @NotNull final Class<F> finalType,
+                 @NotNull final Function<@NotNull F, @Nullable R> toRaw,
+                 @NotNull final Function<@NotNull R, @Nullable F> toFinal,
+                 @NotNull final BiFunction<@NotNull R, @NotNull F, @Nullable F> toFinalWithField) {
+      super(rawType, finalType, toRaw, toFinal, toFinalWithField);
     }
   }
 }

@@ -23,39 +23,49 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.serializers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import java.util.Locale;
+import io.github.portlek.configs.transformer.TransformerPool;
+import java.util.function.Consumer;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents transformers between {@link String} and {@link Locale}.
+ * an interface to determine object serializer packs.
  */
-public final class TransformerStringToLocale extends Transformer.Base<String, Locale> {
+public interface ObjectSerializerPack extends Consumer<@NotNull TransformerPool> {
 
   /**
-   * ctor.
+   * the default object serializer pack.
    */
-  public TransformerStringToLocale() {
-    super(String.class, Locale.class,
-      TransformerStringToLocale::toLocale);
+  ObjectSerializerPack DEFAULT = ObjectSerializerPack.create(pool -> {
+  });
+
+  /**
+   * creates a simple object serializer pack instance.
+   *
+   * @param consumer the consumer to create.
+   *
+   * @return a newly created object serializer pack.
+   */
+  @NotNull
+  static ObjectSerializerPack create(@NotNull final Consumer<@NotNull TransformerPool> consumer) {
+    return new Impl(consumer);
   }
 
-  @Nullable
-  private static Locale toLocale(@NotNull final String s) {
-    final var trim = s.trim();
-    if (trim.isEmpty()) {
-      return Locale.ROOT;
-    }
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Locale.ROOT;
-    }
-    if (strings.length != 2) {
-      return null;
-    }
-    return new Locale(strings[0], strings[1]);
+  /**
+   * a simple implementation of {@link ObjectSerializerPack}.
+   */
+  @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+  final class Impl implements ObjectSerializerPack {
+
+    /**
+     * the delegation.
+     */
+    @NotNull
+    @Delegate
+    private final Consumer<@NotNull TransformerPool> delegation;
   }
 }

@@ -37,6 +37,7 @@ public final class TransformerStringToString extends Transformer.Base<String, St
    * ctor.
    */
   public TransformerStringToString() {
-    super(String.class, String.class, Function.identity());
+    super(String.class, String.class,
+      Function.identity());
   }
 }

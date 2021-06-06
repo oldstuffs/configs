@@ -37,6 +37,7 @@ public final class TransformerStringToLong extends Transformer.Base<String, Long
    * ctor.
    */
   public TransformerStringToLong() {
-    super(String.class, Long.class, s -> new BigDecimal(s).longValueExact());
+    super(String.class, Long.class,
+      s -> new BigDecimal(s).longValueExact());
   }
 }

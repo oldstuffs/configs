@@ -37,6 +37,7 @@ public final class TransformerStringToShort extends Transformer.Base<String, Sho
    * ctor.
    */
   public TransformerStringToShort() {
-    super(String.class, Short.class, s -> new BigDecimal(s).shortValueExact());
+    super(String.class, Short.class,
+      s -> new BigDecimal(s).shortValueExact());
   }
 }

@@ -40,7 +40,8 @@ public final class TransformerStringToAddress extends TwoSideTransformer.Base<St
    * ctor.
    */
   public TransformerStringToAddress() {
-    super(String.class, InetSocketAddress.class, TransformerStringToAddress::toAddress,
+    super(String.class, InetSocketAddress.class,
+      TransformerStringToAddress::toAddress,
       TransformerStringToAddress::toAddress);
   }
 

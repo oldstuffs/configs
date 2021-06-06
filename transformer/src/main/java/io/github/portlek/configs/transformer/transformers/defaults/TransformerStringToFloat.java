@@ -36,6 +36,7 @@ public final class TransformerStringToFloat extends Transformer.Base<String, Flo
    * ctor.
    */
   public TransformerStringToFloat() {
-    super(String.class, Float.class, Float::parseFloat);
+    super(String.class, Float.class,
+      Float::parseFloat);
   }
 }

@@ -25,19 +25,26 @@
 
 package io.github.portlek.configs.transformer.transformers.defaults;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
+import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
+import io.github.portlek.replaceable.RpBase;
+import io.github.portlek.replaceable.RpList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
- * a class that represents transformers between {@link Object} and {@link String}.
+ * a class that represents transformers between {@link String} {@link List} and {@link RpList}.
  */
-public final class TransformerObjectToString extends Transformer.Base<Object, String> {
+@SuppressWarnings("rawtypes")
+public final class TransformerStringListToRpList extends TwoSideTransformer.Base<List, RpList> {
 
   /**
    * ctor.
    */
-  public TransformerObjectToString() {
-    super(Object.class, String.class,
-      Objects::toString);
+  public TransformerStringListToRpList() {
+    super(List.class, RpList.class,
+      RpBase::getValue,
+      RpList::fromObjects,
+      (s, rpList) -> rpList.value(((List<?>) s).stream().map(Objects::toString).collect(Collectors.toList())));
   }
 }

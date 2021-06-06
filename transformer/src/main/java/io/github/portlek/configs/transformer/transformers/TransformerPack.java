@@ -27,6 +27,7 @@ package io.github.portlek.configs.transformer.transformers;
 
 import io.github.portlek.configs.transformer.TransformerPool;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringListToRpList;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToAddress;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBigDecimal;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToBigInteger;
@@ -38,6 +39,7 @@ import io.github.portlek.configs.transformer.transformers.defaults.TransformerSt
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToInteger;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToLocale;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToLong;
+import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToRpString;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToShort;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToString;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToUniqueId;
@@ -59,6 +61,8 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
     .registerTransformer(new TransformerObjectToString())
     .registerTransformer(new TransformerStringToString())
     .registerTransformer(new TransformerStringToAddress())
+    .registerTransformer(new TransformerStringToRpString())
+    .registerTransformer(new TransformerStringListToRpList())
     .registerTransformerReversedToString(new TransformerStringToBigDecimal())
     .registerTransformerReversedToString(new TransformerStringToBigInteger())
     .registerTransformerReversedToString(new TransformerStringToBoolean())

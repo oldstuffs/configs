@@ -36,6 +36,7 @@ public final class TransformerStringToBoolean extends Transformer.Base<String, B
    * ctor.
    */
   public TransformerStringToBoolean() {
-    super(String.class, Boolean.class, Boolean::parseBoolean);
+    super(String.class, Boolean.class,
+      Boolean::parseBoolean);
   }
 }

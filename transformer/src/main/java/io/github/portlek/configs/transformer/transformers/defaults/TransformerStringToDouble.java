@@ -36,6 +36,7 @@ public final class TransformerStringToDouble extends Transformer.Base<String, Do
    * ctor.
    */
   public TransformerStringToDouble() {
-    super(String.class, Double.class, Double::parseDouble);
+    super(String.class, Double.class,
+      Double::parseDouble);
   }
 }

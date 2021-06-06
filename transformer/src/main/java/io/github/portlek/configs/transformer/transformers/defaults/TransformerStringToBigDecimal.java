@@ -37,6 +37,7 @@ public final class TransformerStringToBigDecimal extends Transformer.Base<String
    * ctor.
    */
   public TransformerStringToBigDecimal() {
-    super(String.class, BigDecimal.class, BigDecimal::new);
+    super(String.class, BigDecimal.class,
+      BigDecimal::new);
   }
 }

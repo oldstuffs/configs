@@ -36,9 +36,10 @@ public final class TransformerStringToCharacter extends Transformer.Base<String,
    * ctor.
    */
   public TransformerStringToCharacter() {
-    super(String.class, Character.class, s -> {
-      assert s.length() <= 1 : String.format("Character '%s' too long: %d>1", s, s.length());
-      return s.charAt(0);
-    });
+    super(String.class, Character.class,
+      s -> {
+        assert s.length() <= 1 : String.format("Character '%s' too long: %d>1", s, s.length());
+        return s.charAt(0);
+      });
   }
 }

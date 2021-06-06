@@ -15,5 +15,9 @@
       <groupId>com.github.portlek</groupId>
       <artifactId>reflection</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.github.portlek</groupId>
+      <artifactId>replaceable</artifactId>
+    </dependency>
   </dependencies>
 </project>

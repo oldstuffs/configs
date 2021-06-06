@@ -37,6 +37,7 @@ public final class TransformerStringToByte extends Transformer.Base<String, Byte
    * ctor.
    */
   public TransformerStringToByte() {
-    super(String.class, Byte.class, s -> new BigDecimal(s).byteValueExact());
+    super(String.class, Byte.class,
+      s -> new BigDecimal(s).byteValueExact());
   }
 }

@@ -39,7 +39,8 @@ public final class TransformerStringToUniqueId extends Transformer.Base<String, 
    * ctor.
    */
   public TransformerStringToUniqueId() {
-    super(String.class, UUID.class, TransformerStringToUniqueId::toUniqueId);
+    super(String.class, UUID.class,
+      TransformerStringToUniqueId::toUniqueId);
   }
 
   /**
