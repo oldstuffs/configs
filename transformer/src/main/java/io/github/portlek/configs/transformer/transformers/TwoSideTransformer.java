@@ -122,7 +122,7 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
    * @return {@link F} value.
    */
   @NotNull
-  Optional<F> toFinalWithField(@NotNull final R r, @NotNull final F field);
+  Optional<F> toFinalWithField(@NotNull R r, @NotNull F field);
 
   /**
    * converts the {@link R} into {@link F}.

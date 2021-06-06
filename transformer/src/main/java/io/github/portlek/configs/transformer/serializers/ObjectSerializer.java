@@ -27,7 +27,6 @@ package io.github.portlek.configs.transformer.serializers;
 
 import io.github.portlek.configs.transformer.TransformedData;
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
-import java.lang.reflect.Field;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
 

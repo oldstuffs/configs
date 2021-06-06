@@ -26,7 +26,6 @@
 package io.github.portlek.configs.transformer.transformers;
 
 import io.github.portlek.configs.transformer.generics.GenericHolder;
-import java.lang.reflect.Field;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -94,6 +93,7 @@ public interface Transformer<R, F> extends GenericHolder<R, F> {
    * transforms the {@link R} into {@link F} with field.
    *
    * @param r the r to transform.
+   * @param field the field to transform.
    *
    * @return transformed value.
    */
