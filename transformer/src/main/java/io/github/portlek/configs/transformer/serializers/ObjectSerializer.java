@@ -29,6 +29,7 @@ import io.github.portlek.configs.transformer.TransformedData;
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
 import java.util.Optional;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * an interface to determine object serializers.
@@ -46,7 +47,7 @@ public interface ObjectSerializer<T> {
    * @return deserialized object.
    */
   @NotNull
-  Optional<T> deserialize(@NotNull TransformedData transformedData, @NotNull GenericDeclaration declaration);
+  Optional<T> deserialize(@NotNull TransformedData transformedData, @Nullable GenericDeclaration declaration);
 
   /**
    * deserializes the object.

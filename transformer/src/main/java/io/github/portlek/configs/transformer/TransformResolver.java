@@ -26,8 +26,11 @@
 package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
+import io.github.portlek.configs.transformer.resolvers.InMemoryWrappedResolver;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -56,13 +59,16 @@ public abstract class TransformResolver {
    *
    * @return deserialized object.
    */
+  @SuppressWarnings("unchecked")
   @Nullable
-  public <T> T deserialize(@Nullable final Object object, @NotNull final Class<T> targetClass,
-                           @Nullable final GenericDeclaration declaration) {
+  public <T> T deserialize(@Nullable final Object object, @Nullable final GenericDeclaration genericSource,
+                           @NotNull final Class<T> targetClass, @Nullable final GenericDeclaration declaration) {
     if (object == null) {
       return null;
     }
-    final var genericSource = GenericDeclaration.of(targetClass);
+    final var source = genericSource == null
+      ? GenericDeclaration.of(object)
+      : genericSource;
     final var target = declaration == null
       ? GenericDeclaration.of(targetClass)
       : declaration;
@@ -96,7 +102,7 @@ public abstract class TransformResolver {
             .collect(Collectors.joining(", ")));
         throw new IllegalArgumentException(error);
       }
-      if (genericSource.isEnum() && targetClass == String.class) {
+      if (source.isEnum() && targetClass == String.class) {
         final var name = objectClassOf.getMethodByName("name")
           .orElseThrow()
           .of(object)
@@ -108,6 +114,18 @@ public abstract class TransformResolver {
       final var error = String.format("Failed to resolve enum %s <> %s",
         object.getClass(), targetClass);
       throw new RuntimeException(error, exception);
+    }
+    if (TransformedObject.class.isAssignableFrom(targetClass)) {
+      final var transformedPool = TransformerPool.createUnsafe((Class<? extends TransformedObject>) targetClass);
+      final var map = this.deserialize(object, source, Map.class, GenericDeclaration.of(Map.class, String.class, Object.class));
+      transformedPool.setResolver(new InMemoryWrappedResolver(this.pool, this, map == null ? new HashMap<>() : map));
+      return (T) transformedPool.update();
+    }
+    final var serializer = this.pool.getSerializer(targetClass);
+    if (object instanceof Map && serializer.isPresent()) {
+      return serializer.get().deserialize(TransformedData.deserialization(this.pool, (Map<String, Object>) object), declaration)
+        .map(targetClass::cast)
+        .orElse(null);
     }
     return null;
   }

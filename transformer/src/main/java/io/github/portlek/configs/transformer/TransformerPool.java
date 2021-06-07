@@ -27,17 +27,23 @@ package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.declarations.TransformedObjectDeclaration;
 import io.github.portlek.configs.transformer.generics.GenericPair;
+import io.github.portlek.configs.transformer.serializers.ObjectSerializer;
 import io.github.portlek.configs.transformer.transformers.Transformer;
 import io.github.portlek.configs.transformer.transformers.TransformerPack;
 import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.UnaryOperator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -54,16 +60,23 @@ public final class TransformerPool {
   private final TransformedObjectDeclaration declaration;
 
   /**
-   * the resolver.
+   * the serializers.
    */
   @NotNull
-  private final TransformResolver resolver;
+  private final Set<ObjectSerializer<?>> serializers = new HashSet<>();
 
   /**
    * the transformers by id.
    */
   @NotNull
   private final Map<GenericPair, Transformer<?, ?>> transformers = new ConcurrentHashMap<>();
+
+  /**
+   * the resolver.
+   */
+  @NotNull
+  @Setter
+  private TransformResolver resolver;
 
   /**
    * creates a new instance of transformer pool.
@@ -77,7 +90,8 @@ public final class TransformerPool {
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+  public static TransformerPool create(@NotNull final TransformedObject object,
+                                       @NotNull final TransformResolver resolver,
                                        final boolean registerDefaultTransformers,
                                        @NotNull final UnaryOperator<@NotNull TransformerPool> initializer,
                                        @NotNull final Transformer<?, ?>... transformers) {
@@ -100,7 +114,8 @@ public final class TransformerPool {
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+  public static TransformerPool create(@NotNull final TransformedObject object,
+                                       @NotNull final TransformResolver resolver,
                                        @NotNull final UnaryOperator<@NotNull TransformerPool> initializer,
                                        @NotNull final Transformer<?, ?>... transformers) {
     return TransformerPool.create(object, resolver, true, initializer, transformers);
@@ -117,7 +132,8 @@ public final class TransformerPool {
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+  public static TransformerPool create(@NotNull final TransformedObject object,
+                                       @NotNull final TransformResolver resolver,
                                        final boolean registerDefaultTransformers,
                                        @NotNull final Transformer<?, ?>... transformers) {
     return TransformerPool.create(object, resolver, registerDefaultTransformers, UnaryOperator.identity(),
@@ -134,9 +150,29 @@ public final class TransformerPool {
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+  public static TransformerPool create(@NotNull final TransformedObject object,
+                                       @NotNull final TransformResolver resolver,
                                        @NotNull final Transformer<?, ?>... transformers) {
     return TransformerPool.create(object, resolver, true, transformers);
+  }
+
+  @NotNull
+  public static TransformerPool createUnsafe(@NotNull final Class<? extends TransformedObject> targetClass) {
+    return null;
+  }
+
+  /**
+   * gets the serializer from class.
+   *
+   * @param cls the cls to get.
+   *
+   * @return obtains object serializer.
+   */
+  @NotNull
+  public Optional<ObjectSerializer<?>> getSerializer(@NotNull final Class<?> cls) {
+    return this.serializers.stream()
+      .filter(serializer -> serializer.supports(cls))
+      .findFirst();
   }
 
   /**
@@ -147,6 +183,19 @@ public final class TransformerPool {
   @NotNull
   public TransformerPool registerDefaultTransformers() {
     TransformerPack.DEFAULT.accept(this);
+    return this;
+  }
+
+  /**
+   * registers the serializers.
+   *
+   * @param serializers the serializers to register.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerSerializers(@NotNull final ObjectSerializer<?>... serializers) {
+    Collections.addAll(this.serializers, serializers);
     return this;
   }
 
@@ -201,5 +250,15 @@ public final class TransformerPool {
   public TransformerPool registerTransformerReversedToString(@NotNull final Transformer<?, ?> transformer) {
     return this.registerTransformer(transformer)
       .registerTransformer(transformer.getPair().reverse(), new TransformerObjectToString());
+  }
+
+  /**
+   * updates the declarations.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool update() {
+    return this;
   }
 }

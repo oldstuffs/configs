@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.transformer.declarations;
 
+import io.github.portlek.configs.transformer.TransformedObject;
 import io.github.portlek.configs.transformer.annotations.Comment;
 import io.github.portlek.configs.transformer.annotations.Exclude;
 import io.github.portlek.configs.transformer.annotations.Names;
@@ -54,7 +55,8 @@ public final class TransformedObjectDeclaration {
   /**
    * the caches.
    */
-  private static final Map<Class<?>, TransformedObjectDeclaration> CACHES = new ConcurrentHashMap<>();
+  private static final Map<Class<? extends TransformedObject>, TransformedObjectDeclaration> CACHES =
+    new ConcurrentHashMap<>();
 
   /**
    * the fields.
@@ -72,7 +74,7 @@ public final class TransformedObjectDeclaration {
    * the object class.
    */
   @NotNull
-  private final Class<?> objectClass;
+  private final Class<? extends TransformedObject> objectClass;
 
   /**
    * creates a new transformed object declaration.
@@ -83,7 +85,8 @@ public final class TransformedObjectDeclaration {
    * @return a newly created transformed object declaration.
    */
   @NotNull
-  public static TransformedObjectDeclaration of(@NotNull final Class<?> cls, @Nullable final Object object) {
+  public static TransformedObjectDeclaration of(@NotNull final Class<? extends TransformedObject> cls,
+                                                @Nullable final TransformedObject object) {
     return TransformedObjectDeclaration.CACHES.computeIfAbsent(cls, clazz -> {
       final var classOf = new ClassOf<>(clazz);
       return new TransformedObjectDeclaration(
@@ -107,7 +110,7 @@ public final class TransformedObjectDeclaration {
    * @return a newly created transformed object declaration.
    */
   @NotNull
-  public static TransformedObjectDeclaration of(@NotNull final Object object) {
+  public static TransformedObjectDeclaration of(@NotNull final TransformedObject object) {
     return TransformedObjectDeclaration.of(object.getClass(), object);
   }
 
@@ -119,7 +122,7 @@ public final class TransformedObjectDeclaration {
    * @return a newly created transformed object declaration.
    */
   @NotNull
-  public static TransformedObjectDeclaration of(@NotNull final Class<?> cls) {
+  public static TransformedObjectDeclaration of(@NotNull final Class<? extends TransformedObject> cls) {
     return TransformedObjectDeclaration.of(cls, null);
   }
 }

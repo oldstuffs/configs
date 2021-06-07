@@ -43,7 +43,7 @@ public final class TransformedData {
   /**
    * the deserialized map.
    */
-  private final Map<String, Object> deserializedMap = new ConcurrentHashMap<>();
+  private final Map<String, Object> deserializedMap;
 
   /**
    * the pool.
@@ -59,7 +59,7 @@ public final class TransformedData {
   /**
    * the serialized map.
    */
-  private final Map<String, Object> serializedMap = new ConcurrentHashMap<>();
+  private final Map<String, Object> serializedMap;
 
   /**
    * creates a new transformed data instance for deserialization.
@@ -69,8 +69,9 @@ public final class TransformedData {
    * @return a transformed data instance for deserialization.
    */
   @NotNull
-  public static TransformedData deserialization(@NotNull final TransformerPool pool) {
-    return new TransformedData(pool, false);
+  public static TransformedData deserialization(@NotNull final TransformerPool pool,
+                                                @NotNull final Map<String, Object> map) {
+    return new TransformedData(new ConcurrentHashMap<>(map), pool, false, new ConcurrentHashMap<>());
   }
 
   /**
@@ -82,7 +83,7 @@ public final class TransformedData {
    */
   @NotNull
   public static TransformedData serialization(@NotNull final TransformerPool pool) {
-    return new TransformedData(pool, true);
+    return new TransformedData(new ConcurrentHashMap<>(), pool, true, new ConcurrentHashMap<>());
   }
 
   /**
@@ -111,8 +112,10 @@ public final class TransformedData {
     if (this.canSerialize()) {
       return Optional.empty();
     }
+    final var object = this.deserializedMap.get(key);
     return Optional.ofNullable(this.pool.getResolver().deserialize(
-      this.deserializedMap.get(key),
+      object,
+      GenericDeclaration.of(object),
       objectClass,
       null));
   }
@@ -132,8 +135,10 @@ public final class TransformedData {
     if (this.canSerialize()) {
       return Optional.empty();
     }
+    final var object = this.deserializedMap.get(key);
     return Optional.ofNullable(this.pool.getResolver().deserialize(
-      this.deserializedMap.get(key),
+      object,
+      GenericDeclaration.of(object),
       List.class,
       GenericDeclaration.of(List.class, elementClass)));
   }
@@ -156,8 +161,10 @@ public final class TransformedData {
     if (this.canSerialize()) {
       return Optional.empty();
     }
+    final var object = this.deserializedMap.get(key);
     return Optional.ofNullable(this.pool.getResolver().deserialize(
-      this.deserializedMap.get(key),
+      object,
+      GenericDeclaration.of(object),
       Map.class,
       GenericDeclaration.of(Map.class, keyClass, valueClass)));
   }
