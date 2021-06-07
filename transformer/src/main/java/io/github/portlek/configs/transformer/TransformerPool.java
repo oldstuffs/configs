@@ -157,8 +157,9 @@ public final class TransformerPool {
   }
 
   @NotNull
-  public static TransformerPool createUnsafe(@NotNull final Class<? extends TransformedObject> targetClass) {
-    return null;
+  public static TransformedObject createTransformedObject(@NotNull final Class<? extends TransformedObject> targetClass) {
+    return new TransformedObject() {
+    };
   }
 
   /**
@@ -250,15 +251,5 @@ public final class TransformerPool {
   public TransformerPool registerTransformerReversedToString(@NotNull final Transformer<?, ?> transformer) {
     return this.registerTransformer(transformer)
       .registerTransformer(transformer.getPair().reverse(), new TransformerObjectToString());
-  }
-
-  /**
-   * updates the declarations.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool update() {
-    return this;
   }
 }

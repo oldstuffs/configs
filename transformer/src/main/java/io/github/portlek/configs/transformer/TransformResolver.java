@@ -54,7 +54,8 @@ public abstract class TransformResolver {
    *
    * @param object the object to deserialize.
    * @param targetClass the target class to deserialize.
-   * @param declaration the declaration to deserialize.
+   * @param genericSource the generic source to deserialize.
+   * @param genericTarget the generic target to deserialize.
    * @param <T> type of the deserialized object class.
    *
    * @return deserialized object.
@@ -62,23 +63,23 @@ public abstract class TransformResolver {
   @SuppressWarnings("unchecked")
   @Nullable
   public <T> T deserialize(@Nullable final Object object, @Nullable final GenericDeclaration genericSource,
-                           @NotNull final Class<T> targetClass, @Nullable final GenericDeclaration declaration) {
+                           @NotNull final Class<T> targetClass, @Nullable final GenericDeclaration genericTarget) {
     if (object == null) {
       return null;
     }
     final var source = genericSource == null
       ? GenericDeclaration.of(object)
       : genericSource;
-    final var target = declaration == null
+    var target = genericTarget == null
       ? GenericDeclaration.of(targetClass)
-      : declaration;
-    final GenericDeclaration genericTarget = target.isPrimitive()
-      ? GenericDeclaration.ofReady(target.toWrapper().orElse(null))
-      : target;
+      : genericTarget;
+    if (target.isPrimitive()) {
+      target = GenericDeclaration.ofReady(target.toWrapper().orElse(null));
+    }
     final var objectClass = object.getClass();
     final var objectClassOf = new ClassOf<>(objectClass);
     try {
-      if (object instanceof String && genericTarget.isEnum()) {
+      if (object instanceof String && target.isEnum()) {
         final var targetClassOf = new ClassOf<>(targetClass);
         final var stringObject = (String) object;
         try {
@@ -116,17 +117,19 @@ public abstract class TransformResolver {
       throw new RuntimeException(error, exception);
     }
     if (TransformedObject.class.isAssignableFrom(targetClass)) {
-      final var transformedPool = TransformerPool.createUnsafe((Class<? extends TransformedObject>) targetClass);
+      final var transformedObject = TransformerPool.createTransformedObject((Class<? extends TransformedObject>) targetClass);
       final var map = this.deserialize(object, source, Map.class, GenericDeclaration.of(Map.class, String.class, Object.class));
-      transformedPool.setResolver(new InMemoryWrappedResolver(this.pool, this, map == null ? new HashMap<>() : map));
-      return (T) transformedPool.update();
+      transformedObject.setResolver(new InMemoryWrappedResolver(this.pool, this, map == null ? new HashMap<>() : map));
+      return (T) transformedObject.update();
     }
     final var serializer = this.pool.getSerializer(targetClass);
     if (object instanceof Map && serializer.isPresent()) {
-      return serializer.get().deserialize(TransformedData.deserialization(this.pool, (Map<String, Object>) object), declaration)
+      return serializer.get().deserialize(TransformedData.deserialization(this, (Map<String, Object>) object), genericTarget)
         .map(targetClass::cast)
         .orElse(null);
     }
-    return null;
+    if (genericTarget != null) {
+      return null;
+    }
   }
 }

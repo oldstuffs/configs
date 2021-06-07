@@ -25,9 +25,29 @@
 
 package io.github.portlek.configs.transformer;
 
+import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * an abstract class that represents transformed objects.
  */
 public abstract class TransformedObject {
 
+  /**
+   * the resolver.
+   */
+  @Nullable
+  @Setter
+  private TransformResolver resolver;
+
+  /**
+   * updates the transformed object.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformedObject update() {
+    return this;
+  }
 }
