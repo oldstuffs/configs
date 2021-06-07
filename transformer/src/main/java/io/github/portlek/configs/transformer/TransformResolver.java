@@ -129,7 +129,7 @@ public abstract class TransformResolver {
         .orElse(null);
     }
     if (genericTarget != null) {
-      return null;
     }
+    return null;
   }
 }
