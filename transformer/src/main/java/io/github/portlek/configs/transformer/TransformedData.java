@@ -111,7 +111,7 @@ public final class TransformedData {
     if (this.canSerialize()) {
       return Optional.empty();
     }
-    return Optional.ofNullable(this.pool.deserialize(
+    return Optional.ofNullable(this.pool.getResolver().deserialize(
       this.deserializedMap.get(key),
       objectClass,
       null));
@@ -132,7 +132,7 @@ public final class TransformedData {
     if (this.canSerialize()) {
       return Optional.empty();
     }
-    return Optional.ofNullable(this.pool.deserialize(
+    return Optional.ofNullable(this.pool.getResolver().deserialize(
       this.deserializedMap.get(key),
       List.class,
       GenericDeclaration.of(List.class, elementClass)));
@@ -156,7 +156,7 @@ public final class TransformedData {
     if (this.canSerialize()) {
       return Optional.empty();
     }
-    return Optional.ofNullable(this.pool.deserialize(
+    return Optional.ofNullable(this.pool.getResolver().deserialize(
       this.deserializedMap.get(key),
       Map.class,
       GenericDeclaration.of(Map.class, keyClass, valueClass)));
