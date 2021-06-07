@@ -54,6 +54,12 @@ public final class TransformerPool {
   private final TransformedObjectDeclaration declaration;
 
   /**
+   * the resolver.
+   */
+  @NotNull
+  private final TransformResolver resolver;
+
+  /**
    * the transformers by id.
    */
   @NotNull
@@ -63,6 +69,7 @@ public final class TransformerPool {
    * creates a new instance of transformer pool.
    *
    * @param object the object to create.
+   * @param resolver the resolver to create.
    * @param registerDefaultTransformers the register default transformers to create.
    * @param initializer the initializer to create.
    * @param transformers the transformers to create.
@@ -70,10 +77,11 @@ public final class TransformerPool {
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, final boolean registerDefaultTransformers,
+  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+                                       final boolean registerDefaultTransformers,
                                        @NotNull final UnaryOperator<@NotNull TransformerPool> initializer,
                                        @NotNull final Transformer<?, ?>... transformers) {
-    final var pool = new TransformerPool(TransformedObjectDeclaration.of(object));
+    final var pool = new TransformerPool(TransformedObjectDeclaration.of(object), resolver);
     initializer.apply(registerDefaultTransformers
       ? pool.registerDefaultTransformers()
       : pool);
@@ -85,44 +93,50 @@ public final class TransformerPool {
    * creates a new instance of transformer pool.
    *
    * @param object the object to create.
+   * @param resolver the resolver to create.
    * @param initializer the initializer to create.
    * @param transformers the transformers to create.
    *
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object,
+  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
                                        @NotNull final UnaryOperator<@NotNull TransformerPool> initializer,
                                        @NotNull final Transformer<?, ?>... transformers) {
-    return TransformerPool.create(object, true, initializer, transformers);
+    return TransformerPool.create(object, resolver, true, initializer, transformers);
   }
 
   /**
    * creates a new instance of transformer pool.
    *
    * @param object the object to create.
+   * @param resolver the resolver to create.
    * @param registerDefaultTransformers the register default transformers to create.
    * @param transformers the transformers to create.
    *
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, final boolean registerDefaultTransformers,
+  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+                                       final boolean registerDefaultTransformers,
                                        @NotNull final Transformer<?, ?>... transformers) {
-    return TransformerPool.create(object, registerDefaultTransformers, UnaryOperator.identity(), transformers);
+    return TransformerPool.create(object, resolver, registerDefaultTransformers, UnaryOperator.identity(),
+      transformers);
   }
 
   /**
    * creates a new instance of transformer pool.
    *
    * @param object the object to create.
+   * @param resolver the resolver to create.
    * @param transformers the transformers to create.
    *
    * @return a newly created transformer pool.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final Object object, @NotNull final Transformer<?, ?>... transformers) {
-    return TransformerPool.create(object, true, transformers);
+  public static TransformerPool create(@NotNull final Object object, @NotNull final TransformResolver resolver,
+                                       @NotNull final Transformer<?, ?>... transformers) {
+    return TransformerPool.create(object, resolver, true, transformers);
   }
 
   /**
@@ -133,21 +147,6 @@ public final class TransformerPool {
   @NotNull
   public TransformerPool registerDefaultTransformers() {
     TransformerPack.DEFAULT.accept(this);
-    return this;
-  }
-
-  /**
-   * registers the given transformer into the pool.
-   *
-   * @param pair the pair to add.
-   * @param transformer the transformer to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformer(@NotNull final GenericPair pair,
-                                             @NotNull final Transformer<?, ?> transformer) {
-    this.transformers.put(pair, transformer);
     return this;
   }
 
@@ -174,6 +173,21 @@ public final class TransformerPool {
   public TransformerPool registerTransformer(@NotNull final TwoSideTransformer<?, ?> transformer) {
     return this.registerTransformer((Transformer<?, ?>) transformer)
       .registerTransformer((Transformer<?, ?>) transformer.reverse());
+  }
+
+  /**
+   * registers the given transformer into the pool.
+   *
+   * @param pair the pair to add.
+   * @param transformer the transformer to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerTransformer(@NotNull final GenericPair pair,
+                                             @NotNull final Transformer<?, ?> transformer) {
+    this.transformers.put(pair, transformer);
+    return this;
   }
 
   /**

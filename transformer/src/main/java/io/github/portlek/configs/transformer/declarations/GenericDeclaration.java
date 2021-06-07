@@ -29,6 +29,7 @@ import io.github.portlek.reflection.RefField;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -162,25 +163,43 @@ public final class GenericDeclaration {
    * creates a new generic declaration.
    *
    * @param type the type to create.
+   * @param subTypes the sub type to create.
    *
    * @return a newly created generic declaration.
    */
   @NotNull
-  public static GenericDeclaration of(@Nullable final Class<?> type) {
-    return new GenericDeclaration(type);
+  public static GenericDeclaration of(@Nullable final Class<?> type, @NotNull final List<Class<?>> subTypes) {
+    return GenericDeclaration.ofReady(type, subTypes.stream()
+      .map(GenericDeclaration::ofReady)
+      .collect(Collectors.toList()));
   }
 
   /**
    * creates a new generic declaration.
    *
-   * @param subTypes the sub type to create.
    * @param type the type to create.
+   * @param subTypes the sub type to create.
    *
    * @return a newly created generic declaration.
    */
   @NotNull
-  public static GenericDeclaration of(@NotNull final List<GenericDeclaration> subTypes, @Nullable final Class<?> type) {
-    return new GenericDeclaration(subTypes, type);
+  public static GenericDeclaration of(@Nullable final Class<?> type, @NotNull final Class<?>... subTypes) {
+    return GenericDeclaration.ofReady(type, Arrays.stream(subTypes)
+      .map(GenericDeclaration::of)
+      .collect(Collectors.toList()));
+  }
+
+  /**
+   * creates a new generic declaration.
+   *
+   * @param type the type to create.
+   * @param subTypes the sub type to create.
+   *
+   * @return a newly created generic declaration.
+   */
+  @NotNull
+  public static GenericDeclaration of(@Nullable final Class<?> type, @NotNull final GenericDeclaration... subTypes) {
+    return GenericDeclaration.ofReady(type, List.of(subTypes));
   }
 
   /**
@@ -232,6 +251,32 @@ public final class GenericDeclaration {
       return GenericDeclaration.of((Class<?>) object);
     }
     return GenericDeclaration.of(object.getClass());
+  }
+
+  /**
+   * creates a new generic declaration.
+   *
+   * @param type the type to create.
+   *
+   * @return a newly created generic declaration.
+   */
+  @NotNull
+  public static GenericDeclaration ofReady(@Nullable final Class<?> type) {
+    return new GenericDeclaration(type);
+  }
+
+  /**
+   * creates a new generic declaration.
+   *
+   * @param type the type to create.
+   * @param subTypes the sub type to create.
+   *
+   * @return a newly created generic declaration.
+   */
+  @NotNull
+  public static GenericDeclaration ofReady(@Nullable final Class<?> type,
+                                           @NotNull final List<GenericDeclaration> subTypes) {
+    return new GenericDeclaration(subTypes, type);
   }
 
   /**
@@ -294,7 +339,7 @@ public final class GenericDeclaration {
       final var subTypes = GenericDeclaration.getSeparateTypes(genericType).stream()
         .map(GenericDeclaration::from)
         .collect(Collectors.toList());
-      return GenericDeclaration.of(subTypes, type);
+      return GenericDeclaration.ofReady(type, subTypes);
     }
     return GenericDeclaration.of(GenericDeclaration.getPrimitiveOrClass(builder.toString()));
   }
