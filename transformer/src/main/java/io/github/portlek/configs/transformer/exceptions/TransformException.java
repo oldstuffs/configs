@@ -23,43 +23,31 @@
  *
  */
 
-package io.github.portlek.configs.transformer.resolvers;
+package io.github.portlek.configs.transformer.exceptions;
 
-import io.github.portlek.configs.transformer.TransformResolver;
-import io.github.portlek.configs.transformer.TransformerPool;
-import java.util.HashMap;
-import java.util.Map;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents in memory wrapped resolver.
+ * an exception that thrown when something goes for transformer.
  */
-public final class InMemoryWrappedResolver extends TransformResolver {
-
-  /**
-   * the map.
-   */
-  @NotNull
-  private final Map<String, Object> map;
-
-  /**
-   * the resolver.
-   */
-  @NotNull
-  private final TransformResolver resolver;
+public final class TransformException extends RuntimeException {
 
   /**
    * ctor.
    *
-   * @param pool the pool.
-   * @param resolver the resolver.
-   * @param map the map.
+   * @param message the message.
    */
-  public InMemoryWrappedResolver(@NotNull final TransformerPool pool, @NotNull final TransformResolver resolver,
-                                 @NotNull final Map<String, Object> map) {
-    super(pool);
-    this.resolver = resolver;
-    this.map = map;
+  public TransformException(@NotNull final String message) {
+    super(message);
+  }
+
+  /**
+   * ctor.
+   *
+   * @param message the message.
+   * @param cause the cause.
+   */
+  public TransformException(@NotNull final String message, @NotNull final Throwable cause) {
+    super(message, cause);
   }
 }

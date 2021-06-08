@@ -26,14 +26,23 @@
 package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
+import io.github.portlek.configs.transformer.exceptions.TransformException;
 import io.github.portlek.configs.transformer.resolvers.InMemoryWrappedResolver;
+import io.github.portlek.reflection.RefConstructed;
 import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+import javax.xml.transform.TransformerException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -50,6 +59,41 @@ public abstract class TransformResolver {
   private final TransformerPool pool;
 
   /**
+   * creates a new instance of the given class.
+   *
+   * @param cls the cls to create.
+   *
+   * @return a new instance of the class.
+   *
+   * @throws TransformerException if something goes wrong when creating the instance.
+   */
+  @NotNull
+  private static Object createInstance(@NotNull final Class<?> cls) throws TransformerException {
+    try {
+      if (Collection.class.isAssignableFrom(cls)) {
+        if (cls == Set.class) {
+          return new HashSet<>();
+        }
+        if (cls == List.class) {
+          return new ArrayList<>();
+        }
+        return cls.newInstance();
+      }
+      if (Map.class.isAssignableFrom(cls)) {
+        if (cls == Map.class) {
+          return new LinkedHashMap<>();
+        }
+        return new ClassOf<>(cls).getConstructor()
+          .map(RefConstructed::create)
+          .orElseThrow();
+      }
+      throw new TransformerException(String.format("Cannot create instance of %s", cls));
+    } catch (final Exception exception) {
+      throw new TransformerException(String.format("Failed to create instance of %s", cls), exception);
+    }
+  }
+
+  /**
    * deserializes the object and converts it into object class.
    *
    * @param object the object to deserialize.
@@ -62,8 +106,10 @@ public abstract class TransformResolver {
    */
   @SuppressWarnings("unchecked")
   @Nullable
+  @Contract("null, _, _, _ -> null; !null, _, _, _ -> !null")
   public <T> T deserialize(@Nullable final Object object, @Nullable final GenericDeclaration genericSource,
-                           @NotNull final Class<T> targetClass, @Nullable final GenericDeclaration genericTarget) {
+                           @NotNull final Class<T> targetClass, @Nullable final GenericDeclaration genericTarget)
+    throws TransformerException {
     if (object == null) {
       return null;
     }
@@ -131,6 +177,39 @@ public abstract class TransformResolver {
         .orElse(null);
     }
     if (genericTarget != null) {
+      if (object instanceof Collection<?> && Collection.class.isAssignableFrom(targetClass)) {
+        final var sourceList = (Collection<?>) object;
+        final var targetList = (Collection<Object>) TransformResolver.createInstance(targetClass);
+        final var declaration = genericTarget.getSubTypeAt(0).orElseThrow(() ->
+          new TransformException(String.format("Something went wrong when getting sub types(0) of %s", genericTarget)));
+        if (declaration.getType() == null) {
+          throw new TransformerException(String.format("Something went wrong when getting type of %s", genericTarget));
+        }
+        for (final var item : sourceList) {
+          targetList.add(this.deserialize(item, GenericDeclaration.of(item), declaration.getType(), declaration));
+        }
+        return targetClass.cast(targetList);
+      }
+      if (object instanceof Map<?, ?> && Map.class.isAssignableFrom(targetClass)) {
+        final var values = (Map<Object, Object>) object;
+        final var keyDeclaration = genericTarget.getSubTypeAt(0).orElseThrow(() ->
+          new TransformException(String.format("Something went wrong when getting sub types(0) of %s", genericTarget)));
+        final var valueDeclaration = genericTarget.getSubTypeAt(1).orElseThrow(() ->
+          new TransformException(String.format("Something went wrong when getting sub types(1) of %s", genericTarget)));
+        if (keyDeclaration.getType() == null) {
+          throw new TransformerException(String.format("Something went wrong when getting type of %s", keyDeclaration));
+        }
+        if (valueDeclaration.getType() == null) {
+          throw new TransformerException(String.format("Something went wrong when getting type of %s", valueDeclaration));
+        }
+        final var map = (Map<Object, Object>) TransformResolver.createInstance(targetClass);
+        for (final var entry : values.entrySet()) {
+          map.put(
+            this.deserialize(entry.getKey(), GenericDeclaration.of(entry.getKey()), keyDeclaration.getType(), keyDeclaration),
+            this.deserialize(entry.getValue(), GenericDeclaration.of(entry.getValue()), valueDeclaration.getType(), valueDeclaration));
+        }
+        return targetClass.cast(map);
+      }
     }
     return null;
   }
