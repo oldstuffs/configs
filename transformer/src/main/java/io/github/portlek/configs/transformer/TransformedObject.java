@@ -521,7 +521,7 @@ public abstract class TransformedObject {
   }
 
   /**
-   * register the transformer pack.
+   * register the transform pack.
    *
    * @param pack the pack to register.
    *
