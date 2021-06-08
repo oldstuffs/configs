@@ -25,7 +25,7 @@
 
 package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.TransformerPool;
+import io.github.portlek.configs.transformer.TransformRegistry;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringListToRpList;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerStringToAddress;
@@ -54,7 +54,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * an interface to determine transformer packs.
  */
-public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
+public interface TransformerPack extends Consumer<@NotNull TransformRegistry> {
 
   /**
    * the default transformers.
@@ -86,9 +86,9 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
   /**
    * the default transformer pack.
    */
-  TransformerPack DEFAULT = TransformerPack.create(pool -> pool
-    .registerTransformers(TransformerPack.DEFAULT_TRANSFORMERS)
-    .registerTransformersReversedToString(TransformerPack.DEFAULT_TRANSFORMERS_REVERSED_TO_STRING));
+  TransformerPack DEFAULT = TransformerPack.create(registry -> registry
+    .withTransformers(TransformerPack.DEFAULT_TRANSFORMERS)
+    .withTransformersReversedToString(TransformerPack.DEFAULT_TRANSFORMERS_REVERSED_TO_STRING));
 
   /**
    * creates a simple transformer pack instance.
@@ -98,7 +98,7 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
    * @return a newly created transformer pack.
    */
   @NotNull
-  static TransformerPack create(@NotNull final Consumer<@NotNull TransformerPool> consumer) {
+  static TransformerPack create(@NotNull final Consumer<@NotNull TransformRegistry> consumer) {
     return new Impl(consumer);
   }
 
@@ -113,6 +113,6 @@ public interface TransformerPack extends Consumer<@NotNull TransformerPool> {
      */
     @NotNull
     @Delegate
-    private final Consumer<@NotNull TransformerPool> delegation;
+    private final Consumer<@NotNull TransformRegistry> delegation;
   }
 }

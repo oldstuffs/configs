@@ -25,29 +25,23 @@
 
 package io.github.portlek.configs.transformer;
 
-import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
 import io.github.portlek.configs.transformer.declarations.TransformedObjectDeclaration;
-import io.github.portlek.configs.transformer.generics.GenericPair;
-import io.github.portlek.configs.transformer.serializers.ObjectSerializer;
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import io.github.portlek.configs.transformer.transformers.TransformerPack;
-import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
-import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
-import java.util.Arrays;
+import io.github.portlek.configs.transformer.exceptions.TransformException;
+import io.github.portlek.reflection.RefConstructed;
+import io.github.portlek.reflection.RefField;
+import io.github.portlek.reflection.clazz.ClassOf;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.UnaryOperator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import sun.misc.Unsafe;
 
 /**
  * a class that represents transformer pools.
@@ -57,268 +51,101 @@ import org.jetbrains.annotations.Nullable;
 public final class TransformerPool {
 
   /**
-   * the transformed declaration.
-   */
-  @NotNull
-  private final TransformedObjectDeclaration declaration;
-
-  /**
-   * the serializers.
-   */
-  @NotNull
-  private final Set<ObjectSerializer<?>> serializers = new HashSet<>();
-
-  /**
-   * the transformers by id.
-   */
-  @NotNull
-  private final Map<GenericPair, Transformer<?, ?>> transformers = new ConcurrentHashMap<>();
-
-  /**
-   * the resolver.
-   */
-  @NotNull
-  @Setter
-  private TransformResolver resolver;
-
-  /**
-   * creates a new instance of transformer pool.
+   * creates a new transformed object.
    *
-   * @param object the object to create.
-   * @param resolver the resolver to create.
-   * @param registerDefaultTransformers the register default transformers to create.
-   * @param initializer the initializer to create.
-   * @param transformers the transformers to create.
+   * @param transformedObject the transformed object to create.
+   * @param <T> type of the transformed object class.
    *
-   * @return a newly created transformer pool.
+   * @return a newly created transformed object.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final TransformedObject object,
-                                       @NotNull final TransformResolver resolver,
-                                       final boolean registerDefaultTransformers,
-                                       @NotNull final UnaryOperator<@NotNull TransformerPool> initializer,
-                                       @NotNull final Transformer<?, ?>... transformers) {
-    final var pool = new TransformerPool(TransformedObjectDeclaration.of(object), resolver);
-    initializer.apply(registerDefaultTransformers
-      ? pool.registerDefaultTransformers()
-      : pool);
-    pool.registerTransformers(transformers);
-    return pool;
+  public static <T extends TransformedObject> T create(@NotNull final T transformedObject) {
+    transformedObject.withDeclaration(TransformedObjectDeclaration.of(transformedObject));
+    return transformedObject;
   }
 
   /**
-   * creates a new instance of transformer pool.
+   * creates a new transformed object.
    *
-   * @param object the object to create.
-   * @param resolver the resolver to create.
-   * @param initializer the initializer to create.
-   * @param transformers the transformers to create.
+   * @param cls the cls to create.
+   * @param <T> type of the transformed object class.
    *
-   * @return a newly created transformer pool.
+   * @return a newly created transformed object.
    */
   @NotNull
-  public static TransformerPool create(@NotNull final TransformedObject object,
-                                       @NotNull final TransformResolver resolver,
-                                       @NotNull final UnaryOperator<@NotNull TransformerPool> initializer,
-                                       @NotNull final Transformer<?, ?>... transformers) {
-    return TransformerPool.create(object, resolver, true, initializer, transformers);
-  }
-
-  /**
-   * creates a new instance of transformer pool.
-   *
-   * @param object the object to create.
-   * @param resolver the resolver to create.
-   * @param registerDefaultTransformers the register default transformers to create.
-   * @param transformers the transformers to create.
-   *
-   * @return a newly created transformer pool.
-   */
-  @NotNull
-  public static TransformerPool create(@NotNull final TransformedObject object,
-                                       @NotNull final TransformResolver resolver,
-                                       final boolean registerDefaultTransformers,
-                                       @NotNull final Transformer<?, ?>... transformers) {
-    return TransformerPool.create(object, resolver, registerDefaultTransformers, UnaryOperator.identity(),
-      transformers);
-  }
-
-  /**
-   * creates a new instance of transformer pool.
-   *
-   * @param object the object to create.
-   * @param resolver the resolver to create.
-   * @param transformers the transformers to create.
-   *
-   * @return a newly created transformer pool.
-   */
-  @NotNull
-  public static TransformerPool create(@NotNull final TransformedObject object,
-                                       @NotNull final TransformResolver resolver,
-                                       @NotNull final Transformer<?, ?>... transformers) {
-    return TransformerPool.create(object, resolver, true, transformers);
-  }
-
-  /**
-   * gets the serializer from class.
-   *
-   * @param cls the cls to get.
-   *
-   * @return obtains object serializer.
-   */
-  @NotNull
-  public Optional<ObjectSerializer<?>> getSerializer(@NotNull final Class<?> cls) {
-    return this.serializers.stream()
-      .filter(serializer -> serializer.supports(cls))
-      .findFirst();
-  }
-
-  /**
-   * gets the transformers.
-   *
-   * @param from the from to get.
-   * @param to the to to get.
-   *
-   * @return transformer instance for from to.
-   */
-  @NotNull
-  public Optional<Transformer<?, ?>> getTransformer(@Nullable final GenericDeclaration from,
-                                                    @Nullable final GenericDeclaration to) {
-    return Optional.ofNullable(this.transformers.get(GenericPair.of(from, to)));
-  }
-
-  /**
-   * registers the default transformers.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerDefaultTransformers() {
-    TransformerPack.DEFAULT.accept(this);
-    return this;
-  }
-
-  /**
-   * registers the serializers.
-   *
-   * @param serializers the serializers to register.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerSerializers(@NotNull final ObjectSerializer<?>... serializers) {
-    Collections.addAll(this.serializers, serializers);
-    return this;
-  }
-
-  /**
-   * registers the given transformer into the pool.
-   *
-   * @param pair the pair to add.
-   * @param transformer the transformer to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformer(@NotNull final GenericPair pair,
-                                             @NotNull final Transformer<?, ?> transformer) {
-    this.transformers.put(pair, transformer);
-    return this;
-  }
-
-  /**
-   * registers the given transformers into the pool.
-   *
-   * @param transformers the transformers to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformers(@NotNull final Transformer<?, ?>... transformers) {
-    return this.registerTransformers(Set.of(transformers));
-  }
-
-  /**
-   * registers the given transformers into the pool.
-   *
-   * @param transformers the transformers to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformers(@NotNull final Collection<Transformer<?, ?>> transformers) {
-    for (final var transformer : transformers) {
-      if (transformer instanceof TwoSideTransformer<?, ?>) {
-        this.registerTwoSideTransformers((TwoSideTransformer<?, ?>) transformer);
-      } else {
-        this.registerTransformer(transformer.getPair(), transformer);
+  public static <T extends TransformedObject> T create(@NotNull final Class<T> cls) {
+    T transformedObject;
+    try {
+      transformedObject = new ClassOf<>(cls).getConstructor()
+        .flatMap(RefConstructed::create)
+        .orElseThrow(() ->
+          new TransformException(String.format("Something went wrong when creating instance of %s", cls)));
+    } catch (final Exception exception) {
+      try {
+        //noinspection unchecked
+        transformedObject = (T) TransformerPool.allocateInstance(cls);
+      } catch (final Exception exception1) {
+        throw new TransformException(String.format("Failed to create %s instance, neither default constructor available, nor unsafe succeeded", cls));
       }
     }
-    return this;
+    return TransformerPool.create(transformedObject);
   }
 
   /**
-   * registers the given transformers into the pool.
+   * creates a new instance of the given class.
    *
-   * @param transformers the transformers to add.
+   * @param cls the cls to create.
    *
-   * @return {@code this} for builder chain.
+   * @return a new instance of the class.
+   *
+   * @throws TransformException if something goes wrong when creating the instance.
    */
   @NotNull
-  public TransformerPool registerTransformersReversedToString(@NotNull final Transformer<?, ?>... transformers) {
-    return this.registerTransformersReversedToString(Set.of(transformers));
-  }
-
-  /**
-   * registers the given transformers into the pool.
-   *
-   * @param transformers the transformers to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformersReversedToString(
-    @NotNull final Collection<Transformer<?, ?>> transformers) {
-    this.registerTransformers(transformers);
-    for (final var transformer : transformers) {
-      this.registerTransformer(transformer.getPair().reverse(), new TransformerObjectToString());
+  public static Object createInstance(@NotNull final Class<?> cls) throws TransformException {
+    try {
+      if (Collection.class.isAssignableFrom(cls)) {
+        if (cls == Set.class) {
+          return new HashSet<>();
+        }
+        if (cls == List.class) {
+          return new ArrayList<>();
+        }
+        return new ClassOf<>(cls).getConstructor()
+          .flatMap(RefConstructed::create)
+          .orElseThrow();
+      }
+      if (Map.class.isAssignableFrom(cls)) {
+        if (cls == Map.class) {
+          return new LinkedHashMap<>();
+        }
+        return new ClassOf<>(cls).getConstructor()
+          .flatMap(RefConstructed::create)
+          .orElseThrow();
+      }
+      throw new TransformException(String.format("Cannot create instance of %s", cls));
+    } catch (final Exception exception) {
+      throw new TransformException(String.format("Failed to create instance of %s", cls), exception);
     }
-    return this;
   }
 
   /**
-   * registers the given two side transformers into the pool.
+   * allocates an instance but does not run any constructor.
+   * <p>
+   * initializes the class if it has not yet been.
    *
-   * @param transformers the transformers to add.
+   * @param cls the cls to allocate.
    *
-   * @return {@code this} for builder chain.
+   * @return allocated instance.
    */
   @NotNull
-  public TransformerPool registerTwoSideTransformers(@NotNull final TwoSideTransformer<?, ?>... transformers) {
-    for (final var transformer : transformers) {
-      this.registerTransformer(transformer.getPair(), transformer);
-    }
-    Arrays.stream(transformers)
-      .map(TwoSideTransformer::reverse)
-      .forEach(transformer -> this.registerTransformer(transformer.getPair(), transformer));
-    return this;
-  }
-
-  /**
-   * registers the given two side transformers into the pool.
-   *
-   * @param transformers the transformers to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTwoSideTransformers(@NotNull final Collection<TwoSideTransformer<?, ?>> transformers) {
-    for (final var transformer : transformers) {
-      this.registerTransformer(transformer.getPair(), transformer);
-    }
-    transformers.stream()
-      .map(TwoSideTransformer::reverse)
-      .forEach(transformer -> this.registerTransformer(transformer.getPair(), transformer));
-    return this;
+  private static Object allocateInstance(@NotNull final Class<?> cls) {
+    final var unsafeClassOf = new ClassOf<>(Unsafe.class);
+    return unsafeClassOf.getField("theUnsafe")
+      .flatMap(RefField::getValue)
+      .flatMap(object -> unsafeClassOf.getMethod("allocateInstance", Class.class)
+        .map(method -> method.of(object)))
+      .flatMap(refMethodExecuted -> refMethodExecuted.call(cls))
+      .orElseThrow(() ->
+        new TransformException(String.format("Something went wrong when allocating instance of %s", cls)));
   }
 }

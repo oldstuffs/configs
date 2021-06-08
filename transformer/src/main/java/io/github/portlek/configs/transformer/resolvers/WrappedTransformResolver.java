@@ -26,55 +26,21 @@
 package io.github.portlek.configs.transformer.resolvers;
 
 import io.github.portlek.configs.transformer.TransformResolver;
-import io.github.portlek.configs.transformer.declarations.FieldDeclaration;
-import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Delegate;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents in memory wrapped resolver.
+ * an abstract class that represents wrapped transform resolvers.
  */
-public final class InMemoryWrappedResolver extends WrappedTransformResolver {
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+public abstract class WrappedTransformResolver extends TransformResolver {
 
   /**
-   * the map.
+   * the delegate.
    */
   @NotNull
-  private final Map<String, Object> map;
-
-  /**
-   * ctor.
-   *
-   * @param resolver the resolver.
-   * @param map the map.
-   */
-  public InMemoryWrappedResolver(@NotNull final TransformResolver resolver, @NotNull final Map<String, Object> map) {
-    super(resolver);
-    this.map = map;
-  }
-
-  @Override
-  public List<String> getAllKeys() {
-    return List.copyOf(this.map.keySet());
-  }
-
-  @Override
-  public boolean pathExists(@NotNull final String path) {
-    return this.map.containsKey(path);
-  }
-
-  @NotNull
-  @Override
-  public Optional<Object> getValue(@NotNull final String path) {
-    return Optional.ofNullable(this.map.get(path));
-  }
-
-  @Override
-  public void setValue(@NotNull final String path, @Nullable final Object value,
-                       @Nullable final GenericDeclaration genericType, @Nullable final FieldDeclaration field) {
-    this.map.put(path, value);
-  }
+  @Delegate
+  private final TransformResolver delegate;
 }

@@ -32,8 +32,7 @@ import io.github.portlek.configs.transformer.exceptions.TransformException;
 import io.github.portlek.configs.transformer.resolvers.InMemoryWrappedResolver;
 import io.github.portlek.configs.transformer.serializers.ObjectSerializer;
 import io.github.portlek.configs.transformer.transformers.Transformer;
-import io.github.portlek.reflection.RefConstructed;
-import io.github.portlek.reflection.RefField;
+import io.github.portlek.configs.transformer.transformers.TransformerPack;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -41,33 +40,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import sun.misc.Unsafe;
 
 /**
  * an abstract class that represents transform resolvers.
  */
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class TransformResolver {
-
-  /**
-   * the pool.
-   */
-  @NotNull
-  @Getter
-  private final TransformerPool pool;
 
   /**
    * the parent object.
@@ -76,89 +61,69 @@ public abstract class TransformResolver {
   private TransformedObject parentObject;
 
   /**
-   * allocates an instance but does not run any constructor.
-   * <p>
-   * initializes the class if it has not yet been.
-   *
-   * @param cls the cls to allocate.
-   *
-   * @return allocated instance.
+   * the registry.
    */
   @NotNull
-  private static Object allocateInstance(@NotNull final Class<?> cls) {
-    final var unsafeClassOf = new ClassOf<>(Unsafe.class);
-    return unsafeClassOf.getField("theUnsafe")
-      .flatMap(RefField::getValue)
-      .flatMap(object -> unsafeClassOf.getMethod("allocateInstance", Class.class)
-        .map(method -> method.of(object)))
-      .flatMap(refMethodExecuted -> refMethodExecuted.call(cls))
-      .orElseThrow(() ->
-        new TransformException(String.format("Something went wrong when allocating instance of %s", cls)));
+  private TransformRegistry registry = new TransformRegistry()
+    .withDefaultTransformers();
+
+  /**
+   * obtains the parent object.
+   *
+   * @return parent object.
+   */
+  @Nullable
+  public final TransformedObject getParentObject() {
+    return this.parentObject;
   }
 
   /**
-   * creates a new instance of the given class.
+   * obtains the registry.
    *
-   * @param cls the cls to create.
-   *
-   * @return a new instance of the class.
-   *
-   * @throws TransformException if something goes wrong when creating the instance.
+   * @return registry.
    */
   @NotNull
-  private static Object createInstance(@NotNull final Class<?> cls) throws TransformException {
-    try {
-      if (Collection.class.isAssignableFrom(cls)) {
-        if (cls == Set.class) {
-          return new HashSet<>();
-        }
-        if (cls == List.class) {
-          return new ArrayList<>();
-        }
-        return new ClassOf<>(cls).getConstructor()
-          .flatMap(RefConstructed::create)
-          .orElseThrow();
-      }
-      if (Map.class.isAssignableFrom(cls)) {
-        if (cls == Map.class) {
-          return new LinkedHashMap<>();
-        }
-        return new ClassOf<>(cls).getConstructor()
-          .flatMap(RefConstructed::create)
-          .orElseThrow();
-      }
-      throw new TransformException(String.format("Cannot create instance of %s", cls));
-    } catch (final Exception exception) {
-      throw new TransformException(String.format("Failed to create instance of %s", cls), exception);
-    }
+  public final TransformRegistry getRegistry() {
+    return this.registry;
   }
 
   /**
-   * creates a new transformed object.
+   * sets the parent object.
    *
-   * @param cls the cls to create.
-   * @param <T> type of the transformed object class.
+   * @param parentObject the parent object to set.
    *
-   * @return a newly created transformed object.
+   * @return {@code this} for builder chain.
    */
   @NotNull
-  private static <T extends TransformedObject> T createTransformedObject(@NotNull final Class<T> cls) {
-    T transformedObject;
-    try {
-      transformedObject = new ClassOf<>(cls).getConstructor()
-        .flatMap(RefConstructed::create)
-        .orElseThrow(() ->
-          new TransformException(String.format("Something went wrong when creating instance of %s", cls)));
-    } catch (final Exception exception) {
-      try {
-        //noinspection unchecked
-        transformedObject = (T) TransformResolver.allocateInstance(cls);
-      } catch (final Exception exception1) {
-        throw new TransformException(String.format("Failed to create %s instance, neither default constructor available, nor unsafe succeeded", cls));
-      }
-    }
-    transformedObject.withDeclaration(TransformedObjectDeclaration.of(transformedObject));
-    return transformedObject;
+  public final TransformResolver withParentObject(@Nullable final TransformedObject parentObject) {
+    this.parentObject = parentObject;
+    return this;
+  }
+
+  /**
+   * sets the registry.
+   *
+   * @param registry the registry to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final TransformResolver withRegistry(@NotNull final TransformRegistry registry) {
+    this.registry = registry;
+    return this;
+  }
+
+  /**
+   * registers the pack.
+   *
+   * @param packs the packs to register.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final TransformResolver withTransformerPacks(@NotNull final TransformerPack... packs) {
+    this.registry.withTransformPacks(packs);
+    return this;
   }
 
   /**
@@ -233,14 +198,13 @@ public abstract class TransformResolver {
       throw new RuntimeException(error, exception);
     }
     if (TransformedObject.class.isAssignableFrom(targetClass)) {
-      final var transformedObject = TransformResolver.createTransformedObject((Class<? extends TransformedObject>) targetClass);
+      final var transformedObject = TransformerPool.create((Class<? extends TransformedObject>) targetClass);
       transformedObject.withResolver(new InMemoryWrappedResolver(
-        this.pool,
         this,
         this.deserialize(object, source, Map.class, GenericDeclaration.of(Map.class, String.class, Object.class))));
       return (T) transformedObject.update();
     }
-    final var serializer = this.pool.getSerializer(targetClass);
+    final var serializer = this.registry.getSerializer(targetClass);
     if (object instanceof Map && serializer.isPresent()) {
       return serializer.get().deserialize(TransformedData.deserialization(this, (Map<String, Object>) object), genericTarget)
         .map(targetClass::cast)
@@ -249,7 +213,7 @@ public abstract class TransformResolver {
     if (genericTarget != null) {
       if (object instanceof Collection<?> && Collection.class.isAssignableFrom(targetClass)) {
         final var sourceList = (Collection<?>) object;
-        final var targetList = (Collection<Object>) TransformResolver.createInstance(targetClass);
+        final var targetList = (Collection<Object>) TransformerPool.createInstance(targetClass);
         final var declaration = genericTarget.getSubTypeAt(0).orElseThrow(() ->
           new TransformException(String.format("Something went wrong when getting sub types(0) of %s", genericTarget)));
         if (declaration.getType() == null) {
@@ -272,7 +236,7 @@ public abstract class TransformResolver {
         if (valueDeclaration.getType() == null) {
           throw new TransformException(String.format("Something went wrong when getting type of %s", valueDeclaration));
         }
-        final var map = (Map<Object, Object>) TransformResolver.createInstance(targetClass);
+        final var map = (Map<Object, Object>) TransformerPool.createInstance(targetClass);
         for (final var entry : values.entrySet()) {
           map.put(
             this.deserialize(entry.getKey(), GenericDeclaration.of(entry.getKey()), keyDeclaration.getType(), keyDeclaration),
@@ -281,7 +245,7 @@ public abstract class TransformResolver {
         return targetClass.cast(map);
       }
     }
-    final var transformerOptional = this.pool.getTransformer(source, target);
+    final var transformerOptional = this.registry.getTransformer(source, target);
     if (transformerOptional.isEmpty()) {
       if (targetClass.isPrimitive() && GenericDeclaration.isWrapperBoth(targetClass, objectClass)) {
         return (T) GenericDeclaration.toPrimitive(object);
@@ -359,7 +323,7 @@ public abstract class TransformResolver {
     if (object instanceof Class<?>) {
       final var cls = (Class<?>) object;
       return cls.isEnum() ||
-        this.pool.getTransformer(declaration, GenericDeclaration.of(String.class)).isPresent();
+        this.registry.getTransformer(declaration, GenericDeclaration.of(String.class)).isPresent();
     }
     return object.getClass().isEnum() ||
       this.isToStringObject(object.getClass(), declaration);
@@ -426,7 +390,7 @@ public abstract class TransformResolver {
       throw new TransformException(String.format("Something went wrong when getting type of %s or %s",
         genericType, value));
     }
-    final var serializerOptional = this.pool.getSerializer(serializerType);
+    final var serializerOptional = this.registry.getSerializer(serializerType);
     if (serializerOptional.isEmpty()) {
       if (conservative && (serializerType.isPrimitive() || GenericDeclaration.of(serializerType).hasWrapper())) {
         return value;

@@ -443,7 +443,7 @@ public abstract class TransformedObject {
    */
   @NotNull
   public final TransformedObject withTransformPack(@NotNull final TransformerPack pack) {
-    pack.accept(Objects.requireNonNull(this.resolver, "resolver").getPool());
+    Objects.requireNonNull(this.resolver, "resolver").withTransformerPacks(pack);
     return this;
   }
 
@@ -455,7 +455,7 @@ public abstract class TransformedObject {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public final TransformedObject withTransformPack(@NotNull final Consumer<@NotNull TransformerPool> consumer) {
+  public final TransformedObject withTransformPack(@NotNull final Consumer<@NotNull TransformRegistry> consumer) {
     return this.withTransformPack(TransformerPack.create(consumer));
   }
 }

@@ -28,6 +28,10 @@ package io.github.portlek.configs.transformer.resolvers;
 import io.github.portlek.configs.transformer.TransformResolver;
 import io.github.portlek.configs.transformer.declarations.FieldDeclaration;
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
+import io.github.portlek.configs.transformer.declarations.TransformedObjectDeclaration;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,35 +39,19 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents in memory wrapped resolver.
+ * a class that represents in memory resolver.
  */
-public final class InMemoryWrappedResolver extends WrappedTransformResolver {
+public final class InMemoryResolver extends TransformResolver {
 
   /**
    * the map.
    */
   @NotNull
-  private final Map<String, Object> map;
-
-  /**
-   * ctor.
-   *
-   * @param resolver the resolver.
-   * @param map the map.
-   */
-  public InMemoryWrappedResolver(@NotNull final TransformResolver resolver, @NotNull final Map<String, Object> map) {
-    super(resolver);
-    this.map = map;
-  }
+  private final Map<String, Object> map = new LinkedHashMap<>();
 
   @Override
   public List<String> getAllKeys() {
     return List.copyOf(this.map.keySet());
-  }
-
-  @Override
-  public boolean pathExists(@NotNull final String path) {
-    return this.map.containsKey(path);
   }
 
   @NotNull
@@ -73,8 +61,21 @@ public final class InMemoryWrappedResolver extends WrappedTransformResolver {
   }
 
   @Override
+  public void load(@NotNull final InputStream inputStream, @NotNull final TransformedObjectDeclaration declaration) {
+  }
+
+  @Override
+  public boolean pathExists(@NotNull final String path) {
+    return this.map.containsKey(path);
+  }
+
+  @Override
   public void setValue(@NotNull final String path, @Nullable final Object value,
                        @Nullable final GenericDeclaration genericType, @Nullable final FieldDeclaration field) {
     this.map.put(path, value);
+  }
+
+  @Override
+  public void write(@NotNull final OutputStream outputStream, @NotNull final TransformedObjectDeclaration declaration) {
   }
 }
