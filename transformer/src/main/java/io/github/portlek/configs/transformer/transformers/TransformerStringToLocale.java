@@ -23,24 +23,39 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
-import io.github.portlek.replaceable.RpBase;
-import io.github.portlek.replaceable.RpString;
+import io.github.portlek.configs.transformer.Transformer;
+import java.util.Locale;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents transformers between {@link String} and {@link RpString}.
+ * a class that represents transformers between {@link String} and {@link Locale}.
  */
-public final class TransformerStringToRpString extends TwoSideTransformer.Base<String, RpString> {
+public final class TransformerStringToLocale extends Transformer.Base<String, Locale> {
 
   /**
    * ctor.
    */
-  public TransformerStringToRpString() {
-    super(String.class, RpString.class,
-      RpBase::getValue,
-      RpString::from,
-      (s, rpString) -> rpString.value(s));
+  public TransformerStringToLocale() {
+    super(String.class, Locale.class,
+      TransformerStringToLocale::toLocale);
+  }
+
+  @Nullable
+  private static Locale toLocale(@NotNull final String s) {
+    final var trim = s.trim();
+    if (trim.isEmpty()) {
+      return Locale.ROOT;
+    }
+    final var strings = trim.split("_");
+    if (trim.contains("_") && strings.length != 2) {
+      return Locale.ROOT;
+    }
+    if (strings.length != 2) {
+      return null;
+    }
+    return new Locale(strings[0], strings[1]);
   }
 }

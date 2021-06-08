@@ -22,7 +22,25 @@
  * SOFTWARE.
  *
  */
+
+package io.github.portlek.configs.transformer.transformers;
+
+import io.github.portlek.configs.transformer.TwoSideTransformer;
+import io.github.portlek.replaceable.RpBase;
+import io.github.portlek.replaceable.RpString;
+
 /**
- * the package that contains serializers.
+ * a class that represents transformers between {@link String} and {@link RpString}.
  */
-package io.github.portlek.configs.transformer.serializers;
+public final class TransformerStringToRpString extends TwoSideTransformer.Base<String, RpString> {
+
+  /**
+   * ctor.
+   */
+  public TransformerStringToRpString() {
+    super(String.class, RpString.class,
+      RpBase::getValue,
+      RpString::from,
+      (s, rpString) -> rpString.value(s));
+  }
+}

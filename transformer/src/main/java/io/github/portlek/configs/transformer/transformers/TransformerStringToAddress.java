@@ -23,39 +23,47 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import java.util.Locale;
+import io.github.portlek.configs.transformer.TwoSideTransformer;
+import java.math.BigDecimal;
+import java.net.InetSocketAddress;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents transformers between {@link String} and {@link Locale}.
+ * a class that represents transformers between {@link String} and {@link InetSocketAddress}.
  */
-public final class TransformerStringToLocale extends Transformer.Base<String, Locale> {
+public final class TransformerStringToAddress extends TwoSideTransformer.Base<String, InetSocketAddress> {
 
   /**
    * ctor.
    */
-  public TransformerStringToLocale() {
-    super(String.class, Locale.class,
-      TransformerStringToLocale::toLocale);
+  public TransformerStringToAddress() {
+    super(String.class, InetSocketAddress.class,
+      TransformerStringToAddress::toAddress,
+      TransformerStringToAddress::toAddress);
   }
 
+  @NotNull
+  private static String toAddress(@NotNull final InetSocketAddress address) {
+    return address.getHostName() + ":" + address.getPort();
+  }
+
+  /**
+   * converts the given string into {@link InetSocketAddress}.
+   *
+   * @param address the address to convert.
+   *
+   * @return converted {@link InetSocketAddress} instance.
+   */
   @Nullable
-  private static Locale toLocale(@NotNull final String s) {
-    final var trim = s.trim();
-    if (trim.isEmpty()) {
-      return Locale.ROOT;
-    }
-    final var strings = trim.split("_");
-    if (trim.contains("_") && strings.length != 2) {
-      return Locale.ROOT;
-    }
+  private static InetSocketAddress toAddress(@NotNull final String address) {
+    final var trim = address.trim();
+    final var strings = trim.split(":");
     if (strings.length != 2) {
       return null;
     }
-    return new Locale(strings[0], strings[1]);
+    return new InetSocketAddress(strings[0], new BigDecimal(strings[1]).intValueExact());
   }
 }

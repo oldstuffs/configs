@@ -23,9 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
+import io.github.portlek.configs.transformer.TwoSideTransformer;
 import io.github.portlek.replaceable.RpBase;
 import io.github.portlek.replaceable.RpList;
 import java.util.List;

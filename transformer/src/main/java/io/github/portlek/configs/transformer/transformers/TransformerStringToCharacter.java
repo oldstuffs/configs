@@ -23,21 +23,23 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import java.util.function.Function;
+import io.github.portlek.configs.transformer.Transformer;
 
 /**
- * a class that represents transformers between {@link String} and {@link String}.
+ * a class that represents transformers between {@link String} and {@link Character}.
  */
-public final class TransformerStringToString extends Transformer.Base<String, String> {
+public final class TransformerStringToCharacter extends Transformer.Base<String, Character> {
 
   /**
    * ctor.
    */
-  public TransformerStringToString() {
-    super(String.class, String.class,
-      Function.identity());
+  public TransformerStringToCharacter() {
+    super(String.class, Character.class,
+      s -> {
+        assert s.length() <= 1 : String.format("Character '%s' too long: %d>1", s, s.length());
+        return s.charAt(0);
+      });
   }
 }

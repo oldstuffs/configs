@@ -23,20 +23,39 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
+import io.github.portlek.configs.transformer.Transformer;
+import java.util.UUID;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents transformers between {@link String} and {@link Boolean}.
+ * a class that represents transformers between {@link String} and {@link UUID}.
  */
-public final class TransformerStringToBoolean extends Transformer.Base<String, Boolean> {
+public final class TransformerStringToUniqueId extends Transformer.Base<String, UUID> {
 
   /**
    * ctor.
    */
-  public TransformerStringToBoolean() {
-    super(String.class, Boolean.class,
-      Boolean::parseBoolean);
+  public TransformerStringToUniqueId() {
+    super(String.class, UUID.class,
+      TransformerStringToUniqueId::toUniqueId);
+  }
+
+  /**
+   * converts the given string into {@link UUID}.
+   *
+   * @param uniqueId the unique id to convert.
+   *
+   * @return converted {@link UUID} instance.
+   */
+  @Nullable
+  private static UUID toUniqueId(@NotNull final String uniqueId) {
+    try {
+      return UUID.fromString(uniqueId);
+    } catch (final IllegalArgumentException ignored) {
+    }
+    return null;
   }
 }

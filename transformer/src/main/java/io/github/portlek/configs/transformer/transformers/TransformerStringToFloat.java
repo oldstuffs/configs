@@ -23,9 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
+import io.github.portlek.configs.transformer.Transformer;
 
 /**
  * a class that represents transformers between {@link String} and {@link Float}.

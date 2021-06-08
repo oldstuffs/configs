@@ -28,7 +28,6 @@ package io.github.portlek.configs.transformer;
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
 import io.github.portlek.configs.transformer.declarations.TransformedObjectDeclaration;
 import io.github.portlek.configs.transformer.exceptions.TransformException;
-import io.github.portlek.configs.transformer.transformers.TransformerPack;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -529,7 +528,7 @@ public abstract class TransformedObject {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public final TransformedObject withTransformPack(@NotNull final TransformerPack pack) {
+  public final TransformedObject withTransformPack(@NotNull final TransformPack pack) {
     Objects.requireNonNull(this.resolver, "resolver").withTransformerPacks(pack);
     return this;
   }
@@ -543,6 +542,6 @@ public abstract class TransformedObject {
    */
   @NotNull
   public final TransformedObject withTransformPack(@NotNull final Consumer<@NotNull TransformRegistry> consumer) {
-    return this.withTransformPack(TransformerPack.create(consumer));
+    return this.withTransformPack(TransformPack.create(consumer));
   }
 }

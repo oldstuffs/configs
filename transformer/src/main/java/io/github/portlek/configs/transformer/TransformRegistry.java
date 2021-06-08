@@ -27,11 +27,7 @@ package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
 import io.github.portlek.configs.transformer.generics.GenericPair;
-import io.github.portlek.configs.transformer.serializers.ObjectSerializer;
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import io.github.portlek.configs.transformer.transformers.TransformerPack;
-import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
-import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
+import io.github.portlek.configs.transformer.transformers.TransformerObjectToString;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -92,7 +88,7 @@ public final class TransformRegistry {
    */
   @NotNull
   public TransformRegistry withDefaultTransformers() {
-    TransformerPack.DEFAULT.accept(this);
+    TransformPack.DEFAULT.accept(this);
     return this;
   }
 
@@ -117,7 +113,7 @@ public final class TransformRegistry {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public TransformRegistry withTransformPacks(@NotNull final TransformerPack... packs) {
+  public TransformRegistry withTransformPacks(@NotNull final TransformPack... packs) {
     for (final var pack : packs) {
       pack.accept(this);
     }

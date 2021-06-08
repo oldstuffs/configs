@@ -23,9 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
+import io.github.portlek.configs.transformer.Transformer;
 import java.math.BigDecimal;
 
 /**

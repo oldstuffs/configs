@@ -23,21 +23,20 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers.defaults;
+package io.github.portlek.configs.transformer.transformers;
 
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import java.math.BigDecimal;
+import io.github.portlek.configs.transformer.Transformer;
 
 /**
- * a class that represents transformers between {@link String} and {@link BigDecimal}.
+ * a class that represents transformers between {@link String} and {@link Double}.
  */
-public final class TransformerStringToBigDecimal extends Transformer.Base<String, BigDecimal> {
+public final class TransformerStringToDouble extends Transformer.Base<String, Double> {
 
   /**
    * ctor.
    */
-  public TransformerStringToBigDecimal() {
-    super(String.class, BigDecimal.class,
-      BigDecimal::new);
+  public TransformerStringToDouble() {
+    super(String.class, Double.class,
+      Double::parseDouble);
   }
 }

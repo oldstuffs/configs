@@ -30,9 +30,6 @@ import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
 import io.github.portlek.configs.transformer.declarations.TransformedObjectDeclaration;
 import io.github.portlek.configs.transformer.exceptions.TransformException;
 import io.github.portlek.configs.transformer.resolvers.InMemoryWrappedResolver;
-import io.github.portlek.configs.transformer.serializers.ObjectSerializer;
-import io.github.portlek.configs.transformer.transformers.Transformer;
-import io.github.portlek.configs.transformer.transformers.TransformerPack;
 import io.github.portlek.reflection.clazz.ClassOf;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -121,7 +118,7 @@ public abstract class TransformResolver {
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public final TransformResolver withTransformerPacks(@NotNull final TransformerPack... packs) {
+  public final TransformResolver withTransformerPacks(@NotNull final TransformPack... packs) {
     this.registry.withTransformPacks(packs);
     return this;
   }

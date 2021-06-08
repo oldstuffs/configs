@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.transformer.serializers;
+package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.TransformedData;
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;

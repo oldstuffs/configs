@@ -23,7 +23,7 @@
  *
  */
 
-package io.github.portlek.configs.transformer.transformers;
+package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.generics.GenericHolder;
 import java.util.Optional;
