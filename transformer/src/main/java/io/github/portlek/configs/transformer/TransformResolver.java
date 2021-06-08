@@ -118,8 +118,10 @@ public abstract class TransformResolver {
     }
     if (TransformedObject.class.isAssignableFrom(targetClass)) {
       final var transformedObject = TransformerPool.createTransformedObject((Class<? extends TransformedObject>) targetClass);
-      final var map = this.deserialize(object, source, Map.class, GenericDeclaration.of(Map.class, String.class, Object.class));
-      transformedObject.setResolver(new InMemoryWrappedResolver(this.pool, this, map == null ? new HashMap<>() : map));
+      transformedObject.setResolver(new InMemoryWrappedResolver(
+        this.pool,
+        this,
+        this.deserialize(object, source, Map.class, GenericDeclaration.of(Map.class, String.class, Object.class))));
       return (T) transformedObject.update();
     }
     final var serializer = this.pool.getSerializer(targetClass);

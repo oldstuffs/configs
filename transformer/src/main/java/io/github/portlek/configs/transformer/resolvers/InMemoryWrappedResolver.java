@@ -27,8 +27,10 @@ package io.github.portlek.configs.transformer.resolvers;
 
 import io.github.portlek.configs.transformer.TransformResolver;
 import io.github.portlek.configs.transformer.TransformerPool;
+import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents in memory wrapped resolver.
@@ -55,9 +57,9 @@ public final class InMemoryWrappedResolver extends TransformResolver {
    * @param map the map.
    */
   public InMemoryWrappedResolver(@NotNull final TransformerPool pool, @NotNull final TransformResolver resolver,
-                                 @NotNull final Map<String, Object> map) {
+                                 @Nullable final Map<String, Object> map) {
     super(pool);
     this.resolver = resolver;
-    this.map = map;
+    this.map = map == null ? new HashMap<>() : map;
   }
 }
