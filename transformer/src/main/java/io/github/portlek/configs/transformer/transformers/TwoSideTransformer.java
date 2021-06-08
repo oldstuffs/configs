@@ -260,7 +260,7 @@ public interface TwoSideTransformer<R, F> extends Transformer<R, F> {
 
     @NotNull
     @Override
-    public final Optional<F> toFinalWithField(@NotNull final R r, final @NotNull F field) {
+    public final Optional<F> toFinalWithField(@NotNull final R r, @NotNull final F field) {
       return Optional.ofNullable(this.toFinalWithField.apply(r, field));
     }
 

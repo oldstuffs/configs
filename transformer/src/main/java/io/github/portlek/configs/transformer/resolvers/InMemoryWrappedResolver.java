@@ -61,15 +61,15 @@ public final class InMemoryWrappedResolver extends WrappedTransformResolver {
     return List.copyOf(this.map.keySet());
   }
 
-  @Override
-  public boolean pathExists(@NotNull final String path) {
-    return this.map.containsKey(path);
-  }
-
   @NotNull
   @Override
   public Optional<Object> getValue(@NotNull final String path) {
     return Optional.ofNullable(this.map.get(path));
+  }
+
+  @Override
+  public boolean pathExists(@NotNull final String path) {
+    return this.map.containsKey(path);
   }
 
   @Override

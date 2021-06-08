@@ -409,10 +409,10 @@ public abstract class TransformResolver {
         return this.deserialize(value, genericType, String.class, null);
       }
       if (value instanceof Collection<?>) {
-        return this.simplifyCollection((Collection<?>) value, genericType, conservative);
+        return this.serializeCollection((Collection<?>) value, genericType, conservative);
       }
       if (value instanceof Map<?, ?>) {
-        return this.simplifyMap((Map<Object, Object>) value, genericType, conservative);
+        return this.serializeMap((Map<Object, Object>) value, genericType, conservative);
       }
       throw new TransformException(String.format("Cannot simplify type %s (%s): '%s' [%s]",
         serializerType, genericType, value, value.getClass()));
@@ -443,7 +443,7 @@ public abstract class TransformResolver {
                                 @Nullable FieldDeclaration field);
 
   /**
-   * simplifies collection.
+   * serializes collection.
    *
    * @param value the value to simplify.
    * @param genericType the generic type to simplify.
@@ -453,8 +453,8 @@ public abstract class TransformResolver {
    *
    * @throws TransformException if something goes wrong when simplifying the value.
    */
-  public List<?> simplifyCollection(@NotNull final Collection<?> value, @Nullable final GenericDeclaration genericType,
-                                    final boolean conservative) throws TransformException {
+  public List<?> serializeCollection(@NotNull final Collection<?> value, @Nullable final GenericDeclaration genericType,
+                                     final boolean conservative) throws TransformException {
     final var collectionSubtype = genericType == null
       ? null
       : genericType.getSubTypeAt(0).orElse(null);
@@ -464,7 +464,7 @@ public abstract class TransformResolver {
   }
 
   /**
-   * simplifies map.
+   * serializes map.
    *
    * @param value the value to simplify.
    * @param genericType the generic type to simplify.
@@ -474,9 +474,10 @@ public abstract class TransformResolver {
    *
    * @throws TransformException if something goes wrong when simplifying the value.
    */
-  public Map<Object, Object> simplifyMap(@NotNull final Map<Object, Object> value,
-                                         @Nullable final GenericDeclaration genericType,
-                                         final boolean conservative) throws TransformException {
+  @NotNull
+  public Map<Object, Object> serializeMap(@NotNull final Map<Object, Object> value,
+                                          @Nullable final GenericDeclaration genericType,
+                                          final boolean conservative) throws TransformException {
     final var keyDeclaration = genericType == null
       ? null
       : genericType.getSubTypeAt(0).orElse(null);

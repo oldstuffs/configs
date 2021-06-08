@@ -47,7 +47,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import lombok.Getter;
-import lombok.With;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -60,7 +59,6 @@ public abstract class TransformedObject {
    * the declaration.
    */
   @Nullable
-  @With
   @Getter
   private TransformedObjectDeclaration declaration;
 
@@ -68,14 +66,12 @@ public abstract class TransformedObject {
    * the file.
    */
   @Nullable
-  @With
   private File file;
 
   /**
    * the resolver.
    */
   @Nullable
-  @With
   private TransformResolver resolver;
 
   /**
@@ -120,14 +116,14 @@ public abstract class TransformedObject {
     Objects.requireNonNull(this.resolver, "resolver");
     Objects.requireNonNull(this.declaration, "declaration");
     final var field = this.declaration.getFields().get(path);
-    if (field != null) {
-      return Optional.ofNullable(this.resolver.deserialize(
-        field.getValue(),
-        field.getGenericDeclaration(),
-        cls,
-        GenericDeclaration.of(cls)));
+    if (field == null) {
+      return this.resolver.getValue(path, cls, null);
     }
-    return this.resolver.getValue(path, cls, null);
+    return Optional.ofNullable(this.resolver.deserialize(
+      field.getValue(),
+      field.getGenericDeclaration(),
+      cls,
+      GenericDeclaration.of(cls)));
   }
 
   /**
@@ -413,6 +409,32 @@ public abstract class TransformedObject {
   }
 
   /**
+   * sets the declaration.
+   *
+   * @param declaration the declaration to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final TransformedObject withDeclaration(@NotNull final TransformedObjectDeclaration declaration) {
+    this.declaration = declaration;
+    return this;
+  }
+
+  /**
+   * sets the file.
+   *
+   * @param file the file to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final TransformedObject withFile(@NotNull final File file) {
+    this.file = file;
+    return this;
+  }
+
+  /**
    * sets the file.
    *
    * @param path the path to set.
@@ -432,6 +454,19 @@ public abstract class TransformedObject {
    */
   public final TransformedObject withPath(@NotNull final Path path) {
     return this.withFile(path.toFile());
+  }
+
+  /**
+   * sets the resolver.
+   *
+   * @param resolver the resolver to set.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public final TransformedObject withResolver(@NotNull final TransformResolver resolver) {
+    this.resolver = resolver;
+    return this;
   }
 
   /**
