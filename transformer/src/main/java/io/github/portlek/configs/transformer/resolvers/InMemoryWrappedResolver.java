@@ -27,10 +27,8 @@ package io.github.portlek.configs.transformer.resolvers;
 
 import io.github.portlek.configs.transformer.TransformResolver;
 import io.github.portlek.configs.transformer.TransformerPool;
-import java.util.HashMap;
 import java.util.Map;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents in memory wrapped resolver.
