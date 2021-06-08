@@ -77,7 +77,9 @@ public abstract class TransformResolver {
         if (cls == List.class) {
           return new ArrayList<>();
         }
-        return cls.newInstance();
+        return new ClassOf<>(cls).getConstructor()
+          .map(RefConstructed::create)
+          .orElseThrow();
       }
       if (Map.class.isAssignableFrom(cls)) {
         if (cls == Map.class) {
