@@ -32,6 +32,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents generic pairs.
@@ -45,13 +46,13 @@ public final class GenericPair {
   /**
    * the left.
    */
-  @NotNull
+  @Nullable
   private final GenericDeclaration left;
 
   /**
    * the right.
    */
-  @NotNull
+  @Nullable
   private final GenericDeclaration right;
 
   /**
@@ -63,7 +64,7 @@ public final class GenericPair {
    * @return a newly created generic pair.
    */
   @NotNull
-  public static GenericPair of(@NotNull final GenericDeclaration left, @NotNull final GenericDeclaration right) {
+  public static GenericPair of(@Nullable final GenericDeclaration left, @Nullable final GenericDeclaration right) {
     return new GenericPair(left, right);
   }
 
@@ -76,7 +77,7 @@ public final class GenericPair {
    * @return a newly created generic pair.
    */
   @NotNull
-  public static GenericPair of(@NotNull final Class<?> left, @NotNull final Class<?> right) {
+  public static GenericPair of(@Nullable final Class<?> left, @Nullable final Class<?> right) {
     return GenericPair.of(GenericDeclaration.of(left), GenericDeclaration.of(right));
   }
 

@@ -26,6 +26,7 @@
 package io.github.portlek.configs.transformer;
 
 import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -112,7 +113,10 @@ public final class TransformedData {
       return Optional.empty();
     }
     final var object = this.deserializedMap.get(key);
-    return Optional.ofNullable(this.resolver.deserialize(
+    if (object == null) {
+      return Optional.empty();
+    }
+    return Optional.of(this.resolver.deserialize(
       object,
       GenericDeclaration.of(object),
       objectClass,
@@ -135,7 +139,10 @@ public final class TransformedData {
       return Optional.empty();
     }
     final var object = this.deserializedMap.get(key);
-    return Optional.ofNullable(this.resolver.deserialize(
+    if (object == null) {
+      return Optional.empty();
+    }
+    return Optional.of(this.resolver.deserialize(
       object,
       GenericDeclaration.of(object),
       List.class,
@@ -161,11 +168,24 @@ public final class TransformedData {
       return Optional.empty();
     }
     final var object = this.deserializedMap.get(key);
-    return Optional.ofNullable(this.resolver.deserialize(
+    if (object == null) {
+      return Optional.empty();
+    }
+    return Optional.of(this.resolver.deserialize(
       object,
       GenericDeclaration.of(object),
       Map.class,
       GenericDeclaration.of(Map.class, keyClass, valueClass)));
+  }
+
+  /**
+   * obtains serialized map.
+   *
+   * @return serialized map.
+   */
+  @NotNull
+  public Map<String, Object> getSerializedMap() {
+    return Collections.unmodifiableMap(this.serializedMap);
   }
 
   /**

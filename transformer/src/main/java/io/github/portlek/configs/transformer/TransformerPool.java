@@ -25,6 +25,7 @@
 
 package io.github.portlek.configs.transformer;
 
+import io.github.portlek.configs.transformer.declarations.GenericDeclaration;
 import io.github.portlek.configs.transformer.declarations.TransformedObjectDeclaration;
 import io.github.portlek.configs.transformer.generics.GenericPair;
 import io.github.portlek.configs.transformer.serializers.ObjectSerializer;
@@ -33,6 +34,7 @@ import io.github.portlek.configs.transformer.transformers.TransformerPack;
 import io.github.portlek.configs.transformer.transformers.TwoSideTransformer;
 import io.github.portlek.configs.transformer.transformers.defaults.TransformerObjectToString;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -45,6 +47,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents transformer pools.
@@ -99,7 +102,7 @@ public final class TransformerPool {
     initializer.apply(registerDefaultTransformers
       ? pool.registerDefaultTransformers()
       : pool);
-    Arrays.stream(transformers).forEach(pool::registerTransformer);
+    pool.registerTransformers(transformers);
     return pool;
   }
 
@@ -156,12 +159,6 @@ public final class TransformerPool {
     return TransformerPool.create(object, resolver, true, transformers);
   }
 
-  @NotNull
-  public static TransformedObject createTransformedObject(@NotNull final Class<? extends TransformedObject> targetClass) {
-    return new TransformedObject() {
-    };
-  }
-
   /**
    * gets the serializer from class.
    *
@@ -174,6 +171,20 @@ public final class TransformerPool {
     return this.serializers.stream()
       .filter(serializer -> serializer.supports(cls))
       .findFirst();
+  }
+
+  /**
+   * gets the transformers.
+   *
+   * @param from the from to get.
+   * @param to the to to get.
+   *
+   * @return transformer instance for from to.
+   */
+  @NotNull
+  public Optional<Transformer<?, ?>> getTransformer(@Nullable final GenericDeclaration from,
+                                                    @Nullable final GenericDeclaration to) {
+    return Optional.ofNullable(this.transformers.get(GenericPair.of(from, to)));
   }
 
   /**
@@ -203,31 +214,6 @@ public final class TransformerPool {
   /**
    * registers the given transformer into the pool.
    *
-   * @param transformer the transformer to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformer(@NotNull final Transformer<?, ?> transformer) {
-    return this.registerTransformer(transformer.getPair(), transformer);
-  }
-
-  /**
-   * registers the given transformer into the pool.
-   *
-   * @param transformer the transformer to add.
-   *
-   * @return {@code this} for builder chain.
-   */
-  @NotNull
-  public TransformerPool registerTransformer(@NotNull final TwoSideTransformer<?, ?> transformer) {
-    return this.registerTransformer((Transformer<?, ?>) transformer)
-      .registerTransformer((Transformer<?, ?>) transformer.reverse());
-  }
-
-  /**
-   * registers the given transformer into the pool.
-   *
    * @param pair the pair to add.
    * @param transformer the transformer to add.
    *
@@ -241,15 +227,98 @@ public final class TransformerPool {
   }
 
   /**
-   * registers the given transformer into the pool.
+   * registers the given transformers into the pool.
    *
-   * @param transformer the transformer to add.
+   * @param transformers the transformers to add.
    *
    * @return {@code this} for builder chain.
    */
   @NotNull
-  public TransformerPool registerTransformerReversedToString(@NotNull final Transformer<?, ?> transformer) {
-    return this.registerTransformer(transformer)
-      .registerTransformer(transformer.getPair().reverse(), new TransformerObjectToString());
+  public TransformerPool registerTransformers(@NotNull final Transformer<?, ?>... transformers) {
+    return this.registerTransformers(Set.of(transformers));
+  }
+
+  /**
+   * registers the given transformers into the pool.
+   *
+   * @param transformers the transformers to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerTransformers(@NotNull final Collection<Transformer<?, ?>> transformers) {
+    for (final var transformer : transformers) {
+      if (transformer instanceof TwoSideTransformer<?, ?>) {
+        this.registerTwoSideTransformers((TwoSideTransformer<?, ?>) transformer);
+      } else {
+        this.registerTransformer(transformer.getPair(), transformer);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * registers the given transformers into the pool.
+   *
+   * @param transformers the transformers to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerTransformersReversedToString(@NotNull final Transformer<?, ?>... transformers) {
+    return this.registerTransformersReversedToString(Set.of(transformers));
+  }
+
+  /**
+   * registers the given transformers into the pool.
+   *
+   * @param transformers the transformers to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerTransformersReversedToString(
+    @NotNull final Collection<Transformer<?, ?>> transformers) {
+    this.registerTransformers(transformers);
+    for (final var transformer : transformers) {
+      this.registerTransformer(transformer.getPair().reverse(), new TransformerObjectToString());
+    }
+    return this;
+  }
+
+  /**
+   * registers the given two side transformers into the pool.
+   *
+   * @param transformers the transformers to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerTwoSideTransformers(@NotNull final TwoSideTransformer<?, ?>... transformers) {
+    for (final var transformer : transformers) {
+      this.registerTransformer(transformer.getPair(), transformer);
+    }
+    Arrays.stream(transformers)
+      .map(TwoSideTransformer::reverse)
+      .forEach(transformer -> this.registerTransformer(transformer.getPair(), transformer));
+    return this;
+  }
+
+  /**
+   * registers the given two side transformers into the pool.
+   *
+   * @param transformers the transformers to add.
+   *
+   * @return {@code this} for builder chain.
+   */
+  @NotNull
+  public TransformerPool registerTwoSideTransformers(@NotNull final Collection<TwoSideTransformer<?, ?>> transformers) {
+    for (final var transformer : transformers) {
+      this.registerTransformer(transformer.getPair(), transformer);
+    }
+    transformers.stream()
+      .map(TwoSideTransformer::reverse)
+      .forEach(transformer -> this.registerTransformer(transformer.getPair(), transformer));
+    return this;
   }
 }
