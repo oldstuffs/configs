@@ -341,7 +341,7 @@ public final class GenericDeclaration {
         .collect(Collectors.toList());
       return GenericDeclaration.ofReady(type, subTypes);
     }
-    return GenericDeclaration.of(GenericDeclaration.getPrimitiveOrClass(builder.toString()));
+    return GenericDeclaration.ofReady(GenericDeclaration.getPrimitiveOrClass(builder.toString()));
   }
 
   /**
