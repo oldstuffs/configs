@@ -267,7 +267,7 @@ public abstract class TransformResolver {
       final var transformed = transformer.transform(object);
       return (T) GenericDeclaration.toPrimitive(transformed);
     }
-    return targetClass.cast(transformer.transform(object));
+    return targetClass.cast(transformer.transform(object).orElse(null));
   }
 
   /**
@@ -432,17 +432,6 @@ public abstract class TransformResolver {
   }
 
   /**
-   * sets the value to path.
-   *
-   * @param path the path to set.
-   * @param value the value to set.
-   * @param genericType the generic type to set.
-   * @param field the field to set.
-   */
-  public abstract void setValue(@NotNull String path, @Nullable Object value, @Nullable GenericDeclaration genericType,
-                                @Nullable FieldDeclaration field);
-
-  /**
    * serializes collection.
    *
    * @param value the value to simplify.
@@ -491,6 +480,17 @@ public abstract class TransformResolver {
       ))
       .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
   }
+
+  /**
+   * sets the value to path.
+   *
+   * @param path the path to set.
+   * @param value the value to set.
+   * @param genericType the generic type to set.
+   * @param field the field to set.
+   */
+  public abstract void setValue(@NotNull String path, @Nullable Object value, @Nullable GenericDeclaration genericType,
+                                @Nullable FieldDeclaration field);
 
   /**
    * writes the steam.

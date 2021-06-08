@@ -75,6 +75,15 @@ public abstract class TransformedObject {
   private TransformResolver resolver;
 
   /**
+   * checks if the file exists or not.
+   *
+   * @return {@code true} if the file exists.
+   */
+  public static boolean exists(@NotNull final File file) {
+    return Files.exists(file.toPath());
+  }
+
+  /**
    * get values as map.
    *
    * @param resolver the resolver to get.
@@ -100,6 +109,16 @@ public abstract class TransformedObject {
         map.put(keyName, this.resolver.serialize(value, GenericDeclaration.of(value), conservative));
       });
     return map;
+  }
+
+  /**
+   * checks if the file exists or not.
+   *
+   * @return {@code true} if the file exists.
+   */
+  public final boolean exists() {
+    Objects.requireNonNull(this.file, "file");
+    return TransformedObject.exists(this.file);
   }
 
   /**
@@ -142,6 +161,38 @@ public abstract class TransformedObject {
       return Optional.ofNullable(field.getValue());
     }
     return this.resolver.getValue(path);
+  }
+
+  /**
+   * loads the transformed object.
+   *
+   * @return {@code this} for builder chain.
+   *
+   * @throws TransformException if something goes wrong when loading the objects.
+   */
+  @NotNull
+  public final TransformedObject initiate() throws TransformException {
+    if (this.exists()) {
+      return this.load();
+    } else {
+      return this.save();
+    }
+  }
+
+  /**
+   * loads the transformed object.
+   *
+   * @return {@code this} for builder chain.
+   *
+   * @throws TransformException if something goes wrong when loading the objects.
+   */
+  @NotNull
+  public final TransformedObject initiate(@NotNull final File file) throws TransformException {
+    if (TransformedObject.exists(file)) {
+      return this.load(file);
+    } else {
+      return this.save(file);
+    }
   }
 
   /**
@@ -240,9 +291,8 @@ public abstract class TransformedObject {
   public final TransformedObject save(@NotNull final File file) throws TransformException {
     try {
       final var parentFile = file.getParentFile();
-      final var parentPath = parentFile.toPath();
-      if (Files.notExists(parentPath)) {
-        Files.createDirectories(parentPath);
+      if (!TransformedObject.exists(parentFile)) {
+        Files.createDirectories(parentFile.toPath());
       }
       return this.save(new PrintStream(new FileOutputStream(file, false), true, StandardCharsets.UTF_8.name()));
     } catch (final Exception exception) {
@@ -306,8 +356,7 @@ public abstract class TransformedObject {
    */
   @NotNull
   public final TransformedObject saveDefaults() throws TransformException {
-    Objects.requireNonNull(this.file, "file");
-    if (Files.notExists(this.file.toPath())) {
+    if (this.exists()) {
       this.save();
     }
     return this;
@@ -335,19 +384,20 @@ public abstract class TransformedObject {
    *
    * @return {@code this} for builder chain.
    */
-  public final TransformedObject set(@NotNull final String path, @NotNull Object value) {
+  public final TransformedObject set(@NotNull final String path, @NotNull final Object value) {
     Objects.requireNonNull(this.resolver, "resolver");
     Objects.requireNonNull(this.declaration, "declaration");
     final var field = this.declaration.getFields().get(path);
+    var tempValue = value;
     if (field != null) {
       final var declaration = field.getGenericDeclaration();
       if (declaration.getType() != null) {
-        value = this.resolver.deserialize(value, GenericDeclaration.of(value), declaration.getType(), declaration);
+        tempValue = this.resolver.deserialize(tempValue, GenericDeclaration.of(tempValue), declaration.getType(), declaration);
       }
-      field.setValue(value);
+      field.setValue(tempValue);
     }
     final var fieldGenerics = field == null ? null : field.getGenericDeclaration();
-    this.resolver.setValue(path, value, fieldGenerics, field);
+    this.resolver.setValue(path, tempValue, fieldGenerics, field);
     return this;
   }
 
@@ -392,16 +442,18 @@ public abstract class TransformedObject {
       }
       final Object value;
       try {
-        value = this.resolver.getValue(fieldPath, type, genericType);
+        value = this.resolver.getValue(fieldPath, type, genericType).orElse(null);
       } catch (final Exception exception) {
-        throw new TransformException("failed to #getValue for " + fieldPath, exception);
+        throw new TransformException(String.format("Failed to use #getValue for %s", fieldPath), exception);
       }
       if (updateValue) {
         if (!this.resolver.isValid(fieldDeclaration, value)) {
           throw new TransformException(String.format("%s marked %s as invalid without throwing an exception",
             this.resolver.getClass(), fieldPath));
         }
-        fieldDeclaration.setValue(value);
+        if (value != null) {
+          fieldDeclaration.setValue(value);
+        }
       }
       fieldDeclaration.setStartingValue(value);
     }
