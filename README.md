@@ -10,6 +10,7 @@
 ### Maven
 
 ```xml
+
 <builds>
   <plugins>
     <plugin>
@@ -42,6 +43,7 @@
 ```
 
 ```xml
+
 <repositories>
   <repository>
     <id>jitpack</id>
@@ -51,20 +53,51 @@
 ```
 
 ```xml
+
 <dependencies>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>bukkit</artifactId>
+    <artifactId>configs-bukkit-transformers</artifactId>
     <version>${version}</version>
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>jackson-json</artifactId>
+    <artifactId>configs-bukkit-jackson-json</artifactId>
     <version>${version}</version>
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>jackson-yaml</artifactId>
+    <artifactId>configs-bukkit-jackson-yaml</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-bukkit-snakeyaml</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-jackson-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-jackson-yaml</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-hjson-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-simple-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-hocon-lightbend</artifactId>
     <version>${version}</version>
   </dependency>
 </dependencies>
@@ -74,24 +107,20 @@
 
 ```groovy
 plugins {
-  id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
 }
 ```
 
 ```groovy
 repositories {
-  maven {
-    url "https://jitpack.io"
-  }
+    maven {
+        url "https://jitpack.io"
+    }
 }
 ```
 
 ```groovy
 dependencies {
-  implementation("com.github.portlek.configs:configs-core:${version}")
-  implementation("com.github.portlek.configs:configs-json:${version}")
-  implementation("com.github.portlek.configs:configs-yaml:${version}")
-  implementation("com.github.portlek.configs:configs-bukkit:${version}")
 }
 ```
 

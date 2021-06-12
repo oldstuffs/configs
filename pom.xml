@@ -24,15 +24,25 @@
     <java.version>11</java.version>
   </properties>
   <modules>
-    <module>bukkit-transformers</module>
     <module>jackson-json</module>
+    <module>hjson-json</module>
     <module>jackson-yaml</module>
+    <module>gson-json</module>
+    <module>simple-json</module>
+    <module>hocon</module>
+    <module>bukkit-transformers</module>
     <module>bukkit-jackson-json</module>
+    <module>bukkit-jackson-yaml</module>
+    <module>bukkit-snakeyaml</module>
   </modules>
   <repositories>
     <repository>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
       <id>spigot-repo</id>
+    </repository>
+    <repository>
+      <url>https://storehouse.okaeri.eu/repository/maven-public/</url>
+      <id>okaeri-repo</id>
     </repository>
   </repositories>
   <dependencies>
@@ -66,6 +76,21 @@
         <groupId>io.github.portlek</groupId>
         <artifactId>jackson-yaml</artifactId>
         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>eu.okaeri</groupId>
+        <artifactId>okaeri-hjson</artifactId>
+        <version>4.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.googlecode.json-simple</groupId>
+        <artifactId>json-simple</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.typesafe</groupId>
+        <artifactId>config</artifactId>
+        <version>1.4.1</version>
       </dependency>
       <dependency>
         <groupId>org.spigotmc</groupId>

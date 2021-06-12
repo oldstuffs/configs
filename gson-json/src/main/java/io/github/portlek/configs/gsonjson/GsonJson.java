@@ -23,12 +23,10 @@
  *
  */
 
-package io.github.portlek.configs.jacksonyaml;
+package io.github.portlek.configs.gsonjson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.type.MapType;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import io.github.portlek.transformer.TransformResolver;
 import io.github.portlek.transformer.declarations.FieldDeclaration;
 import io.github.portlek.transformer.declarations.GenericDeclaration;
@@ -36,35 +34,38 @@ import io.github.portlek.transformer.declarations.TransformedObjectDeclaration;
 import io.github.portlek.transformer.postprocessor.PostProcessor;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.io.OutputStreamWriter;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents yaml file configuration.
+ * a class that represents Gson file configuration.
  */
-public class JacksonYaml extends TransformResolver {
+@RequiredArgsConstructor
+public final class GsonJson extends TransformResolver {
 
   /**
-   * the mapper.
+   * the gson.
    */
-  private static final ObjectMapper MAPPER = new YAMLMapper()
-    .enable(SerializationFeature.INDENT_OUTPUT);
-
-  /**
-   * the map type.
-   */
-  private static final MapType MAP_TYPE = JacksonYaml.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
-    Object.class);
+  @NotNull
+  private final Gson gson;
 
   /**
    * the cache map.
    */
-  private Map<String, Object> map = new HashMap<>();
+  private Map<String, Object> map = new LinkedHashMap<>();
+
+  /**
+   * ctor.
+   */
+  public GsonJson() {
+    this(new GsonBuilder().setPrettyPrinting().create());
+  }
 
   @NotNull
   @Override
@@ -79,10 +80,9 @@ public class JacksonYaml extends TransformResolver {
   }
 
   @Override
-  public void load(@NotNull final InputStream inputStream, @NotNull final TransformedObjectDeclaration declaration)
-    throws Exception {
-    final var context = PostProcessor.of(inputStream).getContext();
-    this.map = JacksonYaml.MAPPER.readValue(context.isEmpty() ? "{}" : context, JacksonYaml.MAP_TYPE);
+  public void load(@NotNull final InputStream inputStream, @NotNull final TransformedObjectDeclaration declaration) {
+    //noinspection unchecked
+    this.map = this.gson.fromJson(PostProcessor.of(inputStream).getContext(), Map.class);
     if (this.map == null) {
       this.map = new LinkedHashMap<>();
     }
@@ -106,8 +106,7 @@ public class JacksonYaml extends TransformResolver {
   }
 
   @Override
-  public void write(@NotNull final OutputStream outputStream, @NotNull final TransformedObjectDeclaration declaration)
-    throws Exception {
-    JacksonYaml.MAPPER.writeValue(outputStream, this.map);
+  public void write(@NotNull final OutputStream outputStream, @NotNull final TransformedObjectDeclaration declaration) {
+    this.gson.toJson(this.map, new OutputStreamWriter(outputStream));
   }
 }

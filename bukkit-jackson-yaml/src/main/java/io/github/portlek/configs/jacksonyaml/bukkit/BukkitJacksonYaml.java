@@ -23,8 +23,9 @@
  *
  */
 
-package io.github.portlek.configs.jacksonjson;
+package io.github.portlek.configs.jacksonyaml.bukkit;
 
+import io.github.portlek.configs.jacksonyaml.JacksonYaml;
 import io.github.portlek.transformer.declarations.GenericDeclaration;
 import io.github.portlek.transformer.exceptions.TransformException;
 import java.util.Map;
@@ -34,12 +35,11 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * a class that represents yaml file configuration.
+ */
 @RequiredArgsConstructor
-public final class BukkitJacksonJson extends JacksonJson {
-
-  public static void main(final String[] args) {
-    new BukkitJacksonJson().setValue("test", null, null, null);
-  }
+public final class BukkitJacksonYaml extends JacksonYaml {
 
   @Nullable
   @Override
@@ -57,9 +57,8 @@ public final class BukkitJacksonJson extends JacksonJson {
   @Override
   public Object serialize(@Nullable final Object value, @Nullable final GenericDeclaration genericType,
                           final boolean conservative) throws TransformException {
-    System.out.println("test");
     if (value instanceof ConfigurationSection) {
-      this.getMapValues((ConfigurationSection) value, false);
+      return this.getMapValues((ConfigurationSection) value, false);
     }
     return super.serialize(value, genericType, conservative);
   }

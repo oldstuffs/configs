@@ -22,7 +22,7 @@
  * SOFTWARE.
  *
  */
-/**
- * the package that contains Json implementation of config system.
+/***
+ * the package that contains Yaml implementation of config system.
  */
-package io.github.portlek.configs.jacksonjson;
+package io.github.portlek.configs.jacksonyaml.bukkit;

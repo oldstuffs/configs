@@ -23,48 +23,49 @@
  *
  */
 
-package io.github.portlek.configs.jacksonyaml;
+package io.github.portlek.configs.simplejson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.type.MapType;
-import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import io.github.portlek.transformer.TransformResolver;
 import io.github.portlek.transformer.declarations.FieldDeclaration;
 import io.github.portlek.transformer.declarations.GenericDeclaration;
 import io.github.portlek.transformer.declarations.TransformedObjectDeclaration;
+import io.github.portlek.transformer.exceptions.TransformException;
 import io.github.portlek.transformer.postprocessor.PostProcessor;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
- * a class that represents yaml file configuration.
+ * a class that represents Gson file configuration.
  */
-public class JacksonYaml extends TransformResolver {
+@RequiredArgsConstructor
+public final class SimpleJson extends TransformResolver {
 
   /**
-   * the mapper.
+   * the parser.
    */
-  private static final ObjectMapper MAPPER = new YAMLMapper()
-    .enable(SerializationFeature.INDENT_OUTPUT);
-
-  /**
-   * the map type.
-   */
-  private static final MapType MAP_TYPE = JacksonYaml.MAPPER.getTypeFactory().constructMapType(HashMap.class, String.class,
-    Object.class);
+  @NotNull
+  private final JSONParser parser;
 
   /**
    * the cache map.
    */
-  private Map<String, Object> map = new HashMap<>();
+  private Map<String, Object> map = new LinkedHashMap<>();
+
+  /**
+   * ctor.
+   */
+  public SimpleJson() {
+    this(new JSONParser());
+  }
 
   @NotNull
   @Override
@@ -81,11 +82,12 @@ public class JacksonYaml extends TransformResolver {
   @Override
   public void load(@NotNull final InputStream inputStream, @NotNull final TransformedObjectDeclaration declaration)
     throws Exception {
-    final var context = PostProcessor.of(inputStream).getContext();
-    this.map = JacksonYaml.MAPPER.readValue(context.isEmpty() ? "{}" : context, JacksonYaml.MAP_TYPE);
-    if (this.map == null) {
-      this.map = new LinkedHashMap<>();
+    //noinspection unchecked
+    this.map = (Map<String, Object>) this.parser.parse(PostProcessor.of(inputStream).getContext());
+    if (this.map != null) {
+      return;
     }
+    this.map = new LinkedHashMap<>();
   }
 
   @Override
@@ -99,6 +101,20 @@ public class JacksonYaml extends TransformResolver {
     this.map.remove(path);
   }
 
+  @Nullable
+  @Override
+  public Object serialize(@Nullable final Object value, @Nullable final GenericDeclaration genericType,
+                          final boolean conservative) throws TransformException {
+    if (value == null) {
+      return null;
+    }
+    final var genericsDeclaration = GenericDeclaration.of(value);
+    if (genericsDeclaration.getType() == char.class || genericsDeclaration.getType() == Character.class) {
+      return super.serialize(value, genericType, false);
+    }
+    return super.serialize(value, genericType, conservative);
+  }
+
   @Override
   public void setValue(@NotNull final String path, @Nullable final Object value,
                        @Nullable final GenericDeclaration genericType, @Nullable final FieldDeclaration field) {
@@ -106,8 +122,7 @@ public class JacksonYaml extends TransformResolver {
   }
 
   @Override
-  public void write(@NotNull final OutputStream outputStream, @NotNull final TransformedObjectDeclaration declaration)
-    throws Exception {
-    JacksonYaml.MAPPER.writeValue(outputStream, this.map);
+  public void write(@NotNull final OutputStream outputStream, @NotNull final TransformedObjectDeclaration declaration) {
+    PostProcessor.of(new JSONObject(this.map).toJSONString()).write(outputStream);
   }
 }
