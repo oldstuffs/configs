@@ -37,6 +37,11 @@
   </repositories>
   <dependencies>
     <dependency>
+      <groupId>com.github.portlek</groupId>
+      <artifactId>transformer</artifactId>
+      <version>1.4.3</version>
+    </dependency>
+    <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
@@ -48,35 +53,14 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.github.portlek</groupId>
-        <artifactId>configs-core</artifactId>
-        <version>${project.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.github.portlek</groupId>
-        <artifactId>reflection</artifactId>
-        <version>4.3.10</version>
-      </dependency>
-      <dependency>
         <groupId>com.github.portlek</groupId>
         <artifactId>BukkitItemBuilder</artifactId>
-        <version>5.2.8</version>
-      </dependency>
-      <dependency>
-        <groupId>com.github.portlek</groupId>
-        <artifactId>replaceable</artifactId>
-        <version>2.5.3</version>
-      </dependency>
-      <dependency>
-        <groupId>com.github.portlek</groupId>
-        <artifactId>transformer</artifactId>
-        <version>1.0.0</version>
+        <version>5.3.0</version>
       </dependency>
       <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
-        <version>1.16.5-R0.1-SNAPSHOT</version>
+        <version>1.17-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
       </dependency>
     </dependencies>

@@ -23,16 +23,18 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.data;
+package io.github.portlek.configs.bukkit;
 
 import com.cryptomorin.xseries.messages.Titles;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.loaders.DataSerializer;
 import io.github.portlek.replaceable.RpString;
+import io.github.portlek.transformer.ObjectSerializer;
+import io.github.portlek.transformer.TransformedData;
+import io.github.portlek.transformer.declarations.GenericDeclaration;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
+import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,7 +42,8 @@ import org.jetbrains.annotations.Nullable;
 /**
  * a class that helps developers to send title to players easily.
  */
-public final class SentTitle implements DataSerializer {
+@Getter
+public final class SentTitle {
 
   /**
    * the fade in time.
@@ -104,40 +107,6 @@ public final class SentTitle implements DataSerializer {
   }
 
   /**
-   * gets the sent title from the given section.
-   *
-   * @param section the section to get.
-   * @param fieldValue the field value to deserialize.
-   *
-   * @return a sent title instance at the section path.
-   */
-  @NotNull
-  public static Optional<SentTitle> deserialize(@NotNull final ConfigurationSection section,
-                                                @Nullable final SentTitle fieldValue) {
-    final var title = section.getString("title");
-    final var subTitle = section.getString("sub-title");
-    if (title == null && subTitle == null) {
-      return Optional.empty();
-    }
-    final var fadeIn = section.getInt("fade-in", 20);
-    final var stay = section.getInt("stay", 20);
-    final var fadeOut = section.getInt("fade-out", 20);
-    final RpString fieldTitle;
-    final RpString fieldSubTitle;
-    if (fieldValue == null || fieldValue.title == null) {
-      fieldTitle = title == null ? null : RpString.from(title);
-    } else {
-      fieldTitle = title == null ? null : fieldValue.title.value(title);
-    }
-    if (fieldValue == null || fieldValue.subTitle == null) {
-      fieldSubTitle = subTitle == null ? null : RpString.from(subTitle);
-    } else {
-      fieldSubTitle = subTitle == null ? null : fieldValue.subTitle.value(subTitle);
-    }
-    return Optional.of(new SentTitle(fieldTitle, fieldSubTitle, fadeIn, stay, fadeOut));
-  }
-
-  /**
    * sends the title to the given player.
    *
    * @param player the player to send.
@@ -169,20 +138,49 @@ public final class SentTitle implements DataSerializer {
   }
 
   /**
-   * sets the given sent title to the given section.
-   *
-   * @param section the section to set.
+   * a class that represents serializer of {@link SentTitle}.
    */
-  @Override
-  public void serialize(@NotNull final ConfigurationSection section) {
-    if (this.title != null) {
-      section.set("title", this.title.getValue());
+  public static final class Serializer implements ObjectSerializer<SentTitle> {
+
+    @NotNull
+    @Override
+    public Optional<SentTitle> deserialize(@NotNull final TransformedData transformedData,
+                                           @Nullable final GenericDeclaration declaration) {
+      return Optional.empty();
     }
-    if (this.subTitle != null) {
-      section.set("sub-title", this.subTitle.getValue());
+
+    @NotNull
+    @Override
+    public Optional<SentTitle> deserialize(@NotNull final SentTitle field,
+                                           @NotNull final TransformedData transformedData,
+                                           @Nullable final GenericDeclaration declaration) {
+      final var title = transformedData.get("title", RpString.class, field.getTitle());
+      final var subTitle = transformedData.get("sub-title", RpString.class, field.getSubTitle());
+      if (title.isEmpty() && subTitle.isEmpty()) {
+        return Optional.empty();
+      }
+      final var fadeIn = transformedData.get("fade-in", int.class).orElse(20);
+      final var stay = transformedData.get("stay", int.class).orElse(20);
+      final var fadeOut = transformedData.get("fade-out", int.class).orElse(20);
+      return Optional.of(new SentTitle(title.orElse(null), subTitle.orElse(null), fadeIn, stay, fadeOut));
     }
-    section.set("fade-in", this.fadeIn);
-    section.set("stay", this.stay);
-    section.set("fade-out", this.fadeOut);
+
+    @Override
+    public void serialize(@NotNull final SentTitle sentTitle, @NotNull final TransformedData transformedData) {
+      if (sentTitle.getTitle() != null) {
+        transformedData.add("title", sentTitle.getTitle().getValue(), RpString.class);
+      }
+      if (sentTitle.getSubTitle() != null) {
+        transformedData.add("sub-title", sentTitle.getSubTitle().getValue(), RpString.class);
+      }
+      transformedData.add("fade-in", sentTitle.fadeIn);
+      transformedData.add("stay", sentTitle.stay);
+      transformedData.add("fade-out", sentTitle.fadeOut);
+    }
+
+    @Override
+    public boolean supports(@NotNull final Class<?> cls) {
+      return cls == SentTitle.class;
+    }
   }
 }

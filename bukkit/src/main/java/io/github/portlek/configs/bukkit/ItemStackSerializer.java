@@ -23,49 +23,45 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.loaders;
+package io.github.portlek.configs.bukkit;
 
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
-import io.github.portlek.configs.ConfigHolder;
-import io.github.portlek.configs.FieldLoader;
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.loaders.SectionFieldLoader;
-import java.util.Map;
+import io.github.portlek.bukkititembuilder.util.KeyUtil;
+import io.github.portlek.transformer.ObjectSerializer;
+import io.github.portlek.transformer.TransformedData;
+import io.github.portlek.transformer.declarations.GenericDeclaration;
 import java.util.Optional;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * an implementation to serialize {@link ItemStack}.
+ * a class that represents serializer of {@link ItemStack}.
  */
-public final class FlItemStack extends SectionFieldLoader<ItemStack> {
+public final class ItemStackSerializer implements ObjectSerializer<ItemStack> {
 
-  /**
-   * the instance.
-   */
-  public static final FieldLoader.Func INSTANCE = FlItemStack::new;
-
-  /**
-   * ctor.
-   *
-   * @param holder the holder.
-   * @param section the section.
-   */
-  private FlItemStack(@NotNull final ConfigHolder holder, @NotNull final ConfigurationSection section) {
-    super(holder, section, ItemStack.class);
+  @NotNull
+  @Override
+  public Optional<ItemStack> deserialize(@NotNull final TransformedData transformedData,
+                                         @Nullable final GenericDeclaration declaration) {
+    return ItemStackUtil.deserialize(KeyUtil.Holder.transformedData(transformedData));
   }
 
   @NotNull
   @Override
-  public Optional<ItemStack> toFinal(@NotNull final Map<String, Object> rawValue,
-                                     @Nullable final ItemStack fieldValue) {
-    return ItemStackUtil.deserialize(rawValue);
+  public Optional<ItemStack> deserialize(@NotNull final ItemStack field,
+                                         @NotNull final TransformedData transformedData,
+                                         @Nullable final GenericDeclaration declaration) {
+    return this.deserialize(transformedData, declaration);
   }
 
-  @NotNull
   @Override
-  public Optional<Map<String, Object>> toRaw(@NotNull final ItemStack finalValue) {
-    return Optional.of(ItemStackUtil.serialize(finalValue));
+  public void serialize(@NotNull final ItemStack itemStack, @NotNull final TransformedData transformedData) {
+    ItemStackUtil.serialize(itemStack, KeyUtil.Holder.transformedData(transformedData));
+  }
+
+  @Override
+  public boolean supports(@NotNull final Class<?> cls) {
+    return cls == ItemStack.class;
   }
 }

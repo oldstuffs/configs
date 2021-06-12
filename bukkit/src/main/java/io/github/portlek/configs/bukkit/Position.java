@@ -23,24 +23,28 @@
  *
  */
 
-package io.github.portlek.configs.bukkit.data;
+package io.github.portlek.configs.bukkit;
 
-import io.github.portlek.configs.configuration.ConfigurationSection;
-import io.github.portlek.configs.loaders.DataSerializer;
+import io.github.portlek.transformer.ObjectSerializer;
+import io.github.portlek.transformer.TransformedData;
+import io.github.portlek.transformer.declarations.GenericDeclaration;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents positions.
  */
-@RequiredArgsConstructor
+@Getter
 @AllArgsConstructor
-public final class Position implements DataSerializer {
+@RequiredArgsConstructor
+public final class Position {
 
   /**
    * the world name.
@@ -101,27 +105,6 @@ public final class Position implements DataSerializer {
   }
 
   /**
-   * gets the position from the given section.
-   *
-   * @param section the section to get.
-   *
-   * @return a position instance at the section path.
-   */
-  @NotNull
-  public static Optional<Position> deserialize(@NotNull final ConfigurationSection section) {
-    final var world = section.getString("world");
-    if (world == null) {
-      return Optional.empty();
-    }
-    final var x = section.getDouble("x");
-    final var y = section.getDouble("y");
-    final var z = section.getDouble("z");
-    final var yaw = ((Double) section.getDouble("yaw")).floatValue();
-    final var pitch = ((Double) section.getDouble("pitch")).floatValue();
-    return Optional.of(new Position(world, x, y, z, yaw, pitch));
-  }
-
-  /**
    * obtains the location.
    *
    * @return the location.
@@ -147,13 +130,46 @@ public final class Position implements DataSerializer {
       this.x, this.y, this.z, this.yaw, this.pitch);
   }
 
-  @Override
-  public void serialize(@NotNull final ConfigurationSection section) {
-    section.set("world", this.worldName);
-    section.set("x", this.x);
-    section.set("y", this.y);
-    section.set("z", this.z);
-    section.set("yaw", this.yaw);
-    section.set("pitch", this.pitch);
+  /**
+   * a class that represents serializer of {@link Position}.
+   */
+  public static final class Serializer implements ObjectSerializer<Position> {
+
+    @NotNull
+    @Override
+    public Optional<Position> deserialize(@NotNull final TransformedData transformedData,
+                                          @Nullable final GenericDeclaration declaration) {
+      return transformedData.get("world", String.class).map(world ->
+        new Position(
+          world,
+          transformedData.get("x", double.class).orElse(0.0d),
+          transformedData.get("y", double.class).orElse(0.0d),
+          transformedData.get("z", double.class).orElse(0.0d),
+          transformedData.get("yaw", float.class).orElse(0.0f),
+          transformedData.get("pitch", float.class).orElse(0.0f)));
+    }
+
+    @NotNull
+    @Override
+    public Optional<Position> deserialize(@NotNull final Position field,
+                                          @NotNull final TransformedData transformedData,
+                                          @Nullable final GenericDeclaration declaration) {
+      return this.deserialize(transformedData, declaration);
+    }
+
+    @Override
+    public void serialize(@NotNull final Position position, @NotNull final TransformedData transformedData) {
+      transformedData.add("world", position.getWorldName());
+      transformedData.add("x", position.getX());
+      transformedData.add("y", position.getY());
+      transformedData.add("z", position.getZ());
+      transformedData.add("yaw", position.getYaw());
+      transformedData.add("pitch", position.getPitch());
+    }
+
+    @Override
+    public boolean supports(@NotNull final Class<?> cls) {
+      return cls == Position.class;
+    }
   }
 }

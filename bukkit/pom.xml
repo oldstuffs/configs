@@ -12,8 +12,8 @@
   <name>configs-bukkit</name>
   <dependencies>
     <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-core</artifactId>
+      <groupId>com.github.portlek</groupId>
+      <artifactId>transformer</artifactId>
     </dependency>
     <dependency>
       <groupId>com.github.portlek</groupId>
