@@ -47,13 +47,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * a class that represents HJson file configuration.
  */
-public final class HJsonJson extends TransformResolver {
+@RequiredArgsConstructor
+public class HJsonJson extends TransformResolver {
 
   /**
    * the read options.
@@ -81,26 +83,15 @@ public final class HJsonJson extends TransformResolver {
    * ctor.
    *
    * @param commentPrefix the comment prefix.
-   * @param sectionSeparator the section separator.
    */
-  private HJsonJson(@NotNull final String commentPrefix, @NotNull final String sectionSeparator) {
-    this.commentPrefix = commentPrefix;
-    this.sectionSeparator = sectionSeparator;
-  }
-
-  /**
-   * ctor.
-   *
-   * @param commentPrefix the comment prefix.
-   */
-  private HJsonJson(@NotNull final String commentPrefix) {
+  public HJsonJson(@NotNull final String commentPrefix) {
     this(commentPrefix, SectionSeparator.NONE);
   }
 
   /**
    * ctor.
    */
-  private HJsonJson() {
+  public HJsonJson() {
     this("# ");
   }
 

@@ -35,6 +35,7 @@
     <module>bukkit-jackson-yaml</module>
     <module>bukkit-snakeyaml</module>
     <module>bukkit-transformers</module>
+    <module>bukkit-hjson-json</module>
   </modules>
   <repositories>
     <repository>
@@ -70,17 +71,17 @@
       </dependency>
       <dependency>
         <groupId>io.github.portlek</groupId>
-        <artifactId>configs-gson-json</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.github.portlek</groupId>
         <artifactId>configs-jackson-json</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.portlek</groupId>
         <artifactId>configs-jackson-yaml</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-hjson-json</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
