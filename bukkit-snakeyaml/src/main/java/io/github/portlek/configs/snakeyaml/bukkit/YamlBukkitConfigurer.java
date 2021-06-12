@@ -101,7 +101,7 @@ public final class YamlBukkitConfigurer extends TransformResolver {
    * @param config the config.
    */
   public YamlBukkitConfigurer(@NotNull final YamlConfiguration config) {
-    this(" #", config, SectionSeparator.NONE);
+    this("# ", config, SectionSeparator.NONE);
   }
 
   /**
@@ -110,7 +110,7 @@ public final class YamlBukkitConfigurer extends TransformResolver {
    * @param sectionSeparator the section separator.
    */
   public YamlBukkitConfigurer(@NotNull final String sectionSeparator) {
-    this(" #", sectionSeparator);
+    this("# ", sectionSeparator);
   }
 
   /**

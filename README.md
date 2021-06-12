@@ -97,7 +97,7 @@
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-hocon-lightbend</artifactId>
+    <artifactId>configs-hocon</artifactId>
     <version>${version}</version>
   </dependency>
 </dependencies>
@@ -121,6 +121,15 @@ repositories {
 
 ```groovy
 dependencies {
+    implementation("com.github.portlek.configs:configs-bukkit-transfomers:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-jackson-json:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-jackson-yaml:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-snakeyaml:${version}")
+    implementation("com.github.portlek.configs:configs-jackson-json:${version}")
+    implementation("com.github.portlek.configs:configs-jackson-yaml:${version}")
+    implementation("com.github.portlek.configs:configs-hjson-json:${version}")
+    implementation("com.github.portlek.configs:configs-simple-json:${version}")
+    implementation("com.github.portlek.configs:configs-hocon:${version}")
 }
 ```
 
