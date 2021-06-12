@@ -8,8 +8,8 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>bukkit-jackson-yaml</artifactId>
-  <name>bukkit-jackson-yaml</name>
+  <artifactId>configs-bukkit-jackson-yaml</artifactId>
+  <name>configs-bukkit-jackson-yaml</name>
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>

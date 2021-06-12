@@ -8,8 +8,8 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>bukkit-snakeyaml</artifactId>
-  <name>bukkit-snakeyaml</name>
+  <artifactId>configs-bukkit-snakeyaml</artifactId>
+  <name>configs-bukkit-snakeyaml</name>
   <dependencies>
     <dependency>
       <groupId>org.spigotmc</groupId>
