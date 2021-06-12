@@ -35,9 +35,9 @@
     <module>bukkit-hocon</module>
     <module>bukkit-jackson-json</module>
     <module>bukkit-jackson-yaml</module>
+    <module>bukkit-simple-json</module>
     <module>bukkit-snakeyaml</module>
     <module>bukkit-transformers</module>
-    <module>bukkit-simple-json</module>
   </modules>
   <repositories>
     <repository>
