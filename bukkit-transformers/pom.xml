@@ -8,8 +8,8 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>bukkit-transformers</artifactId>
-  <name>bukkit-transformers</name>
+  <artifactId>configs-bukkit-transformers</artifactId>
+  <name>configs-bukkit-transformers</name>
   <dependencies>
     <dependency>
       <groupId>com.github.portlek</groupId>

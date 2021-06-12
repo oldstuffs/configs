@@ -8,8 +8,8 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>bukkit-jackson-json</artifactId>
-  <name>bukkit-jackson-json</name>
+  <artifactId>configs-bukkit-jackson-json</artifactId>
+  <name>configs-bukkit-jackson-json</name>
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>
