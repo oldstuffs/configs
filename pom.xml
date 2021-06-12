@@ -37,6 +37,7 @@
     <module>bukkit-jackson-yaml</module>
     <module>bukkit-snakeyaml</module>
     <module>bukkit-transformers</module>
+    <module>bukkit-simple-json</module>
   </modules>
   <repositories>
     <repository>
@@ -88,6 +89,11 @@
       <dependency>
         <groupId>io.github.portlek</groupId>
         <artifactId>configs-hocon</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-simple-json</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

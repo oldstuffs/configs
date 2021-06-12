@@ -47,7 +47,7 @@ import org.json.simple.parser.JSONParser;
  * a class that represents Gson file configuration.
  */
 @RequiredArgsConstructor
-public final class SimpleJson extends TransformResolver {
+public class SimpleJson extends TransformResolver {
 
   /**
    * the parser.
