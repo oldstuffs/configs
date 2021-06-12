@@ -31,11 +31,11 @@
     <module>jackson-yaml</module>
     <module>simple-json</module>
     <module>bukkit-gson-json</module>
+    <module>bukkit-hjson-json</module>
     <module>bukkit-jackson-json</module>
     <module>bukkit-jackson-yaml</module>
     <module>bukkit-snakeyaml</module>
     <module>bukkit-transformers</module>
-    <module>bukkit-hjson-json</module>
   </modules>
   <repositories>
     <repository>
