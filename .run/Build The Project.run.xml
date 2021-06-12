@@ -13,6 +13,8 @@
               <option value="clean"/>
               <option value="install"/>
               <option value="-Pcheckstyle"/>
+              <option value="-T"/>
+              <option value="6"/>
             </list>
           </option>
           <option name="pomFileName"/>

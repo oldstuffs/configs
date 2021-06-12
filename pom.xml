@@ -24,18 +24,37 @@
     <java.version>11</java.version>
   </properties>
   <modules>
-    <module>core</module>
-    <module>json</module>
-    <module>yaml</module>
-    <module>bukkit</module>
+    <module>gson-json</module>
+    <module>hjson-json</module>
+    <module>hocon</module>
+    <module>jackson-json</module>
+    <module>jackson-yaml</module>
+    <module>simple-json</module>
+    <module>bukkit-gson-json</module>
+    <module>bukkit-hjson-json</module>
+    <module>bukkit-hocon</module>
+    <module>bukkit-jackson-json</module>
+    <module>bukkit-jackson-yaml</module>
+    <module>bukkit-simple-json</module>
+    <module>bukkit-snakeyaml</module>
+    <module>bukkit-transformers</module>
   </modules>
   <repositories>
     <repository>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
       <id>spigot-repo</id>
     </repository>
+    <repository>
+      <url>https://storehouse.okaeri.eu/repository/maven-public/</url>
+      <id>okaeri-repo</id>
+    </repository>
   </repositories>
   <dependencies>
+    <dependency>
+      <groupId>com.github.portlek</groupId>
+      <artifactId>transformer</artifactId>
+      <version>1.4.3</version>
+    </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
@@ -48,30 +67,54 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.github.portlek</groupId>
-        <artifactId>configs-core</artifactId>
-        <version>${project.version}</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.github.portlek</groupId>
-        <artifactId>reflection</artifactId>
-        <version>4.3.10</version>
-      </dependency>
-      <dependency>
         <groupId>com.github.portlek</groupId>
         <artifactId>BukkitItemBuilder</artifactId>
-        <version>5.2.8</version>
+        <version>5.3.1</version>
       </dependency>
       <dependency>
-        <groupId>com.github.portlek</groupId>
-        <artifactId>replaceable</artifactId>
-        <version>2.5.3</version>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-jackson-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-jackson-yaml</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-hjson-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-hocon</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-simple-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>eu.okaeri</groupId>
+        <artifactId>okaeri-hjson</artifactId>
+        <version>4.0.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.googlecode.json-simple</groupId>
+        <artifactId>json-simple</artifactId>
+        <version>1.1.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.typesafe</groupId>
+        <artifactId>config</artifactId>
+        <version>1.4.1</version>
       </dependency>
       <dependency>
         <groupId>org.spigotmc</groupId>
         <artifactId>spigot-api</artifactId>
-        <version>1.16.5-R0.1-SNAPSHOT</version>
+        <version>1.17-R0.1-SNAPSHOT</version>
         <scope>provided</scope>
       </dependency>
     </dependencies>
