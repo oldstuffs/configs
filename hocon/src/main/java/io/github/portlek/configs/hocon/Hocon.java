@@ -44,16 +44,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents Hocos file configuration.
+ * a class that represents Hocon file configuration.
  */
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Hocon extends TransformResolver {
+@RequiredArgsConstructor
+public class Hocon extends TransformResolver {
 
   /**
    * the comment prefix.

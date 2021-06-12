@@ -32,6 +32,7 @@
     <module>simple-json</module>
     <module>bukkit-gson-json</module>
     <module>bukkit-hjson-json</module>
+    <module>bukkit-hocon</module>
     <module>bukkit-jackson-json</module>
     <module>bukkit-jackson-yaml</module>
     <module>bukkit-snakeyaml</module>
@@ -82,6 +83,11 @@
       <dependency>
         <groupId>io.github.portlek</groupId>
         <artifactId>configs-hjson-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-hocon</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
