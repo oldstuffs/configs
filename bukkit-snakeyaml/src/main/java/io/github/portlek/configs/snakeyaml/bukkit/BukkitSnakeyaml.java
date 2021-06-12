@@ -53,7 +53,7 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents yaml file configuration.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class YamlBukkitConfigurer extends TransformResolver {
+public final class BukkitSnakeyaml extends TransformResolver {
 
   /**
    * the comment prefix.
@@ -80,8 +80,8 @@ public final class YamlBukkitConfigurer extends TransformResolver {
    * @param commentPrefix the comment prefix.
    * @param sectionSeparator the section separator.
    */
-  public YamlBukkitConfigurer(@NotNull final YamlConfiguration config, @NotNull final String commentPrefix,
-                              @NotNull final String sectionSeparator) {
+  public BukkitSnakeyaml(@NotNull final YamlConfiguration config, @NotNull final String commentPrefix,
+                         @NotNull final String sectionSeparator) {
     this(commentPrefix, config, sectionSeparator);
   }
 
@@ -91,7 +91,7 @@ public final class YamlBukkitConfigurer extends TransformResolver {
    * @param commentPrefix the comment prefix.
    * @param sectionSeparator the section separator.
    */
-  public YamlBukkitConfigurer(@NotNull final String commentPrefix, @NotNull final String sectionSeparator) {
+  public BukkitSnakeyaml(@NotNull final String commentPrefix, @NotNull final String sectionSeparator) {
     this(commentPrefix, new YamlConfiguration(), sectionSeparator);
   }
 
@@ -100,7 +100,7 @@ public final class YamlBukkitConfigurer extends TransformResolver {
    *
    * @param config the config.
    */
-  public YamlBukkitConfigurer(@NotNull final YamlConfiguration config) {
+  public BukkitSnakeyaml(@NotNull final YamlConfiguration config) {
     this("# ", config, SectionSeparator.NONE);
   }
 
@@ -109,14 +109,14 @@ public final class YamlBukkitConfigurer extends TransformResolver {
    *
    * @param sectionSeparator the section separator.
    */
-  public YamlBukkitConfigurer(@NotNull final String sectionSeparator) {
+  public BukkitSnakeyaml(@NotNull final String sectionSeparator) {
     this("# ", sectionSeparator);
   }
 
   /**
    * ctor.
    */
-  public YamlBukkitConfigurer() {
+  public BukkitSnakeyaml() {
     this(new YamlConfiguration());
   }
 
@@ -214,7 +214,7 @@ public final class YamlBukkitConfigurer extends TransformResolver {
             return line;
           }
           return PostProcessor.addIndent(
-            PostProcessor.createComment(YamlBukkitConfigurer.this.commentPrefix, fieldComment.value()),
+            PostProcessor.createComment(BukkitSnakeyaml.this.commentPrefix, fieldComment.value()),
             lineInfo.getIndent()) + line;
         }
       });
