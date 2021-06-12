@@ -12,10 +12,6 @@
   <name>configs-bukkit-gson-json</name>
   <dependencies>
     <dependency>
-      <groupId>io.github.portlek</groupId>
-      <artifactId>configs-gson-json</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
     </dependency>
