@@ -47,7 +47,7 @@ import org.jetbrains.annotations.Nullable;
  * a class that represents Gson file configuration.
  */
 @RequiredArgsConstructor
-public final class GsonJson extends TransformResolver {
+public class GsonJson extends TransformResolver {
 
   /**
    * the gson.

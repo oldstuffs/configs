@@ -13,7 +13,7 @@
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>
-      <artifactId>jackson-json</artifactId>
+      <artifactId>configs-jackson-json</artifactId>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>

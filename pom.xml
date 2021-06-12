@@ -24,16 +24,17 @@
     <java.version>11</java.version>
   </properties>
   <modules>
-    <module>jackson-json</module>
-    <module>hjson-json</module>
-    <module>jackson-yaml</module>
     <module>gson-json</module>
-    <module>simple-json</module>
+    <module>hjson-json</module>
     <module>hocon</module>
-    <module>bukkit-transformers</module>
+    <module>jackson-json</module>
+    <module>jackson-yaml</module>
+    <module>simple-json</module>
+    <module>bukkit-gson-json</module>
     <module>bukkit-jackson-json</module>
     <module>bukkit-jackson-yaml</module>
     <module>bukkit-snakeyaml</module>
+    <module>bukkit-transformers</module>
   </modules>
   <repositories>
     <repository>
@@ -69,12 +70,17 @@
       </dependency>
       <dependency>
         <groupId>io.github.portlek</groupId>
-        <artifactId>jackson-json</artifactId>
+        <artifactId>configs-gson-json</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>io.github.portlek</groupId>
-        <artifactId>jackson-yaml</artifactId>
+        <artifactId>configs-jackson-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>configs-jackson-yaml</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>

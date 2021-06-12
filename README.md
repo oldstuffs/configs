@@ -10,7 +10,6 @@
 ### Maven
 
 ```xml
-
 <builds>
   <plugins>
     <plugin>
@@ -43,7 +42,6 @@
 ```
 
 ```xml
-
 <repositories>
   <repository>
     <id>jitpack</id>
@@ -53,11 +51,20 @@
 ```
 
 ```xml
-
 <dependencies>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-bukkit-transformers</artifactId>
+    <artifactId>configs-bukkit-gson-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-bukkit-hjson-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-bukkit-hocon</artifactId>
     <version>${version}</version>
   </dependency>
   <dependency>
@@ -77,6 +84,26 @@
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-bukkit-simple-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-bukkit-transformers</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-gson-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
+    <artifactId>configs-hjson-json</artifactId>
+    <version>${version}</version>
+  </dependency>
+  <dependency>
+    <groupId>com.github.portlek.configs</groupId>
     <artifactId>configs-jackson-json</artifactId>
     <version>${version}</version>
   </dependency>
@@ -87,17 +114,12 @@
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-hjson-json</artifactId>
+    <artifactId>configs-hocon</artifactId>
     <version>${version}</version>
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
     <artifactId>configs-simple-json</artifactId>
-    <version>${version}</version>
-  </dependency>
-  <dependency>
-    <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-hocon</artifactId>
     <version>${version}</version>
   </dependency>
 </dependencies>
@@ -125,11 +147,16 @@ dependencies {
     implementation("com.github.portlek.configs:configs-bukkit-jackson-json:${version}")
     implementation("com.github.portlek.configs:configs-bukkit-jackson-yaml:${version}")
     implementation("com.github.portlek.configs:configs-bukkit-snakeyaml:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-gson-json:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-hjson-json:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-hocon:${version}")
+    implementation("com.github.portlek.configs:configs-bukkit-simple-json:${version}")
+    implementation("com.github.portlek.configs:configs-gson-json:${version}")
+    implementation("com.github.portlek.configs:configs-hjson-json:${version}")
+    implementation("com.github.portlek.configs:configs-hocon:${version}")
     implementation("com.github.portlek.configs:configs-jackson-json:${version}")
     implementation("com.github.portlek.configs:configs-jackson-yaml:${version}")
-    implementation("com.github.portlek.configs:configs-hjson-json:${version}")
     implementation("com.github.portlek.configs:configs-simple-json:${version}")
-    implementation("com.github.portlek.configs:configs-hocon:${version}")
 }
 ```
 

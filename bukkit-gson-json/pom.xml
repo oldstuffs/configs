@@ -8,12 +8,12 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>bukkit-jackson-yaml</artifactId>
-  <name>bukkit-jackson-yaml</name>
+  <artifactId>configs-bukkit-gson-json</artifactId>
+  <name>configs-bukkit-gson-json</name>
   <dependencies>
     <dependency>
       <groupId>io.github.portlek</groupId>
-      <artifactId>configs-jackson-yaml</artifactId>
+      <artifactId>configs-gson-json</artifactId>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>

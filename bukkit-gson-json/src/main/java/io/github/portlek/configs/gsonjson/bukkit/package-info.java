@@ -23,6 +23,6 @@
  *
  */
 /**
- * the package that contains Hocon implementation of config system.
+ * the package that contains Json implementation of config system.
  */
-package io.github.portlek.configs.hocon;
+package io.github.portlek.configs.gsonjson.bukkit;
