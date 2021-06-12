@@ -54,22 +54,17 @@
 <dependencies>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-core</artifactId>
+    <artifactId>bukkit</artifactId>
     <version>${version}</version>
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-json</artifactId>
+    <artifactId>jackson-json</artifactId>
     <version>${version}</version>
   </dependency>
   <dependency>
     <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-yaml</artifactId>
-    <version>${version}</version>
-  </dependency>
-  <dependency>
-    <groupId>com.github.portlek.configs</groupId>
-    <artifactId>configs-bukkit</artifactId>
+    <artifactId>jackson-yaml</artifactId>
     <version>${version}</version>
   </dependency>
 </dependencies>

@@ -24,10 +24,10 @@
     <java.version>11</java.version>
   </properties>
   <modules>
-    <module>core</module>
-    <module>json</module>
-    <module>yaml</module>
-    <module>bukkit</module>
+    <module>bukkit-transformers</module>
+    <module>jackson-json</module>
+    <module>jackson-yaml</module>
+    <module>bukkit-jackson-json</module>
   </modules>
   <repositories>
     <repository>
@@ -55,7 +55,17 @@
       <dependency>
         <groupId>com.github.portlek</groupId>
         <artifactId>BukkitItemBuilder</artifactId>
-        <version>5.3.0</version>
+        <version>5.3.1</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>jackson-json</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.github.portlek</groupId>
+        <artifactId>jackson-yaml</artifactId>
+        <version>${project.version}</version>
       </dependency>
       <dependency>
         <groupId>org.spigotmc</groupId>
