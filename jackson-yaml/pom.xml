@@ -8,8 +8,8 @@
     <artifactId>configs-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
-  <artifactId>jackson-yaml</artifactId>
-  <name>jackson-yaml</name>
+  <artifactId>configs-jackson-yaml</artifactId>
+  <name>configs-jackson-yaml</name>
   <dependencies>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
