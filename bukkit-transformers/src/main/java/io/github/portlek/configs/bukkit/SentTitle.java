@@ -168,10 +168,10 @@ public final class SentTitle {
     @Override
     public void serialize(@NotNull final SentTitle sentTitle, @NotNull final TransformedData transformedData) {
       if (sentTitle.getTitle() != null) {
-        transformedData.add("title", sentTitle.getTitle().getValue(), RpString.class);
+        transformedData.add("title", sentTitle.getTitle(), RpString.class);
       }
       if (sentTitle.getSubTitle() != null) {
-        transformedData.add("sub-title", sentTitle.getSubTitle().getValue(), RpString.class);
+        transformedData.add("sub-title", sentTitle.getSubTitle(), RpString.class);
       }
       transformedData.add("fade-in", sentTitle.fadeIn);
       transformedData.add("stay", sentTitle.stay);
