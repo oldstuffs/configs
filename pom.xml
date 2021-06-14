@@ -6,7 +6,7 @@
   <parent>
     <groupId>io.github.parentpom</groupId>
     <artifactId>ppom</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.0</version>
   </parent>
   <groupId>io.github.portlek</groupId>
   <artifactId>configs-parent</artifactId>
@@ -69,7 +69,7 @@
       <dependency>
         <groupId>com.github.portlek</groupId>
         <artifactId>BukkitItemBuilder</artifactId>
-        <version>5.3.5</version>
+        <version>5.3.7</version>
       </dependency>
       <dependency>
         <groupId>io.github.portlek</groupId>
