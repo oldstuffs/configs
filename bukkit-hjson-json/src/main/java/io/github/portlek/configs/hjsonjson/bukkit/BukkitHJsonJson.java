@@ -103,7 +103,7 @@ public final class BukkitHJsonJson extends HJsonJson {
         final var key = entry.getKey();
         final var value = entry.getValue();
         if (value instanceof ConfigurationSection) {
-          return Map.entry(key, this.getMapValues(section, deep));
+          return Map.entry(key, this.getMapValues((ConfigurationSection) value, deep));
         }
         return Map.entry(key, value);
       })
