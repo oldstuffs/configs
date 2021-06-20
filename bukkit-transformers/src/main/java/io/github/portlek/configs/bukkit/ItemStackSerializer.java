@@ -25,42 +25,44 @@
 
 package io.github.portlek.configs.bukkit;
 
+import io.github.portlek.bukkititembuilder.Builder;
+import io.github.portlek.bukkititembuilder.ItemStackBuilder;
 import io.github.portlek.bukkititembuilder.util.ItemStackUtil;
 import io.github.portlek.bukkititembuilder.util.KeyUtil;
 import io.github.portlek.transformer.ObjectSerializer;
 import io.github.portlek.transformer.TransformedData;
 import io.github.portlek.transformer.declarations.GenericDeclaration;
 import java.util.Optional;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * a class that represents serializer of {@link ItemStack}.
+ * a class that represents serializer of {@link ItemStackBuilder}.
  */
-public final class ItemStackSerializer implements ObjectSerializer<ItemStack> {
+public final class ItemStackSerializer implements ObjectSerializer<Builder<?, ?>> {
 
   @NotNull
   @Override
-  public Optional<ItemStack> deserialize(@NotNull final TransformedData transformedData,
-                                         @Nullable final GenericDeclaration declaration) {
+  public Optional<Builder<?, ?>> deserialize(@NotNull final TransformedData transformedData,
+                                             @Nullable final GenericDeclaration declaration) {
     return ItemStackUtil.deserialize(KeyUtil.Holder.transformedData(transformedData));
   }
 
   @NotNull
   @Override
-  public Optional<ItemStack> deserialize(@NotNull final ItemStack field, @NotNull final TransformedData transformedData,
-                                         @Nullable final GenericDeclaration declaration) {
+  public Optional<Builder<?, ?>> deserialize(@NotNull final Builder<?, ?> field,
+                                             @NotNull final TransformedData transformedData,
+                                             @Nullable final GenericDeclaration declaration) {
     return this.deserialize(transformedData, declaration);
   }
 
   @Override
-  public void serialize(@NotNull final ItemStack itemStack, @NotNull final TransformedData transformedData) {
-    ItemStackUtil.serialize(itemStack, KeyUtil.Holder.transformedData(transformedData));
+  public void serialize(@NotNull final Builder<?, ?> builder, @NotNull final TransformedData transformedData) {
+    ItemStackUtil.serialize(builder, KeyUtil.Holder.transformedData(transformedData));
   }
 
   @Override
   public boolean supports(@NotNull final Class<?> cls) {
-    return cls == ItemStack.class;
+    return cls == ItemStackBuilder.class;
   }
 }
