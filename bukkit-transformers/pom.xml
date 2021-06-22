@@ -13,10 +13,6 @@
   <dependencies>
     <dependency>
       <groupId>com.github.portlek</groupId>
-      <artifactId>transformer</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.github.portlek</groupId>
       <artifactId>BukkitItemBuilder</artifactId>
     </dependency>
     <dependency>
